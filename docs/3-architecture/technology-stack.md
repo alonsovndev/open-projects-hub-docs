@@ -15,6 +15,8 @@
 - [Role Mapping](../2-planning/role-mapping.md)
 - [Phased Roadmap](../2-planning/phased-roadmap.md)
 - [Architecture Solution Design](./architecture-solution-design.md)
+- [Architecture Styles Decision](./architecture-styles.md)
+- [Event-Driven Architecture Patterns](./event-driven-architecture.md)
 
 ## Technology Stack Matrix
 
@@ -81,3 +83,6 @@
 - [ADR-008: Build Tooling (Vite + Docker)](./adrs/adr-008-build-tool.md)
 - [ADR-009: Testing Framework Strategy](./adrs/adr-009-testing-framework.md)
 - [ADR-010: Monitoring and Observability (Sentry)](./adrs/adr-010-monitoring-observability.md)
+- [ADR-009: Architecture Style (Modular Monolith First)](./adrs/adr-009-architecture-style.md)
+- [ADR-010: Event-Driven Architecture (Incremental Adoption)](./adrs/adr-010-event-driven-architecture.md)
+- [ADR-011: Message Broker Selection (Redis Streams)](./adrs/adr-011-message-broker.md)

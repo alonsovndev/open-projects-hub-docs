@@ -1,0 +1,9 @@
+flowchart LR
+    A[Application Use Case] --> B[(PostgreSQL Transaction)]
+    B --> C[Domain Data Write]
+    B --> D[Outbox Record Write]
+    D --> E[Outbox Publisher Worker]
+    E --> F[(Redis Streams)]
+    F --> G[Consumer Group]
+    G --> H[Downstream Handler]
+    H --> I[Idempotent Processing + Ack]
