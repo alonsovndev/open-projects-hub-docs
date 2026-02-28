@@ -1,0 +1,7 @@
+flowchart LR
+    A[Command API] --> B[Command Handler]
+    B --> C[(Event Store)]
+    C --> D[Projector]
+    D --> E[(Read Model)]
+    E --> F[Query API]
+    C --> G[Replay/Time Travel]
