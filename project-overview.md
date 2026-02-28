@@ -1,59 +1,86 @@
-Project Overview
+# Open Freelancer Project Hub Overview
 
-Esto es el big picture.
+**Tagline**: _"Empowering Freelancers with AI-Assisted Project Management and Structured Delivery."_
 
-Es un documento:
+## 2. Core Concept
 
-liviano
+The Open Freelancer Project Hub is an open-source web platform designed to streamline and professionalize the project management experience for freelancers. It provides a centralized hub to manage clients, structure project requirements, and utilize an AI engine to refine ambiguous ideas into clear, actionable technical specifications.
 
-estratégico
+### Vision Statement
 
-entendible por cualquiera (stakeholders no técnicos incluidos)
+To create an accessible, open-source tool that empowers freelancers to deliver higher quality software by bridging the gap between raw client requirements and structured engineering practices, fostering better collaboration and project success.
 
-enfocado en el qué y el por qué
+---
 
-Responde cosas como:
+## 3. Problem Statement
 
-¿Qué es este proyecto?
+### The Challenge
 
-¿Qué problema resuelve?
+Freelancers frequently struggle with the initial phases of a project, specifically requirements gathering and project organization. The pain points include:
 
-¿Quién lo va a usar?
+- **Unstructured Requirements**: Client ideas are often ambiguous and lack technical detail.
+- **Documentation Overhead**: Manually converting vague requirements into actionable user stories is time-consuming.
+- **Project Disorganization**: Managing multiple clients, projects, and access permissions in a secure manner can become chaotic.
+- **Security & Access Control**: Ensuring robust security and managing access (who can edit vs. who can only view) is critical but often overlooked in lightweight tools.
 
-¿Cuál es el objetivo?
+### The Solution
 
-¿Cuál es el alcance general?
+The Open Freelancer Project Hub addresses these challenges by offering:
 
-¿Cuál es la visión del producto?
+1. **AI-Assisted Requirements Refinement**: An integrated AI engine that detects ambiguities and automatically generates structured user stories from raw input.
+2. **Centralized Management**: A single platform to manage clients and up to three concurrent projects (MVP constraint) efficiently.
+3. **Structured Engineering Practices**: Native support for industry standards like Clean Architecture, Domain-Driven Design (DDD), and Test-Driven Development (TDD) by generating compliant documentation.
+4. **Role-Based Access Control**: Secure, structured access levels (Admin, Superuser, Viewer) to ensure safe collaboration.
 
-📌 No entra en:
+---
 
-features detallados
+## 4. Target Audience
 
-flujos
+### Primary Audience
 
-arquitectura
+1. **Software Freelancers & Independent Developers**
+   - Benefit from automated requirements gathering, structured project organization, and reduced administrative overhead.
+2. **Small Agile Teams**
+   - Benefit from clear role definitions, centralized client management, and an AI assistant that standardizes user stories for development sprints.
 
-requerimientos técnicos
+### Secondary Audience
 
-roles
+1. **Open-Source Contributors & Students**
+   - Benefit from a real-world, modern tech stack (React, FastAPI, Clean Architecture) project that serves as an academic reference and allows for community contributions.
+2. **Clients of Freelancers (Viewers)**
+   - Benefit from having a transparent, read-only view of their project's progress and structured requirements.
 
-reglas del sistema
+---
 
-Es básicamente:
+## 5. High-Level Goals
 
-"Este proyecto existe para resolver X problema para Y usuarios mediante Z solución."
+### Professional Impact Goals
 
-Sirve para:
+1. Streamline the transition from initial client meetings to actionable development tasks.
+2. Serve as a robust, real-world academic project that demonstrates modern software engineering best practices.
 
-onboarding de colaboradores open source
+### Technical Goals
 
-README
+1. Implement a Modular Monolith backend using Python, FastAPI, and PostgreSQL following Clean Architecture and DDD principles.
+2. Ensure high code quality with a mandatory Test-Driven Development (TDD) approach, targeting a minimum of 70% test coverage.
+3. Establish a secure foundation adhering to OWASP Top 10 guidelines and Security by Design principles.
 
-sponsors
+### Business Goals
 
-inversionistas
+1. Deliver a fully functional MVP within a 1 to 1.5 month timeframe.
+2. Build an active open-source community around the tool to foster future contributions and feature expansions (e.g., Microservices migration).
 
-stakeholders
+---
 
-contributors nuevos
+## 6. Key Differentiators
+
+### What Makes This Project Stand Out
+
+1. **AI-Powered Refinement**: The inclusion of an AI motor specifically tuned to refine software requirements and detect ambiguities before development begins.
+2. **Built-in Engineering Standards**: The platform isn't just a generic task tracker; it inherently promotes TDD, DDD, and Clean Architecture in how it structures output.
+3. **Open Source & Academic Focus**: Designed from the ground up to be both a practical tool for freelancers and a learning resource for the open-source community.
+4. **Security First**: Strict adherence to security best practices (JWT, rate limiting, secure password hashing) from day one.
+
+---
+
+**Last Updated**: February 2026
