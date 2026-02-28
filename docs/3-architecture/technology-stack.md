@@ -34,7 +34,7 @@
 | Frontend Build Tool | Vite | 5.x | Fast local build/dev and optimized production bundles | Fast feedback loops and modern React/TS defaults | Plugin compatibility management |
 | Backend Tooling | Docker (multi-stage) + Uvicorn workers | Docker 25.x | Reproducible backend packaging for Render deployments | Environment parity and predictable deploy artifacts | Requires image hardening and resource tuning |
 | Testing (Backend) | Pytest | 8.x | Unit/integration tests for domain and application behavior | Python ecosystem standard; strong fixtures/mocking | Requires disciplined test pyramid design |
-| Testing (Frontend) | Vitest + React Testing Library + Playwright | Vitest 2.x, RTL 16.x, Playwright 1.5x | Component tests, interaction tests, E2E critical-path coverage | Fast unit/integration loop plus realistic E2E regression checks | E2E tests can be slower/flakier without stable fixtures |
+| Testing (Frontend) | Vitest + React Testing Library + Playwright | Vitest 2.x, RTL 16.x, Playwright 1.x | Component tests, interaction tests, E2E critical-path coverage | Fast unit/integration loop plus realistic E2E regression checks | E2E tests can be slower/flakier without stable fixtures |
 | Monitoring/Observability | Sentry | SaaS (latest SDKs) | Error tracking, performance monitoring, release correlation | Unified visibility across frontend/backend and release health | Requires careful PII scrubbing and alert tuning |
 | CI/CD | GitHub Actions | Hosted runners + workflow matrix | Automated quality gates and environment deployments | Native GitHub integration and flexible pipelines | Workflow sprawl risk without governance |
 | Frontend Hosting | Vercel | Managed platform | Global edge delivery, preview deployments, web vitals | Strong DX and low-ops frontend hosting | Vendor lock-in considerations |
@@ -70,7 +70,7 @@
 
 ## ADR Index
 
-- [ADR-001: High-Level Architecture Pattern](./adrs/adr-001-high-level-architecture.md)
+- [ADR-000: High-Level Architecture Pattern](./adrs/adr-001-high-level-architecture.md)
 - [ADR-001: Backend Framework (FastAPI)](./adrs/adr-001-backend-framework.md)
 - [ADR-002: Frontend Framework (React + TypeScript)](./adrs/adr-002-frontend-framework.md)
 - [ADR-003: Database (Supabase PostgreSQL)](./adrs/adr-003-database.md)
