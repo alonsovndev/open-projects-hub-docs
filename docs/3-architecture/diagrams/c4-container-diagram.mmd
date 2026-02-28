@@ -1,0 +1,29 @@
+flowchart TB
+    Admin[Admin Freelancer]
+    Viewer[Client Viewer]
+
+    FE[Vercel Frontend\nReact + TypeScript + Ant Design]
+    Edge[Vercel Edge Functions\nMiddleware / Caching]
+    BE[Render Backend API\nFastAPI Modular Monolith]
+    Redis[(Redis Cache / Streams)]
+    DB[(Supabase PostgreSQL)]
+    Auth[Supabase Auth + JWT]
+    Storage[Supabase Storage]
+    Sentry[Sentry Monitoring]
+
+    Admin --> FE
+    Viewer --> FE
+
+    FE --> Edge
+    FE -->|HTTPS REST + JWT| BE
+    FE -->|Sign-in / token refresh| Auth
+
+    Edge -->|Proxy / policy checks| BE
+
+    BE -->|RLS-backed persistence| DB
+    BE -->|Hot read cache / async queue| Redis
+    BE -->|File metadata and access| Storage
+    BE -->|Token validation / role context| Auth
+
+    FE --> Sentry
+    BE --> Sentry

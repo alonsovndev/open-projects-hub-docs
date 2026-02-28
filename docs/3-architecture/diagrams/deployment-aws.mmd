@@ -1,0 +1,40 @@
+flowchart TB
+    subgraph Internet
+        Admin[Admin Browser]
+        Viewer[Viewer Browser]
+    end
+
+    subgraph Vercel
+        FE[Vercel Frontend Deployment]
+        Edge[Vercel Edge Functions]
+    end
+
+    subgraph Render
+        API[FastAPI Container Service]
+        Worker[Background Worker Container]
+        Redis[(Managed Redis)]
+    end
+
+    subgraph Supabase
+        Auth[Supabase Auth]
+        DB[(PostgreSQL + RLS)]
+        Storage[Supabase Storage]
+    end
+
+    subgraph Observability
+        Sentry[Sentry SaaS]
+    end
+
+    Admin --> FE
+    Viewer --> FE
+    FE --> Edge --> API
+    FE --> Auth
+    API --> Auth
+    API --> DB
+    Worker --> DB
+    API --> Storage
+    API --> Redis
+
+    FE --> Sentry
+    API --> Sentry
+    Worker --> Sentry
