@@ -1,0 +1,16 @@
+sequenceDiagram
+    autonumber
+    participant U as User (Admin/Viewer)
+    participant FE as Vercel Frontend
+    participant AUTH as Supabase Auth
+    participant BE as Render Backend
+
+    U->>FE: Login request
+    FE->>AUTH: Authenticate (password/OAuth)
+    AUTH-->>FE: Access token + refresh token
+    FE->>BE: API request with JWT
+    BE->>AUTH: Validate token signature/claims
+    AUTH-->>BE: Valid/invalid
+    BE-->>FE: Authorized response or 401
+    FE->>AUTH: Refresh token (on expiry)
+    AUTH-->>FE: Rotated tokens

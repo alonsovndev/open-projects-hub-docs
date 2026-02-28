@@ -86,3 +86,4 @@
 - [ADR-009: Architecture Style (Modular Monolith First)](./adrs/adr-009-architecture-style.md)
 - [ADR-010: Event-Driven Architecture (Incremental Adoption)](./adrs/adr-010-event-driven-architecture.md)
 - [ADR-011: Message Broker Selection (Redis Streams)](./adrs/adr-011-message-broker.md)
+- [ADR-012: Secrets Management Strategy](./adrs/adr-012-secrets-management.md)
