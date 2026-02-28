@@ -191,6 +191,7 @@ erDiagram
 ### 4. `project_memberships`
 
 - **Purpose:** Explicit role assignment per project (FR-008, FR-009).
+- **MVP cardinality:** one `admin` and one `viewer` membership per project.
 - **Primary key:** `(project_id, user_id)`
 - **Foreign keys:** `project_id -> projects.id`, `user_id -> users.id`
 - **Constraints:** `role` check (`admin`, `viewer`)
@@ -206,7 +207,8 @@ erDiagram
 - **Constraints:**
   - `status` check (`draft`, `approved`)
   - `source_format` check (`plain_text`, `bullet_list`)
-  - `approved_at` required when status = `approved`
+  - `approved_by_user_id` and `approved_at` remain `NULL` until session approval
+  - database `CHECK` constraint enforces approval pairing (`status = 'approved'` requires both `approved_by_user_id` and `approved_at`)
 - **Indexes:** `(project_id, status, created_at DESC)`
 
 ### 6. `refinement_ambiguities`
