@@ -7,6 +7,8 @@
 | **Status** | Draft |
 | **Last Updated** | 2026-02-28 |
 
+> Note: `US-EPx-xxx` items are placeholder story groups to be detailed in role-specific story files under `docs/4-user-stories/`.
+
 ## Epic 1: Client and Project Administration
 
 ### Problem Statement
@@ -35,7 +37,7 @@ Enable Admin users to manage client records and project lifecycle data in a stru
 
 ### Dependencies
 
-- `docs/overview.md`
+- `docs/overview.md` (problem context, MVP scope, and high-level goals)
 - `docs/1-requirements/functional-requirements.md` (FR-001, FR-002)
 - `docs/2-planning/phased-roadmap.md`
 - `docs/6-database/database-design.md`
@@ -78,7 +80,7 @@ Keep project workflows constrained to discovery and planning phases while mainta
 
 ### Dependencies
 
-- `docs/overview.md`
+- `docs/overview.md` (MVP phase boundaries and target user needs)
 - `docs/1-requirements/functional-requirements.md` (FR-003, FR-014)
 - `docs/2-planning/phased-roadmap.md`
 - `docs/2-planning/role-mapping.md`
