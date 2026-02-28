@@ -20,7 +20,7 @@
 ## API Style
 
 - **Primary style:** REST JSON APIs for all core business workflows.
-- **GraphQL stance:** not adopted for MVP to reduce operational and governance complexity.
+- **GraphQL stance:** Not adopted for MVP to reduce operational and governance complexity.
 - **Resource naming:** plural, kebab-case nouns in paths (e.g., `/api/v1/projects`, `/api/v1/requirements`).
 - **Relationship access:** nested routes only when ownership is explicit (e.g., `/api/v1/projects/{projectId}/requirements`).
 - **Action endpoints:** avoid verbs in URLs; non-CRUD actions use sub-resources (e.g., `/approve`, `/archive`) only when domain-specific behavior is required.
@@ -60,7 +60,7 @@
 
 - **Format:** `application/json; charset=utf-8`.
 - **Field naming:** `camelCase` for request and response payload fields.
-- **Datetime format:** ISO 8601 UTC (`YYYY-MM-DDTHH:MM:SSZ`).
+- **Datetime format:** ISO 8601 UTC (`YYYY-MM-DDTHH:MM:SSZ`), for example `2024-01-15T14:30:00Z`.
 - **Boolean fields:** use `is/has/can` prefixes where meaningful (e.g., `isArchived`).
 - **Collection envelope and pagination (offset-based for MVP):**
 
