@@ -40,8 +40,6 @@ The Open Freelancer Project Hub addresses these challenges by offering:
 
 1. **Software Freelancers & Independent Developers**
    - Benefit from automated requirements gathering, structured project organization, and reduced administrative overhead.
-2. **Small Agile Teams**
-   - Benefit from clear role definitions, centralized client management, and an AI assistant that standardizes user stories for development sprints.
 
 ### Secondary Audience
 
