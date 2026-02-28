@@ -1,0 +1,15 @@
+flowchart LR
+    Admin[Admin Freelancer]
+    Viewer[Client Viewer]
+    System[Open Freelancer Project Hub]
+
+    SupabaseAuth[Supabase Auth]
+    Sentry[Sentry]
+    Email[SendGrid / Mailgun]
+
+    Admin -->|Manage clients, projects, requirements| System
+    Viewer -->|Read-only review of project status and requirements| System
+
+    System -->|Authenticate users, validate sessions| SupabaseAuth
+    System -->|Error and performance telemetry| Sentry
+    System -->|Transactional email notifications| Email

@@ -1,0 +1,18 @@
+flowchart TD
+    UserInput[Admin raw notes / bullet input]
+    FEValidate[Frontend validation\n(required fields, length, sanitization)]
+    APIGateway[Backend API endpoint]
+    AuthCheck[JWT + role validation]
+    AppLogic[Application use case orchestration]
+    DomainRules[Domain rule validation\n(project limits, approval gates)]
+    PersistDraft[(Draft requirements in PostgreSQL)]
+    AIProcess[AI refinement + ambiguity detection]
+    Approval[Admin explicit approval]
+    PersistApproved[(Approved stories + audit trail)]
+    Export[Markdown export output]
+    ViewerRead[Viewer read-only retrieval]
+
+    UserInput --> FEValidate --> APIGateway --> AuthCheck --> AppLogic --> DomainRules --> PersistDraft
+    PersistDraft --> AIProcess --> Approval --> PersistApproved
+    PersistApproved --> Export
+    PersistApproved --> ViewerRead
