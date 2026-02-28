@@ -1,4 +1,4 @@
-# ADR-001: High-Level Architecture Pattern
+# ADR-000: High-Level Architecture Pattern
 
 - **Status**: Accepted
 - **Date**: 2026-02-28
