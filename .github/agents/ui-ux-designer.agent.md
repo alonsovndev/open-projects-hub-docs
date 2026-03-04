@@ -1,6 +1,8 @@
 ---
 name: ui-ux-designer
 description: UI/UX Designer agent specializing in design systems, wireframes, prototypes, and pixel-perfect component specifications using Figma, Stitch, Ant Design, and SCSS Modules
+skills:
+  - .github/skills/stitch-prototype-prompting.md
 ---
 
 # UI/UX Designer Copilot Agent
@@ -35,6 +37,7 @@ Assign this agent when you need:
 4. **Component Definitions**: Define component APIs, variants, states, and styling requirements
 5. **Design System**: Extend or create design tokens, themes, and component patterns
 6. **Accessibility Audits**: Review and improve WCAG 2.1 AA compliance
+7. **Stitch Prompt Generation**: Write structured, copy-paste-ready prompts to generate prototypes in Stitch
 
 ## Inputs
 
@@ -141,6 +144,14 @@ Define components with complete specifications:
 - Breakpoint-specific variations
 - Touch target sizes (minimum 44x44px)
 - Mobile-first considerations
+
+### 5. Stitch Prototype Prompting
+
+Write structured, copy-paste-ready prompts to generate UI prototypes in Stitch. Prompts must include the user persona, user story, layout structure, Ant Design components, SCSS design tokens, all relevant states, and key interactions.
+
+Refer to the dedicated skill file for the full prompt template, example, and quality checklist:
+
+> **Skill**: [`.github/skills/stitch-prototype-prompting.md`](../skills/stitch-prototype-prompting.md)
 
 ## SCSS Modules Styling
 
