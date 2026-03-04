@@ -19,12 +19,12 @@ To satisfy these needs, the system is designed as separate frontend and backend 
 
 ### Candidate Pattern Comparison
 
-| Pattern | Strengths | Weaknesses | Fit for Current Requirements |
-| --- | --- | --- | --- |
-| Layered Monolith | Fast to start, simple deployment | Boundaries erode quickly, lower long-term maintainability | Partial fit; weak for long-term modularity goals |
-| Hexagonal Architecture | Strong ports/adapters isolation, high testability | Requires more upfront abstraction discipline | Good fit, but overlaps significantly with Clean Architecture for current scope |
-| Microservices | Independent scaling/deployment, strong service isolation | High operational and coordination complexity for small team and MVP timeline | Not fit for MVP phase |
-| **Modular Monolith + Clean Architecture + DDD (Selected)** | Clear domain boundaries, low operational overhead, easier evolution to microservices | Requires governance to keep module boundaries clean | **Best fit for MVP constraints, team expertise, and future scalability path** |
+| Pattern                                                    | Strengths                                                                            | Weaknesses                                                                   | Fit for Current Requirements                                                   |
+| ---------------------------------------------------------- | ------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
+| Layered Monolith                                           | Fast to start, simple deployment                                                     | Boundaries erode quickly, lower long-term maintainability                    | Partial fit; weak for long-term modularity goals                               |
+| Hexagonal Architecture                                     | Strong ports/adapters isolation, high testability                                    | Requires more upfront abstraction discipline                                 | Good fit, but overlaps significantly with Clean Architecture for current scope |
+| Microservices                                              | Independent scaling/deployment, strong service isolation                             | High operational and coordination complexity for small team and MVP timeline | Not fit for MVP phase                                                          |
+| **Modular Monolith + Clean Architecture + DDD (Selected)** | Clear domain boundaries, low operational overhead, easier evolution to microservices | Requires governance to keep module boundaries clean                          | **Best fit for MVP constraints, team expertise, and future scalability path**  |
 
 ### High-Level Design Principles
 

@@ -1,11 +1,11 @@
 # Deployment & Infrastructure Architecture
 
-| Attribute | Value |
-| --- | --- |
-| **Project** | Open Freelancer Project Hub |
-| **Version** | 1.0 |
-| **Status** | Draft |
-| **Last Updated** | 2026-02-28 |
+| Attribute        | Value                       |
+| ---------------- | --------------------------- |
+| **Project**      | Open Freelancer Project Hub |
+| **Version**      | 1.0                         |
+| **Status**       | Draft                       |
+| **Last Updated** | 2026-02-28                  |
 
 ## 1. Scope and NFR Alignment
 
@@ -19,13 +19,13 @@ This document defines production deployment architecture for the MVP and aligns 
 
 ### 2.1 Options Considered
 
-| Option | Strengths | Risks/Trade-offs | Decision |
-| --- | --- | --- | --- |
-| AWS-first IaaS/PaaS | Maximum service breadth and infra control | Higher ops overhead and slower MVP delivery | Not selected for MVP |
-| Azure-first | Strong enterprise tooling and Microsoft integration | Similar ops complexity for small team | Not selected for MVP |
-| GCP-first | Good pricing and data tooling | Similar platform-management burden | Not selected for MVP |
-| Hybrid (cloud + on-prem) | Regulatory flexibility | Highest complexity for MVP | Not selected |
-| **Managed multi-platform cloud (selected)** | Low-ops, fast delivery, built-in scaling and deployment ergonomics | Multi-vendor governance required | **Selected** |
+| Option                                      | Strengths                                                          | Risks/Trade-offs                            | Decision             |
+| ------------------------------------------- | ------------------------------------------------------------------ | ------------------------------------------- | -------------------- |
+| AWS-first IaaS/PaaS                         | Maximum service breadth and infra control                          | Higher ops overhead and slower MVP delivery | Not selected for MVP |
+| Azure-first                                 | Strong enterprise tooling and Microsoft integration                | Similar ops complexity for small team       | Not selected for MVP |
+| GCP-first                                   | Good pricing and data tooling                                      | Similar platform-management burden          | Not selected for MVP |
+| Hybrid (cloud + on-prem)                    | Regulatory flexibility                                             | Highest complexity for MVP                  | Not selected         |
+| **Managed multi-platform cloud (selected)** | Low-ops, fast delivery, built-in scaling and deployment ergonomics | Multi-vendor governance required            | **Selected**         |
 
 ### 2.2 Selected Platform Model
 
@@ -92,11 +92,11 @@ Reference diagram: [`docs/3-architecture/diagrams/deployment-aws.mmd`](./diagram
 
 ## 4. Backup and Disaster Recovery
 
-| Data/Service | Backup Approach | RPO | RTO |
-| --- | --- | --- | --- |
-| Supabase PostgreSQL | Automated managed backups + PITR | ≤ 15 minutes | ≤ 4 hours |
-| Supabase Storage | Managed object redundancy + scheduled export snapshots | ≤ 24 hours | ≤ 8 hours |
-| Application config/secrets metadata | Versioned in IaC + secure secret stores | ≤ 1 hour | ≤ 2 hours |
+| Data/Service                        | Backup Approach                                        | RPO          | RTO       |
+| ----------------------------------- | ------------------------------------------------------ | ------------ | --------- |
+| Supabase PostgreSQL                 | Automated managed backups + PITR                       | ≤ 15 minutes | ≤ 4 hours |
+| Supabase Storage                    | Managed object redundancy + scheduled export snapshots | ≤ 24 hours   | ≤ 8 hours |
+| Application config/secrets metadata | Versioned in IaC + secure secret stores                | ≤ 1 hour     | ≤ 2 hours |
 
 Disaster recovery runbook includes incident triage, restore order (database first, then API, then frontend), and post-incident verification on critical user journeys.
 

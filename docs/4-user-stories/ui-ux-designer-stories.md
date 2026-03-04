@@ -1,10 +1,10 @@
 # UI/UX Designer User Stories
 
-| Attribute | Value |
-| --- | --- |
-| **Project** | Open Freelancer Project Hub |
-| **Role** | UI/UX Designer |
-| **Last Updated** | 2026-02-28 |
+| Attribute        | Value                       |
+| ---------------- | --------------------------- |
+| **Project**      | Open Freelancer Project Hub |
+| **Role**         | UI/UX Designer              |
+| **Last Updated** | 2026-02-28                  |
 
 ## Context and Design Constraints
 
@@ -66,12 +66,12 @@ As a UI/UX Designer, I want to provide a presentation-ready prototype package, s
 
 ## Prototype and Mockup Deliverables
 
-| Deliverable | Type | Audience | Coverage |
-| --- | --- | --- | --- |
-| Admin AI Refinement Board | High-fidelity clickable prototype | Product Owner, Frontend Engineer | FR-004 to FR-007 |
-| Requirements Backlog (Admin + Viewer) | High-fidelity comparative mockup | Stakeholders, Tech Lead | FR-008 to FR-011, FR-014 |
-| Onboarding Tooltip Flow | Low-fidelity interaction prototype | Product Owner, Frontend Engineer | FR-013 |
-| Flow and State Package | User-flow + state diagrams | Stakeholders, QA planning | FR/NFR traceability |
+| Deliverable                           | Type                               | Audience                         | Coverage                 |
+| ------------------------------------- | ---------------------------------- | -------------------------------- | ------------------------ |
+| Admin AI Refinement Board             | High-fidelity clickable prototype  | Product Owner, Frontend Engineer | FR-004 to FR-007         |
+| Requirements Backlog (Admin + Viewer) | High-fidelity comparative mockup   | Stakeholders, Tech Lead          | FR-008 to FR-011, FR-014 |
+| Onboarding Tooltip Flow               | Low-fidelity interaction prototype | Product Owner, Frontend Engineer | FR-013                   |
+| Flow and State Package                | User-flow + state diagrams         | Stakeholders, QA planning        | FR/NFR traceability      |
 
 ## Visual Mockups (Documentation Prototypes)
 
@@ -113,9 +113,9 @@ flowchart LR
 
 ## Requirement Traceability
 
-| Story ID | Primary Requirements |
-| --- | --- |
-| UX-001 | FR-004, FR-005, FR-006, FR-007 |
-| UX-002 | FR-008, FR-009, FR-010, FR-011, FR-014, NFR-004 |
-| UX-003 | FR-013, NFR-007 |
-| UX-004 | FR-004 to FR-012, NFR-004, NFR-007 |
+| Story ID | Primary Requirements                            |
+| -------- | ----------------------------------------------- |
+| UX-001   | FR-004, FR-005, FR-006, FR-007                  |
+| UX-002   | FR-008, FR-009, FR-010, FR-011, FR-014, NFR-004 |
+| UX-003   | FR-013, NFR-007                                 |
+| UX-004   | FR-004 to FR-012, NFR-004, NFR-007              |

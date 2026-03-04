@@ -5,6 +5,7 @@
 Design a concise MVP prototype for **Open Freelancer Project Hub** focused only on **discovery/planning** workflows.
 
 ### 1) Navigation Model and Page List
+
 - Role-based app with two roles: **Admin** and **Viewer**.
 - Global navigation model:
   - Dashboard
@@ -18,6 +19,7 @@ Design a concise MVP prototype for **Open Freelancer Project Hub** focused only 
   - Show blocked-state guidance when Admin hits 3 active-project limit (prompt to archive one project).
 
 ### 2) Page Layouts and Sections
+
 Create these pages with clear section labels:
 
 1. **Dashboard**
@@ -49,7 +51,9 @@ Create these pages with clear section labels:
    - Export result message (success/error)
 
 ### 3) Required Component States
+
 For all relevant components, show:
+
 - default
 - hover
 - focus-visible
@@ -60,6 +64,7 @@ For all relevant components, show:
 - success confirmation
 
 ### 4) Responsive Behavior
+
 - Desktop: >=1200px, multi-panel layout for Admin workspace.
 - Tablet: 768-1199px, two-column layout where possible.
 - Mobile: <768px, stacked single-column layout.
@@ -67,6 +72,7 @@ For all relevant components, show:
 - Minimum touch target size: 44x44px.
 
 ### 5) Accessibility Constraints
+
 - Meet WCAG 2.1 AA contrast targets (4.5:1 text, 3:1 UI boundaries/focus).
 - Keyboard-only operation for all interactive controls.
 - Visible focus indicators on every actionable element.
@@ -74,7 +80,9 @@ For all relevant components, show:
 - Use ARIA live-region notes for loading/success/error states.
 
 ### 6) Content Placeholders (Use Exactly These Field Names)
+
 Use realistic placeholder values:
+
 - `project_name`: "Client Portal Refresh"
 - `client_name`: "Jordan Lee"
 - `phase`: "Discovery"
@@ -87,6 +95,7 @@ Use realistic placeholder values:
 - `export_filename`: "client-portal-refresh-requirements.md"
 
 ## Assumptions & Open Questions
+
 - Assume authentication exists; prototype starts post-login.
 - Confirm whether Viewer should access dashboard cards or only direct project links.
 - Confirm whether ambiguity highlights need severity levels in MVP.

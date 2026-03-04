@@ -1,11 +1,11 @@
 # Epics
 
-| Attribute | Value |
-| --- | --- |
-| **Project** | Open Freelancer Project Hub |
-| **Version** | 1.0 |
-| **Status** | Draft |
-| **Last Updated** | 2026-02-28 |
+| Attribute        | Value                       |
+| ---------------- | --------------------------- |
+| **Project**      | Open Freelancer Project Hub |
+| **Version**      | 1.0                         |
+| **Status**       | Draft                       |
+| **Last Updated** | 2026-02-28                  |
 
 > Note: `US-EPx-xxx` items are placeholder story groups to be detailed in role-specific story files under `docs/4-user-stories/`.
 

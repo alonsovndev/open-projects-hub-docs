@@ -1,11 +1,11 @@
 # Monitoring & Observability Architecture
 
-| Attribute | Value |
-| --- | --- |
-| **Project** | Open Freelancer Project Hub |
-| **Version** | 1.0 |
-| **Status** | Draft |
-| **Last Updated** | 2026-02-28 |
+| Attribute        | Value                       |
+| ---------------- | --------------------------- |
+| **Project**      | Open Freelancer Project Hub |
+| **Version**      | 1.0                         |
+| **Status**       | Draft                       |
+| **Last Updated** | 2026-02-28                  |
 
 ## 1. Monitoring Strategy
 
@@ -36,13 +36,13 @@ Primary observability platform is **Sentry**, complemented by provider-native lo
 
 ### 4.1 Service-Level Indicators (SLIs)
 
-| Area | Metric | Target |
-| --- | --- | --- |
-| Availability | Frontend/API uptime | ≥ 99.9% monthly |
-| Performance | p95 API latency (core requirement flows) | ≤ 2s under MVP load |
-| Reliability | API 5xx error rate | < 1% sustained |
-| Data | Failed database operations | 0 unhandled critical failures |
-| Queue/Worker | Job failure retry exhaustion rate | < 0.5% |
+| Area         | Metric                                   | Target                        |
+| ------------ | ---------------------------------------- | ----------------------------- |
+| Availability | Frontend/API uptime                      | ≥ 99.9% monthly               |
+| Performance  | p95 API latency (core requirement flows) | ≤ 2s under MVP load           |
+| Reliability  | API 5xx error rate                       | < 1% sustained                |
+| Data         | Failed database operations               | 0 unhandled critical failures |
+| Queue/Worker | Job failure retry exhaustion rate        | < 0.5%                        |
 
 ### 4.2 Dashboard Views
 
@@ -53,12 +53,12 @@ Primary observability platform is **Sentry**, complemented by provider-native lo
 
 ## 5. Alerting Rules and Escalation
 
-| Severity | Trigger | Notification Path | Response Window |
-| --- | --- | --- | --- |
-| Critical | Sustained 5xx > 5% for 5 min, auth outage, DB connectivity loss | Pager + chat channel + incident ticket | Immediate |
-| High | p95 latency > 2.5s for 15 min, repeated worker failures | Chat channel + on-call engineer | < 30 min |
-| Medium | Error-rate regression after release, storage failures with retries succeeding | Team channel | < 4 hours |
-| Low | Non-critical warnings, trend anomalies | Backlog triage | Next business day |
+| Severity | Trigger                                                                       | Notification Path                      | Response Window   |
+| -------- | ----------------------------------------------------------------------------- | -------------------------------------- | ----------------- |
+| Critical | Sustained 5xx > 5% for 5 min, auth outage, DB connectivity loss               | Pager + chat channel + incident ticket | Immediate         |
+| High     | p95 latency > 2.5s for 15 min, repeated worker failures                       | Chat channel + on-call engineer        | < 30 min          |
+| Medium   | Error-rate regression after release, storage failures with retries succeeding | Team channel                           | < 4 hours         |
+| Low      | Non-critical warnings, trend anomalies                                        | Backlog triage                         | Next business day |
 
 Escalation flow: on-call engineer → technical lead/architect → stakeholder communication if SLA/SLO at risk.
 

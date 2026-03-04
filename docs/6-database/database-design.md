@@ -1,11 +1,11 @@
 # Database Design
 
-| Attribute | Value |
-| --- | --- |
-| **Project** | Open Freelancer Project Hub |
-| **Version** | 1.0 |
-| **Status** | Draft |
-| **Last Updated** | 2026-02-28 |
+| Attribute        | Value                       |
+| ---------------- | --------------------------- |
+| **Project**      | Open Freelancer Project Hub |
+| **Version**      | 1.0                         |
+| **Status**       | Draft                       |
+| **Last Updated** | 2026-02-28                  |
 
 ## Sources
 
@@ -274,16 +274,16 @@ erDiagram
 
 ## Traceability to Requirements
 
-| Requirement | Schema Coverage |
-| --- | --- |
-| FR-001 | `clients`, `projects` relationship with Admin ownership |
-| FR-002 | `projects` status model + indexed active-project validation path |
-| FR-003 | `projects.phase` constrained to discovery/planning |
-| FR-004 / FR-005 | `refinement_sessions` + `refinement_ambiguities` |
-| FR-006 / FR-007 | draft story tables + approval fields + promotion to `requirements` |
-| FR-008 / FR-009 | `project_memberships.role` constrained to admin/viewer |
-| FR-010 | `internal_notes` fields restricted by authorization policy |
-| FR-011 | `requirements` + `requirement_acceptance_criteria` |
-| FR-012 | `markdown_exports` lifecycle and metadata |
-| NFR-001 / NFR-002 | audit-friendly soft archive + RLS-compatible ownership model |
-| NFR-005 / NFR-006 | index strategy for MVP load and read latency targets |
+| Requirement       | Schema Coverage                                                    |
+| ----------------- | ------------------------------------------------------------------ |
+| FR-001            | `clients`, `projects` relationship with Admin ownership            |
+| FR-002            | `projects` status model + indexed active-project validation path   |
+| FR-003            | `projects.phase` constrained to discovery/planning                 |
+| FR-004 / FR-005   | `refinement_sessions` + `refinement_ambiguities`                   |
+| FR-006 / FR-007   | draft story tables + approval fields + promotion to `requirements` |
+| FR-008 / FR-009   | `project_memberships.role` constrained to admin/viewer             |
+| FR-010            | `internal_notes` fields restricted by authorization policy         |
+| FR-011            | `requirements` + `requirement_acceptance_criteria`                 |
+| FR-012            | `markdown_exports` lifecycle and metadata                          |
+| NFR-001 / NFR-002 | audit-friendly soft archive + RLS-compatible ownership model       |
+| NFR-005 / NFR-006 | index strategy for MVP load and read latency targets               |

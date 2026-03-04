@@ -1,11 +1,11 @@
 # Security Architecture
 
-| Attribute | Value |
-| --- | --- |
-| **Project** | Open Freelancer Project Hub |
-| **Version** | 1.0 |
-| **Status** | Draft |
-| **Last Updated** | 2026-02-28 |
+| Attribute        | Value                       |
+| ---------------- | --------------------------- |
+| **Project**      | Open Freelancer Project Hub |
+| **Version**      | 1.0                         |
+| **Status**       | Draft                       |
+| **Last Updated** | 2026-02-28                  |
 
 ## Sources
 
@@ -101,18 +101,18 @@ See diagram: [`./diagrams/authorization-flow.mmd`](./diagrams/authorization-flow
 
 ## OWASP Top 10 Compliance Mapping
 
-| OWASP Risk Area | Primary Mitigations in Architecture |
-| --- | --- |
-| Broken Access Control | RBAC checks in backend + RLS at data layer + least privilege defaults |
-| Cryptographic Failures | TLS everywhere, managed encryption at rest, secret rotation policy |
-| Injection | Parameterized queries via ORM, strict input validation, output encoding |
-| Insecure Design | Threat modeling, ADR-driven design decisions, deny-by-default access |
-| Security Misconfiguration | Environment baselines, hardened defaults, restricted CORS and headers |
-| Vulnerable Components | Dependency scanning in CI, patch cadence, lockfile governance |
-| Identification/Auth Failures | Managed auth, token lifecycle controls, rate-limited login paths |
+| OWASP Risk Area                  | Primary Mitigations in Architecture                                          |
+| -------------------------------- | ---------------------------------------------------------------------------- |
+| Broken Access Control            | RBAC checks in backend + RLS at data layer + least privilege defaults        |
+| Cryptographic Failures           | TLS everywhere, managed encryption at rest, secret rotation policy           |
+| Injection                        | Parameterized queries via ORM, strict input validation, output encoding      |
+| Insecure Design                  | Threat modeling, ADR-driven design decisions, deny-by-default access         |
+| Security Misconfiguration        | Environment baselines, hardened defaults, restricted CORS and headers        |
+| Vulnerable Components            | Dependency scanning in CI, patch cadence, lockfile governance                |
+| Identification/Auth Failures     | Managed auth, token lifecycle controls, rate-limited login paths             |
 | Software/Data Integrity Failures | Protected CI pipelines, signed commits/tags where applicable, change reviews |
-| Logging/Monitoring Failures | Sentry monitoring, audit logs, alerting and incident runbooks |
-| SSRF | Outbound allowlists, URL validation for any server-side fetch behavior |
+| Logging/Monitoring Failures      | Sentry monitoring, audit logs, alerting and incident runbooks                |
+| SSRF                             | Outbound allowlists, URL validation for any server-side fetch behavior       |
 
 ## Network Security Architecture
 

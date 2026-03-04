@@ -1,11 +1,11 @@
 # API Contract
 
-| Attribute | Value |
-| --- | --- |
-| **Project** | Open Freelancer Project Hub |
-| **Version** | 1.0 |
-| **Status** | Draft |
-| **Last Updated** | 2026-02-28 |
+| Attribute        | Value                       |
+| ---------------- | --------------------------- |
+| **Project**      | Open Freelancer Project Hub |
+| **Version**      | 1.0                         |
+| **Status**       | Draft                       |
+| **Last Updated** | 2026-02-28                  |
 
 ## Sources
 
@@ -30,26 +30,26 @@
 
 ## Endpoint Catalog
 
-| Domain | Method | Endpoint | Purpose | Roles |
-| --- | --- | --- | --- | --- |
-| Clients | GET | `/clients` | List clients | Admin |
-| Clients | POST | `/clients` | Create client | Admin |
-| Clients | GET | `/clients/{clientId}` | Get client details | Admin |
-| Clients | PUT | `/clients/{clientId}` | Update client | Admin |
-| Clients | DELETE | `/clients/{clientId}` | Archive client | Admin |
-| Projects | GET | `/projects` | List projects | Admin, Viewer |
-| Projects | POST | `/projects` | Create project (max 3 active) | Admin |
-| Projects | GET | `/projects/{projectId}` | Get project details | Admin, Viewer |
-| Projects | PUT | `/projects/{projectId}` | Update project metadata | Admin |
-| Projects | DELETE | `/projects/{projectId}` | Archive project | Admin |
-| Refinement | POST | `/projects/{projectId}/refinement-sessions` | Create draft from raw notes | Admin |
-| Refinement | PUT | `/projects/{projectId}/refinement-sessions/{sessionId}` | Update draft and ambiguities | Admin |
-| Refinement | POST | `/projects/{projectId}/refinement-sessions/{sessionId}/approve` | Approve draft as official artifacts | Admin |
-| Requirements | GET | `/projects/{projectId}/requirements` | List approved requirements | Admin, Viewer |
-| Requirements | PUT | `/projects/{projectId}/requirements/{requirementId}` | Edit requirement | Admin |
-| Requirements | DELETE | `/projects/{projectId}/requirements/{requirementId}` | Archive requirement | Admin |
-| Exports | POST | `/projects/{projectId}/exports/markdown` | Generate markdown export | Admin |
-| Exports | GET | `/projects/{projectId}/exports/{exportId}` | Retrieve export metadata/download URL | Admin |
+| Domain       | Method | Endpoint                                                        | Purpose                               | Roles         |
+| ------------ | ------ | --------------------------------------------------------------- | ------------------------------------- | ------------- |
+| Clients      | GET    | `/clients`                                                      | List clients                          | Admin         |
+| Clients      | POST   | `/clients`                                                      | Create client                         | Admin         |
+| Clients      | GET    | `/clients/{clientId}`                                           | Get client details                    | Admin         |
+| Clients      | PUT    | `/clients/{clientId}`                                           | Update client                         | Admin         |
+| Clients      | DELETE | `/clients/{clientId}`                                           | Archive client                        | Admin         |
+| Projects     | GET    | `/projects`                                                     | List projects                         | Admin, Viewer |
+| Projects     | POST   | `/projects`                                                     | Create project (max 3 active)         | Admin         |
+| Projects     | GET    | `/projects/{projectId}`                                         | Get project details                   | Admin, Viewer |
+| Projects     | PUT    | `/projects/{projectId}`                                         | Update project metadata               | Admin         |
+| Projects     | DELETE | `/projects/{projectId}`                                         | Archive project                       | Admin         |
+| Refinement   | POST   | `/projects/{projectId}/refinement-sessions`                     | Create draft from raw notes           | Admin         |
+| Refinement   | PUT    | `/projects/{projectId}/refinement-sessions/{sessionId}`         | Update draft and ambiguities          | Admin         |
+| Refinement   | POST   | `/projects/{projectId}/refinement-sessions/{sessionId}/approve` | Approve draft as official artifacts   | Admin         |
+| Requirements | GET    | `/projects/{projectId}/requirements`                            | List approved requirements            | Admin, Viewer |
+| Requirements | PUT    | `/projects/{projectId}/requirements/{requirementId}`            | Edit requirement                      | Admin         |
+| Requirements | DELETE | `/projects/{projectId}/requirements/{requirementId}`            | Archive requirement                   | Admin         |
+| Exports      | POST   | `/projects/{projectId}/exports/markdown`                        | Generate markdown export              | Admin         |
+| Exports      | GET    | `/projects/{projectId}/exports/{exportId}`                      | Retrieve export metadata/download URL | Admin         |
 
 ## Shared JSON Schemas
 
@@ -128,18 +128,18 @@ Example:
 
 ### Status Code Matrix
 
-| Code | Meaning | Typical Use |
-| --- | --- | --- |
-| `200` | OK | Successful reads/updates |
-| `201` | Created | Successful create/export generation |
-| `204` | No Content | Successful archive/delete |
-| `400` | Bad Request | Invalid payload/query |
-| `401` | Unauthorized | Missing/invalid JWT |
-| `403` | Forbidden | Role not allowed |
-| `404` | Not Found | Missing resource |
-| `409` | Conflict | Project state/rule conflict |
-| `422` | Unprocessable Entity | Validation/domain rule issue |
-| `500` | Internal Server Error | Unhandled server failure |
+| Code  | Meaning               | Typical Use                         |
+| ----- | --------------------- | ----------------------------------- |
+| `200` | OK                    | Successful reads/updates            |
+| `201` | Created               | Successful create/export generation |
+| `204` | No Content            | Successful archive/delete           |
+| `400` | Bad Request           | Invalid payload/query               |
+| `401` | Unauthorized          | Missing/invalid JWT                 |
+| `403` | Forbidden             | Role not allowed                    |
+| `404` | Not Found             | Missing resource                    |
+| `409` | Conflict              | Project state/rule conflict         |
+| `422` | Unprocessable Entity  | Validation/domain rule issue        |
+| `500` | Internal Server Error | Unhandled server failure            |
 
 ## Detailed Endpoint Contracts
 
@@ -334,10 +334,7 @@ Success response example:
     {
       "title": "Project requirement export",
       "statement": "As an Admin, I want to export approved requirements to Markdown, so that I can share structured project scope.",
-      "acceptanceCriteria": [
-        "Export includes approved stories only",
-        "File is downloadable as .md"
-      ]
+      "acceptanceCriteria": ["Export includes approved stories only", "File is downloadable as .md"]
     }
   ]
 }
@@ -392,10 +389,7 @@ Response example (`200`):
       "projectId": "22222222-2222-2222-2222-222222222222",
       "title": "Project requirement export",
       "statement": "As an Admin, I want to export approved requirements to Markdown, so that I can share structured project scope.",
-      "acceptanceCriteria": [
-        "Export includes approved stories only",
-        "File is downloadable as .md"
-      ],
+      "acceptanceCriteria": ["Export includes approved stories only", "File is downloadable as .md"],
       "status": "approved",
       "createdAt": "2026-02-28T17:15:00Z",
       "updatedAt": "2026-02-28T17:15:00Z"
@@ -444,10 +438,7 @@ Success response example (`200`):
   "projectId": "22222222-2222-2222-2222-222222222222",
   "title": "Project requirement export",
   "statement": "As an Admin, I want to export approved requirements to Markdown, so that I can share project scope with clients.",
-  "acceptanceCriteria": [
-    "Export includes approved stories only",
-    "File is downloadable as .md"
-  ],
+  "acceptanceCriteria": ["Export includes approved stories only", "File is downloadable as .md"],
   "status": "approved",
   "updatedAt": "2026-02-28T17:20:00Z"
 }

@@ -1,11 +1,11 @@
 # Event-Driven Architecture Patterns
 
-| Attribute | Value |
-| --- | --- |
-| **Project** | Open Freelancer Project Hub |
-| **Version** | 1.0 |
-| **Status** | Accepted (Incremental Adoption) |
-| **Last Updated** | 2026-02-28 |
+| Attribute        | Value                           |
+| ---------------- | ------------------------------- |
+| **Project**      | Open Freelancer Project Hub     |
+| **Version**      | 1.0                             |
+| **Status**       | Accepted (Incremental Adoption) |
+| **Last Updated** | 2026-02-28                      |
 
 ## Scope and Adoption Strategy
 

@@ -1,11 +1,11 @@
 # Technology Stack
 
-| Attribute | Value |
-| --- | --- |
-| **Project** | Open Freelancer Project Hub |
-| **Version** | 1.0 |
-| **Status** | Draft |
-| **Last Updated** | 2026-02-28 |
+| Attribute        | Value                       |
+| ---------------- | --------------------------- |
+| **Project**      | Open Freelancer Project Hub |
+| **Version**      | 1.0                         |
+| **Status**       | Draft                       |
+| **Last Updated** | 2026-02-28                  |
 
 ## Sources
 
@@ -20,27 +20,27 @@
 
 ## Technology Stack Matrix
 
-| Component | Selected Technology | Version / Compatibility | Role in System | Rationale | Trade-offs |
-| --- | --- | --- | --- | --- | --- |
-| Frontend Framework | React + TypeScript | React 18.x, TypeScript 5.x | Admin/Viewer UI, project and requirements workflows | Aligns with team expertise and ecosystem maturity; strong component model for structured workflows | Requires disciplined state management and type hygiene as codebase grows |
-| UI Library | Ant Design | 5.x | Accessible, consistent UI components for fast MVP delivery | Team familiarity and rapid UI assembly | Opinionated design system may require customization overhead |
-| Frontend State | Redux Toolkit | 2.x | Predictable state handling for refinement and approval flows | Strong fit for explicit workflow states and async orchestration | Additional boilerplate versus local-only state |
-| Backend Framework | FastAPI (Python) | Python 3.12 + FastAPI 0.11x | REST APIs, validation, domain orchestration entry points | Team expertise, async support, OpenAPI generation, Clean Architecture compatibility | Requires strict architectural boundaries to avoid framework leakage |
-| Data Validation | Pydantic | 2.x | Request/response and application DTO validation | Tight FastAPI integration and explicit schema contracts | Version coupling with framework ecosystem |
-| Database | Supabase PostgreSQL | PostgreSQL 15+ (managed by Supabase) | Primary transactional store for clients/projects/requirements | ACID guarantees, relational integrity, mature SQL tooling, managed operations | Requires relational schema evolution discipline |
-| ORM | SQLAlchemy | 2.x | Persistence abstraction in infrastructure layer | Mature Python ORM, strong repository pattern support | ORM complexity and potential query performance pitfalls if not monitored |
-| Authentication | Supabase Auth + JWT | Supabase managed auth + JWT claims | User identity, session lifecycle, role context | Built-in auth flows and token model reduce implementation risk | External managed dependency; requires clear token validation boundaries |
-| Authorization | Supabase RLS + backend role checks | PostgreSQL RLS policies | Data-level least-privilege enforcement for Admin/Viewer | Enforces security close to data and complements API-layer checks | Policy complexity can increase with domain growth |
-| Caching Layer | Redis (Render-managed or external) | Redis 7.x | Cache hot reads, rate-limit counters, ephemeral workflow states | Improves latency for frequent reads and protects database under load | Adds operational complexity and cache invalidation concerns |
-| Message Broker (Optional) | Redis Streams | Redis 7.x | Async events for AI/refinement pipeline expansion | Reuses Redis footprint for moderate event throughput | Not ideal for very high-throughput/event-replay-heavy workloads |
-| Frontend Build Tool | Vite | 5.x | Fast local build/dev and optimized production bundles | Fast feedback loops and modern React/TS defaults | Plugin compatibility management |
-| Backend Tooling | Docker (multi-stage) + Uvicorn workers | Docker 25.x | Reproducible backend packaging for Render deployments | Environment parity and predictable deploy artifacts | Requires image hardening and resource tuning |
-| Testing (Backend) | Pytest | 8.x | Unit/integration tests for domain and application behavior | Python ecosystem standard; strong fixtures/mocking | Requires disciplined test pyramid design |
-| Testing (Frontend) | Vitest + React Testing Library + Playwright | Vitest 2.x, RTL 16.x, Playwright 1.x | Component tests, interaction tests, E2E critical-path coverage | Fast unit/integration loop plus realistic E2E regression checks | E2E tests can be slower/flakier without stable fixtures |
-| Monitoring/Observability | Sentry | SaaS (latest SDKs) | Error tracking, performance monitoring, release correlation | Unified visibility across frontend/backend and release health | Requires careful PII scrubbing and alert tuning |
-| CI/CD | GitHub Actions | Hosted runners + workflow matrix | Automated quality gates and environment deployments | Native GitHub integration and flexible pipelines | Workflow sprawl risk without governance |
-| Frontend Hosting | Vercel | Managed platform | Global edge delivery, preview deployments, web vitals | Strong DX and low-ops frontend hosting | Vendor lock-in considerations |
-| Backend Hosting | Render | Managed container platform | API/container hosting with autoscaling and health checks | Good fit for Dockerized FastAPI backend with low operational burden | Fewer deep infra controls than self-managed Kubernetes |
+| Component                 | Selected Technology                         | Version / Compatibility              | Role in System                                                  | Rationale                                                                                          | Trade-offs                                                               |
+| ------------------------- | ------------------------------------------- | ------------------------------------ | --------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| Frontend Framework        | React + TypeScript                          | React 18.x, TypeScript 5.x           | Admin/Viewer UI, project and requirements workflows             | Aligns with team expertise and ecosystem maturity; strong component model for structured workflows | Requires disciplined state management and type hygiene as codebase grows |
+| UI Library                | Ant Design                                  | 5.x                                  | Accessible, consistent UI components for fast MVP delivery      | Team familiarity and rapid UI assembly                                                             | Opinionated design system may require customization overhead             |
+| Frontend State            | Redux Toolkit                               | 2.x                                  | Predictable state handling for refinement and approval flows    | Strong fit for explicit workflow states and async orchestration                                    | Additional boilerplate versus local-only state                           |
+| Backend Framework         | FastAPI (Python)                            | Python 3.12 + FastAPI 0.11x          | REST APIs, validation, domain orchestration entry points        | Team expertise, async support, OpenAPI generation, Clean Architecture compatibility                | Requires strict architectural boundaries to avoid framework leakage      |
+| Data Validation           | Pydantic                                    | 2.x                                  | Request/response and application DTO validation                 | Tight FastAPI integration and explicit schema contracts                                            | Version coupling with framework ecosystem                                |
+| Database                  | Supabase PostgreSQL                         | PostgreSQL 15+ (managed by Supabase) | Primary transactional store for clients/projects/requirements   | ACID guarantees, relational integrity, mature SQL tooling, managed operations                      | Requires relational schema evolution discipline                          |
+| ORM                       | SQLAlchemy                                  | 2.x                                  | Persistence abstraction in infrastructure layer                 | Mature Python ORM, strong repository pattern support                                               | ORM complexity and potential query performance pitfalls if not monitored |
+| Authentication            | Supabase Auth + JWT                         | Supabase managed auth + JWT claims   | User identity, session lifecycle, role context                  | Built-in auth flows and token model reduce implementation risk                                     | External managed dependency; requires clear token validation boundaries  |
+| Authorization             | Supabase RLS + backend role checks          | PostgreSQL RLS policies              | Data-level least-privilege enforcement for Admin/Viewer         | Enforces security close to data and complements API-layer checks                                   | Policy complexity can increase with domain growth                        |
+| Caching Layer             | Redis (Render-managed or external)          | Redis 7.x                            | Cache hot reads, rate-limit counters, ephemeral workflow states | Improves latency for frequent reads and protects database under load                               | Adds operational complexity and cache invalidation concerns              |
+| Message Broker (Optional) | Redis Streams                               | Redis 7.x                            | Async events for AI/refinement pipeline expansion               | Reuses Redis footprint for moderate event throughput                                               | Not ideal for very high-throughput/event-replay-heavy workloads          |
+| Frontend Build Tool       | Vite                                        | 5.x                                  | Fast local build/dev and optimized production bundles           | Fast feedback loops and modern React/TS defaults                                                   | Plugin compatibility management                                          |
+| Backend Tooling           | Docker (multi-stage) + Uvicorn workers      | Docker 25.x                          | Reproducible backend packaging for Render deployments           | Environment parity and predictable deploy artifacts                                                | Requires image hardening and resource tuning                             |
+| Testing (Backend)         | Pytest                                      | 8.x                                  | Unit/integration tests for domain and application behavior      | Python ecosystem standard; strong fixtures/mocking                                                 | Requires disciplined test pyramid design                                 |
+| Testing (Frontend)        | Vitest + React Testing Library + Playwright | Vitest 2.x, RTL 16.x, Playwright 1.x | Component tests, interaction tests, E2E critical-path coverage  | Fast unit/integration loop plus realistic E2E regression checks                                    | E2E tests can be slower/flakier without stable fixtures                  |
+| Monitoring/Observability  | Sentry                                      | SaaS (latest SDKs)                   | Error tracking, performance monitoring, release correlation     | Unified visibility across frontend/backend and release health                                      | Requires careful PII scrubbing and alert tuning                          |
+| CI/CD                     | GitHub Actions                              | Hosted runners + workflow matrix     | Automated quality gates and environment deployments             | Native GitHub integration and flexible pipelines                                                   | Workflow sprawl risk without governance                                  |
+| Frontend Hosting          | Vercel                                      | Managed platform                     | Global edge delivery, preview deployments, web vitals           | Strong DX and low-ops frontend hosting                                                             | Vendor lock-in considerations                                            |
+| Backend Hosting           | Render                                      | Managed container platform           | API/container hosting with autoscaling and health checks        | Good fit for Dockerized FastAPI backend with low operational burden                                | Fewer deep infra controls than self-managed Kubernetes                   |
 
 ## Integration Guidelines
 

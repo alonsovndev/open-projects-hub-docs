@@ -1,11 +1,11 @@
 # Architecture Styles Decision
 
-| Attribute | Value |
-| --- | --- |
-| **Project** | Open Freelancer Project Hub |
-| **Version** | 1.0 |
-| **Status** | Accepted |
-| **Last Updated** | 2026-02-28 |
+| Attribute        | Value                       |
+| ---------------- | --------------------------- |
+| **Project**      | Open Freelancer Project Hub |
+| **Version**      | 1.0                         |
+| **Status**       | Accepted                    |
+| **Last Updated** | 2026-02-28                  |
 
 ## Decision Summary
 
@@ -20,11 +20,11 @@ This decision aligns with:
 
 ## Architecture Style Evaluation
 
-| Style | Benefits | Drawbacks | Fit for Current Context |
-| --- | --- | --- | --- |
-| Monolithic (layered) | Fast setup, simple deploy pipeline | Boundary erosion risk, harder long-term decomposition | Acceptable for very short-lived MVPs, but weaker long-term |
-| Microservices | Independent scaling/deployments, isolation | High operational complexity, distributed transactions, higher DevOps burden | Premature for current team size and MVP scope |
-| **Modular Monolith (Selected)** | Strong module boundaries, single deployable, easier refactor and extraction | Requires discipline to protect module boundaries | **Best fit for MVP + planned evolution** |
+| Style                           | Benefits                                                                    | Drawbacks                                                                   | Fit for Current Context                                    |
+| ------------------------------- | --------------------------------------------------------------------------- | --------------------------------------------------------------------------- | ---------------------------------------------------------- |
+| Monolithic (layered)            | Fast setup, simple deploy pipeline                                          | Boundary erosion risk, harder long-term decomposition                       | Acceptable for very short-lived MVPs, but weaker long-term |
+| Microservices                   | Independent scaling/deployments, isolation                                  | High operational complexity, distributed transactions, higher DevOps burden | Premature for current team size and MVP scope              |
+| **Modular Monolith (Selected)** | Strong module boundaries, single deployable, easier refactor and extraction | Requires discipline to protect module boundaries                            | **Best fit for MVP + planned evolution**                   |
 
 ## Bounded Context Alignment
 
