@@ -3,7 +3,7 @@
 > **Status:** Ready to use
 > **Last Updated:** 2026-03-03
 > **Scope:** MVP — discovery/planning phases only. No delivery, handoff, or billing flows.
-> **Stitch Project Link:** [Add your Stitch project link here]
+> **Stitch Project Link:** [Open Projects Hub Prototype](https://stitch.withgoogle.com/projects/15812972902674048372)
 
 ---
 
