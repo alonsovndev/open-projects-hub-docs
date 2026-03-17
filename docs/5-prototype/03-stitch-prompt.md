@@ -235,6 +235,5 @@ Annotate any optional Phase 1 onboarding content so it is not confused with MVP 
 ## Assumptions & Open Questions
 
 - The source docs define workflow pages clearly, but they do not define a full production navigation shell.
-- The repo documents `3-architecture` as the architecture source folder; references to `4-architecture` in the issue template appear to be a naming mismatch.
 - No official brand palette or typeface is documented, so constrained placeholders are used instead of final design tokens.
 - The onboarding overlay is included as optional because it is a Phase 1 usability enhancement, not an MVP blocker.
