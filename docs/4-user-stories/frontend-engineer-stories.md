@@ -24,7 +24,7 @@
 
 ## Objective
 
-Define frontend engineer user stories that give the delivery team clear, interface-focused guidance for implementing the Admin and Viewer experiences required for the MVP planning workflow.
+Define frontend engineer user stories that give the delivery team clear, interface-focused guidance for implementing the Admin and Viewer experiences required for the MVP planning workflow, while also covering the minimal frontend project setup and technical enablement needed to start delivery from zero.
 
 ## Interaction Scope and Constraints
 
@@ -33,6 +33,7 @@ Define frontend engineer user stories that give the delivery team clear, interfa
 - Stories stay focused on interface behavior, user feedback, readability, and role-safe interactions rather than code implementation details.
 - Admin experiences must support editing, approval, export initiation, and internal-note visibility where permitted by requirements.
 - Viewer experiences must remain read-only, readable to non-technical stakeholders, and free of internal notes.
+- Setup and technical-enablement stories may describe the frontend project foundation, shared quality guardrails, and delivery-readiness expectations, but must stay at planning level and avoid step-by-step implementation specifications.
 
 ## MoSCoW Prioritization Summary
 
@@ -42,7 +43,9 @@ Define frontend engineer user stories that give the delivery team clear, interfa
 | Must     | US-MVP-FE-002   | AI refinement draft review and approval interface  | Covers the central MVP workflow where raw notes become structured draft stories.  |
 | Must     | US-MVP-FE-003   | Role-safe backlog experience for Admin and Viewer  | Ensures approved requirements are readable, editable only when allowed, and safe. |
 | Must     | US-MVP-FE-004   | Markdown export initiation and completion feedback | Delivers the primary planning artifact handoff expected for MVP output.           |
+| Must     | US-MVP-FE-006   | Frontend project foundation and bootstrap          | Gives the team a zero-to-one baseline before workflow delivery begins.            |
 | Should   | US-P1-FE-005    | Onboarding, accessibility, and responsive clarity  | Improves first-use comprehension and quality expectations for Phase 1.            |
+| Should   | US-P1-FE-007    | Frontend technical guardrails and quality baseline | Helps engineers work consistently without turning the stories into build guides.  |
 
 ## User Stories
 
@@ -274,15 +277,108 @@ Define frontend engineer user stories that give the delivery team clear, interfa
 
 ---
 
+**Story ID**: US-MVP-FE-006  
+**Epic**: Frontend Delivery Foundation  
+**Priority**: Must Have  
+**Effort Estimate**: Story Points: 3
+
+**As a** Frontend Engineer,  
+**I want to** define the initial frontend project foundation for the MVP,  
+**So that** the team can begin delivery with a shared structure aligned to the approved stack and MVP scope.
+
+**Acceptance Criteria**:
+
+- [ ] Given the frontend project starts from zero, When the initial foundation is reviewed, Then it aligns with the approved React, TypeScript, Ant Design, and Vite stack.
+- [ ] Given MVP delivery work is about to begin, When the frontend baseline is defined, Then the expected application shell, primary planning routes, and shared layout expectations are clear to the team.
+- [ ] Given the primary workflows depend on common states, When the startup scope is reviewed, Then baseline expectations for loading, error, and empty states are defined for downstream frontend stories.
+- [ ] Given the project is still within MVP scope, When this setup story is reviewed, Then it excludes delivery workflows, extra collaboration roles, and post-MVP platform expansion.
+- [ ] Given this file is a planning artifact, When the setup story is reviewed, Then it avoids detailed build steps and stays focused on delivery-ready outcomes.
+
+**Deliverables**:
+
+- Frontend foundation scope note for app shell and primary planning routes
+- Shared baseline expectations for layout, loading, error, and empty states
+- Delivery-readiness checklist for subsequent frontend stories
+
+**Dependencies**:
+
+- FR-003
+- NFR-008
+- `../3-architecture/technology-stack.md`
+- `../3-architecture/architecture-solution-design.md`
+
+**Success Metrics**:
+
+- The team can start MVP frontend work without an additional project-setup clarification session
+- The documented baseline stays aligned with the approved stack and MVP scope
+- Review feedback identifies no missing prerequisite for starting frontend delivery
+
+## Reference
+
+- [Project Overview](../overview.md)
+- [Phased Roadmap](../2-planning/phased-roadmap.md)
+- [Architecture Solution Design](../3-architecture/architecture-solution-design.md)
+- [Technology Stack](../3-architecture/technology-stack.md)
+- [Product Epics](./epics.md)
+
+---
+
+**Story ID**: US-P1-FE-007  
+**Epic**: Frontend Delivery Foundation  
+**Priority**: Should Have  
+**Effort Estimate**: Story Points: 3
+
+**As a** Frontend Engineer,  
+**I want to** define the shared technical guardrails for frontend delivery,  
+**So that** engineers can work consistently across MVP screens with clear quality expectations.
+
+**Acceptance Criteria**:
+
+- [ ] Given engineers are implementing frontend stories, When they review the shared guardrails, Then expectations for testing, accessibility, and readable error handling are clear at planning level.
+- [ ] Given the project has baseline quality targets, When frontend work is assessed, Then the story reflects the documented requirements for automated testing and accessibility support.
+- [ ] Given multiple MVP screens share common interactions, When the story is reviewed, Then it defines a consistent expectation for loading, error, and empty-state behavior across the frontend.
+- [ ] Given this document should avoid over-specifying implementation, When the story is reviewed, Then it does not include detailed commands, file-by-file setup, or tool configuration steps.
+- [ ] Given this is a Phase 1 planning item, When stakeholders review the sequence, Then the story is positioned as a quality and consistency enabler after the MVP foundation is in place.
+
+**Deliverables**:
+
+- Frontend quality checklist for testing, accessibility, and user feedback states
+- Shared guidance for consistent handling of loading, error, and empty states
+- Contribution-readiness note for MVP frontend delivery
+
+**Dependencies**:
+
+- NFR-001, NFR-003, NFR-007
+- `../3-architecture/technology-stack.md`
+- `../2-planning/role-mapping.md`
+
+**Success Metrics**:
+
+- Engineers can explain the minimum frontend quality expectations before implementation begins
+- MVP frontend stories use a consistent approach to testing and user feedback behavior
+- Accessibility and user-feedback expectations are visible without requiring extra clarification sessions
+
+## Reference
+
+- [Non-Functional Requirements](../1-requirements/non-functional-requirements.md)
+- [Role Mapping](../2-planning/role-mapping.md)
+- [Phased Roadmap](../2-planning/phased-roadmap.md)
+- [Technology Stack](../3-architecture/technology-stack.md)
+- [UI/UX Designer User Stories](./ui-ux-designer-stories.md)
+
+---
+
 ## Frontend Deliverables Summary
 
 | Deliverable                                  | Type                                | Audience                    | Related Stories                  |
 | -------------------------------------------- | ----------------------------------- | --------------------------- | -------------------------------- |
+| Frontend Foundation Scope Note               | Delivery-enablement guide           | Frontend Engineer, Tech Lead | US-MVP-FE-006                    |
 | Client and Project Workspace Definition      | Screen and interaction scope        | Frontend Engineer, Tech Lead | US-MVP-FE-001                    |
 | Refinement Workflow Behavior Map             | State and interaction definition    | Frontend Engineer, UI/UX    | US-MVP-FE-002, US-P1-FE-005      |
 | Admin and Viewer Backlog Visibility Checklist | Role-based presentation guide       | Frontend Engineer, QA       | US-MVP-FE-003                    |
 | Export Feedback and Completion Flow          | User-feedback and deliverable guide | Frontend Engineer, Admin    | US-MVP-FE-004                    |
 | Usability and Accessibility Review Notes     | Quality checklist                   | Frontend Engineer, UI/UX    | US-P1-FE-005                     |
+| Frontend Quality Guardrails Checklist        | Quality and contribution guide      | Frontend Engineer, QA, Tech Lead | US-P1-FE-007                |
 
 ## Coverage Matrix
 
@@ -293,3 +389,5 @@ Define frontend engineer user stories that give the delivery team clear, interfa
 | US-MVP-FE-003 | FR-003, FR-008, FR-009, FR-010, FR-011, FR-014, NFR-001, NFR-004, NFR-007 | Role mapping, API contract, stakeholder backlog design |
 | US-MVP-FE-004 | FR-011, FR-012, NFR-004, NFR-005          | API contract, roadmap, export artifact scope     |
 | US-P1-FE-005  | FR-013, FR-014, NFR-004, NFR-005, NFR-006, NFR-007 | UI/UX onboarding flow, roadmap, quality targets  |
+| US-MVP-FE-006 | FR-003, NFR-008                           | Overview, technology stack, architecture solution, roadmap |
+| US-P1-FE-007  | NFR-001, NFR-003, NFR-007                 | NFRs, technology stack, role mapping, roadmap    |
