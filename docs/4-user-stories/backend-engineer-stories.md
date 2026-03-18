@@ -6,7 +6,7 @@
 | **Role**         | Backend Engineer            |
 | **Version**      | 1.0                         |
 | **Status**       | Draft                       |
-| **Last Updated** | 2026-03-17                  |
+| **Last Updated** | 2026-03-18                  |
 
 ## Sources
 
@@ -24,118 +24,120 @@
 
 ## Objective
 
-Define stakeholder-ready backend engineer user stories that describe the backend planning work needed to support the MVP discovery and planning workflows, protect project data, and produce approved project deliverables.
+Define stakeholder-ready backend engineer user stories that help the team start the backend project from zero, establish the technical foundation for the selected architecture, and deliver the MVP discovery and planning capabilities in a development-ready sequence.
 
 ## Backend Scope and Constraints
 
-- Scope is limited to discovery and planning workflows only, consistent with FR-003 and the phased roadmap.
+- Scope includes backend project creation, service setup, data and access foundations, and the MVP discovery and planning workflows.
 - Backend planning must support Admin and Viewer roles only, consistent with FR-008 and FR-009.
-- Stories must focus on backend responsibilities such as domain rules, workflow states, access boundaries, deliverable contracts, and quality guardrails.
-- Stories must avoid code-level implementation detail while remaining specific, measurable, and verifiable for development handoff.
-- Planning assumptions align with the documented modular monolith backend, Clean Architecture, DDD boundaries, FastAPI API layer, and Supabase PostgreSQL data model.
+- Stories must help engineers start the project with clear technical objectives, measurable outcomes, and requirement traceability without prescribing code-level implementation.
+- Stories must stay within the documented modular monolith, Clean Architecture, DDD, FastAPI, and Supabase PostgreSQL constraints already approved for the project.
+- Stories must exclude delivery workflows, extra collaboration roles, file-upload features, and post-MVP platform expansion.
 
 ## MoSCoW Prioritization Summary
 
-| Priority | Story ID      | Theme                                                | Rationale                                                                          |
-| -------- | ------------- | ---------------------------------------------------- | ---------------------------------------------------------------------------------- |
-| Must     | US-MVP-BE-001 | Client and project lifecycle rules                   | Establishes backend guardrails for client/project ownership and MVP phase control. |
-| Must     | US-MVP-BE-002 | Refinement draft and approval workflow               | Covers the central backend workflow that converts raw notes into controlled drafts. |
-| Must     | US-MVP-BE-003 | Authorization and internal-notes protection          | Ensures Admin/Viewer access boundaries and protected planning content.             |
-| Must     | US-MVP-BE-004 | Approved backlog and Markdown export deliverables    | Defines the primary backend deliverable path for approved requirements.            |
-| Must     | US-MVP-BE-005 | Security, privacy, and backend quality baseline      | Makes cross-cutting MVP backend safeguards explicit and reviewable.                |
-| Should   | US-P1-BE-006  | Performance, scalability, and observability planning | Extends backend readiness for MVP load and operational visibility after core MVP.  |
+| Priority | Story ID      | Theme                                         | Rationale                                                                              |
+| -------- | ------------- | --------------------------------------------- | -------------------------------------------------------------------------------------- |
+| Must     | US-MVP-BE-001 | Backend project foundation and service setup  | Gives the backend engineer a clear starting point for creating the project from zero.  |
+| Must     | US-MVP-BE-002 | Persistence and data model baseline           | Establishes the core data structures needed before feature workflows can be delivered. |
+| Must     | US-MVP-BE-003 | Authentication and role-based access          | Sets the security and Admin/Viewer boundaries required across all backend capabilities. |
+| Must     | US-MVP-BE-004 | Client and project management capabilities    | Enables the first business workflows for clients, projects, and lifecycle rules.       |
+| Must     | US-MVP-BE-005 | Refinement session and draft workflow         | Covers the main backend workflow for raw-note refinement and approval preparation.      |
+| Must     | US-MVP-BE-006 | Approved backlog and Markdown export          | Delivers the official project artifact path required by the MVP.                       |
+| Must     | US-MVP-BE-007 | Quality, security, and delivery readiness     | Ensures the backend foundation is safe, testable, and ready for iterative development. |
+| Should   | US-P1-BE-008  | Performance, scalability, and observability   | Extends the backend after MVP foundations exist and core workflows are stable.         |
 
 ## User Stories
 
 **Story ID**: US-MVP-BE-001  
-**Epic**: Client and Project Administration  
+**Epic**: Backend Project Foundation  
 **Priority**: Must Have  
 **Effort Estimate**: Story Points: 5
 
 **As a** Backend Engineer,  
-**I want to** define backend rules for client and project lifecycle management,  
-**So that** Admin-owned projects stay within MVP limits and remain aligned with discovery and planning scope.
+**I want to** establish the backend project foundation and service setup,  
+**So that** the team can begin development with a runnable backend baseline that matches the approved architecture.
 
 **Acceptance Criteria**:
 
-- [ ] Given an Admin creates or updates a project, When backend validation is defined, Then the project must always remain associated with a valid client record and one of the allowed MVP phases only.
-- [ ] Given an Admin already has three active projects, When project-creation rules are reviewed, Then the backend story specifies that a fourth active project must be rejected until another active project is archived.
-- [ ] Given a project is archived, When lifecycle handling is described, Then the story confirms archived projects no longer count toward the active-project limit and are excluded from active views.
-- [ ] Given stakeholders review scope boundaries, When this story is presented, Then it explicitly excludes delivery, handoff, invoicing, and non-MVP workflow states from backend planning.
-- [ ] Given development handoff is prepared, When deliverables are reviewed, Then validation scenarios for create, update, active-limit rejection, and archive behavior are included.
+- [ ] Given the backend project starts from zero, When this story is prepared for development, Then it defines the required backend foundation work for project structure, shared conventions, configuration handling, and a minimal runnable service baseline.
+- [ ] Given the architecture is already approved, When the setup objectives are reviewed, Then the story aligns the backend foundation to the modular monolith, Clean Architecture, and DDD boundaries documented for the project.
+- [ ] Given the backend must integrate with the wider platform, When startup scope is reviewed, Then the story includes the baseline expectations for API versioning, environment separation, and backend ownership of persistence and authorization.
+- [ ] Given the project is still within MVP scope, When this story is reviewed, Then it excludes delivery workflows, extra bounded contexts, and post-MVP service decomposition.
+- [ ] Given the engineering team needs a development starting point, When deliverables are handed off, Then the story provides clear readiness outcomes that allow subsequent backend stories to begin without foundational ambiguity.
 
 **Deliverables**:
 
-- Backend rule summary for client/project ownership and lifecycle boundaries
-- Validation checklist for active-project limits, allowed phases, and archival behavior
-- Development-ready test scenario list for project lifecycle constraints
+- Backend project setup checklist aligned to the approved architecture
+- Service-baseline scope for configuration, module boundaries, and API ownership
+- Startup readiness notes for downstream backend stories
 
 **Dependencies**:
 
-- FR-001, FR-002, FR-003
-- NFR-002, NFR-008
-- `../2-planning/role-mapping.md`
-- `../6-database/database-design.md`
+- FR-003
+- NFR-001, NFR-003, NFR-008
+- `../3-architecture/architecture-solution-design.md`
+- `../3-architecture/technology-stack.md`
 
 **Success Metrics**:
 
-- Backend scope clearly covers 100% of MVP client/project lifecycle rules tied to FR-001 through FR-003
-- Product and engineering stakeholders can explain the active-project rule without additional clarification
-- Review feedback identifies no unresolved ambiguity about lifecycle boundaries or archival behavior
+- Backend startup work is defined clearly enough for engineering to begin without additional architecture clarification
+- Foundational scope aligns with the documented backend stack and architecture choices
+- Review feedback identifies no missing prerequisite for starting backend delivery
 
 ## Reference
 
 - [Project Overview](../overview.md)
-- [Functional Requirements](../1-requirements/functional-requirements.md)
 - [Phased Roadmap](../2-planning/phased-roadmap.md)
 - [Architecture Solution Design](../3-architecture/architecture-solution-design.md)
-- [Database Design](../6-database/database-design.md)
+- [Technology Stack](../3-architecture/technology-stack.md)
+- [Product Epics](./epics.md)
 
 ---
 
 **Story ID**: US-MVP-BE-002  
-**Epic**: AI-Assisted Requirements Refinement  
+**Epic**: Persistence Foundation  
 **Priority**: Must Have  
-**Effort Estimate**: Story Points: 8
+**Effort Estimate**: Story Points: 5
 
 **As a** Backend Engineer,  
-**I want to** define the refinement-session draft and approval workflow,  
-**So that** raw notes can become structured draft requirements with clear review and approval boundaries.
+**I want to** establish the persistence and data model baseline,  
+**So that** the backend has the core entities and lifecycle rules required for MVP workflows.
 
 **Acceptance Criteria**:
 
-- [ ] Given an Admin submits raw notes or bullet lists, When the backend workflow is defined, Then the story specifies support for both input formats without requiring file uploads or additional formatting.
-- [ ] Given ambiguity detection is part of refinement, When workflow outputs are reviewed, Then the story defines backend handling for ambiguity records that can be surfaced inline before approval.
-- [ ] Given draft stories are generated, When the backend planning deliverable is reviewed, Then it describes draft artifacts that include title, user story statement, ordered acceptance criteria, and draft status.
-- [ ] Given AI-generated content requires human oversight, When approval handling is described, Then the story confirms that draft content remains unofficial until explicit Admin approval is recorded.
-- [ ] Given approved and draft states must remain distinct, When validation scenarios are reviewed, Then the story includes measurable checks for draft editing, approval transition, and exclusion of unapproved content from official deliverables.
+- [ ] Given the backend is being created from zero, When persistence scope is reviewed, Then the story covers the core data foundations for users, clients, projects, memberships, refinement sessions, requirements, and exports.
+- [ ] Given the data model must support approved product rules, When lifecycle expectations are reviewed, Then the story includes active, archived, draft, approved, and export-status behaviors consistent with the documented requirements.
+- [ ] Given Admin-only and Viewer-visible data have different boundaries, When persistence planning is reviewed, Then the story identifies protected fields and relationships that must support role-based visibility.
+- [ ] Given future backend work depends on a stable foundation, When handoff artifacts are reviewed, Then the story includes ordering and traceability expectations for stories, acceptance criteria, and export records.
+- [ ] Given schema evolution must support ongoing delivery, When this story is reviewed, Then it defines readiness expectations for controlled data changes without introducing production-only migration detail.
 
 **Deliverables**:
 
-- Backend workflow definition for refinement submission, ambiguity review, draft storage, and approval transition
-- Draft-versus-approved lifecycle checklist for backend handoff
-- Review scenarios for raw-input support, ambiguity handling, and approval-state enforcement
+- Data-foundation story for core backend entities and lifecycle states
+- Persistence scope checklist for protected fields, ordering, and status handling
+- Backend readiness notes for data-dependent MVP workflows
 
 **Dependencies**:
 
-- FR-004, FR-005, FR-006, FR-007
-- NFR-003
-- `../3-architecture/api-contract.md`
+- FR-001, FR-002, FR-006, FR-007, FR-011, FR-012
+- NFR-002
 - `../6-database/database-design.md`
+- `../3-architecture/architecture-solution-design.md`
 
 **Success Metrics**:
 
-- Refinement workflow planning covers all MVP backend states from note submission through approval
-- Story reviewers can distinguish draft and approved artifacts without referring to implementation notes
-- Acceptance criteria trace cleanly to FR-004 through FR-007 with no missing workflow boundary
+- All MVP backend workflows can be traced to an identified persistence foundation
+- Reviewers can confirm core entities and lifecycle states without database ambiguity
+- Data model scope supports later workflow stories without requiring new foundational assumptions
 
 ## Reference
 
 - [Functional Requirements](../1-requirements/functional-requirements.md)
+- [Non-Functional Requirements](../1-requirements/non-functional-requirements.md)
 - [Architecture Solution Design](../3-architecture/architecture-solution-design.md)
-- [API Contract](../3-architecture/api-contract.md)
-- [Data Flow Diagram](../3-architecture/diagrams/data-flow.mmd)
 - [Database Design](../6-database/database-design.md)
+- [Product Epics](./epics.md)
 
 ---
 
@@ -145,35 +147,35 @@ Define stakeholder-ready backend engineer user stories that describe the backend
 **Effort Estimate**: Story Points: 5
 
 **As a** Backend Engineer,  
-**I want to** define Admin and Viewer access rules for backend workflows and data visibility,  
-**So that** collaboration remains secure and internal notes stay protected.
+**I want to** establish authentication and role-based access foundations,  
+**So that** every backend capability enforces secure Admin and Viewer boundaries from the start.
 
 **Acceptance Criteria**:
 
-- [ ] Given role-based access is limited to Admin and Viewer, When backend authorization rules are documented, Then the story states that Admin retains full project and requirement management capabilities while Viewer access remains read-only.
-- [ ] Given internal notes are Admin-only content, When data-visibility rules are reviewed, Then the story specifies that Viewer responses and exports must never expose internal notes.
-- [ ] Given additional collaborators are out of scope, When access boundaries are reviewed, Then the story explicitly excludes invitation flows and any role beyond Admin and Viewer.
-- [ ] Given Viewer users need structured project visibility, When approved content access is described, Then the story confirms that Viewer access is limited to readable project status and approved requirements only.
-- [ ] Given security and privacy reviews are required, When handoff artifacts are validated, Then the story includes permission scenarios for allowed reads, blocked edits, and protected content boundaries.
+- [ ] Given the MVP supports Admin and Viewer roles only, When this story is reviewed, Then it establishes backend expectations for authenticated access and role-based permission handling across protected workflows.
+- [ ] Given internal notes are Admin-only content, When data-access rules are defined, Then the story confirms internal notes are unavailable to Viewer-facing responses and exports.
+- [ ] Given the project begins from zero, When backend setup dependencies are reviewed, Then this story provides the access-control foundation required before client, project, refinement, and export capabilities are delivered.
+- [ ] Given extra collaborators are out of scope, When this story is validated, Then it excludes invitation flows and any role expansion beyond the documented MVP roles.
+- [ ] Given security is a must-have constraint, When deliverables are reviewed, Then the story includes measurable checks for authorized access, forbidden actions, and protected-content handling.
 
 **Deliverables**:
 
-- Role and visibility rules summary for Admin and Viewer backend behavior
-- Protected-content checklist covering internal notes and approved-only access
-- Permission scenario matrix for allowed and blocked actions by role
+- Authentication and role-boundary story for Admin and Viewer access
+- Permission matrix for allowed reads, writes, and protected content
+- Security-readiness scenarios for downstream backend capabilities
 
 **Dependencies**:
 
 - FR-008, FR-009, FR-010, FR-014
 - NFR-001, NFR-002, NFR-004
 - `../2-planning/role-mapping.md`
-- `../6-database/database-design.md`
+- `../3-architecture/api-contract.md`
 
 **Success Metrics**:
 
-- Stakeholders can identify Admin-versus-Viewer backend permissions in one review session
-- No acceptance criterion leaves ambiguity about internal-notes protection
-- Role rules align to all MVP collaboration boundaries without introducing extra roles or workflows
+- Backend role boundaries are clear before feature workflow development begins
+- Reviewers can identify how protected content remains Admin-only
+- No unresolved ambiguity remains around authenticated versus read-only backend behavior
 
 ## Reference
 
@@ -186,27 +188,119 @@ Define stakeholder-ready backend engineer user stories that describe the backend
 ---
 
 **Story ID**: US-MVP-BE-004  
+**Epic**: Client and Project Administration  
+**Priority**: Must Have  
+**Effort Estimate**: Story Points: 5
+
+**As a** Backend Engineer,  
+**I want to** provide client and project management backend capabilities,  
+**So that** Admin users can create and manage projects within the approved MVP rules.
+
+**Acceptance Criteria**:
+
+- [ ] Given Admin users need to manage clients and projects, When this story is reviewed, Then it supports backend capabilities for creating, viewing, updating, and archiving clients and projects.
+- [ ] Given the MVP limits active projects, When project-management rules are validated, Then the story includes the requirement that a fourth active project is blocked until an existing active project is archived.
+- [ ] Given MVP projects must remain in discovery or planning, When lifecycle constraints are reviewed, Then the story confirms no other project phases are supported by backend rules.
+- [ ] Given project ownership and visibility matter across workflows, When this story is handed off, Then it includes measurable checks for valid client association, project lifecycle handling, and archive behavior.
+- [ ] Given Viewer users have read-only access, When project visibility is reviewed, Then the story confirms they can only access the project information allowed by the approved role boundaries.
+
+**Deliverables**:
+
+- Backend capability story for client and project administration
+- Lifecycle rules checklist for active-project limits, allowed phases, and archive behavior
+- Validation scenarios for Admin management and Viewer-safe project visibility
+
+**Dependencies**:
+
+- FR-001, FR-002, FR-003, FR-008, FR-014
+- NFR-002, NFR-004
+- `../2-planning/role-mapping.md`
+- `../6-database/database-design.md`
+
+**Success Metrics**:
+
+- Core client and project workflows are ready for backend implementation after foundation setup
+- Product reviewers can verify project-limit and phase rules without additional explanation
+- No unsupported lifecycle state is introduced into MVP backend scope
+
+## Reference
+
+- [Functional Requirements](../1-requirements/functional-requirements.md)
+- [Role Mapping](../2-planning/role-mapping.md)
+- [Phased Roadmap](../2-planning/phased-roadmap.md)
+- [API Contract](../3-architecture/api-contract.md)
+- [Database Design](../6-database/database-design.md)
+
+---
+
+**Story ID**: US-MVP-BE-005  
+**Epic**: AI-Assisted Requirements Refinement  
+**Priority**: Must Have  
+**Effort Estimate**: Story Points: 8
+
+**As a** Backend Engineer,  
+**I want to** provide the refinement-session and draft requirement workflow,  
+**So that** Admin users can turn raw notes into controlled draft requirements ready for approval.
+
+**Acceptance Criteria**:
+
+- [ ] Given Admin users submit raw notes or bullet lists, When this story is reviewed, Then it supports backend handling for both input formats without introducing file-upload dependencies.
+- [ ] Given ambiguity detection is required, When refinement scope is validated, Then the story includes backend support for ambiguity records that can be presented inline during review.
+- [ ] Given AI-generated output must remain editable before approval, When the workflow is reviewed, Then the story supports draft requirement records with ordered acceptance criteria and editable draft state.
+- [ ] Given explicit approval is required before requirements become official artifacts, When approval boundaries are reviewed, Then the story confirms draft outputs remain unofficial until Admin approval is completed.
+- [ ] Given later export and viewer visibility depend on approved data only, When this story is validated, Then it includes measurable separation between draft artifacts and official requirements.
+
+**Deliverables**:
+
+- Backend workflow story for refinement intake, ambiguity handling, draft persistence, and approval readiness
+- Draft-versus-approved behavior checklist for the main requirements workflow
+- Validation scenarios for note intake, ambiguity review, editing, and approval gating
+
+**Dependencies**:
+
+- FR-004, FR-005, FR-006, FR-007
+- NFR-003
+- `../3-architecture/api-contract.md`
+- `../3-architecture/diagrams/data-flow.mmd`
+
+**Success Metrics**:
+
+- The central refinement workflow is defined clearly enough for backend implementation sequencing
+- Product reviewers can distinguish draft behavior from approved behavior in one review
+- No refinement requirement is left without backend workflow coverage
+
+## Reference
+
+- [Functional Requirements](../1-requirements/functional-requirements.md)
+- [Architecture Solution Design](../3-architecture/architecture-solution-design.md)
+- [API Contract](../3-architecture/api-contract.md)
+- [Data Flow Diagram](../3-architecture/diagrams/data-flow.mmd)
+- [Database Design](../6-database/database-design.md)
+
+---
+
+**Story ID**: US-MVP-BE-006  
 **Epic**: Structured Requirements Delivery and Export  
 **Priority**: Must Have  
 **Effort Estimate**: Story Points: 5
 
 **As a** Backend Engineer,  
-**I want to** define the backend contract for approved backlog retrieval and Markdown export,  
-**So that** approved project requirements can be delivered as a structured, shareable artifact.
+**I want to** provide approved backlog retrieval and Markdown export capabilities,  
+**So that** the platform can generate the official project deliverable from approved requirements.
 
 **Acceptance Criteria**:
 
-- [ ] Given the backlog is the primary project deliverable, When backend retrieval rules are defined, Then the story specifies that only approved requirements and their acceptance criteria appear in the official backlog output.
-- [ ] Given Markdown export is required, When export expectations are documented, Then the story defines an output that preserves the approved user story structure and ordered acceptance criteria.
-- [ ] Given Viewer-safe delivery is required, When export boundaries are reviewed, Then the story confirms internal notes and draft-only content are excluded from exportable output.
-- [ ] Given export tracking is part of the MVP workflow, When backend deliverables are reviewed, Then the story includes measurable scenarios for export request, completion status, and retrieval of export metadata.
-- [ ] Given readability matters for non-technical stakeholders, When success conditions are reviewed, Then the story confirms the approved backlog and Markdown deliverable remain understandable and structured for stakeholder review.
+- [ ] Given approved requirements are the official project deliverable, When this story is reviewed, Then it supports backend retrieval of approved backlog items with ordered acceptance criteria only.
+- [ ] Given Markdown export is a required MVP output, When deliverable rules are reviewed, Then the story preserves the standard user story structure in the exported result.
+- [ ] Given draft content and internal notes are not part of official deliverables, When export behavior is validated, Then the story excludes both from exportable output and Viewer-safe responses.
+- [ ] Given export tracking is part of the documented data model, When this story is handed off, Then it includes measurable expectations for export request, export status, and export retrieval metadata.
+- [ ] Given stakeholders use the deliverable for review, When output readiness is assessed, Then the story confirms the resulting backlog remains readable and structured for non-technical audiences.
 
 **Deliverables**:
 
-- Approved-backlog retrieval and export contract summary
-- Export validation checklist covering approved-only content, ordering, and internal-note exclusion
-- Review scenarios for backlog viewing, empty export states, and successful Markdown delivery
+- Backend capability story for approved backlog retrieval and Markdown export
+- Export-scope checklist for approved-only content, ordering, and protected-field exclusion
+- Validation scenarios for official backlog viewing and export handling
 
 **Dependencies**:
 
@@ -217,9 +311,9 @@ Define stakeholder-ready backend engineer user stories that describe the backend
 
 **Success Metrics**:
 
-- Approved-backlog behavior maps directly to FR-011 and FR-012 with no undocumented gaps
-- Export expectations remain consistent with the standard user story template in all review scenarios
-- Product reviewers confirm that official deliverables exclude drafts and internal notes without additional clarification
+- The official deliverable path is clear and ready for backend implementation
+- Export behavior remains aligned to the approved user story template and Viewer-safe boundaries
+- Reviewers can confirm that only approved content becomes a shareable artifact
 
 ## Reference
 
@@ -231,73 +325,73 @@ Define stakeholder-ready backend engineer user stories that describe the backend
 
 ---
 
-**Story ID**: US-MVP-BE-005  
-**Epic**: Security, Privacy, and Quality Baseline  
+**Story ID**: US-MVP-BE-007  
+**Epic**: Backend Quality and Delivery Readiness  
 **Priority**: Must Have  
 **Effort Estimate**: Story Points: 3
 
 **As a** Backend Engineer,  
-**I want to** define backend security, privacy, and quality guardrails for the MVP,  
-**So that** core backend workflows meet baseline protection and review standards from the start.
+**I want to** establish quality, security, and delivery-readiness guardrails,  
+**So that** the backend can be developed on a stable foundation with clear quality expectations.
 
 **Acceptance Criteria**:
 
-- [ ] Given MVP backend services must meet security expectations, When this story is reviewed, Then it includes backend requirements for secure authentication handling, request validation, and protection against unauthorized access.
-- [ ] Given privacy requirements include archival and deletion considerations, When lifecycle safeguards are documented, Then the story defines how archived or deleted project data is handled in a way that supports privacy expectations.
-- [ ] Given automated quality is part of the MVP baseline, When development handoff is prepared, Then the story includes measurable expectations for core backend test coverage and quality checks on business-critical workflows.
-- [ ] Given the backend must support stakeholder trust, When cross-story safeguards are reviewed, Then the story identifies review checkpoints for security, privacy, and data-protection concerns across the MVP workflows.
-- [ ] Given the MVP timeline is constrained, When scope is validated, Then the story keeps the quality baseline focused on essential protections and excludes post-MVP hardening activities.
+- [ ] Given the project starts from zero, When readiness expectations are reviewed, Then the story includes the minimum backend quality baseline for testing, validation, and error handling across core workflows.
+- [ ] Given security and privacy are MVP requirements, When this story is assessed, Then it includes backend safeguards for authenticated access, protected data handling, and privacy-aware lifecycle behavior.
+- [ ] Given the engineering team needs technical stories that support delivery, When handoff artifacts are reviewed, Then this story provides clear readiness expectations for working agreements around backend quality and safety.
+- [ ] Given the backend must remain supportable as features are added, When this story is validated, Then it includes measurable expectations for reviewability, auditability, and consistent behavior across feature workflows.
+- [ ] Given the scope must stay MVP-focused, When this story is reviewed, Then it excludes advanced hardening and scale work reserved for later phases.
 
 **Deliverables**:
 
-- Backend security and privacy checklist for MVP planning
-- Quality baseline summary for core backend workflow validation
-- Cross-story review checklist for security, privacy, and test-readiness concerns
+- Backend readiness story for quality, security, and safe delivery expectations
+- Cross-cutting checklist for testing, validation, privacy, and reviewability
+- MVP baseline scenarios for backend workflow quality gates
 
 **Dependencies**:
 
 - NFR-001, NFR-002, NFR-003, NFR-008
-- `../2-planning/phased-roadmap.md`
+- `../3-architecture/architecture-solution-design.md`
 - `../3-architecture/technology-stack.md`
 
 **Success Metrics**:
 
-- MVP backend quality baseline is traceable to NFR-001 through NFR-003
-- Product team can review backend safeguards in one document without referencing implementation detail
-- No unresolved review feedback remains about minimum backend protection or quality expectations
+- Backend readiness expectations are explicit before detailed implementation begins
+- Reviewers can identify the MVP quality floor for backend work in one document
+- No core backend story depends on undefined quality or security assumptions
 
 ## Reference
 
 - [Project Overview](../overview.md)
 - [Non-Functional Requirements](../1-requirements/non-functional-requirements.md)
-- [Phased Roadmap](../2-planning/phased-roadmap.md)
 - [Architecture Solution Design](../3-architecture/architecture-solution-design.md)
 - [Technology Stack](../3-architecture/technology-stack.md)
+- [Product Epics](./epics.md)
 
 ---
 
-**Story ID**: US-P1-BE-006  
+**Story ID**: US-P1-BE-008  
 **Epic**: Backend Quality and Scalability Validation  
 **Priority**: Should Have  
 **Effort Estimate**: Story Points: 3
 
 **As a** Backend Engineer,  
-**I want to** define performance, scalability, and observability planning for core backend workflows,  
-**So that** the platform remains responsive and measurable within documented MVP limits.
+**I want to** strengthen performance, scalability, and observability after MVP foundations are in place,  
+**So that** the backend remains measurable and responsive as usage approaches documented MVP limits.
 
 **Acceptance Criteria**:
 
-- [ ] Given Phase 1 quality planning is reviewed, When this story is assessed, Then it identifies the core backend workflows that need performance and scalability validation under MVP load.
-- [ ] Given responsiveness targets exist for project and requirements views, When backend expectations are documented, Then the story links those workflows to measurable response-time goals already defined in the non-functional requirements.
-- [ ] Given growth within MVP limits must not degrade data quality, When scalability planning is reviewed, Then the story defines checks that protect project and story handling within the documented volume constraints.
-- [ ] Given observability is required for operational awareness, When the story is reviewed, Then it includes backend monitoring expectations for errors, latency, and export or authorization failures.
-- [ ] Given this story is Phase 1 scope, When stakeholders review prioritization, Then it is clearly marked as a quality enhancement that follows completion of the MVP Must Have backend stories.
+- [ ] Given the MVP backend foundation is established, When this Phase 1 story is reviewed, Then it identifies the core workflows that require monitoring and performance validation.
+- [ ] Given response-time and scale expectations are already documented, When this story is assessed, Then it links the project, requirements, and export workflows to measurable quality targets already defined in the non-functional requirements.
+- [ ] Given backend operations need visibility, When observability scope is reviewed, Then the story includes monitoring expectations for errors, latency, export failures, and authorization failures.
+- [ ] Given the platform must remain stable within MVP limits, When scalability scope is reviewed, Then the story includes checks for story volume, project volume, and high-read workflow resilience.
+- [ ] Given this work is not a Must Have for MVP launch, When stakeholders review the backlog, Then the story is clearly marked as a Phase 1 enhancement that follows the core delivery stories.
 
 **Deliverables**:
 
-- Performance and scalability validation checklist for core backend workflows
-- Observability review notes for error, latency, and export monitoring
-- Phase 1 readiness summary aligned to documented load expectations
+- Phase 1 story for backend performance and observability enhancement
+- Validation checklist for monitored workflows and MVP load expectations
+- Readiness notes for post-MVP hardening within documented platform limits
 
 **Dependencies**:
 
@@ -308,9 +402,9 @@ Define stakeholder-ready backend engineer user stories that describe the backend
 
 **Success Metrics**:
 
-- Phase 1 backend quality planning clearly traces to NFR-005 and NFR-006
-- Reviewers can identify which workflows require monitoring and load validation without engineering rework
-- Phase 1 scope remains distinct from MVP Must Have backend deliverables
+- Phase 1 quality work is clearly separated from MVP Must Have stories
+- Reviewers can identify where performance and observability work begins after core delivery
+- No Phase 1 quality expectation introduces out-of-scope MVP features
 
 ## Reference
 
@@ -322,20 +416,23 @@ Define stakeholder-ready backend engineer user stories that describe the backend
 
 ---
 
-## Backend Planning Deliverables Matrix
+## Backend Delivery Readiness Matrix
 
-| Deliverable                                      | Type                            | Audience                    | Related Stories                      |
-| ------------------------------------------------ | ------------------------------- | --------------------------- | ------------------------------------ |
-| Client and project lifecycle rule set            | Validation and governance notes | Product Owner, Tech Lead    | US-MVP-BE-001                        |
-| Refinement and approval workflow definition      | Workflow planning artifact      | Product Owner, Backend Team | US-MVP-BE-002                        |
-| Authorization and protected-content matrix       | Access-control planning sheet   | Product Owner, Tech Lead    | US-MVP-BE-003                        |
-| Approved backlog and Markdown export definition  | Deliverable contract summary    | Product Owner, Stakeholders | US-MVP-BE-004                        |
-| Security, privacy, and quality readiness review  | Cross-cutting checklist         | Product Owner, Tech Lead    | US-MVP-BE-005                        |
-| Phase 1 performance and observability validation | Quality planning checklist      | Product Owner, Tech Lead    | US-P1-BE-006                         |
+| Deliverable                                   | Type                              | Audience                    | Related Stories          |
+| --------------------------------------------- | --------------------------------- | --------------------------- | ------------------------ |
+| Backend project foundation and service setup  | Startup and architecture baseline | Product Owner, Tech Lead    | US-MVP-BE-001            |
+| Persistence and data model baseline           | Data foundation story             | Product Owner, Backend Team | US-MVP-BE-002            |
+| Authentication and role-based access setup    | Security foundation story         | Product Owner, Tech Lead    | US-MVP-BE-003            |
+| Client and project management capability set  | Core business workflow story      | Product Owner, Backend Team | US-MVP-BE-004            |
+| Refinement and approval workflow capability   | Core workflow story               | Product Owner, Backend Team | US-MVP-BE-005            |
+| Approved backlog and Markdown export delivery | Official deliverable story        | Product Owner, Stakeholders | US-MVP-BE-006            |
+| Quality and delivery readiness baseline       | Cross-cutting technical story     | Product Owner, Tech Lead    | US-MVP-BE-007            |
+| Performance and observability hardening       | Phase 1 technical story           | Product Owner, Tech Lead    | US-P1-BE-008             |
 
 ## Product Team Review Checklist
 
-- [ ] Confirm story priorities align with MVP and Phase 1 roadmap commitments
-- [ ] Confirm each backend story traces to the correct FR and NFR references
-- [ ] Confirm acceptance criteria remain measurable and implementation-agnostic
-- [ ] Confirm no story introduces out-of-scope delivery, collaboration, or post-MVP features
+- [ ] Confirm the backend stories now cover project setup and zero-to-one technical foundations
+- [ ] Confirm each story remains implementation-agnostic while still being actionable for engineering
+- [ ] Confirm the sequence supports backend work from setup through MVP deliverables
+- [ ] Confirm all stories remain aligned to the approved requirements, architecture, and database references
+- [ ] Confirm no story introduces out-of-scope delivery workflows, extra roles, or post-MVP platform expansion
