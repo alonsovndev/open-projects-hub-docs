@@ -2,165 +2,209 @@
 
 ## Purpose
 
-Use this file to generate a fast, consistent prototype in Stitch. Copy the consolidated prompt below to build the foundational MVP experience in a single session.
+Use this file to generate a fast, consistent prototype in Stitch. The consolidated prompt below is the primary handoff artifact and is designed to stay aligned with the prototype brief and design-direction documents.
 
-## OUT OF SCOPE (MVP Design Constraints)
+## Why This Version Is Tighter
 
-To ensure design accuracy and focus on the core value proposition, the following elements are **EXCLUDED** from the prototype design:
+- It removes extra screens that are not required to validate the MVP planning workflow.
+- It keeps the prototype focused on Discovery and Planning only.
+- It makes Admin and Viewer permissions explicit.
+- It includes scope guardrails inside the prompt so Stitch is less likely to invent product behavior.
 
-- **Complex Authentication**: No OAuth, MFA, or social logins (simple email/pass only).
-- **Client Onboarding**: No self-service registration for clients (Admin invites only).
-- **Resource Management**: No time tracking, file attachments, or budget management.
-- **Rich Text Editing**: No Markdown editors or WYSIWYG (plain text TextAreas only).
-- **Dark Mode**: High-contrast light mode only for version 1.
-- **Micro-animations**: No custom page transitions or complex loading animations.
-- **Historical Versions**: No "Version History" or "Audit Logs" UI.
+## Out of Scope
 
-## CONSOLIDATED STITCH PROMPT (Copy & Paste)
+The prototype must not introduce the following:
+
+- Full application navigation beyond a lightweight page switcher or review tabs
+- Delivery, sprint, handoff, maintenance, or execution workflows
+- Additional collaborator roles beyond Admin and Viewer
+- Comments, chat, collaboration threads, approvals by multiple people, or activity feeds
+- Audit history, version comparison, rollback, or change logs
+- File attachments, budget tracking, time tracking, invoicing, or resource management
+- OAuth, social login, MFA, or self-service client signup
+- Rich text editors, Markdown authoring surfaces, or complex formatting tools
+- Dark mode or heavily branded visual exploration
+
+## Consolidated Stitch Prompt (Copy & Paste)
 
 ```markdown
-Design a clickable responsive prototype for the **Open Freelancer Project Hub**.
+Design a clickable responsive stakeholder prototype for the **Open Freelancer Project Hub**.
+
+## Objective
+
+Show how an **Admin** turns ambiguous client notes into approved planning artifacts, and how a **Viewer** safely reviews only the approved content.
+
+The prototype is limited to **Discovery** and **Planning** workflows. It should feel professional, structured, accessible, and trustworthy. It should feel like a planning workspace, not a delivery tool.
+
+## Product Scope Guardrails
+
+- Only show two roles: **Admin** and **Viewer**.
+- Keep the prototype focused on planning workflows only.
+- Treat AI-generated output as **draft** until explicit Admin approval.
+- Viewer screens must be clearly **read-only**.
+- Do not introduce delivery, sprint, handoff, collaboration, comments, audit history, version comparison, file management, budget tracking, or extra roles.
+- Do not invent a large application shell. Use a **small multi-page prototype** with simple page switching only.
 
 ## Global Design System
 
-- **Framework**: Ant Design-style web components.
-- **Typography**: System-sans stack (inter-like).
-- **Accessibility**: WCAG 2.1 AA (44x44px targets, keyboard accessible).
-- **Colors**: Primary (Actions), Neutral (Layout/Text), Success (Approved), Warning (Highlights).
-- **Shared Layers**:
-  - **Header**: Logo "Open Projects Hub", simple navigation links, and User Profile dropdown.
-  - **Footer**: Simplified links (Privacy, Terms, Help).
+- **Framework direction**: Ant Design-style web components.
+- **Typography**: highly readable system-sans, close to Ant Design defaults.
+- **Accessibility**: WCAG 2.1 AA, visible keyboard focus, semantic headings, and minimum 44x44px touch targets.
+- **Tone**: calm, content-first, low-friction, structured.
+- **Color roles**:
+  - **Primary**: main actions only
+  - **Neutral**: layout, text, backgrounds, borders
+  - **Success**: approved states only, always paired with text labels
+  - **Warning**: ambiguity highlights and caution states, never color alone
+  - **Error**: validation and blocking issues
 
-## Page 1: Landing / Home
+## Shared Layout Rules
 
-- **Context**: A clean hero section: "Turn Ambiguous Notes into Technical Requirements."
-- **Primary CTA**: "Get Started" (links to Role Selection).
+- Keep a compact **project context header** at the top of each page.
+- The header should show: **Project Name**, **Client Name**, **Current Phase**, and **Current Role**.
+- Use simple stacked panels or card-based sections.
+- Keep hierarchy obvious: page title first, section titles second, story cards third, metadata last.
+- On mobile, collapse to a single-column layout without losing role or status clarity.
 
-## Page 2: Role Selection & Login
+## Required Components
 
-- **Role Cards**: "Freelancer (Admin)" and "Client (Viewer)".
-- **Login Flow**: Simple Email/Password input for Admin.
-- **State**: "Verification link sent" simulation check.
+- Summary header bar
+- TextArea for raw notes
+- Primary button for refine, approve, and export actions
+- Secondary button for cancel, clear, skip, or dismiss actions
+- Story cards for draft and approved content
+- Tags or badges for **Discovery**, **Planning**, **Draft**, **Approved**, and **Read-only**
+- Tooltips or popovers for ambiguity explanations and onboarding
+- Confirmation modal for approval
+- Alerts for warning, success, and error states
+- Empty state and loading state
 
-## Page 3: Admin Dashboard
+## Page 1: Admin AI Refinement Workspace
 
-- **Content**: Welcome msg, "Create New Project" button, and list of active Project Cards.
-- **Metrics**: Quick count of "Drafts" vs "Approved" requirements.
+### Purpose
 
-## Page 4: Project Creation
+This is the main MVP screen. Show how raw notes become structured draft user stories.
 
-- **Modal/Page**: Fields for Project Name, Client Name, and Phase.
-- **Transition**: Navigate to AI Refinement Workspace.
+### Required Sections
 
-## Page 5: AI Refinement Workspace (Core MVP)
+1. **Project Context Header**
+   - Project: "Client Portal Refresh"
+   - Client: placeholder client name
+   - Phase: **Discovery** or **Planning**
+   - Role badge: **Admin**
 
-- **Sections**:
-  1. **Raw Notes**: Large TextArea + "Refine Notes" button.
-  2. **Ambiguity Review**: Notes with yellow highlights + tooltips explaining risks.
-  3. **Generated Stories**: Cards with Title, User Story (As a... I want... so that...), and Acceptance Criteria.
-  4. **Approval**: "Approve Stories" button + confirmation modal.
-- **States**: Empty, Loading, Draft Ready, Approved Confirmation.
+2. **Raw Notes Input**
+   - Large TextArea for ambiguous notes or bullet lists
+   - Primary action: **Refine Notes**
+   - Secondary action: **Clear**
 
-## Page 6: Admin Backlog (Internal)
+3. **Ambiguity Review**
+   - Show the original notes with inline warning highlights
+   - Use tooltips or small inline explanations to describe ambiguity risks
+   - Do not rely on yellow color alone; pair highlights with iconography or text labels
 
-- **Content**: Official story cards + **Internal Notes** (hidden from clients).
-- **Action**: "Export Markdown".
+4. **Generated Draft Stories**
+   - Story cards with:
+     - Story title
+     - User story in the format: "As a... I want... so that..."
+     - Acceptance criteria list
+     - Status tag: **Draft**
+   - Admin may see edit affordances on this page only
 
-## Page 7: Viewer Backlog (Client)
+5. **Approval Area**
+   - Primary action: **Approve Stories**
+   - Confirmation modal that makes approval feel explicit and intentional
 
-- **Constraint**: Read-only, no internal notes, clearly labeled "Viewer Mode".
+### Required States
 
-## ITERATIVE PROMPT STRATEGY (Archived)
+- Empty
+- Loading
+- Validation or processing error
+- Draft ready
+- Approved confirmation
 
-### Foundation, Global Shell & Home
+## Page 2: Admin Backlog View
 
-**Goal**: Establish the design system and the high-level navigation entry point.
+### Purpose
 
-Design a clickable responsive prototype for the **Open Freelancer Project Hub**.
+Show the official approved planning backlog for the Admin role.
 
-## Global Design System
+### Required Content
 
-- **Framework**: Ant Design-style web components.
-- **Typography**: System-sans stack (inter-like).
-- **Accessibility**: WCAG 2.1 AA (44x44px targets, keyboard accessible).
-- **Colors**: Primary (Actions), Neutral (Layout/Text), Success (Approved), Warning (Highlights).
-- **Shared Layers**:
-  - **Header**: Logo "Open Projects Hub", simple navigation links, and User Profile dropdown.
-  - **Footer**: Simplified links (Privacy, Terms, Help).
+- Same project context header at the top
+- Role badge: **Admin**
+- Approved story cards only
+- Optional grouping or labels to distinguish approved content clearly
+- **Internal Notes** area visible only to Admin
+- Primary action: **Export Markdown**
 
-## Page 1: Landing / Home
+### Required States
 
-- **Context**: A clean, professional hero section explaining the tool: "Turn Ambiguous Notes into Technical Requirements."
-- **Primary CTA**: "Get Started" (links to Role Selection).
-- **Secondary CTA**: "Learn More".
+- Empty backlog
+- Mixed review context if helpful, but approved content must remain visually clear
+- Export-ready state
 
-### Authentication & Role Selection
+## Page 3: Viewer Backlog View
 
-**Goal**: Define the entry gates for both types of users.
+### Purpose
 
-Based on the previous Home page, design **Page 2: Role Selection & Authorization**.
+Show how a client safely reviews approved planning content.
 
-## Page 2: Role Selection
+### Required Content
 
-- **Role Cards**:
-  - **Freelancer (Admin)**: "Create projects and refine requirements."
-  - **Client (Viewer)**: "Review and approve requirements for your projects."
+- Same project context header at the top
+- Role badge: **Viewer**
+- Approved user stories and acceptance criteria in plain language
+- Strong visual cue that the page is **Read-only**
+- Phase visibility in plain language
 
-## Page 3: Admin Login Flow
+### Explicit Omissions
 
-- **Login Page**: Email and Password inputs + "Remember Me" toggle.
-- **Links**: "Forgot Password?" (leads to recovery email state) and "Confirmations" (simulated email verification UI).
-- **Confirmation State**: "Verification link sent! Please check your inbox."
+- No edit controls
+- No draft content
+- No internal notes
+- No Admin-only actions
 
-### Admin Dashboard & Project Creation
+## Page 4: Optional Onboarding Overlay
 
-**Goal**: The central hub for the freelancer.
+### Purpose
 
-Now, design **Page 4: Admin Dashboard** and project management.
+Provide lightweight first-time guidance for the Admin workflow.
 
-## Page 4: Admin Dashboard
+### Required Steps
 
-- **Welcome**: "Welcome back, [Freelancer Name]".
-- **Project List**: Cards showing active projects (e.g., "Client Portal Refresh").
-- **Metrics**: Quick count of "Drafts" vs "Approved" requirements across all projects.
-- **Action**: A prominent "Create New Project" button.
+- Welcome message
+- Tooltip for note entry
+- Tooltip for ambiguity review
+- Tooltip for draft review and editing
+- Tooltip for approval action
+- Skip, dismiss, and "don't show again" behaviors
 
-## Page 5: Create Project Modal/Page
+## Interaction Expectations
 
-- **Fields**: Project Name, Client Name, Initial Phase (Discovery/Planning).
-- **Transitions**: After creation, navigate to the AI Refinement Workspace.
+- Ambiguity must appear inline with the raw notes context.
+- Approval must feel separate from generation.
+- Viewer screens must preserve planning context without exposing editing.
+- Internal notes must be clearly separated in Admin views and entirely absent from Viewer views.
+- Labels such as **Draft**, **Approved**, and **Read-only** must be obvious at a glance.
 
-### AI Refinement Workspace (The Core MVP)
+## Responsive Behavior
 
-**Goal**: The main business logic for turn notes into stories.
+- **Desktop (1200px+)**: primary review layout with visible sections and metadata
+- **Tablet (768px-1199px)**: stack secondary sections beneath the main workflow
+- **Mobile (<768px)**: single-column layout, full-width buttons, preserved role and status labels
 
-Design **Page 6: Admin AI Refinement Workspace**.
+## Accessibility Requirements
 
-## Page 6 Requirements
+- Keyboard-accessible actions and dialogs
+- Visible focus states with sufficient contrast
+- Explicit labels for inputs and controls
+- Semantic heading hierarchy
+- Do not rely on color alone for ambiguity, approval, or error states
 
-- **Context**: Freelancer turning raw notes into stories for "Client Portal Refresh".
-- **Sections**:
-  1. **Raw Notes Input**: Large TextArea + "Refine Notes" button.
-  2. **Ambiguity Review**: Notes shown with inline yellow highlights + tooltips explaining risks.
-  3. **Generated Stories**: Cards with Title, "As a... I want... so that...", and Acceptance Criteria.
-  4. **Approval**: "Approve Stories" button + confirmation modal.
-- **States**: Empty, Loading, Draft Ready, Approved Confirmation.
+## Sample Content Guidance
 
-### Backlog Views & Onboarding
-
-**Goal**: Finalize data persistence and the stakeholder experience.
-
-Finally, design **Page 7: Admin Backlog** and **Page 8: Viewer Backlog**.
-
-## Page 7: Admin Backlog View (Internal)
-
-- **Approved List**: Shows official story cards.
-- **Internal Content**: Card includes an **Internal Notes** area for technical ideas (hidden from clients).
-- **Action**: "Export Markdown".
-
-## Page 8: Viewer Backlog View (Client)
-
-- **Constraint**: Read-only access.
-- **Privacy**: NO internal notes, NO drafts, NO editing actions.
-- **Visual**: Clearly labeled "Viewer Mode".
+- Use realistic placeholder content rather than final marketing copy.
+- Keep terminology aligned with: **Discovery**, **Planning**, **Admin**, **Viewer**, **user stories**, **acceptance criteria**, and **internal notes**.
+- Keep copy concise and easy for non-technical stakeholders to review.
 ```
