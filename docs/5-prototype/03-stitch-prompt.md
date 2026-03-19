@@ -7,6 +7,7 @@ Use this file to generate a fast, consistent prototype in Stitch. The consolidat
 ## Why This Version Is Tighter
 
 - It removes extra screens that are not required to validate the MVP planning workflow.
+- It now covers the lightweight authentication entry flow needed to access the planning workflow.
 - It keeps the prototype focused on Discovery and Planning only.
 - It makes Admin and Viewer permissions explicit.
 - It includes scope guardrails inside the prompt so Stitch is less likely to invent product behavior.
@@ -32,7 +33,7 @@ Design a clickable responsive stakeholder prototype for the **Open Freelancer Pr
 
 ## Objective
 
-Show how an **Admin** turns ambiguous client notes into approved planning artifacts, and how a **Viewer** safely reviews only the approved content.
+Show the end-to-end MVP journey: lightweight account entry, role selection, Admin authentication, AI-assisted requirements refinement, explicit approval, Markdown export, and safe Viewer review of approved content.
 
 The prototype is limited to **Discovery** and **Planning** workflows. It should feel professional, structured, accessible, and trustworthy. It should feel like a planning workspace, not a delivery tool.
 
@@ -42,6 +43,8 @@ The prototype is limited to **Discovery** and **Planning** workflows. It should 
 - Keep the prototype focused on planning workflows only.
 - Treat AI-generated output as **draft** until explicit Admin approval.
 - Viewer screens must be clearly **read-only**.
+- Support only lightweight email/password authentication views: **Sign Up**, **Sign In**, **Forgot Password**, and **Reset Password**.
+- Treat **Sign Up** as a simple Admin account creation flow only. Do not create client self-registration.
 - Do not introduce delivery, sprint, handoff, collaboration, comments, audit history, version comparison, file management, budget tracking, or extra roles.
 - Do not invent a large application shell. Use a **small multi-page prototype** with simple page switching only.
 
@@ -69,6 +72,8 @@ The prototype is limited to **Discovery** and **Planning** workflows. It should 
 ## Required Components
 
 - Summary header bar
+- Role-selection cards
+- Sign-up, sign-in, forgot-password, and reset-password forms
 - TextArea for raw notes
 - Primary button for refine, approve, and export actions
 - Secondary button for cancel, clear, skip, or dismiss actions
@@ -79,11 +84,126 @@ The prototype is limited to **Discovery** and **Planning** workflows. It should 
 - Alerts for warning, success, and error states
 - Empty state and loading state
 
-## Page 1: Admin AI Refinement Workspace
+## Page 1: Entry and Role Selection
 
 ### Purpose
 
-This is the main MVP screen. Show how raw notes become structured draft user stories.
+Provide a lightweight entry point that helps users choose the correct prototype path without inventing a large application shell.
+
+### Required Content
+
+- Short product summary explaining that the platform turns ambiguous notes into approved planning artifacts
+- Two role cards only:
+   - **Admin**: create, refine, approve, and export planning content
+   - **Viewer**: review approved planning content in read-only mode
+- Primary emphasis on **Continue as Admin**
+- Secondary emphasis on **Continue as Viewer**
+- Calm, content-first layout with minimal navigation
+
+## Page 2: Admin Sign Up
+
+### Purpose
+
+Show a simple Admin account creation view that supports prototype entry without implying open client registration.
+
+### Required Content
+
+- Page title: **Create Admin Account**
+- Fields:
+   - Full name
+   - Work email
+   - Password
+   - Confirm password
+- Checkbox for agreeing to terms or prototype conditions
+- Primary action: **Create Account**
+- Secondary link: **Already have an account? Sign In**
+- Helper text that only Admin users create and manage planning workspaces
+
+### Required States
+
+- Default
+- Validation error
+- Loading / creating account
+- Success confirmation
+
+### Explicit Omissions
+
+- No social signup
+- No client self-service signup
+- No advanced profile setup
+
+## Page 3: Admin Sign In
+
+### Purpose
+
+Show a minimal and trustworthy login experience before the Admin enters the planning workspace.
+
+### Required Content
+
+- Page title: **Admin Sign In**
+- Email field
+- Password field
+- Optional **Remember me** checkbox
+- Primary action: **Sign In**
+- Secondary links:
+   - **Forgot password?**
+   - **Create account**
+- Optional informational link or inline state for email confirmation
+
+### Required States
+
+- Default
+- Validation error
+- Loading / signing in
+- Unconfirmed account notice
+
+## Page 4: Forgot Password
+
+### Purpose
+
+Show the request step for password recovery.
+
+### Required Content
+
+- Page title: **Forgot Password**
+- Short explanation telling the Admin to enter their email to receive a reset link
+- Email field
+- Primary action: **Send Reset Link**
+- Secondary action: **Back to Sign In**
+
+### Required States
+
+- Default
+- Validation error
+- Loading
+- Success message: **Reset link sent. Please check your inbox.**
+
+## Page 5: Reset Password
+
+### Purpose
+
+Show the password reset completion step after the Admin follows the email link.
+
+### Required Content
+
+- Page title: **Reset Password**
+- New password field
+- Confirm new password field
+- Primary action: **Update Password**
+- Secondary action: **Back to Sign In**
+
+### Required States
+
+- Default
+- Validation error
+- Loading
+- Success confirmation: **Password updated successfully. You can now sign in.**
+
+## Page 6: Admin AI Requirements Refinement Workspace
+
+### Purpose
+
+This is the core application functionality. Show how raw notes become structured draft requirements and user stories.
 
 ### Required Sections
 
@@ -97,6 +217,7 @@ This is the main MVP screen. Show how raw notes become structured draft user sto
    - Large TextArea for ambiguous notes or bullet lists
    - Primary action: **Refine Notes**
    - Secondary action: **Clear**
+   - Optional helper text that explains the AI turns vague notes into structured requirements drafts
 
 3. **Ambiguity Review**
    - Show the original notes with inline warning highlights
@@ -109,6 +230,7 @@ This is the main MVP screen. Show how raw notes become structured draft user sto
      - User story in the format: "As a... I want... so that..."
      - Acceptance criteria list
      - Status tag: **Draft**
+     - Optional requirement summary or requirement grouping label such as **Functional Requirement** or **Planning Note**
    - Admin may see edit affordances on this page only
 
 5. **Approval Area**
@@ -123,11 +245,11 @@ This is the main MVP screen. Show how raw notes become structured draft user sto
 - Draft ready
 - Approved confirmation
 
-## Page 2: Admin Backlog View
+## Page 7: Admin Backlog View and Markdown Export
 
 ### Purpose
 
-Show the official approved planning backlog for the Admin role.
+Show the official approved planning backlog for the Admin role and the export-to-Markdown outcome.
 
 ### Required Content
 
@@ -137,14 +259,17 @@ Show the official approved planning backlog for the Admin role.
 - Optional grouping or labels to distinguish approved content clearly
 - **Internal Notes** area visible only to Admin
 - Primary action: **Export Markdown**
+- Export panel, modal, or inline confirmation that clarifies the export creates a `.md` file containing approved stories and acceptance criteria only
+- Success state that confirms the Markdown file was prepared or downloaded
 
 ### Required States
 
 - Empty backlog
 - Mixed review context if helpful, but approved content must remain visually clear
 - Export-ready state
+- Export success state
 
-## Page 3: Viewer Backlog View
+## Page 8: Viewer Backlog View
 
 ### Purpose
 
@@ -165,7 +290,7 @@ Show how a client safely reviews approved planning content.
 - No internal notes
 - No Admin-only actions
 
-## Page 4: Optional Onboarding Overlay
+## Page 9: Optional Onboarding Overlay
 
 ### Purpose
 
@@ -182,8 +307,12 @@ Provide lightweight first-time guidance for the Admin workflow.
 
 ## Interaction Expectations
 
+- Role selection must clearly split the Admin editing path from the Viewer read-only path.
+- Sign Up, Sign In, Forgot Password, and Reset Password must feel simple, trustworthy, and low-friction.
 - Ambiguity must appear inline with the raw notes context.
+- AI refinement must feel like the core workflow of the product.
 - Approval must feel separate from generation.
+- Export must clearly represent a Markdown file output for approved stories only.
 - Viewer screens must preserve planning context without exposing editing.
 - Internal notes must be clearly separated in Admin views and entirely absent from Viewer views.
 - Labels such as **Draft**, **Approved**, and **Read-only** must be obvious at a glance.
@@ -206,5 +335,7 @@ Provide lightweight first-time guidance for the Admin workflow.
 
 - Use realistic placeholder content rather than final marketing copy.
 - Keep terminology aligned with: **Discovery**, **Planning**, **Admin**, **Viewer**, **user stories**, **acceptance criteria**, and **internal notes**.
+- For auth screens, use concise placeholder copy for account creation, sign in, password recovery, and reset confirmation.
+- For export, show a believable file name such as `client-portal-refresh-approved-stories.md`.
 - Keep copy concise and easy for non-technical stakeholders to review.
 ```
