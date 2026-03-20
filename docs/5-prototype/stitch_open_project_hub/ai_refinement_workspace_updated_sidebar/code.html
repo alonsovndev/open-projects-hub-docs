@@ -1,0 +1,244 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Requirements Refinement Workspace - Anthesis Corporate</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#1677ff",
+              "surface": "#ffffff",
+              "background": "#f5f7fa",
+              "outline": "#f0f0f0",
+              "on-surface": "#141414",
+              "on-surface-variant": "#595959",
+              "success": "#52c41a",
+              "warning": "#faad14",
+              "error": "#ff4d4f"
+            },
+            fontFamily: {
+              "sans": ["Inter", "ui-sans-serif", "system-ui"],
+            },
+            borderRadius: {
+              "DEFAULT": "4px",
+              "lg": "4px",
+              "xl": "6px",
+              "full": "9999px"
+            },
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        .ant-btn-primary {
+            background-color: #1677ff;
+            transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+        }
+        .ant-btn-primary:hover {
+            background-color: #4096ff;
+            box-shadow: 0 2px 0 rgba(5, 145, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface antialiased overflow-x-hidden font-sans">
+<!-- SideNavBar Component -->
+<aside class="fixed left-0 top-0 h-full w-64 z-40 bg-white border-r border-outline flex flex-col">
+<div class="p-6 mb-2">
+<div class="flex items-center gap-3 mb-1">
+<div class="w-8 h-8 rounded bg-primary flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-lg" data-icon="auto_awesome" style="">auto_awesome</span>
+</div>
+<span class="text-lg font-bold text-on-surface tracking-tight" style="">Project Workspace</span>
+</div>
+<p class="text-[10px] text-on-surface-variant font-bold uppercase tracking-widest opacity-60" style="">Anthesis Corporate</p>
+</div>
+<nav class="flex-1 flex flex-col px-3 gap-1">
+<a class="flex items-center gap-3 px-4 py-2.5 text-on-surface-variant hover:text-primary hover:bg-[#f5f5f5] transition-colors rounded" href="#" style="">
+<span class="material-symbols-outlined text-[20px]" data-icon="dashboard" style="">dashboard</span>
+<span class="font-medium text-sm" style="">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2.5 text-on-surface-variant hover:text-primary hover:bg-[#f5f5f5] transition-colors rounded" href="#" style="">
+<span class="material-symbols-outlined text-[20px]" data-icon="event_note" style="">event_note</span>
+<span class="font-medium text-sm" style="">Projects</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2.5 text-primary font-semibold bg-[#e6f4ff] rounded transition-colors" href="#" style="">
+<span class="material-symbols-outlined text-[20px]" data-icon="auto_awesome" style="">auto_awesome</span>
+<span class="font-medium text-sm" style="">AI Stories</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2.5 text-on-surface-variant hover:text-primary hover:bg-[#f5f5f5] transition-colors rounded" href="#" style="">
+<span class="material-symbols-outlined text-[20px]" data-icon="list_alt" style="">list_alt</span>
+<span class="font-medium text-sm" style="">Backlog</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2.5 text-on-surface-variant hover:text-primary hover:bg-[#f5f5f5] transition-colors rounded" href="#" style="">
+<span class="material-symbols-outlined text-[20px]" data-icon="settings" style="">settings</span>
+<span class="font-medium text-sm" style="">Settings</span>
+</a>
+</nav>
+<div class="mt-auto p-4 border-t border-outline">
+<button class="w-full bg-[#f5f5f5] text-on-surface-variant py-2 rounded font-bold text-[11px] mb-4 hover:bg-[#eeeeee] transition-colors border border-outline uppercase tracking-wider" style="">ADMIN MODE</button>
+<div class="flex flex-col gap-1">
+<a class="flex items-center gap-3 text-on-surface-variant px-4 py-2 hover:bg-[#f5f5f5] rounded transition-all text-xs" href="#" style="">
+<span class="material-symbols-outlined text-lg" data-icon="help" style="">help</span>
+<span class="" style="">Support</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Top Navigation -->
+<header class="fixed top-0 left-64 right-0 h-16 bg-white z-30 border-b border-outline flex items-center justify-between px-8">
+<div class="flex items-center gap-2 text-sm">
+<span class="text-on-surface-variant opacity-60" style="">Projects</span>
+<span class="material-symbols-outlined text-on-surface-variant opacity-40 text-sm" data-icon="chevron_right" style="">chevron_right</span>
+<span class="font-medium text-on-surface" style="">Client Portal Refresh</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="w-8 h-8 rounded-full bg-[#f5f5f5] border border-outline flex items-center justify-center text-xs font-bold text-on-surface-variant" style="">AV</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="ml-64 pt-16 min-h-screen">
+<div class="p-8 max-w-7xl mx-auto">
+<!-- Page Header -->
+<header class="mb-8 flex justify-between items-center">
+<div>
+<h1 class="text-2xl font-bold text-on-surface flex items-center gap-3 tracking-tight" style="">
+                    Client Portal Refresh
+                    <span class="px-2 py-0.5 bg-[#e6f4ff] text-primary text-[10px] font-bold rounded border border-[#91caff] uppercase tracking-widest" style="">DISCOVERY PHASE</span>
+</h1>
+</div>
+<button class="ant-btn-primary text-white px-6 py-2 rounded font-bold text-sm flex items-center gap-2 shadow-sm" style="">
+<span class="material-symbols-outlined text-lg" data-icon="check" style="">check</span>
+                Approve All Stories
+            </button>
+</header>
+<!-- Two-Column Workspace -->
+<div class="grid grid-cols-12 gap-8 mb-12">
+<!-- Left Column: AI Refinement (1/3) -->
+<div class="col-span-12 lg:col-span-4 space-y-6">
+<div class="bg-white border border-outline rounded shadow-sm overflow-hidden">
+<div class="px-6 py-4 border-b border-outline flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-xl" data-icon="contactless" style="">contactless</span>
+<h2 class="font-bold text-on-surface tracking-tight" style="">AI Refinement</h2>
+</div>
+<div class="p-6">
+<label class="block text-sm font-semibold text-on-surface-variant mb-3" style="">Raw Discovery Notes</label>
+<div class="bg-[#fafafa] border border-outline rounded p-4 mb-4">
+<textarea class="w-full bg-transparent border-none p-0 text-sm text-on-surface leading-relaxed focus:ring-0 resize-none h-64 placeholder:text-on-surface-variant/40" placeholder="Paste requirements here...">Client needs a modern portal. They want to see progress on tasks and be able to upload files. Sometimes they want to message the team. The portal should look professional and fast.</textarea>
+</div>
+<div class="flex gap-2"><button class="px-4 py-2.5 border border-outline rounded text-on-surface-variant font-bold text-sm hover:bg-[#f5f5f5] transition-colors" style="">Clear</button><button class="flex-1 ant-btn-primary text-white font-bold py-2.5 rounded text-sm flex items-center justify-center gap-2 shadow-sm" style=""><span class="material-symbols-outlined text-lg" data-icon="auto_awesome" style="">auto_awesome</span>Generate Stories</button></div>
+</div>
+</div>
+</div>
+<!-- Right Column: Generated Stories (2/3) -->
+<div class="col-span-12 lg:col-span-8 space-y-4">
+<div class="flex items-center justify-between mb-2 px-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="list" style="">list</span>
+<h2 class="text-lg font-bold text-on-surface tracking-tight" style="">Generated Stories (Draft)</h2>
+</div>
+<span class="text-xs text-on-surface-variant opacity-60 font-medium" style="">3 Drafts pending approval</span>
+</div>
+<!-- Story Card 1 -->
+<div class="bg-white border-l-4 border-l-warning border border-outline rounded p-6 shadow-sm group hover:shadow-md transition-shadow relative">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-bold text-on-surface text-base" style="">As a client, I want to view the status of my tasks</h4>
+<div class="flex gap-2 text-on-surface-variant/30">
+<button class="material-symbols-outlined text-lg hover:text-on-surface-variant" data-icon="edit" style="">edit</button>
+<button class="material-symbols-outlined text-lg hover:text-primary" data-icon="check_circle" style="">check_circle</button>
+<button class="material-symbols-outlined text-lg hover:text-error" data-icon="cancel" style="">cancel</button>
+</div>
+</div>
+<p class="text-sm text-on-surface-variant italic mb-6" style="">So that I can track project progress without emailing the team.</p>
+<div class="bg-[#fafafa] rounded p-5 border border-outline">
+<p class="text-[10px] font-black text-on-surface-variant opacity-40 uppercase tracking-[0.15em] mb-4" style="">Acceptance Criteria</p>
+<ul class="space-y-3">
+<li class="flex items-start gap-3 text-sm text-on-surface" style="">
+<span class="material-symbols-outlined text-on-surface-variant/20 text-lg leading-none" data-icon="check_box_outline_blank" style="">check_box_outline_blank</span>
+                                Task list view showing 'To Do', 'In Progress', 'Done'.
+                            </li>
+<li class="flex items-start gap-3 text-sm text-on-surface" style="">
+<span class="material-symbols-outlined text-on-surface-variant/20 text-lg leading-none" data-icon="check_box_outline_blank" style="">check_box_outline_blank</span>
+                                Ability to click a task for more details.
+                            </li>
+</ul>
+</div>
+</div>
+<!-- Story Card 2 -->
+<div class="bg-white border-l-4 border-l-warning border border-outline rounded p-6 shadow-sm group hover:shadow-md transition-shadow relative">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-bold text-on-surface text-base" style="">As a client, I want to upload files securely</h4>
+<div class="flex gap-2 text-on-surface-variant/30">
+<button class="material-symbols-outlined text-lg hover:text-on-surface-variant" data-icon="edit" style="">edit</button>
+<button class="material-symbols-outlined text-lg hover:text-primary" data-icon="check_circle" style="">check_circle</button>
+<button class="material-symbols-outlined text-lg hover:text-error" data-icon="cancel" style="">cancel</button>
+</div>
+</div>
+<p class="text-sm text-on-surface-variant italic mb-6" style="">So that I can easily share assets with the freelance team.</p>
+<div class="bg-[#fafafa] rounded p-5 border border-outline">
+<p class="text-[10px] font-black text-on-surface-variant opacity-40 uppercase tracking-[0.15em] mb-4" style="">Acceptance Criteria</p>
+<ul class="space-y-3">
+<li class="flex items-start gap-3 text-sm text-on-surface" style="">
+<span class="material-symbols-outlined text-on-surface-variant/20 text-lg leading-none" data-icon="check_box_outline_blank" style="">check_box_outline_blank</span>
+                                Drag and drop file upload area.
+                            </li>
+<li class="flex items-start gap-3 text-sm text-on-surface" style="">
+<span class="material-symbols-outlined text-on-surface-variant/20 text-lg leading-none" data-icon="check_box_outline_blank" style="">check_box_outline_blank</span>
+                                Supported formats: JPG, PNG, PDF, ZIP.
+                            </li>
+<li class="flex items-start gap-3 text-sm text-on-surface" style="">
+<span class="material-symbols-outlined text-on-surface-variant/20 text-lg leading-none" data-icon="check_box_outline_blank" style="">check_box_outline_blank</span>
+                                Max file size limit shown clearly.
+                            </li>
+</ul>
+</div>
+</div>
+<!-- Story Card 3 -->
+<div class="bg-white border-l-4 border-l-warning border border-outline rounded p-6 shadow-sm group hover:shadow-md transition-shadow relative">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-bold text-on-surface text-base flex items-center gap-2" style="">
+<span class="material-symbols-outlined text-warning text-xl" data-icon="warning" style="">warning</span>
+                            As a client, I want to message the team
+                        </h4>
+<div class="flex gap-2 text-on-surface-variant/30">
+<button class="material-symbols-outlined text-lg hover:text-on-surface-variant" data-icon="edit" style="">edit</button>
+<button class="material-symbols-outlined text-lg hover:text-primary" data-icon="check_circle" style="">check_circle</button>
+<button class="material-symbols-outlined text-lg hover:text-error" data-icon="cancel" style="">cancel</button>
+</div>
+</div>
+<p class="text-sm text-on-surface-variant italic mb-6" style="">So that I can communicate directly within the portal.</p>
+<div class="bg-[#fafafa] rounded p-5 border border-outline">
+<p class="text-[10px] font-black text-on-surface-variant opacity-40 uppercase tracking-[0.15em] mb-4" style="">Acceptance Criteria</p>
+<ul class="space-y-3">
+<li class="flex items-start gap-3 text-sm text-on-surface" style="">
+<span class="material-symbols-outlined text-on-surface-variant/20 text-lg leading-none" data-icon="check_box_outline_blank" style="">check_box_outline_blank</span>
+                                Messaging interface accessible from sidebar.
+                            </li>
+<li class="flex items-start gap-3 text-sm text-on-surface" style="">
+<span class="material-symbols-outlined text-on-surface-variant/20 text-lg leading-none" data-icon="check_box_outline_blank" style="">check_box_outline_blank</span>
+                                Real-time message indicators.
+                            </li>
+</ul>
+</div>
+</div>
+<button class="w-full py-4 border border-dashed border-outline rounded text-on-surface-variant/40 hover:text-primary hover:border-primary hover:bg-[#e6f4ff]/10 transition-all flex items-center justify-center gap-2 font-bold text-sm" style=""><br></button>
+</div>
+</div>
+<!-- Project Backlog Section -->
+</div>
+</main>
+<!-- Sticky Bottom Footer -->
+<footer class="fixed bottom-0 left-64 right-0 h-16 bg-white border-t border-outline flex items-center px-8 z-30">
+<div class="flex items-center gap-2 text-xs font-bold text-on-surface-variant opacity-40 cursor-pointer hover:opacity-100 transition-opacity" style=""><span class="material-symbols-outlined text-sm" data-icon="keyboard_command_key" style="">keyboard_command_key</span>
+<span class="" style=""><br></span></div>
+</footer>
+</body></html>

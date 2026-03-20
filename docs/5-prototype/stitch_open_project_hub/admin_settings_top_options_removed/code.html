@@ -1,0 +1,266 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Settings | Architectural Sentinel</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary-container": "#006ef2",
+                        "on-primary-fixed": "#001a43",
+                        "surface-variant": "#e2e2e2",
+                        "inverse-primary": "#afc6ff",
+                        "inverse-on-surface": "#f1f1f1",
+                        "on-tertiary-fixed": "#351000",
+                        "surface": "#f9f9f9",
+                        "on-primary-fixed-variant": "#004398",
+                        "tertiary-fixed-dim": "#ffb695",
+                        "on-tertiary-fixed-variant": "#7c2e00",
+                        "surface-dim": "#dadada",
+                        "tertiary-container": "#c64f00",
+                        "on-error-container": "#93000a",
+                        "primary-fixed": "#d9e2ff",
+                        "on-primary-container": "#fefcff",
+                        "error-container": "#ffdad6",
+                        "surface-bright": "#f9f9f9",
+                        "secondary-fixed": "#e4e2e2",
+                        "tertiary-fixed": "#ffdbcc",
+                        "inverse-surface": "#2f3131",
+                        "tertiary": "#9e3d00",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "primary-fixed-dim": "#afc6ff",
+                        "secondary-container": "#e1dfdf",
+                        "outline": "#727786",
+                        "on-surface": "#1a1c1c",
+                        "primary": "#0057c2",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-fixed-dim": "#c7c6c6",
+                        "outline-variant": "#c1c6d7",
+                        "surface-container-high": "#e8e8e8",
+                        "on-secondary-container": "#636262",
+                        "surface-container": "#eeeeee",
+                        "secondary": "#5e5e5e",
+                        "on-tertiary-container": "#fffbff",
+                        "on-primary": "#ffffff",
+                        "on-secondary-fixed-variant": "#464747",
+                        "on-error": "#ffffff",
+                        "error": "#ba1a1a",
+                        "on-surface-variant": "#414755",
+                        "surface-container-highest": "#e2e2e2",
+                        "on-background": "#1a1c1c",
+                        "surface-container-low": "#f3f3f3",
+                        "background": "#f9f9f9",
+                        "surface-tint": "#0059c7",
+                        "on-secondary-fixed": "#1b1c1c"
+                    },
+                    fontFamily: {
+                        "headline": ["Inter", "sans-serif"],
+                        "body": ["Inter", "sans-serif"],
+                        "label": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface selection:bg-primary-fixed selection:text-on-primary-fixed">
+<div class="flex min-h-screen">
+<!-- Sidebar Navigation (JSON: SideNavBar) -->
+<aside class="hidden md:flex flex-col h-screen w-64 fixed left-0 top-0 bg-slate-50 border-r-0 z-50 py-6 px-4">
+<div class="mb-10 px-2">
+<h1 class="text-xl font-bold text-slate-900 tracking-tighter" style="">Open Project Hub</h1>
+<p class="text-xs font-medium text-slate-500 uppercase tracking-widest mt-1" style=""><br></p>
+</div>
+<nav class="flex-1 space-y-1">
+<!-- Dashboard -->
+<a class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium transition-colors duration-200 text-slate-500 hover:text-slate-900 hover:bg-slate-200" href="#" style="">
+<span class="material-symbols-outlined" data-icon="dashboard" style="">dashboard</span>
+<span class="" style="">Dashboard</span>
+</a>
+<!-- Projects -->
+<a class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium transition-colors duration-200 text-slate-500 hover:text-slate-900 hover:bg-slate-200" href="#" style="">
+<span class="material-symbols-outlined" data-icon="folder_open" style="">folder_open</span>
+<span class="" style="">Projects</span>
+</a>
+<!-- AI Stories -->
+<a class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium transition-colors duration-200 text-slate-500 hover:text-slate-900 hover:bg-slate-200" href="#" style="">
+<span class="material-symbols-outlined" data-icon="auto_awesome" style="">auto_awesome</span>
+<span class="" style="">AI Stories</span>
+</a>
+<!-- Backlog -->
+<a class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium transition-colors duration-200 text-slate-500 hover:text-slate-900 hover:bg-slate-200" href="#" style="">
+<span class="material-symbols-outlined" data-icon="reorder" style="">reorder</span>
+<span class="" style="">Backlog</span>
+</a>
+<!-- Settings (Active) -->
+<a class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium transition-all text-blue-700 border-l-2 border-blue-700 bg-slate-200/50" href="#" style="">
+<span class="material-symbols-outlined" data-icon="settings" style="">settings</span>
+<span class="" style="">Settings</span>
+</a>
+</nav>
+<div class="mt-auto pt-6 px-2 flex items-center gap-3">
+<img alt="Admin User Profile" class="w-8 h-8 rounded-full bg-slate-200" data-alt="Admin profile avatar placeholder" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIw4oRl4uZYQOv8Elv5PcHQz5JhizqY6PjKofU1WYVG1F3gpFD3urMqCJtPpoxWOKE1JEAmccPQDLs-4WvoXxyKUmVUDfd8g_zwmsvbKrRBAHqSpcGy-Ag7X3ZB9fiLQU1GJ9a2WX45VQ3-cWOCzEVm2JyOKVKp_Lyh11fN0boCdbKV7-HSCul-RzzlCcelPXcW3dFUD6Os9zu00i4Fi_gS_38UgtPdj-yaBOUeWTL_v5GT-lLy7q6v10wIkoTyB85ZzX4Tk38YAW3" style="">
+<div class="overflow-hidden">
+<p class="text-xs font-bold text-slate-900 truncate" style="">Administrator</p>
+<p class="text-[10px] text-slate-500 truncate" style="">admin@sentinel.io</p>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 md:ml-64 bg-surface min-h-screen">
+<!-- Top App Bar (JSON: TopAppBar) -->
+<header class="sticky top-0 z-40 w-full bg-white/80 backdrop-blur-md shadow-sm border-b border-slate-200/50 flex items-center justify-between px-6 h-16">
+<div class="flex items-center gap-4">
+<span class="md:hidden material-symbols-outlined text-slate-600" style="">menu</span>
+<span class="text-lg font-black tracking-tighter text-slate-900" style="">Architectural Sentinel</span>
+</div>
+<div class="flex items-center gap-4">
+</div>
+</header>
+<!-- Page Content -->
+<div class="max-w-4xl mx-auto py-12 px-6">
+<header class="mb-12">
+<h2 class="text-4xl font-black text-on-surface tracking-tight mb-2" style="">Settings</h2>
+<p class="text-on-surface-variant max-w-2xl font-medium" style="">Configure your personal preferences and workspace environment for Architectural Sentinel.</p>
+</header>
+<div class="space-y-16">
+<!-- Section 1: Appearance -->
+<section>
+<div class="mb-6">
+<h3 class="text-xs font-bold uppercase tracking-[0.2em] text-primary mb-1" style="">Visual Identity</h3>
+<h4 class="text-xl font-bold text-on-surface" style="">Appearance &amp; Theme</h4>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+<!-- Light Mode Card -->
+<button class="group relative flex flex-col text-left transition-all focus:outline-none ring-offset-2 focus:ring-2 focus:ring-primary/20" style="">
+<div class="w-full aspect-video rounded-xl bg-white border-4 border-primary ring-4 ring-primary/5 flex flex-col p-3 mb-3">
+<div class="w-full h-2 bg-slate-100 rounded-sm mb-2"></div>
+<div class="w-2/3 h-2 bg-slate-100 rounded-sm mb-2"></div>
+<div class="mt-auto flex gap-1">
+<div class="w-4 h-4 rounded-full bg-primary/20"></div>
+<div class="w-4 h-4 rounded-full bg-slate-100"></div>
+</div>
+</div>
+<div class="flex items-center justify-between w-full px-1">
+<span class="text-sm font-bold text-on-surface" style="">Light Mode</span>
+<span class="material-symbols-outlined text-primary text-lg" style="font-variation-settings: &quot;FILL&quot; 1;">check_circle</span>
+</div>
+</button>
+<!-- Dark Mode Card -->
+<button class="group relative flex flex-col text-left transition-all focus:outline-none opacity-60 hover:opacity-100" style="">
+<div class="w-full aspect-video rounded-xl bg-slate-900 flex flex-col p-3 mb-3 overflow-hidden">
+<div class="w-full h-2 bg-slate-800 rounded-sm mb-2"></div>
+<div class="w-2/3 h-2 bg-slate-800 rounded-sm mb-2"></div>
+<div class="mt-auto flex gap-1">
+<div class="w-4 h-4 rounded-full bg-blue-900/50"></div>
+<div class="w-4 h-4 rounded-full bg-slate-800"></div>
+</div>
+</div>
+<div class="px-1">
+<span class="text-sm font-bold text-on-surface" style="">Dark Mode</span>
+</div>
+</button>
+<!-- System Card -->
+</div>
+</section>
+<!-- Section 2: Language & Region -->
+<section class="bg-surface-container-low p-8 rounded-xl">
+<div class="mb-6">
+<h3 class="text-xs font-bold uppercase tracking-[0.2em] text-primary mb-1" style="">Localization</h3>
+<h4 class="text-xl font-bold text-on-surface" style="">Language &amp; Region</h4>
+</div>
+<div class="grid grid-cols-1 gap-8">
+<div class="space-y-2 max-w-sm">
+<label class="text-xs font-bold text-on-surface-variant uppercase tracking-wider" style="">Interface Language</label>
+<div class="relative">
+<select class="w-full bg-surface-container-lowest border-none h-11 px-4 text-sm font-medium rounded-lg appearance-none focus:ring-2 focus:ring-primary/20 transition-all">
+<option value="en">English (US)</option>
+<option value="es">Español</option>
+<option value="fr">Français</option>
+<option value="de">Deutsch</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400" style="">unfold_more</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 3: Profile Summary -->
+<section>
+<div class="mb-6">
+<h3 class="text-xs font-bold uppercase tracking-[0.2em] text-primary mb-1" style="">Administrative</h3>
+<h4 class="text-xl font-bold text-on-surface" style="">Profile Summary</h4>
+</div>
+<div class="bg-surface-container-lowest p-1 border-0 shadow-[0_12px_32px_rgba(26,28,28,0.06)] rounded-2xl overflow-hidden">
+<div class="flex items-center gap-6 p-8">
+<div class="relative group">
+<img alt="User Avatar" class="w-20 h-20 rounded-xl bg-surface-container-high" data-alt="High resolution administrator avatar profile" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3VBwHveEE1ntZrnkTxG0nE-FGjLYujHcDdKoe9XDWmfpaiMFW1JjWVqVcVMWuljO2hU7mc834_QuXm6s5cLIMuEje9y147bNbaUwCYKpCIqG81lcE9-Wmk2ymXI_QpXRlYj5zNu1P8catc2A3KmMZyj4NIArOQvM-DNvc4uD1kIqKgfwR0Xjus1IEDo0GNpXoqUvYkdr1X5i2633bBJ5QNTvzGjKvJXz1zFomSe5-X8wBhsv25FSvGEljxg6UpHr_zVxAvSQGurHa" style="">
+<div class="absolute inset-0 bg-primary/20 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer">
+<span class="material-symbols-outlined text-white" style="">edit</span>
+</div>
+</div>
+<div class="flex-1 space-y-4">
+<div class="grid grid-cols-2 gap-y-4">
+<div>
+<p class="text-[10px] font-black uppercase tracking-widest text-on-surface-variant mb-1" style="">Full Legal Name</p>
+<p class="text-base font-bold text-on-surface" style="">Administrator Sentinel</p>
+</div>
+<div>
+<p class="text-[10px] font-black uppercase tracking-widest text-on-surface-variant mb-1" style="">Auth Email Address</p>
+<p class="text-base font-bold text-on-surface" style="">admin@sentinel.io</p>
+</div>
+<div>
+<p class="text-[10px] font-black uppercase tracking-widest text-on-surface-variant mb-1" style="">Account Role</p>
+<div class="inline-flex items-center px-2 py-0.5 bg-tertiary-fixed text-on-tertiary-fixed text-[10px] font-bold rounded-sm" style="">
+                                                ROOT PRIVILEGES
+                                            </div>
+</div>
+<div>
+<p class="text-[10px] font-black uppercase tracking-widest text-on-surface-variant mb-1" style=""><br></p>
+<div class="flex items-center gap-1.5 text-emerald-600">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: &quot;FILL&quot; 1;">verified_user</span>
+<span class="text-[10px] font-bold" style=""><br></span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-low px-8 py-4 flex justify-between items-center border-t border-slate-100"><button class="text-xs font-bold text-primary hover:underline transition-all mr-4" style="">Change Password</button>
+<p class="text-[10px] text-on-surface-variant font-medium italic" style=""><br></p>
+<button class="text-xs font-bold text-primary hover:underline transition-all" style="">Request Changes</button>
+</div>
+</div>
+</section>
+<!-- Danger Zone (Extra Component for Editorial completeness) -->
+</div>
+<footer class="mt-24 pb-12 border-t border-slate-200/50 pt-8 flex items-center justify-between">
+<p class="text-xs text-slate-400 font-medium" style=""><br></p>
+<div class="flex gap-6">
+<a class="text-xs font-bold text-slate-500 hover:text-primary transition-colors" href="#" style="">Documentation</a>
+<a class="text-xs font-bold text-slate-500 hover:text-primary transition-colors" href="#" style="">Privacy Policy</a>
+<a class="text-xs font-bold text-slate-500 hover:text-primary transition-colors" href="#" style="">Support</a>
+</div>
+</footer>
+</div>
+</main>
+</div>
+</body></html>
