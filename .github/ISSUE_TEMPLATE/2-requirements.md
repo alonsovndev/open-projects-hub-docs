@@ -3,7 +3,7 @@ name: "2 📋 Functional & Non-Functional Requirements"
 about: "Document functional and non-functional requirements for the project."
 title: "[requirements] Functional & Non-Functional Requirements"
 labels: ["requirements", "planning", "documentation"]
-assignees: ["business-analyst"]
+assignees: ["product-owner"]
 ---
 
 ## 📋 Functional & Non-Functional Requirements Template

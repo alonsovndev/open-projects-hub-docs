@@ -12,6 +12,13 @@ This is a documentation repository that serves as the central knowledge base for
 - Project documentation and planning
 - Utility templates and tools
 
+## Operational Guardrails
+
+- This is a documentation repository. Produce documentation, diagrams, templates, and reference snippets only.
+- Do not implement application features, scaffold production code, run migrations, or execute app build/test workflows for this repository.
+- Follow instructions in this order: `AGENTS.md`, canonical docs in `docs/`, shared guidance in `.github/skills/`, then agent-specific files.
+- Keep shared role guidance centralized and reference shared files instead of duplicating long instructions across multiple agents.
+
 ## Documentation Standards
 
 ### Structure and Organization
@@ -166,12 +173,12 @@ This repository documents several specialized agents:
 - Ensures accessibility and usability
 - Defines design systems
 
-### PM Agent
+### Product Owner Agent
 
-- Manages project planning and coordination
-- Defines requirements and acceptance criteria
-- Tracks progress and prioritizes tasks
-- Facilitates team communication
+- Owns stakeholder discovery, requirements clarification, and planning documentation
+- Defines requirements, acceptance criteria, and roadmap priorities
+- Breaks work into user stories and implementation-ready planning artifacts
+- Absorbs former business-analyst responsibilities in a single planning role
 
 ## Contribution Guidelines
 

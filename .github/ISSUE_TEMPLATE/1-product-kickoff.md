@@ -3,7 +3,7 @@ name: "1 🚀 Project Kickoff"
 about: "Kickoff a new project by addressing open questions and documenting user personas based on the provided project overview."
 title: "[kickoff] Project Kickoff"
 labels: ["kickoff", "planning", "documentation"]
-assignees: ["business-analyst"]
+assignees: ["product-owner"]
 ---
 
 ## 🚀 Project Kickoff

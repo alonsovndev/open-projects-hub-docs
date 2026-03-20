@@ -19,13 +19,23 @@ As an agent in this repository, your primary job is to write, organize, and main
 
 ---
 
-## 🚀 2. Reference Commands (For Documentation & Setup Guides)
+## 🧭 2. Instruction Precedence & Compatibility
+
+- **Repository Guardrails First:** `AGENTS.md` is the top-level policy for behavior in this repository.
+- **Canonical Sources Next:** Use approved architecture and planning docs in `docs/` before relying on agent defaults.
+- **Shared Guidance:** Keep cross-system guidance centralized in `.github/skills/` so `opencode` and GitHub agent setups can share the same playbooks without duplicating content.
+- **System-Specific Files Last:** Treat `.opencode/agents/` and `.github/agents/` as execution-layer instructions that must not contradict the repository guardrails.
+- **Unified Planning Role:** The `product-owner` role absorbs former business-analyst responsibilities, including discovery, requirements clarification, prioritization, and planning documentation.
+
+---
+
+## 🚀 3. Reference Commands (For Documentation & Setup Guides)
 
 When writing setup guides, READMEs, PRDs, or developer onboarding docs for the actual code repositories, use the following standard ecosystem commands as your single source of truth. DO NOT run these to build this repo, they are for your reference when documenting the actual project repositories.
 
 ---
 
-## 🎨 3. Reference Code Style Guidelines (For Code Snippets)
+## 🎨 4. Reference Code Style Guidelines (For Code Snippets)
 
 When generating code examples, architectural references, or templates within the documentation, strictly adhere to these guidelines to ensure consistency with the actual monorepo:
 
@@ -50,7 +60,7 @@ When generating code examples, architectural references, or templates within the
 
 ---
 
-## 🔧 4. Output Optimization Guidelines
+## 🔧 5. Output Optimization Guidelines
 
 ### Verbosity Levels
 
@@ -89,7 +99,7 @@ When generating code examples, architectural references, or templates within the
 
 ---
 
-## 🤖 5. Embedded AI Agent Roles
+## 🤖 6. Embedded AI Agent Roles
 
 _(Sourced from `.github/copilot-instructions.md`)_
 
@@ -135,7 +145,7 @@ When taking on specific tasks in this documentation repository, assume the follo
   - Creating CI/CD workflows for consistent deployments and testing pipelines.
   - Debugging production issues and optimizing backend performance.
   - Documenting technical approaches through detailed guides and READMEs.
-- **PM / Business Analyst Agent:** Drafts PRDs, user stories, and acceptance criteria based on the MVP scope. Maps features to Jira tasks.
+- **Product Owner Agent:** Owns stakeholder discovery, requirements clarification, prioritization, PRDs, user stories, and acceptance criteria. Serves as the unified planning role for both product-owner and former business-analyst responsibilities.
 
 ---
 
