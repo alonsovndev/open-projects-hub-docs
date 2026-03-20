@@ -3,10 +3,10 @@ name: "5 🗄️ Database Design"
 about: "Define the database schema and design for the project."
 title: "[database] Database Design"
 labels: ["database", "design", "planning"]
-assignees: ["database-administrator"]
+assignees: ["tech-lead"]
 ---
 
-- **As a** Database Administrator,
+- **As a** Tech Lead,
 - **I want to** define the database schema and design for the project,
 - **So that** the team has a clear and scalable data structure to support development efforts.
 

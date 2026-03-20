@@ -1,6 +1,11 @@
-# Unified Product Owner Playbook
+---
+name: product-owner-playbook
+description: "Use when handling product-owner work such as discovery, requirements, prioritization, PRDs, roadmaps, and implementation-ready user stories."
+---
 
-Use this playbook for the unified `product-owner` role. It absorbs former business-analyst responsibilities.
+# Product Owner Playbook
+
+Use this playbook for the unified `product-owner` role.
 
 ## Mission
 
@@ -48,18 +53,23 @@ Turn stakeholder goals into clear, prioritized, implementation-ready documentati
 # Discovery Summary: [Topic]
 
 ## Context
+
 - [Current workflow or situation]
 
 ## Pain Points
+
 - [Pain point]
 
 ## Desired Outcomes
+
 - [Outcome]
 
 ## Constraints
+
 - [Constraint]
 
 ## Open Questions
+
 - [Question]
 ```
 
@@ -69,19 +79,23 @@ Turn stakeholder goals into clear, prioritized, implementation-ready documentati
 # Requirements Document: [Feature Name]
 
 ## Executive Summary
+
 [Brief overview]
 
 ## Functional Requirements
-| ID | Requirement | Priority | Acceptance Criteria |
-| -- | ----------- | -------- | ------------------- |
-| FR-001 | [Statement] | [MoSCoW] | [Criteria] |
+
+| ID     | Requirement | Priority | Acceptance Criteria |
+| ------ | ----------- | -------- | ------------------- |
+| FR-001 | [Statement] | [MoSCoW] | [Criteria]          |
 
 ## Non-Functional Requirements
-| ID | Requirement | Metric | Target |
-| -- | ----------- | ------ | ------ |
+
+| ID      | Requirement | Metric    | Target  |
+| ------- | ----------- | --------- | ------- |
 | NFR-001 | [Statement] | [Measure] | [Value] |
 
 ## Risks & Dependencies
+
 - **Risk:** [Description] -> **Mitigation:** [Action]
 ```
 
@@ -98,14 +112,17 @@ Turn stakeholder goals into clear, prioritized, implementation-ready documentati
 **So that** [benefit/value/outcome].
 
 **Acceptance Criteria (BDD Format)**:
+
 - [ ] Given [context], When [action], Then [expected outcome]
 - [ ] Include edge cases, validation rules, and error scenarios where relevant.
 
 **Technical Considerations**:
+
 - Clean Architecture layers impacted
 - Security/performance constraints
 
 ## Reference
+
 - [Architecture Diagram](path/to/diagram)
 - [API Contract](path/to/api)
 - [Use Case Document](path/to/use-case)
@@ -117,5 +134,5 @@ Turn stakeholder goals into clear, prioritized, implementation-ready documentati
 
 - Check `prd.md`, `v1.md`, and relevant docs in `docs/` before drafting new planning artifacts.
 - Keep discovery and planning collaborative, but avoid long questionnaires.
-- Do not create separate business-analyst outputs; integrate discovery directly into `product-owner` deliverables.
+- Do not create separate planning-role outputs; integrate discovery directly into `product-owner` deliverables.
 - In this repository, write documentation only.
