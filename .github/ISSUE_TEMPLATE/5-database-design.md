@@ -52,14 +52,14 @@ The goal of this task is to collaboratively design the database schema for the p
 ## Dependencies
 
 - **Project Overview** `/docs/overview.md`
-- **Functional Requirements Document** `/docs/1-requirements/`
-- **Non-Functional Requirements Document** `/docs/1-requirements/`
-- **Phased Roadmap Document** `/docs/2-planning/phased-roadmap.md`
-- **Architecture Solution Design Documents** `/docs/3-architecture/`
+- **Functional Requirements Document** `/docs/01-requirements/`
+- **Non-Functional Requirements Document** `/docs/01-requirements/`
+- **Phased Roadmap Document** `/docs/02-planning/02.01-phased-roadmap.md`
+- **Architecture Solution Design Documents** `/docs/03-architecture/`
 
 ## Tasks
 
-- [ ] Create `/docs/6-database/database-design.md` if it does not exist.
+- [ ] Create `/docs/06-database/06.01-database-design.md` if it does not exist.
 - [ ] Analyze the project’s data requirements and constraints.
 - [ ] Design the database schema, including entities, attributes, and relationships.
 - [ ] Create an Entity-Relationship Diagram (ERD) to visualize the schema.

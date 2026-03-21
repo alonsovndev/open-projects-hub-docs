@@ -33,7 +33,7 @@ Then the user stories should avoid including code implementation or overly detai
 ### Folder Location
 
 User stories output should be created and organized in the following directory:  
-`docs/4-user-stories/`
+`docs/04-user-stories/`
 
 ### Folder Content
 
@@ -50,12 +50,12 @@ User stories output should be created and organized in the following directory:
 Use the following project documentation to guide user story creation and ensure alignment with project goals:
 
 - **Project Overview** `/docs/overview.md`
-- **Functional Requirements Document** `/docs/1-requirements/`
-- **Non-Functional Requirements Document** `/docs/1-requirements/`
-- **Role Mapping Document** `/docs/2-planning/role-mapping.md`
-- **Phased Roadmap Document** `/docs/2-planning/phased-roadmap.md`
-- **Architecture Solution Design Documents** `/docs/3-architecture/`
-- **Database Design Document** `/docs/6-database/`
+- **Functional Requirements Document** `/docs/01-requirements/`
+- **Non-Functional Requirements Document** `/docs/01-requirements/`
+- **Role Mapping Document** `/docs/02-planning/02.02-role-mapping.md`
+- **Phased Roadmap Document** `/docs/02-planning/02.01-phased-roadmap.md`
+- **Architecture Solution Design Documents** `/docs/03-architecture/`
+- **Database Design Document** `/docs/06-database/`
 
 ---
 
@@ -65,7 +65,7 @@ Use the following project documentation to guide user story creation and ensure 
 - [ ] Analyze backend-specific engineering tasks based on functional and non-functional requirements.
 - [ ] Define detailed user stories tailored for backend engineers.
 - [ ] Write clear and measurable acceptance criteria for each user story.
-- [ ] Save the backend engineer user stories in `/docs/4-user-stories/backend-engineer-stories.md`.
+- [ ] Save the backend engineer user stories in `/docs/04-user-stories/04.01-backend-engineer-stories.md`.
 - [ ] Review and validate the user stories with the product team.
 
 ---

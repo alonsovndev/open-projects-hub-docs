@@ -29,7 +29,7 @@ assignees: ["product-owner"]
 ### Folder Location
 
 User stories for frontend engineers must be saved in the following directory:  
-`/docs/4-user-stories/`
+`/docs/04-user-stories/`
 
 ### Folder Content
 
@@ -42,12 +42,12 @@ User stories for frontend engineers must be saved in the following directory:
 ## Dependencies
 
 - **Project Overview** `/docs/overview.md`
-- **Functional Requirements Document** `/docs/1-requirements/`
-- **Non-Functional Requirements Document** `/docs/1-requirements/`
-- **Role Mapping Document** `/docs/2-planning/role-mapping.md`
-- **Phased Roadmap Document** `/docs/2-planning/phased-roadmap.md`
-- **Architecture Solution Design Documents** `/docs/3-architecture/`
-- **Database Design Document** `/docs/6-database/`
+- **Functional Requirements Document** `/docs/01-requirements/`
+- **Non-Functional Requirements Document** `/docs/01-requirements/`
+- **Role Mapping Document** `/docs/02-planning/02.02-role-mapping.md`
+- **Phased Roadmap Document** `/docs/02-planning/02.01-phased-roadmap.md`
+- **Architecture Solution Design Documents** `/docs/03-architecture/`
+- **Database Design Document** `/docs/06-database/`
 
 ---
 
@@ -57,7 +57,7 @@ User stories for frontend engineers must be saved in the following directory:
 - [ ] Analyze the project’s UI/UX designs, architecture, and requirements.
 - [ ] Define user stories tailored for frontend engineers, aligned with the project’s scope and goals.
 - [ ] Write measurable acceptance criteria for each user story.
-- [ ] Save the user stories in `/docs/4-user-stories/frontend-engineer-stories.md`.
+- [ ] Save the user stories in `/docs/04-user-stories/04.03-frontend-engineer-stories.md`.
 - [ ] Review the generated user stories for completeness and align them with the broader project documentation.
 - [ ] Validate user stories with stakeholders or the product team.
 

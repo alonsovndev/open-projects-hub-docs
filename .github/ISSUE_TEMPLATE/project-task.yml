@@ -62,15 +62,15 @@ body:
         | Action | Agent | Output path |
         |--------|-------|-------------|
         | 1 · Kickoff | `product-owner` | `docs/projects/{project}/` |
-        | 2 · Requirements | `product-owner` | `docs/projects/{project}/1-requirements/` |
-        | 3 · Planning | `product-owner` | `docs/projects/{project}/2-planning/` |
-        | 4.x · Architecture (all) | `tech-lead` | `docs/projects/{project}/3-architecture/` |
-        | 5 · Database Design | `tech-lead` | `docs/projects/{project}/6-database/` |
-        | 6 · UI/UX Designer Stories | `product-owner` | `docs/projects/{project}/4-user-stories/` |
-        | 6.1 · UI/UX Prototype | `ui-ux-designer` | `docs/projects/{project}/5-prototype/` |
-        | 7 · Epics | `product-owner` | `docs/projects/{project}/4-user-stories/` |
-        | 8 · Backend Engineer Stories | `product-owner` | `docs/projects/{project}/4-user-stories/` |
-        | 9 · Frontend Engineer Stories | `product-owner` | `docs/projects/{project}/4-user-stories/` |
+        | 2 · Requirements | `product-owner` | `docs/projects/{project}/01-requirements/` |
+        | 3 · Planning | `product-owner` | `docs/projects/{project}/02-planning/` |
+        | 4.x · Architecture (all) | `tech-lead` | `docs/projects/{project}/03-architecture/` |
+        | 5 · Database Design | `tech-lead` | `docs/projects/{project}/06-database/` |
+        | 6 · UI/UX Designer Stories | `product-owner` | `docs/projects/{project}/04-user-stories/` |
+        | 6.1 · UI/UX Prototype | `ui-ux-designer` | `docs/projects/{project}/05-prototype/` |
+        | 7 · Epics | `product-owner` | `docs/projects/{project}/04-user-stories/` |
+        | 8 · Backend Engineer Stories | `product-owner` | `docs/projects/{project}/04-user-stories/` |
+        | 9 · Frontend Engineer Stories | `product-owner` | `docs/projects/{project}/04-user-stories/` |
 
   # ── Context ───────────────────────────────────────────────────────────────
 
@@ -81,4 +81,4 @@ body:
       description: "Any extra constraints, scope notes, or references relevant to this task."
       placeholder: |
         e.g. Focus only on the authentication module.
-        Reference: docs/projects/open-project-hub/1-requirements/functional-requirements.md
+        Reference: docs/projects/open-project-hub/01-requirements/01.01-functional-requirements.md

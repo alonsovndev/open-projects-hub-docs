@@ -28,7 +28,7 @@ The goal of this task is to create detailed user stories for UI/UX designers, fo
   2. **Acceptance Criteria**:
      - Measurable criteria that define the completion of each user story.
   3. **Documentation**:
-     - Detailed and organized user stories stored in the project directory `/docs/4-user-stories/ui-ux-designer-stories.md`.
+     - Detailed and organized user stories stored in the project directory `/docs/04-user-stories/04.04-ui-ux-designer-stories.md`.
   4. **Prototypes**:
      - Deliverables must include visual prototypes or mockups that can be shown to stakeholders.
 
@@ -53,12 +53,12 @@ The goal of this task is to create detailed user stories for UI/UX designers, fo
 ## Dependencies
 
 - **Project Overview** `/docs/overview.md`
-- **Functional Requirements Document** `/docs/1-requirements/`
-- **Non-Functional Requirements Document** `/docs/1-requirements/`
-- **Role Mapping Document** `/docs/2-planning/role-mapping.md`
-- **Phased Roadmap Document** `/docs/2-planning/phased-roadmap.md`
-- **Architecture Solution Design Document** `/docs/3-architecture/architecture-solution-design.md`
-- **Technology Stack Document** `/docs/3-architecture/technology-stack.md`
+- **Functional Requirements Document** `/docs/01-requirements/`
+- **Non-Functional Requirements Document** `/docs/01-requirements/`
+- **Role Mapping Document** `/docs/02-planning/02.02-role-mapping.md`
+- **Phased Roadmap Document** `/docs/02-planning/02.01-phased-roadmap.md`
+- **Architecture Solution Design Document** `/docs/03-architecture/03.04-architecture-solution-design.md`
+- **Technology Stack Document** `/docs/03-architecture/03.12-technology-stack.md`
 
 ## Tasks
 
@@ -66,5 +66,5 @@ The goal of this task is to create detailed user stories for UI/UX designers, fo
 - [ ] Define and document user stories tailored for UI/UX designers.
 - [ ] Include detailed and measurable acceptance criteria for each story.
 - [ ] Create prototypes or mockups based on defined user stories and requirements.
-- [ ] Organize and save user stories and prototypes in `/docs/4-user-stories/ui-ux-designer-stories.md`.
+- [ ] Organize and save user stories and prototypes in `/docs/04-user-stories/04.04-ui-ux-designer-stories.md`.
 - [ ] Review the stories and prototypes for completeness, consistency, and adherence to best practices.

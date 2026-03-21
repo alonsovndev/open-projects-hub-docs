@@ -8,7 +8,7 @@ assignees: ["product-owner"]
 
 ## 📋 Functional & Non-Functional Requirements Template
 
-Let’s identify and document both functional requirements (FRs) and non-functional requirements (NFRs) for the project. The output documents will be structured and categorized in the `docs/1-requirements/` folder.
+Let’s identify and document both functional requirements (FRs) and non-functional requirements (NFRs) for the project. The output documents will be structured and categorized in the `docs/01-requirements/` folder.
 
 ---
 
@@ -23,7 +23,7 @@ The **project overview**`/docs/overview.md` provides essential context for defin
 ### Folder Location
 
 The requirements output should be created in the following directory:
-`docs/1-requirements/`
+`docs/01-requirements/`
 
 ### Folder Content
 

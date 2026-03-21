@@ -80,7 +80,7 @@ To create a collaborative environment that allows users to share tasks, comment,
 ### Folder Location
 
 The epics should be created in the following directory:
-`docs/4-user-stories/`
+`docs/04-user-stories/`
 
 ### Folder Content
 
@@ -103,18 +103,18 @@ The folder should include:
 ## Dependencies
 
 - **Project Overview** `/docs/overview.md`
-- **Functional Requirements Document** `/docs/1-requirements/`
-- **Non-Functional Requirements Document** `/docs/1-requirements/`
-- **Role Mapping Document** `/docs/2-planning/role-mapping.md`
-- **Phased Roadmap Document** `/docs/2-planning/phased-roadmap.md`
-- **Architecture Solution Design Documents** `/docs/3-architecture/`
-- **Database Design Document** `/docs/6-database/`
+- **Functional Requirements Document** `/docs/01-requirements/`
+- **Non-Functional Requirements Document** `/docs/01-requirements/`
+- **Role Mapping Document** `/docs/02-planning/02.02-role-mapping.md`
+- **Phased Roadmap Document** `/docs/02-planning/02.01-phased-roadmap.md`
+- **Architecture Solution Design Documents** `/docs/03-architecture/`
+- **Database Design Document** `/docs/06-database/`
 
 ## Tasks
 
 - [ ] Review project dependencies and requirements.
 - [ ] Define at least one high-level epic aligned with the MVP.
-- [ ] Create `/docs/4-user-stories/epics.md` if it does not exist.
+- [ ] Create `/docs/04-user-stories/04.02-epics.md` if it does not exist.
 - [ ] Add detailed epics to the file:
   - Identify related user stories.
   - Ensure epics have clear objectives, scope, dependencies, and acceptance criteria.

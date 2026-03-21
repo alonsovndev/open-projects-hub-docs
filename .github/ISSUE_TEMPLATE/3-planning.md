@@ -23,7 +23,7 @@ The **project overview** `/docs/overview.md` provides essential context for plan
 ### Folder Location
 
 The planning output should be created in the following directory:
-`docs/2-planning/`
+`docs/02-planning/`
 
 ### Folder Content
 
@@ -68,7 +68,7 @@ The following activities are **out of scope** for this stage:
 
 1. **Review Documentation**:
 
-   - Start with the **functional requirements** `/docs/1-requirements/functional-requirements.md` and **non-functional requirements** `/docs/1-requirements/non-functional-requirements.md` for relevant context.
+   - Start with the **functional requirements** `/docs/01-requirements/01.01-functional-requirements.md` and **non-functional requirements** `/docs/01-requirements/01.02-non-functional-requirements.md` for relevant context.
 
 2. **Define Phases & Deliverables**:
    - Break down the project into manageable phases with clear goals and deliverables.
@@ -81,7 +81,7 @@ The following activities are **out of scope** for this stage:
 ## 🔗 References
 
 - **Project Overview** `/docs/overview.md`
-- **Functional Requirements Document** `/docs/1-requirements/functional-requirements.md`
-- **Non-Functional Requirements Document** `/docs/1-requirements/non-functional-requirements.md`
+- **Functional Requirements Document** `/docs/01-requirements/01.01-functional-requirements.md`
+- **Non-Functional Requirements Document** `/docs/01-requirements/01.02-non-functional-requirements.md`
 
 **Deadline**: [Specify the deadline for completing the planning documentation, e.g., 5 working days from assignment.]
