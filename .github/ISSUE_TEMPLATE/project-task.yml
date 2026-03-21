@@ -82,15 +82,3 @@ body:
       placeholder: |
         e.g. Focus only on the authentication module.
         Reference: docs/projects/open-project-hub/1-requirements/functional-requirements.md
-
-  # ── Pre-flight ────────────────────────────────────────────────────────────
-
-  - type: checkboxes
-    id: preflight
-    attributes:
-      label: "Pre-flight Checks"
-      options:
-        - label: "I reviewed existing docs in `docs/projects/{project}/` before opening this issue."
-          required: true
-        - label: "The issue title has been updated to `[{project}] – {action}`."
-          required: true
