@@ -5,11 +5,6 @@ labels: ["documentation"]
 assignees: []
 
 body:
-  - type: markdown
-    attributes:
-      value: |
-        > **How to use:** Select your **project** and **action** below, then update the issue title to `[project-name] – action-name` before submitting.
-
   # ── Project ───────────────────────────────────────────────────────────────
 
   - type: dropdown
