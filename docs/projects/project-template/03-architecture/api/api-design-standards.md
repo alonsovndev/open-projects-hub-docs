@@ -1,21 +1,24 @@
-# API Design Standards
+# API Design Standards Template (AI-Ready)
 
-| Attribute        | Value                       |
-| ---------------- | --------------------------- |
-| **Project**      | Open Freelancer Project Hub |
-| **Version**      | 1.0                         |
-| **Status**       | Draft                       |
-| **Last Updated** | 2026-02-28                  |
+| Attribute        | Value                            |
+| ---------------- | -------------------------------- |
+| **Project**      | [Project Name]                   |
+| **Version**      | [vX.Y]                           |
+| **Status**       | [Draft \| In Review \| Approved] |
+| **Last Updated** | [YYYY-MM-DD]                     |
+
+## How to Use (AI Agent Instructions)
+
+- These standards apply to all REST endpoints in the project; deviations require an ADR.
+- Update the Error Handling section whenever a new domain error code is introduced.
+- Keep versioning decisions consistent with the API Contract document.
 
 ## Sources
 
-- [Project Overview](../overview.md)
-- [Functional Requirements](../01-requirements/functional-requirements.md)
-- [Non-Functional Requirements](../01-requirements/non-functional-requirements.md)
-- [Role Mapping](../02-planning/role-mapping.md)
-- [Phased Roadmap](../02-planning/phased-roadmap.md)
-- [Architecture Solution Design](./architecture-solution-design.md)
-- [Technology Stack](./technology-stack.md)
+- [Architecture Solution Design](../architecture-solution-design.md)
+- [Technology Stack](../technology-stack.md)
+- [API Contract](./api-contract.md)
+- [Feature Requirements](../../01-requirements/project-requirements-by-feature.md)
 
 ## API Style
 
@@ -80,33 +83,41 @@
 
 ## Authentication and Authorization Patterns
 
-- **Authentication:** Supabase Auth issues JWTs; APIs require `Authorization: Bearer <token>` for protected routes.
+- **Authentication:** [Auth Provider] issues JWTs; APIs require `Authorization: Bearer <token>` for protected routes.
 - **Authorization model:** hybrid RBAC + data-level policies.
-  - API layer enforces role permissions (Admin/Viewer capabilities).
-  - Supabase Row Level Security (RLS) enforces least-privilege data access.
-- **Token requirements:** short-lived access tokens with refresh-token rotation managed by Supabase.
+  - API layer enforces role permissions ([e.g., Admin/Viewer capabilities]).
+  - [Database-level policy, e.g., Row Level Security] enforces least-privilege data access.
+- **Token requirements:** short-lived access tokens with refresh-token rotation managed by the auth provider.
 - **Service trust boundary:** backend validates JWT signature, expiration, audience, and required claims on every protected request.
 
 ## Rate Limiting and Throttling
 
 - **Baseline policy (per authenticated user/IP):**
-  - `60 requests/minute` for standard read/write endpoints,
+  - `[e.g., 60 requests/minute]` for standard read/write endpoints,
   - stricter limits for auth-sensitive endpoints (login/password reset).
 - **Limit response:** return `429 Too Many Requests` with `Retry-After` header.
 - **Response body for throttling:** same canonical error format with `code=RATE_LIMIT_EXCEEDED`.
-- **Implementation approach:** backend middleware + Redis-backed counters when caching layer is enabled.
+- **Implementation approach:** backend middleware + [cache/rate-limit store, e.g., Redis] counters.
 
-## Observability (Sentry)
+## Observability
 
-- Attach `requestId`, endpoint, actor role, and version (`v1`) as Sentry context for API errors.
-- Track key API metrics in Sentry Performance: error rate, p95 latency, and 429 frequency by route.
+- Attach `requestId`, endpoint, actor role, and API version as [Observability Platform] context for API errors.
+- Track key API metrics: error rate, p95 latency, and 429 frequency by route.
 - Alert on sustained spikes in `5xx` and `429` responses.
-- Use release tagging from CI to correlate regressions with deployments.
+- Use release tagging from CI/CD to correlate regressions with deployments.
 
-## Deployment Impact (GitHub Actions)
+## Deployment
 
-- Validate OpenAPI contract generation and API linting/checks on every PR.
+- Validate OpenAPI contract generation and API linting on every PR.
 - Enforce backward-compatibility checks before merging breaking API changes.
 - Publish API version/release notes on deployment to staging/production.
 - Rollback strategy: revert to prior release and maintain previous major API version during deprecation window.
-- Manage environment variables/secrets for auth, rate-limiting stores, and Sentry DSN per environment.
+- Manage environment variables/secrets for auth, rate-limit stores, and observability per environment.
+
+---
+
+## Change Log
+
+| Date         | Version | Change Summary | Author |
+| ------------ | ------- | -------------- | ------ |
+| [YYYY-MM-DD] | [vX.Y]  | [What changed] | [Name] |

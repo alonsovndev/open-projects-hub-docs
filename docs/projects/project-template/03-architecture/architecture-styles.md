@@ -1,42 +1,59 @@
-# Architecture Styles Decision
+# Architecture Styles Template (AI-Ready)
 
-| Attribute        | Value                       |
-| ---------------- | --------------------------- |
-| **Project**      | Open Freelancer Project Hub |
-| **Version**      | 1.0                         |
-| **Status**       | Accepted                    |
-| **Last Updated** | 2026-02-28                  |
+| Attribute        | Value                                |
+| ---------------- | ------------------------------------ |
+| **Project**      | [Project Name]                       |
+| **Version**      | [vX.Y]                               |
+| **Status**       | [Proposed \| Accepted \| Superseded] |
+| **Last Updated** | [YYYY-MM-DD]                         |
+
+## How to Use (AI Agent Instructions)
+
+- Complete the evaluation table before selecting a style.
+- Define all bounded contexts before moving to component design.
+- Link to the corresponding ADR for this decision.
+- Revisit when team size, load, or compliance requirements change significantly.
+
+## Sources
+
+- [Architecture Solution Design](./architecture-solution-design.md)
+- [Feature Requirements](../01-requirements/project-requirements-by-feature.md)
+- [Non-Functional Quality View](../01-requirements/non-functional-requirements.md)
+
+---
 
 ## Decision Summary
 
-The project will use a **Modular Monolith** (backend) with a separately deployed frontend for MVP and near-term scaling.
+The project will use **[Selected Architecture Style]** for [backend/frontend/full-stack] with [deployment model].
 
 This decision aligns with:
 
-- MVP timeline (1 to 1.5 months),
-- small team coordination constraints,
-- requirement scope (up to 3 active projects per account in MVP),
-- need for clear domain boundaries and future extraction path.
+- [Timeline or delivery constraint]
+- [Team size and coordination constraint]
+- [Requirement scope or business constraint]
+- [Long-term scalability or maintainability goal]
 
 ## Architecture Style Evaluation
 
-| Style                           | Benefits                                                                    | Drawbacks                                                                   | Fit for Current Context                                    |
-| ------------------------------- | --------------------------------------------------------------------------- | --------------------------------------------------------------------------- | ---------------------------------------------------------- |
-| Monolithic (layered)            | Fast setup, simple deploy pipeline                                          | Boundary erosion risk, harder long-term decomposition                       | Acceptable for very short-lived MVPs, but weaker long-term |
-| Microservices                   | Independent scaling/deployments, isolation                                  | High operational complexity, distributed transactions, higher DevOps burden | Premature for current team size and MVP scope              |
-| **Modular Monolith (Selected)** | Strong module boundaries, single deployable, easier refactor and extraction | Requires discipline to protect module boundaries                            | **Best fit for MVP + planned evolution**                   |
+| Style                        | Benefits                              | Drawbacks                                         | Fit for Current Context       |
+| ---------------------------- | ------------------------------------- | ------------------------------------------------- | ----------------------------- |
+| Monolithic (layered)         | Fast setup, simple deploy             | Boundary erosion risk, harder decomposition       | [Evaluation]                  |
+| Hexagonal / Ports & Adapters | Strong isolation, high testability    | Upfront abstraction discipline required           | [Evaluation]                  |
+| Microservices                | Independent scaling, strong isolation | High operational and coordination overhead        | [Evaluation]                  |
+| Event-Driven                 | Strong decoupling, async reliability  | Observability and eventual-consistency complexity | [Evaluation]                  |
+| **[Selected Style]**         | [Key benefit 1], [Key benefit 2]      | [Key drawback]                                    | **Best fit because [reason]** |
 
 ## Bounded Context Alignment
 
-The modular monolith maps bounded contexts to internal modules:
+Map bounded contexts to internal modules or services:
 
-- **Client Management**: client records and lifecycle
-- **Project Management**: project creation, status (discovery/planning), constraints
-- **Requirements Refinement**: AI-assisted drafting, approvals, story artifact lifecycle
-- **Access Control**: Admin/Viewer authorization and visibility rules
-- **Export & Reporting**: Markdown export and delivery artifacts
+- **[Context Name]**: [domain concern and lifecycle, e.g., client records and account management]
+- **[Context Name]**: [domain concern, e.g., project creation, status, constraints]
+- **[Context Name]**: [domain concern, e.g., requirements drafting, approval lifecycle]
+- **[Context Name]**: [access control, authorization, visibility rules]
+- **[Context Name]**: [reporting, export, or integration concern]
 
-Each module owns:
+Each module/service owns:
 
 - domain entities and use cases,
 - repository interfaces (domain/application side),
@@ -46,18 +63,28 @@ Each module owns:
 
 ### Why this is the right decision now
 
-1. Supports fast MVP delivery with low operational overhead.
-2. Preserves Clean Architecture and DDD boundaries needed for maintainability.
-3. Reduces distributed-system complexity (network partitions, sagas across many services) until scale requires it.
+1. [Reason 1: delivery velocity, operational overhead, or team expertise]
+2. [Reason 2: architecture quality, maintainability, or testability goals]
+3. [Reason 3: risk reduction or compliance alignment]
 
-### Key trade-offs
+### Key trade-offs accepted
 
-- We accept a single backend deployable now to accelerate delivery.
-- We mitigate long-term growth risk with strict module boundaries and ADR-governed changes.
+- [Trade-off 1 and mitigation strategy]
+- [Trade-off 2 and mitigation strategy]
 
-## Evolution Strategy (Modular Monolith → Selective Microservices)
+## Evolution Strategy
+
+[Describe the path if requirements outgrow the current style, e.g., Modular Monolith → Selective Microservices.]
 
 Reference diagram: [`diagrams/architecture-evolution.mmd`](./diagrams/architecture-evolution.mmd)
+
+---
+
+## Change Log
+
+| Date         | Version | Change Summary | Author |
+| ------------ | ------- | -------------- | ------ |
+| [YYYY-MM-DD] | [vX.Y]  | [What changed] | [Name] |
 
 ### Trigger-based extraction criteria
 

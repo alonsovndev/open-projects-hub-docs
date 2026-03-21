@@ -1,138 +1,154 @@
-# Open Freelancer Project Hub Architecture
+# Architecture Solution Design Template (AI-Ready)
+
+| Attribute        | Value                            |
+| ---------------- | -------------------------------- |
+| **Project**      | [Project Name]                   |
+| **Version**      | [vX.Y]                           |
+| **Status**       | [Draft \| In Review \| Approved] |
+| **Last Updated** | [YYYY-MM-DD]                     |
+
+## How to Use (AI Agent Instructions)
+
+- Fill in System Context first — it anchors all component and data flow decisions.
+- Every pattern selection in this document must link to an ADR.
+- Keep the Component Diagram synchronized with Technology Stack choices.
+- Update the Data Flow section whenever a new user-facing workflow is added.
+
+---
+
+# [Project Name] — Architecture Solution Design
 
 ## System Context
 
-The Open Freelancer Project Hub must support AI-assisted requirement refinement, role-based collaboration (Admin/Viewer), and secure project management for freelancers within MVP limits. Based on functional and non-functional requirements, the architecture must prioritize:
+[Describe the business and technical context: what must the system support, what constraints does it operate under?]
 
-- rapid MVP delivery for a small team,
-- strong maintainability through clear boundaries,
-- secure-by-design access control and data handling,
-- an explicit evolution path for future scale.
+Based on functional and non-functional requirements, the architecture must prioritize:
 
-To satisfy these needs, the system is designed as separate frontend and backend projects with shared domain language and contracts.
+- [e.g., rapid MVP delivery for a small team]
+- [e.g., strong maintainability through clear domain boundaries]
+- [e.g., secure-by-design access control and data handling]
+- [e.g., explicit evolution path for future scale]
+
+The system is designed as [describe decomposition, e.g., separate frontend and backend deployables with shared domain contracts].
 
 ## Architectural Approach
 
 ### Selected Pattern
 
-**Modular Monolith backend using Clean Architecture + DDD, with a separately deployed frontend application.**
+**[Selected Pattern Name, e.g., Modular Monolith + Clean Architecture + DDD with a separately deployed frontend]**
 
 ### Candidate Pattern Comparison
 
-| Pattern                                                    | Strengths                                                                            | Weaknesses                                                                   | Fit for Current Requirements                                                   |
-| ---------------------------------------------------------- | ------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| Layered Monolith                                           | Fast to start, simple deployment                                                     | Boundaries erode quickly, lower long-term maintainability                    | Partial fit; weak for long-term modularity goals                               |
-| Hexagonal Architecture                                     | Strong ports/adapters isolation, high testability                                    | Requires more upfront abstraction discipline                                 | Good fit, but overlaps significantly with Clean Architecture for current scope |
-| Microservices                                              | Independent scaling/deployment, strong service isolation                             | High operational and coordination complexity for small team and MVP timeline | Not fit for MVP phase                                                          |
-| **Modular Monolith + Clean Architecture + DDD (Selected)** | Clear domain boundaries, low operational overhead, easier evolution to microservices | Requires governance to keep module boundaries clean                          | **Best fit for MVP constraints, team expertise, and future scalability path**  |
+| Pattern                | Strengths                                         | Weaknesses                                  | Fit for Current Requirements  |
+| ---------------------- | ------------------------------------------------- | ------------------------------------------- | ----------------------------- |
+| Layered Monolith       | Fast setup, simple deployment                     | Boundary erosion risk, harder decomposition | [Evaluation]                  |
+| Hexagonal Architecture | Strong ports/adapters isolation, high testability | Upfront abstraction discipline              | [Evaluation]                  |
+| Microservices          | Independent scaling, strong isolation             | High operational complexity for small teams | [Evaluation]                  |
+| **[Selected Pattern]** | [Key strengths]                                   | [Key weaknesses]                            | **Best fit because [reason]** |
 
 ### High-Level Design Principles
 
-1. **Separation of concerns**: frontend and backend remain independent projects.
-2. **Domain-centric design**: bounded contexts define module boundaries.
-3. **Dependency inversion**: domain and application rules stay independent from frameworks.
-4. **Security by design**: authorization and data-access rules are enforced at domain/application and data policy layers.
-5. **Evolutionary architecture**: module seams support future extraction to services if growth demands it.
+1. **Separation of concerns**: [e.g., frontend and backend remain independent deployable units]
+2. **Domain-centric design**: [e.g., bounded contexts define module boundaries]
+3. **Dependency inversion**: [e.g., domain and application rules are framework-independent]
+4. **Security by design**: [e.g., authorization enforced at API, domain, and data policy layers]
+5. **Evolutionary architecture**: [e.g., module seams support future extraction to services]
 
 ## Component Design
 
 ```mermaid
 flowchart LR
-    U[Admin / Viewer] --> FE[Vercel Frontend Project]
-    FE --> BE[Render Backend Project]
-    BE --> DB[(Supabase PostgreSQL)]
-    BE --> AUTH[Supabase Auth]
+    U[User Roles] --> FE[Frontend Application]
+    FE --> BE[Backend API]
+    BE --> DB[(Database)]
+    BE --> AUTH[Auth Provider]
     FE --> AUTH
-    FE --> SEN[Sentry Frontend Monitoring]
-    BE --> SENB[Sentry Backend Monitoring]
+    FE --> OBS[Observability Platform]
+    BE --> OBS
 ```
 
-- **Frontend Project (Vercel):** UI workflows for project management, AI refinement interaction, and read-only viewer access.
-- **Backend Project (Render):** modular monolith organized by bounded contexts (clients, projects, requirements, access control, exports).
-- **Data Layer (Supabase PostgreSQL):** transactional persistence with policy-based protection.
-- **Auth Layer (Supabase Auth):** identity lifecycle and token issuance.
+- **Frontend Application**: [UI layer responsibilities, e.g., user workflows, read-only access, hosting platform]
+- **Backend API**: [Backend structure, e.g., modular monolith organized by bounded contexts]
+- **Data Layer**: [Database type and data protection strategy, e.g., managed PostgreSQL with RLS]
+- **Auth Layer**: [Identity and session lifecycle approach, e.g., managed auth with JWT]
 
 ## Data Flow
 
 ```mermaid
 sequenceDiagram
-    participant User as Admin
-    participant FE as Frontend (Vercel)
-    participant BE as Backend (Render)
-    participant SA as Supabase Auth
-    participant DB as Supabase PostgreSQL
+    participant User as [Primary Role]
+    participant FE as Frontend
+    participant BE as Backend API
+    participant AUTH as Auth Provider
+    participant DB as Database
 
-    User->>FE: Submit requirements notes
-    FE->>SA: Validate session/token
-    SA-->>FE: Auth context
-    FE->>BE: Create/update refinement draft
-    BE->>DB: Persist draft + audit metadata
-    DB-->>BE: Stored draft
-    BE-->>FE: Structured user stories (draft)
-    User->>FE: Approve stories
-    FE->>BE: Approve request
-    BE->>DB: Commit approved backlog artifacts
-    DB-->>BE: Success
-    BE-->>FE: Approved requirements response
+    User->>FE: [Initiating user action]
+    FE->>AUTH: Validate session/token
+    AUTH-->>FE: Auth context
+    FE->>BE: [API request with payload]
+    BE->>DB: Persist + audit metadata
+    DB-->>BE: Stored result
+    BE-->>FE: [Response payload]
+    User->>FE: [Follow-up action]
+    FE->>BE: [Second API request]
+    BE->>DB: [Second write or query]
+    BE-->>FE: [Final response]
 ```
 
 ## Integration Points
 
-- **Vercel frontend → Render backend:** HTTPS REST APIs with token-based authentication.
-- **Backend → Supabase database:** persistence through backend-owned access patterns and policy enforcement.
-- **Authentication flow:** Supabase Auth issues identity context consumed by frontend and validated by backend.
-- **External service integrations:** Sentry for centralized frontend/backend error and performance observability.
+- **Frontend → Backend:** [e.g., HTTPS REST APIs with token-based authentication]
+- **Backend → Database:** [e.g., persistence through backend-owned access patterns and policy enforcement]
+- **Authentication flow:** [e.g., managed auth provider issues identity tokens consumed by frontend and validated by backend]
+- **External integrations:** [e.g., observability platform for centralized error and performance monitoring]
 
-## Observability (Sentry)
+## Observability
 
 - Capture frontend runtime errors, failed API interactions, and degraded user journeys.
-- Capture backend exceptions, request failures, and high-latency endpoints.
+- Capture backend exceptions, request failures, and high-latency critical paths.
 - Track release versions from CI/CD for regression correlation.
-- Monitor key signals:
-  - API error rate,
-  - p95 latency for core requirement workflows,
-  - authentication failure trends,
-  - export failure rate.
-- Configure alerting for:
-  - sustained elevated error rate,
-  - repeated auth failures,
-  - critical path latency degradation.
+- Monitor key signals: [API error rate, p95 latency, auth failure trends, critical workflow failure rate]
+- Configure alerting for: [sustained error rate spike, critical path latency degradation, auth failures]
 
-## Deployment Impact (GitHub Actions)
+## Deployment
 
-- **Pipeline stages:** documentation checks (if configured), quality gates for app repos, and environment-based deployments.
-- **Deployment strategy:** preview environments for frontend changes, controlled deploys for backend changes.
+- **Pipeline stages:** quality gates, environment-based deployments, post-deploy verification.
+- **Deployment strategy:** [e.g., preview environments for frontend, rolling deploys for backend]
 - **Rollback:** revert deployment artifact/commit and redeploy prior stable version.
-- **Migration strategy:** versioned, backward-compatible database migrations; apply before backend rollout requiring new schema.
-- **Environment management:** separate dev/staging/prod secrets and endpoints per environment.
+- **Migration strategy:** versioned, backward-compatible schema changes applied before backend rollout.
 - **Zero-downtime approach:** stateless backend processes with health checks and rolling replacement.
-- **Pre-deploy verification:** validate auth flow, core CRUD flows, and requirements export workflow in non-production.
 
 ## Security Considerations
 
-- Enforce role-based authorization for Admin and Viewer capabilities.
-- Apply least-privilege access across frontend, backend, and database policies.
-- Use HTTPS-only communication across all service boundaries.
+- Enforce role-based authorization at API and data policy layers.
+- Apply least-privilege access across frontend, backend, and database.
+- HTTPS-only communication across all service boundaries.
 - Protect sensitive data with managed encryption at rest and in transit.
-- Prevent abuse with request validation, rate limiting, and secure session/token lifecycle controls.
+- Request validation, rate limiting, and secure session/token lifecycle controls.
 
 ## Scalability Considerations
 
-- Maintain stateless backend components to allow horizontal scaling.
-- Keep modules isolated so hotspots can be independently optimized or extracted later.
-- Use database indexing and query discipline for requirements and project listing paths.
-- Add asynchronous/background processing when AI/refinement throughput grows.
-- Keep frontend independently scalable via global edge distribution.
+- Stateless backend components to support horizontal scaling.
+- Isolated modules so hotspots can be independently optimized or extracted.
+- Database indexing and query discipline for high-read paths.
+- Asynchronous/background processing path when workload grows.
+- Frontend independently scalable via global edge distribution.
 
 ## Trade-offs and Alternatives
 
-- **Chosen now:** modular monolith with strict module boundaries for speed and manageable complexity.
-- **Deferred:** microservices, since current scope/team size does not justify distributed-system overhead.
-- **Risk:** module boundary erosion over time.  
-  **Mitigation:** explicit architecture governance, ADR-driven decisions, and periodic boundary reviews.
-- **Risk:** growth in AI-related workload could pressure synchronous APIs.  
-  **Mitigation:** planned path to asynchronous processing and selective module extraction.
+- **Chosen now:** [Selected pattern and key reason]
+- **Deferred:** [What was explicitly not chosen and why]
+- **Risk:** [Main architecture risk]
+  **Mitigation:** [Mitigation approach]
 
-## ADR Reference
+## ADR References
 
-- `docs/03-architecture/adrs/adr-001-high-level-architecture.md`
+- [ADR-001: High-Level Architecture](./adrs/adr-template.md) — replace with actual ADR link
+
+---
+
+## Change Log
+
+| Date         | Version | Change Summary | Author |
+| ------------ | ------- | -------------- | ------ |
+| [YYYY-MM-DD] | [vX.Y]  | [What changed] | [Name] |

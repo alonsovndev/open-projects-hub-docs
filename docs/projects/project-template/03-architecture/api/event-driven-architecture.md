@@ -1,16 +1,24 @@
-# Event-Driven Architecture Patterns
+# Event-Driven Architecture Patterns Template (AI-Ready)
 
-| Attribute        | Value                           |
-| ---------------- | ------------------------------- |
-| **Project**      | Open Freelancer Project Hub     |
-| **Version**      | 1.0                             |
-| **Status**       | Accepted (Incremental Adoption) |
-| **Last Updated** | 2026-02-28                      |
+| Attribute        | Value                                       |
+| ---------------- | ------------------------------------------- |
+| **Project**      | [Project Name]                              |
+| **Version**      | [vX.Y]                                      |
+| **Status**       | [Draft \| Accepted \| Incremental Adoption] |
+| **Last Updated** | [YYYY-MM-DD]                                |
 
-## Scope and Adoption Strategy
+## How to Use (AI Agent Instructions)
 
-Event-driven architecture is **not required as a full platform style for MVP**.  
-It is adopted incrementally for workflows that need asynchronous reliability, decoupling, or eventual consistency.
+- Use this document to define which async patterns apply and under what conditions.
+- Start with Outbox if any business event must be reliably published from a transactional write.
+- Add Saga only when flows span independent service boundaries.
+- Link to ADRs for broker selection and any pattern adoption decisions.
+
+## Sources
+
+- [Architecture Solution Design](../architecture-solution-design.md)
+- [Technology Stack](../technology-stack.md)
+- [API Design Standards](./api-design-standards.md)
 
 Primary initial use cases:
 
@@ -78,15 +86,15 @@ Reference diagram: [`diagrams/event-sourcing-flow.mmd`](./diagrams/event-sourcin
 
 ## Message Broker Selection
 
-**Selected initial broker: Redis Streams** (aligned with existing optional Redis footprint).
+**Selected initial broker: [Broker Name, e.g., Redis Streams / RabbitMQ / Kafka]**
 
 Rationale:
 
-- sufficient throughput for MVP and Phase 1 async workloads,
-- lower operational overhead than Kafka for current team size,
-- straightforward consumer group model and retry handling.
+- [Reason 1: throughput fit]
+- [Reason 2: operational overhead vs team size]
+- [Reason 3: retry/consumer model]
 
-Re-evaluate to Kafka when:
+Re-evaluate when:
 
 - event volume and retention requirements increase significantly,
 - multiple independent services require high-scale replay and partitioned throughput.
@@ -108,11 +116,19 @@ Re-evaluate to Kafka when:
 
 ## MVP Fit and Evolution
 
-- Keeps MVP implementation simple while avoiding future dead ends.
-- Introduces only patterns with immediate business value (Outbox first).
-- Preserves path to distributed workflows as architecture evolves to selective microservices.
+- Keeps initial implementation simple while avoiding future architectural dead ends.
+- Introduces only patterns with immediate business value (start with Outbox).
+- Preserves path to distributed workflows as architecture evolves.
 
 ## Related ADRs
 
-- [ADR-010: Event-Driven Architecture](./adrs/adr-010-event-driven-architecture.md)
-- [ADR-011: Message Broker Selection](./adrs/adr-011-message-broker.md)
+- [ADR: Event-Driven Architecture](../adrs/adr-template.md) — replace with actual ADR link
+- [ADR: Message Broker Selection](../adrs/adr-template.md) — replace with actual ADR link
+
+---
+
+## Change Log
+
+| Date         | Version | Change Summary | Author |
+| ------------ | ------- | -------------- | ------ |
+| [YYYY-MM-DD] | [vX.Y]  | [What changed] | [Name] |

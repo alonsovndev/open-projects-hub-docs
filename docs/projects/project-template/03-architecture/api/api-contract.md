@@ -1,21 +1,26 @@
-# API Contract
+# API Contract Template (AI-Ready)
 
-| Attribute        | Value                       |
-| ---------------- | --------------------------- |
-| **Project**      | Open Freelancer Project Hub |
-| **Version**      | 1.0                         |
-| **Status**       | Draft                       |
-| **Last Updated** | 2026-02-28                  |
+| Attribute        | Value                            |
+| ---------------- | -------------------------------- |
+| **Project**      | [Project Name]                   |
+| **Version**      | [vX.Y]                           |
+| **Status**       | [Draft \| In Review \| Approved] |
+| **Last Updated** | [YYYY-MM-DD]                     |
+
+## How to Use (AI Agent Instructions)
+
+- Add one row per endpoint to the Endpoint Catalog.
+- Every endpoint must specify allowed roles.
+- Add a Detailed Contract section for endpoints with complex request/response bodies.
+- Keep this document synchronized with the API Design Standards and the feature requirements.
 
 ## Sources
 
-- [Project Overview](../overview.md)
-- [Functional Requirements](../01-requirements/functional-requirements.md)
-- [Non-Functional Requirements](../01-requirements/non-functional-requirements.md)
-- [Role Mapping](../02-planning/role-mapping.md)
-- [Phased Roadmap](../02-planning/phased-roadmap.md)
-- [Architecture Solution Design](./architecture-solution-design.md)
+- [Architecture Solution Design](../architecture-solution-design.md)
 - [API Design Standards](./api-design-standards.md)
+- [Feature Requirements](../../01-requirements/project-requirements-by-feature.md)
+
+---
 
 ## API Scope and Conventions
 
@@ -24,9 +29,146 @@
 - **Authentication:** `Authorization: Bearer <jwt>` on protected endpoints
 - **Field naming:** `camelCase`
 - **Datetime format:** ISO 8601 UTC (`YYYY-MM-DDTHH:MM:SSZ`)
-- **Roles:**
-  - `Admin`: full CRUD
-  - `Viewer`: read-only project/requirements visibility (no internal notes)
+- **Roles:** [List roles, e.g., `Admin` (full CRUD), `Viewer` (read-only access)]
+
+---
+
+## Endpoint Catalog
+
+| Domain     | Method | Endpoint                          | Purpose                      | Roles   |
+| ---------- | ------ | --------------------------------- | ---------------------------- | ------- |
+| [Domain A] | GET    | `/[resources]`                    | List [resources]             | [Roles] |
+| [Domain A] | POST   | `/[resources]`                    | Create [resource]            | [Roles] |
+| [Domain A] | GET    | `/[resources]/{id}`               | Get [resource] details       | [Roles] |
+| [Domain A] | PUT    | `/[resources]/{id}`               | Update [resource]            | [Roles] |
+| [Domain A] | DELETE | `/[resources]/{id}`               | Archive [resource]           | [Roles] |
+| [Domain B] | GET    | `/[parent]/{parentId}/[children]` | List [children] for [parent] | [Roles] |
+| [Domain B] | POST   | `/[parent]/{parentId}/[children]` | Create [child]               | [Roles] |
+| [Domain B] | POST   | `/[parent]/{parentId}/[action]`   | Trigger [domain action]      | [Roles] |
+
+---
+
+## Shared JSON Schemas
+
+### Error Response Schema
+
+```json
+{
+  "type": "object",
+  "required": ["error"],
+  "properties": {
+    "error": {
+      "type": "object",
+      "required": ["code", "message", "requestId"],
+      "properties": {
+        "code": { "type": "string" },
+        "message": { "type": "string" },
+        "details": {
+          "type": "array",
+          "items": { "type": "object" }
+        },
+        "requestId": { "type": "string" }
+      }
+    }
+  }
+}
+```
+
+Example:
+
+```json
+{
+  "error": {
+    "code": "[DOMAIN_RULE_VIOLATED]",
+    "message": "[Human-readable error message.]",
+    "details": [{ "field": "[fieldName]", "issue": "[validation detail]" }],
+    "requestId": "req_[unique-id]"
+  }
+}
+```
+
+### Pagination Schema (Collection Responses)
+
+```json
+{
+  "type": "object",
+  "required": ["data", "pagination"],
+  "properties": {
+    "data": { "type": "array", "items": { "type": "object" } },
+    "pagination": {
+      "type": "object",
+      "required": ["page", "pageSize", "total", "totalPages"],
+      "properties": {
+        "page": { "type": "integer", "minimum": 1 },
+        "pageSize": { "type": "integer", "minimum": 1, "maximum": 100 },
+        "total": { "type": "integer", "minimum": 0 },
+        "totalPages": { "type": "integer", "minimum": 0 }
+      }
+    }
+  }
+}
+```
+
+### Status Code Matrix
+
+| Code  | Meaning               | Typical Use                      |
+| ----- | --------------------- | -------------------------------- |
+| `200` | OK                    | Successful reads/updates         |
+| `201` | Created               | Successful creation              |
+| `204` | No Content            | Successful archive/delete        |
+| `400` | Bad Request           | Invalid payload/query            |
+| `401` | Unauthorized          | Missing/invalid JWT              |
+| `403` | Forbidden             | Role not permitted               |
+| `404` | Not Found             | Missing resource                 |
+| `409` | Conflict              | State or domain rule conflict    |
+| `422` | Unprocessable Entity  | Validation/domain rule violation |
+| `429` | Too Many Requests     | Rate limit exceeded              |
+| `500` | Internal Server Error | Unhandled server failure         |
+
+---
+
+## Detailed Endpoint Contracts
+
+> Add one section per endpoint with a complex request or response body.
+
+### 1) [Endpoint Name, e.g., Create Resource]
+
+- **Method/URL:** `POST /api/v1/[resources]`
+- **Description:** [What the endpoint does and any domain constraint, e.g., enforced limit]
+- **Request Body:**
+
+```json
+{
+  "[field1]": "[type and description]",
+  "[field2]": "[type and description]"
+}
+```
+
+- **Validation Rules:**
+  - `[field1]`: [rule, e.g., required, max length]
+  - `[field2]`: [rule]
+- **Responses:**
+  - `201 Created`: [Payload description]
+  - `400 Bad Request`: [When and why]
+  - `409 Conflict`: [Domain rule that causes conflict]
+
+### 2) [Endpoint Name, e.g., State Transition Action]
+
+- **Method/URL:** `POST /api/v1/[resources]/{id}/[action]`
+- **Description:** [What state this transition enforces]
+- **Request Body:** [Schema or `none`]
+- **Responses:**
+  - `200 OK`: [Updated resource payload]
+  - `403 Forbidden`: [Who cannot perform this action]
+  - `404 Not Found`: [Resource not found]
+
+---
+
+## Change Log
+
+| Date         | Version | Change Summary | Author |
+| ------------ | ------- | -------------- | ------ |
+| [YYYY-MM-DD] | [vX.Y]  | [What changed] | [Name] |
 
 ## Endpoint Catalog
 

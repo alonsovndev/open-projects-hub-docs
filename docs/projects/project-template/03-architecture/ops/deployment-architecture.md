@@ -1,21 +1,107 @@
-# Deployment & Infrastructure Architecture
+# Deployment Architecture Template (AI-Ready)
 
-| Attribute        | Value                       |
-| ---------------- | --------------------------- |
-| **Project**      | Open Freelancer Project Hub |
-| **Version**      | 1.0                         |
-| **Status**       | Draft                       |
-| **Last Updated** | 2026-02-28                  |
+| Attribute        | Value                            |
+| ---------------- | -------------------------------- |
+| **Project**      | [Project Name]                   |
+| **Version**      | [vX.Y]                           |
+| **Status**       | [Draft \| In Review \| Approved] |
+| **Last Updated** | [YYYY-MM-DD]                     |
+
+## How to Use (AI Agent Instructions)
+
+- Select a platform model before filling in compute and networking sections.
+- Align scaling strategy choices with the NFRs (latency, availability, data volume targets).
+- Link to corresponding ADRs for platform, database, and caching decisions.
+- Keep the architecture diagram synchronized with the compute/networking sections.
+
+## Sources
+
+- [Architecture Solution Design](../architecture-solution-design.md)
+- [Technology Stack](../technology-stack.md)
+- [Non-Functional Quality View](../../01-requirements/non-functional-requirements.md)
+
+---
 
 ## 1. Scope and NFR Alignment
 
-This document defines production deployment architecture for the MVP and aligns it with:
+This document defines production deployment architecture and aligns it with:
 
-- **NFR-005:** Core views respond within 2 seconds under MVP load.
-- **NFR-006:** Support at least 3 active projects and 500 user stories without data loss.
-- **Reliability target (MVP):** 99.9% monthly availability for frontend and backend services.
+- **[NFR ID]:** [e.g., Core views respond within 2 seconds under expected load]
+- **[NFR ID]:** [e.g., Support at least N concurrent users without data loss]
+- **Reliability target:** [e.g., 99.9% monthly availability for frontend and backend services]
 
-## 2. Cloud Platform Selection and Rationale
+## 2. Cloud Platform Selection
+
+### 2.1 Options Considered
+
+| Option                 | Strengths                                 | Risks / Trade-offs                           | Decision                  |
+| ---------------------- | ----------------------------------------- | -------------------------------------------- | ------------------------- |
+| AWS-first IaaS/PaaS    | Maximum service breadth and infra control | Higher ops overhead, slower initial delivery | [Selected / Not Selected] |
+| Azure-first            | Strong enterprise tooling                 | Similar ops complexity for small team        | [Selected / Not Selected] |
+| GCP-first              | Good pricing and data tooling             | Platform-management burden                   | [Selected / Not Selected] |
+| Managed multi-platform | Low-ops, fast delivery, built-in scaling  | Multi-vendor governance required             | [Selected / Not Selected] |
+
+### 2.2 Selected Platform Model
+
+- **Frontend hosting:** [e.g., Vercel / Cloudflare Pages — edge CDN, preview deployments]
+- **Backend hosting:** [e.g., Render / Railway / AWS ECS — container services, autoscaling]
+- **Database / Auth / Storage:** [e.g., Managed PostgreSQL + Auth provider + Object storage]
+- **Observability:** [e.g., Sentry / Datadog / OpenTelemetry]
+- **CI/CD:** [e.g., GitHub Actions]
+
+Reference diagram: [`../diagrams/deployment.mmd`](../diagrams/deployment.mmd)
+
+## 3. Compute Resources
+
+- **Web compute:** [Backend container service — stateless API processes]
+- **Background compute:** [Worker service for async jobs, e.g., exports, notifications]
+- **Edge compute:** [e.g., Edge functions for middleware/proxy; limit to non-business-logic use cases]
+- **Serverless:** [If used — scope and constraints]
+
+## 4. Database and Storage
+
+- **Primary database:** [Managed relational/NoSQL DB with automated backups and point-in-time recovery]
+- **Auth:** [Auth provider — JWT issuance and identity management]
+- **File / object storage:** [Object store for exports, attachments, or media]
+- **Cache:** [Managed cache, e.g., Redis, for hot reads, rate limiting, and ephemeral state]
+
+## 5. Networking
+
+- Public ingress via HTTPS to: [frontend domain], [backend API endpoint]
+- Logical segmentation:
+  - Public edge: frontend and API ingress
+  - Private: service-to-service traffic (backend ↔ database/cache/auth)
+- DNS: [environment-specific domains for dev/staging/prod isolation]
+
+## 6. Scaling Strategy
+
+- **Horizontal scaling (primary):** [Backend scales out on CPU/memory/request pressure; stateless design ensures safe replication]
+- **Vertical scaling (secondary):** [Only when profiling confirms the bottleneck is resource-bound]
+- **Database scaling:** [Connection pooling, read replica strategy when query volume requires]
+- **Cache scaling:** [Cluster mode or replica if cache becomes a bottleneck]
+
+## 7. Environment Strategy
+
+| Environment | Purpose                         | Deployment Trigger      | Approvals              |
+| ----------- | ------------------------------- | ----------------------- | ---------------------- |
+| Dev         | Fast feedback, frequent deploys | Branch push             | None                   |
+| Staging     | Production-like validation      | PR merge to main branch | [Optional manual gate] |
+| Production  | Live system                     | Staging promotion       | [Required approvals]   |
+
+## 8. Disaster Recovery
+
+- **RTO (Recovery Time Objective):** [e.g., < 1 hour for critical failures]
+- **RPO (Recovery Point Objective):** [e.g., < 1 hour data loss tolerance]
+- **Strategy:** [e.g., managed database PITR restore + stateless service redeploy]
+- **Runbook location:** [Link or TBD]
+
+---
+
+## Change Log
+
+| Date         | Version | Change Summary | Author |
+| ------------ | ------- | -------------- | ------ |
+| [YYYY-MM-DD] | [vX.Y]  | [What changed] | [Name] |
 
 ### 2.1 Options Considered
 

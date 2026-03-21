@@ -2,6 +2,7 @@
 
 - **Status**: Proposed
 - **Date**: YYYY-MM-DD
+- **Decider**: [Name]
 
 ## Context
 

@@ -1,46 +1,56 @@
-# Architecture Overview
+# Architecture Overview Template (AI-Ready)
 
-This document provides a high-level overview of the Open Projects Hub architecture. It serves as a central starting point for understanding the system's design, components, and technical decisions.
+| Attribute        | Value                            |
+| ---------------- | -------------------------------- |
+| **Project**      | [Project Name]                   |
+| **Version**      | [vX.Y]                           |
+| **Status**       | [Draft \| In Review \| Approved] |
+| **Last Updated** | [YYYY-MM-DD]                     |
 
-## 1. Core Architectural Design
+## How to Use (AI Agent Instructions)
 
-The project follows a **Modular Monolith** architecture for the backend, deployed as a single service, with a decoupled frontend application. This approach was chosen to balance development velocity with clear domain separation from the outset.
+- Fill in each linked document before referencing it.
+- Every section must link to at least one ADR for significant decisions.
+- Keep this README as the single navigation entry point for the architecture folder.
+- Add new sections only when a domain concern is not yet covered.
 
-- **[Architecture Solution Design](./architecture-solution-design.md)**: Describes the overall system design, components, and interactions.
-- **[Architecture Styles](./architecture-styles.md)**: Explains the rationale for choosing a Modular Monolith and defines the initial Bounded Contexts.
+---
+
+## 1. Core Architecture
+
+- **[Architecture Solution Design](./architecture-solution-design.md)**: System context, component overview, and high-level data flow.
+- **[Architecture Styles](./architecture-styles.md)**: Selected pattern rationale, bounded context map, and evolution strategy.
+- **[Sequence Diagrams](./sequence-diagrams.md)**: Key interaction flows between system actors and services.
 
 ## 2. Technology Stack
 
-Our technology choices are aimed at creating a modern, scalable, and maintainable platform. The full list of technologies and the reasoning behind their selection is available in the document below.
-
-- **[Technology Stack](./technology-stack.md)**: Details the frameworks, languages, and services used across the stack.
+- **[Technology Stack](./technology-stack.md)**: Component-level technology choices with rationale and trade-offs.
 
 ## 3. API and Communication
 
-Communication between the frontend and backend is handled via a RESTful API. For certain asynchronous operations, an event-driven approach is used to enhance reliability and decoupling.
+Files in `api/`:
 
-- **[API Design Standards](./api-design-standards.md)**: Defines the conventions for versioning, error handling, and naming.
-- **[API Contract](./api-contract.md)**: Specifies the REST API endpoints and data formats.
-- **[Event-Driven Architecture](./event-driven-architecture.md)**: Outlines the strategy for asynchronous communication patterns.
+- **[API Design Standards](./api/api-design-standards.md)**: REST conventions, versioning, error handling, and naming rules.
+- **[API Contract](./api/api-contract.md)**: Endpoint catalog and shared JSON schemas.
+- **[Event-Driven Architecture](./api/event-driven-architecture.md)**: Async patterns: outbox, saga, event sourcing, and broker selection.
 
 ## 4. Deployment and Operations
 
-The system is deployed on modern cloud platforms, with a fully automated CI/CD pipeline to ensure reliability and frequent updates.
+Files in `ops/`:
 
-- **[Deployment Architecture](./deployment-architecture.md)**: Details the infrastructure setup on Vercel, Render, and Supabase.
-- **[CI/CD Pipeline](./ci-cd-pipeline.md)**: Describes the automated build, test, and deployment process using GitHub Actions.
-- **[Monitoring & Observability](./monitoring-observability.md)**: Outlines the strategy for logging, tracing, and performance monitoring.
+- **[Deployment Architecture](./ops/deployment-architecture.md)**: Cloud platform selection, compute, networking, and scaling strategy.
+- **[CI/CD Pipeline](./ops/ci-cd-pipeline.md)**: Automated quality gates, deployment stages, rollback, and secrets handling.
+- **[Monitoring and Observability](./ops/monitoring-observability.md)**: SLIs, dashboards, alerting rules, and release health checks.
 
 ## 5. Security
 
-Security is a core consideration in our architecture, from authentication and authorization to data protection and threat modeling.
+Files in `security/`:
 
-- **[Security Architecture](./security-architecture.md)**: Lays out the overall security strategy, including authentication and authorization.
-- **[Threat Model](./threat-model.md)**: Identifies potential security threats and mitigation strategies.
+- **[Security Architecture](./security/security-architecture.md)**: Auth model, RBAC, data protection, and defense-in-depth controls.
+- **[Threat Model](./security/threat-model.md)**: STRIDE-based threat enumeration, risk matrix, and mitigation plan.
 
 ## 6. Diagrams and Decision Records
 
-Visual diagrams and detailed decision records provide deeper insight into our architecture.
-
-- **[Diagrams](./diagrams/)**: Contains all architectural diagrams, including C4 models, data flow, and sequence diagrams.
-- **[Architecture Decision Records (ADRs)](./adrs/)**: Provides detailed justifications for significant architectural decisions.
+- **[Diagrams](./diagrams/)**: Architecture diagrams (C4, data flow, auth flow, deployment, event flows).
+- **[ADRs](./adrs/)**: Architecture Decision Records with context, decision, and trade-offs.
+  - Start with [ADR Template](./adrs/adr-template.md) for all new decisions.

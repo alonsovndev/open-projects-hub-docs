@@ -1,26 +1,79 @@
-# Technology Stack
+# Technology Stack Template (AI-Ready)
 
-| Attribute        | Value                       |
-| ---------------- | --------------------------- |
-| **Project**      | Open Freelancer Project Hub |
-| **Version**      | 1.0                         |
-| **Status**       | Draft                       |
-| **Last Updated** | 2026-02-28                  |
+| Attribute        | Value                            |
+| ---------------- | -------------------------------- |
+| **Project**      | [Project Name]                   |
+| **Version**      | [vX.Y]                           |
+| **Status**       | [Draft \| In Review \| Approved] |
+| **Last Updated** | [YYYY-MM-DD]                     |
+
+## How to Use (AI Agent Instructions)
+
+- Fill in one row per technology component. Do not leave the Rationale column blank.
+- Every major choice should link to or trigger an ADR.
+- Update this table when a technology is replaced or a new layer is introduced.
+- Keep the Integration Guidelines synchronized with the Architecture Solution Design.
 
 ## Sources
 
-- [Project Overview](../overview.md)
-- [Functional Requirements](../01-requirements/functional-requirements.md)
-- [Non-Functional Requirements](../01-requirements/non-functional-requirements.md)
-- [Role Mapping](../02-planning/role-mapping.md)
-- [Phased Roadmap](../02-planning/phased-roadmap.md)
 - [Architecture Solution Design](./architecture-solution-design.md)
-- [Architecture Styles Decision](./architecture-styles.md)
-- [Event-Driven Architecture Patterns](./event-driven-architecture.md)
+- [Architecture Styles](./architecture-styles.md)
+- [Feature Requirements](../01-requirements/project-requirements-by-feature.md)
+- [Non-Functional Quality View](../01-requirements/non-functional-requirements.md)
+
+---
 
 ## Technology Stack Matrix
 
-| Component                 | Selected Technology                         | Version / Compatibility              | Role in System                                                  | Rationale                                                                                          | Trade-offs                                                               |
+| Component           | Selected Technology                            | Version                             | Role in System                                   | Rationale                                     | Trade-offs                                    |
+| ------------------- | ---------------------------------------------- | ----------------------------------- | ------------------------------------------------ | --------------------------------------------- | --------------------------------------------- |
+| Frontend Framework  | [e.g., React + TypeScript]                     | [e.g., React 18.x, TS 5.x]          | [UI workflows and user interaction]              | [Team expertise, ecosystem maturity]          | [Requires disciplined state management]       |
+| UI Library          | [e.g., Ant Design]                             | [e.g., 5.x]                         | [Accessible, consistent UI components]           | [Team familiarity, rapid assembly]            | [Opinionated design system]                   |
+| Frontend State      | [e.g., Redux Toolkit]                          | [e.g., 2.x]                         | [Predictable state handling for async flows]     | [Strong fit for explicit workflow states]     | [Additional boilerplate]                      |
+| Frontend Build Tool | [e.g., Vite]                                   | [e.g., 5.x]                         | [Fast local build and optimized bundles]         | [Fast feedback loops]                         | [Plugin compatibility management]             |
+| Backend Framework   | [e.g., FastAPI (Python)]                       | [e.g., Python 3.12 + FastAPI 0.11x] | [REST APIs, validation, orchestration]           | [Async support, OpenAPI generation]           | [Requires strict architectural boundaries]    |
+| Data Validation     | [e.g., Pydantic]                               | [e.g., 2.x]                         | [Request/response and DTO validation]            | [Framework integration and explicit schemas]  | [Version coupling with framework]             |
+| Database            | [e.g., Managed PostgreSQL]                     | [e.g., PostgreSQL 15+]              | [Primary transactional store]                    | [ACID guarantees, relational integrity]       | [Schema evolution discipline required]        |
+| ORM                 | [e.g., SQLAlchemy]                             | [e.g., 2.x]                         | [Persistence abstraction in infra layer]         | [Repository pattern support]                  | [ORM complexity and query pitfalls]           |
+| Authentication      | [e.g., Managed Auth + JWT]                     | [e.g., provider-managed]            | [User identity, session lifecycle, role context] | [Reduces implementation risk]                 | [External managed dependency]                 |
+| Authorization       | [e.g., Backend RBAC + DB row-level security]   | [e.g., DB policy layer]             | [Least-privilege enforcement per role]           | [Close-to-data enforcement]                   | [Policy complexity at scale]                  |
+| Caching Layer       | [e.g., Redis]                                  | [e.g., 7.x]                         | [Hot reads, rate limiting, ephemeral state]      | [Latency reduction for frequent reads]        | [Cache invalidation complexity]               |
+| Message Broker      | [e.g., Redis Streams / RabbitMQ / Kafka — TBD] | [TBD]                               | [Async events for decoupled workflows]           | [Chosen based on throughput and replay needs] | [Depends on event volume and ordering needs]  |
+| Backend Tooling     | [e.g., Docker multi-stage + ASGI server]       | [e.g., Docker 25.x]                 | [Reproducible packaging for deployments]         | [Environment parity]                          | [Image hardening and resource tuning]         |
+| Testing (Backend)   | [e.g., Pytest]                                 | [e.g., 8.x]                         | [Unit/integration tests for domain behavior]     | [Ecosystem standard; strong fixtures]         | [Disciplined test pyramid required]           |
+| Testing (Frontend)  | [e.g., Vitest + Testing Library + E2E tool]    | [TBD]                               | [Component, interaction, and E2E coverage]       | [Fast loop plus realistic regression checks]  | [E2E stability requires stable fixtures]      |
+| Observability       | [e.g., Sentry / Datadog / OpenTelemetry]       | [TBD]                               | [Error tracking, performance, release health]    | [Unified visibility across layers]            | [PII scrubbing and alert tuning required]     |
+| CI/CD               | [e.g., GitHub Actions]                         | [hosted runners]                    | [Automated quality gates and deployments]        | [Native repository integration]               | [Workflow sprawl risk]                        |
+| Frontend Hosting    | [e.g., Vercel / Cloudflare Pages]              | [managed]                           | [Global edge delivery, preview deployments]      | [Strong DX and low-ops hosting]               | [Vendor lock-in considerations]               |
+| Backend Hosting     | [e.g., Render / Railway / AWS ECS]             | [managed container]                 | [API/container hosting with autoscaling]         | [Low operational burden for Dockerized APIs]  | [Fewer deep infra controls than self-managed] |
+
+---
+
+## Integration Guidelines
+
+1. **Frontend → Backend**
+   - HTTPS-only REST communication.
+   - CORS allowlist limited to trusted frontend domains.
+   - JWT bearer token propagated on all authenticated routes.
+2. **Backend → Database**
+   - ORM used only in infrastructure layer; no direct raw queries in domain or application layers.
+   - Connection pooling and query timeouts required.
+   - Database migrations must be backward compatible for rolling deploys.
+3. **Authentication and authorization**
+   - Auth provider handles identity and token issuance.
+   - Backend validates JWT claims and enforces role permissions.
+   - Data-level policy enforces least privilege at the database layer.
+4. **Observability and release traceability**
+   - Observability SDK enabled in both frontend and backend.
+   - Release versions correlated with deployment events for regression tracking.
+
+---
+
+## Change Log
+
+| Date                      | Version                                     | Change Summary                       | Author                                                          |
+| ------------------------- | ------------------------------------------- | ------------------------------------ | --------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| [YYYY-MM-DD]              | [vX.Y]                                      | [What changed]                       | [Name]                                                          |
 | ------------------------- | ------------------------------------------- | ------------------------------------ | --------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
 | Frontend Framework        | React + TypeScript                          | React 18.x, TypeScript 5.x           | Admin/Viewer UI, project and requirements workflows             | Aligns with team expertise and ecosystem maturity; strong component model for structured workflows | Requires disciplined state management and type hygiene as codebase grows |
 | UI Library                | Ant Design                                  | 5.x                                  | Accessible, consistent UI components for fast MVP delivery      | Team familiarity and rapid UI assembly                                                             | Opinionated design system may require customization overhead             |
