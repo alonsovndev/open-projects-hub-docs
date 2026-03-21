@@ -1,114 +1,123 @@
-# User Personas
+# User Personas Template (AI-Ready)
 
-**Purpose:** Define core user personas aligned to the Open Freelancer Project Hub overview to ensure requirements and workflows serve the target audiences.
+Use this file to define reusable, decision-oriented personas for project planning and requirements.
 
-**Status:** Draft  
-**Last Updated:** 2026-02-28
+## How to Use (AI Agent Instructions)
 
----
-
-## Persona 1: Independent Freelancer (Primary)
-
-**Name:** Alex Rivera  
-**Role:** Full-Stack Freelance Developer  
-**Experience:** 6–8 years
-
-**Primary Goals:**
-
-- Translate vague client requests into actionable requirements quickly.
-- Reduce time spent on documentation and admin.
-- Keep multiple client projects organized and secure.
-
-**Pain Points:**
-
-- Clients provide ambiguous or incomplete requirements.
-- Requirements documentation is time-consuming and repetitive.
-- Difficulty managing access for clients vs. collaborators.
-
-**Needs & Expectations:**
-
-- AI-assisted clarity and structured user stories.
-- Consistent templates and documentation structure.
-- Simple access control for clients.
-
-**Success Indicators:**
-
-- Faster project kickoff time.
-- Fewer miscommunications and rework cycles.
-- Clean, shareable project documentation.
-
-**Quote:**
-
-> "I want to spend more time building and less time translating fuzzy ideas into usable specs."
+- Keep personas realistic and specific; avoid generic personas.
+- Create 2-4 personas maximum for MVP.
+- Include at least one primary persona tied to core value delivery.
+- If information is unknown, use `TBD` and add it to `Open Questions`.
+- Link each persona to concrete product decisions (features, priorities, UX, and constraints).
 
 ---
 
-## Persona 2: Client / Viewer (Secondary)
+## Document Metadata
 
-**Name:** Jordan Lee  
-**Role:** Non-technical client stakeholder  
-**Experience:** Works with freelancers intermittently
+- **Project**: [Project Name]
+- **Status**: [Draft | In Review | Approved]
+- **Owner**: [Role/Name]
+- **Last Updated**: [YYYY-MM-DD]
+- **Related Overview**: [./overview.md]
 
-**Primary Goals:**
+## Persona Portfolio Summary
 
-- Understand what will be delivered and why.
-- Track project progress without technical jargon.
-- Ensure requirements match business goals.
-
-**Pain Points:**
-
-- Technical documents are hard to interpret.
-- Uncertainty about what was agreed upon.
-- Limited visibility into project progress.
-
-**Needs & Expectations:**
-
-- Readable, structured requirements.
-- Transparent progress visibility.
-- Confidence that requirements match expectations.
-
-**Success Indicators:**
-
-- Fewer misunderstandings or scope disputes.
-- Clear summary of what is being built.
-- Confidence in freelancer professionalism.
-
-**Quote:**
-
-> "I just want a clear, shared understanding of what I’m getting."
+| Persona ID | Persona Name | Segment                | Priority            | Main Outcome         |
+| ---------- | ------------ | ---------------------- | ------------------- | -------------------- |
+| P-01       | [Name]       | [Primary user segment] | [Primary/Secondary] | [Top expected value] |
+| P-02       | [Name]       | [Secondary segment]    | [Secondary]         | [Top expected value] |
 
 ---
 
-## Persona 3: Open-Source Contributor / Student (Secondary)
+## Persona Template
 
-**Name:** Maya Chen  
-**Role:** CS Student / Open-Source Contributor  
-**Experience:** 1–3 years
+> Duplicate this section once per persona.
 
-**Primary Goals:**
+### [Persona ID]: [Persona Name]
 
-- Learn real-world software practices by contributing.
-- Understand how requirements are structured in professional projects.
-- Build portfolio contributions in an active project.
+- **Priority**: [Primary | Secondary]
+- **Role/Archetype**: [e.g., Independent Freelancer]
+- **Experience Level**: [e.g., 3-5 years]
+- **Context of Use**: [When and where they use the product]
 
-**Pain Points:**
+#### 1) Goals and Jobs-to-be-Done
 
-- Hard to find projects with strong documentation.
-- Unclear contribution expectations.
-- Limited exposure to structured requirements.
+- **Functional Goal(s)**: [What they need to accomplish]
+- **Emotional Goal(s)**: [How they want to feel]
+- **JTBD Statement**: When [situation], I want to [motivation], so I can [outcome].
 
-**Needs & Expectations:**
+#### 2) Pain Points and Frictions
 
-- Well-documented requirements and roadmap.
-- Clear contribution guidance.
-- Real-world project context.
+- [Pain point 1]
+- [Pain point 2]
+- [Pain point 3]
 
-**Success Indicators:**
+#### 3) Needs and Expectations
 
-- Contributions accepted and recognized.
-- Improved understanding of professional workflows.
-- Portfolio-ready experience.
+- [Need 1]
+- [Need 2]
+- [Need 3]
 
-**Quote:**
+#### 4) Behaviors and Decision Patterns
 
-> "I want to contribute to something real and learn how professionals define requirements."
+- **Typical Workflow**: [How they currently solve the problem]
+- **Decision Drivers**: [What influences adoption/trust]
+- **Adoption Barriers**: [Why they might reject or abandon]
+
+#### 5) Access and Security Profile
+
+- **Permissions Needed**: [Create/Edit/View/Admin]
+- **Security Sensitivity**: [Low/Medium/High + reason]
+- **Critical Trust Signals**: [e.g., transparency, auditability]
+
+#### 6) Success Indicators
+
+| Indicator                                       | Baseline  | Target   | Measurement Method |
+| ----------------------------------------------- | --------- | -------- | ------------------ |
+| [e.g., Time to create first requirements draft] | [Current] | [Target] | [How measured]     |
+| [e.g., Rework rate]                             | [Current] | [Target] | [How measured]     |
+
+#### 7) Representative Quote
+
+> "[One realistic quote that reflects their motivation or frustration]"
+
+#### 8) Design and Product Implications
+
+- **Must Support**: [Feature/flow implications]
+- **Should Avoid**: [Anti-patterns or UX risks]
+- **Priority Features Influenced**: [List of impacted features]
+
+#### 9) Traceability
+
+- **Related Requirements**: [Link to FR/NFR docs]
+- **Related User Stories**: [Link to story docs]
+- **Related Screens/Flows**: [Link to prototype docs]
+
+---
+
+## Cross-Persona Conflict Check
+
+Document conflicts between personas and how trade-offs are resolved.
+
+| Conflict                                 | Personas Involved | Decision   | Rationale |
+| ---------------------------------------- | ----------------- | ---------- | --------- |
+| [Example: Simplicity vs configurability] | [P-01, P-03]      | [Decision] | [Reason]  |
+
+## Validation Plan
+
+- **Validation Method**: [Interviews, usability test, analytics review]
+- **Sample Size**: [n]
+- **Cadence**: [When personas are reviewed]
+- **Exit Criteria**: [What confirms persona quality]
+
+## Open Questions
+
+- [Question 1]
+- [Question 2]
+- [Question 3]
+
+## Change Log
+
+| Date         | Version | Change Summary | Author |
+| ------------ | ------- | -------------- | ------ |
+| [YYYY-MM-DD] | [vX.Y]  | [What changed] | [Name] |
