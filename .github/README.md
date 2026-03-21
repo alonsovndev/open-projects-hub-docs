@@ -8,11 +8,6 @@ This repository uses a small canonical AI setup for documentation work.
 - `tech-lead`: architecture, API design, backend and frontend technical planning, deployment, observability, and database design.
 - `ui-ux-designer`: user flows, prototype briefs, design specifications, accessibility, and Stitch prompting.
 
-## Compatibility Aliases
-
-- `architect` -> `tech-lead`
-- `database-administrator` -> `tech-lead`
-
 ## Skill Layout
 
 - `.github/skills/docs-only-guardrails/SKILL.md`

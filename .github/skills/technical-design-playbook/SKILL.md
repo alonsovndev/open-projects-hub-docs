@@ -23,7 +23,7 @@ Turn product and architecture inputs into coherent technical documentation that 
 
 ### 1. Start From Existing Context
 
-- Review `prd.md`, `v1.md`, and the relevant project folder in `docs/projects/`.
+- Review the relevant project folder in `docs/projects/` before proposing changes.
 - Reuse existing decisions before introducing new standards.
 - Keep design consistent with Clean Architecture and DDD guidance already documented in the repository.
 

@@ -23,11 +23,6 @@ Follow instructions in this order:
 - `tech-lead`: architecture, API design, backend and frontend technical planning, database design, deployment, observability
 - `ui-ux-designer`: user flows, prototypes, design specs, accessibility, Stitch prompting
 
-Compatibility aliases:
-
-- `architect` -> `tech-lead`
-- `database-administrator` -> `tech-lead`
-
 ## Repository Standards
 
 - Use lowercase hyphenated file names.

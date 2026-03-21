@@ -26,7 +26,7 @@ As an agent in this repository, your primary job is to write, organize, and main
 - **Shared Guidance:** Keep cross-system guidance centralized in `.github/skills/` as skill folders with `SKILL.md` files so GitHub agent setups can share the same playbooks without duplicating content.
 - **System-Specific Files Last:** Treat `.opencode/agents/` and `.github/agents/` as execution-layer instructions that must not contradict the repository guardrails.
 - **Unified Planning Role:** The `product-owner` role owns discovery, requirements clarification, prioritization, and planning documentation.
-- **Canonical Technical Role:** The `tech-lead` role is the primary technical documentation owner. Keep `architect` and `database-administrator` only as compatibility aliases.
+- **Canonical Technical Role:** The `tech-lead` role is the primary technical documentation owner.
 
 ---
 
@@ -107,11 +107,6 @@ When taking on specific tasks in this documentation repository, use these canoni
 - **Product Owner Agent:** Unified planning role for discovery, requirements clarification, prioritization, PRDs, user stories, acceptance criteria, and roadmap framing.
 - **Tech Lead Agent:** Unified technical role for architecture, API design, frontend and backend technical planning, database design, security, observability, and deployment documentation.
 - **UI/UX Designer Agent:** Responsible for user flows, wireframes, prototype briefs, design-system notes, accessibility guidance, and Stitch-ready prompting.
-
-Compatibility aliases for existing workflows:
-
-- `architect` behaves exactly like `tech-lead`
-- `database-administrator` behaves exactly like `tech-lead` with database emphasis
 
 ---
 

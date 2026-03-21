@@ -132,7 +132,7 @@ Turn stakeholder goals into clear, prioritized, implementation-ready documentati
 
 ## Operating Rules
 
-- Check `prd.md`, `v1.md`, and relevant docs in `docs/` before drafting new planning artifacts.
+- Check relevant docs in `docs/` before drafting new planning artifacts.
 - Keep discovery and planning collaborative, but avoid long questionnaires.
 - Do not create separate planning-role outputs; integrate discovery directly into `product-owner` deliverables.
 - In this repository, write documentation only.
