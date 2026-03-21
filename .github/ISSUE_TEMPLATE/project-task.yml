@@ -1,0 +1,104 @@
+name: "📋 Documentation Task"
+description: "Open a documentation task for any project and any phase."
+title: "[project] – action"
+labels: ["documentation"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        > **How to use:** Select your **project** and **action** below, then update the issue title to `[project-name] – action-name` before submitting.
+
+  # ── Project ───────────────────────────────────────────────────────────────
+
+  - type: dropdown
+    id: project
+    attributes:
+      label: "Project"
+      description: "Which project does this task belong to?"
+      options:
+        - open-project-hub
+        - alonso-portfolio
+        - orthopedic-spine
+        - other
+    validations:
+      required: true
+
+  - type: input
+    id: project_other
+    attributes:
+      label: "Project name (if Other)"
+      description: "Only fill this if you selected **other** above."
+      placeholder: "my-project-name"
+
+  # ── Action ────────────────────────────────────────────────────────────────
+
+  - type: dropdown
+    id: action
+    attributes:
+      label: "Action"
+      description: "Select the documentation phase to perform."
+      options:
+        - "1 · Kickoff"
+        - "2 · Requirements"
+        - "3 · Planning"
+        - "4.1 · Architecture – High-Level Solution Design"
+        - "4.2 · Architecture – Technology Stack"
+        - "4.3 · Architecture – API Design Standards"
+        - "4.4 · Architecture – API Contract"
+        - "4.5 · Architecture – Diagrams"
+        - "4.6 · Architecture – Patterns"
+        - "4.7 · Architecture – Security"
+        - "4.8 · Architecture – Deployment & Infrastructure"
+        - "5 · Database Design"
+        - "6 · UI/UX Designer Stories"
+        - "6.1 · UI/UX Prototype (Stitch)"
+        - "7 · Epics"
+        - "8 · Backend Engineer Stories"
+        - "9 · Frontend Engineer Stories"
+    validations:
+      required: true
+
+  # ── Reference ─────────────────────────────────────────────────────────────
+
+  - type: markdown
+    attributes:
+      value: |
+        ### Agent & Output Path Reference
+
+        | Action | Agent | Output path |
+        |--------|-------|-------------|
+        | 1 · Kickoff | `product-owner` | `docs/projects/{project}/` |
+        | 2 · Requirements | `product-owner` | `docs/projects/{project}/1-requirements/` |
+        | 3 · Planning | `product-owner` | `docs/projects/{project}/2-planning/` |
+        | 4.x · Architecture (all) | `tech-lead` | `docs/projects/{project}/3-architecture/` |
+        | 5 · Database Design | `tech-lead` | `docs/projects/{project}/6-database/` |
+        | 6 · UI/UX Designer Stories | `product-owner` | `docs/projects/{project}/4-user-stories/` |
+        | 6.1 · UI/UX Prototype | `ui-ux-designer` | `docs/projects/{project}/5-prototype/` |
+        | 7 · Epics | `product-owner` | `docs/projects/{project}/4-user-stories/` |
+        | 8 · Backend Engineer Stories | `product-owner` | `docs/projects/{project}/4-user-stories/` |
+        | 9 · Frontend Engineer Stories | `product-owner` | `docs/projects/{project}/4-user-stories/` |
+
+  # ── Context ───────────────────────────────────────────────────────────────
+
+  - type: textarea
+    id: context
+    attributes:
+      label: "Additional Context"
+      description: "Any extra constraints, scope notes, or references relevant to this task."
+      placeholder: |
+        e.g. Focus only on the authentication module.
+        Reference: docs/projects/open-project-hub/1-requirements/functional-requirements.md
+
+  # ── Pre-flight ────────────────────────────────────────────────────────────
+
+  - type: checkboxes
+    id: preflight
+    attributes:
+      label: "Pre-flight Checks"
+      options:
+        - label: "I reviewed existing docs in `docs/projects/{project}/` before opening this issue."
+          required: true
+        - label: "The issue title has been updated to `[{project}] – {action}`."
+          required: true
