@@ -108,106 +108,44 @@ sequenceDiagram
 
 ---
 
+## Diagram Naming Conventions
+
+Follow these rules when adding new sequence diagrams to keep the catalog consistent and cross-referenceable.
+
+### Naming Format
+
+```
+[NNN]-[flow-category]-[short-description]
+```
+
+| Segment               | Rule                                                            | Example                     |
+| --------------------- | --------------------------------------------------------------- | --------------------------- |
+| `[NNN]`               | Three-digit sequence number, scoped to this file.               | `001`, `002`                |
+| `[flow-category]`     | One of: `auth`, `crud`, `approval`, `async`, `export`, `error`. | `approval`                  |
+| `[short-description]` | Kebab-case, 2-4 words describing the actor and action.          | `admin-approves-submission` |
+
+### Linkage Rules
+
+Every diagram section header must reference the feature and story it covers:
+
+```markdown
+## [NNN]. [Diagram Title]
+
+- **Feature:** [F-NNN]
+- **Stories:** [US-BE-MVP-001, US-FE-MVP-001]
+- **FR(s):** [FR-NNN-01]
+```
+
+### File Reference (Large Diagrams)
+
+For diagrams exceeding ~30 lines of Mermaid code, extract to a `.mmd` file in `diagrams/` and link to it using a relative path in prose, e.g.:
+
+> See [`diagrams/001-auth-admin-login.mmd`](diagrams/) for the full diagram source.
+
+---
+
 ## Change Log
 
 | Date         | Version | Change Summary | Author |
 | ------------ | ------- | -------------- | ------ |
 | [YYYY-MM-DD] | [vX.Y]  | [What changed] | [Name] |
-
-## 1) Authentication and Session Validation
-
-```mermaid
-sequenceDiagram
-    participant User as Admin/Viewer
-    participant FE as Frontend (Vercel)
-    participant SA as Supabase Auth
-    participant BE as Backend (Render)
-
-    User->>FE: Submit credentials / OAuth callback
-    FE->>SA: Authenticate user
-    SA-->>FE: Access + refresh tokens
-    FE->>BE: API request with JWT
-    BE->>SA: Validate token claims
-    SA-->>BE: Claims + role context
-    BE-->>FE: Authorized response
-```
-
-## 2) AI-Assisted Requirements Refinement
-
-```mermaid
-sequenceDiagram
-    participant Admin
-    participant FE as Frontend
-    participant BE as Backend API
-    participant DB as Supabase PostgreSQL
-    participant AI as AI Refinement Adapter
-
-    Admin->>FE: Enter raw notes and submit
-    FE->>BE: POST /requirements/refine (draft)
-    BE->>DB: Persist draft input + metadata
-    BE->>AI: Request refinement and ambiguity analysis
-    AI-->>BE: Structured stories + ambiguity markers
-    BE->>DB: Save generated draft stories
-    BE-->>FE: Return draft stories and highlights
-    FE-->>Admin: Display editable draft output
-```
-
-## 3) Explicit Approval and Viewer Visibility
-
-```mermaid
-sequenceDiagram
-    participant Admin
-    participant FE as Frontend
-    participant BE as Backend API
-    participant DB as Supabase PostgreSQL
-    participant Viewer
-
-    Admin->>FE: Approve selected stories
-    FE->>BE: POST /requirements/approve
-    BE->>DB: Validate ownership/role + mark approved
-    DB-->>BE: Approval persisted
-    BE-->>FE: Approval success response
-    Viewer->>FE: Open project requirements page
-    FE->>BE: GET /projects/{id}/requirements
-    BE->>DB: Fetch approved stories only
-    BE-->>FE: Read-only requirements payload
-    FE-->>Viewer: Render approved backlog
-```
-
-## 4) Markdown Export Workflow
-
-```mermaid
-sequenceDiagram
-    participant Admin
-    participant FE as Frontend
-    participant BE as Backend API
-    participant DB as Supabase PostgreSQL
-    participant Storage as Supabase Storage
-
-    Admin->>FE: Request markdown export
-    FE->>BE: POST /projects/{id}/export
-    BE->>DB: Retrieve approved requirements
-    DB-->>BE: Approved user stories
-    BE->>BE: Generate markdown document
-    BE->>Storage: Store export artifact
-    Storage-->>BE: Signed URL / file reference
-    BE-->>FE: Export metadata + download URL
-    FE-->>Admin: Download export file
-```
-
-## 5) Error Handling and Observability Path
-
-```mermaid
-sequenceDiagram
-    participant User
-    participant FE as Frontend
-    participant BE as Backend API
-    participant Sentry
-
-    User->>FE: Trigger action with invalid payload
-    FE->>BE: API request
-    BE-->>FE: 400/422 validation error
-    FE->>Sentry: Capture client context and error breadcrumb
-    BE->>Sentry: Capture exception + request metadata
-    FE-->>User: Show actionable error message
-```

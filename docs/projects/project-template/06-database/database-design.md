@@ -30,11 +30,11 @@ Keep this file implementation-ready but technology-agnostic where possible.
 
 ## Core Entities
 
-| Entity     | Purpose          | Owned By               | Lifecycle States                |
-| ---------- | ---------------- | ---------------------- | ------------------------------- |
-| [entity_1] | [What it stores] | [Bounded context/team] | [e.g., draft, active, archived] |
-| [entity_2] | [What it stores] | [Bounded context/team] | [states]                        |
-| [entity_3] | [What it stores] | [Bounded context/team] | [states]                        |
+| Entity     | Purpose          | Bounded Context | Owned By (Role/Team) | Required By (FR/NFR)      | Lifecycle States                |
+| ---------- | ---------------- | --------------- | -------------------- | ------------------------- | ------------------------------- |
+| [entity_1] | [What it stores] | [Context name]  | [Role/Team]          | [FR-001-01, NFR-X01]      | [e.g., draft, active, archived] |
+| [entity_2] | [What it stores] | [Context name]  | [Role/Team]          | [FR-002-01]               | [states]                        |
+| [entity_3] | [What it stores] | [Context name]  | [Role/Team]          | [FR-003-01, NFR-[NNN]-01] | [states]                        |
 
 ## Relationships
 

@@ -91,6 +91,21 @@ Map each planning workstream to a feature or group of requirements.
 
 ---
 
+## Requirement-Level Ownership
+
+For every Must-priority requirement, assign an explicit Owner (DRI) and Reviewer before planning sign-off. Pull IDs from `project-requirements-by-feature.md`.
+
+| Requirement ID | Requirement Summary         | Owner (DRI)        | Reviewer        | Implementer         | Phase   |
+| -------------- | --------------------------- | ------------------ | --------------- | ------------------- | ------- |
+| FR-[NNN]-01    | [Short requirement summary] | [Tech Lead]        | [Product Owner] | [Backend Engineer]  | MVP     |
+| FR-[NNN]-02    | [Short requirement summary] | [Backend Engineer] | [Tech Lead]     | [Backend Engineer]  | MVP     |
+| NFR-X01        | [Short quality constraint]  | [Tech Lead]        | [Tech Lead]     | [All Engineers]     | MVP     |
+| NFR-[NNN]-01   | [Short quality constraint]  | [UI/UX Designer]   | [Tech Lead]     | [Frontend Engineer] | Phase 1 |
+
+> **Rule:** No Must-priority requirement may enter an active sprint without an Owner (DRI) named in this table.
+
+---
+
 ## Change Log
 
 | Date         | Version | Change Summary | Author |

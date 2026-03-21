@@ -42,11 +42,11 @@ Each feature includes both functional requirements (`FR-*`) and feature-scoped q
 
 Use this section for quality constraints that apply to all features.
 
-| ID      | Quality Area  | Requirement                        | Metric / Target    | Priority | Status                     |
-| ------- | ------------- | ---------------------------------- | ------------------ | -------- | -------------------------- |
-| NFR-X01 | Security      | [Global security requirement]      | [Target/Threshold] | Must     | [Draft/Clarified/Approved] |
-| NFR-X02 | Reliability   | [Global reliability requirement]   | [Target/Threshold] | Must     | [Draft/Clarified/Approved] |
-| NFR-X03 | Accessibility | [Global accessibility requirement] | [Target/Threshold] | Should   | [Draft/Clarified/Approved] |
+| ID      | Quality Area  | Requirement                        | Metric / Target    | Priority | Owner (DRI) | Status                     |
+| ------- | ------------- | ---------------------------------- | ------------------ | -------- | ----------- | -------------------------- |
+| NFR-X01 | Security      | [Global security requirement]      | [Target/Threshold] | Must     | [Role/Name] | [Draft/Clarified/Approved] |
+| NFR-X02 | Reliability   | [Global reliability requirement]   | [Target/Threshold] | Must     | [Role/Name] | [Draft/Clarified/Approved] |
+| NFR-X03 | Accessibility | [Global accessibility requirement] | [Target/Threshold] | Should   | [Role/Name] | [Draft/Clarified/Approved] |
 
 ---
 
@@ -65,17 +65,17 @@ Use this section for quality constraints that apply to all features.
 
 #### Functional Requirements
 
-| ID          | Requirement                   | Source                           | Priority | Acceptance Criteria            | Status                     |
-| ----------- | ----------------------------- | -------------------------------- | -------- | ------------------------------ | -------------------------- |
-| FR-[NNN]-01 | [Atomic behavior requirement] | [Overview/Persona/Open Question] | Must     | [Testable acceptance criteria] | [Draft/Clarified/Approved] |
-| FR-[NNN]-02 | [Atomic behavior requirement] | [Overview/Persona/Open Question] | Should   | [Testable acceptance criteria] | [Draft/Clarified/Approved] |
+| ID          | Requirement                   | Source                           | Priority | Owner (DRI) | Decision Traceability (Q-ID) | Acceptance Criteria            | Status                     |
+| ----------- | ----------------------------- | -------------------------------- | -------- | ----------- | ---------------------------- | ------------------------------ | -------------------------- |
+| FR-[NNN]-01 | [Atomic behavior requirement] | [Overview/Persona/Open Question] | Must     | [Role/Name] | [Q-001 or —]                 | [Testable acceptance criteria] | [Draft/Clarified/Approved] |
+| FR-[NNN]-02 | [Atomic behavior requirement] | [Overview/Persona/Open Question] | Should   | [Role/Name] | [Q-002 or —]                 | [Testable acceptance criteria] | [Draft/Clarified/Approved] |
 
 #### Feature-Scoped Non-Functional Requirements
 
-| ID           | Requirement                                    | Metric / Target       | Priority | Status                     |
-| ------------ | ---------------------------------------------- | --------------------- | -------- | -------------------------- |
-| NFR-[NNN]-01 | [Quality requirement specific to this feature] | [Quantifiable target] | Must     | [Draft/Clarified/Approved] |
-| NFR-[NNN]-02 | [Quality requirement specific to this feature] | [Quantifiable target] | Should   | [Draft/Clarified/Approved] |
+| ID           | Requirement                                    | Metric / Target       | Priority | Owner (DRI) | Decision Traceability (Q-ID) | Status                     |
+| ------------ | ---------------------------------------------- | --------------------- | -------- | ----------- | ---------------------------- | -------------------------- |
+| NFR-[NNN]-01 | [Quality requirement specific to this feature] | [Quantifiable target] | Must     | [Role/Name] | [Q-001 or —]                 | [Draft/Clarified/Approved] |
+| NFR-[NNN]-02 | [Quality requirement specific to this feature] | [Quantifiable target] | Should   | [Role/Name] | [Q-002 or —]                 | [Draft/Clarified/Approved] |
 
 #### Dependencies and Risks
 

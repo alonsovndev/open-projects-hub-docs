@@ -127,6 +127,23 @@ Example:
 
 ---
 
+## Implementation Traceability
+
+Map each endpoint to the stories and requirements that drive it. Update before each sprint starts.
+
+| Endpoint                          | Method | Linked Story (US-\*)           | Linked FR(s) | Phase   |
+| --------------------------------- | ------ | ------------------------------ | ------------ | ------- |
+| `/[resources]`                    | GET    | [US-BE-MVP-001, US-FE-MVP-001] | [FR-001-01]  | MVP     |
+| `/[resources]`                    | POST   | [US-BE-MVP-002]                | [FR-001-02]  | MVP     |
+| `/[resources]/{id}`               | GET    | [US-BE-MVP-001, US-FE-MVP-001] | [FR-001-01]  | MVP     |
+| `/[resources]/{id}`               | PUT    | [US-BE-MVP-003]                | [FR-001-03]  | MVP     |
+| `/[resources]/{id}`               | DELETE | [US-BE-MVP-004]                | [FR-001-04]  | Phase 1 |
+| `/[parent]/{parentId}/[children]` | GET    | [US-BE-MVP-002, US-FE-MVP-002] | [FR-002-01]  | MVP     |
+
+> **Rule:** Every Must-priority endpoint must have at least one linked BE and one linked FE story before the endpoint is merged.
+
+---
+
 ## Detailed Endpoint Contracts
 
 > Add one section per endpoint with a complex request or response body.

@@ -54,3 +54,19 @@ Files in `security/`:
 - **[Diagrams](./diagrams/)**: Architecture diagrams (C4, data flow, auth flow, deployment, event flows).
 - **[ADRs](./adrs/)**: Architecture Decision Records with context, decision, and trade-offs.
   - Start with [ADR Template](./adrs/adr-template.md) for all new decisions.
+
+---
+
+## 7. Architecture Domain → Requirements Coverage
+
+This matrix confirms every Must-priority requirement is addressed by at least one architecture domain. Update whenever ADRs or requirements change.
+
+| Architecture Domain       | Must FR(s) Covered          | Must NFR(s) Covered | Key ADR(s)         |
+| ------------------------- | --------------------------- | ------------------- | ------------------ |
+| Core Architecture         | [FR-001-01, FR-002-01]      | [NFR-X02]           | [ADR-001, ADR-009] |
+| API and Communication     | [FR-001-01, FR-002-01, ...] | [NFR-X01]           | [ADR-002, ADR-010] |
+| Deployment and Operations | —                           | [NFR-X01, NFR-X02]  | [ADR-006, ADR-008] |
+| Security                  | —                           | [NFR-X01]           | [ADR-005, ADR-013] |
+| Database                  | [FR-001-01, FR-003-01, ...] | [NFR-X01, NFR-X02]  | [ADR-004, ADR-007] |
+
+> **Rule:** Any Must FR or NFR with no domain coverage is an architecture gap — create an ADR before phase sign-off.

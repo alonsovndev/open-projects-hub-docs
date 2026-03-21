@@ -92,6 +92,18 @@ flowchart TD
 - [Assumption 1]
 - [Assumption 2]
 
+## Requirements Coverage Matrix
+
+Map each prototype screen or flow to the requirements it covers. Update this table whenever scope changes.
+
+| Screen / Flow                  | Covers FR(s)           | Covers NFR(s) | Story (US-\*)   | Milestone |
+| ------------------------------ | ---------------------- | ------------- | --------------- | --------- |
+| [Primary Workflow Screen]      | [FR-001-01, FR-001-02] | [NFR-X01]     | [US-UX-MVP-001] | MVP       |
+| [Review or Backlog Screen]     | [FR-002-01]            | [NFR-X03]     | [US-UX-MVP-002] | MVP       |
+| [Read-Only / Stakeholder View] | [FR-003-01]            | [NFR-X03]     | [US-UX-P1-001]  | Phase 1   |
+
+> **Rule:** Every Must requirement must appear in at least one row before prototype sign-off.
+
 ## Source References
 
 - [Project Overview](../overview.md)

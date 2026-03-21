@@ -20,8 +20,6 @@
 
 - [Project Overview](../overview.md)
 - [Feature Requirements](../01-requirements/project-requirements-by-feature.md)
-- [Functional Requirements Index](../01-requirements/functional-requirements.md)
-- [Non-Functional Quality View](../01-requirements/non-functional-requirements.md)
 
 ## Planning Principles
 
@@ -125,12 +123,12 @@
 
 ## Feature Traceability Matrix
 
-Keep this updated whenever a feature or epic changes phase.
+Keep this updated whenever a feature, epic, or story changes phase. Every row must have at least one Linked Story before work begins.
 
-| Feature ID | Feature Name   | Phase   | Priority | Linked Epics | Status         |
-| ---------- | -------------- | ------- | -------- | ------------ | -------------- |
-| F-001      | [Feature Name] | MVP     | Must     | [Epic name]  | [Planned/Done] |
-| F-002      | [Feature Name] | Phase 1 | Should   | [Epic name]  | [Planned/Done] |
+| Feature ID | Feature Name   | Phase   | Priority | Linked Epic(s) | Linked Stories (US-\*)         | Status         |
+| ---------- | -------------- | ------- | -------- | -------------- | ------------------------------ | -------------- |
+| F-001      | [Feature Name] | MVP     | Must     | [Epic name]    | [US-BE-MVP-001, US-FE-MVP-001] | [Planned/Done] |
+| F-002      | [Feature Name] | Phase 1 | Should   | [Epic name]    | [US-BE-P1-001, US-UX-P1-001]   | [Planned/Done] |
 
 ---
 
