@@ -30,11 +30,11 @@ Keep this file implementation-ready but technology-agnostic where possible.
 
 ## Core Entities
 
-| Entity | Purpose | Owned By | Lifecycle States |
-| --- | --- | --- | --- |
+| Entity     | Purpose          | Owned By               | Lifecycle States                |
+| ---------- | ---------------- | ---------------------- | ------------------------------- |
 | [entity_1] | [What it stores] | [Bounded context/team] | [e.g., draft, active, archived] |
-| [entity_2] | [What it stores] | [Bounded context/team] | [states] |
-| [entity_3] | [What it stores] | [Bounded context/team] | [states] |
+| [entity_2] | [What it stores] | [Bounded context/team] | [states]                        |
+| [entity_3] | [What it stores] | [Bounded context/team] | [states]                        |
 
 ## Relationships
 
@@ -79,11 +79,11 @@ erDiagram
 
 ## Traceability to Requirements
 
-| Requirement | Database Coverage |
-| --- | --- |
-| [FR-XXX] | [Entity/relationship/constraint that supports it] |
-| [FR-XXX] | [Entity/relationship/constraint that supports it] |
-| [NFR-XXX] | [Performance/security/compliance support] |
+| Requirement | Database Coverage                                 |
+| ----------- | ------------------------------------------------- |
+| [FR-XXX]    | [Entity/relationship/constraint that supports it] |
+| [FR-XXX]    | [Entity/relationship/constraint that supports it] |
+| [NFR-XXX]   | [Performance/security/compliance support]         |
 
 ## Risks and Open Questions
 
@@ -94,6 +94,6 @@ erDiagram
 
 ## Change Log
 
-| Date | Version | Change Summary | Author |
-| --- | --- | --- | --- |
-| [YYYY-MM-DD] | [vX.Y] | [What changed] | [Name] |
+| Date         | Version | Change Summary | Author |
+| ------------ | ------- | -------------- | ------ |
+| [YYYY-MM-DD] | [vX.Y]  | [What changed] | [Name] |
