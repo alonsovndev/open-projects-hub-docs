@@ -1,0 +1,72 @@
+# Role Mapping
+
+| Attribute        | Value                       |
+| ---------------- | --------------------------- |
+| **Project**      | Open Freelancer Project Hub |
+| **Version**      | 1.0                         |
+| **Status**       | Draft                       |
+| **Last Updated** | 2026-02-28                  |
+
+## Sources
+
+- [Project Overview](../overview.md)
+- [Functional Requirements](../01-requirements/functional-requirements.md)
+- [Non-Functional Requirements](../01-requirements/non-functional-requirements.md)
+- [Phased Roadmap](./phased-roadmap.md)
+
+## Role Definitions
+
+| Role              | Primary Planning Focus                                                                             |
+| ----------------- | -------------------------------------------------------------------------------------------------- |
+| Tech Lead         | Scope governance, requirement traceability, cross-role alignment, quality gate ownership           |
+| Backend Engineer  | Domain/process rule clarification, data and workflow constraints, export and access-rule planning  |
+| Frontend Engineer | User flow feasibility, interaction behavior planning, viewer/admin experience consistency          |
+| UI/UX Designer    | Usability, information architecture, readability, accessibility and onboarding experience planning |
+
+## Ownership Matrix by Planning Workstream
+
+| Workstream                                                                | Tech Lead | Backend Engineer | Frontend Engineer | UI/UX Designer |
+| ------------------------------------------------------------------------- | --------- | ---------------- | ----------------- | -------------- |
+| Client & project management scope (FR-001, FR-002)                        | **Owner** | Primary          | Support           | Consulted      |
+| Discovery/planning lifecycle boundaries (FR-003)                          | **Owner** | Primary          | Primary           | Consulted      |
+| AI refinement input/output workflow (FR-004 to FR-007)                    | **Owner** | Primary          | Primary           | Primary        |
+| Access control and internal notes boundaries (FR-008 to FR-010)           | **Owner** | Primary          | Support           | Consulted      |
+| Requirements backlog and export planning (FR-011, FR-012)                 | **Owner** | Primary          | Primary           | Support        |
+| Onboarding and viewer transparency (FR-013, FR-014)                       | Support   | Consulted        | Primary           | **Owner**      |
+| Security/privacy/quality planning (NFR-001 to NFR-003)                    | **Owner** | Primary          | Support           | Consulted      |
+| Readability, performance, scalability, accessibility (NFR-004 to NFR-007) | Owner     | Primary          | Primary           | **Owner**      |
+| Cross-phase governance and dependency mapping (Phase 2)                   | **Owner** | Support          | Support           | Support        |
+
+## Phase-Level Task Ownership
+
+### MVP Phase
+
+| Priority | Task / Epic                                                            | Accountable | Responsible                         | Consulted                                           |
+| -------- | ---------------------------------------------------------------------- | ----------- | ----------------------------------- | --------------------------------------------------- |
+| Must     | Core scope and acceptance alignment                                    | Tech Lead   | Tech Lead                           | Backend Engineer, Frontend Engineer, UI/UX Designer |
+| Must     | Requirements workflow definition (input, ambiguity, approval, backlog) | Tech Lead   | Backend Engineer, Frontend Engineer | UI/UX Designer                                      |
+| Must     | Access and visibility boundaries                                       | Tech Lead   | Backend Engineer                    | Frontend Engineer, UI/UX Designer                   |
+| Must     | Exportable requirements deliverable definition                         | Tech Lead   | Backend Engineer, Frontend Engineer | UI/UX Designer                                      |
+
+### Phase 1
+
+| Priority | Task / Epic                                           | Accountable       | Responsible                                         | Consulted                   |
+| -------- | ----------------------------------------------------- | ----------------- | --------------------------------------------------- | --------------------------- |
+| Should   | Onboarding and contextual guidance scope              | UI/UX Designer    | UI/UX Designer, Frontend Engineer                   | Tech Lead                   |
+| Should   | Viewer readability and status visibility improvements | Frontend Engineer | Frontend Engineer, UI/UX Designer                   | Tech Lead, Backend Engineer |
+| Should   | Performance/scalability/accessibility quality targets | Tech Lead         | Backend Engineer, Frontend Engineer, UI/UX Designer | Tech Lead                   |
+
+### Phase 2
+
+| Priority | Task / Epic                                      | Accountable | Responsible                 | Consulted                                           |
+| -------- | ------------------------------------------------ | ----------- | --------------------------- | --------------------------------------------------- |
+| Could    | Cross-phase backlog governance                   | Tech Lead   | Tech Lead                   | Backend Engineer, Frontend Engineer, UI/UX Designer |
+| Could    | Dependency and risk register expansion           | Tech Lead   | Tech Lead, Backend Engineer | Frontend Engineer, UI/UX Designer                   |
+| Could    | Future collaboration and role expansion planning | Tech Lead   | Tech Lead, UI/UX Designer   | Backend Engineer, Frontend Engineer                 |
+
+## Coordination Cadence (Planning Only)
+
+- Tech Lead facilitates requirement validation checkpoints across phases.
+- Engineers provide feasibility and dependency input at planning-review milestones.
+- UI/UX Designer validates usability/accessibility impacts before phase sign-off.
+- All role decisions are recorded against requirement IDs for traceability.

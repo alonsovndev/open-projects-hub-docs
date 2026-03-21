@@ -1,0 +1,22 @@
+flowchart LR
+    API[API Routers\nPresentation Layer]
+    AuthMW[Auth Middleware]
+    UseCases[Application Use Cases]
+    Domain[Domain Services + Entities]
+    RepoPorts[Repository Interfaces]
+    InfraRepos[SQLAlchemy Repositories]
+    AIAdapter[AI Refinement Adapter]
+    Exporter[Markdown Export Service]
+    DB[(Supabase PostgreSQL)]
+    Redis[(Redis)]
+    Sentry[Sentry SDK]
+
+    API --> AuthMW --> UseCases
+    UseCases --> Domain
+    Domain --> RepoPorts
+    RepoPorts --> InfraRepos --> DB
+    UseCases --> AIAdapter
+    UseCases --> Exporter
+    UseCases --> Redis
+    API --> Sentry
+    UseCases --> Sentry

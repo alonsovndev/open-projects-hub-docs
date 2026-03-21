@@ -1,0 +1,8 @@
+flowchart LR
+    A[Bounded Context Module] --> B[Domain Event]
+    B --> C[Outbox Table]
+    C --> D[Outbox Publisher]
+    D --> E[(Redis Streams Broker)]
+    E --> F[Consumer 1: Export Processing]
+    E --> G[Consumer 2: Notifications]
+    E --> H[Consumer 3: Analytics Projection]

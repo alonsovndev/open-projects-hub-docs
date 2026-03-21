@@ -1,0 +1,6 @@
+flowchart LR
+    A[Phase 0: MVP Modular Monolith\nFastAPI on Render\nReact on Vercel\nSupabase PostgreSQL/Auth] --> B[Phase 1: Performance Hardening\nRedis cache + background workers\nExpanded observability]
+    B --> C[Phase 2: Domain Module Extraction\nExtract high-load bounded contexts\nInternal event contracts]
+    C --> D[Phase 3: Selective Microservices\nIndependent deploy units for hotspots\nEvent-driven integration]
+
+    A -.architecture governance + ADRs.-> D
