@@ -1,84 +1,189 @@
-# Open Freelancer Project Hub Overview
+# Project Overview Template (AI-Ready)
 
-**Tagline**: _"Empowering Freelancers with AI-Assisted Project Management and Structured Delivery."_
+Use this file as the canonical project overview template for new projects.
 
-## 2. Core Concept
+## How to Use (AI Agent Instructions)
 
-The Open Freelancer Project Hub is an open-source web platform designed to streamline and professionalize the project management experience for freelancers. It provides a centralized hub to manage clients, structure project requirements, and utilize an AI engine to refine ambiguous ideas into clear, actionable technical specifications.
-
-### Vision Statement
-
-To create an accessible, open-source tool that empowers freelancers to deliver higher quality software by bridging the gap between raw client requirements and structured engineering practices, fostering better collaboration and project success.
-
----
-
-## 3. Problem Statement
-
-### The Challenge
-
-Freelancers frequently struggle with the initial phases of a project, specifically requirements gathering and project organization. The pain points include:
-
-- **Unstructured Requirements**: Client ideas are often ambiguous and lack technical detail.
-- **Documentation Overhead**: Manually converting vague requirements into actionable user stories is time-consuming.
-- **Project Disorganization**: Managing multiple clients, projects, and access permissions in a secure manner can become chaotic.
-- **Security & Access Control**: Ensuring robust security and managing access (who can edit vs. who can only view) is critical but often overlooked in lightweight tools.
-
-### The Solution
-
-The Open Freelancer Project Hub addresses these challenges by offering:
-
-1. **AI-Assisted Requirements Refinement**: An integrated AI engine that detects ambiguities and automatically generates structured user stories from raw input.
-2. **Centralized Management**: A single platform to manage clients and up to three concurrent projects (MVP constraint) efficiently.
-3. **Structured Engineering Practices**: Native support for industry standards like Clean Architecture, Domain-Driven Design (DDD), and Test-Driven Development (TDD) by generating compliant documentation.
-4. **Role-Based Access Control**: Secure, structured access levels (Admin, Superuser, Viewer) to ensure safe collaboration.
+- Keep content concise and implementation-ready.
+- Replace all placeholders in `[brackets]`.
+- If data is unknown, write `TBD` and add an item to `Open Questions`.
+- Do not repeat details that already exist in linked docs; summarize and reference.
+- Keep scope aligned with MVP constraints.
 
 ---
 
-## 4. Target Audience
+## 1) Project Snapshot
 
-### Primary Audience
+- **Project Name**: [Name]
+- **Tagline**: [One-sentence value statement]
+- **Version**: [vX.Y]
+- **Status**: [Draft | In Review | Approved]
+- **Owner**: [Primary owner]
+- **Last Updated**: [YYYY-MM-DD]
+- **Target Delivery Window**: [e.g., 4-6 weeks]
 
-1. **Software Freelancers & Independent Developers**
-   - Benefit from automated requirements gathering, structured project organization, and reduced administrative overhead.
+## 2) Product Context
 
-### Secondary Audience
+### 2.1 Product Type
 
-1. **Open-Source Contributors & Students**
-   - Benefit from a real-world, modern tech stack (React, FastAPI, Clean Architecture) project that serves as an academic reference and allows for community contributions.
-2. **Clients of Freelancers (Viewers)**
-   - Benefit from having a transparent, read-only view of their project's progress and structured requirements.
+[Web platform / SaaS / Open source tool / Internal system]
 
----
+### 2.2 Why This Project Exists
 
-## 5. High-Level Goals
+[2-4 bullets describing business/user context]
 
-### Professional Impact Goals
+## 3) Problem Statement
 
-1. Streamline the transition from initial client meetings to actionable development tasks.
-2. Serve as a robust, real-world academic project that demonstrates modern software engineering best practices.
+### 3.1 Current Pain Points
 
-### Technical Goals
+- [Pain point 1]
+- [Pain point 2]
+- [Pain point 3]
 
-1. Implement a Modular Monolith backend using Python, FastAPI, and PostgreSQL following Clean Architecture and DDD principles.
-2. Ensure high code quality with a mandatory Test-Driven Development (TDD) approach, targeting a minimum of 70% test coverage.
-3. Establish a secure foundation adhering to OWASP Top 10 guidelines and Security by Design principles.
+### 3.2 Desired Future State
 
-### Business Goals
+- [Outcome 1]
+- [Outcome 2]
+- [Outcome 3]
 
-1. Deliver a fully functional MVP within a 1 to 1.5 month timeframe.
-2. Build an active open-source community around the tool to foster future contributions and feature expansions (e.g., Microservices migration).
+## 4) Target Users and Roles
 
----
+| Role       | Description    | Core Needs            | Permission Level         |
+| ---------- | -------------- | --------------------- | ------------------------ |
+| [Admin]    | [Who they are] | [What they need most] | [Full/Partial/Read-only] |
+| [Operator] | [Who they are] | [What they need most] | [Scoped]                 |
+| [Viewer]   | [Who they are] | [What they need most] | [Read-only]              |
 
-## 6. Key Differentiators
+## 5) Goals and Success Metrics
 
-### What Makes This Project Stand Out
+### 5.1 Business Goals
 
-1. **AI-Powered Refinement**: The inclusion of an AI motor specifically tuned to refine software requirements and detect ambiguities before development begins.
-2. **Built-in Engineering Standards**: The platform isn't just a generic task tracker; it inherently promotes TDD, DDD, and Clean Architecture in how it structures output.
-3. **Open Source & Academic Focus**: Designed from the ground up to be both a practical tool for freelancers and a learning resource for the open-source community.
-4. **Security First**: Strict adherence to security best practices (JWT, rate limiting, secure password hashing) from day one.
+- [Goal 1]
+- [Goal 2]
 
----
+### 5.2 Product/Technical Goals
 
-**Last Updated**: February 2026
+- [Goal 1]
+- [Goal 2]
+
+### 5.3 Success Metrics (Measurable)
+
+| Metric                               | Baseline  | Target   | Timeframe | Owner  |
+| ------------------------------------ | --------- | -------- | --------- | ------ |
+| [Example: Story generation accuracy] | [Current] | [Target] | [When]    | [Role] |
+| [Example: Time-to-spec]              | [Current] | [Target] | [When]    | [Role] |
+
+## 6) MVP Scope
+
+### 6.1 In Scope (Must Have)
+
+- [Feature/capability 1]
+- [Feature/capability 2]
+- [Feature/capability 3]
+
+### 6.2 Out of Scope (Not in MVP)
+
+- [Deferred item 1]
+- [Deferred item 2]
+- [Deferred item 3]
+
+### 6.3 Constraints
+
+- **Time**: [Constraint]
+- **Team**: [Constraint]
+- **Budget/Infra**: [Constraint]
+- **Operational Limits**: [e.g., max projects per user]
+
+## 7) Functional Summary
+
+Provide a short capability list (not full requirements).
+
+- [Capability 1]
+- [Capability 2]
+- [Capability 3]
+
+## 8) Non-Functional Expectations
+
+- **Security**: [e.g., OWASP Top 10, RBAC, secure auth]
+- **Quality**: [e.g., testing strategy, minimum coverage]
+- **Performance**: [e.g., response time target]
+- **Usability**: [e.g., error clarity, form feedback]
+- **Observability**: [e.g., logs, tracing, error monitoring]
+
+## 9) Solution Direction
+
+### 9.1 Architecture Approach
+
+[Example: Modular monolith now, migration path later]
+
+### 9.2 Technology Direction
+
+- **Frontend**: [Stack]
+- **Backend**: [Stack]
+- **Data**: [Database + ORM]
+- **Infra/CI-CD**: [Tooling]
+
+### 9.3 Key Design Principles
+
+- [Principle 1]
+- [Principle 2]
+- [Principle 3]
+
+## 10) Delivery Plan (High Level)
+
+| Phase / Week | Focus                               | Expected Output                 |
+| ------------ | ----------------------------------- | ------------------------------- |
+| [W1]         | [Discovery + architecture baseline] | [Approved scope + initial docs] |
+| [W2]         | [Core backend/auth]                 | [Core flows working]            |
+| [W3]         | [Primary domain features]           | [End-to-end MVP flows]          |
+| [W4+]        | [Stabilization + hardening]         | [Release-ready MVP]             |
+
+## 11) Risks, Dependencies, and Assumptions
+
+### 11.1 Top Risks and Mitigations
+
+| Risk     | Impact  | Mitigation | Owner  |
+| -------- | ------- | ---------- | ------ |
+| [Risk 1] | [H/M/L] | [Action]   | [Role] |
+| [Risk 2] | [H/M/L] | [Action]   | [Role] |
+
+### 11.2 Dependencies
+
+- [Dependency 1]
+- [Dependency 2]
+
+### 11.3 Assumptions
+
+- [Assumption 1]
+- [Assumption 2]
+
+## 12) Release Readiness Criteria
+
+- [ ] MVP scope complete
+- [ ] Critical security checks passed
+- [ ] Minimum quality gates passed
+- [ ] Core user flows validated
+- [ ] Required documentation published
+
+## 13) Required Linked Artifacts
+
+- [Requirements](./01-requirements/)
+- [Planning](./02-planning/)
+- [Architecture](./03-architecture/)
+- [User Stories](./04-user-stories/)
+- [Prototype](./05-prototype/)
+- [Database Design](./06-database/)
+- [Open Questions](./open-questions.md)
+- [User Personas](./user-personas.md)
+
+## 14) Open Questions
+
+- [Question 1]
+- [Question 2]
+- [Question 3]
+
+## 15) Change Log
+
+| Date         | Version | Change Summary | Author |
+| ------------ | ------- | -------------- | ------ |
+| [YYYY-MM-DD] | [vX.Y]  | [What changed] | [Name] |
