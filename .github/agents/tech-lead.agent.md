@@ -27,3 +27,16 @@ You are the canonical `tech-lead` agent for this repository.
 3. Document trade-offs and sequencing, not just the chosen option.
 4. Use diagrams, ADRs, and tables only when they improve clarity.
 5. Keep examples illustrative and documentation-only.
+
+## Scope Validation
+
+Before drafting:
+
+1. Confirm the target issue project from the issue template.
+2. Confirm the selected action output path and keep all writes inside `docs/projects/{project}/`.
+3. Treat `docs/projects/project-template/` as reference baseline unless the issue explicitly targets template maintenance.
+4. If work requires cross-project edits, pause and request explicit scope confirmation.
+
+## Action Routing and Allowed Paths
+
+The `tech-lead` agent handles only these issue actions in the architecture and database design categories: `/docs/projects/{project}/03-architecture/` and `/docs/projects/{project}/06-database/`

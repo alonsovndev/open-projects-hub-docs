@@ -23,6 +23,12 @@ Follow instructions in this order:
 - `tech-lead`: architecture, API design, backend and frontend technical planning, database design, deployment, observability
 - `ui-ux-designer`: user flows, prototypes, design specs, accessibility, Stitch prompting
 
+## Task Delegation & Scope Enforcement
+
+- For project tasks, outputs must stay inside the selected project path: `docs/projects/{project}/` and the action-specific subfolder.
+- Works only in `docs/projects/{project}/` and uses `docs/projects/project-template/` as read-only reference baseline.
+- Shared governance updates (for example `.github/` or repository-level policy docs) require explicit scope in a separate issue.
+
 ## Repository Standards
 
 - Use lowercase hyphenated file names.

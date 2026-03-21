@@ -28,6 +28,14 @@ As an agent in this repository, your primary job is to write, organize, and main
 - **Unified Planning Role:** The `product-owner` role owns discovery, requirements clarification, prioritization, and planning documentation.
 - **Canonical Technical Role:** The `tech-lead` role is the primary technical documentation owner.
 
+### 🔐 Task Scope & Agent Boundaries
+
+- **Project-scoped default:** For project documentation tasks, agents must write only inside `docs/projects/{project}/` and action-specific subpaths.
+  - Write only in `docs/projects/{project}/`
+  - Use `docs/projects/project-template/` as read-only baseline
+  - Avoid writes to sibling projects, `.github/`, or global policy docs unless a separate issue explicitly asks for that scope
+- **Cross-project or shared scope:** If task scope spans multiple projects or shared governance files, agents must require explicit scope confirmation before editing.
+
 ---
 
 ## 🚀 3. Reference Commands (For Documentation & Setup Guides)
