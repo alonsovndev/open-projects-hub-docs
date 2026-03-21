@@ -135,4 +135,4 @@ sequenceDiagram
 
 ## ADR Reference
 
-- `docs/03-architecture/adrs/adr-001-high-level-architecture.md`
+- [ADR-001: High-Level Architecture](./adrs/adr-001-high-level-architecture.md)

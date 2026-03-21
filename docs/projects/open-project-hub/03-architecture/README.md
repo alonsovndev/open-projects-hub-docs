@@ -38,7 +38,11 @@ Security is a core consideration in our architecture, from authentication and au
 - **[Security Architecture](./security-architecture.md)**: Lays out the overall security strategy, including authentication and authorization.
 - **[Threat Model](./threat-model.md)**: Identifies potential security threats and mitigation strategies.
 
-## 6. Diagrams and Decision Records
+## 6. Sequence Diagrams
+
+- **[Sequence Diagrams](./sequence-diagrams.md)**: Key user and system interaction flows — authentication, core workflow, and async processing.
+
+## 7. Diagrams and Decision Records
 
 Visual diagrams and detailed decision records provide deeper insight into our architecture.
 
