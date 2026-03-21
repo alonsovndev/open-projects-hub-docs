@@ -52,6 +52,19 @@ body:
     validations:
       required: true
 
+  # ── Request Type ───────────────────────────────────────────────────────────
+
+  - type: dropdown
+    id: request_type
+    attributes:
+      label: "Request Type"
+      description: "Is this a request to add new documentation or modify existing documentation?"
+      options:
+        - "Add New Documentation"
+        - "Modify Existing Documentation"
+    validations:
+      required: true
+
   # ── Reference ─────────────────────────────────────────────────────────────
 
   - type: markdown
