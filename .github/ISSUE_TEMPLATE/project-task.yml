@@ -21,16 +21,8 @@ body:
         - open-project-hub
         - alonso-portfolio
         - orthopedic-spine
-        - other
     validations:
       required: true
-
-  - type: input
-    id: project_other
-    attributes:
-      label: "Project name (if Other)"
-      description: "Only fill this if you selected **other** above."
-      placeholder: "my-project-name"
 
   # ── Action ────────────────────────────────────────────────────────────────
 
