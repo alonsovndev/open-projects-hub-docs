@@ -3,332 +3,282 @@
 | Attribute        | Value                       |
 | ---------------- | --------------------------- |
 | **Project**      | Open Freelancer Project Hub |
-| **Version**      | 1.0                         |
+| **Version**      | 1.1                         |
 | **Status**       | Draft                       |
-| **Last Updated** | 2026-03-10                  |
+| **Last Updated** | 2026-03-23                  |
+| **Owner**        | Product Owner               |
 
 ## Sources
 
 - [Project Overview](../overview.md)
-- [Functional Requirements](../01-requirements/functional-requirements.md)
-- [Non-Functional Requirements](../01-requirements/non-functional-requirements.md)
+- [Feature Requirements](../01-requirements/readme.md)
 - [Phased Roadmap](../02-planning/phased-roadmap.md)
 - [Role Mapping](../02-planning/role-mapping.md)
 - [Architecture Solution Design](../03-architecture/architecture-solution-design.md)
 - [Database Design](../06-database/database-design.md)
-- [UI/UX Designer User Stories](./ui-ux-designer-stories.md)
 
 ## Epic Planning Principles
 
-- Epics are defined at product planning level and stay within MVP scope unless explicitly excluded.
-- MVP scope is limited to discovery and planning workflows only.
-- Epic boundaries align to approved requirement IDs for traceability and phased roadmap control.
-- Delivery, handoff, expanded collaboration roles, and post-MVP scale features remain out of scope.
+- Keep MVP epics aligned to validated Must-have features only.
+- Map every epic to current `F-*`, `FR-*`, and `NFR-*` identifiers.
+- Separate MVP planning value from Phase 1 entry-flow and usability improvements.
+- Do not mix discovery-and-planning scope with delivery or handoff workflows.
 
 ## MVP Epics
 
-### Epic 1: Client and Project Administration
+### Epic 1: Client and Project Lifecycle Governance
 
-**Problem Statement**  
-Freelancers need a simple way to organize clients and projects, but lightweight tools often create project sprawl and weak ownership boundaries.
+**Problem Statement:** Freelancers need a reliable way to manage clients and projects without allowing the workspace to drift into unsupported lifecycle states or uncontrolled project sprawl.
 
-**Objective**  
-Provide a controlled foundation for managing client records and freelancer-owned projects within explicit MVP limits.
+**Objective:** Provide a stable planning workspace where Admin users can manage clients and projects under explicit MVP lifecycle and active-project constraints.
 
-**Included Scope**
+Included scope:
 
-- Create, view, update, archive, and manage client records.
-- Create and manage projects linked to a client.
-- Enforce the MVP limit of up to three active projects per freelancer account.
+- Client record management and project-to-client association
+- Project creation, update, archive, and active-project enforcement
+- Discovery and planning as the only allowed MVP phases
 
-**Excluded Scope**
+Excluded scope:
 
-- Portfolio, invoicing, billing, or CRM expansion features.
-- Multi-admin workspaces or organization-level account structures.
-- Delivery, execution, or project handoff workflows.
+- Delivery, handoff, and implementation tracking workflows
+- Multi-admin team structures and collaborator invitations
+- CRM, billing, or portfolio management expansion
 
-**Related Requirement IDs**  
-FR-001, FR-002, NFR-002, NFR-008
+Related feature and requirement IDs: F-001; FR-001-01, FR-001-02, FR-001-03; NFR-001-01, NFR-001-02, NFR-001-03
 
-**Dependencies**
+Dependencies:
 
-- [Project Overview](../overview.md) for MVP scope, business goals, and active-project constraints context.
-- [Functional Requirements](../01-requirements/functional-requirements.md) for FR-001 and FR-002 traceability.
-- [Phased Roadmap](../02-planning/phased-roadmap.md) for MVP priority alignment.
-- [Database Design](../06-database/database-design.md) for client/project entity boundaries and archival behavior assumptions.
+- [Project Overview](../overview.md)
+- [Feature Requirements](../01-requirements/f-001-client-and-project-lifecycle-management.md)
+- [Phased Roadmap](../02-planning/phased-roadmap.md)
+- [Database Design](../06-database/database-design.md)
 
-**Measurable Success Criteria**
+Measurable success criteria:
 
-- Admin can create, update, and archive client records for all MVP projects.
-- System blocks creation of a fourth active project and guides the Admin to archive an existing one.
-- Archived projects no longer count toward the active-project limit within the expected lifecycle rules.
+- Admin can create, update, and archive client and project records within one planning workspace.
+- Fourth active project creation is blocked consistently across documented flows.
+- No MVP artifact introduces a project phase beyond discovery or planning.
 
-**Acceptance Criteria**
+Acceptance criteria:
 
-- Given an Admin is managing client records, when they create or update a client, then the record remains associated with MVP project-planning workflows only.
-- Given an Admin already has three active projects, when they attempt to create another active project, then the system blocks the action and requires archival of an existing active project first.
-- Given a project is archived, when active-project limits are evaluated, then the archived project is excluded from the active-project count.
-
-**Candidate Related User-Story Themes**
-
-- Client record setup and maintenance
-- Project creation and ownership rules
-- Active-project limit messaging and archive flow
+- Given an Admin manages project records, when they create or edit a project, then the project must stay associated to a client and use only discovery or planning.
+- Given an Admin already has three active projects, when they attempt to create or reactivate another project, then the flow blocks the action and guides archival first.
+- Given a project is archived, when active-project limits are evaluated, then that project no longer counts toward the active limit.
 
 ---
 
-### Epic 2: Discovery and Planning Lifecycle Control
+### Epic 2: AI Refinement and Approval Control
 
-**Problem Statement**  
-Freelancers often lose scope discipline when tools mix planning work with downstream delivery workflows too early.
+**Problem Statement:** Freelancers lose time and introduce inconsistency when they manually rewrite ambiguous client notes into structured backlog items.
 
-**Objective**  
-Keep the MVP focused on early-stage project definition by constraining lifecycle states to discovery and planning only.
+**Objective:** Create a controlled refinement workflow that converts raw notes into editable draft stories and requires explicit Admin approval before publication.
 
-**Included Scope**
+Included scope:
 
-- Project phase definition limited to discovery and planning.
-- Status visibility that communicates current planning stage to Admin and Viewer users.
-- Planning artifacts and workflows aligned only to requirement discovery and backlog preparation.
+- Raw note and bullet-list intake
+- AI-generated draft stories in standard user story format
+- Admin edit and approval gate before official backlog inclusion
 
-**Excluded Scope**
+Excluded scope:
 
-- Task delivery tracking, sprint execution, developer assignment, or deployment management.
-- Handoff, acceptance sign-off, invoicing, or maintenance workflows.
-- Any workflow state beyond discovery and planning in the MVP UI or exports.
+- File uploads and multimodal AI ingestion
+- Auto-publishing without human review
+- Test-case generation, estimation, and delivery planning automation
 
-**Related Requirement IDs**  
-FR-003, FR-014, NFR-004, NFR-008
+Related feature and requirement IDs: F-002; FR-002-01, FR-002-02, FR-002-03; NFR-002-01, NFR-002-02, NFR-002-03
 
-**Dependencies**
+Dependencies:
 
-- [Project Overview](../overview.md) for problem framing and MVP timeline constraints.
-- [Functional Requirements](../01-requirements/functional-requirements.md) for phase-lifecycle and viewer visibility requirements.
-- [Phased Roadmap](../02-planning/phased-roadmap.md) for MVP scope boundaries and acceptance expectations.
-- [Architecture Solution Design](../03-architecture/architecture-solution-design.md) for planning-only system context and lifecycle boundaries.
+- [Feature Requirements](../01-requirements/f-002-ai-refinement-and-approval-workflow.md)
+- [Phased Roadmap](../02-planning/phased-roadmap.md)
+- [Architecture Solution Design](../03-architecture/architecture-solution-design.md)
+- [API Contract](../03-architecture/api-contract.md)
 
-**Measurable Success Criteria**
+Measurable success criteria:
 
-- All project records use only discovery or planning as valid MVP phases.
-- Viewer-facing status communication remains read-only and understandable to non-technical stakeholders.
-- No MVP artifact, screen, or export introduces delivery or handoff lifecycle stages.
+- Admin can submit raw notes without extra formatting steps.
+- AI output returns structured draft stories with acceptance-criteria-ready content.
+- Draft content remains unofficial until explicit Admin approval is completed.
 
-**Acceptance Criteria**
+Acceptance criteria:
 
-- Given an MVP project is created or updated, when its lifecycle state is assigned, then only discovery or planning is allowed.
-- Given a Viewer accesses project status information, when the status is displayed, then it is read-only and written in a way that supports non-technical understanding.
-- Given planning artifacts are reviewed, when scope is validated, then no delivery or handoff workflow is included in MVP outputs.
-
-**Candidate Related User-Story Themes**
-
-- Project phase setup and validation
-- Planning-stage visibility for stakeholders
-- Scope guardrails for MVP-only lifecycle states
+- Given an Admin starts refinement, when they submit plain text or bullet lists, then the flow accepts the input without attachments.
+- Given AI returns draft stories, when the Admin reviews them, then each story follows the standard user story structure and remains editable.
+- Given draft stories are not yet approved, when backlog or export outputs are reviewed, then draft stories are excluded from official artifacts.
 
 ---
 
-### Epic 3: AI-Assisted Requirements Refinement
+### Epic 3: Access Boundary and Stakeholder Visibility
 
-**Problem Statement**  
-Raw client notes are often ambiguous, incomplete, and difficult to convert into implementation-ready planning artifacts without heavy manual effort.
+**Problem Statement:** Client-facing transparency is useful only if it does not expose internal notes or allow viewers to alter planning artifacts.
 
-**Objective**  
-Help Admin users transform unstructured notes into clearer draft requirements by supporting raw input capture, ambiguity detection, and AI-assisted structure generation.
+**Objective:** Enforce simple Admin and Viewer boundaries so the MVP supports safe collaboration without expanding into full multi-user workflow management.
 
-**Included Scope**
+Included scope:
 
-- Accept raw notes and bullet-list inputs.
-- Surface inline ambiguity highlights before approval.
-- Generate structured draft user stories from refinement input.
+- Admin full-access and Viewer read-only boundaries
+- Viewer access to approved requirements and current project phase
+- Internal-note isolation from Viewer views
 
-**Excluded Scope**
+Excluded scope:
 
-- File uploads, multimodal input, or external document ingestion.
-- Autonomous publishing of AI output without human review.
-- Post-MVP AI capabilities such as estimation, prioritization, or autonomous delivery planning.
+- Extra roles, collaborator invitations, and Viewer comments
+- Shared editing and real-time collaboration
+- Audit-log or workflow history surfaces for end users
 
-**Related Requirement IDs**  
-FR-004, FR-005, FR-006, NFR-003
+Related feature and requirement IDs: F-003; FR-003-01, FR-003-02, FR-003-03; NFR-003-01, NFR-003-02, NFR-003-03
 
-**Dependencies**
+Dependencies:
 
-- [Project Overview](../overview.md) for the AI-assisted refinement vision.
-- [Functional Requirements](../01-requirements/functional-requirements.md) for raw-input, ambiguity, and story-generation expectations.
-- [Architecture Solution Design](../03-architecture/architecture-solution-design.md) for refinement workflow data flow.
-- [UI/UX Designer User Stories](./ui-ux-designer-stories.md) for refinement workspace and ambiguity-highlighting story coverage.
+- [Feature Requirements](../01-requirements/f-003-access-control-and-visibility-boundaries.md)
+- [Role Mapping](../02-planning/role-mapping.md)
+- [Phased Roadmap](../02-planning/phased-roadmap.md)
+- [Security Architecture](../03-architecture/security-architecture.md)
 
-**Measurable Success Criteria**
+Measurable success criteria:
 
-- Admin can submit plain-text notes or bullet lists without extra formatting requirements.
-- Ambiguous phrases are highlighted inline in the refinement workflow before approval.
-- Generated outputs consistently follow the standard user story structure with acceptance criteria-ready formatting.
+- Viewer access is limited to approved requirements and project phase visibility.
+- No documented flow allows Viewer create, edit, comment, or delete actions.
+- Internal notes are excluded from Viewer-facing views and exports.
 
-**Acceptance Criteria**
+Acceptance criteria:
 
-- Given an Admin has raw notes or bullet-list input, when they submit refinement content, then the workflow accepts the input without requiring file upload or additional formatting.
-- Given ambiguous text is detected during refinement, when the draft is returned, then the ambiguous phrases are highlighted inline for review.
-- Given draft stories are generated, when they are displayed to the Admin, then each draft follows the standard user story structure and includes acceptance-criteria-ready content.
-
-**Candidate Related User-Story Themes**
-
-- Raw-notes input workflow
-- Ambiguity highlight review
-- AI-generated draft story creation
+- Given a Viewer opens a project, when they review requirements, then the information is structured, readable, and read-only.
+- Given a Viewer attempts a write action, when they access project content, then edit and approval controls are absent or denied.
+- Given internal notes exist, when a Viewer-facing output is reviewed, then those notes are excluded.
 
 ---
 
-### Epic 4: Requirements Review, Editing, and Approval
+### Epic 4: Backlog and Export Deliverable
 
-**Problem Statement**  
-AI-generated content is useful for acceleration, but freelancers still need editorial control before requirements become official project artifacts.
+**Problem Statement:** Planning work loses value if freelancers cannot share a clean, structured artifact with stakeholders after approval.
 
-**Objective**  
-Ensure that project requirements move through a clear draft-to-approved workflow with explicit Admin review and approval.
+**Objective:** Make the approved backlog visible inside the product and exportable to Markdown as the official MVP deliverable.
 
-**Included Scope**
+Included scope:
 
-- Edit AI-generated draft stories before approval.
-- Keep generated artifacts in draft state until explicit Admin approval.
-- Promote approved stories into the official project backlog.
+- Structured approved backlog view
+- Markdown export for approved requirements only
+- Stakeholder-readable formatting aligned to the standard story template
 
-**Excluded Scope**
+Excluded scope:
 
-- Auto-approval, workflow automation rules, or approval delegation.
-- Multi-step approval chains or comment-based review workflows.
-- Version comparison and advanced change-history tooling beyond MVP planning needs.
+- PDF, DOCX, CSV, and tool-specific integrations
+- Export of draft stories or internal-only planning notes
+- Advanced reporting, analytics, or packaged delivery documentation
 
-**Related Requirement IDs**  
-FR-006, FR-007, FR-011, NFR-003
+Related feature and requirement IDs: F-004; FR-004-01, FR-004-02; NFR-004-01, NFR-004-02
 
-**Dependencies**
+Dependencies:
 
-- [Functional Requirements](../01-requirements/functional-requirements.md) for draft editing, approval, and backlog inclusion rules.
-- [Phased Roadmap](../02-planning/phased-roadmap.md) for MVP requirement-workflow priorities.
-- [Architecture Solution Design](../03-architecture/architecture-solution-design.md) for approval flow and approved artifact handling.
-- [Database Design](../06-database/database-design.md) for draft-story, refinement-session, and approved-requirement lifecycle boundaries.
+- [Feature Requirements](../01-requirements/f-004-requirements-backlog-and-markdown-export.md)
+- [Architecture Solution Design](../03-architecture/architecture-solution-design.md)
+- [API Contract](../03-architecture/api-contract.md)
+- [Database Design](../06-database/database-design.md)
 
-**Measurable Success Criteria**
+Measurable success criteria:
 
-- Unapproved AI-generated content does not appear as official backlog content or in exports.
-- Admin can revise generated stories and acceptance criteria before approval.
-- Each approved project contains a structured backlog of official requirement artifacts.
+- Every MVP project can present approved requirements in a structured backlog view.
+- Admin can request Markdown export without including draft or internal-only content.
+- Backlog and export outputs remain readable under MVP data limits.
 
-**Acceptance Criteria**
+Acceptance criteria:
 
-- Given AI-generated stories are still in draft state, when backlog or export outputs are viewed, then those draft stories are excluded from official project artifacts.
-- Given an Admin reviews generated requirement content, when they edit a story before approval, then the updated draft remains editable until explicit approval is provided.
-- Given an Admin explicitly approves draft stories, when the backlog is generated, then the approved stories appear as official project requirements.
-
-**Candidate Related User-Story Themes**
-
-- Draft-story editing
-- Explicit approval gate
-- Promotion of approved stories into backlog view
+- Given approved requirements exist, when backlog view is opened, then stories and acceptance criteria are shown in a readable structure.
+- Given an Admin requests export, when Markdown output is generated, then only approved requirements are included.
+- Given stakeholders review the deliverable, when they read the output, then the standard user story format is preserved.
 
 ---
 
-### Epic 5: Access-Controlled Stakeholder Collaboration
+### Epic 5: Admin Authentication and Recovery Baseline
 
-**Problem Statement**  
-Freelancers must collaborate with clients without exposing internal working notes or allowing unintended edits.
+**Problem Statement:** The planning workspace cannot be trusted unless Admin entry and recovery flows are secure, predictable, and aligned to the same scope boundaries as the rest of the MVP.
 
-**Objective**  
-Establish a simple, secure collaboration model with clear Admin and Viewer boundaries for MVP planning workflows.
+**Objective:** Define the MVP authentication baseline so Admin users can log in securely, recover access safely, and enter the project workspace without ambiguity.
 
-**Included Scope**
+Included scope:
 
-- Role-based access limited to Admin and Viewer.
-- Read-only Viewer access to approved project and requirement information.
-- Admin-only visibility for internal notes and protected planning content.
+- Email and password Admin login
+- Safe validation and authentication feedback
+- Secure password reset request and reset completion flow
 
-**Excluded Scope**
+Excluded scope:
 
-- Additional collaborator roles, external contributor invitations, or team workspaces.
-- Viewer editing, commenting, approvals, or workflow actions.
-- Real-time collaboration or document co-authoring features.
+- Social login, MFA, and advanced identity federation
+- Team invitation and delegated account administration
+- Account profile management beyond secure entry and recovery
 
-**Related Requirement IDs**  
-FR-008, FR-009, FR-010, FR-014, NFR-001, NFR-002, NFR-004
+Related feature and requirement IDs: F-007, F-009; FR-007-01, FR-007-02, FR-007-03, FR-009-01, FR-009-02, FR-009-03; NFR-007-01, NFR-007-02, NFR-009-01, NFR-009-02, NFR-X01
 
-**Dependencies**
+Dependencies:
 
-- [Functional Requirements](../01-requirements/functional-requirements.md) for role, visibility, and internal-note constraints.
-- [Non-Functional Requirements](../01-requirements/non-functional-requirements.md) for security, privacy, and readability targets.
-- [Role Mapping](../02-planning/role-mapping.md) for accountable planning ownership across access-related workstreams.
-- [Database Design](../06-database/database-design.md) for Admin/Viewer membership and internal-notes data-boundary assumptions.
+- [Feature Requirements](../01-requirements/f-007-admin-login.md)
+- [Feature Requirements](../01-requirements/f-009-reset-password.md)
+- [Role Mapping](../02-planning/role-mapping.md)
+- [Security Architecture](../03-architecture/security-architecture.md)
 
-**Measurable Success Criteria**
+Measurable success criteria:
 
-- Viewer users can access structured, read-only project requirements and phase status only.
-- Viewer users cannot create, edit, comment on, or delete planning artifacts.
-- Internal notes remain hidden from Viewer-facing views and exports.
+- Admin users can authenticate and recover access through documented secure flows.
+- Auth errors do not reveal sensitive account state.
+- Successful auth entry lands users in the correct planning workspace.
 
-**Acceptance Criteria**
+Acceptance criteria:
 
-- Given a Viewer accesses a project workspace, when project requirements are displayed, then the Viewer can read approved requirements and phase status without edit controls.
-- Given a Viewer attempts to change planning artifacts, when they try to create, update, comment on, or delete content, then the action is unavailable or denied.
-- Given a project contains internal notes, when Viewer-facing screens or exports are generated, then internal notes are excluded.
-
-**Candidate Related User-Story Themes**
-
-- Role assignment and access rules
-- Viewer read-only backlog experience
-- Internal-notes isolation
+- Given an Admin submits valid credentials, when login completes, then they reach the primary workspace.
+- Given invalid credentials or missing fields, when login is attempted, then feedback is clear and non-sensitive.
+- Given an Admin requests password reset, when the flow is completed with a valid token, then access can be restored through a secure reset path.
 
 ---
 
-### Epic 6: Structured Requirements Delivery and Export
+## Phase 1 Epic
 
-**Problem Statement**  
-Freelancers need a professional, shareable project deliverable, but unstructured notes do not provide a reliable planning artifact for stakeholder review.
+### Epic 6: Entry-Flow Quality Uplift
 
-**Objective**  
-Provide a structured backlog view and Markdown export so approved requirements can be reviewed, shared, and reused as formal planning output.
+**Problem Statement:** The MVP can be functional without polished first-use flows, but account creation, onboarding, and landing clarity are needed to reduce friction after the core planning workflow is stable.
 
-**Included Scope**
+**Objective:** Improve first-use quality through better onboarding, clearer public entry messaging, and a smoother account-creation path.
 
-- Backlog view of approved user stories and acceptance criteria.
-- Markdown export of approved project requirements.
-- Output formatting that preserves the standard user story template.
+Included scope:
 
-**Excluded Scope**
+- Minimal onboarding guidance for first-time Admin users
+- Landing page value proposition and CTA clarity
+- Account-creation flow and next-step routing
 
-- PDF, DOCX, spreadsheet, or external PM-tool exports.
-- Delivery plans, test plans, or implementation task exports beyond approved planning artifacts.
-- Viewer-specific export customization or advanced reporting packages.
+Excluded scope:
 
-**Related Requirement IDs**  
-FR-011, FR-012, FR-014, NFR-004, NFR-005, NFR-006
+- Full guided tours, marketing content systems, and campaign pages
+- Paid plan, subscription, or commercial conversion workflows
+- Team onboarding and collaborator provisioning
 
-**Dependencies**
+Related feature and requirement IDs: F-005, F-006, F-008; FR-005-01, FR-006-01, FR-006-02, FR-006-03, FR-008-01, FR-008-02, FR-008-03; NFR-005-01, NFR-005-02, NFR-006-01, NFR-006-02, NFR-008-01, NFR-008-02
 
-- [Functional Requirements](../01-requirements/functional-requirements.md) for backlog and Markdown export expectations.
-- [Non-Functional Requirements](../01-requirements/non-functional-requirements.md) for readability, performance, and MVP scalability targets.
-- [Phased Roadmap](../02-planning/phased-roadmap.md) for deliverable expectations in MVP scope.
-- [Architecture Solution Design](../03-architecture/architecture-solution-design.md) and [API Contract](../03-architecture/api-contract.md) for approved requirements and export workflow references.
+Dependencies:
 
-**Measurable Success Criteria**
+- [Feature Requirements](../01-requirements/f-005-minimal-onboarding.md)
+- [Feature Requirements](../01-requirements/f-006-landing-page.md)
+- [Feature Requirements](../01-requirements/f-008-create-account.md)
+- [Phased Roadmap](../02-planning/phased-roadmap.md)
 
-- Each MVP project can present approved requirements in a structured backlog format.
-- Admin can export approved requirements to Markdown while preserving story structure.
-- Requirements views remain readable under MVP load and within defined response expectations.
+Measurable success criteria:
 
-**Acceptance Criteria**
+- First-time users can identify the next valid action after landing, registration, and first login.
+- Account creation and onboarding flows use accessible, plain-language guidance.
+- Phase 1 improvements do not expand MVP scope into team or commercial features.
 
-- Given a project has approved requirements, when the backlog view is opened, then the user stories and acceptance criteria are displayed in a structured, readable format.
-- Given an Admin requests an export, when the Markdown file is generated, then only approved requirements are included and the standard story structure is preserved.
-- Given the backlog view or export workflow is used within MVP limits, when stakeholders access the output, then the information remains readable and aligned with MVP response expectations.
+Acceptance criteria:
 
-**Candidate Related User-Story Themes**
-
-- Approved backlog presentation
-- Markdown export initiation and completion
-- Stakeholder-ready formatting for requirement artifacts
-
----
+- Given a visitor lands on the public entry page, when they scan the hero and CTA area, then login and account creation paths are immediately clear.
+- Given a new Admin completes registration, when the flow ends, then the next step routes clearly to login or onboarding.
+- Given a first-time Admin enters the core workflow, when onboarding guidance is shown, then it explains the refinement path without becoming a blocker to task completion.
 
 ## Notes for Story Decomposition
 
-- These epics are intentionally scoped to MVP Must-have planning outcomes from the phased roadmap.
-- Phase 1 items such as onboarding, enhanced readability, and accessibility refinements should be decomposed as supporting stories under these epics only when they directly strengthen MVP planning workflows.
-- Post-MVP governance, expanded collaboration, and scale-oriented planning remain separate roadmap candidates rather than epic scope for this file.
+- Keep stories role-specific and feature-traceable.
+- Do not place Phase 1 entry-flow enhancements into MVP Must-have delivery stories.
+- Prefer one story per role per feature cluster unless a cross-cutting quality concern needs its own story.
+
+## Change Log
+
+- 2026-03-23 (v1.1): Refactored epics to feature-based requirements and current roadmap scope. Author: Product Owner.
+- 2026-03-10 (v1.0): Initial epic draft. Author: Product Owner.

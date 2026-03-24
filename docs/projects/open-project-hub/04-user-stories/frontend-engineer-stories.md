@@ -4,390 +4,360 @@
 | ---------------- | --------------------------- |
 | **Project**      | Open Freelancer Project Hub |
 | **Role**         | Frontend Engineer           |
-| **Version**      | 1.0                         |
+| **Version**      | 1.1                         |
 | **Status**       | Draft                       |
-| **Last Updated** | 2026-03-18                  |
+| **Last Updated** | 2026-03-23                  |
+| **Owner**        | Product Owner               |
 
 ## Sources
 
 - [Project Overview](../overview.md)
-- [Functional Requirements](../01-requirements/functional-requirements.md)
-- [Non-Functional Requirements](../01-requirements/non-functional-requirements.md)
+- [Feature Requirements](../01-requirements/readme.md)
 - [Role Mapping](../02-planning/role-mapping.md)
 - [Phased Roadmap](../02-planning/phased-roadmap.md)
 - [Architecture Solution Design](../03-architecture/architecture-solution-design.md)
 - [Technology Stack](../03-architecture/technology-stack.md)
 - [API Contract](../03-architecture/api-contract.md)
-- [Database Design](../06-database/database-design.md)
 - [Product Epics](./epics.md)
 - [UI/UX Designer User Stories](./ui-ux-designer-stories.md)
 
 ## Objective
 
-Define frontend engineer user stories that give the delivery team clear, interface-focused guidance for implementing the Admin and Viewer experiences required for the MVP planning workflow, while also covering the minimal frontend project setup and technical enablement needed to start delivery from zero.
+Define frontend planning stories that make the MVP planning experience understandable, role-safe, and traceable from entry flow through approved backlog review and export.
 
 ## Interaction Scope and Constraints
 
-- Scope is limited to discovery and planning workflows only, consistent with FR-003 and the phased roadmap.
-- Frontend stories must align with approved UI/UX flows for refinement, backlog review, onboarding, and stakeholder visibility.
-- Stories stay focused on interface behavior, user feedback, readability, and role-safe interactions rather than code implementation details.
-- Admin experiences must support editing, approval, export initiation, and internal-note visibility where permitted by requirements.
-- Viewer experiences must remain read-only, readable to non-technical stakeholders, and free of internal notes.
-- Setup and technical-enablement stories may describe the frontend project foundation, shared quality guardrails, and delivery-readiness expectations, but must stay at planning level and avoid step-by-step implementation specifications.
+- MVP frontend scope covers F-001 to F-004, F-007, and F-009.
+- Phase 1 frontend scope covers F-005, F-006, and F-008.
+- Admin experiences may create, edit, approve, and export within allowed flows.
+- Viewer experiences remain readable, approved-content-only, and free of internal notes.
+- These stories describe behavior, states, and feedback patterns, not implementation tasks.
 
 ## MoSCoW Prioritization Summary
 
-| Priority | Story ID        | Theme                                              | Rationale                                                                         |
-| -------- | --------------- | -------------------------------------------------- | --------------------------------------------------------------------------------- |
-| Must     | US-MVP-FE-001   | Client and project workspace setup                 | Establishes the entry point for all planning workflows and enforces MVP limits.   |
-| Must     | US-MVP-FE-002   | AI refinement draft review and approval interface  | Covers the central MVP workflow where raw notes become structured draft stories.  |
-| Must     | US-MVP-FE-003   | Role-safe backlog experience for Admin and Viewer  | Ensures approved requirements are readable, editable only when allowed, and safe. |
-| Must     | US-MVP-FE-004   | Markdown export initiation and completion feedback | Delivers the primary planning artifact handoff expected for MVP output.           |
-| Must     | US-MVP-FE-006   | Frontend project foundation and bootstrap          | Gives the team a zero-to-one baseline before workflow delivery begins.            |
-| Should   | US-P1-FE-005    | Onboarding, accessibility, and responsive clarity  | Improves first-use comprehension and quality expectations for Phase 1.            |
-| Should   | US-P1-FE-007    | Frontend technical guardrails and quality baseline | Helps engineers work consistently without turning the stories into build guides.  |
+| Priority | Story ID      | Theme                                    | Rationale                                                          |
+| -------- | ------------- | ---------------------------------------- | ------------------------------------------------------------------ |
+| Must     | US-MVP-FE-001 | Project workspace and lifecycle UI       | Establishes the main project-management entry point for MVP users. |
+| Must     | US-MVP-FE-002 | AI refinement review and approval UI     | Covers the central Admin workflow from note input to approval.     |
+| Must     | US-MVP-FE-003 | Role-safe backlog and export experience  | Protects Viewer visibility while presenting the approved artifact. |
+| Must     | US-MVP-FE-004 | Admin login and password recovery UI     | Required for secure MVP entry into the protected workspace.        |
+| Should   | US-P1-FE-005  | Minimal onboarding and accessibility     | Improves first-use clarity after the MVP workflow is stable.       |
+| Should   | US-P1-FE-006  | Landing page and account creation flows  | Supports acquisition and self-service entry after MVP.             |
+| Should   | US-P1-FE-007  | Frontend quality and empty-state clarity | Extends readability and consistency across Phase 1 entry flows.    |
 
 ## User Stories
 
 **Story ID**: US-MVP-FE-001  
-**Epic**: Client and Project Administration  
+**Epic**: Client and Project Lifecycle Governance  
 **Priority**: Must Have  
 **Effort Estimate**: Story Points: 5
 
 **As a** Frontend Engineer,  
-**I want to** define the Admin-facing client and project workspace behavior,  
-**So that** users can manage planning records within the MVP project and phase boundaries.
+**I want to** define the project workspace behavior for client and lifecycle management,  
+**So that** Admin users can manage planning records within the allowed MVP project rules.
 
 **Acceptance Criteria**:
 
-- [ ] Given an Admin is working in the project area, When they open client and project management screens, Then they can create, edit, view, and archive records using a clear workflow that stays within discovery and planning phases only.
-- [ ] Given an Admin already has three active projects, When they attempt to create another active project, Then the interface communicates that the limit has been reached and guides them toward archiving an existing active project first.
-- [ ] Given project details are displayed, When the Admin reviews a project record, Then client association, current phase, and internal notes are visible in a way that supports planning work without exposing delivery-stage options.
-- [ ] Given a project is archived, When the Admin returns to the active project list, Then the archived project is no longer presented as an active planning workspace.
-- [ ] Given the workspace is reviewed against the UI/UX deliverables, When the project entry flow is assessed, Then the structure supports the same information hierarchy documented for stakeholder-visible planning screens.
+- [ ] Given an Admin enters the workspace, when client and project screens are reviewed, then the UI supports create, edit, archive, and client association behavior.
+- [ ] Given the product allows only three active projects, when the Admin attempts to exceed the limit, then the interface blocks the action and explains the next valid step.
+- [ ] Given project lifecycle is MVP-limited, when phase selectors or status displays are reviewed, then only discovery and planning appear.
+- [ ] Given archived projects affect active limits, when list views are reviewed, then archived records are visually distinct from active planning workspaces.
 
 **Deliverables**:
 
-- Admin workflow definition for client and project setup screens
-- Interaction notes for active-project limit messaging and archive flow
-- Screen-state outline for empty, populated, and archived project views
+- Project-workspace interaction definition
+- Active-project limit messaging notes
+- Lifecycle state and archive-view behavior checklist
 
 **Dependencies**:
 
-- FR-001, FR-002, FR-003, FR-010
-- NFR-002
-- Epic 1 and Epic 2 in `./epics.md`
+- FR-001-01, FR-001-02, FR-001-03
+- NFR-001-02, NFR-X04
+- [Feature Requirements](../01-requirements/f-001-client-and-project-lifecycle-management.md)
+- [UI/UX Designer User Stories](./ui-ux-designer-stories.md)
 
 **Success Metrics**:
 
-- Admin can understand how to create and manage planning workspaces without extra verbal guidance
-- Project-limit messaging clearly explains the next valid action when three active projects already exist
-- Project setup screens present only discovery and planning states across all reviewed flows
+- Admin can understand the allowed project-management flow without verbal explanation.
+- No unsupported lifecycle state appears in reviewed frontend flows.
 
 ## Reference
 
 - [Project Overview](../overview.md)
-- [Functional Requirements](../01-requirements/functional-requirements.md)
+- [Feature Requirements](../01-requirements/f-001-client-and-project-lifecycle-management.md)
 - [Phased Roadmap](../02-planning/phased-roadmap.md)
-- [Architecture Solution Design](../03-architecture/architecture-solution-design.md)
-- [UI/UX Designer User Stories](./ui-ux-designer-stories.md)
+- [Product Epics](./epics.md)
 
 ---
 
 **Story ID**: US-MVP-FE-002  
-**Epic**: AI-Assisted Requirements Refinement  
+**Epic**: AI Refinement and Approval Control  
 **Priority**: Must Have  
 **Effort Estimate**: Story Points: 8
 
 **As a** Frontend Engineer,  
-**I want to** define the Admin refinement workspace interactions from note entry through approval,  
-**So that** the main MVP workflow is clear, editable, and consistent with the approved UI/UX flow.
+**I want to** define the Admin refinement workspace behavior from note entry through approval,  
+**So that** raw notes become editable draft stories in one controlled frontend flow.
 
 **Acceptance Criteria**:
 
-- [ ] Given an Admin has raw notes or a bullet list, When they start a refinement session, Then the interface accepts both formats in one clear entry flow without requiring attachments or alternate upload steps.
-- [ ] Given ambiguous phrases are identified, When the draft response is shown, Then ambiguous text is highlighted inline in a way that is visually distinct and easy to review before approval.
-- [ ] Given draft user stories are generated, When the Admin reviews them, Then each draft is presented with a title, standard user story statement, editable acceptance criteria, and a visible draft status.
-- [ ] Given an Admin updates generated content, When they continue working in the refinement session, Then the interface preserves the distinction between editable draft content and approved backlog content.
-- [ ] Given an Admin is ready to finalize the draft, When they choose to approve it, Then the interface makes the approval action explicit and clearly confirms that the content will become an official project artifact.
-- [ ] Given validation, loading, or retry scenarios occur, When the Admin remains in the workflow, Then the interface communicates the current state without losing the context of the refinement session.
+- [ ] Given an Admin starts a refinement session, when input is reviewed, then the screen clearly accepts raw notes and bullet lists without upload requirements.
+- [ ] Given AI-generated drafts are returned, when the Admin reviews them, then title, user story structure, and acceptance-criteria-ready content are visible and editable.
+- [ ] Given approval changes artifact status, when the final action is reviewed, then the UI makes approval explicit and distinguishes draft from approved content.
+- [ ] Given validation, loading, and retry states are required, when workflow states are mapped, then the interface communicates each state without losing context.
 
 **Deliverables**:
 
-- Interaction definition for raw-input, ambiguity-review, draft-editing, and approval states
-- Draft-versus-approved content visibility rules for the refinement area
-- User-feedback inventory for loading, validation, and approval confirmation states
+- Refinement workspace state map
+- Draft-versus-approved UI behavior rules
+- Feedback inventory for loading, validation, and approval confirmation
 
 **Dependencies**:
 
-- FR-004, FR-005, FR-006, FR-007
-- NFR-003, NFR-007
-- Epic 3 and Epic 4 in `./epics.md`
+- FR-002-01, FR-002-02, FR-002-03
+- NFR-002-03, NFR-X04
+- [Feature Requirements](../01-requirements/f-002-ai-refinement-and-approval-workflow.md)
+- [UI/UX Designer User Stories](./ui-ux-designer-stories.md)
 
 **Success Metrics**:
 
-- Reviewers can trace the complete refinement journey from raw notes to approved artifact in one walkthrough
-- Draft stories consistently appear in the standard user story format before approval
-- Approval behavior is understood without ambiguity during stakeholder review
+- Reviewers can follow the full refinement journey in one walkthrough.
+- Draft and approved states remain visually and behaviorally distinct.
 
 ## Reference
 
-- [Functional Requirements](../01-requirements/functional-requirements.md)
-- [Architecture Solution Design](../03-architecture/architecture-solution-design.md)
+- [Feature Requirements](../01-requirements/f-002-ai-refinement-and-approval-workflow.md)
 - [API Contract](../03-architecture/api-contract.md)
 - [UI/UX Designer User Stories](./ui-ux-designer-stories.md)
-- [Database Design](../06-database/database-design.md)
+- [Product Epics](./epics.md)
 
 ---
 
 **Story ID**: US-MVP-FE-003  
-**Epic**: Access-Controlled Stakeholder Collaboration  
+**Epic**: Access Boundary and Stakeholder Visibility  
 **Priority**: Must Have  
 **Effort Estimate**: Story Points: 8
 
 **As a** Frontend Engineer,  
-**I want to** define the approved backlog experience for both Admin and Viewer roles,  
-**So that** requirements remain readable for stakeholders while respecting editing and visibility boundaries.
+**I want to** define the approved backlog, role visibility, and export-trigger experience,  
+**So that** Admin and Viewer users see only the content and actions allowed to them.
 
 **Acceptance Criteria**:
 
-- [ ] Given approved requirements exist for a project, When an Admin opens the backlog view, Then the stories and acceptance criteria are shown in a structured format that supports review and approved-artifact management.
-- [ ] Given a Viewer opens the same project backlog, When the page is displayed, Then the content remains read-only, presents the current project phase in plain language, and omits any internal notes.
-- [ ] Given an Admin is reviewing project details, When internal notes are available, Then they appear only in Admin-visible areas and are separated from the stakeholder-facing backlog content.
-- [ ] Given a user does not have permission to edit, When they inspect the backlog experience, Then edit, archive, and approval actions are absent or clearly unavailable.
-- [ ] Given the backlog is reviewed for non-technical readability, When stories are displayed, Then the title, “As a / I want / so that” structure, and acceptance criteria remain easy to scan and understand.
-- [ ] Given the experience is assessed against the design references, When Admin and Viewer views are compared, Then the interface differences match the documented UI/UX role-visibility expectations.
+- [ ] Given approved requirements exist, when Admin and Viewer views are compared, then both show structured requirement content but only Admin sees management actions.
+- [ ] Given Viewer access must be safe, when Viewer screens are reviewed, then internal notes and draft-only content are absent.
+- [ ] Given export is an Admin workflow, when the export trigger is reviewed, then the UI communicates that only approved requirements are included.
+- [ ] Given stakeholder readability matters, when story cards or rows are reviewed, then the standard user story format remains easy to scan.
 
 **Deliverables**:
 
-- Approved backlog behavior definition for Admin and Viewer perspectives
-- Role-visibility checklist for editable controls, internal notes, and read-only states
-- Content-presentation guidance for readable requirement cards or list items
+- Backlog-view behavior definition for Admin and Viewer
+- Visibility checklist for edit controls, notes, and export actions
+- Export-trigger messaging notes
 
 **Dependencies**:
 
-- FR-003, FR-008, FR-009, FR-010, FR-011, FR-014
-- NFR-001, NFR-004, NFR-007
-- Epic 2, Epic 5, and Epic 6 in `./epics.md`
+- FR-003-01, FR-003-03, FR-004-01, FR-004-02
+- NFR-003-02, NFR-004-01, NFR-X04
+- [Feature Requirements](../01-requirements/f-003-access-control-and-visibility-boundaries.md)
+- [Feature Requirements](../01-requirements/f-004-requirements-backlog-and-markdown-export.md)
 
 **Success Metrics**:
 
-- Stakeholders can distinguish Admin and Viewer capabilities without additional explanation
-- Viewer views show zero internal-note leakage in reviewed scenarios
-- Approved backlog presentation remains readable and structured across all sample stories
+- Stakeholders can distinguish Admin and Viewer capabilities immediately.
+- Export intent remains aligned to approved-only content.
 
 ## Reference
 
-- [Functional Requirements](../01-requirements/functional-requirements.md)
-- [Non-Functional Requirements](../01-requirements/non-functional-requirements.md)
+- [Feature Requirements](../01-requirements/f-003-access-control-and-visibility-boundaries.md)
+- [Feature Requirements](../01-requirements/f-004-requirements-backlog-and-markdown-export.md)
 - [Role Mapping](../02-planning/role-mapping.md)
-- [API Contract](../03-architecture/api-contract.md)
-- [UI/UX Designer User Stories](./ui-ux-designer-stories.md)
+- [Product Epics](./epics.md)
 
 ---
 
 **Story ID**: US-MVP-FE-004  
-**Epic**: Structured Requirements Delivery and Export  
+**Epic**: Admin Authentication and Recovery Baseline  
 **Priority**: Must Have  
 **Effort Estimate**: Story Points: 5
 
 **As a** Frontend Engineer,  
-**I want to** define the export initiation and completion experience for approved requirements,  
-**So that** Admin users can generate and retrieve the project’s Markdown deliverable with confidence.
+**I want to** define login and password-recovery interface behavior,  
+**So that** Admin users can enter and recover access to the planning workspace with clear, safe feedback.
 
 **Acceptance Criteria**:
 
-- [ ] Given a project has approved requirements, When an Admin initiates an export, Then the interface clearly indicates that only approved requirements will be included in the Markdown deliverable.
-- [ ] Given an export request is in progress, When the Admin remains on the project workspace, Then the interface communicates the export state in a way that avoids confusion about whether the request was received.
-- [ ] Given the export is completed, When the result is presented, Then the Admin can clearly identify the finished Markdown deliverable or download step associated with that export.
-- [ ] Given a project contains draft or internal-only content, When the export workflow is reviewed, Then the interface does not imply that unapproved stories or internal notes are part of the stakeholder deliverable.
-- [ ] Given an export fails or cannot complete, When the Admin receives feedback, Then the message explains that the deliverable is not yet ready and supports retry or follow-up action without misleading success language.
+- [ ] Given an Admin uses the login form, when inputs are incomplete or invalid, then inline validation and non-sensitive auth feedback are shown.
+- [ ] Given valid login succeeds, when the flow completes, then the user lands on the primary planning workspace without extra navigation.
+- [ ] Given password reset is required, when the request and completion flows are reviewed, then the UI supports request, invalid-token, expired-token, and success states.
+- [ ] Given accessibility expectations apply to auth forms, when the interaction is reviewed, then labels, focus order, and error messaging stay keyboard- and screen-reader-friendly.
 
 **Deliverables**:
 
-- Export initiation and completion state definition
-- Messaging guidelines for pending, ready, and failed export outcomes
-- Approved-content confirmation notes for the export workflow
+- Login and recovery state-definition note
+- Validation and safe-feedback checklist
+- Post-auth routing expectations
 
 **Dependencies**:
 
-- FR-011, FR-012
-- NFR-004, NFR-005
-- Epic 6 in `./epics.md`
+- FR-007-01, FR-007-02, FR-007-03, FR-009-01, FR-009-02, FR-009-03
+- NFR-007-02, NFR-009-02
+- [Feature Requirements](../01-requirements/f-007-admin-login.md)
+- [Feature Requirements](../01-requirements/f-009-reset-password.md)
 
 **Success Metrics**:
 
-- Admin users understand when an export is requested, pending, ready, or unavailable
-- Export workflow consistently reinforces that only approved requirements are deliverable
-- Stakeholder-facing output expectations remain aligned with the documented Markdown artifact scope
+- Login and recovery flows can be reviewed without unanswered UX-state questions.
+- Safe feedback patterns remain consistent across success and failure states.
 
 ## Reference
 
-- [Functional Requirements](../01-requirements/functional-requirements.md)
-- [Non-Functional Requirements](../01-requirements/non-functional-requirements.md)
-- [API Contract](../03-architecture/api-contract.md)
-- [Phased Roadmap](../02-planning/phased-roadmap.md)
+- [Feature Requirements](../01-requirements/f-007-admin-login.md)
+- [Feature Requirements](../01-requirements/f-009-reset-password.md)
+- [UI/UX Designer User Stories](./ui-ux-designer-stories.md)
 - [Product Epics](./epics.md)
 
 ---
 
 **Story ID**: US-P1-FE-005  
-**Epic**: Guided Onboarding and Quality Improvements  
+**Epic**: Entry-Flow Quality Uplift  
 **Priority**: Should Have  
 **Effort Estimate**: Story Points: 5
 
 **As a** Frontend Engineer,  
-**I want to** define onboarding, responsive behavior, and accessibility expectations for primary planning screens,  
-**So that** first-time and stakeholder users can understand and use the interface with less friction.
+**I want to** define onboarding guidance and accessibility improvements for first-time Admin users,  
+**So that** Phase 1 reduces friction after the MVP planning workflow is already in place.
 
 **Acceptance Criteria**:
 
-- [ ] Given a first-time Admin opens the refinement workflow, When the onboarding experience is presented, Then the interface includes a welcome message and contextual guidance that explains note entry, ambiguity review, editing, and approval actions.
-- [ ] Given the user has already reviewed onboarding, When they dismiss or opt out of repeated guidance, Then the interface respects that preference in future visits to the same workflow.
-- [ ] Given a Viewer or stakeholder reviews backlog content, When they access the primary screens, Then headings, labels, and project-phase messaging remain understandable to non-technical readers.
-- [ ] Given the primary workflows are reviewed across desktop, tablet, and mobile layouts, When the content is displayed, Then hierarchy and key actions remain clear without hiding essential planning information.
-- [ ] Given accessibility expectations are reviewed, When keyboard navigation and screen-reader support are assessed on the core planning screens, Then the intended interaction remains aligned with baseline WCAG 2.1 AA expectations.
-- [ ] Given Phase 1 priorities are discussed, When the story is reviewed with stakeholders, Then it is clearly positioned as a usability and quality enhancement rather than an MVP blocker.
+- [ ] Given a first-time Admin enters the workflow, when onboarding guidance is shown, then it explains note entry, draft review, and approval actions in plain language.
+- [ ] Given repeat guidance can become noise, when onboarding behavior is reviewed, then dismiss or do-not-repeat handling is documented.
+- [ ] Given primary workflows need accessibility uplift, when Phase 1 quality is reviewed, then the refinement and backlog surfaces retain keyboard and readable feedback expectations.
 
 **Deliverables**:
 
-- First-use guidance behavior for the Admin refinement workflow
-- Readability and responsive-layout checklist for primary planning screens
-- Accessibility review notes for backlog and refinement interactions
+- Onboarding interaction-definition note
+- Accessibility uplift checklist for primary planning screens
+- Repeat-visit behavior notes
 
 **Dependencies**:
 
-- FR-013, FR-014
-- NFR-004, NFR-005, NFR-006, NFR-007
-- Phase 1 priorities in `../02-planning/phased-roadmap.md`
+- FR-005-01
+- NFR-005-01, NFR-005-02, NFR-X07
+- [Feature Requirements](../01-requirements/f-005-minimal-onboarding.md)
+- [UI/UX Designer User Stories](./ui-ux-designer-stories.md)
 
 **Success Metrics**:
 
-- New users can explain the main Admin workflow after a guided walkthrough
-- Viewer-facing screens maintain readable structure across reviewed device sizes
-- Accessibility expectations are explicit before implementation planning begins
+- First-time guidance is clear without becoming an MVP blocker.
+- Accessibility expectations remain explicit before implementation planning.
 
 ## Reference
 
-- [Non-Functional Requirements](../01-requirements/non-functional-requirements.md)
-- [Role Mapping](../02-planning/role-mapping.md)
+- [Feature Requirements](../01-requirements/f-005-minimal-onboarding.md)
 - [Phased Roadmap](../02-planning/phased-roadmap.md)
-- [Technology Stack](../03-architecture/technology-stack.md)
 - [UI/UX Designer User Stories](./ui-ux-designer-stories.md)
+- [Product Epics](./epics.md)
 
 ---
 
-**Story ID**: US-MVP-FE-006  
-**Epic**: Frontend Delivery Foundation  
-**Priority**: Must Have  
-**Effort Estimate**: Story Points: 3
+**Story ID**: US-P1-FE-006  
+**Epic**: Entry-Flow Quality Uplift  
+**Priority**: Should Have  
+**Effort Estimate**: Story Points: 5
 
 **As a** Frontend Engineer,  
-**I want to** define the initial frontend project foundation for the MVP,  
-**So that** the team can begin delivery with a shared structure aligned to the approved stack and MVP scope.
+**I want to** define the landing page and account-creation user flows,  
+**So that** visitors can understand the product value and become Admin users through a clear entry path.
 
 **Acceptance Criteria**:
 
-- [ ] Given the frontend project starts from zero, When the initial foundation is reviewed, Then it aligns with the approved React, TypeScript, Ant Design, and Vite stack.
-- [ ] Given MVP delivery work is about to begin, When the frontend baseline is defined, Then the expected application shell, primary planning routes, and shared layout expectations are clear to the team.
-- [ ] Given the primary workflows depend on common states, When the startup scope is reviewed, Then baseline expectations for loading, error, and empty states are defined for downstream frontend stories.
-- [ ] Given the project is still within MVP scope, When this setup story is reviewed, Then it excludes delivery workflows, extra collaboration roles, and post-MVP platform expansion.
-- [ ] Given this file is a planning artifact, When the setup story is reviewed, Then it avoids detailed build steps and stays focused on delivery-ready outcomes.
+- [ ] Given a visitor lands on the product entry page, when the layout is reviewed, then value proposition, MVP scope summary, login, and account-creation CTAs are immediately clear.
+- [ ] Given account creation is a Phase 1 enhancement, when the registration flow is reviewed, then required-field validation and next-step routing are explicit.
+- [ ] Given landing and registration flows are connected, when the user journey is reviewed, then CTA routing from landing to login or account creation is unambiguous.
+- [ ] Given accessibility applies to public entry flows too, when these screens are reviewed, then labels, CTA focus order, and error feedback remain accessible.
 
 **Deliverables**:
 
-- Frontend foundation scope note for app shell and primary planning routes
-- Shared baseline expectations for layout, loading, error, and empty states
-- Delivery-readiness checklist for subsequent frontend stories
+- Landing-page interaction note
+- Registration behavior and CTA-routing definition
+- Public entry-state checklist
 
 **Dependencies**:
 
-- FR-003
-- NFR-008
-- `../03-architecture/technology-stack.md`
-- `../03-architecture/architecture-solution-design.md`
+- FR-006-01, FR-006-02, FR-006-03, FR-008-01, FR-008-02, FR-008-03
+- NFR-006-02, NFR-008-02
+- [Feature Requirements](../01-requirements/f-006-landing-page.md)
+- [Feature Requirements](../01-requirements/f-008-create-account.md)
 
 **Success Metrics**:
 
-- The team can start MVP frontend work without an additional project-setup clarification session
-- The documented baseline stays aligned with the approved stack and MVP scope
-- Review feedback identifies no missing prerequisite for starting frontend delivery
+- Reviewers can trace the pre-auth journey from landing to successful next step.
+- Public entry flows stay aligned with MVP scope and Phase 1 boundaries.
 
 ## Reference
 
-- [Project Overview](../overview.md)
+- [Feature Requirements](../01-requirements/f-006-landing-page.md)
+- [Feature Requirements](../01-requirements/f-008-create-account.md)
 - [Phased Roadmap](../02-planning/phased-roadmap.md)
-- [Architecture Solution Design](../03-architecture/architecture-solution-design.md)
-- [Technology Stack](../03-architecture/technology-stack.md)
 - [Product Epics](./epics.md)
 
 ---
 
 **Story ID**: US-P1-FE-007  
-**Epic**: Frontend Delivery Foundation  
+**Epic**: Entry-Flow Quality Uplift  
 **Priority**: Should Have  
 **Effort Estimate**: Story Points: 3
 
 **As a** Frontend Engineer,  
-**I want to** define the shared technical guardrails for frontend delivery,  
-**So that** engineers can work consistently across MVP screens with clear quality expectations.
+**I want to** document frontend quality guardrails and empty-state clarity expectations,  
+**So that** Phase 1 improvements stay consistent across planning, auth, and public-entry screens.
 
 **Acceptance Criteria**:
 
-- [ ] Given engineers are implementing frontend stories, When they review the shared guardrails, Then expectations for testing, accessibility, and readable error handling are clear at planning level.
-- [ ] Given the project has baseline quality targets, When frontend work is assessed, Then the story reflects the documented requirements for automated testing and accessibility support.
-- [ ] Given multiple MVP screens share common interactions, When the story is reviewed, Then it defines a consistent expectation for loading, error, and empty-state behavior across the frontend.
-- [ ] Given this document should avoid over-specifying implementation, When the story is reviewed, Then it does not include detailed commands, file-by-file setup, or tool configuration steps.
-- [ ] Given this is a Phase 1 planning item, When stakeholders review the sequence, Then the story is positioned as a quality and consistency enabler after the MVP foundation is in place.
+- [ ] Given the interface includes multiple stateful flows, when quality expectations are reviewed, then empty, loading, success, and error states are explicitly defined for key screens.
+- [ ] Given Viewer readability matters, when content presentation is reviewed, then requirement cards and status labels remain easy to scan for non-technical users.
+- [ ] Given Phase 1 introduces more screens, when consistency is reviewed, then shared feedback and state patterns are documented across landing, auth, onboarding, and backlog views.
 
 **Deliverables**:
 
-- Frontend quality checklist for testing, accessibility, and user feedback states
-- Shared guidance for consistent handling of loading, error, and empty states
-- Contribution-readiness note for MVP frontend delivery
+- Empty-state and feedback-pattern checklist
+- Readability and consistency notes for Phase 1 flows
+- Cross-screen UI quality guardrails
 
 **Dependencies**:
 
-- NFR-001, NFR-003, NFR-007
-- `../03-architecture/technology-stack.md`
-- `../02-planning/role-mapping.md`
+- NFR-X04, NFR-X07
+- [Project Overview](../overview.md)
+- [Phased Roadmap](../02-planning/phased-roadmap.md)
 
 **Success Metrics**:
 
-- Engineers can explain the minimum frontend quality expectations before implementation begins
-- MVP frontend stories use a consistent approach to testing and user feedback behavior
-- Accessibility and user-feedback expectations are visible without requiring extra clarification sessions
+- State behavior remains consistent across reviewed frontend journeys.
+- Viewer-facing content quality remains explicit in planning artifacts.
 
 ## Reference
 
-- [Non-Functional Requirements](../01-requirements/non-functional-requirements.md)
-- [Role Mapping](../02-planning/role-mapping.md)
+- [Project Overview](../overview.md)
 - [Phased Roadmap](../02-planning/phased-roadmap.md)
-- [Technology Stack](../03-architecture/technology-stack.md)
 - [UI/UX Designer User Stories](./ui-ux-designer-stories.md)
+- [Product Epics](./epics.md)
 
----
+## Story Traceability Matrix
 
-## Frontend Deliverables Summary
+| Story ID      | Feature Coverage      | Primary Requirement Coverage               | Notes                                |
+| ------------- | --------------------- | ------------------------------------------ | ------------------------------------ |
+| US-MVP-FE-001 | F-001                 | FR-001-01, FR-001-02, FR-001-03            | Admin project workspace behavior     |
+| US-MVP-FE-002 | F-002                 | FR-002-01, FR-002-02, FR-002-03            | Refinement and approval interface    |
+| US-MVP-FE-003 | F-003, F-004          | FR-003-01, FR-003-03, FR-004-01, FR-004-02 | Role-safe backlog and export trigger |
+| US-MVP-FE-004 | F-007, F-009          | FR-007-01, FR-007-02, FR-009-01, FR-009-02 | Auth and recovery interface          |
+| US-P1-FE-005  | F-005                 | FR-005-01, NFR-005-01                      | Onboarding and accessibility uplift  |
+| US-P1-FE-006  | F-006, F-008          | FR-006-01, FR-006-02, FR-008-01, FR-008-02 | Landing and registration journey     |
+| US-P1-FE-007  | Cross-cutting Phase 1 | NFR-X04, NFR-X07                           | Quality and consistency guardrails   |
 
-| Deliverable                                  | Type                                | Audience                    | Related Stories                  |
-| -------------------------------------------- | ----------------------------------- | --------------------------- | -------------------------------- |
-| Frontend Foundation Scope Note               | Delivery-enablement guide           | Frontend Engineer, Tech Lead | US-MVP-FE-006                    |
-| Client and Project Workspace Definition      | Screen and interaction scope        | Frontend Engineer, Tech Lead | US-MVP-FE-001                    |
-| Refinement Workflow Behavior Map             | State and interaction definition    | Frontend Engineer, UI/UX    | US-MVP-FE-002, US-P1-FE-005      |
-| Admin and Viewer Backlog Visibility Checklist | Role-based presentation guide       | Frontend Engineer, QA       | US-MVP-FE-003                    |
-| Export Feedback and Completion Flow          | User-feedback and deliverable guide | Frontend Engineer, Admin    | US-MVP-FE-004                    |
-| Usability and Accessibility Review Notes     | Quality checklist                   | Frontend Engineer, UI/UX    | US-P1-FE-005                     |
-| Frontend Quality Guardrails Checklist        | Quality and contribution guide      | Frontend Engineer, QA, Tech Lead | US-P1-FE-007                |
+## Change Log
 
-## Coverage Matrix
-
-| Story ID      | Requirement Coverage                      | Supporting References                            |
-| ------------- | ----------------------------------------- | ------------------------------------------------ |
-| US-MVP-FE-001 | FR-001, FR-002, FR-003, FR-010, NFR-002   | Overview, roadmap, UI/UX role flows              |
-| US-MVP-FE-002 | FR-004, FR-005, FR-006, FR-007, NFR-003   | API contract, architecture flow, UI/UX prototypes |
-| US-MVP-FE-003 | FR-003, FR-008, FR-009, FR-010, FR-011, FR-014, NFR-001, NFR-004, NFR-007 | Role mapping, API contract, stakeholder backlog design |
-| US-MVP-FE-004 | FR-011, FR-012, NFR-004, NFR-005          | API contract, roadmap, export artifact scope     |
-| US-P1-FE-005  | FR-013, FR-014, NFR-004, NFR-005, NFR-006, NFR-007 | UI/UX onboarding flow, roadmap, quality targets  |
-| US-MVP-FE-006 | FR-003, NFR-008                           | Overview, technology stack, architecture solution, roadmap |
-| US-P1-FE-007  | NFR-001, NFR-003, NFR-007                 | NFRs, technology stack, role mapping, roadmap    |
+| Date       | Version | Change Summary                                                                              | Author        |
+| ---------- | ------- | ------------------------------------------------------------------------------------------- | ------------- |
+| 2026-03-23 | 1.1     | Rewrote frontend stories to align with feature-based requirements and new entry-flow scope. | Product Owner |
+| 2026-03-18 | 1.0     | Initial frontend story draft.                                                               | Product Owner |

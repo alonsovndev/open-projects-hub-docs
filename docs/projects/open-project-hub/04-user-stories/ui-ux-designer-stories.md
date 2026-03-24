@@ -4,295 +4,267 @@
 | ---------------- | --------------------------- |
 | **Project**      | Open Freelancer Project Hub |
 | **Role**         | UI/UX Designer              |
-| **Version**      | 1.0                         |
+| **Version**      | 1.1                         |
 | **Status**       | Draft                       |
-| **Last Updated** | 2026-03-16                  |
+| **Last Updated** | 2026-03-23                  |
+| **Owner**        | Product Owner               |
 
 ## Sources
 
 - [Project Overview](../overview.md)
-- [Functional Requirements](../01-requirements/functional-requirements.md)
-- [Non-Functional Requirements](../01-requirements/non-functional-requirements.md)
+- [Feature Requirements](../01-requirements/readme.md)
 - [Role Mapping](../02-planning/role-mapping.md)
 - [Phased Roadmap](../02-planning/phased-roadmap.md)
 - [Architecture Solution Design](../03-architecture/architecture-solution-design.md)
 - [Technology Stack](../03-architecture/technology-stack.md)
-- [API Contract](../03-architecture/api-contract.md)
-- [Data Flow Diagram](../03-architecture/diagrams/data-flow.mmd)
+- [Product Epics](./epics.md)
 
 ## Objective
 
-Define stakeholder-ready UI/UX user stories and documentation prototypes that help the team present the MVP discovery and planning experience before implementation begins.
+Define the prototype and UX-validation stories required to make the MVP planning workflow understandable before implementation, while reserving entry-flow polish for Phase 1.
 
 ## Design Scope and Constraints
 
-- Scope is limited to discovery and planning workflows only, consistent with FR-003.
-- Admin flows must support raw-note refinement, ambiguity visibility, story editing, and explicit approval, consistent with FR-004 to FR-007.
-- Viewer flows must remain read-only, readable, and free of internal notes, consistent with FR-008 to FR-014 and NFR-004.
-- Prototype outputs must support stakeholder presentation and feedback collection without implying production-ready implementation.
-- Prototype assumptions align with the documented implementation baseline of React, TypeScript, Ant Design, and responsive web delivery.
+- MVP UX scope covers refinement, approved backlog visibility, Viewer-safe presentation, and auth entry and recovery.
+- Phase 1 UX scope covers onboarding, landing-page messaging, and account-creation guidance.
+- Deliverables are prototype, information-architecture, and usability artifacts only.
+- Viewer flows remain strictly read-only and approved-content-only.
+- Story outputs must support stakeholder review without implying implementation details.
 
 ## MoSCoW Prioritization Summary
 
-| Priority | Story ID        | Theme                                               | Rationale                                                                 |
-| -------- | --------------- | --------------------------------------------------- | ------------------------------------------------------------------------- |
-| Must     | US-MVP-UX-001   | AI refinement workspace prototype                   | Covers the main MVP workflow where Admin users create structured stories. |
-| Must     | US-MVP-UX-002   | Admin and Viewer backlog presentation prototype     | Ensures stakeholder-visible deliverables are readable and role-safe.      |
-| Should   | US-P1-UX-003    | Onboarding and contextual guidance prototype        | Supports first-use clarity and reduced friction for Admin users.          |
-| Should   | US-P1-UX-004    | Stakeholder presentation prototype package          | Enables reviews, sign-off discussions, and roadmap-aligned feedback.      |
+| Priority | Story ID      | Theme                                    | Rationale                                                               |
+| -------- | ------------- | ---------------------------------------- | ----------------------------------------------------------------------- |
+| Must     | US-MVP-UX-001 | AI refinement workspace prototype        | Validates the core Admin workflow before engineering delivery begins.   |
+| Must     | US-MVP-UX-002 | Admin and Viewer backlog visibility      | Confirms stakeholder-safe information architecture and readability.     |
+| Must     | US-MVP-UX-003 | Login and recovery flow prototype        | Aligns auth entry and recovery behavior with MVP security expectations. |
+| Should   | US-P1-UX-004  | Onboarding and account-creation guidance | Improves first-use clarity after the core product workflow is stable.   |
+| Should   | US-P1-UX-005  | Landing page messaging and conversion    | Supports Phase 1 public entry and CTA clarity.                          |
 
 ## User Stories
 
 **Story ID**: US-MVP-UX-001  
-**Epic**: AI-Assisted Requirements Refinement  
+**Epic**: AI Refinement and Approval Control  
 **Priority**: Must Have  
 **Effort Estimate**: Story Points: 5
 
 **As a** UI/UX Designer,  
-**I want to** create a prototype for the Admin AI refinement workspace,  
-**So that** stakeholders can validate how raw notes become structured user stories before engineering starts.
+**I want to** prototype the Admin refinement workspace,  
+**So that** stakeholders can validate how raw notes become editable draft stories before engineering starts.
 
 **Acceptance Criteria**:
 
-- [ ] Given the Admin enters raw notes or bullet lists, When the refinement prototype is presented, Then it includes an input area that clearly accepts both formats without requiring file uploads.
-- [ ] Given ambiguous phrases are detected, When the draft state is shown, Then the prototype highlights ambiguous text inline and explains the meaning of the highlight state.
-- [ ] Given AI output is generated, When the Admin reviews the prototype, Then it shows title, user story sentence, editable acceptance criteria, and an explicit approval action.
-- [ ] Given stakeholders review responsive behavior, When the prototype is demonstrated, Then desktop, tablet, and mobile layouts are documented with preserved content hierarchy.
-- [ ] Given error and success scenarios are discussed, When the workflow states are reviewed, Then the prototype shows loading, validation error, draft-ready, and approved states.
+- [ ] Given an Admin begins with plain text or bullet lists, when the prototype is reviewed, then the entry area accepts both formats clearly.
+- [ ] Given AI returns draft output, when the draft state is shown, then title, user story structure, and acceptance-criteria-ready content are visible.
+- [ ] Given approval is a key control point, when the end of the workflow is reviewed, then the prototype makes draft versus approved state explicit.
+- [ ] Given workflow quality matters, when the prototype is reviewed, then loading, validation, retry, and success states are represented.
 
 **Deliverables**:
 
-- Low-fidelity layout for the Admin refinement screen
-- High-fidelity click-through of the refinement-to-approval workflow
-- State annotations for loading, ambiguity highlight, validation error, and approval confirmation
+- Refinement workspace prototype
+- State annotations for draft, approval, and retry moments
+- Information hierarchy notes for note input and draft review
 
 **Dependencies**:
 
-- FR-004, FR-005, FR-006, FR-007
-- NFR-007
-- Admin workflow ownership defined in `../02-planning/role-mapping.md`
+- FR-002-01, FR-002-02, FR-002-03
+- NFR-002-03, NFR-X07
+- [Feature Requirements](../01-requirements/f-002-ai-refinement-and-approval-workflow.md)
+- [Product Epics](./epics.md)
 
 **Success Metrics**:
 
-- Stakeholders can identify the complete Admin refinement workflow in one review session
-- Prototype covers 100% of MVP refinement states referenced by FR-004 to FR-007
-- Review feedback produces no unresolved ambiguity about approval-gate behavior
+- Stakeholders can describe the full refinement journey after one walkthrough.
+- No major ambiguity remains around draft review and approval states.
 
 ## Reference
 
-- [Project Overview](../overview.md)
-- [Functional Requirements](../01-requirements/functional-requirements.md)
+- [Feature Requirements](../01-requirements/f-002-ai-refinement-and-approval-workflow.md)
 - [Architecture Solution Design](../03-architecture/architecture-solution-design.md)
-- [Data Flow Diagram](../03-architecture/diagrams/data-flow.mmd)
-- [API Contract](../03-architecture/api-contract.md)
+- [Product Epics](./epics.md)
 
 ---
 
 **Story ID**: US-MVP-UX-002  
-**Epic**: Requirements Review and Stakeholder Visibility  
+**Epic**: Access Boundary and Stakeholder Visibility  
 **Priority**: Must Have  
 **Effort Estimate**: Story Points: 5
 
 **As a** UI/UX Designer,  
-**I want to** prototype both Admin and Viewer backlog experiences,  
-**So that** stakeholder presentations clearly show editable Admin capabilities and read-only Viewer visibility.
+**I want to** prototype Admin and Viewer backlog experiences,  
+**So that** stakeholder review surfaces remain readable while preserving role and content boundaries.
 
 **Acceptance Criteria**:
 
-- [ ] Given the backlog prototype is reviewed, When the Admin view is shown, Then it displays editable drafts, approval status, and internal notes placement.
-- [ ] Given the Viewer view is reviewed, When the same backlog content is presented, Then internal notes are absent and all controls are read-only.
-- [ ] Given non-technical stakeholders review the prototype, When story cards are displayed, Then each card follows a readable title plus “As a / I want / so that” structure with visible acceptance criteria.
-- [ ] Given project phase visibility is required, When the Viewer page is demonstrated, Then discovery and planning states are visible in plain language without introducing delivery workflows.
-- [ ] Given the prototype is assessed for accessibility, When navigation order is documented, Then keyboard access, headings, and contrast expectations are explicitly noted for primary backlog screens.
+- [ ] Given Admin and Viewer see different content controls, when the prototype is reviewed, then role-based visibility differences are explicit.
+- [ ] Given Viewer readability is a quality goal, when approved stories are presented, then the structure remains scannable for non-technical users.
+- [ ] Given internal notes are protected, when Viewer screens are shown, then internal-note areas and draft-only states are absent.
+- [ ] Given phase status is visible to stakeholders, when project status is displayed, then discovery and planning language remains plain and non-technical.
 
 **Deliverables**:
 
-- Comparative Admin and Viewer backlog mockups
-- Role-visibility annotation sheet showing what is hidden in Viewer mode
-- Plain-language readability checklist for stakeholder-facing screens
+- Comparative Admin and Viewer backlog prototype
+- Visibility annotation sheet
+- Readability checklist for stakeholder-facing requirement cards or rows
 
 **Dependencies**:
 
-- FR-003, FR-008, FR-010, FR-011, FR-014
-- NFR-004, NFR-007
-- Viewer transparency priorities from `../02-planning/phased-roadmap.md`
+- FR-003-01, FR-003-03, FR-004-01, FR-004-02
+- NFR-003-02, NFR-004-01, NFR-X07
+- [Feature Requirements](../01-requirements/f-003-access-control-and-visibility-boundaries.md)
+- [Feature Requirements](../01-requirements/f-004-requirements-backlog-and-markdown-export.md)
 
 **Success Metrics**:
 
-- Stakeholders can distinguish Admin and Viewer permissions without verbal clarification
-- Prototype demonstrates zero internal-note leakage in Viewer screens
-- Backlog presentation format matches the approved requirements template for all sample cards
+- Reviewers can distinguish Admin and Viewer surfaces without explanation.
+- Stakeholder-facing backlog patterns are accepted as readable and safe.
 
 ## Reference
 
-- [Functional Requirements](../01-requirements/functional-requirements.md)
-- [Non-Functional Requirements](../01-requirements/non-functional-requirements.md)
+- [Feature Requirements](../01-requirements/f-003-access-control-and-visibility-boundaries.md)
+- [Feature Requirements](../01-requirements/f-004-requirements-backlog-and-markdown-export.md)
 - [Role Mapping](../02-planning/role-mapping.md)
-- [Phased Roadmap](../02-planning/phased-roadmap.md)
-- [Architecture Solution Design](../03-architecture/architecture-solution-design.md)
+- [Product Epics](./epics.md)
 
 ---
 
-**Story ID**: US-P1-UX-003  
-**Epic**: Guided Onboarding and Accessibility  
-**Priority**: Should Have  
+**Story ID**: US-MVP-UX-003  
+**Epic**: Admin Authentication and Recovery Baseline  
+**Priority**: Must Have  
 **Effort Estimate**: Story Points: 3
 
 **As a** UI/UX Designer,  
-**I want to** design onboarding and contextual guidance prototypes for first-time Admin users,  
-**So that** new users understand where to add notes, how to review AI output, and when to approve stories.
+**I want to** prototype the login and password-recovery journeys,  
+**So that** secure entry flows are understandable and consistent before frontend implementation starts.
 
 **Acceptance Criteria**:
 
-- [ ] Given a first-time Admin opens the workflow, When the onboarding prototype is demonstrated, Then it includes a welcome message and at least one contextual tooltip.
-- [ ] Given the tooltip sequence is reviewed, When each step is presented, Then the guidance explains note entry, ambiguity review, editing, and approval actions in plain language.
-- [ ] Given users may not want repeated guidance, When onboarding behavior is documented, Then dismiss and “don’t show again” states are included.
-- [ ] Given accessibility is in scope, When the prototype annotations are reviewed, Then focus order, keyboard navigation, and screen-reader labeling expectations are documented.
-- [ ] Given Phase 1 priorities are discussed, When the prototype is handed off, Then it is explicitly marked as a usability enhancement and not an MVP blocker.
+- [ ] Given Admin login is a protected entry point, when the prototype is reviewed, then success, validation-error, and auth-failure states are represented.
+- [ ] Given password reset has security-sensitive edge cases, when the recovery flow is reviewed, then request, expired-token, invalid-token, and success states are visible.
+- [ ] Given accessibility applies to forms, when the prototype is annotated, then label clarity, focus order, and error-message expectations are captured.
 
 **Deliverables**:
 
-- First-use onboarding flow mockup
-- Tooltip content inventory for key workflow moments
-- Accessibility notes for focus and keyboard behavior
+- Login flow prototype
+- Password recovery state map
+- Auth-form accessibility annotation notes
 
 **Dependencies**:
 
-- FR-013
-- NFR-007
-- Phase 1 usability scope from `../02-planning/phased-roadmap.md`
+- FR-007-01, FR-007-02, FR-009-01, FR-009-02
+- NFR-007-02, NFR-009-02
+- [Feature Requirements](../01-requirements/f-007-admin-login.md)
+- [Feature Requirements](../01-requirements/f-009-reset-password.md)
 
 **Success Metrics**:
 
-- Stakeholders can explain the first-time Admin journey after one walkthrough
-- Prototype covers all onboarding touchpoints required by FR-013
-- Accessibility notes identify primary interaction expectations before implementation planning begins
+- Auth and recovery journeys are reviewable without missing state questions.
+- UX decisions for secure feedback are agreed before implementation planning.
 
 ## Reference
 
-- [Functional Requirements](../01-requirements/functional-requirements.md)
-- [Non-Functional Requirements](../01-requirements/non-functional-requirements.md)
-- [Role Mapping](../02-planning/role-mapping.md)
+- [Feature Requirements](../01-requirements/f-007-admin-login.md)
+- [Feature Requirements](../01-requirements/f-009-reset-password.md)
+- [Product Epics](./epics.md)
 - [Phased Roadmap](../02-planning/phased-roadmap.md)
-- [Technology Stack](../03-architecture/technology-stack.md)
 
 ---
 
 **Story ID**: US-P1-UX-004  
-**Epic**: Stakeholder Review and Prototype Presentation  
+**Epic**: Entry-Flow Quality Uplift  
 **Priority**: Should Have  
 **Effort Estimate**: Story Points: 3
 
 **As a** UI/UX Designer,  
-**I want to** assemble a presentation-ready prototype package,  
-**So that** the Product Owner and stakeholders can review the design vision, user flows, and edge cases in a single artifact.
+**I want to** design onboarding and account-creation guidance artifacts,  
+**So that** new Admin users have a clearer first-use experience after the MVP core workflow is validated.
 
 **Acceptance Criteria**:
 
-- [ ] Given a stakeholder review session is scheduled, When the package is opened, Then it contains at least one prototype or mockup for refinement, backlog review, and onboarding.
-- [ ] Given reviewers need flow context, When the package is presented, Then it includes a user-flow diagram covering submit, review, approve, retry, and Viewer access paths.
-- [ ] Given error handling must be visible, When the package is inspected, Then each major flow includes at least one success state and one error or empty state.
-- [ ] Given roadmap alignment is important, When deliverables are reviewed, Then the package labels which prototypes are MVP Must Have versus Phase 1 Should Have.
-- [ ] Given handoff is needed, When the documentation is completed, Then every prototype section links back to relevant requirement and architecture references.
+- [ ] Given first-time Admin users need lightweight guidance, when onboarding is reviewed, then the prototype includes welcome and contextual help states.
+- [ ] Given account creation is a Phase 1 addition, when the registration journey is reviewed, then input, validation, and post-success next-step moments are represented.
+- [ ] Given repeated guidance can become noise, when the prototype is reviewed, then dismiss or do-not-repeat behavior is included.
 
 **Deliverables**:
 
-- Stakeholder review deck outline in Markdown
-- Prototype coverage matrix by requirement ID and roadmap phase
-- Consolidated prototype package suitable for asynchronous review
+- Onboarding guidance prototype
+- Registration guidance flow notes
+- First-use interaction and tooltip inventory
 
 **Dependencies**:
 
-- US-MVP-UX-001
-- US-MVP-UX-002
-- US-P1-UX-003
-- `../02-planning/phased-roadmap.md`
+- FR-005-01, FR-008-01, FR-008-02, FR-008-03
+- NFR-005-01, NFR-008-02
+- [Feature Requirements](../01-requirements/f-005-minimal-onboarding.md)
+- [Feature Requirements](../01-requirements/f-008-create-account.md)
 
 **Success Metrics**:
 
-- Review package covers all documented UI/UX stories in one location
-- Product Owner can map every prototype to MVP or Phase 1 scope without additional notes
-- Stakeholder review feedback is captured against clearly labeled flows and states
+- First-use guidance is understandable without over-expanding scope.
+- Registration and onboarding are connected as one coherent Phase 1 journey.
 
 ## Reference
 
-- [Project Overview](../overview.md)
-- [Role Mapping](../02-planning/role-mapping.md)
+- [Feature Requirements](../01-requirements/f-005-minimal-onboarding.md)
+- [Feature Requirements](../01-requirements/f-008-create-account.md)
 - [Phased Roadmap](../02-planning/phased-roadmap.md)
-- [Architecture Solution Design](../03-architecture/architecture-solution-design.md)
-- [Data Flow Diagram](../03-architecture/diagrams/data-flow.mmd)
+- [Product Epics](./epics.md)
 
 ---
 
-## Prototype and Mockup Deliverables
+**Story ID**: US-P1-UX-005  
+**Epic**: Entry-Flow Quality Uplift  
+**Priority**: Should Have  
+**Effort Estimate**: Story Points: 3
 
-| Deliverable                        | Type                              | Audience                         | Related Stories                    |
-| ---------------------------------- | --------------------------------- | -------------------------------- | ---------------------------------- |
-| Admin AI Refinement Workspace      | High-fidelity workflow prototype  | Product Owner, stakeholders      | US-MVP-UX-001, US-P1-UX-004        |
-| Admin vs Viewer Backlog Comparison | Comparative visual mockup         | Product Owner, stakeholders      | US-MVP-UX-002, US-P1-UX-004        |
-| First-Use Onboarding Flow          | Guided tooltip and message mockup | Product Owner, Frontend Engineer | US-P1-UX-003, US-P1-UX-004         |
-| Flow and State Review Package      | Diagram set and review notes      | Stakeholders, delivery planners  | US-MVP-UX-001 to US-P1-UX-004      |
+**As a** UI/UX Designer,  
+**I want to** design the landing-page messaging and CTA prototype,  
+**So that** visitors immediately understand who the product serves and how to enter the correct next flow.
 
-## Visual Prototypes (Documentation Mockups)
+**Acceptance Criteria**:
 
-### 1. Admin AI Refinement Workspace
+- [ ] Given a visitor lands on the public page, when the prototype is reviewed, then the hero explains who the product is for, what it solves, and what the next action is.
+- [ ] Given login and account creation are the key CTAs, when the prototype is reviewed, then both actions are visible and clearly differentiated.
+- [ ] Given MVP scope discipline matters, when feature summary sections are shown, then the content stays concise and aligned to current planning capabilities.
 
-```mermaid
-flowchart LR
-    A[Raw Notes Input] --> B[Ambiguity Highlights]
-    B --> C[Generated Draft Story]
-    C --> D[Edit Acceptance Criteria]
-    D --> E[Explicit Approve]
+**Deliverables**:
 
-    F[Validation Error] -. retry .-> A
-    E --> G[Approved Backlog Entry]
-```
+- Landing-page messaging prototype
+- CTA hierarchy and routing notes
+- MVP-scope feature summary content outline
 
-### 2. Admin and Viewer Backlog Comparison
+**Dependencies**:
 
-```mermaid
-flowchart TB
-    subgraph Admin View
-        A1[Project Phase: Discovery]
-        A2[Draft Story Card]
-        A3[Internal Notes]
-        A4[Approve / Edit Actions]
-    end
+- FR-006-01, FR-006-02, FR-006-03
+- NFR-006-02
+- [Feature Requirements](../01-requirements/f-006-landing-page.md)
+- [Product Epics](./epics.md)
 
-    subgraph Viewer View
-        V1[Project Phase: Discovery]
-        V2[Approved Story Card]
-        V3[Read-Only Access]
-        V4[No Internal Notes]
-    end
-```
+**Success Metrics**:
 
-### 3. First-Time Onboarding Flow
+- Reviewers can identify the value proposition and next-step path within one scan.
+- Public entry messaging stays aligned to actual MVP and Phase 1 scope.
 
-```mermaid
-stateDiagram-v2
-    [*] --> Welcome
-    Welcome --> NotesTooltip: Start tour
-    NotesTooltip --> AmbiguityTooltip: Next
-    AmbiguityTooltip --> ApprovalTooltip: Next
-    ApprovalTooltip --> Complete: Finish
-    Welcome --> Complete: Skip
-    Complete --> [*]
-```
+## Reference
+
+- [Feature Requirements](../01-requirements/f-006-landing-page.md)
+- [Project Overview](../overview.md)
+- [Phased Roadmap](../02-planning/phased-roadmap.md)
+- [Product Epics](./epics.md)
 
 ## Prototype Coverage Matrix
 
-| Story ID      | Priority  | Requirement Coverage                 | Prototype Evidence                                  |
-| ------------- | --------- | ------------------------------------ | --------------------------------------------------- |
-| US-MVP-UX-001 | Must Have | FR-004, FR-005, FR-006, FR-007       | Refinement workflow diagram and state annotations   |
-| US-MVP-UX-002 | Must Have | FR-003, FR-008, FR-010, FR-011, FR-014 | Admin/Viewer comparison mockup and readability notes |
-| US-P1-UX-003  | Should Have | FR-013, NFR-007                    | Onboarding state diagram and tooltip content plan   |
-| US-P1-UX-004  | Should Have | MVP + Phase 1 prototype packaging  | Consolidated review package and traceability links  |
+| Story ID      | Feature Coverage | Primary Requirement Coverage               | Prototype Focus                                 |
+| ------------- | ---------------- | ------------------------------------------ | ----------------------------------------------- |
+| US-MVP-UX-001 | F-002            | FR-002-01, FR-002-02, FR-002-03            | Refinement workspace                            |
+| US-MVP-UX-002 | F-003, F-004     | FR-003-01, FR-003-03, FR-004-01, FR-004-02 | Backlog visibility and export-safe presentation |
+| US-MVP-UX-003 | F-007, F-009     | FR-007-01, FR-007-02, FR-009-01, FR-009-02 | Login and recovery flow                         |
+| US-P1-UX-004  | F-005, F-008     | FR-005-01, FR-008-01, FR-008-02, FR-008-03 | Onboarding and registration guidance            |
+| US-P1-UX-005  | F-006            | FR-006-01, FR-006-02, FR-006-03            | Landing-page messaging and CTA clarity          |
 
-## Review Checklist
+## Change Log
 
-- All stories are role-specific to the UI/UX Designer.
-- Acceptance criteria use measurable Given/When/Then phrasing.
-- Prototype deliverables are included and suitable for stakeholder review.
-- MVP and Phase 1 scope boundaries remain aligned with the phased roadmap.
-- References point to existing repository documentation for implementation handoff.
+| Date       | Version | Change Summary                                                                   | Author        |
+| ---------- | ------- | -------------------------------------------------------------------------------- | ------------- |
+| 2026-03-23 | 1.1     | Rewrote UI/UX stories to align with feature-based planning and entry-flow scope. | Product Owner |
+| 2026-03-16 | 1.0     | Initial UI/UX story draft.                                                       | Product Owner |
