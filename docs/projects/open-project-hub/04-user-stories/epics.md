@@ -24,6 +24,86 @@
 - Separate MVP planning value from Phase 1 entry-flow and usability improvements.
 - Do not mix discovery-and-planning scope with delivery or handoff workflows.
 
+## Epic 0: Project and Local Development Setup (Foundational)
+
+**Problem Statement:** Delivery teams cannot begin engineering work until the development environment, CI/CD, database schema, seed data, and deployment foundations are configured.
+
+**Objective:** Establish the foundational project structure, local environment setup, and deployment baseline so all engineering teams can work in parallel on MVP features downstream.
+
+Included scope:
+
+- Monorepo structure and folder organization for backend, frontend, and shared layers
+- Local development environment setup (Python, Node.js, Docker, database)
+- CI/CD pipeline scaffolding and basic testing framework integration
+- Database schema creation and seed data generation
+- Deployment platform setup (staging and production readiness)
+- API contract and documentation foundation
+
+Excluded scope:
+
+- Feature-specific implementation beyond structure and scaffolding
+- Team onboarding and documentation beyond setup-critical items
+- Advanced deployment automation or multi-region strategies
+
+Related feature and requirement IDs: Foundational (no direct feature mapping; supports all features F-001 through F-009)
+
+Dependencies:
+
+- [Architecture Solution Design](../03-architecture/architecture-solution-design.md)
+- [Technology Stack](../03-architecture/technology-stack.md)
+- [Database Design](../06-database/database-design.md)
+
+Measurable success criteria:
+
+- Every engineer can clone the repo and run local dev environment in under 15 minutes.
+- CI/CD pipeline runs on every commit and reports clear pass/fail status.
+- Database schema is created and seed data is populated automatically in local dev.
+- Deployment to staging is repeatable and documented.
+
+Acceptance criteria:
+
+- Given an engineer clones the repository, when they follow the README setup steps, then all local services start without manual configuration.
+- Given CI/CD is configured, when a commit is pushed, then tests run automatically and report results clearly.
+- Given database schema is needed, when the local environment starts, then schema migrations and seed data are applied automatically.
+
+---
+
+## Cross-Role Story Sequencing and Dependency Rationale
+
+The user stories for UI/UX Designers, Frontend Engineers, and Backend Engineers follow a unified dependency chain to ensure parallel delivery without blockers:
+
+### Sequencing Principles
+
+1. **Auth First**: Admin login and password-recovery workflows gate all downstream planning features. UX prototypes must validate secure entry before FE builds UI. BE must define auth service behavior before other services depend on authenticated context.
+
+2. **Workspace Second**: Project and client lifecycle management enables Admin users to establish context before attempting any planning workflow. This includes lifecycle constraints, active-project limits, and archive behavior.
+
+3. **Core Workflow Third**: AI refinement and approval represents the central value workflow. UX validates user expectations, FE defines interaction patterns, BE implements draft-to-approved state machinery.
+
+4. **Access Boundaries Fourth**: Admin and Viewer visibility enforce the boundaries that make the product safe for stakeholder sharing. UX validates readability, FE implements role-based UI controls, BE enforces access rules and export filters.
+
+5. **Phase 1 Last**: Entry-flow quality improvements (onboarding, landing, account creation, registration) follow after MVP core workflows are stable and validated in production.
+
+### Story Cross-Mapping
+
+| Theme                        | Backend Story     | Frontend Story   | UX Story        |
+| ---------------------------- | ----------------- | ---------------- | --------------- |
+| Auth and Recovery            | US-MVP-BE-001     | US-MVP-FE-001    | US-MVP-UX-001   |
+| Project and Lifecycle        | US-MVP-BE-002     | US-MVP-FE-002    | US-MVP-UX-002   |
+| AI Refinement and Approval   | US-MVP-BE-003     | US-MVP-FE-003    | US-MVP-UX-003   |
+| Access Boundaries and Export | US-MVP-BE-004/005 | US-MVP-FE-004    | US-MVP-UX-004   |
+| Entry Flow (Phase 1)         | US-P1-BE-006/007  | US-P1-FE-005/006 | US-P1-UX-005/06 |
+
+### Dependency Notes for Delivery Teams
+
+- **UX Prototypes** should complete before corresponding FE and BE stories enter detailed planning to reduce rework and misalignment.
+- **Auth workflow** (UX-001, FE-001, BE-001) must complete before project workspace or planning workflow stories begin detailed implementation.
+- **Project lifecycle** stories depend on auth being available but can be scheduled in parallel with AI refinement planning if design is clear.
+- **Access control** stories depend on both project lifecycle and AI refinement being scoped; can begin architecture planning after auth baseline is clear.
+- **Phase 1 stories** should not begin until MVP core workflows are in production and stable; prioritize based on real user feedback and adoption patterns.
+
+---
+
 ## MVP Epics
 
 ### Epic 1: Client and Project Lifecycle Governance
