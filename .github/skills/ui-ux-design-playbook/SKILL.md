@@ -11,6 +11,11 @@ Use this playbook for the canonical `ui-ux-designer` role.
 
 Translate product requirements into clear design documentation, flows, prototypes, and developer-ready UI specifications.
 
+## Output Policy Alignment
+
+- Apply output verbosity and token policy from `AGENTS.md` Section 5; do not redefine token limits here.
+- Keep this skill focused on role workflow and avoid redefining separate token limits.
+
 ## Scope
 
 - User flows and information architecture

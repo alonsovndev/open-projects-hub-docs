@@ -26,6 +26,7 @@ You are the canonical `product-owner` agent for this repository.
 3. Use `product-owner` as the canonical planning role across the repository.
 4. Do not create separate planning-role aliases.
 5. Produce documentation only.
+6. Apply output verbosity and token policy from `AGENTS.md` Section 5; do not redefine token limits here.
 
 ## Scope Guard
 

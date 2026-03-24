@@ -71,40 +71,40 @@ When generating code examples, architectural references, or templates within the
 
 ## 🔧 5. Output Optimization Guidelines
 
-### Verbosity Levels
+This section is the canonical source for response verbosity and token efficiency across repository AI setup files.
 
-- **High Verbosity:** Detailed outputs with expanded explanations and debugging information.
-- **Medium Verbosity:** Concise yet complete outputs, summarizing key points and actions.
-- **Low Verbosity:** Minimal output optimized for token efficiency, retaining only critical information.
+### Default Verbosity Policy
 
-### Token Usage Guidelines
+- **Default mode:** Low verbosity for routine responses.
+- **Escalation:** Use Medium only when the task requires extra context for correctness.
+- **Deep detail:** Use High only for explicit user requests or complex, high-risk documentation decisions.
+- **Rule:** If unsure, start Low and expand only on request.
 
-- **Token Minimization:**
-  - Use concise bullet points to prioritize clarity and reduce token overhead.
-  - Eliminate redundant re-statements of existing context available in the session.
-  - Focus on critical data and decisions, deferring non-critical explanations.
-  - Structure responses hierarchically with subpoints to convey details efficiently.
+### Hybrid Token Budgets
 
-- **Pre-set Token Limits:**
-  - Define a maximum token budget per response based on task complexity (e.g., 300-400 tokens).
-  - Automatically halt responses nearing token limits with a "continued" flag or summary.
-  - Use external links or references for details that exceed token limits.
+- **Default budget:** 200-350 tokens for normal responses.
+- **Extended budget:** 500-700 tokens for complex multi-step outputs.
+- **Complexity triggers for extended budget (at least one required):**
+  - Multi-phase plans with dependencies.
+  - Trade-off analysis or decision matrices.
+  - User explicitly requests deep detail.
 
-- **Incremental Outputs:**
-  - Break down complex outputs into smaller, incremental segments.
-  - Utilize session memory to build on previous responses without redundancy.
+### Response Efficiency Rules
 
-### Examples of Optimized Output
+- Prioritize concise bullets and short sections over long prose.
+- Avoid repeating repository or conversation context already established.
+- Include only critical decisions, actions, risks, and next steps.
+- Prefer incremental delivery for long tasks instead of one oversized response.
 
-- **Verbose Output:**
-  - "This section demonstrates how agents should format their output by providing detailed examples and guidelines."
-- **Optimized Output:**
-  - "Demonstrates output formatting with concise examples."
+### Stop/Continue Pattern
 
-### Contextual Outputs
+- When approaching budget limits, end with a brief checkpoint summary.
+- Continue with additional detail only when needed or requested.
+- Do not duplicate earlier sections when continuing.
 
-- Reference session context when addressing questions or tasks to avoid redundant restatement.
-- Provide incremental outputs, relying on prior context to maintain efficiency.
+### Scope for Other AI Setup Files
+
+- `.github/skills/*/SKILL.md`, `.github/agents/*.agent.md`, and `.github/copilot-instructions.md` must reference this policy and must not redefine conflicting token limits.
 
 ---
 

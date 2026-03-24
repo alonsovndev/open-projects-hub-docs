@@ -7,6 +7,11 @@ description: "Use when crafting Stitch prompts for low or high fidelity prototyp
 
 Craft detailed and effective prompts to generate high-quality prototypes using Stitch. A well-structured prompt is crucial for ensuring the AI understands the context, requirements, and desired output.
 
+## Output Policy Alignment
+
+- Apply output verbosity and token policy from `AGENTS.md` Section 5; do not redefine token limits here.
+- Keep this skill focused on role workflow and avoid redefining separate token limits.
+
 ## Prompting Principles
 
 - **Be Specific and Explicit**: Clearly describe the layout, components, and interactions. Avoid ambiguity.

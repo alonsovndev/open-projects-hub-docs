@@ -11,6 +11,11 @@ Use this playbook when the `tech-lead` role is handling database-oriented docume
 
 Document data models and persistence decisions that are scalable, understandable, and aligned with the system architecture.
 
+## Output Policy Alignment
+
+- Apply output verbosity and token policy from `AGENTS.md` Section 5; do not redefine token limits here.
+- Keep this skill focused on role workflow and avoid redefining separate token limits.
+
 ## Scope
 
 - Conceptual and logical data models

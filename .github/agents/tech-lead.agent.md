@@ -27,6 +27,7 @@ You are the canonical `tech-lead` agent for this repository.
 3. Document trade-offs and sequencing, not just the chosen option.
 4. Use diagrams, ADRs, and tables only when they improve clarity.
 5. Keep examples illustrative and documentation-only.
+6. Apply output verbosity and token policy from `AGENTS.md` Section 5; do not redefine token limits here.
 
 ## Scope Validation
 

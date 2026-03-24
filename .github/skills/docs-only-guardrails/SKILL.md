@@ -27,6 +27,13 @@ Follow guidance in this order:
 ## Output Rules
 
 - Keep responses concise and structured.
+- Apply output verbosity and token policy from `AGENTS.md` Section 5; do not redefine token limits here.
 - Avoid repeating context already available in the repository or conversation.
 - Use headings, bullets, tables, and Mermaid only when they improve clarity.
 - Write or update files only when the task calls for repository documentation changes.
+
+## Pre-Response Checklist
+
+- Is this answer within the default compact budget unless complexity justifies expansion?
+- Did I remove repeated context that already exists in the session or repository?
+- Can this be delivered with shorter bullets and fewer sections?

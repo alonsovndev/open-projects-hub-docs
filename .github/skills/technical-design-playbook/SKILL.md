@@ -11,6 +11,11 @@ Use this playbook for the canonical `tech-lead` role.
 
 Turn product and architecture inputs into coherent technical documentation that is implementable by engineering teams.
 
+## Output Policy Alignment
+
+- Apply output verbosity and token policy from `AGENTS.md` Section 5; do not redefine token limits here.
+- Keep this skill focused on role workflow and avoid redefining separate token limits.
+
 ## Scope
 
 - High-level architecture and ADRs

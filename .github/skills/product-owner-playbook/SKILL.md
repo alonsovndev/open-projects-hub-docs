@@ -11,6 +11,11 @@ Use this playbook for the unified `product-owner` role.
 
 Turn stakeholder goals into clear, prioritized, implementation-ready documentation.
 
+## Output Policy Alignment
+
+- Apply output verbosity and token policy from `AGENTS.md` Section 5; do not redefine token limits here.
+- Keep this skill focused on role workflow and avoid redefining separate token limits.
+
 ## Scope
 
 - Stakeholder discovery and clarification

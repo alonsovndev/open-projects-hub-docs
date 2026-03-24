@@ -33,6 +33,7 @@ Follow instructions in this order:
 
 - Use lowercase hyphenated file names.
 - Keep content concise, structured, and easy to scan.
+- Follow `AGENTS.md` Section 5 as the canonical verbosity and token-usage policy for responses/output.
 - Use tables and Mermaid only when they improve clarity.
 - Keep code examples illustrative and aligned with Clean Architecture and DDD guidance documented in the repo.
 - Prefer references to shared skills instead of duplicating long role guidance.
