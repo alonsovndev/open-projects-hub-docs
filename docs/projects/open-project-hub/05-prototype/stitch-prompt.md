@@ -12,6 +12,33 @@ Use this file to generate a fast, consistent prototype in Stitch. The consolidat
 - It makes Admin and Viewer permissions explicit.
 - It includes scope guardrails inside the prompt so Stitch is less likely to invent product behavior.
 
+## Current Prototype Asset Alignment
+
+Use this table to map generated `stitch/` assets to the canonical page set in this prompt.
+
+| Canonical Page | Preferred Existing Asset Folder |
+| --- | --- |
+| Page 1: Entry and Role Selection | `entry-role-selection-with-home-link/` |
+| Page 2: Admin Sign Up | `create-admin-account/` |
+| Page 3: Admin Sign In | `admin-sign-in/` |
+| Page 4: Forgot Password | _(generate if missing)_ |
+| Page 5: Reset Password | `reset-password-refined/` |
+| Page 6: Admin AI Requirements Refinement Workspace | `ai-refinement-workspace-updated-sidebar/` |
+| Page 7: Admin Backlog View and Markdown Export | `simplified-admin-backlog/` |
+| Page 8: Viewer Backlog View | `final-approved-stories-streamlined-view/` |
+| Page 9: Optional Onboarding Overlay | _(generate if needed)_ |
+
+### Not Canonical for This MVP Prompt
+
+The following generated variants are not part of the current MVP prototype path and should be treated as exploratory or archived variants:
+
+- `project-hub-home-page-refined/`
+- `project-id-entry/`
+- `projects-overview-refined/`
+- `projects-overview-create-project-modal/`
+- `admin-dashboard-project-summary-refined/`
+- `admin-settings-top-options-removed/`
+
 ## Out of Scope
 
 The prototype must not introduce the following:
@@ -25,6 +52,22 @@ The prototype must not introduce the following:
 - OAuth, social login, MFA, or self-service client signup
 - Rich text editors, Markdown authoring surfaces, or complex formatting tools
 - Dark mode or heavily branded visual exploration
+
+## Source Alignment
+
+Use these as the source of truth before regenerating prototype pages:
+
+- [Project Overview](../overview.md)
+- [Project Requirements by Feature](../01-requirements/readme.md)
+- [F-002 AI Refinement and Approval Workflow](../01-requirements/f-002-ai-refinement-and-approval-workflow.md)
+- [F-003 Access Control and Visibility Boundaries](../01-requirements/f-003-access-control-and-visibility-boundaries.md)
+- [F-004 Requirements Backlog and Markdown Export](../01-requirements/f-004-requirements-backlog-and-markdown-export.md)
+- [F-005 Minimal Onboarding](../01-requirements/f-005-minimal-onboarding.md)
+- [F-006 Landing Page](../01-requirements/f-006-landing-page.md)
+- [F-007 Admin Login](../01-requirements/f-007-admin-login.md)
+- [F-008 Create Account](../01-requirements/f-008-create-account.md)
+- [F-009 Reset Password](../01-requirements/f-009-reset-password.md)
+- [UI/UX Designer User Stories](../04-user-stories/ui-ux-designer-stories.md)
 
 ## Consolidated Stitch Prompt (Copy & Paste)
 
