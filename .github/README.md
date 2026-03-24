@@ -17,6 +17,16 @@ This repository uses a small canonical AI setup for documentation work.
 - `.github/skills/ui-ux-design-playbook/SKILL.md`
 - `.github/skills/stitch-prototype-prompting/SKILL.md`
 
+## Prompt Layout
+
+- `.github/prompts/markdown-format-refiner.prompt.md`
+
+### Prompt Usage
+
+- In chat, type `/` and select **markdown-format-refiner**.
+- Provide target file path(s) and optional strictness: `light`, `standard`, or `strict`.
+- Use this prompt to check and refine Markdown formatting while preserving original meaning.
+
 ## Design Principles
 
 - Keep shared guidance in skills, not duplicated in every agent.
