@@ -2,7 +2,9 @@
 
 **Purpose:** Capture and resolve questions to finalize scope, workflows, and success criteria for the Open Freelancer Project Hub.
 
-**Status:** Closed
+---
+
+**Status:** Closed  
 **Last Updated:** 2026-02-28
 
 ---
@@ -23,8 +25,8 @@
 | ID    | Question                                                                                                   | Answer                                                                                                                             | Status |
 | :---- | :--------------------------------------------------------------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------- | :----- |
 | Q-005 | What inputs are supported for AI refinement (raw notes, transcripts, bullet lists, emails)?                | The MVP will support **raw notes and bullet lists** for simplicity and directness.                                                 | Closed |
-| Q-006 | Should AI output require explicit user approval before becoming official project artifacts?                | **Yes, explicit user approval is mandatory**. The freelancer must have final control to edit and approve all AI-generated content. | Closed |
-| Q-007 | What level of detail must AI generate (user stories only vs. acceptance criteria, test cases, edge cases)? | The AI will generate **user stories with suggested acceptance criteria**. Test cases are out of scope for the MVP.                 | Closed |
+| Q-006 | Should AI output require explicit user approval before becoming official project artifacts?                | **Yes, explicit user approval is mandatory.** The freelancer must have final control to edit and approve all AI-generated content. | Closed |
+| Q-007 | What level of detail must AI generate (user stories only vs. acceptance criteria, test cases, edge cases)? | The AI will generate **user stories with suggested acceptance criteria.** Test cases are out of scope for the MVP.                 | Closed |
 | Q-008 | How should ambiguity detection be surfaced (inline highlights, warnings, checklist)?                       | Ambiguity will be surfaced using **inline highlights** on the input text for direct, contextual feedback.                          | Closed |
 | Q-009 | Are there any topics or content categories the AI must avoid?                                              | Yes, the AI will be instructed to **avoid generating harmful or illegal content** and stay focused on software development topics. | Closed |
 
@@ -36,8 +38,8 @@
 | :---- | :---------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------- | :----- |
 | Q-010 | What are the exact permissions for Admin, Superuser, and Viewer?                                | **Admin:** The freelancer owner with full CRUD access. **Viewer:** The client with read-only access. The Superuser role is not needed for the MVP. | Closed |
 | Q-011 | Can clients (Viewers) provide comments or feedback, or is view-only strict?                     | The Viewer role is **strictly view-only** for the MVP to simplify the initial build.                                                               | Closed |
-| Q-012 | Should users be able to invite collaborators outside their organization (e.g., subcontractors)? | **No**, this is out of scope for the MVP. The focus is on a single freelancer and their client.                                                    | Closed |
-| Q-013 | Is there a need for audit logs or activity history visible to users?                            | **No**, audit logs are not required for the MVP but can be considered for future versions.                                                         | Closed |
+| Q-012 | Should users be able to invite collaborators outside their organization (e.g., subcontractors)? | **No, this is out of scope for the MVP.** The focus is on a single freelancer and their client.                                                    | Closed |
+| Q-013 | Is there a need for audit logs or activity history visible to users?                            | **No, audit logs are not required for the MVP but can be considered for future versions.**                                                         | Closed |
 
 ---
 

@@ -27,9 +27,9 @@ Freelancers frequently struggle with the initial phases of a project, specifical
 
 The Open Freelancer Project Hub addresses these challenges by offering:
 
-1. **AI-Assisted Requirements Refinement**: An integrated AI engine that detects ambiguities and automatically generates structured user stories from raw input.
-2. **Centralized Management**: A single platform to manage clients and up to three concurrent projects (MVP constraint) efficiently.
-3. **Role-Based Access Control**: Secure, structured access levels (Admin, Viewer) to ensure safe collaboration.
+- **AI-Assisted Requirements Refinement**: An integrated AI engine that detects ambiguities and automatically generates structured user stories from raw input.
+- **Centralized Management**: A single platform to manage clients and up to three concurrent projects (MVP constraint) efficiently.
+- **Role-Based Access Control**: Secure, structured access levels (Admin, Viewer) to ensure safe collaboration.
 
 ---
 
@@ -37,17 +37,17 @@ The Open Freelancer Project Hub addresses these challenges by offering:
 
 ### Primary Audience
 
-1. **Software Freelancers & Independent Developers**
-   - Benefit from automated requirements gathering, structured project organization, and reduced administrative overhead.
+- **Software Freelancers & Independent Developers**
+  - Benefit from automated requirements gathering, structured project organization, and reduced administrative overhead.
 
 ### Secondary Audience
 
-1. **Open-Source Contributors & Students**
-   - Benefit from a real-world, modern tech stack (React, FastAPI, Clean Architecture) project that serves as an academic reference and allows for community contributions.
-2. **Freelancers**
-   - Benefit from a tool that helps them to manage their projects and clients in a more efficient way, with the help of AI to refine requirements and generate user stories.
-3. **Clients of Freelancers (Viewers)**
-   - Benefit from having a transparent, read-only view of their project's actionable tasks.
+- **Open-Source Contributors & Students**
+  - Benefit from a real-world, modern tech stack (React, FastAPI, Clean Architecture) project that serves as an academic reference and allows for community contributions.
+- **Freelancer Operators**
+  - Benefit from a tool that helps manage projects and clients more efficiently, with AI support to refine requirements and generate user stories.
+- **Clients of Freelancers (Viewers)**
+  - Benefit from having a transparent, read-only view of their project's actionable tasks.
 
 ---
 
@@ -55,19 +55,19 @@ The Open Freelancer Project Hub addresses these challenges by offering:
 
 ### Professional Impact Goals
 
-1. Streamline the transition from initial/raw requirements client input to actionable development tasks.
-2. Serve as a robust, real-world academic project that demonstrates modern software engineering best practices.
+- Streamline the transition from initial/raw requirements client input to actionable development tasks.
+- Serve as a robust, real-world academic project that demonstrates modern software engineering best practices.
 
 ### Technical Goals
 
-1. Implement a Modular Monolith backend using Python, FastAPI, and PostgreSQL following Clean Architecture and DDD principles.
-2. Ensure high code quality with a mandatory Test-Driven Development (TDD) approach, targeting a minimum of 70% test coverage.
-3. Establish a secure foundation adhering to OWASP Top 10 guidelines and Security by Design principles.
+- Implement a Modular Monolith backend using Python, FastAPI, and PostgreSQL following Clean Architecture and DDD principles.
+- Ensure high code quality with a mandatory Test-Driven Development (TDD) approach, targeting a minimum of 70% test coverage.
+- Establish a secure foundation adhering to OWASP Top 10 guidelines and Security by Design principles.
 
 ### Business Goals
 
-1. Deliver a fully functional MVP within a 1 to 1.5 month timeframe.
-2. Build an active open-source community around the tool to foster future contributions and feature expansions.
+- Deliver a fully functional MVP within a 1 to 1.5 month timeframe.
+- Build an active open-source community around the tool to foster future contributions and feature expansions.
 
 ---
 
@@ -75,9 +75,9 @@ The Open Freelancer Project Hub addresses these challenges by offering:
 
 ### What Makes This Project Stand Out
 
-1. **AI-Powered Refinement**: The inclusion of an AI motor specifically tuned to refine software requirements before development begins.
-2. **Open Source & Academic Focus**: Designed from the ground up to be both a practical tool for freelancers and a learning resource for the open-source community.
-3. **Security First**: Strict adherence to security best practices (JWT, rate limiting, secure password hashing) from day one.
+- **AI-Powered Refinement**: The inclusion of an AI motor specifically tuned to refine software requirements before development begins.
+- **Open Source & Academic Focus**: Designed from the ground up to be both a practical tool for freelancers and a learning resource for the open-source community.
+- **Security First**: Strict adherence to security best practices (JWT, rate limiting, secure password hashing) from day one.
 
 ---
 
