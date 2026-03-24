@@ -3,110 +3,163 @@
 | Attribute        | Value                       |
 | ---------------- | --------------------------- |
 | **Project**      | Open Freelancer Project Hub |
-| **Version**      | 1.0                         |
+| **Version**      | 1.1                         |
 | **Status**       | Draft                       |
-| **Last Updated** | 2026-02-28                  |
+| **Last Updated** | 2026-03-23                  |
+| **Owner**        | Product Owner               |
+
+## How to Use (AI Agent Instructions)
+
+- Keep phase boundaries driven by acceptance criteria and requirement readiness.
+- Link every epic to at least one `FR-*` or `NFR-*` requirement.
+- Place features in the earliest phase where scope is fully clarified.
+- Update the Feature Traceability Matrix whenever features, epics, or story IDs change.
 
 ## Sources
 
 - [Project Overview](../overview.md)
-- [Functional Requirements](../01-requirements/functional-requirements.md)
-- [Non-Functional Requirements](../01-requirements/non-functional-requirements.md)
+- [Feature Requirements](../01-requirements/readme.md)
 
 ## Planning Principles
 
-- Scope is limited to product planning for discovery and planning workflows.
-- Phase definitions prioritize validated requirements before scope expansion.
-- Phase progression is based on acceptance outcomes, not calendar commitments.
+- Separate scope definition from implementation design.
+- Use MoSCoW for prioritization and resolve conflicts through Tech Lead + Product Owner.
+- Keep MVP focused on core validated workflows before expansion.
+- Architecture-impacting decisions must reference ADRs in `03-architecture`.
 
-## Phase Breakdown
+---
 
-### MVP Phase
+## Phase Overview
 
-#### Goals
+| Phase   | Name                             | Objective                                                       | Status  | Target Window |
+| ------- | -------------------------------- | --------------------------------------------------------------- | ------- | ------------- |
+| MVP     | Core Planning Backbone           | Deliver core planning value with secure access and exports      | Planned | Weeks 1-4     |
+| Phase 1 | UX and Entry-Flow Hardening      | Improve onboarding and auth-adjacent user quality               | Planned | Weeks 5-6     |
+| Phase 2 | Governance and Scale Preparation | Prepare post-MVP governance, traceability depth, and scale plan | Planned | TBD           |
 
-1. Establish the core discovery and planning workflow for freelancers.
-2. Deliver structured, approvable requirements artifacts for Admin and Viewer roles.
-3. Validate baseline security, privacy, and quality expectations for MVP scope.
+---
 
-#### Prioritized Epics / Tasks
+## MVP Phase
 
-| Priority | Epic / Task                                                          | Linked Requirements       |
-| -------- | -------------------------------------------------------------------- | ------------------------- |
-| Must     | Client and project administration with active-project limit          | FR-001, FR-002            |
-| Must     | Discovery/planning-only project lifecycle                            | FR-003                    |
-| Must     | AI-assisted refinement from raw notes with ambiguity highlighting    | FR-004, FR-005            |
-| Must     | User story generation, edit flow, and explicit approval gate         | FR-006, FR-007            |
-| Must     | Role-based access for Admin and Viewer with internal notes isolation | FR-008, FR-009, FR-010    |
-| Must     | Structured backlog view and Markdown export                          | FR-011, FR-012            |
-| Must     | Security, privacy, and quality baseline                              | NFR-001, NFR-002, NFR-003 |
+### Goals
 
-#### Key Deliverables
+1. Deliver the core planning workflow with feature coverage for `F-001` to `F-004`.
+2. Validate secure access and essential auth entry flows (`F-007`, `F-009`).
+3. Ensure Must-priority quality baselines are mapped and owned.
 
-- Defined MVP scope boundary (discovery + planning only).
-- Approved requirements backlog format (user story template + acceptance criteria).
-- Role access matrix for Admin and Viewer interactions.
-- Export-ready project requirements package in Markdown format.
+### Prioritized Epics
 
-#### Acceptance Criteria
+| Priority | Epic                                       | Linked Feature(s) | Linked Requirements                                                | Owner            |
+| -------- | ------------------------------------------ | ----------------- | ------------------------------------------------------------------ | ---------------- |
+| Must     | Client and project lifecycle governance    | F-001             | FR-001-01, FR-001-02, FR-001-03, NFR-001-01                        | Product Owner    |
+| Must     | AI refinement and approval control         | F-002             | FR-002-01, FR-002-02, FR-002-03, NFR-002-01                        | Product Owner    |
+| Must     | Access boundary and role enforcement       | F-003             | FR-003-01, FR-003-02, NFR-003-01                                   | Tech Lead        |
+| Must     | Backlog and export deliverable             | F-004             | FR-004-01, FR-004-02                                               | Backend Engineer |
+| Must     | Admin authentication and recovery baseline | F-007, F-009      | FR-007-01, FR-007-02, FR-009-01, FR-009-02, NFR-007-01, NFR-009-01 | Tech Lead        |
+| Must     | Cross-cut quality baseline                 | F-001 to F-009    | NFR-X01, NFR-X02, NFR-X03                                          | Tech Lead        |
 
-- All MVP Must functional requirements (FR-001 to FR-012) are validated for scope completeness.
-- Must non-functional requirements (NFR-001 to NFR-003) are mapped to measurable checks.
-- MVP planning artifacts clearly exclude delivery/handoff workflow scope.
+### Key Deliverables
 
-### Phase 1
+- MVP scope baseline linked to feature-level requirements.
+- Role-safe, approvable requirements backlog and Markdown export definition.
+- Security and privacy checklist for Must-priority workflows.
+- Initial traceability matrix with story placeholders per feature.
 
-#### Goals
+### Acceptance Criteria
 
-1. Improve usability and stakeholder transparency on top of MVP core flows.
-2. Strengthen planning quality for readability, accessibility, and expected MVP load.
+- [ ] All `Must` functional requirements in MVP scope are linked to an epic and owner.
+- [ ] All `Must` non-functional requirements are tied to measurable checks.
+- [ ] MVP excludes non-core collaboration expansion and non-essential integrations.
 
-#### Prioritized Epics / Tasks
+---
 
-| Priority | Epic / Task                                                                       | Linked Requirements |
-| -------- | --------------------------------------------------------------------------------- | ------------------- |
-| Should   | Guided onboarding experience for first-time Admin users                           | FR-013              |
-| Should   | Enhanced Viewer visibility into requirements and project phase status             | FR-014              |
-| Should   | Readability and communication quality improvements for non-technical stakeholders | NFR-004             |
-| Should   | Baseline responsiveness and scalability targets for MVP limits                    | NFR-005, NFR-006    |
-| Should   | Accessibility conformance for primary planning workflows                          | NFR-007             |
+## Phase 1
 
-#### Key Deliverables
+### Goals
 
-- Updated user journey map for onboarding and viewer review paths.
-- Improved planning presentation standards for requirements readability.
-- Non-functional validation checklist for performance, scalability, and accessibility targets.
+1. Improve first-use quality and public entry clarity (`F-005`, `F-006`, `F-008`).
+2. Strengthen readability, accessibility, and stakeholder transparency.
 
-#### Acceptance Criteria
+### Prioritized Epics
 
-- Should functional requirements (FR-013 and FR-014) are validated as complete planning scope.
-- Should non-functional requirements (NFR-004 to NFR-007) have explicit quality targets and ownership.
-- Viewer-facing planning artifacts remain read-only and free of internal-only content.
+| Priority | Epic                                    | Linked Feature(s)   | Linked Requirements                                    | Owner             |
+| -------- | --------------------------------------- | ------------------- | ------------------------------------------------------ | ----------------- |
+| Should   | Minimal onboarding quality uplift       | F-005               | FR-005-01, NFR-005-01, NFR-005-02                      | UI/UX Designer    |
+| Should   | Landing page messaging and conversion   | F-006               | FR-006-03, NFR-006-01, NFR-006-02                      | Frontend Engineer |
+| Should   | Account creation flow maturity          | F-008               | FR-008-03, NFR-008-02                                  | Frontend Engineer |
+| Should   | Readability and accessibility hardening | F-003, F-004, F-007 | FR-003-03, NFR-003-03, NFR-004-01, NFR-007-02, NFR-X07 | UI/UX Designer    |
 
-### Phase 2
+### Key Deliverables
 
-#### Goals
+- Improved onboarding and auth-adjacent user journey artifacts.
+- Accessibility and readability validation checklist per feature.
+- Updated feature traceability with Phase 1 story ownership.
 
-1. Prepare a structured roadmap for post-MVP scale and governance decisions.
-2. Reduce ambiguity in future scope expansion through clearer prioritization and dependency mapping.
+### Acceptance Criteria
 
-#### Prioritized Epics / Tasks
+- [ ] All `Should` requirements in Phase 1 have explicit quality targets and owners.
+- [ ] Viewer-facing outputs remain readable, non-technical, and read-only.
 
-| Priority | Epic / Task                                                        | Linked Requirements                |
-| -------- | ------------------------------------------------------------------ | ---------------------------------- |
-| Could    | Cross-phase requirement traceability and backlog governance model  | FR-001 to FR-014                   |
-| Could    | Expanded risk/dependency management for future feature candidates  | Overview goals, NFR-001 to NFR-007 |
-| Could    | Planning framework for higher-volume projects and story portfolios | NFR-005, NFR-006                   |
-| Could    | Extended stakeholder collaboration rules for future role growth    | FR-008, FR-009                     |
+---
 
-#### Key Deliverables
+## Phase 2 (Future)
 
-- Cross-phase traceability matrix linking goals, requirements, and future epics.
-- Updated planning governance document for backlog intake and prioritization.
-- Risk and dependency register for post-MVP scope candidates.
+### Goals
 
-#### Acceptance Criteria
+1. Formalize governance for backlog evolution and cross-phase traceability quality.
+2. Prepare scale-readiness and dependency governance without implementation commitments.
 
-- All Phase 2 items are documented as planning candidates with clear dependency links.
-- No Phase 2 item introduces implementation design or technology-stack commitments.
-- Prioritization rationale is captured for each candidate epic (Must/Should/Could).
+### Prioritized Epics
+
+| Priority | Epic                                 | Linked Feature(s) | Linked Requirements       | Owner         |
+| -------- | ------------------------------------ | ----------------- | ------------------------- | ------------- |
+| Could    | Cross-phase traceability governance  | F-001 to F-009    | NFR-X03, NFR-X05, NFR-X06 | Tech Lead     |
+| Could    | Risk and dependency governance model | F-001 to F-009    | NFR-X02, NFR-X08          | Tech Lead     |
+| Could    | Future collaboration policy framing  | F-003             | FR-003-02                 | Product Owner |
+
+### Key Deliverables
+
+- Governance-ready traceability matrix maintenance policy.
+- Cross-phase risk and dependency register updates.
+- Prioritization rationale for post-MVP candidates.
+
+### Acceptance Criteria
+
+- [ ] All Phase 2 entries are documented as candidates with dependency links.
+- [ ] No Phase 2 item introduces implementation design or tech-stack commitments.
+- [ ] Prioritization rationale is captured for each candidate epic.
+
+---
+
+## Feature Traceability Matrix
+
+| Feature ID | Feature Name                             | Phase   | Priority | Linked Epic(s)                             | Linked Stories (US-\*)       | Status  |
+| ---------- | ---------------------------------------- | ------- | -------- | ------------------------------------------ | ---------------------------- | ------- |
+| F-001      | Client and Project Lifecycle Management  | MVP     | Must     | Client and project lifecycle governance    | US-BE-MVP-001, US-FE-MVP-001 | Planned |
+| F-002      | AI Refinement and Approval Workflow      | MVP     | Must     | AI refinement and approval control         | US-BE-MVP-002, US-FE-MVP-002 | Planned |
+| F-003      | Access Control and Visibility Boundaries | MVP     | Must     | Access boundary and role enforcement       | US-BE-MVP-003, US-FE-MVP-003 | Planned |
+| F-004      | Requirements Backlog and Markdown Export | MVP     | Must     | Backlog and export deliverable             | US-BE-MVP-004, US-FE-MVP-004 | Planned |
+| F-005      | Minimal Onboarding                       | Phase 1 | Should   | Minimal onboarding quality uplift          | US-UX-P1-001, US-FE-P1-001   | Planned |
+| F-006      | Landing Page Experience                  | Phase 1 | Must     | Landing page messaging and conversion      | US-UX-P1-002, US-FE-P1-002   | Planned |
+| F-007      | Admin Login                              | MVP     | Must     | Admin authentication and recovery baseline | US-BE-MVP-005, US-FE-MVP-005 | Planned |
+| F-008      | Account Creation                         | Phase 1 | Should   | Account creation flow maturity             | US-BE-P1-003, US-FE-P1-003   | Planned |
+| F-009      | Reset Password                           | MVP     | Must     | Admin authentication and recovery baseline | US-BE-MVP-006, US-FE-MVP-006 | Planned |
+
+---
+
+## Risks and Blockers
+
+| Risk / Blocker                                   | Phase Impacted | Probability | Impact | Mitigation                                                    | Owner          |
+| ------------------------------------------------ | -------------- | ----------- | ------ | ------------------------------------------------------------- | -------------- |
+| Scope creep between core planning and auth UX    | MVP, Phase 1   | Medium      | High   | Strict MoSCoW gating and feature-to-phase traceability checks | Product Owner  |
+| Ambiguity in requirement ID ownership            | MVP            | Medium      | High   | Maintain requirement-level ownership table in role mapping    | Tech Lead      |
+| Entry-flow quality drops due to split priorities | Phase 1        | Medium      | Medium | Shared UX+FE checkpoint before phase sign-off                 | UI/UX Designer |
+
+---
+
+## Change Log
+
+| Date       | Version | Change Summary                                                               | Author        |
+| ---------- | ------- | ---------------------------------------------------------------------------- | ------------- |
+| 2026-03-23 | 1.1     | Refactored roadmap to template structure and aligned to feature-based model. | Product Owner |
+| 2026-02-28 | 1.0     | Initial phased roadmap draft created.                                        | Product Owner |
