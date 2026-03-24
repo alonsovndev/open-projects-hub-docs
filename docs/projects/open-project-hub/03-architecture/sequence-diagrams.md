@@ -1,5 +1,19 @@
 # Sequence Diagrams
 
+| Attribute        | Value                       |
+| ---------------- | --------------------------- |
+| **Project**      | Open Freelancer Project Hub |
+| **Version**      | 1.0                         |
+| **Status**       | Draft                       |
+| **Last Updated** | 2026-02-28                  |
+
+## Sources
+
+- [Architecture Solution Design](./architecture-solution-design.md)
+- [Feature Requirements](../01-requirements/project-requirements-by-feature.md)
+
+---
+
 This document captures key user and system interaction flows for the Open Freelancer Project Hub.
 
 ## 1) Authentication and Session Validation
@@ -99,3 +113,12 @@ sequenceDiagram
     BE->>Sentry: Capture exception + request metadata
     FE-->>User: Show actionable error message
 ```
+
+---
+
+## Change Log
+
+| Date       | Version | Change Summary                              | Author |
+| ---------- | ------- | ------------------------------------------- | ------ |
+| 2026-02-28 | 1.0     | Initial draft — key interaction flows       | —      |
+| 2026-03-24 | 1.1     | Added metadata table, Sources, Change Log   | —      |

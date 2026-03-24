@@ -9,9 +9,16 @@
 
 ## Scope and Method
 
+## Sources
+
+- [Security Architecture](./security-architecture.md)
+- [Non-Functional Requirements](../../01-requirements/non-functional-requirements.md)
+- [Architecture Solution Design](../architecture-solution-design.md)
+
+---
+
 - Scope: MVP workflows for Admin and Viewer roles across Vercel, Render, Supabase, and CI/CD integrations.
 - Method: STRIDE-style threat enumeration focused on high-value assets and practical mitigations.
-- References: [Security Architecture](./security-architecture.md), [Non-Functional Requirements](../01-requirements/non-functional-requirements.md).
 
 ## Assets to Protect
 
@@ -68,3 +75,12 @@
 - Residual risk remains for zero-day dependency vulnerabilities and credential phishing.
 - Reassess threat model for every major architecture change or quarterly, whichever comes first.
 - Feed incidents and near misses back into this document and associated ADRs.
+
+---
+
+## Change Log
+
+| Date       | Version | Change Summary                                              | Author |
+| ---------- | ------- | ----------------------------------------------------------- | ------ |
+| 2026-02-28 | 1.0     | Initial draft — threat model (STRIDE)                       | —      |
+| 2026-03-24 | 1.1     | Moved to security/ subfolder; Sources section added         | —      |

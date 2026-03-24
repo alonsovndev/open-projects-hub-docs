@@ -18,6 +18,12 @@ Primary initial use cases:
 - export generation and notifications,
 - long-running AI refinement enrichment tasks.
 
+## Sources
+
+- [Architecture Solution Design](../architecture-solution-design.md)
+- [Technology Stack](../technology-stack.md)
+- [API Design Standards](./api-design-standards.md)
+
 ## Fundamentals
 
 - **Event**: immutable fact (`RequirementApproved`, `ExportRequested`).
@@ -26,7 +32,7 @@ Primary initial use cases:
 - **Broker**: transport layer for decoupled asynchronous delivery.
 - **Schema**: versioned event contract with metadata (`event_id`, `occurred_at`, `version`, `correlation_id`).
 
-Reference flow: [`diagrams/event-driven-flow.mmd`](./diagrams/event-driven-flow.mmd)
+Reference flow: [`../diagrams/event-driven-flow.mmd`](../diagrams/event-driven-flow.mmd)
 
 ## Outbox Pattern (Required for Reliable Publishing)
 
@@ -45,7 +51,7 @@ Operational model:
 3. Publisher sends events to broker and marks records as published.
 4. Consumers process idempotently.
 
-Reference diagram: [`diagrams/outbox-pattern.mmd`](./diagrams/outbox-pattern.mmd)
+Reference diagram: [`../diagrams/outbox-pattern.mmd`](../diagrams/outbox-pattern.mmd)
 
 ## Saga Pattern (Conditional)
 
@@ -60,7 +66,7 @@ MVP guidance:
 - prefer local transactions inside modular monolith modules,
 - introduce saga during/after service extraction when distributed consistency is required.
 
-Reference diagram: [`diagrams/saga-pattern.mmd`](./diagrams/saga-pattern.mmd)
+Reference diagram: [`../diagrams/saga-pattern.mmd`](../diagrams/saga-pattern.mmd)
 
 ## Event Sourcing and CQRS (Selective, Not Default)
 
@@ -74,7 +80,7 @@ Current recommendation:
 - keep CRUD + audit metadata for MVP,
 - adopt event-sourced aggregate(s) only for bounded contexts that need replayability and timeline reconstruction.
 
-Reference diagram: [`diagrams/event-sourcing-flow.mmd`](./diagrams/event-sourcing-flow.mmd)
+Reference diagram: [`../diagrams/event-sourcing-flow.mmd`](../diagrams/event-sourcing-flow.mmd)
 
 ## Message Broker Selection
 
@@ -114,5 +120,14 @@ Re-evaluate to Kafka when:
 
 ## Related ADRs
 
-- [ADR-010: Event-Driven Architecture](./adrs/adr-010-event-driven-architecture.md)
-- [ADR-011: Message Broker Selection](./adrs/adr-011-message-broker.md)
+- [ADR-010: Event-Driven Architecture](../adrs/adr-010-event-driven-architecture.md)
+- [ADR-011: Message Broker Selection](../adrs/adr-011-message-broker.md)
+
+---
+
+## Change Log
+
+| Date       | Version | Change Summary                                              | Author |
+| ---------- | ------- | ----------------------------------------------------------- | ------ |
+| 2026-02-28 | 1.0     | Initial draft — event-driven architecture patterns          | —      |
+| 2026-03-24 | 1.1     | Moved to api/ subfolder; links and Sources section updated  | —      |

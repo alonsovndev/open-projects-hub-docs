@@ -9,14 +9,12 @@
 
 ## Sources
 
-- [Project Overview](../overview.md)
-- [Functional Requirements](../01-requirements/functional-requirements.md)
-- [Non-Functional Requirements](../01-requirements/non-functional-requirements.md)
-- [Role Mapping](../02-planning/role-mapping.md)
-- [Architecture Solution Design](./architecture-solution-design.md)
-- [Technology Stack](./technology-stack.md)
-- [ADR-005: Authentication and Authorization Strategy](./adrs/adr-005-authentication.md)
-- [ADR-012: Secrets Management Strategy](./adrs/adr-012-secrets-management.md)
+- [Functional Requirements](../../01-requirements/functional-requirements.md)
+- [Non-Functional Requirements](../../01-requirements/non-functional-requirements.md)
+- [Architecture Solution Design](../architecture-solution-design.md)
+- [Technology Stack](../technology-stack.md)
+- [ADR-005: Authentication and Authorization Strategy](../adrs/adr-005-authentication.md)
+- [ADR-012: Secrets Management Strategy](../adrs/adr-012-secrets-management.md)
 
 ## Security Objectives and Scope
 
@@ -42,7 +40,7 @@ The platform uses a layered model across **Vercel (frontend)**, **Render (backen
 - Data is encrypted in transit (TLS) and at rest (managed encryption).
 - Secrets are centrally managed through environment variables and provider secret stores.
 
-See diagram: [`./diagrams/security-architecture.mmd`](./diagrams/security-architecture.mmd)
+See diagram: [`../diagrams/security-architecture.mmd`](../diagrams/security-architecture.mmd)
 
 ## Authentication Strategy
 
@@ -60,7 +58,7 @@ See diagram: [`./diagrams/security-architecture.mmd`](./diagrams/security-archit
 - Optional MFA readiness path (TOTP) for future hardening.
 - Account lockout / throttling via rate limits on login endpoints.
 
-See diagram: [`./diagrams/authentication-flow.mmd`](./diagrams/authentication-flow.mmd)
+See diagram: [`../diagrams/authentication-flow.mmd`](../diagrams/authentication-flow.mmd)
 
 ## Authorization Model
 
@@ -77,7 +75,7 @@ See diagram: [`./diagrams/authentication-flow.mmd`](./diagrams/authentication-fl
 - Admin role has CRUD scope limited to authorized tenant/project boundaries.
 - Service credentials are split by environment and duty (app runtime, migrations, CI).
 
-See diagram: [`./diagrams/authorization-flow.mmd`](./diagrams/authorization-flow.mmd)
+See diagram: [`../diagrams/authorization-flow.mmd`](../diagrams/authorization-flow.mmd)
 
 ## Data Protection
 
@@ -196,8 +194,17 @@ Additional controls:
 
 ## ADR and Diagram References
 
-- [ADR-005: Authentication and Authorization Strategy](./adrs/adr-005-authentication.md)
-- [ADR-012: Secrets Management Strategy](./adrs/adr-012-secrets-management.md)
-- [Security Architecture Diagram](./diagrams/security-architecture.mmd)
-- [Authentication Flow](./diagrams/authentication-flow.mmd)
-- [Authorization Flow](./diagrams/authorization-flow.mmd)
+- [ADR-005: Authentication and Authorization Strategy](../adrs/adr-005-authentication.md)
+- [ADR-012: Secrets Management Strategy](../adrs/adr-012-secrets-management.md)
+- [Security Architecture Diagram](../diagrams/security-architecture.mmd)
+- [Authentication Flow](../diagrams/authentication-flow.mmd)
+- [Authorization Flow](../diagrams/authorization-flow.mmd)
+
+---
+
+## Change Log
+
+| Date       | Version | Change Summary                                              | Author |
+| ---------- | ------- | ----------------------------------------------------------- | ------ |
+| 2026-02-28 | 1.0     | Initial draft — security architecture                       | —      |
+| 2026-03-24 | 1.1     | Moved to security/ subfolder; links and Sources updated     | —      |

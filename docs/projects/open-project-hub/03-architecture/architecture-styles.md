@@ -84,5 +84,5 @@ Extract a module into a service only when at least one trigger is sustained:
 ## Related Documents
 
 - [Architecture Solution Design](./architecture-solution-design.md)
-- [Event-Driven Architecture](./event-driven-architecture.md)
+- [Event-Driven Architecture](./api/event-driven-architecture.md)
 - [ADR-009: Architecture Style](./adrs/adr-009-architecture-style.md)

@@ -9,13 +9,11 @@
 
 ## Sources
 
-- [Project Overview](../overview.md)
-- [Functional Requirements](../01-requirements/functional-requirements.md)
-- [Non-Functional Requirements](../01-requirements/non-functional-requirements.md)
-- [Role Mapping](../02-planning/role-mapping.md)
-- [Phased Roadmap](../02-planning/phased-roadmap.md)
-- [Architecture Solution Design](./architecture-solution-design.md)
-- [Technology Stack](./technology-stack.md)
+- [Architecture Solution Design](../architecture-solution-design.md)
+- [Technology Stack](../technology-stack.md)
+- [API Contract](./api-contract.md)
+- [Feature Requirements](../../01-requirements/project-requirements-by-feature.md)
+- [Non-Functional Requirements](../../01-requirements/non-functional-requirements.md)
 
 ## API Style
 
@@ -110,3 +108,13 @@
 - Publish API version/release notes on deployment to staging/production.
 - Rollback strategy: revert to prior release and maintain previous major API version during deprecation window.
 - Manage environment variables/secrets for auth, rate-limiting stores, and Sentry DSN per environment.
+
+
+---
+
+## Change Log
+
+| Date       | Version | Change Summary                          | Author |
+| ---------- | ------- | --------------------------------------- | ------ |
+| 2026-02-28 | 1.0     | Initial draft — API design standards    | —      |
+| 2026-03-24 | 1.1     | Moved to api/ subfolder; links updated  | —      |
