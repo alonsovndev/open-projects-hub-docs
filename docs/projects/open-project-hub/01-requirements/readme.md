@@ -3,7 +3,7 @@
 | Attribute        | Value                       |
 | ---------------- | --------------------------- |
 | **Project**      | Open Freelancer Project Hub |
-| **Version**      | 1.1                         |
+| **Version**      | 1.2                         |
 | **Status**       | Draft                       |
 | **Last Updated** | 2026-03-23                  |
 | **Owner**        | Product Owner               |
@@ -18,19 +18,22 @@ Detailed requirements are maintained in dedicated feature files.
 - [Project Overview](../overview.md)
 - [User Personas](../user-personas.md)
 - [Open Questions](../open-questions.md)
-- [Functional Requirements](./functional-requirements.md)
-- [Non-Functional Requirements](./non-functional-requirements.md)
 
 ---
 
 ## Feature Map
 
-| Feature ID | Feature Name                             | Outcome                                                   | Priority | Status    | Owner         | Details                                                               |
-| ---------- | ---------------------------------------- | --------------------------------------------------------- | -------- | --------- | ------------- | --------------------------------------------------------------------- |
-| F-001      | Client and Project Lifecycle Management  | Admin keeps client/project records aligned with MVP flow  | Must     | Clarified | Product Owner | [F-001](./features/f-001-client-and-project-lifecycle-management.md)  |
-| F-003      | Access Control and Visibility Boundaries | Admin/Viewer permissions and private notes are enforced   | Must     | Clarified | Product Owner | [F-003](./features/f-003-access-control-and-visibility-boundaries.md) |
-| F-004      | Requirements Backlog and Markdown Export | Approved stories are visible and exportable               | Must     | Clarified | Product Owner | [F-004](./features/f-004-requirements-backlog-and-markdown-export.md) |
-| F-005      | Minimal Onboarding                       | First-time Admin guidance reduces MVP onboarding friction | Should   | Clarified | Product Owner | [F-005](./features/f-005-minimal-onboarding.md)                       |
+| Feature ID | Feature Name                             | Outcome                                                   | Priority | Status    | Owner         | Details                                              |
+| ---------- | ---------------------------------------- | --------------------------------------------------------- | -------- | --------- | ------------- | ---------------------------------------------------- |
+| F-001      | Client and Project Lifecycle Management  | Admin keeps client/project records aligned with MVP flow  | Must     | Clarified | Product Owner | [F-001](./f-001-client-and-project-lifecycle-management.md) |
+| F-002      | AI Refinement and Approval Workflow      | Raw notes become approved, structured user stories        | Must     | Clarified | Product Owner | [F-002](./f-002-ai-refinement-and-approval-workflow.md) |
+| F-003      | Access Control and Visibility Boundaries | Admin/Viewer permissions and private notes are enforced   | Must     | Clarified | Product Owner | [F-003](./f-003-access-control-and-visibility-boundaries.md) |
+| F-004      | Requirements Backlog and Markdown Export | Approved stories are visible and exportable               | Must     | Clarified | Product Owner | [F-004](./f-004-requirements-backlog-and-markdown-export.md) |
+| F-005      | Minimal Onboarding                       | First-time Admin guidance reduces MVP onboarding friction | Should   | Clarified | Product Owner | [F-005](./f-005-minimal-onboarding.md) |
+| F-006      | Landing Page Experience                  | Visitors clearly understand product value and actions     | Must     | Draft     | Product Owner | [F-006](./f-006-landing-page.md) |
+| F-007      | Admin Login                              | Admin securely authenticates and accesses workspace       | Must     | Draft     | Product Owner | [F-007](./f-007-admin-login.md) |
+| F-008      | Account Creation                         | New admin can register and start onboarding               | Should   | Draft     | Product Owner | [F-008](./f-008-create-account.md) |
+| F-009      | Reset Password                           | Admin can recover account access safely                   | Must     | Draft     | Product Owner | [F-009](./f-009-reset-password.md) |
 
 ---
 
@@ -51,7 +54,8 @@ Detailed requirements are maintained in dedicated feature files.
 
 ## Change Log
 
-| Date       | Version | Change Summary                                       | Author        |
-| ---------- | ------- | ---------------------------------------------------- | ------------- |
-| 2026-03-23 | 1.1     | Removed F-002 AI Refinement and Approval Workflow.   | Product Owner |
-| 2026-03-23 | 1.0     | Initial feature-based requirements baseline created. | Product Owner |
+| Date       | Version | Change Summary                                                                 | Author        |
+| ---------- | ------- | ------------------------------------------------------------------------------ | ------------- |
+| 2026-03-23 | 1.2     | Renamed index file, fixed links, restored F-002 map, and added F-006 to F-009. | Product Owner |
+| 2026-03-23 | 1.1     | Removed F-002 AI Refinement and Approval Workflow.                             | Product Owner |
+| 2026-03-23 | 1.0     | Initial feature-based requirements baseline created.                           | Product Owner |

@@ -36,14 +36,15 @@
 ## Traceability
 
 - **Related Open Questions**: Q-021
-- **Related User Stories**: [UI/UX Designer Stories](../../04-user-stories/ui-ux-designer-stories.md)
-- **Related Architecture/ADR**: [Architecture Solution Design](../../03-architecture/architecture-solution-design.md)
-- **Related Prototype**: [Design Direction](../../05-prototype/design-direction.md)
+- **Related User Stories**: [UI/UX Designer Stories](../04-user-stories/ui-ux-designer-stories.md)
+- **Related Architecture/ADR**: [Architecture Solution Design](../03-architecture/architecture-solution-design.md)
+- **Related Prototype**: [Design Direction](../05-prototype/design-direction.md)
 
 ---
 
 ## Change Log
 
-| Date       | Version | Change Summary                        | Author        |
-| ---------- | ------- | ------------------------------------- | ------------- |
-| 2026-03-23 | 1.0     | Initial feature requirements created. | Product Owner |
+| Date       | Version | Change Summary                                                   | Author        |
+| ---------- | ------- | ---------------------------------------------------------------- | ------------- |
+| 2026-03-23 | 1.1     | Updated traceability links after requirements folder flattening. | Product Owner |
+| 2026-03-23 | 1.0     | Initial feature requirements created.                            | Product Owner |

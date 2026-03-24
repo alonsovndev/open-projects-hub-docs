@@ -20,8 +20,8 @@
 | ID        | Requirement                                                                                                | Source                      | Priority | Owner (DRI)   | Decision Traceability (Q-ID) | Acceptance Criteria                                                                                               | Status    |
 | --------- | ---------------------------------------------------------------------------------------------------------- | --------------------------- | -------- | ------------- | ---------------------------- | ----------------------------------------------------------------------------------------------------------------- | --------- |
 | FR-002-01 | AI refinement accepts raw notes and bullet lists as input.                                                 | Open Questions Q-005        | Must     | Product Owner | Q-005                        | AI input field accepts plain text notes and bullet lists without requiring additional formatting or file uploads. | Clarified |
-| FR-002-03 | AI output generates user stories using title, standard user story format, and acceptance criteria.         | Open Questions Q-004, Q-007 | Must     | Product Owner | Q-004, Q-007                 | Each generated story includes a title, the standard user story sentence, and at least one acceptance criterion.   | Clarified |
-| FR-002-04 | Admin can edit AI-generated content and explicitly approve before it becomes an official project artifact. | Open Questions Q-006        | Must     | Product Owner | Q-006                        | Generated stories remain draft until Admin approval; unapproved content is excluded from exports.                 | Clarified |
+| FR-002-02 | AI output generates user stories using title, standard user story format, and acceptance criteria.         | Open Questions Q-004, Q-007 | Must     | Product Owner | Q-004, Q-007                 | Each generated story includes a title, the standard user story sentence, and at least one acceptance criterion.   | Clarified |
+| FR-002-03 | Admin can edit AI-generated content and explicitly approve before it becomes an official project artifact. | Open Questions Q-006        | Must     | Product Owner | Q-006                        | Generated stories remain draft until Admin approval; unapproved content is excluded from exports.                 | Clarified |
 
 ## Feature-Scoped Non-Functional Requirements
 
@@ -39,14 +39,15 @@
 ## Traceability
 
 - **Related Open Questions**: Q-004, Q-005, Q-006, Q-007, Q-008
-- **Related User Stories**: [Backend Engineer Stories](../../04-user-stories/backend-engineer-stories.md)
-- **Related Architecture/ADR**: [API Contract](../../03-architecture/api-contract.md)
-- **Related Prototype**: [Stitch Prompt](../../05-prototype/stitch-prompt.md)
+- **Related User Stories**: [Backend Engineer Stories](../04-user-stories/backend-engineer-stories.md)
+- **Related Architecture/ADR**: [API Contract](../03-architecture/api-contract.md)
+- **Related Prototype**: [Stitch Prompt](../05-prototype/stitch-prompt.md)
 
 ---
 
 ## Change Log
 
-| Date       | Version | Change Summary                        | Author        |
-| ---------- | ------- | ------------------------------------- | ------------- |
-| 2026-03-23 | 1.0     | Initial feature requirements created. | Product Owner |
+| Date       | Version | Change Summary                                     | Author        |
+| ---------- | ------- | -------------------------------------------------- | ------------- |
+| 2026-03-23 | 1.1     | Restored FR-002-02 and updated traceability links. | Product Owner |
+| 2026-03-23 | 1.0     | Initial feature requirements created.              | Product Owner |
