@@ -9,6 +9,15 @@
 
 ## 1. Monitoring Strategy
 
+## Sources
+
+- [Architecture Solution Design](../architecture-solution-design.md)
+- [Technology Stack](../technology-stack.md)
+- [Deployment Architecture](deployment-architecture.md)
+- [Non-Functional Requirements](../../01-requirements/non-functional-requirements.md)
+
+---
+
 Primary observability platform is **Sentry**, complemented by provider-native logs from Vercel, Render, and Supabase.
 
 - **Frontend telemetry:** JavaScript errors, route performance, Web Vitals, and session context.
@@ -80,3 +89,12 @@ Escalation flow: on-call engineer → technical lead/architect → stakeholder c
 - Scrub tokens, credentials, and PII before event/log export.
 - Restrict observability access by role and least privilege.
 - Retention configured to balance forensic needs and privacy obligations.
+
+---
+
+## Change Log
+
+| Date       | Version | Change Summary                                               | Author |
+| ---------- | ------- | ------------------------------------------------------------ | ------ |
+| 2026-02-28 | 1.0     | Initial draft — monitoring and observability architecture    | —      |
+| 2026-03-24 | 1.1     | Moved to ops/ subfolder; Sources section added               | —      |

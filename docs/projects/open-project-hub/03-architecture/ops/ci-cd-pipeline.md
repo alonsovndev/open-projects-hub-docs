@@ -9,6 +9,15 @@
 
 ## 1. CI/CD Tool Selection
 
+## Sources
+
+- [Architecture Solution Design](../architecture-solution-design.md)
+- [Technology Stack](../technology-stack.md)
+- [Deployment Architecture](deployment-architecture.md)
+- [Non-Functional Requirements](../../01-requirements/non-functional-requirements.md)
+
+---
+
 **Selected:** GitHub Actions  
 Rationale: native repository integration, environment protection rules, flexible workflow orchestration, and release automation support with Sentry.
 
@@ -87,3 +96,12 @@ flowchart LR
 - Architecture supports controlled release promotion and fast rollback.
 - Sentry release tracking provides immediate user-impact visibility.
 - Pipeline design aligns with MVP delivery speed while preserving production safety.
+
+---
+
+## Change Log
+
+| Date       | Version | Change Summary                                          | Author |
+| ---------- | ------- | ------------------------------------------------------- | ------ |
+| 2026-02-28 | 1.0     | Initial draft — CI/CD pipeline architecture             | —      |
+| 2026-03-24 | 1.1     | Moved to ops/ subfolder; Sources section added          | —      |

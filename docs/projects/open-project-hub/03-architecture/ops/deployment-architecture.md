@@ -9,6 +9,14 @@
 
 ## 1. Scope and NFR Alignment
 
+## Sources
+
+- [Architecture Solution Design](../architecture-solution-design.md)
+- [Technology Stack](../technology-stack.md)
+- [Non-Functional Requirements](../../01-requirements/non-functional-requirements.md)
+
+---
+
 This document defines production deployment architecture for the MVP and aligns it with:
 
 - **NFR-005:** Core views respond within 2 seconds under MVP load.
@@ -39,7 +47,7 @@ This model is compatible with long-term migration to consolidated cloud infrastr
 
 ## 3. Deployment Architecture
 
-Reference diagram: [`docs/03-architecture/diagrams/deployment-aws.mmd`](./diagrams/deployment-aws.mmd)
+Reference diagram: [`../diagrams/deployment-aws.mmd`](../diagrams/deployment-aws.mmd)
 
 ### 3.1 Compute Resources
 
@@ -144,6 +152,15 @@ Promotion path: `develop` → staging verification → `main` production release
 
 ## 10. Related ADRs
 
-- [ADR-006: Deployment Platform (Vercel + Render)](./adrs/adr-006-deployment-platform.md)
-- [ADR-013: Containerization Approach for Render Services](./adrs/adr-013-containerization.md)
-- [ADR-014: Infrastructure as Code Strategy (Terraform)](./adrs/adr-014-infrastructure-as-code.md)
+- [ADR-006: Deployment Platform (Vercel + Render)](../adrs/adr-006-deployment-platform.md)
+- [ADR-013: Containerization Approach for Render Services](../adrs/adr-013-containerization.md)
+- [ADR-014: Infrastructure as Code Strategy (Terraform)](../adrs/adr-014-infrastructure-as-code.md)
+
+---
+
+## Change Log
+
+| Date       | Version | Change Summary                                               | Author |
+| ---------- | ------- | ------------------------------------------------------------ | ------ |
+| 2026-02-28 | 1.0     | Initial draft — deployment and infrastructure architecture   | —      |
+| 2026-03-24 | 1.1     | Moved to ops/ subfolder; links and Sources section updated   | —      |

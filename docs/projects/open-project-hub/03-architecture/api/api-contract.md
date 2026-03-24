@@ -9,13 +9,10 @@
 
 ## Sources
 
-- [Project Overview](../overview.md)
-- [Functional Requirements](../01-requirements/functional-requirements.md)
-- [Non-Functional Requirements](../01-requirements/non-functional-requirements.md)
-- [Role Mapping](../02-planning/role-mapping.md)
-- [Phased Roadmap](../02-planning/phased-roadmap.md)
-- [Architecture Solution Design](./architecture-solution-design.md)
+- [Architecture Solution Design](../architecture-solution-design.md)
 - [API Design Standards](./api-design-standards.md)
+- [Feature Requirements](../../01-requirements/project-requirements-by-feature.md)
+- [Non-Functional Requirements](../../01-requirements/non-functional-requirements.md)
 
 ## API Scope and Conventions
 

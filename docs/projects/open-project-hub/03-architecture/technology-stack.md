@@ -16,7 +16,7 @@
 - [Phased Roadmap](../02-planning/phased-roadmap.md)
 - [Architecture Solution Design](./architecture-solution-design.md)
 - [Architecture Styles Decision](./architecture-styles.md)
-- [Event-Driven Architecture Patterns](./event-driven-architecture.md)
+- [Event-Driven Architecture Patterns](./api/event-driven-architecture.md)
 
 ## Technology Stack Matrix
 

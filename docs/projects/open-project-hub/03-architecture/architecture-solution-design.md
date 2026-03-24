@@ -1,4 +1,20 @@
-# Open Freelancer Project Hub Architecture
+# Open Freelancer Project Hub — Architecture Solution Design
+
+| Attribute        | Value                       |
+| ---------------- | --------------------------- |
+| **Project**      | Open Freelancer Project Hub |
+| **Version**      | 1.0                         |
+| **Status**       | Approved                    |
+| **Last Updated** | 2026-02-28                  |
+
+## Sources
+
+- [Architecture Styles](./architecture-styles.md)
+- [Technology Stack](./technology-stack.md)
+- [Feature Requirements](../01-requirements/project-requirements-by-feature.md)
+- [Non-Functional Requirements](../01-requirements/non-functional-requirements.md)
+
+---
 
 ## System Context
 
@@ -136,3 +152,12 @@ sequenceDiagram
 ## ADR Reference
 
 - [ADR-001: High-Level Architecture](./adrs/adr-001-high-level-architecture.md)
+
+---
+
+## Change Log
+
+| Date       | Version | Change Summary                                   | Author |
+| ---------- | ------- | ------------------------------------------------ | ------ |
+| 2026-02-28 | 1.0     | Initial draft — architecture solution design     | —      |
+| 2026-03-24 | 1.1     | Added metadata table, Sources, and Change Log    | —      |
