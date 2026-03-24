@@ -52,25 +52,21 @@
 **Primary Goals:**
 
 - Understand what will be delivered and why.
-- Track project progress without technical jargon.
 - Ensure requirements match business goals.
 
 **Pain Points:**
 
 - Technical documents are hard to interpret.
 - Uncertainty about what was agreed upon.
-- Limited visibility into project progress.
 
 **Needs & Expectations:**
 
 - Readable, structured requirements.
-- Transparent progress visibility.
 - Confidence that requirements match expectations.
 
 **Success Indicators:**
 
 - Fewer misunderstandings or scope disputes.
-- Clear summary of what is being built.
 - Confidence in freelancer professionalism.
 
 **Quote:**
