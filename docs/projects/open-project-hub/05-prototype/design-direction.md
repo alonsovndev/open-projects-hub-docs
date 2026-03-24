@@ -9,7 +9,7 @@ The interface should feel like a planning workspace, not a delivery tool. It sho
 ## Product Language and Scope Rules
 
 - Use the documented terms: **Discovery**, **Planning**, **Admin**, **Viewer**, **user stories**, **acceptance criteria**, and **internal notes**.
-- Keep the prototype focused on planning workflows only.
+- Keep the prototype focused on planning workflows and lightweight authentication entry only.
 - Treat AI output as draft content until explicit Admin approval.
 - Show Viewer screens as readable and read-only.
 - Do not introduce delivery, sprint, handoff, collaboration, or comment workflows.
@@ -27,6 +27,7 @@ The interface should feel like a planning workspace, not a delivery tool. It sho
 ### Layout Guidance
 
 - Desktop-first review layout with preserved hierarchy on tablet and mobile.
+- Keep auth and role-selection pages simple, centered, and low-friction.
 - Use card-based sections or simple stacked panels for refinement and backlog content.
 - Keep project context pinned near the top of each page.
 - Make draft vs approved distinctions visible through labels, tags, and section grouping.
@@ -104,11 +105,19 @@ Use Ant Design-style components as the baseline for the prototype.
 - Prefer reusable placeholders over final client-facing copy.
 - Keep the document easy to update in under 30 minutes by avoiding unnecessary design-system depth.
 - Stay within the documented architecture and requirements language.
+- Keep interactions limited to: role selection, auth entry, refinement, approval, export, and read-only review.
 
 ## Traceability
 
-- Refinement workflow: `FR-004` to `FR-007`, `US-MVP-UX-001`
-- Backlog visibility and export: `FR-011`, `FR-012`, `US-MVP-UX-002`
-- Role boundaries and internal-note isolation: `FR-008`, `FR-010`, `FR-014`, `NFR-004`
-- Accessibility baseline: `NFR-007`, `US-P1-UX-003`
+- Entry and auth workflow: `FR-006-01`, `FR-006-02`, `FR-007-01`, `FR-008-01`, `FR-009-01`
+- Refinement workflow: `FR-002-01`, `FR-002-02`, `FR-002-03`, `US-MVP-UX-001`
+- Backlog visibility and export: `FR-004-01`, `FR-004-02`, `US-MVP-UX-002`
+- Role boundaries and internal-note isolation: `FR-003-01`, `FR-003-03`, `NFR-003-02`, `NFR-004-01`
+- Accessibility baseline: `NFR-003-03`, `NFR-007`, `US-P1-UX-003`
 - Prototype package expectation: `US-P1-UX-004`
+
+## Change Log
+
+| Date | Version | Change Summary | Author |
+| --- | --- | --- | --- |
+| 2026-03-23 | 1.1 | Updated scope and traceability for auth-entry + feature-sliced requirement IDs. | UI/UX Designer |
