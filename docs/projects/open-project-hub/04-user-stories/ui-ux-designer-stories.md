@@ -1,7 +1,7 @@
 # UI/UX Designer User Stories
 
 | Attribute        | Value                       |
-| --------------- | --------------------------- |
+| ---------------- | --------------------------- |
 | **Project**      | Open Freelancer Project Hub |
 | **Role**         | UI/UX Designer              |
 | **Version**      | 1.0                         |

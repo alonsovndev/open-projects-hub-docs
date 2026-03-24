@@ -1,7 +1,7 @@
 # Frontend Engineer User Stories
 
 | Attribute        | Value                       |
-| --------------- | --------------------------- |
+| ---------------- | --------------------------- |
 | **Project**      | Open Freelancer Project Hub |
 | **Role**         | Frontend Engineer           |
 | **Version**      | 1.1                         |
@@ -22,27 +22,26 @@
 
 Deliver authentication flows, project management UI, AI refinement interaction, backlog display, and Viewer read-only experience—all aligned to backend APIs and UX guidance.
 
-
 ## MVP Frontend Stories
 
 ---
 
 ## MoSCoW Prioritization Summary
 
-| Priority | Story ID        | Theme                                     | Sequence     |
-| -------- | --------------- | ----------------------------------------- | ------------ |
-| Must     | US-EP0-FE-001   | React app scaffolding and dev environment | Foundation   |
-| Must     | US-EP0-FE-002   | Frontend testing framework                | Foundation   |
-| Must     | US-EP0-FE-003   | Environment config and API service layer  | Foundation   |
-| Must     | US-MVP-FE-001   | Admin login and session flow              | Auth         |
-| Must     | US-MVP-FE-002   | Password reset request and completion     | Auth         |
-| Must     | US-MVP-FE-003   | Project list, create, and archive UI      | Core MVP     |
-| Must     | US-MVP-FE-004   | AI refinement input and draft preview     | Core MVP     |
-| Must     | US-MVP-FE-005   | Backlog view and story display            | Core MVP     |
-| Must     | US-MVP-FE-006   | Markdown export action and download       | Core MVP     |
-| Should   | US-P1-FE-007    | Public landing page and login CTA         | Phase 1      |
-| Should   | US-P1-FE-008    | Account registration form                 | Phase 1      |
-| Should   | US-P1-FE-009    | Viewer access experience                  | Phase 1      |
+| Priority | Story ID      | Theme                                     | Sequence   |
+| -------- | ------------- | ----------------------------------------- | ---------- |
+| Must     | US-EP0-FE-001 | React app scaffolding and dev environment | Foundation |
+| Must     | US-EP0-FE-002 | Frontend testing framework                | Foundation |
+| Must     | US-EP0-FE-003 | Environment config and API service layer  | Foundation |
+| Must     | US-MVP-FE-001 | Admin login and session flow              | Auth       |
+| Must     | US-MVP-FE-002 | Password reset request and completion     | Auth       |
+| Must     | US-MVP-FE-003 | Project list, create, and archive UI      | Core MVP   |
+| Must     | US-MVP-FE-004 | AI refinement input and draft preview     | Core MVP   |
+| Must     | US-MVP-FE-005 | Backlog view and story display            | Core MVP   |
+| Must     | US-MVP-FE-006 | Markdown export action and download       | Core MVP   |
+| Should   | US-P1-FE-007  | Public landing page and login CTA         | Phase 1    |
+| Should   | US-P1-FE-008  | Account registration form                 | Phase 1    |
+| Should   | US-P1-FE-009  | Viewer access experience                  | Phase 1    |
 
 ## Epic 0: Foundational Frontend Setup and Development Environment
 
@@ -502,7 +501,7 @@ Deliver authentication flows, project management UI, AI refinement interaction, 
 
 ## Change Log
 
-| Date       | Version | Change Summary             | Author        |
-| ---------- | ------- | -------------------------- | ------------- |
+| Date       | Version | Change Summary                                                                    | Author        |
+| ---------- | ------- | --------------------------------------------------------------------------------- | ------------- |
 | 2026-03-23 | 1.1     | Added Epic 0 foundational setup stories (React app, testing, environment config). | Product Owner |
-| 2026-03-23 | 1.0     | Initial frontend story set | Product Owner |
+| 2026-03-23 | 1.0     | Initial frontend story set                                                        | Product Owner |

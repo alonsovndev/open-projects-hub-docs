@@ -21,27 +21,26 @@
 
 Establish backend foundation for authentication, project lifecycle, AI refinement, access control, and export—forming the core MVP value and security boundaries.
 
-
 ## MVP Backend Stories
 
 ---
 
 ## MoSCoW Prioritization Summary
 
-| Priority | Story ID        | Theme                                     | Sequence     |
-| -------- | --------------- | ----------------------------------------- | ------------ |
-| Must     | US-EP0-BE-001   | Monorepo structure and backend scaffolding | Foundation   |
-| Must     | US-EP0-BE-002   | Database schema and migrations            | Foundation   |
-| Must     | US-EP0-BE-003   | CI/CD pipeline and testing framework      | Foundation   |
-| Must     | US-EP0-BE-004   | API documentation foundation              | Foundation   |
-| Must     | US-MVP-BE-001   | Secure authentication service             | Auth         |
-| Must     | US-MVP-BE-002   | Password reset and recovery                | Auth         |
-| Must     | US-MVP-BE-003   | Client and project lifecycle               | Core MVP     |
-| Must     | US-MVP-BE-004   | AI refinement and draft intake             | Core MVP     |
-| Must     | US-MVP-BE-005   | Access control enforcement                 | Core MVP     |
-| Must     | US-MVP-BE-006   | Backlog retrieval and markdown export      | Core MVP     |
-| Should   | US-P1-BE-007    | Onboarding progress tracker                | Phase 1      |
-| Should   | US-P1-BE-008    | Account creation and verification          | Phase 1      |
+| Priority | Story ID      | Theme                                      | Sequence   |
+| -------- | ------------- | ------------------------------------------ | ---------- |
+| Must     | US-EP0-BE-001 | Monorepo structure and backend scaffolding | Foundation |
+| Must     | US-EP0-BE-002 | Database schema and migrations             | Foundation |
+| Must     | US-EP0-BE-003 | CI/CD pipeline and testing framework       | Foundation |
+| Must     | US-EP0-BE-004 | API documentation foundation               | Foundation |
+| Must     | US-MVP-BE-001 | Secure authentication service              | Auth       |
+| Must     | US-MVP-BE-002 | Password reset and recovery                | Auth       |
+| Must     | US-MVP-BE-003 | Client and project lifecycle               | Core MVP   |
+| Must     | US-MVP-BE-004 | AI refinement and draft intake             | Core MVP   |
+| Must     | US-MVP-BE-005 | Access control enforcement                 | Core MVP   |
+| Must     | US-MVP-BE-006 | Backlog retrieval and markdown export      | Core MVP   |
+| Should   | US-P1-BE-007  | Onboarding progress tracker                | Phase 1    |
+| Should   | US-P1-BE-008  | Account creation and verification          | Phase 1    |
 
 ## Epic 0: Foundational Infrastructure and Setup
 
@@ -483,7 +482,7 @@ Establish backend foundation for authentication, project lifecycle, AI refinemen
 
 ## Change Log
 
-| Date       | Version | Change Summary              | Author        |
-| ---------- | ------- | --------------------------- | ------------- |
+| Date       | Version | Change Summary                                                                    | Author        |
+| ---------- | ------- | --------------------------------------------------------------------------------- | ------------- |
 | 2026-03-23 | 1.1     | Added Epic 0 foundational infrastructure stories (monorepo, DB, CI/CD, API docs). | Product Owner |
-| 2026-03-23 | 1.0     | Initial backend story set.  | Product Owner |
+| 2026-03-23 | 1.0     | Initial backend story set.                                                        | Product Owner |
