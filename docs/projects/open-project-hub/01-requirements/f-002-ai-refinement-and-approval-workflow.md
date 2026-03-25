@@ -39,7 +39,7 @@
 ## Traceability
 
 - **Related Open Questions**: Q-004, Q-005, Q-006, Q-007, Q-008
-- **Related User Stories**: [Backend Engineer Stories](../04-user-stories/backend-engineer-stories.md)
+- **Related User Stories**: [Backend Engineer Stories](../07-user-stories/backend-engineer-stories.md)
 - **Related Architecture/ADR**: [API Contract](../03-architecture/api-contract.md)
 - **Related Prototype**: [Stitch Prompt](../05-prototype/stitch-prompt.md)
 

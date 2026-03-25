@@ -36,7 +36,7 @@
 ## Traceability
 
 - **Related Open Questions**: Q-021
-- **Related User Stories**: [UI/UX Designer Stories](../04-user-stories/ui-ux-designer-stories.md)
+- **Related User Stories**: [UI/UX Designer Stories](../07-user-stories/ui-ux-designer-stories.md)
 - **Related Architecture/ADR**: [Architecture Solution Design](../03-architecture/architecture-solution-design.md)
 - **Related Prototype**: [Design Direction](../05-prototype/design-direction.md)
 

@@ -14,7 +14,7 @@
 - [Feature Requirements](../01-requirements/readme.md)
 - [Phased Roadmap](../02-planning/phased-roadmap.md)
 - [Architecture Solution Design](../03-architecture/architecture-solution-design.md)
-- [Database Design](../06-database/database-design.md)
+- [Database Design](../04-database/database-design.md)
 - [Product Epics](./epics.md)
 
 ## Objective
@@ -73,9 +73,7 @@ Establish backend foundation for authentication, project lifecycle, AI refinemen
 
 - [Architecture Solution Design](../03-architecture/architecture-solution-design.md).
 - [Technology Stack](../03-architecture/technology-stack.md).
-
 **Success Metrics**:
-
 - First-time setup completes in under 15 minutes.
 - Monorepo structure is documented and consistent.
 - All imports follow agreed pattern (no mixed relative/absolute paths).
@@ -101,7 +99,7 @@ Establish backend foundation for authentication, project lifecycle, AI refinemen
 
 **Deliverables**:
 
-- Database schema SQL or ORM migration definitions (based on [Database Design](../06-database/database-design.md)).
+- Database schema SQL or ORM migration definitions (based on [Database Design](../04-database/database-design.md)).
 - Migration tooling configuration (Alembic, Flyway, or equivalent).
 - Seed data script with realistic MVP test fixtures.
 - Migration documentation and rollback procedures.
@@ -109,7 +107,7 @@ Establish backend foundation for authentication, project lifecycle, AI refinemen
 
 **Dependencies**:
 
-- [Database Design](../06-database/database-design.md).
+- [Database Design](../04-database/database-design.md).
 - [ADR-007: ORM Choice](../03-architecture/adrs/adr-007-orm-choice.md).
 
 **Success Metrics**:
@@ -296,7 +294,7 @@ Establish backend foundation for authentication, project lifecycle, AI refinemen
 **Dependencies**:
 
 - FR-001-01, FR-001-02, FR-001-03 (Client and Project lifecycle requirements).
-- [Database Design](../06-database/database-design.md).
+- [Database Design](../04-database/database-design.md).
 - [API Contract](../03-architecture/api/api-contract.md).
 
 **Success Metrics**:
@@ -408,7 +406,7 @@ Establish backend foundation for authentication, project lifecycle, AI refinemen
 
 - FR-004-01, FR-004-02 (Backlog and Export requirements).
 - [API Contract](../03-architecture/api/api-contract.md).
-- [Database Design](../06-database/database-design.md).
+- [Database Design](../04-database/database-design.md).
 
 **Success Metrics**:
 
@@ -477,7 +475,7 @@ Establish backend foundation for authentication, project lifecycle, AI refinemen
 - [Project Overview](../overview.md)
 - [Feature Requirements](../01-requirements/readme.md)
 - [Phased Roadmap](../02-planning/phased-roadmap.md)
-- [Database Design](../06-database/database-design.md)
+- [Database Design](../04-database/database-design.md)
 - [Product Epics](./epics.md)
 
 ## Change Log

@@ -67,7 +67,7 @@ Use these as the source of truth before regenerating prototype pages:
 - [F-007 Admin Login](../01-requirements/f-007-admin-login.md)
 - [F-008 Create Account](../01-requirements/f-008-create-account.md)
 - [F-009 Reset Password](../01-requirements/f-009-reset-password.md)
-- [UI/UX Designer User Stories](../04-user-stories/ui-ux-designer-stories.md)
+- [UI/UX Designer User Stories](../07-user-stories/ui-ux-designer-stories.md)
 
 ## Consolidated Stitch Prompt (Copy & Paste)
 

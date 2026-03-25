@@ -15,7 +15,7 @@
 - [Phased Roadmap](../02-planning/phased-roadmap.md)
 - [Role Mapping](../02-planning/role-mapping.md)
 - [Architecture Solution Design](../03-architecture/architecture-solution-design.md)
-- [Database Design](../06-database/database-design.md)
+- [Database Design](../04-database/database-design.md)
 
 ## Epic Planning Principles
 
@@ -51,7 +51,7 @@ Dependencies:
 
 - [Architecture Solution Design](../03-architecture/architecture-solution-design.md)
 - [Technology Stack](../03-architecture/technology-stack.md)
-- [Database Design](../06-database/database-design.md)
+- [Database Design](../04-database/database-design.md)
 
 Measurable success criteria:
 
@@ -131,7 +131,7 @@ Dependencies:
 - [Project Overview](../overview.md)
 - [Feature Requirements](../01-requirements/f-001-client-and-project-lifecycle-management.md)
 - [Phased Roadmap](../02-planning/phased-roadmap.md)
-- [Database Design](../06-database/database-design.md)
+- [Database Design](../04-database/database-design.md)
 
 Measurable success criteria:
 
@@ -254,7 +254,7 @@ Dependencies:
 - [Feature Requirements](../01-requirements/f-004-requirements-backlog-and-markdown-export.md)
 - [Architecture Solution Design](../03-architecture/architecture-solution-design.md)
 - [API Contract](../03-architecture/api-contract.md)
-- [Database Design](../06-database/database-design.md)
+- [Database Design](../04-database/database-design.md)
 
 Measurable success criteria:
 
