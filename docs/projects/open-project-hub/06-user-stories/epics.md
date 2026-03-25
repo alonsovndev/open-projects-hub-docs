@@ -15,6 +15,9 @@
 - [Phased Roadmap](../02-planning/phased-roadmap.md)
 - [Role Mapping](../02-planning/role-mapping.md)
 - [Architecture Solution Design](../03-architecture/architecture-solution-design.md)
+- [API Contract](../03-architecture/api/api-contract.md)
+- [Sequence Diagrams](../03-architecture/sequence-diagrams.md)
+- [Security Architecture](../03-architecture/security/security-architecture.md)
 - [Database Design](../04-database/database-design.md)
 
 ## Epic Planning Principles
@@ -86,13 +89,13 @@ The user stories for UI/UX Designers, Frontend Engineers, and Backend Engineers 
 
 ### Story Cross-Mapping
 
-| Theme                        | Backend Story     | Frontend Story   | UX Story        |
-| ---------------------------- | ----------------- | ---------------- | --------------- |
-| Auth and Recovery            | US-MVP-BE-001     | US-MVP-FE-001    | US-MVP-UX-001   |
-| Project and Lifecycle        | US-MVP-BE-002     | US-MVP-FE-002    | US-MVP-UX-002   |
-| AI Refinement and Approval   | US-MVP-BE-003     | US-MVP-FE-003    | US-MVP-UX-003   |
-| Access Boundaries and Export | US-MVP-BE-004/005 | US-MVP-FE-004    | US-MVP-UX-004   |
-| Entry Flow (Phase 1)         | US-P1-BE-006/007  | US-P1-FE-005/006 | US-P1-UX-005/06 |
+| Theme                        | Backend Story      | Frontend Story       | UX Story             |
+| ---------------------------- | ------------------ | -------------------- | -------------------- |
+| Auth and Recovery            | US-MVP-BE-001      | US-MVP-FE-001        | US-MVP-UX-001        |
+| Project and Lifecycle        | US-MVP-BE-003      | US-MVP-FE-003        | US-MVP-UX-002        |
+| AI Refinement and Approval   | US-MVP-BE-004/004A | US-MVP-FE-004/004A   | US-MVP-UX-003        |
+| Access Boundaries and Export | US-MVP-BE-005/006  | US-MVP-FE-005/006    | US-MVP-UX-004/005    |
+| Entry Flow (Phase 1)         | US-P1-BE-007/008   | US-P1-FE-007/008/009 | US-P1-UX-006/007/008 |
 
 ### Dependency Notes for Delivery Teams
 
@@ -101,6 +104,7 @@ The user stories for UI/UX Designers, Frontend Engineers, and Backend Engineers 
 - **Project lifecycle** stories depend on auth being available but can be scheduled in parallel with AI refinement planning if design is clear.
 - **Access control** stories depend on both project lifecycle and AI refinement being scoped; can begin architecture planning after auth baseline is clear.
 - **Phase 1 stories** should not begin until MVP core workflows are in production and stable; prioritize based on real user feedback and adoption patterns.
+- **Data-flow consistency** should be validated against [Sequence Diagrams](../03-architecture/sequence-diagrams.md) before implementation planning sign-off.
 
 ---
 
@@ -172,7 +176,8 @@ Dependencies:
 - [Feature Requirements](../01-requirements/f-002-ai-refinement-and-approval-workflow.md)
 - [Phased Roadmap](../02-planning/phased-roadmap.md)
 - [Architecture Solution Design](../03-architecture/architecture-solution-design.md)
-- [API Contract](../03-architecture/api-contract.md)
+- [API Contract](../03-architecture/api/api-contract.md)
+- [Sequence Diagrams](../03-architecture/sequence-diagrams.md)
 
 Measurable success criteria:
 
@@ -213,7 +218,8 @@ Dependencies:
 - [Feature Requirements](../01-requirements/f-003-access-control-and-visibility-boundaries.md)
 - [Role Mapping](../02-planning/role-mapping.md)
 - [Phased Roadmap](../02-planning/phased-roadmap.md)
-- [Security Architecture](../03-architecture/security-architecture.md)
+- [Security Architecture](../03-architecture/security/security-architecture.md)
+- [Sequence Diagrams](../03-architecture/sequence-diagrams.md)
 
 Measurable success criteria:
 
@@ -253,8 +259,9 @@ Dependencies:
 
 - [Feature Requirements](../01-requirements/f-004-requirements-backlog-and-markdown-export.md)
 - [Architecture Solution Design](../03-architecture/architecture-solution-design.md)
-- [API Contract](../03-architecture/api-contract.md)
+- [API Contract](../03-architecture/api/api-contract.md)
 - [Database Design](../04-database/database-design.md)
+- [Sequence Diagrams](../03-architecture/sequence-diagrams.md)
 
 Measurable success criteria:
 
@@ -295,7 +302,8 @@ Dependencies:
 - [Feature Requirements](../01-requirements/f-007-admin-login.md)
 - [Feature Requirements](../01-requirements/f-009-reset-password.md)
 - [Role Mapping](../02-planning/role-mapping.md)
-- [Security Architecture](../03-architecture/security-architecture.md)
+- [Security Architecture](../03-architecture/security/security-architecture.md)
+- [API Contract](../03-architecture/api/api-contract.md)
 
 Measurable success criteria:
 

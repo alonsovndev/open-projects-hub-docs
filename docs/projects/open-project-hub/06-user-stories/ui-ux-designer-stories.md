@@ -14,6 +14,10 @@
 - [User Personas](../user-personas.md)
 - [Feature Requirements](../01-requirements/readme.md)
 - [Phased Roadmap](../02-planning/phased-roadmap.md)
+- [Architecture Solution Design](../03-architecture/architecture-solution-design.md)
+- [API Contract](../03-architecture/api/api-contract.md)
+- [Sequence Diagrams](../03-architecture/sequence-diagrams.md)
+- [Security Architecture](../03-architecture/security/security-architecture.md)
 - [Design Direction](../05-prototype/design-direction.md)
 - [Role Mapping](../02-planning/role-mapping.md)
 - [Product Epics](./epics.md)
@@ -59,6 +63,7 @@ Create user flows, wireframes, prototypes, and interaction specs for authenticat
 - [Design Direction](../05-prototype/design-direction.md).
 - [User Personas](../user-personas.md).
 - [Stitch Prototype Brief](../05-prototype/prototype-brief.md) (if creating prototype).
+- [Sequence Diagrams](../03-architecture/sequence-diagrams.md).
 
 **Success Metrics**:
 
@@ -101,6 +106,7 @@ Create user flows, wireframes, prototypes, and interaction specs for authenticat
 - [Design Direction](../05-prototype/design-direction.md).
 - [Role Mapping](../02-planning/role-mapping.md).
 - [User Personas](../user-personas.md).
+- [Sequence Diagrams](../03-architecture/sequence-diagrams.md).
 
 **Success Metrics**:
 
@@ -142,6 +148,7 @@ Create user flows, wireframes, prototypes, and interaction specs for authenticat
 
 - [Design Direction](../05-prototype/design-direction.md).
 - [Stitch Prototype Brief](../05-prototype/prototype-brief.md) (if creating prototype).
+- [Sequence Diagrams](../03-architecture/sequence-diagrams.md).
 
 **Success Metrics**:
 
@@ -183,6 +190,8 @@ Create user flows, wireframes, prototypes, and interaction specs for authenticat
 
 - [Design Direction](../05-prototype/design-direction.md).
 - [Role Mapping](../02-planning/role-mapping.md).
+- [API Contract](../03-architecture/api/api-contract.md).
+- [Sequence Diagrams](../03-architecture/sequence-diagrams.md).
 
 **Success Metrics**:
 
@@ -221,6 +230,7 @@ Create user flows, wireframes, prototypes, and interaction specs for authenticat
 
 - [Design Direction](../05-prototype/design-direction.md).
 - [Role Mapping](../02-planning/role-mapping.md).
+- [Security Architecture](../03-architecture/security/security-architecture.md).
 
 **Success Metrics**:
 

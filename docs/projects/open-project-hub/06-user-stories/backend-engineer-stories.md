@@ -14,6 +14,9 @@
 - [Feature Requirements](../01-requirements/readme.md)
 - [Phased Roadmap](../02-planning/phased-roadmap.md)
 - [Architecture Solution Design](../03-architecture/architecture-solution-design.md)
+- [API Contract](../03-architecture/api/api-contract.md)
+- [Sequence Diagrams](../03-architecture/sequence-diagrams.md)
+- [Security Architecture](../03-architecture/security/security-architecture.md)
 - [Database Design](../04-database/database-design.md)
 - [Product Epics](./epics.md)
 
@@ -27,20 +30,21 @@ Establish backend foundation for authentication, project lifecycle, AI refinemen
 
 ## MoSCoW Prioritization Summary
 
-| Priority | Story ID      | Theme                                      | Sequence   |
-| -------- | ------------- | ------------------------------------------ | ---------- |
-| Must     | US-EP0-BE-001 | Monorepo structure and backend scaffolding | Foundation |
-| Must     | US-EP0-BE-002 | Database schema and migrations             | Foundation |
-| Must     | US-EP0-BE-003 | CI/CD pipeline and testing framework       | Foundation |
-| Must     | US-EP0-BE-004 | API documentation foundation               | Foundation |
-| Must     | US-MVP-BE-001 | Secure authentication service              | Auth       |
-| Must     | US-MVP-BE-002 | Password reset and recovery                | Auth       |
-| Must     | US-MVP-BE-003 | Client and project lifecycle               | Core MVP   |
-| Must     | US-MVP-BE-004 | AI refinement and draft intake             | Core MVP   |
-| Must     | US-MVP-BE-005 | Access control enforcement                 | Core MVP   |
-| Must     | US-MVP-BE-006 | Backlog retrieval and markdown export      | Core MVP   |
-| Should   | US-P1-BE-007  | Onboarding progress tracker                | Phase 1    |
-| Should   | US-P1-BE-008  | Account creation and verification          | Phase 1    |
+| Priority | Story ID       | Theme                                      | Sequence   |
+| -------- | -------------- | ------------------------------------------ | ---------- |
+| Must     | US-EP0-BE-001  | Monorepo structure and backend scaffolding | Foundation |
+| Must     | US-EP0-BE-002  | Database schema and migrations             | Foundation |
+| Must     | US-EP0-BE-003  | CI/CD pipeline and testing framework       | Foundation |
+| Must     | US-EP0-BE-004  | API documentation foundation               | Foundation |
+| Must     | US-MVP-BE-001  | Secure authentication service              | Auth       |
+| Must     | US-MVP-BE-002  | Password reset and recovery                | Auth       |
+| Must     | US-MVP-BE-003  | Client and project lifecycle               | Core MVP   |
+| Must     | US-MVP-BE-004  | AI refinement and draft intake             | Core MVP   |
+| Must     | US-MVP-BE-004A | Draft approval and visibility promotion    | Core MVP   |
+| Must     | US-MVP-BE-005  | Access control enforcement                 | Core MVP   |
+| Must     | US-MVP-BE-006  | Backlog retrieval and markdown export      | Core MVP   |
+| Should   | US-P1-BE-007   | Onboarding progress tracker                | Phase 1    |
+| Should   | US-P1-BE-008   | Account creation and verification          | Phase 1    |
 
 ## Epic 0: Foundational Infrastructure and Setup
 
@@ -73,7 +77,9 @@ Establish backend foundation for authentication, project lifecycle, AI refinemen
 
 - [Architecture Solution Design](../03-architecture/architecture-solution-design.md).
 - [Technology Stack](../03-architecture/technology-stack.md).
-  **Success Metrics**:
+
+**Success Metrics**:
+
 - First-time setup completes in under 15 minutes.
 - Monorepo structure is documented and consistent.
 - All imports follow agreed pattern (no mixed relative/absolute paths).
@@ -311,34 +317,70 @@ Establish backend foundation for authentication, project lifecycle, AI refinemen
 **Effort Estimate**: 8
 
 **As a** Backend Engineer,
-**I want to** implement an endpoint that accepts raw notes, calls an AI service to generate draft user stories, and stores drafts in unapproved state,
-**So that** Admin users can review and approve AI outputs before they become official backlog items.
+**I want to** implement refinement-session intake that accepts raw notes, calls an AI service, and stores generated draft user stories,
+**So that** Admin users can review generated output in a controlled draft state.
 
 **Acceptance Criteria**:
 
 - [ ] Given raw notes and a project ID, when the refinement endpoint is called, then the notes are submitted to the AI service.
-- [ ] Given AI returns structured draft stories, then each draft is stored with status=draft, linked to the project, and marked with a timestamp.
-- [ ] Given draft stories are created, when backlog or export queries are run, then drafts are excluded unless explicitly filtered for draft status.
-- [ ] Given a draft exists, when Admin requests approval, then the draft status changes to approved.
-- [ ] Given a draft is rejected, then it remains in the project but marked as rejected (not deleted).
+- [ ] Given AI returns structured draft stories, then each story is stored with `status=draft` and linked to the generated refinement session and project.
+- [ ] Given draft stories are created, when backlog or export queries are run for Viewer-safe flows, then drafts are excluded.
+- [ ] Given invalid payloads are submitted, when refinement is requested, then validation errors are returned with actionable feedback.
 
 **Deliverables**:
 
-- Refinement endpoint: POST /projects/{id}/refinements.
+- Refinement endpoint: POST /projects/{projectId}/refinement-sessions.
 - AI service integration module (adapter pattern to allow future model swaps).
-- Draft story entity with status field (draft, approved, rejected).
-- Database: refinement_drafts(id, project_id, status, ai_generated_content, admin_notes, created_at, approved_at).
+- Persistence flow aligned to schema: `refinement_sessions` + `user_stories` with ordered draft records.
 
 **Dependencies**:
 
 - FR-002-01, FR-002-02, FR-002-03 (AI Refinement requirements).
 - [Technology Stack](../03-architecture/technology-stack.md).
 - [API Contract](../03-architecture/api/api-contract.md).
+- [Sequence Diagrams](../03-architecture/sequence-diagrams.md).
+- [Database Design](../04-database/database-design.md).
 
 **Success Metrics**:
 
 - Refinement endpoint returns drafts within 3 seconds (includes AI call latency).
 - Draft filtering logic tested and verified in backlog queries.
+
+---
+
+### US-MVP-BE-004A: Draft Approval and Visibility Promotion
+
+**Epic**: AI Refinement and Approval Control
+**Priority**: Must Have
+**Effort Estimate**: 5
+
+**As a** Backend Engineer,
+**I want to** implement explicit approval endpoints and promotion rules for draft stories,
+**So that** only approved stories are visible in official backlog and Viewer-facing responses.
+
+**Acceptance Criteria**:
+
+- [ ] Given a draft refinement session exists, when Admin approves it, then session approval metadata is persisted and selected stories move to `status=approved`.
+- [ ] Given draft stories remain unapproved, when Viewer-safe endpoints are called, then only approved stories are returned.
+- [ ] Given approval is attempted by a non-Admin role, when request is processed, then access is denied.
+
+**Deliverables**:
+
+- Approval endpoint: POST /projects/{projectId}/refinement-sessions/{sessionId}/approve.
+- Role-checked approval service with atomic status transition and audit timestamps.
+- Query policies that enforce approved-only visibility in backlog/export retrieval paths.
+
+**Dependencies**:
+
+- FR-002-03, FR-003-03 (Approval gate and Viewer visibility requirements).
+- [API Contract](../03-architecture/api/api-contract.md).
+- [Sequence Diagrams](../03-architecture/sequence-diagrams.md).
+- [Database Design](../04-database/database-design.md).
+
+**Success Metrics**:
+
+- Approval transition succeeds atomically with no partial status updates.
+- Viewer-safe endpoints expose zero draft stories in integration tests.
 
 ---
 
@@ -364,13 +406,15 @@ Establish backend foundation for authentication, project lifecycle, AI refinemen
 
 - Role-based access middleware that validates user role and enforces read/write guards.
 - Repository filters for backlog, project, and story queries that exclude Viewer-restricted content.
-- Access control rules documented in [Security Architecture](../03-architecture/security-architecture.md).
+- Access control rules documented in [Security Architecture](../03-architecture/security/security-architecture.md).
 
 **Dependencies**:
 
 - FR-003-01, FR-003-02, FR-003-03 (Access Control requirements).
 - [Role Mapping](../02-planning/role-mapping.md).
 - [API Contract](../03-architecture/api/api-contract.md).
+- [Sequence Diagrams](../03-architecture/sequence-diagrams.md).
+- [Security Architecture](../03-architecture/security/security-architecture.md).
 
 **Success Metrics**:
 
@@ -407,6 +451,7 @@ Establish backend foundation for authentication, project lifecycle, AI refinemen
 - FR-004-01, FR-004-02 (Backlog and Export requirements).
 - [API Contract](../03-architecture/api/api-contract.md).
 - [Database Design](../04-database/database-design.md).
+- [Sequence Diagrams](../03-architecture/sequence-diagrams.md).
 
 **Success Metrics**:
 

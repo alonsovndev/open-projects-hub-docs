@@ -15,6 +15,9 @@
 - [Phased Roadmap](../02-planning/phased-roadmap.md)
 - [Architecture Solution Design](../03-architecture/architecture-solution-design.md)
 - [API Contract](../03-architecture/api/api-contract.md)
+- [Sequence Diagrams](../03-architecture/sequence-diagrams.md)
+- [Security Architecture](../03-architecture/security/security-architecture.md)
+- [Database Design](../04-database/database-design.md)
 - [Design Direction](../05-prototype/design-direction.md)
 - [Product Epics](./epics.md)
 
@@ -28,20 +31,21 @@ Deliver authentication flows, project management UI, AI refinement interaction, 
 
 ## MoSCoW Prioritization Summary
 
-| Priority | Story ID      | Theme                                     | Sequence   |
-| -------- | ------------- | ----------------------------------------- | ---------- |
-| Must     | US-EP0-FE-001 | React app scaffolding and dev environment | Foundation |
-| Must     | US-EP0-FE-002 | Frontend testing framework                | Foundation |
-| Must     | US-EP0-FE-003 | Environment config and API service layer  | Foundation |
-| Must     | US-MVP-FE-001 | Admin login and session flow              | Auth       |
-| Must     | US-MVP-FE-002 | Password reset request and completion     | Auth       |
-| Must     | US-MVP-FE-003 | Project list, create, and archive UI      | Core MVP   |
-| Must     | US-MVP-FE-004 | AI refinement input and draft preview     | Core MVP   |
-| Must     | US-MVP-FE-005 | Backlog view and story display            | Core MVP   |
-| Must     | US-MVP-FE-006 | Markdown export action and download       | Core MVP   |
-| Should   | US-P1-FE-007  | Public landing page and login CTA         | Phase 1    |
-| Should   | US-P1-FE-008  | Account registration form                 | Phase 1    |
-| Should   | US-P1-FE-009  | Viewer access experience                  | Phase 1    |
+| Priority | Story ID       | Theme                                     | Sequence   |
+| -------- | -------------- | ----------------------------------------- | ---------- |
+| Must     | US-EP0-FE-001  | React app scaffolding and dev environment | Foundation |
+| Must     | US-EP0-FE-002  | Frontend testing framework                | Foundation |
+| Must     | US-EP0-FE-003  | Environment config and API service layer  | Foundation |
+| Must     | US-MVP-FE-001  | Admin login and session flow              | Auth       |
+| Must     | US-MVP-FE-002  | Password reset request and completion     | Auth       |
+| Must     | US-MVP-FE-003  | Project list, create, and archive UI      | Core MVP   |
+| Must     | US-MVP-FE-004  | AI refinement input and draft preview     | Core MVP   |
+| Must     | US-MVP-FE-004A | Draft approval and state transition UI    | Core MVP   |
+| Must     | US-MVP-FE-005  | Backlog view and story display            | Core MVP   |
+| Must     | US-MVP-FE-006  | Markdown export action and download       | Core MVP   |
+| Should   | US-P1-FE-007   | Public landing page and login CTA         | Phase 1    |
+| Should   | US-P1-FE-008   | Account registration form                 | Phase 1    |
+| Should   | US-P1-FE-009   | Viewer access experience                  | Phase 1    |
 
 ## Epic 0: Foundational Frontend Setup and Development Environment
 
@@ -69,7 +73,7 @@ Deliver authentication flows, project management UI, AI refinement interaction, 
 - Directory structure: src/components/, src/pages/, src/services/, src/styles/, public/.
 - TypeScript configuration with strict mode enabled.
 - ESLint and Prettier configuration integrated.
-- Build script (npm run build / yarn build) producingoptimized output.
+- Build script (npm run build / yarn build) producing optimized output.
 
 **Dependencies**:
 
@@ -282,35 +286,69 @@ Deliver authentication flows, project management UI, AI refinement interaction, 
 
 **As a** Frontend Engineer,
 **I want to** implement a refinement interface where Admin can input raw notes, submit for AI processing, and preview generated draft stories,
-**So that** Admin can review and approve AI-generated content before it enters the official backlog.
+**So that** Admin can review AI output clearly before taking approval decisions.
 
 **Acceptance Criteria**:
 
 - [ ] Given Admin opens a project, when they navigate to "Refine", then a text input area and submit button are shown.
 - [ ] Given raw notes are entered and submit is clicked, then a loading indicator is shown and the form is disabled during processing.
-- [ ] Given AI returns draft stories, when processing completes, then each draft is displayed in a preview card with title, acceptance criteria, and approval button.
-- [ ] Given draft is rejected, when the reject button is clicked, then the draft moves to a "rejected" section.
-- [ ] Given multiple drafts are generated, when admin approves one, then it is moved to the official backlog and removed from the draft section.
+- [ ] Given AI returns draft stories, when processing completes, then each draft is displayed in a preview card with title and acceptance criteria summary.
+- [ ] Given processing fails or returns malformed output, when the response is handled, then clear recovery messaging is shown.
 
 **Deliverables**:
 
 - Refinement input form with plain-text area and submit button.
 - Loading and error state handling during AI processing.
-- Draft story preview cards with editable content (optional).
-- Approve and reject action buttons on each draft.
-- Draft-to-backlog transition (visual feedback).
+- Draft story preview cards with readable structure and expandable detail.
 
 **Dependencies**:
 
 - FR-002-01, FR-002-02, FR-002-03 (AI Refinement requirements).
 - [API Contract](../03-architecture/api/api-contract.md).
 - [Design Direction](../05-prototype/design-direction.md).
+- [Sequence Diagrams](../03-architecture/sequence-diagrams.md).
 
 **Success Metrics**:
 
 - AI processing latency is masked with smooth loading indicator.
+- Draft preview rendering is stable and readable for generated output.
+
+---
+
+### US-MVP-FE-004A: Draft Approval and State Transition UI
+
+**Epic**: AI Refinement and Approval Control
+**Priority**: Must Have
+**Effort Estimate**: 5
+
+**As a** Frontend Engineer,
+**I want to** implement approve/reject controls and draft-to-approved transitions,
+**So that** Admin users can control what becomes official backlog content.
+
+**Acceptance Criteria**:
+
+- [ ] Given draft stories are visible, when Admin clicks approve on a draft, then status changes and UI confirms success.
+- [ ] Given Admin rejects a draft, when action is confirmed, then the draft moves to the rejected section and is excluded from approved backlog views.
+- [ ] Given a status transition request fails, when the response returns, then the UI restores prior state and shows actionable error feedback.
+- [ ] Given a non-Admin role opens the same view, when actions are rendered, then approve/reject controls are hidden.
+
+**Deliverables**:
+
+- Approve/reject action controls bound to backend approval endpoints.
+- Transition feedback patterns (loading, success, failure, rollback).
+- Draft and approved section state synchronization without full-page refresh.
+
+**Dependencies**:
+
+- FR-002-03, FR-003-01, FR-003-03 (Approval gate and role visibility requirements).
+- [API Contract](../03-architecture/api/api-contract.md).
+- [Design Direction](../05-prototype/design-direction.md).
+- [Sequence Diagrams](../03-architecture/sequence-diagrams.md).
+
+**Success Metrics**:
+
 - Approve/reject actions persist without page reload.
-- Draft state changes are reflected immediately in UI.
+- Draft state changes are reflected in UI within one interaction cycle.
 
 ---
 
@@ -343,6 +381,7 @@ Deliver authentication flows, project management UI, AI refinement interaction, 
 - FR-004-01, FR-004-02 (Backlog and Export requirements).
 - [API Contract](../03-architecture/api/api-contract.md).
 - [Design Direction](../05-prototype/design-direction.md).
+- [Sequence Diagrams](../03-architecture/sequence-diagrams.md).
 
 **Success Metrics**:
 
@@ -482,6 +521,7 @@ Deliver authentication flows, project management UI, AI refinement interaction, 
 
 - FR-003-01, FR-003-02, FR-003-03 (Access Control requirements).
 - [Role Mapping](../02-planning/role-mapping.md).
+- [Security Architecture](../03-architecture/security/security-architecture.md).
 
 **Success Metrics**:
 
