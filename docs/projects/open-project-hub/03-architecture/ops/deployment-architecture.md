@@ -3,9 +3,9 @@
 | Attribute        | Value                       |
 | ---------------- | --------------------------- |
 | **Project**      | Open Freelancer Project Hub |
-| **Version**      | 1.0                         |
+| **Version**      | 1.1                         |
 | **Status**       | Draft                       |
-| **Last Updated** | 2026-02-28                  |
+| **Last Updated** | 2026-03-24                  |
 
 ## 1. Scope and NFR Alignment
 
@@ -52,7 +52,6 @@ Reference diagram: [`../diagrams/deployment-cloud.mmd`](../diagrams/deployment-c
 ### 3.1 Compute Resources
 
 - **Web compute:** Render FastAPI service (Docker, stateless API processes).
-- **Background compute:** Render worker service for async jobs (exports, notifications, future AI refinement tasks).
 - **Edge compute:** Vercel Edge Functions for middleware/proxy and edge-aware request handling.
 - **Serverless usage:** Limited to edge middleware needs; core business logic remains in backend container services.
 
@@ -78,7 +77,7 @@ Reference diagram: [`../diagrams/deployment-cloud.mmd`](../diagrams/deployment-c
 ### 3.4 Scaling Strategy
 
 - **Horizontal scaling (primary):**
-  - Render API and worker instances scale out based on CPU/memory/request pressure.
+  - Render API instances scale out based on CPU/memory/request pressure.
   - Stateless design ensures safe horizontal replication.
 - **Vertical scaling (secondary):**
   - Increase Render service size only when necessary and after profiling.
@@ -90,8 +89,6 @@ Reference diagram: [`../diagrams/deployment-cloud.mmd`](../diagrams/deployment-c
 
 - Multi-zone managed provider infrastructure for frontend, backend platform, and database services.
 - Health checks for backend instances with automatic replacement.
-- Graceful degradation:
-  - Non-critical async workloads retried through workers.
 - Auth and data paths use managed service failover capabilities where available.
 
 ## 4. Backup and Disaster Recovery
@@ -116,7 +113,7 @@ Promotion path: `develop` → staging verification → `main` production release
 
 - Prefer managed services to reduce operational FTE cost during MVP.
 - Use autoscaling to match usage and avoid constant over-provisioning.
-- Separate worker/web services for right-sized compute allocation.
+- Keep a single backend runtime for MVP until sustained load justifies workload separation.
 - Monthly budget review with provider usage dashboards and anomaly alerts.
 
 ## 7. Infrastructure as Code (IaC) Approach
@@ -158,4 +155,4 @@ Promotion path: `develop` → staging verification → `main` production release
 | Date       | Version | Change Summary                                             | Author |
 | ---------- | ------- | ---------------------------------------------------------- | ------ |
 | 2026-02-28 | 1.0     | Initial draft — deployment and infrastructure architecture | —      |
-| 2026-03-24 | 1.1     | Moved to ops/ subfolder; links and Sources section updated | —      |
+| 2026-03-24 | 1.1     | Aligned deployment guidance with simplified MVP scope     | —      |

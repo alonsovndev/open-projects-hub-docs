@@ -37,7 +37,7 @@
 - **Identity and Access**: User profile projection plus per-project role assignment for `admin` and `viewer` access boundaries.
 - **Client and Project Lifecycle**: Client ownership, project metadata, phase/status constraints, and archive lifecycle behavior.
 - **Refinement Workflow**: Raw input capture, ambiguity highlights, draft story generation, and explicit approval metadata.
-- **Approved Backlog and Export Delivery**: Official requirements, acceptance criteria, and Markdown export job tracking.
+- **Approved Backlog and Export Delivery**: Official requirements, acceptance criteria, and Markdown export request/delivery tracking.
 
 ## Core Entities
 
@@ -53,7 +53,7 @@
 | `draft_story_acceptance_criteria` | Stores ordered acceptance criteria for each draft story             | Refinement Workflow | Product Owner        | FR-002-02                                | draft-only until promotion          |
 | `requirements`                    | Stores approved backlog items as official planning artifacts        | Approved Backlog    | Product Owner        | FR-002-03, FR-004-01, FR-003-03          | `approved`, `archived`              |
 | `requirement_acceptance_criteria` | Stores ordered acceptance criteria for approved requirements        | Approved Backlog    | Product Owner        | FR-004-01                                | active by parent record             |
-| `markdown_exports`                | Tracks Markdown export request state and delivery metadata          | Export Delivery     | Tech Lead            | FR-004-02, NFR-004-02                    | `queued`, `ready`, `failed`         |
+| `markdown_exports`                | Tracks Markdown export request history and delivery metadata        | Export Delivery     | Tech Lead            | FR-004-02, NFR-004-02                    | `requested`, `ready`, `failed`      |
 
 ## Relationships
 
@@ -295,7 +295,7 @@ erDiagram
 - **Primary key:** `id` (UUID).
 - **Foreign keys:** `project_id -> projects.id`, `requested_by_user_id -> users.id`.
 - **Constraints:**
-  - `status` check (`queued`, `ready`, `failed`).
+  - `status` check (`requested`, `ready`, `failed`).
   - `completed_at` is only populated for terminal states.
   - `download_url` is nullable until export completion.
 - **Indexes:** `(project_id, created_at DESC)`, `(requested_by_user_id, created_at DESC)`.
@@ -352,7 +352,7 @@ erDiagram
 
 - **Risk:** The max-3-active-project rule lives in the application layer, so concurrent create or reactivate requests could bypass it without transactional enforcement. - **Mitigation:** enforce the check and state transition in one transaction and add concurrency-focused test coverage.
 - **Risk:** Viewer-safe output can leak if `internal_notes` filtering is implemented inconsistently across API, RLS, and export generation. - **Mitigation:** keep a deny-by-default policy and test Admin and Viewer access through API and export scenarios.
-- **Risk:** `download_url` persistence can outlive intended access duration. - **Mitigation:** use expiring signed URLs and treat `expires_at` as a hard contract for clients and jobs.
+- **Risk:** `download_url` persistence can outlive intended access duration. - **Mitigation:** use expiring signed URLs and treat `expires_at` as a hard contract for clients and export consumers.
 - **Open question:** Should future export delivery metadata include object-storage key and checksum fields in addition to `download_url` once operational design is finalized?
 - **Open question:** Does the future invite and onboarding model require a separate pending-membership state, or is the MVP assumption of pre-provisioned Admin and Viewer users sufficient until post-MVP collaboration expands?
 

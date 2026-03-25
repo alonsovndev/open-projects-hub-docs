@@ -15,13 +15,6 @@ This directory contains Mermaid-based architecture visualizations for the Open F
 
 - [`data-flow.mmd`](./data-flow.mmd) — primary data flow from input through validation, processing, storage, and output.
 
-## Archived (Out of Current Scope)
-
-- [`event-driven-flow.mmd`](./event-driven-flow.mmd) — archived reference only.
-- [`outbox-pattern.mmd`](./outbox-pattern.mmd) — archived reference only.
-- [`saga-pattern.mmd`](./saga-pattern.mmd) — archived reference only.
-- [`event-sourcing-flow.mmd`](./event-sourcing-flow.mmd) — archived reference only.
-
 ## Deployment & Evolution
 
 - [`deployment-cloud.mmd`](./deployment-cloud.mmd) — cloud deployment topology (Vercel, Render, Supabase, Sentry).

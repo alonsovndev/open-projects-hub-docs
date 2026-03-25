@@ -147,7 +147,7 @@ sequenceDiagram
 - **Risk:** module boundary erosion over time.  
   **Mitigation:** explicit architecture governance, ADR-driven decisions, and periodic boundary reviews.
 - **Risk:** growth in AI-related workload could pressure synchronous APIs.  
-  **Mitigation:** apply targeted query optimization, background job batching inside existing backend runtime, and selective module extraction.
+  **Mitigation:** apply targeted query optimization, payload shaping, and selective module extraction.
 
 ## ADR Reference
 

@@ -3,9 +3,9 @@
 | Attribute        | Value                       |
 | ---------------- | --------------------------- |
 | **Project**      | Open Freelancer Project Hub |
-| **Version**      | 1.0                         |
+| **Version**      | 1.1                         |
 | **Status**       | Draft                       |
-| **Last Updated** | 2026-02-28                  |
+| **Last Updated** | 2026-03-24                  |
 
 ## 1. Monitoring Strategy
 
@@ -21,7 +21,7 @@
 Primary observability platform is **Sentry**, complemented by provider-native logs from Vercel, Render, and Supabase.
 
 - **Frontend telemetry:** JavaScript errors, route performance, Web Vitals, and session context.
-- **Backend telemetry:** FastAPI exceptions, API latency, throughput, and worker failures.
+- **Backend telemetry:** FastAPI exceptions, API latency, throughput, and endpoint error trends.
 - **Data platform telemetry:** Supabase query/error logs and connection health.
 
 ## 2. Log Aggregation Approach
@@ -29,7 +29,7 @@ Primary observability platform is **Sentry**, complemented by provider-native lo
 - **Application logs:** Structured JSON logs from backend services (Render).
 - **Frontend runtime logs:** Captured as Sentry events and breadcrumbs.
 - **Platform logs:** Vercel/Render/Supabase operational logs used for infrastructure correlation.
-- **Correlation key:** request ID / trace ID propagated across frontend, backend, and async workers.
+- **Correlation key:** request ID / trace ID propagated across frontend and backend services.
 
 ## 3. Distributed Tracing
 
@@ -51,7 +51,6 @@ Primary observability platform is **Sentry**, complemented by provider-native lo
 | Performance  | p95 API latency (core requirement flows) | ≤ 2s under MVP load           |
 | Reliability  | API 5xx error rate                       | < 1% sustained                |
 | Data         | Failed database operations               | 0 unhandled critical failures |
-| Queue/Worker | Job failure retry exhaustion rate        | < 0.5%                        |
 
 ### 4.2 Dashboard Views
 
@@ -65,7 +64,7 @@ Primary observability platform is **Sentry**, complemented by provider-native lo
 | Severity | Trigger                                                                       | Notification Path                      | Response Window   |
 | -------- | ----------------------------------------------------------------------------- | -------------------------------------- | ----------------- |
 | Critical | Sustained 5xx > 5% for 5 min, auth outage, DB connectivity loss               | Pager + chat channel + incident ticket | Immediate         |
-| High     | p95 latency > 2.5s for 15 min, repeated worker failures                       | Chat channel + on-call engineer        | < 30 min          |
+| High     | p95 latency > 2.5s for 15 min, repeated endpoint failures after deployment    | Chat channel + on-call engineer        | < 30 min          |
 | Medium   | Error-rate regression after release, storage failures with retries succeeding | Team channel                           | < 4 hours         |
 | Low      | Non-critical warnings, trend anomalies                                        | Backlog triage                         | Next business day |
 
@@ -75,7 +74,6 @@ Escalation flow: on-call engineer → technical lead/architect → stakeholder c
 
 - Measure end-to-end path: browser interaction → API → database.
 - Track query duration and slow-query trends to prevent database bottlenecks.
-- Monitor worker backlog/processing time for asynchronous workloads.
 - Validate NFR-005 targets continuously through synthetic checks and release monitoring.
 
 ## 7. Observability Integration in Delivery Workflow
@@ -97,4 +95,4 @@ Escalation flow: on-call engineer → technical lead/architect → stakeholder c
 | Date       | Version | Change Summary                                            | Author |
 | ---------- | ------- | --------------------------------------------------------- | ------ |
 | 2026-02-28 | 1.0     | Initial draft — monitoring and observability architecture | —      |
-| 2026-03-24 | 1.1     | Moved to ops/ subfolder; Sources section added            | —      |
+| 2026-03-24 | 1.1     | Aligned monitoring guidance with simplified MVP scope     | —      |

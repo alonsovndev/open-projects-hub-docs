@@ -9,7 +9,7 @@ The backend must run reliably across development, staging, and production with m
 
 ## Decision
 
-Use **Docker multi-stage builds** for backend API and worker services, with:
+Use **Docker multi-stage builds** for backend API services, with:
 
 - minimal runtime images,
 - non-root runtime user,
