@@ -83,13 +83,13 @@
 
 ## Coordination Cadence
 
-| Cadence                    | Participants                                 | Purpose                                                        |
-| -------------------------- | -------------------------------------------- | -------------------------------------------------------------- |
-| Sprint kickoff             | Product Owner, Tech Lead, Engineers, UI/UX   | Confirm scope, ownership, and requirement traceability updates |
-| Requirement checkpoint     | Tech Lead, Backend Engineer, Product Owner   | Validate Must-priority acceptance criteria and DRI assignments |
-| UX/accessibility review    | UI/UX Designer, Frontend Engineer, Tech Lead | Validate user-facing quality before phase sign-off             |
-| Phase sign-off             | Product Owner, Tech Lead, UI/UX Designer     | Approve transition criteria for next phase                     |
-| Ongoing traceability updates | All roles                                  | Keep feature/epic/story and ownership mappings current         |
+| Cadence                      | Participants                                 | Purpose                                                        |
+| ---------------------------- | -------------------------------------------- | -------------------------------------------------------------- |
+| Sprint kickoff               | Product Owner, Tech Lead, Engineers, UI/UX   | Confirm scope, ownership, and requirement traceability updates |
+| Requirement checkpoint       | Tech Lead, Backend Engineer, Product Owner   | Validate Must-priority acceptance criteria and DRI assignments |
+| UX/accessibility review      | UI/UX Designer, Frontend Engineer, Tech Lead | Validate user-facing quality before phase sign-off             |
+| Phase sign-off               | Product Owner, Tech Lead, UI/UX Designer     | Approve transition criteria for next phase                     |
+| Ongoing traceability updates | All roles                                    | Keep feature/epic/story and ownership mappings current         |
 
 ## Escalation Path
 

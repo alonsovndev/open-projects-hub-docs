@@ -155,4 +155,4 @@ Promotion path: `develop` → staging verification → `main` production release
 | Date       | Version | Change Summary                                             | Author |
 | ---------- | ------- | ---------------------------------------------------------- | ------ |
 | 2026-02-28 | 1.0     | Initial draft — deployment and infrastructure architecture | —      |
-| 2026-03-24 | 1.1     | Aligned deployment guidance with simplified MVP scope     | —      |
+| 2026-03-24 | 1.1     | Aligned deployment guidance with simplified MVP scope      | —      |
