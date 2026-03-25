@@ -47,7 +47,7 @@ This model is compatible with long-term migration to consolidated cloud infrastr
 
 ## 3. Deployment Architecture
 
-Reference diagram: [`../diagrams/deployment-aws.mmd`](../diagrams/deployment-aws.mmd)
+Reference diagram: [`../diagrams/deployment-cloud.mmd`](../diagrams/deployment-cloud.mmd)
 
 ### 3.1 Compute Resources
 

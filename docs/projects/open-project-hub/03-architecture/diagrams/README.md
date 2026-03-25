@@ -24,7 +24,7 @@ This directory contains Mermaid-based architecture visualizations for the Open F
 
 ## Deployment & Evolution
 
-- [`deployment-aws.mmd`](./deployment-aws.mmd) — cloud deployment topology (Vercel, Render, Supabase, Sentry).
+- [`deployment-cloud.mmd`](./deployment-cloud.mmd) — cloud deployment topology (Vercel, Render, Supabase, Sentry).
 - [`architecture-evolution.mmd`](./architecture-evolution.mmd) — staged architecture evolution path.
 
 ## Related Document

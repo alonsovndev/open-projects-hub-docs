@@ -49,7 +49,7 @@ This document defines production deployment architecture and aligns it with:
 - **Observability:** [e.g., Sentry / Datadog / OpenTelemetry]
 - **CI/CD:** [e.g., GitHub Actions]
 
-Reference diagram: [`../diagrams/deployment.mmd`](../diagrams/deployment.mmd)
+Reference diagram: [`docs/03-architecture/diagrams/deployment-cloud.mmd`](./diagrams/deployment-cloud.mmd)
 
 ## 3. Compute Resources
 
@@ -125,7 +125,7 @@ This model is compatible with long-term migration to consolidated cloud infrastr
 
 ## 3. Deployment Architecture
 
-Reference diagram: [`docs/03-architecture/diagrams/deployment-aws.mmd`](./diagrams/deployment-aws.mmd)
+Reference diagram: [`docs/03-architecture/diagrams/deployment-cloud.mmd`](./diagrams/deployment-cloud.mmd)
 
 ### 3.1 Compute Resources
 
