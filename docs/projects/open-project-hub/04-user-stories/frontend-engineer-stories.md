@@ -97,14 +97,14 @@ Deliver authentication flows, project management UI, AI refinement interaction, 
 
 **Acceptance Criteria**:
 
-- [ ] Given a React component is created, when tests are written using Jest or Vitest, then tests can be run via npm test.
+- [ ] Given a React component is created, when tests are written using Vitest, then tests can be run via npm test.
 - [ ] Given a component renders conditionally, when tests verify different props, then variations are covered.
 - [ ] Given user interactions (clicks, inputs), when tests simulate them, then component state and callbacks are validated.
 - [ ] Given test coverage is measured, when coverage report is generated, then output shows file-by-file coverage percentages.
 
 **Deliverables**:
 
-- Testing framework setup (Jest, Vitest, or equivalent) with React Testing Library.
+- Testing framework setup (Vitest) with React Testing Library.
 - Test configuration and coverage reporting setup.
 - Example component tests demonstrating common patterns (rendering, props, interactions).
 - npm test script for running all tests and generating coverage.
