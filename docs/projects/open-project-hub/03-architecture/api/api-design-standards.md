@@ -92,7 +92,7 @@
   - stricter limits for auth-sensitive endpoints (login/password reset).
 - **Limit response:** return `429 Too Many Requests` with `Retry-After` header.
 - **Response body for throttling:** same canonical error format with `code=RATE_LIMIT_EXCEEDED`.
-- **Implementation approach:** backend middleware + Redis-backed counters when caching layer is enabled.
+- **Implementation approach:** backend middleware with database-backed counters and endpoint-level guardrails.
 
 ## Observability (Sentry)
 
@@ -107,14 +107,13 @@
 - Enforce backward-compatibility checks before merging breaking API changes.
 - Publish API version/release notes on deployment to staging/production.
 - Rollback strategy: revert to prior release and maintain previous major API version during deprecation window.
-- Manage environment variables/secrets for auth, rate-limiting stores, and Sentry DSN per environment.
-
+- Manage environment variables/secrets for auth, rate-limiting configuration, and Sentry DSN per environment.
 
 ---
 
 ## Change Log
 
-| Date       | Version | Change Summary                          | Author |
-| ---------- | ------- | --------------------------------------- | ------ |
-| 2026-02-28 | 1.0     | Initial draft — API design standards    | —      |
-| 2026-03-24 | 1.1     | Moved to api/ subfolder; links updated  | —      |
+| Date       | Version | Change Summary                         | Author |
+| ---------- | ------- | -------------------------------------- | ------ |
+| 2026-02-28 | 1.0     | Initial draft — API design standards   | —      |
+| 2026-03-24 | 1.1     | Moved to api/ subfolder; links updated | —      |

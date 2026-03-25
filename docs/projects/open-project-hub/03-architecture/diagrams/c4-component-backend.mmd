@@ -8,7 +8,6 @@ flowchart LR
     AIAdapter[AI Refinement Adapter]
     Exporter[Markdown Export Service]
     DB[(Supabase PostgreSQL)]
-    Redis[(Redis)]
     Sentry[Sentry SDK]
 
     API --> AuthMW --> UseCases
@@ -17,6 +16,5 @@ flowchart LR
     RepoPorts --> InfraRepos --> DB
     UseCases --> AIAdapter
     UseCases --> Exporter
-    UseCases --> Redis
     API --> Sentry
     UseCases --> Sentry

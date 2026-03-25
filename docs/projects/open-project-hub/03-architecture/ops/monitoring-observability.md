@@ -36,7 +36,7 @@ Primary observability platform is **Sentry**, complemented by provider-native lo
 - Use Sentry distributed tracing across:
   - Browser request start,
   - API processing in Render,
-  - downstream calls to Supabase and Redis (where instrumented).
+  - downstream calls to Supabase (where instrumented).
 - Sampling strategy:
   - Higher sampling in staging and during release windows,
   - adaptive/lower sampling in production for cost control.
@@ -74,7 +74,7 @@ Escalation flow: on-call engineer → technical lead/architect → stakeholder c
 ## 6. Performance Monitoring
 
 - Measure end-to-end path: browser interaction → API → database.
-- Track cache hit ratio and query duration to prevent database bottlenecks.
+- Track query duration and slow-query trends to prevent database bottlenecks.
 - Monitor worker backlog/processing time for asynchronous workloads.
 - Validate NFR-005 targets continuously through synthetic checks and release monitoring.
 
@@ -94,7 +94,7 @@ Escalation flow: on-call engineer → technical lead/architect → stakeholder c
 
 ## Change Log
 
-| Date       | Version | Change Summary                                               | Author |
-| ---------- | ------- | ------------------------------------------------------------ | ------ |
-| 2026-02-28 | 1.0     | Initial draft — monitoring and observability architecture    | —      |
-| 2026-03-24 | 1.1     | Moved to ops/ subfolder; Sources section added               | —      |
+| Date       | Version | Change Summary                                            | Author |
+| ---------- | ------- | --------------------------------------------------------- | ------ |
+| 2026-02-28 | 1.0     | Initial draft — monitoring and observability architecture | —      |
+| 2026-03-24 | 1.1     | Moved to ops/ subfolder; Sources section added            | —      |

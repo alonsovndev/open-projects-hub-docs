@@ -1,34 +1,36 @@
 # ADR-011: Message Broker Selection (Redis Streams)
 
-- **Status**: Accepted
+- **Status**: Rejected (Out of Scope)
 - **Date**: 2026-02-28
+- **Updated**: 2026-03-24
 
 ## Context
 
-The architecture requires a low-overhead broker for initial asynchronous workflows while preserving a migration path to higher-throughput event infrastructure if scale grows.
+A dedicated message broker was previously considered for asynchronous event workflows.
 
 ## Decision
 
-Select **Redis Streams** as the initial message broker for event-driven workflows, with explicit re-evaluation criteria for Kafka adoption at higher scale.
+Do **not** include a message broker in current project scope.
+
+All MVP workflows are documented as synchronous API and database interactions.
 
 ## Consequences
 
 ### Positive
 
-- Low operational overhead for MVP and Phase 1.
-- Fits existing Redis usage plans (cache + async workloads).
-- Supports consumer groups and practical retry patterns.
+- Removes broker operations and consumer management complexity.
+- Reduces infrastructure cost and platform surface area.
 
 ### Negative
 
-- Weaker long-term event-retention/replay ergonomics than Kafka.
-- May require migration for high-throughput multi-service event ecosystems.
+- Asynchronous decoupling patterns are deferred.
+- High-throughput event use cases require future re-evaluation.
 
 ## Alternatives Considered
 
-1. **Apache Kafka**
-   - Considered for high-throughput and replay-first architecture.
-   - Not selected due to operational complexity and over-capacity for MVP demand.
-2. **No broker (DB polling only)**
-   - Considered for minimal infrastructure.
-   - Not selected because brokered async processing provides cleaner decoupling and consumer scalability.
+1. **Redis Streams broker**
+   - Considered as low-overhead broker option.
+   - Not selected because broker functionality is out of scope.
+2. **Apache Kafka**
+   - Considered for high-throughput event architecture.
+   - Not selected due to significant operational overhead for MVP.

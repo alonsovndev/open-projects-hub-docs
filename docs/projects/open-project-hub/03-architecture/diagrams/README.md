@@ -14,10 +14,13 @@ This directory contains Mermaid-based architecture visualizations for the Open F
 ## Flow Diagrams
 
 - [`data-flow.mmd`](./data-flow.mmd) — primary data flow from input through validation, processing, storage, and output.
-- [`event-driven-flow.mmd`](./event-driven-flow.mmd) — event production, outbox relay, broker, and consumers.
-- [`outbox-pattern.mmd`](./outbox-pattern.mmd) — transactional outbox reliability flow.
-- [`saga-pattern.mmd`](./saga-pattern.mmd) — choreography and orchestration saga variants.
-- [`event-sourcing-flow.mmd`](./event-sourcing-flow.mmd) — event sourcing and CQRS read-model projection flow.
+
+## Archived (Out of Current Scope)
+
+- [`event-driven-flow.mmd`](./event-driven-flow.mmd) — archived reference only.
+- [`outbox-pattern.mmd`](./outbox-pattern.mmd) — archived reference only.
+- [`saga-pattern.mmd`](./saga-pattern.mmd) — archived reference only.
+- [`event-sourcing-flow.mmd`](./event-sourcing-flow.mmd) — archived reference only.
 
 ## Deployment & Evolution
 

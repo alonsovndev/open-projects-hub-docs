@@ -61,7 +61,6 @@ Reference diagram: [`../diagrams/deployment-aws.mmd`](../diagrams/deployment-aws
 - **Primary database:** Supabase PostgreSQL (managed, automated backups, point-in-time recovery).
 - **Auth:** Supabase Auth (JWT issuance + identity providers).
 - **File/object storage:** Supabase Storage for exports and attachments.
-- **Cache:** Managed Redis (Render-managed or equivalent) for hot reads, throttling counters, and ephemeral workflow state.
 
 ### 3.3 Networking
 
@@ -71,7 +70,7 @@ Reference diagram: [`../diagrams/deployment-aws.mmd`](../diagrams/deployment-aws
   - Supabase managed endpoints (auth/storage/database APIs as needed).
 - Logical network segmentation:
   - Public edge endpoints (frontend and API ingress),
-  - Private service-to-service traffic (backend ↔ database/cache/auth providers).
+  - Private service-to-service traffic (backend ↔ database/auth providers).
 - DNS:
   - Public DNS managed at registrar/provider level with CNAME/A/ALIAS to Vercel/Render.
   - Environment-specific domains (`dev`, `staging`, `prod`) for isolation and safe rollouts.
@@ -86,15 +85,12 @@ Reference diagram: [`../diagrams/deployment-aws.mmd`](../diagrams/deployment-aws
 - **Database scaling:**
   - Connection pooling via Supabase PgBouncer.
   - Read replica strategy introduced when query volume requires it.
-- **Caching strategy:**
-  - Cache high-read project and requirements views to protect PostgreSQL.
 
 ### 3.5 High Availability and Failover
 
 - Multi-zone managed provider infrastructure for frontend, backend platform, and database services.
 - Health checks for backend instances with automatic replacement.
 - Graceful degradation:
-  - Cache failures fall back to database reads.
   - Non-critical async workloads retried through workers.
 - Auth and data paths use managed service failover capabilities where available.
 
@@ -121,7 +117,6 @@ Promotion path: `develop` → staging verification → `main` production release
 - Prefer managed services to reduce operational FTE cost during MVP.
 - Use autoscaling to match usage and avoid constant over-provisioning.
 - Separate worker/web services for right-sized compute allocation.
-- Use caching to reduce database load and expensive scaling events.
 - Monthly budget review with provider usage dashboards and anomaly alerts.
 
 ## 7. Infrastructure as Code (IaC) Approach
@@ -160,7 +155,7 @@ Promotion path: `develop` → staging verification → `main` production release
 
 ## Change Log
 
-| Date       | Version | Change Summary                                               | Author |
-| ---------- | ------- | ------------------------------------------------------------ | ------ |
-| 2026-02-28 | 1.0     | Initial draft — deployment and infrastructure architecture   | —      |
-| 2026-03-24 | 1.1     | Moved to ops/ subfolder; links and Sources section updated   | —      |
+| Date       | Version | Change Summary                                             | Author |
+| ---------- | ------- | ---------------------------------------------------------- | ------ |
+| 2026-02-28 | 1.0     | Initial draft — deployment and infrastructure architecture | —      |
+| 2026-03-24 | 1.1     | Moved to ops/ subfolder; links and Sources section updated | —      |

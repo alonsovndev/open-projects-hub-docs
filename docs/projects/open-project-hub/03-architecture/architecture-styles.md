@@ -48,7 +48,7 @@ Each module owns:
 
 1. Supports fast MVP delivery with low operational overhead.
 2. Preserves Clean Architecture and DDD boundaries needed for maintainability.
-3. Reduces distributed-system complexity (network partitions, sagas across many services) until scale requires it.
+3. Reduces distributed-system complexity (network partitions and cross-service coordination overhead) until scale requires it.
 
 ### Key trade-offs
 
@@ -71,18 +71,16 @@ Extract a module into a service only when at least one trigger is sustained:
 ### Migration path
 
 1. Keep domain contracts stable inside module boundaries.
-2. Introduce asynchronous integration events where coupling is high.
-3. Extract one bounded context at a time behind existing API contracts.
-4. Add saga coordination only for true cross-service transaction workflows.
+2. Extract one bounded context at a time behind existing API contracts.
+3. Keep cross-module interactions synchronous until scaling constraints are proven.
 
 ## Scalability Alignment
 
 - MVP and Phase 1 targets (NFR-005/NFR-006) are achievable with stateless backend scaling on Render.
 - Modular boundaries reduce refactor risk while enabling selective horizontal scaling later.
-- Event-driven patterns are available as incremental additions instead of day-one complexity.
+- Additional distributed patterns are deferred to future scope reviews.
 
 ## Related Documents
 
 - [Architecture Solution Design](./architecture-solution-design.md)
-- [Event-Driven Architecture](./api/event-driven-architecture.md)
 - [ADR-009: Architecture Style](./adrs/adr-009-architecture-style.md)

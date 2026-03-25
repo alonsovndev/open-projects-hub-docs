@@ -8,7 +8,7 @@ flowchart TB
     subgraph Vercel["Vercel (Global Edge)"]
         FE[Vercel Frontend Deployment]
         Edge[Vercel Edge Functions]
-        CDN[Edge CDN Cache]
+        CDN[Edge CDN]
     end
 
     subgraph Render["Render Network"]
@@ -19,7 +19,6 @@ flowchart TB
         subgraph PrivateSubnet["Private Subnet"]
             API[FastAPI Container Service]
             Worker[Background Worker Container]
-            Redis[(Managed Redis)]
         end
     end
 
@@ -41,7 +40,6 @@ flowchart TB
     API --> DB
     Worker --> DB
     API --> Storage
-    API --> Redis
 
     FE --> Sentry
     API --> Sentry

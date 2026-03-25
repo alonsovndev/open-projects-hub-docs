@@ -1,38 +1,36 @@
 # ADR-010: Event-Driven Architecture (Incremental Adoption)
 
-- **Status**: Accepted
+- **Status**: Rejected (Out of Scope)
 - **Date**: 2026-02-28
+- **Updated**: 2026-03-24
 
 ## Context
 
-Some workflows (exports, long-running AI processing, cross-module notifications) require asynchronous processing and decoupled reaction patterns, but full event-driven architecture is unnecessary for MVP.
+Event-driven patterns were previously evaluated for async workflow reliability and future service extraction.
 
 ## Decision
 
-Adopt event-driven patterns incrementally:
+Do **not** include event-driven architecture patterns in the current project scope.
 
-- Outbox pattern for reliable event publishing from transactional writes,
-- asynchronous consumers for non-blocking workflows,
-- saga/event sourcing/CQRS only when distributed complexity and audit needs justify them.
+The project will use synchronous request/response workflows for MVP and near-term phases.
 
 ## Consequences
 
 ### Positive
 
-- Improves reliability for async workflows without over-complicating MVP.
-- Reduces coupling between modules and future services.
-- Keeps synchronous core flows simple while enabling gradual scaling.
+- Reduces implementation and operational complexity.
+- Keeps architecture easier to reason about for a small team.
 
 ### Negative
 
-- Introduces eventual consistency in selected workflows.
-- Requires idempotency, retries, and dead-letter operational discipline.
+- Long-running tasks may require simpler synchronous/background alternatives.
+- Event-driven capabilities may need a new ADR if scale requirements change.
 
 ## Alternatives Considered
 
-1. **Synchronous-only integration**
-   - Considered for implementation simplicity.
-   - Not selected because it increases coupling and latency for long-running tasks.
+1. **Incremental event-driven adoption**
+   - Considered for future decoupling and async reliability.
+   - Not selected because it exceeds current scope.
 2. **Full event-driven platform from day one**
-   - Considered for long-term consistency.
-   - Not selected because it adds unnecessary complexity for MVP constraints.
+   - Considered for long-term architecture consistency.
+   - Not selected due to significant overhead for MVP.

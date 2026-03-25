@@ -137,7 +137,7 @@ sequenceDiagram
 - Maintain stateless backend components to allow horizontal scaling.
 - Keep modules isolated so hotspots can be independently optimized or extracted later.
 - Use database indexing and query discipline for requirements and project listing paths.
-- Add asynchronous/background processing when AI/refinement throughput grows.
+- Keep workflows synchronous and optimize critical paths before introducing additional infrastructure.
 - Keep frontend independently scalable via global edge distribution.
 
 ## Trade-offs and Alternatives
@@ -147,7 +147,7 @@ sequenceDiagram
 - **Risk:** module boundary erosion over time.  
   **Mitigation:** explicit architecture governance, ADR-driven decisions, and periodic boundary reviews.
 - **Risk:** growth in AI-related workload could pressure synchronous APIs.  
-  **Mitigation:** planned path to asynchronous processing and selective module extraction.
+  **Mitigation:** apply targeted query optimization, background job batching inside existing backend runtime, and selective module extraction.
 
 ## ADR Reference
 
@@ -157,7 +157,7 @@ sequenceDiagram
 
 ## Change Log
 
-| Date       | Version | Change Summary                                   | Author |
-| ---------- | ------- | ------------------------------------------------ | ------ |
-| 2026-02-28 | 1.0     | Initial draft — architecture solution design     | —      |
-| 2026-03-24 | 1.1     | Added metadata table, Sources, and Change Log    | —      |
+| Date       | Version | Change Summary                                | Author |
+| ---------- | ------- | --------------------------------------------- | ------ |
+| 2026-02-28 | 1.0     | Initial draft — architecture solution design  | —      |
+| 2026-03-24 | 1.1     | Added metadata table, Sources, and Change Log | —      |

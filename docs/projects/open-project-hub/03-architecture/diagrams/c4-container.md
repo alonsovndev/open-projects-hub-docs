@@ -5,11 +5,10 @@ This diagram decomposes the system into deployable/runtime containers aligned wi
 ## Container Responsibilities
 
 - **Vercel Frontend (React + TypeScript):** Admin/Viewer UX, workflow orchestration, and API consumption.
-- **Vercel Edge Functions:** edge middleware for request shaping, auth checks, and cache-friendly routing.
+- **Vercel Edge Functions:** edge middleware for request shaping, auth checks, and routing.
 - **Render Backend API (FastAPI):** domain/application orchestration and API contract enforcement.
 - **Supabase PostgreSQL:** system-of-record for projects, users, stories, and audit data.
 - **Supabase Auth:** identity provider and JWT issuance/refresh lifecycle.
-- **Redis:** optional cache and event stream path for scaling AI/refinement throughput.
 - **Supabase Storage:** managed file/object storage for exported artifacts.
 - **Sentry:** shared error and performance telemetry.
 
