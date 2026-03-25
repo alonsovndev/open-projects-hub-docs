@@ -3,7 +3,7 @@
 | Attribute        | Value                       |
 | ---------------- | --------------------------- |
 | **Project**      | Open Freelancer Project Hub |
-| **Version**      | 1.2                         |
+| **Version**      | 1.3                         |
 | **Status**       | Draft                       |
 | **Last Updated** | 2026-03-24                  |
 
@@ -19,6 +19,7 @@
 ## Design Scope and Assumptions
 
 - Covers the MVP core: user identity, client basics, project lifecycle, role-based access, and AI-refined user stories.
+- Internal notes are out of scope for this simplified MVP schema and are not persisted in database entities.
 - Removed in this version: ambiguity tracking, acceptance-criteria child tables, requirements promotion workflow, and Markdown export tracking. These can be reintroduced post-MVP.
 - Supabase Auth owns credentials, password-reset tokens, and token lifecycle. The application schema stores user profile and authorization projection data only.
 - Database engine selection is decided by ADR-003; migration scripts and physical deployment are out of scope here.
@@ -35,7 +36,7 @@
 | --------------------- | ---------------------------------------------------------- | ------------------- | -------------------- |
 | `users`               | Application-visible user profile keyed to auth identity    | Identity and Access | `active`, `disabled` |
 | `clients`             | Basic client info managed by the freelancer Admin          | Client Lifecycle    | `active`, `archived` |
-| `projects`            | Project metadata, phase, status, and admin notes           | Project Lifecycle   | `active`, `archived` |
+| `projects`            | Project metadata, phase, and status                        | Project Lifecycle   | `active`, `archived` |
 | `project_memberships` | Per-project role assignment (admin or viewer)              | Identity and Access | active by record     |
 | `refinement_sessions` | Raw refinement input and approval state per project        | Refinement Workflow | `draft`, `approved`  |
 | `user_stories`        | AI-generated user stories produced by a refinement session | Refinement Workflow | `draft`, `approved`  |
@@ -88,7 +89,6 @@ erDiagram
         string description
         string phase
         string status
-        text internal_notes
         timestamptz created_at
         timestamptz updated_at
         timestamptz archived_at
@@ -147,7 +147,7 @@ erDiagram
 
 ### 3. `projects`
 
-- **Purpose:** Project metadata, lifecycle phase, status, and Admin-only planning notes.
+- **Purpose:** Project metadata, lifecycle phase, and status.
 - **Primary key:** `id` (UUID).
 - **Foreign keys:** `client_id -> clients.id`, `owner_admin_user_id -> users.id`.
 - **Constraints:**
@@ -209,15 +209,15 @@ erDiagram
 
 ## Security and Data Governance
 
-- **Sensitive fields:** `internal_notes`, user email, client contact email.
-- **Access controls:** backend authorization and Supabase RLS enforce Admin and Viewer boundaries; `internal_notes` is deny-by-default for Viewer paths.
+- **Sensitive fields:** user email and client contact email.
+- **Access controls:** backend authorization and Supabase RLS enforce Admin and Viewer boundaries with least-privilege defaults.
 - **Auditability:** `created_at`, `updated_at`, `approved_at`, and `archived_at` provide lifecycle traceability.
 - **Provider boundary:** credentials, reset tokens, and refresh tokens remain under Supabase Auth governance.
 
 ## Risks and Open Questions
 
 - **Risk:** Max-3-active-project rule lives in the service layer; concurrent requests could bypass it. **Mitigation:** single-transaction check with SELECT FOR UPDATE or equivalent.
-- **Risk:** `internal_notes` leaks if filtering is inconsistent across API responses and RLS policies. **Mitigation:** deny-by-default with explicit Viewer test coverage.
+- **Risk:** draft stories could be exposed to Viewer users if approval filtering is inconsistent across API responses and RLS policies. **Mitigation:** enforce `status = approved` visibility for Viewer paths and add role-based test coverage.
 - **Open question:** Should `user_stories` support individual archival or only session-level lifecycle transitions?
 - **Open question:** When acceptance criteria are added post-MVP, should they be a child table of `user_stories` or a structured JSON field?
 
@@ -245,6 +245,7 @@ erDiagram
 
 | Date       | Version | Change Summary                                                                                                                                                                                        | Author    |
 | ---------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- |
+| 2026-03-24 | 1.3     | Validation pass against current requirements direction. Removed `internal_notes` from `projects` and updated security/risk guidance to focus on story approval visibility.                            | Tech Lead |
 | 2026-03-24 | 1.2     | Simplified to 6-entity model. Removed ambiguity tracking, acceptance-criteria tables, requirements promotion, and export tracking. Renamed draft_stories to user_stories with direct approval status. | Tech Lead |
 | 2026-03-23 | 1.1     | Refactored to template structure, updated source links, aligned requirement IDs, and clarified auth boundary ownership.                                                                               | Tech Lead |
 | 2026-02-28 | 1.0     | Initial database design draft created.                                                                                                                                                                | Tech Lead |
