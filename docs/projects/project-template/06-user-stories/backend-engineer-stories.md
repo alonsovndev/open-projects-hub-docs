@@ -23,7 +23,7 @@ Keep stories implementation-ready but code-agnostic.
 - [Architecture Solution Design](../03-architecture/architecture-solution-design.md)
 - [Technology Stack](../03-architecture/technology-stack.md)
 - [API Contract](../03-architecture/api/api-contract.md)
-- [Database Design](../06-database/database-design.md)
+- [Database Design](../04-database/database-design.md)
 - [Product Epics](./epics.md)
 
 ## Objective

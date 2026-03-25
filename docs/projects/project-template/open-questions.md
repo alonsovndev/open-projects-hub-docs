@@ -68,9 +68,9 @@ For each `Closed` question, update impacted docs:
 - [ ] [./01-requirements/](./01-requirements/)
 - [ ] [./02-planning/](./02-planning/)
 - [ ] [./03-architecture/](./03-architecture/)
-- [ ] [./06-user-stories/](./06-user-stories/)
+- [ ] [./04-database/](./04-database/)
 - [ ] [./05-prototype/](./05-prototype/)
-- [ ] [./06-database/](./06-database/)
+- [ ] [./06-user-stories/](./06-user-stories/)
 
 ---
 

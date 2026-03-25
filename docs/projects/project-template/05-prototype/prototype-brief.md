@@ -113,8 +113,8 @@ Map each prototype screen or flow to the requirements it covers. Update this tab
 - [Phased Roadmap](../02-planning/phased-roadmap.md)
 - [Role Mapping](../02-planning/role-mapping.md)
 - [Architecture Solution Design](../03-architecture/architecture-solution-design.md)
-- [UI/UX Designer User Stories](../04-user-stories/ui-ux-designer-stories.md)
-- [Product Epics](../04-user-stories/epics.md)
+- [UI/UX Designer User Stories](../06-user-stories/ui-ux-designer-stories.md)
+- [Product Epics](../06-user-stories/epics.md)
 
 ## Change Log
 

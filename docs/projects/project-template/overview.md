@@ -10,6 +10,17 @@ Use this file as the canonical project overview template for new projects.
 - Do not repeat details that already exist in linked docs; summarize and reference.
 - Keep scope aligned with MVP constraints.
 
+## Folder Index Map (Canonical)
+
+Use this map as the single source of truth for folder-index references.
+
+- `01-requirements/`
+- `02-planning/`
+- `03-architecture/`
+- `04-database/`
+- `05-prototype/`
+- `06-user-stories/`
+
 ---
 
 ## 1) Project Snapshot
@@ -170,9 +181,9 @@ Provide a short capability list (not full requirements).
 - [Requirements](./01-requirements/)
 - [Planning](./02-planning/)
 - [Architecture](./03-architecture/)
-- [User Stories](./04-user-stories/)
+- [Database Design](./04-database/)
 - [Prototype](./05-prototype/)
-- [Database Design](./06-database/)
+- [User Stories](./06-user-stories/)
 - [Open Questions](./open-questions.md)
 - [User Personas](./user-personas.md)
 
