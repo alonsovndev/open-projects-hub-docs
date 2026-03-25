@@ -73,7 +73,7 @@ Establish backend foundation for authentication, project lifecycle, AI refinemen
 
 - [Architecture Solution Design](../03-architecture/architecture-solution-design.md).
 - [Technology Stack](../03-architecture/technology-stack.md).
-**Success Metrics**:
+  **Success Metrics**:
 - First-time setup completes in under 15 minutes.
 - Monorepo structure is documented and consistent.
 - All imports follow agreed pattern (no mixed relative/absolute paths).

@@ -39,7 +39,7 @@
 ## Traceability
 
 - **Related Open Questions**: Q-001, Q-003, Q-017, Q-018
-- **Related User Stories**: [Epics](../07-user-stories/epics.md)
+- **Related User Stories**: [Epics](../06-user-stories/epics.md)
 - **Related Architecture/ADR**: [Architecture Solution Design](../03-architecture/architecture-solution-design.md)
 - **Related Prototype**: [Prototype Brief](../05-prototype/prototype-brief.md)
 

@@ -39,7 +39,7 @@
 ## Traceability
 
 - **Related Open Questions**: Q-010, Q-011, Q-012, Q-019
-- **Related User Stories**: [Frontend Engineer Stories](../07-user-stories/frontend-engineer-stories.md)
+- **Related User Stories**: [Frontend Engineer Stories](../06-user-stories/frontend-engineer-stories.md)
 - **Related Architecture/ADR**: [Security Architecture](../03-architecture/security-architecture.md)
 - **Related Prototype**: [Design Direction](../05-prototype/design-direction.md)
 

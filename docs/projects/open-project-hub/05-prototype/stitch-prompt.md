@@ -16,17 +16,17 @@ Use this file to generate a fast, consistent prototype in Stitch. The consolidat
 
 Use this table to map generated `stitch/` assets to the canonical page set in this prompt.
 
-| Canonical Page | Preferred Existing Asset Folder |
-| --- | --- |
-| Page 1: Entry and Role Selection | `entry-role-selection-with-home-link/` |
-| Page 2: Admin Sign Up | `create-admin-account/` |
-| Page 3: Admin Sign In | `admin-sign-in/` |
-| Page 4: Forgot Password | _(generate if missing)_ |
-| Page 5: Reset Password | `reset-password-refined/` |
+| Canonical Page                                     | Preferred Existing Asset Folder            |
+| -------------------------------------------------- | ------------------------------------------ |
+| Page 1: Entry and Role Selection                   | `entry-role-selection-with-home-link/`     |
+| Page 2: Admin Sign Up                              | `create-admin-account/`                    |
+| Page 3: Admin Sign In                              | `admin-sign-in/`                           |
+| Page 4: Forgot Password                            | _(generate if missing)_                    |
+| Page 5: Reset Password                             | `reset-password-refined/`                  |
 | Page 6: Admin AI Requirements Refinement Workspace | `ai-refinement-workspace-updated-sidebar/` |
-| Page 7: Admin Backlog View and Markdown Export | `simplified-admin-backlog/` |
-| Page 8: Viewer Backlog View | `final-approved-stories-streamlined-view/` |
-| Page 9: Optional Onboarding Overlay | _(generate if needed)_ |
+| Page 7: Admin Backlog View and Markdown Export     | `simplified-admin-backlog/`                |
+| Page 8: Viewer Backlog View                        | `final-approved-stories-streamlined-view/` |
+| Page 9: Optional Onboarding Overlay                | _(generate if needed)_                     |
 
 ### Not Canonical for This MVP Prompt
 
@@ -67,7 +67,7 @@ Use these as the source of truth before regenerating prototype pages:
 - [F-007 Admin Login](../01-requirements/f-007-admin-login.md)
 - [F-008 Create Account](../01-requirements/f-008-create-account.md)
 - [F-009 Reset Password](../01-requirements/f-009-reset-password.md)
-- [UI/UX Designer User Stories](../07-user-stories/ui-ux-designer-stories.md)
+- [UI/UX Designer User Stories](../06-user-stories/ui-ux-designer-stories.md)
 
 ## Consolidated Stitch Prompt (Copy & Paste)
 
@@ -137,8 +137,8 @@ Provide a lightweight entry point that helps users choose the correct prototype 
 
 - Short product summary explaining that the platform turns ambiguous notes into approved planning artifacts
 - Two role cards only:
-   - **Admin**: create, refine, approve, and export planning content
-   - **Viewer**: review approved planning content in read-only mode
+  - **Admin**: create, refine, approve, and export planning content
+  - **Viewer**: review approved planning content in read-only mode
 - Primary emphasis on **Continue as Admin**
 - Secondary emphasis on **Continue as Viewer**
 - Calm, content-first layout with minimal navigation
@@ -153,10 +153,10 @@ Show a simple Admin account creation view that supports prototype entry without 
 
 - Page title: **Create Admin Account**
 - Fields:
-   - Full name
-   - Work email
-   - Password
-   - Confirm password
+  - Full name
+  - Work email
+  - Password
+  - Confirm password
 - Checkbox for agreeing to terms or prototype conditions
 - Primary action: **Create Account**
 - Secondary link: **Already have an account? Sign In**
@@ -189,8 +189,8 @@ Show a minimal and trustworthy login experience before the Admin enters the plan
 - Optional **Remember me** checkbox
 - Primary action: **Sign In**
 - Secondary links:
-   - **Forgot password?**
-   - **Create account**
+  - **Forgot password?**
+  - **Create account**
 - Optional informational link or inline state for email confirmation
 
 ### Required States

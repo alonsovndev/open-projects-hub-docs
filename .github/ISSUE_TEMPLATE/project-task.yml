@@ -78,12 +78,12 @@ body:
         | 2 · Requirements | `product-owner` | `docs/projects/{project}/01-requirements/` |
         | 3 · Planning | `product-owner` | `docs/projects/{project}/02-planning/` |
         | 4.x · Architecture (all) | `tech-lead` | `docs/projects/{project}/03-architecture/` |
-        | 5 · Database Design | `tech-lead` | `docs/projects/{project}/06-database/` |
-        | 6 · UI/UX Designer Stories | `product-owner` | `docs/projects/{project}/04-user-stories/` |
+        | 5 · Database Design | `tech-lead` | `docs/projects/{project}/04-database/` |
+        | 6 · UI/UX Designer Stories | `product-owner` | `docs/projects/{project}/06-user-stories/` |
         | 6.1 · UI/UX Prototype | `ui-ux-designer` | `docs/projects/{project}/05-prototype/` |
-        | 7 · Epics | `product-owner` | `docs/projects/{project}/04-user-stories/` |
-        | 8 · Backend Engineer Stories | `product-owner` | `docs/projects/{project}/04-user-stories/` |
-        | 9 · Frontend Engineer Stories | `product-owner` | `docs/projects/{project}/04-user-stories/` |
+        | 7 · Epics | `product-owner` | `docs/projects/{project}/06-user-stories/` |
+        | 8 · Backend Engineer Stories | `product-owner` | `docs/projects/{project}/06-user-stories/` |
+        | 9 · Frontend Engineer Stories | `product-owner` | `docs/projects/{project}/06-user-stories/` |
 
   # ── Context ───────────────────────────────────────────────────────────────
 
