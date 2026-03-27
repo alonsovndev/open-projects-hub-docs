@@ -68,12 +68,12 @@ Deliver authentication flows, project management UI, AI refinement interaction, 
 
 **Deliverables**:
 
-- React app scaffolding with Create React App, Vite, or Next.js (per [Technology Stack](../03-architecture/technology-stack.md)).
+- React app scaffolding with Create React App, Vite (per [Technology Stack](../03-architecture/technology-stack.md)).
 - Development server configuration with fast rebuild and hot reload.
 - Directory structure: src/components/, src/pages/, src/services/, src/styles/, public/.
 - TypeScript configuration with strict mode enabled.
 - ESLint and Prettier configuration integrated.
-- Build script (npm run build / yarn build) producing optimized output.
+- Build script (npm run build ) producing optimized output.
 
 **Dependencies**:
 
