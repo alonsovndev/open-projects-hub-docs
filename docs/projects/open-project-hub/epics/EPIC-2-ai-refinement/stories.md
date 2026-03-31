@@ -1,5 +1,31 @@
 # Stories for Epic: AI Refinement
 
+## UI/UX Designer
+
+### US-EP2-UX-001: Refinement Flow Design
+
+**Epic**: AI Refinement
+**Priority**: Must Have
+**Effort Estimate**: 5
+
+**As a** UI/UX Designer,
+**I want to** design the refinement flow, including input, loading, and preview states,
+**So that** Admin users have a clear and intuitive experience when refining notes.
+
+**Acceptance Criteria**:
+
+- [ ] Input screen includes a text area with placeholder text.
+- [ ] Loading state is visually distinct and indicates progress.
+- [ ] Preview interface displays generated stories with clear actions (approve, reject, edit).
+
+**Deliverables**:
+
+- Wireframes for refinement flow.
+- High-fidelity mockups for input, loading, and preview states.
+- Accessibility annotations for all components.
+
+---
+
 ## Backend Engineer
 
 ### US-EP2-BE-001: AI Refinement Service
@@ -49,29 +75,3 @@
 - Refinement input form with validation.
 - Preview interface for generated stories.
 - Error handling for refinement process.
-
----
-
-## UI/UX Designer
-
-### US-EP2-UX-001: Refinement Flow Design
-
-**Epic**: AI Refinement
-**Priority**: Must Have
-**Effort Estimate**: 5
-
-**As a** UI/UX Designer,
-**I want to** design the refinement flow, including input, loading, and preview states,
-**So that** Admin users have a clear and intuitive experience when refining notes.
-
-**Acceptance Criteria**:
-
-- [ ] Input screen includes a text area with placeholder text.
-- [ ] Loading state is visually distinct and indicates progress.
-- [ ] Preview interface displays generated stories with clear actions (approve, reject, edit).
-
-**Deliverables**:
-
-- Wireframes for refinement flow.
-- High-fidelity mockups for input, loading, and preview states.
-- Accessibility annotations for all components.

@@ -1,5 +1,31 @@
 # Stories for Epic: Client and Project Lifecycle Governance
 
+## UI/UX Designer
+
+### US-EP1-UX-001: Project Lifecycle Flow Design
+
+**Epic**: Client and Project Lifecycle Governance
+**Priority**: Must Have
+**Effort Estimate**: 5
+
+**As a** UI/UX Designer,
+**I want to** design the project lifecycle flow,
+**So that** Admin users have a clear and intuitive experience when managing projects.
+
+**Acceptance Criteria**:
+
+- [ ] Project list view includes clear indicators for active and archived projects.
+- [ ] Create project flow includes client association and phase selection.
+- [ ] Active-project limit is communicated clearly in the UI.
+
+**Deliverables**:
+
+- Wireframes for project lifecycle flow.
+- High-fidelity mockups for project list and creation form.
+- Accessibility annotations for all components.
+
+---
+
 ## Backend Engineer
 
 ### US-EP1-BE-001: Client and Project CRUD Operations
@@ -72,29 +98,3 @@
 - Project list view with status indicators.
 - Project creation form with validation.
 - Error handling for active-project limit.
-
----
-
-## UI/UX Designer
-
-### US-EP1-UX-001: Project Lifecycle Flow Design
-
-**Epic**: Client and Project Lifecycle Governance
-**Priority**: Must Have
-**Effort Estimate**: 5
-
-**As a** UI/UX Designer,
-**I want to** design the project lifecycle flow,
-**So that** Admin users have a clear and intuitive experience when managing projects.
-
-**Acceptance Criteria**:
-
-- [ ] Project list view includes clear indicators for active and archived projects.
-- [ ] Create project flow includes client association and phase selection.
-- [ ] Active-project limit is communicated clearly in the UI.
-
-**Deliverables**:
-
-- Wireframes for project lifecycle flow.
-- High-fidelity mockups for project list and creation form.
-- Accessibility annotations for all components.

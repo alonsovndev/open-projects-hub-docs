@@ -1,5 +1,31 @@
 # Stories for Epic: Entry Flow
 
+## UI/UX Designer
+
+### US-EP6-UX-001: Onboarding Flow Design
+
+**Epic**: Entry Flow
+**Priority**: Should Have
+**Effort Estimate**: 5
+
+**As a** UI/UX Designer,
+**I want to** design the onboarding flow,
+**So that** Admin users have a clear and intuitive experience when starting the application.
+
+**Acceptance Criteria**:
+
+- [ ] Onboarding flow includes clear steps with progress indicators.
+- [ ] Success messages are displayed prominently at the end of onboarding.
+- [ ] Onboarding UI is responsive and accessible.
+
+**Deliverables**:
+
+- Wireframes for onboarding flow.
+- High-fidelity mockups for onboarding screens.
+- Accessibility annotations for all components.
+
+---
+
 ## Backend Engineer
 
 ### US-EP6-BE-001: Onboarding Progress Tracker
@@ -49,29 +75,3 @@
 - Onboarding UI with progress tracking.
 - Success and error feedback for onboarding tasks.
 - Unit tests for onboarding UI logic.
-
----
-
-## UI/UX Designer
-
-### US-EP6-UX-001: Onboarding Flow Design
-
-**Epic**: Entry Flow
-**Priority**: Should Have
-**Effort Estimate**: 5
-
-**As a** UI/UX Designer,
-**I want to** design the onboarding flow,
-**So that** Admin users have a clear and intuitive experience when starting the application.
-
-**Acceptance Criteria**:
-
-- [ ] Onboarding flow includes clear steps with progress indicators.
-- [ ] Success messages are displayed prominently at the end of onboarding.
-- [ ] Onboarding UI is responsive and accessible.
-
-**Deliverables**:
-
-- Wireframes for onboarding flow.
-- High-fidelity mockups for onboarding screens.
-- Accessibility annotations for all components.

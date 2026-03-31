@@ -1,5 +1,31 @@
 # Stories for Epic: Access Boundaries
 
+## UI/UX Designer
+
+### US-EP3-UX-001: Role-Based UI Design
+
+**Epic**: Access Boundaries
+**Priority**: Must Have
+**Effort Estimate**: 5
+
+**As a** UI/UX Designer,
+**I want to** design role-based UI variations,
+**So that** Admin and Viewer users have a clear and intuitive experience.
+
+**Acceptance Criteria**:
+
+- [ ] Admin UI includes all controls with clear labels.
+- [ ] Viewer UI hides admin-only controls and emphasizes read-only content.
+- [ ] Login screen includes role-specific messaging.
+
+**Deliverables**:
+
+- Wireframes for Admin and Viewer UIs.
+- High-fidelity mockups for role-based variations.
+- Accessibility annotations for all components.
+
+---
+
 ## Backend Engineer
 
 ### US-EP3-BE-001: Role-Based Access Control
@@ -49,29 +75,3 @@
 - Conditional rendering logic for UI components.
 - Role-based navigation guards.
 - Unit tests for UI rendering logic.
-
----
-
-## UI/UX Designer
-
-### US-EP3-UX-001: Role-Based UI Design
-
-**Epic**: Access Boundaries
-**Priority**: Must Have
-**Effort Estimate**: 5
-
-**As a** UI/UX Designer,
-**I want to** design role-based UI variations,
-**So that** Admin and Viewer users have a clear and intuitive experience.
-
-**Acceptance Criteria**:
-
-- [ ] Admin UI includes all controls with clear labels.
-- [ ] Viewer UI hides admin-only controls and emphasizes read-only content.
-- [ ] Login screen includes role-specific messaging.
-
-**Deliverables**:
-
-- Wireframes for Admin and Viewer UIs.
-- High-fidelity mockups for role-based variations.
-- Accessibility annotations for all components.

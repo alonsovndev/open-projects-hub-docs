@@ -1,5 +1,31 @@
 # Stories for Epic: Authentication
 
+## UI/UX Designer
+
+### US-EP5-UX-001: Login Flow Design
+
+**Epic**: Authentication
+**Priority**: Must Have
+**Effort Estimate**: 5
+
+**As a** UI/UX Designer,
+**I want to** design the login flow,
+**So that** users have a clear and intuitive experience when logging in.
+
+**Acceptance Criteria**:
+
+- [ ] Login screen includes email and password fields with clear labels.
+- [ ] Error messages are displayed prominently and provide actionable feedback.
+- [ ] Login button is visually distinct and accessible.
+
+**Deliverables**:
+
+- Wireframes for login flow.
+- High-fidelity mockups for login screen.
+- Accessibility annotations for all components.
+
+---
+
 ## Backend Engineer
 
 ### US-EP5-BE-001: Authentication Middleware
@@ -49,29 +75,3 @@
 - Login form component with validation.
 - Error handling for invalid credentials.
 - Unit tests for login form logic.
-
----
-
-## UI/UX Designer
-
-### US-EP5-UX-001: Login Flow Design
-
-**Epic**: Authentication
-**Priority**: Must Have
-**Effort Estimate**: 5
-
-**As a** UI/UX Designer,
-**I want to** design the login flow,
-**So that** users have a clear and intuitive experience when logging in.
-
-**Acceptance Criteria**:
-
-- [ ] Login screen includes email and password fields with clear labels.
-- [ ] Error messages are displayed prominently and provide actionable feedback.
-- [ ] Login button is visually distinct and accessible.
-
-**Deliverables**:
-
-- Wireframes for login flow.
-- High-fidelity mockups for login screen.
-- Accessibility annotations for all components.
