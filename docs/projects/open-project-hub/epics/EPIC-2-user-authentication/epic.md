@@ -27,3 +27,10 @@ This epic focuses on implementing secure user authentication mechanisms, includi
 - Authentication service handles 100 concurrent logins without performance degradation.
 - Password reset flow is secure and follows best practices.
 - Frontend login and password reset flows are responsive and accessible.
+
+**Epic Key**: EPIC-1
+**Summary**: Implement secure user authentication mechanisms.
+**Labels**: authentication, security
+**Priority**: Must Have
+**Components**: Backend, Frontend
+**Fix Version**: MVP-1

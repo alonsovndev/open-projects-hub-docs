@@ -1,5 +1,11 @@
-**Epic ID**: EPIC-3
-**Epic Name**: Access Boundary and Stakeholder Visibility
+# Epic: Access Control and Visibility Boundaries
+
+**Epic Key**: EPIC-3
+**Summary**: Enforce Admin and Viewer boundaries for safe collaboration.
+**Labels**: access-control, visibility
+**Priority**: Must Have
+**Components**: Backend, Frontend
+**Fix Version**: MVP-1
 
 ---
 

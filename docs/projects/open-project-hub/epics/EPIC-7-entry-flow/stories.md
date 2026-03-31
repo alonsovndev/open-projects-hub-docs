@@ -4,6 +4,7 @@
 
 ### US-EP6-UX-001: Onboarding Flow Design
 
+**Epic Link**: EPIC-7
 **Epic**: Entry Flow
 **Priority**: Should Have
 **Effort Estimate**: 5
@@ -30,6 +31,7 @@
 
 ### US-EP6-BE-001: Onboarding Progress Tracker
 
+**Epic Link**: EPIC-7
 **Epic**: Entry Flow
 **Priority**: Should Have
 **Effort Estimate**: 3
@@ -56,6 +58,7 @@
 
 ### US-EP6-FE-001: Onboarding UI
 
+**Epic Link**: EPIC-7
 **Epic**: Entry Flow
 **Priority**: Should Have
 **Effort Estimate**: 5

@@ -4,6 +4,7 @@
 
 ### US-EP2-UX-001: Refinement Flow Design
 
+**Epic Link**: EPIC-3
 **Epic**: AI Refinement
 **Priority**: Must Have
 **Effort Estimate**: 5
@@ -30,6 +31,7 @@
 
 ### US-EP2-BE-001: AI Refinement Service
 
+**Epic Link**: EPIC-3
 **Epic**: AI Refinement
 **Priority**: Must Have
 **Effort Estimate**: 8
@@ -56,6 +58,7 @@
 
 ### US-EP2-FE-001: Refinement Input and Preview
 
+**Epic Link**: EPIC-3
 **Epic**: AI Refinement
 **Priority**: Must Have
 **Effort Estimate**: 5

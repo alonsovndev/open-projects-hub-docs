@@ -4,6 +4,7 @@
 
 ### US-EP4-UX-001: Export Flow Design
 
+**Epic Link**: EPIC-5
 **Epic**: Backlog Export
 **Priority**: Must Have
 **Effort Estimate**: 3
@@ -30,6 +31,7 @@
 
 ### US-EP4-BE-001: Backlog Export Service
 
+**Epic Link**: EPIC-5
 **Epic**: Backlog Export
 **Priority**: Must Have
 **Effort Estimate**: 5
@@ -56,6 +58,7 @@
 
 ### US-EP4-FE-001: Export Button and Feedback
 
+**Epic Link**: EPIC-5
 **Epic**: Backlog Export
 **Priority**: Must Have
 **Effort Estimate**: 3

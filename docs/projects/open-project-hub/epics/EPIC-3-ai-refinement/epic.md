@@ -1,5 +1,11 @@
-**Epic ID**: EPIC-2
-**Epic Name**: AI Refinement and Approval Control
+# Epic: AI Refinement and Approval Workflow
+
+**Epic Key**: EPIC-2
+**Summary**: Create controlled refinement workflow for client notes.
+**Labels**: ai, refinement
+**Priority**: Must Have
+**Components**: Backend, Frontend
+**Fix Version**: MVP-1
 
 ---
 

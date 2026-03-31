@@ -1,5 +1,11 @@
-**Epic ID**: EPIC-4
-**Epic Name**: Backlog and Export Deliverable
+# Epic: Requirements Backlog and Markdown Export
+
+**Epic Key**: EPIC-4
+**Summary**: Enable structured backlog view and Markdown export.
+**Labels**: backlog, export
+**Priority**: Must Have
+**Components**: Backend, Frontend
+**Fix Version**: MVP-1
 
 ---
 

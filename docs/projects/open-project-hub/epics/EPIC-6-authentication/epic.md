@@ -1,5 +1,11 @@
-**Epic ID**: EPIC-5
-**Epic Name**: Admin Authentication and Recovery Baseline
+# Epic: Authentication and User Management
+
+**Epic Key**: EPIC-5
+**Summary**: Define secure Admin authentication and recovery flows.
+**Labels**: authentication, admin
+**Priority**: Must Have
+**Components**: Backend, Frontend
+**Fix Version**: MVP-1
 
 ---
 

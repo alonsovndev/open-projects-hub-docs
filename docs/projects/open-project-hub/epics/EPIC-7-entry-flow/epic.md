@@ -1,5 +1,11 @@
-**Epic ID**: EPIC-6
-**Epic Name**: Entry-Flow Quality Uplift
+# Epic: Minimal Onboarding and Entry Flow
+
+**Epic Key**: EPIC-6
+**Summary**: Improve first-use quality through onboarding and entry clarity.
+**Labels**: onboarding, entry-flow
+**Priority**: Must Have
+**Components**: Frontend
+**Fix Version**: MVP-1
 
 ---
 

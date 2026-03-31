@@ -4,6 +4,7 @@
 
 ### US-EP5-UX-001: Login Flow Design
 
+**Epic Link**: EPIC-6
 **Epic**: Authentication
 **Priority**: Must Have
 **Effort Estimate**: 5
@@ -26,10 +27,36 @@
 
 ---
 
+### US-EP5-UX-002: Password Reset Flow
+
+**Epic Link**: EPIC-6
+**Epic**: Authentication
+**Priority**: Must Have
+**Effort Estimate**: 5
+
+**As a** UI/UX Designer,
+**I want to** design the password reset flow,
+**So that** users can reset their passwords securely.
+
+**Acceptance Criteria**:
+
+- [ ] Given a valid email, when requesting password reset, then a reset link is sent.
+- [ ] Given an invalid email, when requesting password reset, then an error message is displayed.
+- [ ] Given no email, when requesting password reset, then an error message is displayed.
+
+**Deliverables**:
+
+- Wireframes for password reset flow.
+- High-fidelity mockups for password reset screen.
+- Accessibility annotations for all components.
+
+---
+
 ## Backend Engineer
 
 ### US-EP5-BE-001: Authentication Middleware
 
+**Epic Link**: EPIC-6
 **Epic**: Authentication
 **Priority**: Must Have
 **Effort Estimate**: 8
@@ -54,8 +81,9 @@
 
 ## Frontend Engineer
 
-### US-EP5-FE-001: Login Form and Validation
+### US-EP5-FE-001: Login Page
 
+**Epic Link**: EPIC-6
 **Epic**: Authentication
 **Priority**: Must Have
 **Effort Estimate**: 5

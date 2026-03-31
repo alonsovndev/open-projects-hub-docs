@@ -1,5 +1,11 @@
-**Epic ID**: EPIC-1
-**Epic Name**: Client and Project Lifecycle Governance
+# Epic: Client and Project Lifecycle Governance
+
+**Epic Key**: EPIC-1
+**Summary**: Provide stable client and project lifecycle governance.
+**Labels**: lifecycle, governance
+**Priority**: Must Have
+**Components**: Backend, Database
+**Fix Version**: MVP-1
 
 ---
 

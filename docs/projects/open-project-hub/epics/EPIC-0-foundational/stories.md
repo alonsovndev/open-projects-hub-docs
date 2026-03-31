@@ -2,6 +2,7 @@
 
 ### US-EP0-BE-004: API Documentation Foundation and Contract Definition
 
+**Epic Link**: EPIC-0
 **Epic**: Project and Local Development Setup (Foundational)
 **Priority**: Must Have
 **Effort Estimate**: 5
@@ -40,6 +41,7 @@
 
 ### US-EP0-FE-001: React App Scaffolding and Development Environment
 
+**Epic Link**: EPIC-0
 **Epic**: Project and Local Development Setup (Foundational)
 **Priority**: Must Have
 **Effort Estimate**: 5
@@ -67,9 +69,16 @@
 
 ### US-EP0-BE-001: Monorepo Structure and Backend Scaffolding
 
-**Epic**: Project and Local Development Setup (Foundational)
+**Story Key**: US-EP0-BE-001
+**Summary**: Establish monorepo folder structure with backend services, shared libraries, and configuration patterns.
+**Epic Link**: EPIC-0
+**Labels**: backend, monorepo, setup
 **Priority**: Must Have
-**Effort Estimate**: 8
+**Story Points**: 8
+**Dependencies**:
+
+- [Architecture Solution Design](../03-architecture/architecture-solution-design.md)
+- [Technology Stack](../03-architecture/technology-stack.md)
 
 **As a** Backend Engineer,
 **I want to** establish monorepo folder structure with backend services, shared libraries, and configuration patterns,
@@ -105,6 +114,7 @@
 
 ### US-EP0-BE-002: Database Schema, Migrations, and Seed Data
 
+**Epic Link**: EPIC-0
 **Epic**: Project and Local Development Setup (Foundational)
 **Priority**: Must Have
 **Effort Estimate**: 8
@@ -143,6 +153,7 @@
 
 ### US-EP0-BE-003: CI/CD Pipeline Scaffolding and Testing Framework
 
+**Epic Link**: EPIC-0
 **Epic**: Project and Local Development Setup (Foundational)
 **Priority**: Must Have
 **Effort Estimate**: 8
