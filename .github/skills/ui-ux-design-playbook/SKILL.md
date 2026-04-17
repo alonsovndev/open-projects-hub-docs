@@ -50,6 +50,22 @@ Translate product requirements into clear design documentation, flows, prototype
 - UI specs and component behavior notes
 - Accessibility review notes
 
+## Skill Asset References
+
+Use these skill-local assets as canonical starting points for UI/UX documentation:
+
+- Design direction template: `assets/design-direction.md`
+- Prototype brief template: `assets/prototype-brief.md`
+- Stitch prompt template: `assets/stitch-prompt.md`
+
+When a task depends on feature-level requirement scope and traceability, align UX scope with:
+
+- `../product-owner-playbook/assets/requirements/prd-template-by-feature.md`
+
+When a task depends on architecture constraints, align UX decisions with:
+
+- `../technical-design-playbook/assets/architecture/architecture-solution-design.md`
+
 ## Required Checklist
 
 - [ ] Persona and user goal are explicit

@@ -109,12 +109,12 @@ Map each prototype screen or flow to the requirements it covers. Update this tab
 - [Project Overview](../overview.md)
 - [User Personas](../user-personas.md)
 - [Open Questions](../open-questions.md)
-- [Project Requirements by Feature](../01-requirements/project-requirements-by-feature.md)
-- [Phased Roadmap](../02-planning/phased-roadmap.md)
-- [Role Mapping](../02-planning/role-mapping.md)
-- [Architecture Solution Design](../03-architecture/architecture-solution-design.md)
-- [UI/UX Designer User Stories](../06-user-stories/ui-ux-designer-stories.md)
-- [Product Epics](../06-user-stories/epics.md)
+- [Requirements Template](../../product-owner-playbook/assets/requirements/prd-template-by-feature.md)
+- [Phased Roadmap Template](../../product-owner-playbook/assets/planning/phased-roadmap.md)
+- [Role Mapping Template](../../product-owner-playbook/assets/planning/role-mapping.md)
+- [Architecture Solution Design Template](../../technical-design-playbook/assets/architecture/architecture-solution-design.md)
+- [Work-Item Stories Template](../../product-owner-playbook/assets/work-item-templates/stories-template.md)
+- [Work-Item Epic Template](../../product-owner-playbook/assets/work-item-templates/epic-template.md)
 
 ## Change Log
 

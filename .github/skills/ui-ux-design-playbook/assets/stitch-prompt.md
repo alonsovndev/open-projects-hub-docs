@@ -90,9 +90,9 @@ Generate a clickable responsive stakeholder prototype for **[Project Name]**.
 
 - [Prototype Brief](./prototype-brief.md)
 - [Design Direction](./design-direction.md)
-- [Project Requirements by Feature](../01-requirements/project-requirements-by-feature.md)
-- [Role Mapping](../02-planning/role-mapping.md)
-- [UI/UX Designer User Stories](../06-user-stories/ui-ux-designer-stories.md)
+- [Requirements Template](../../product-owner-playbook/assets/requirements/prd-template-by-feature.md)
+- [Role Mapping Template](../../product-owner-playbook/assets/planning/role-mapping.md)
+- [Work-Item Stories Template](../../product-owner-playbook/assets/work-item-templates/stories-template.md)
 
 ## Change Log
 
