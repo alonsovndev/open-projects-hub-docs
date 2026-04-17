@@ -44,11 +44,8 @@ body:
         - "4.7 · Architecture – Security"
         - "4.8 · Architecture – Deployment & Infrastructure"
         - "5 · Database Design"
-        - "5.1 · UI/UX Prototype (Stitch)"
-        - "6 · UI/UX Designer Stories"
-        - "7 · Epics"
-        - "8 · Backend Engineer Stories"
-        - "9 · Frontend Engineer Stories"
+        - "6 . · UI/UX Prototype (Stitch)"
+        - "7 · Work Items"
     validations:
       required: true
 
@@ -79,11 +76,8 @@ body:
         | 3 · Planning | `product-owner` | `docs/projects/{project}/02-planning/` |
         | 4.x · Architecture (all) | `tech-lead` | `docs/projects/{project}/03-architecture/` |
         | 5 · Database Design | `tech-lead` | `docs/projects/{project}/04-database/` |
-        | 5.1 · UI/UX Prototype | `ui-ux-designer` | `docs/projects/{project}/05-prototype/` |
-        | 6 · UI/UX Designer Stories | `product-owner` | `docs/projects/{project}/06-user-stories/` |
-        | 7 · Epics | `product-owner` | `docs/projects/{project}/06-user-stories/` |
-        | 8 · Backend Engineer Stories | `product-owner` | `docs/projects/{project}/06-user-stories/` |
-        | 9 · Frontend Engineer Stories | `product-owner` | `docs/projects/{project}/06-user-stories/` |
+        | 6 . · UI/UX Prototype | `ui-ux-designer` | `docs/projects/{project}/05-prototype/` |
+        | 7 ·  Work Items | `product-owner` | `docs/projects/{project}/06-work-items/` |
 
   # ── Context ───────────────────────────────────────────────────────────────
 
