@@ -93,15 +93,6 @@ body:
     validations:
       required: true
 
-  - type: checkboxes
-    id: scope_confirmation
-    attributes:
-      label: "Scope Confirmation"
-      description: "Required to prevent oversized, cross-phase documentation changes."
-      options:
-        - label: "I confirm the task must modify only files allowed by the selected Action scope."
-          required: true
-
   # ── Reference ─────────────────────────────────────────────────────────────
 
   - type: markdown
