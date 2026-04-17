@@ -11,10 +11,24 @@
 ## How to Use (AI Agent Instructions)
 
 - Record only questions that can change requirements, roadmap, architecture, UX, or operations.
+- Keep a maximum of 10 open questions in the register at any time.
+- Keep only the highest-impact and most relevant unresolved questions; move lower-priority items to backlog notes.
 - Keep each question atomic (one decision per row).
 - Prefer evidence-based answers; if unknown, keep status as `Open`.
 - For each `Closed` item, ensure the decision is reflected in related docs.
 - Use IDs sequentially (`Q-001`, `Q-002`, ...).
+
+### Prioritization Rule (Top 10 Only)
+
+Use this order when deciding which questions remain in the active register:
+
+1. Blocks MVP scope or release readiness.
+2. Impacts security, privacy, or compliance.
+3. Changes functional behavior, role boundaries, or acceptance criteria.
+4. Changes architecture, data model, or cross-team dependencies.
+5. Impacts UX clarity for primary persona workflows.
+
+If there are more than 10 candidates, keep the top 10 by impact and urgency and defer the rest.
 
 ## Status Definitions
 
@@ -26,6 +40,8 @@
 ---
 
 ## Open Questions Register
+
+> Maximum active items in this register: **10** (highest priority only).
 
 | ID    | Category | Question   | Proposed Answer      | Decision                         | Status | Priority | Due Date     | Owner       | Dependencies         | Source                                        |
 | :---- | :------- | :--------- | :------------------- | :------------------------------- | :----- | :------- | :----------- | :---------- | :------------------- | :-------------------------------------------- |
