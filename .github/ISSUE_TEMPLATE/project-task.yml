@@ -71,13 +71,15 @@ body:
 
         | Action | Agent | Output path |
         |--------|-------|-------------|
-        | 1 · Kickoff | `product-owner` | `docs/projects/{project}/` |
+        | 1 · Kickoff | `product-owner` | `docs/projects/{project}/` (only `overview.md`, `open-questions.md`, `user-personas.md`) |
         | 2 · Requirements | `product-owner` | `docs/projects/{project}/01-requirements/` |
         | 3 · Planning | `product-owner` | `docs/projects/{project}/02-planning/` |
         | 4.x · Architecture (all) | `tech-lead` | `docs/projects/{project}/03-architecture/` |
         | 5 · Database Design | `tech-lead` | `docs/projects/{project}/04-database/` |
         | 6 . · UI/UX Prototype | `ui-ux-designer` | `docs/projects/{project}/05-prototype/` |
         | 7 ·  Work Items | `product-owner` | `docs/projects/{project}/06-work-items/` |
+
+        **Kickoff constraint:** For action `1 · Kickoff`, generate only these files in `docs/projects/{project}/`: `overview.md`, `open-questions.md`, `user-personas.md`.
 
   # ── Context ───────────────────────────────────────────────────────────────
 
