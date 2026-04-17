@@ -2,11 +2,10 @@
 
 ## UI/UX Designer
 
-### US-EP6-UX-001: Onboarding Flow Design
+### US-EP7-UX-001: Onboarding Flow Design
 
-**Story ID**: US-EP6-UX-001
+**Story ID**: US-EP7-UX-001
 **Epic Link**: EPIC-7
-**Epic**: Entry Flow
 **Priority**: Should Have
 **Effort Estimate**: 5
 
@@ -26,15 +25,24 @@
 - High-fidelity mockups for onboarding screens.
 - Accessibility annotations for all components.
 
+**Dependencies**:
+
+- [Project Requirements by Feature](../../01-requirements/readme.md).
+- [Prototype Brief](../../05-prototype/prototype-brief.md).
+
+**Success Metrics**:
+
+- Onboarding flow is understandable and actionable for first-time users.
+- Design assets support accessible implementation across target devices.
+
 ---
 
 ## Backend Engineer
 
-### US-EP6-BE-001: Onboarding Progress Tracker
+### US-EP7-BE-001: Onboarding Progress Tracker
 
-**Story ID**: US-EP6-BE-001
+**Story ID**: US-EP7-BE-001
 **Epic Link**: EPIC-7
-**Epic**: Entry Flow
 **Priority**: Should Have
 **Effort Estimate**: 3
 
@@ -54,15 +62,24 @@
 - Unit tests for progress tracking logic.
 - Documentation for onboarding process.
 
+**Dependencies**:
+
+- [Architecture Solution Design](../../03-architecture/architecture-solution-design.md).
+- [Database Design](../../04-database/database-design.md).
+
+**Success Metrics**:
+
+- Progress state is persisted and restored reliably across sessions.
+- Completion state transitions are test-covered and predictable.
+
 ---
 
 ## Frontend Engineer
 
-### US-EP6-FE-001: Onboarding UI
+### US-EP7-FE-001: Onboarding UI
 
-**Story ID**: US-EP6-FE-001
+**Story ID**: US-EP7-FE-001
 **Epic Link**: EPIC-7
-**Epic**: Entry Flow
 **Priority**: Should Have
 **Effort Estimate**: 5
 
@@ -81,3 +98,13 @@
 - Onboarding UI with progress tracking.
 - Success and error feedback for onboarding tasks.
 - Unit tests for onboarding UI logic.
+
+**Dependencies**:
+
+- [ADR-002: Frontend Framework](../../03-architecture/adrs/adr-002-frontend-framework.md).
+- [API Contract](../../03-architecture/api/api-contract.md).
+
+**Success Metrics**:
+
+- Users can complete onboarding with clear progress and feedback states.
+- Frontend onboarding state remains synchronized with backend progress data.

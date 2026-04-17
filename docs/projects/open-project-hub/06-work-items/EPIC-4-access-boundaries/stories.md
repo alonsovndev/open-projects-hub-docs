@@ -2,9 +2,9 @@
 
 ## UI/UX Designer
 
-### US-EP3-UX-001: Role-Based UI Design
+### US-EP4-UX-001: Role-Based UI Design
 
-**Story ID**: US-EP3-UX-001
+**Story ID**: US-EP4-UX-001
 **Epic Link**: EPIC-4
 **Priority**: Must Have
 **Effort Estimate**: 5
@@ -25,13 +25,23 @@
 - High-fidelity mockups for role-based variations.
 - Accessibility annotations for all components.
 
+**Dependencies**:
+
+- [Project Requirements by Feature](../../01-requirements/readme.md).
+- [Prototype Brief](../../05-prototype/prototype-brief.md).
+
+**Success Metrics**:
+
+- Role-based UX behavior is validated for clarity and consistency.
+- Design artifacts support accessible handoff for implementation.
+
 ---
 
 ## Backend Engineer
 
-### US-EP3-BE-001: Role-Based Access Control
+### US-EP4-BE-001: Role-Based Access Control
 
-**Story ID**: US-EP3-BE-001
+**Story ID**: US-EP4-BE-001
 **Epic Link**: EPIC-4
 **Priority**: Must Have
 **Effort Estimate**: 8
@@ -52,13 +62,23 @@
 - Unit tests for access control logic.
 - Documentation for RBAC rules.
 
+**Dependencies**:
+
+- [Architecture Solution Design](../../03-architecture/architecture-solution-design.md).
+- [API Contract](../../03-architecture/api/api-contract.md).
+
+**Success Metrics**:
+
+- Protected endpoints consistently enforce admin/viewer permissions.
+- Unauthorized access attempts are reliably denied.
+
 ---
 
 ## Frontend Engineer
 
-### US-EP3-FE-001: Role-Based UI Rendering
+### US-EP4-FE-001: Role-Based UI Rendering
 
-**Story ID**: US-EP3-FE-001
+**Story ID**: US-EP4-FE-001
 **Epic Link**: EPIC-4
 **Priority**: Must Have
 **Effort Estimate**: 5
@@ -78,3 +98,13 @@
 - Conditional rendering logic for UI components.
 - Role-based navigation guards.
 - Unit tests for UI rendering logic.
+
+**Dependencies**:
+
+- [ADR-002: Frontend Framework](../../03-architecture/adrs/adr-002-frontend-framework.md).
+- [API Contract](../../03-architecture/api/api-contract.md).
+
+**Success Metrics**:
+
+- Role-specific UI controls are shown or hidden correctly across flows.
+- Frontend access behavior remains aligned with backend RBAC policy.

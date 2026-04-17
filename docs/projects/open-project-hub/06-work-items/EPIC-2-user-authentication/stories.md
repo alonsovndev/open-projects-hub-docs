@@ -2,9 +2,9 @@
 
 ## Backend Engineer
 
-### US-EP1-BE-001: User Authentication Service
+### US-EP2-BE-001: User Authentication Service
 
-**Story ID**: US-EP1-BE-001
+**Story ID**: US-EP2-BE-001
 **Epic Link**: EPIC-2
 **Priority**: Must Have
 **Effort Estimate**: 8
@@ -25,11 +25,21 @@
 - Token-based authentication mechanism (JWT or equivalent).
 - Unit tests for authentication scenarios.
 
+**Dependencies**:
+
+- [ADR-005: Authentication](../../03-architecture/adrs/adr-005-authentication.md).
+- [API Contract](../../03-architecture/api/api-contract.md).
+
+**Success Metrics**:
+
+- Authentication flow blocks invalid access and supports valid sessions reliably.
+- Core authentication scenarios are covered by automated tests.
+
 ---
 
-### US-EP1-BE-002: Password Reset and Recovery
+### US-EP2-BE-002: Password Reset and Recovery
 
-**Story ID**: US-EP1-BE-002
+**Story ID**: US-EP2-BE-002
 **Epic Link**: EPIC-2
 **Priority**: Must Have
 **Effort Estimate**: 5
@@ -65,9 +75,9 @@
 
 ## Frontend Engineer
 
-### US-EP1-FE-001: Login Page and Authentication Flows
+### US-EP2-FE-001: Login Page and Authentication Flows
 
-**Story ID**: US-EP1-FE-001
+**Story ID**: US-EP2-FE-001
 **Epic Link**: EPIC-2
 **Priority**: Must Have
 **Effort Estimate**: 8
@@ -101,9 +111,9 @@
 
 ---
 
-### US-EP1-FE-002: Password Reset Page and Flows
+### US-EP2-FE-002: Password Reset Page and Flows
 
-**Story ID**: US-EP1-FE-002
+**Story ID**: US-EP2-FE-002
 **Epic Link**: EPIC-2
 **Priority**: Must Have
 **Effort Estimate**: 5
@@ -123,3 +133,13 @@
 - Password reset page with form validation.
 - Recovery flow integration with backend endpoints.
 - Error handling and user feedback for reset scenarios.
+
+**Dependencies**:
+
+- [ADR-002: Frontend Framework](../../03-architecture/adrs/adr-002-frontend-framework.md).
+- [API Contract](../../03-architecture/api/api-contract.md).
+
+**Success Metrics**:
+
+- Users can complete password reset without support intervention.
+- Reset flow behavior matches backend validation and security constraints.

@@ -2,9 +2,9 @@
 
 ## UI/UX Designer
 
-### US-EP2-UX-001: Refinement Flow Design
+### US-EP3-UX-001: Refinement Flow Design
 
-**Story ID**: US-EP2-UX-001
+**Story ID**: US-EP3-UX-001
 **Epic Link**: EPIC-3
 **Priority**: Must Have
 **Effort Estimate**: 5
@@ -25,13 +25,23 @@
 - High-fidelity mockups for input, loading, and preview states.
 - Accessibility annotations for all components.
 
+**Dependencies**:
+
+- [Project Requirements by Feature](../../01-requirements/readme.md).
+- [Prototype Brief](../../05-prototype/prototype-brief.md).
+
+**Success Metrics**:
+
+- Refinement UX flow is validated for clarity before implementation.
+- Design artifacts cover input, loading, and preview states end-to-end.
+
 ---
 
 ## Backend Engineer
 
-### US-EP2-BE-001: AI Refinement Service
+### US-EP3-BE-001: AI Refinement Service
 
-**Story ID**: US-EP2-BE-001
+**Story ID**: US-EP3-BE-001
 **Epic Link**: EPIC-3
 **Priority**: Must Have
 **Effort Estimate**: 8
@@ -52,13 +62,23 @@
 - Database schema for storing refinement sessions and draft stories.
 - Unit tests for refinement service.
 
+**Dependencies**:
+
+- [Architecture Solution Design](../../03-architecture/architecture-solution-design.md).
+- [Database Design](../../04-database/database-design.md).
+
+**Success Metrics**:
+
+- Refinement service consistently returns structured outputs for valid inputs.
+- Draft generation and persistence behavior is validated with tests.
+
 ---
 
 ## Frontend Engineer
 
-### US-EP2-FE-001: Refinement Input and Preview
+### US-EP3-FE-001: Refinement Input and Preview
 
-**Story ID**: US-EP2-FE-001
+**Story ID**: US-EP3-FE-001
 **Epic Link**: EPIC-3
 **Priority**: Must Have
 **Effort Estimate**: 5
@@ -78,3 +98,13 @@
 - Refinement input form with validation.
 - Preview interface for generated stories.
 - Error handling for refinement process.
+
+**Dependencies**:
+
+- [Prototype Brief](../../05-prototype/prototype-brief.md).
+- [API Contract](../../03-architecture/api/api-contract.md).
+
+**Success Metrics**:
+
+- Users can submit notes and review generated stories without dead ends.
+- UI handles success and error states consistently.

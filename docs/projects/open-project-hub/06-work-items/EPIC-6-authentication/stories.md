@@ -2,9 +2,9 @@
 
 ## UI/UX Designer
 
-### US-EP5-UX-001: Login Flow Design
+### US-EP6-UX-001: Login Flow Design
 
-**Story ID**: US-EP5-UX-001
+**Story ID**: US-EP6-UX-001
 **Epic Link**: EPIC-6
 **Priority**: Must Have
 **Effort Estimate**: 5
@@ -25,11 +25,21 @@
 - High-fidelity mockups for login screen.
 - Accessibility annotations for all components.
 
+**Dependencies**:
+
+- [Project Requirements by Feature](../../01-requirements/readme.md).
+- [Prototype Brief](../../05-prototype/prototype-brief.md).
+
+**Success Metrics**:
+
+- Login UX is understandable and accessible for first-time and returning users.
+- Error and validation states are clearly represented in design assets.
+
 ---
 
-### US-EP5-UX-002: Password Reset Flow
+### US-EP6-UX-002: Password Reset Flow
 
-**Story ID**: US-EP5-UX-002
+**Story ID**: US-EP6-UX-002
 **Epic Link**: EPIC-6
 **Priority**: Must Have
 **Effort Estimate**: 5
@@ -50,13 +60,23 @@
 - High-fidelity mockups for password reset screen.
 - Accessibility annotations for all components.
 
+**Dependencies**:
+
+- [Project Requirements by Feature](../../01-requirements/readme.md).
+- [Prototype Brief](../../05-prototype/prototype-brief.md).
+
+**Success Metrics**:
+
+- Password reset journey is validated for clarity and completion.
+- Design artifacts cover both valid and error scenarios.
+
 ---
 
 ## Backend Engineer
 
-### US-EP5-BE-001: Authentication Middleware
+### US-EP6-BE-001: Authentication Middleware
 
-**Story ID**: US-EP5-BE-001
+**Story ID**: US-EP6-BE-001
 **Epic Link**: EPIC-6
 **Priority**: Must Have
 **Effort Estimate**: 8
@@ -77,13 +97,23 @@
 - Unit tests for middleware logic.
 - Documentation for authentication process.
 
+**Dependencies**:
+
+- [ADR-005: Authentication](../../03-architecture/adrs/adr-005-authentication.md).
+- [API Contract](../../03-architecture/api/api-contract.md).
+
+**Success Metrics**:
+
+- Middleware consistently validates token presence and validity.
+- Protected endpoints reject unauthorized requests reliably.
+
 ---
 
 ## Frontend Engineer
 
-### US-EP5-FE-001: Login Page
+### US-EP6-FE-001: Login Page
 
-**Story ID**: US-EP5-FE-001
+**Story ID**: US-EP6-FE-001
 **Epic Link**: EPIC-6
 **Priority**: Must Have
 **Effort Estimate**: 5
@@ -103,3 +133,13 @@
 - Login form component with validation.
 - Error handling for invalid credentials.
 - Unit tests for login form logic.
+
+**Dependencies**:
+
+- [ADR-002: Frontend Framework](../../03-architecture/adrs/adr-002-frontend-framework.md).
+- [API Contract](../../03-architecture/api/api-contract.md).
+
+**Success Metrics**:
+
+- Login form validation and error handling work across supported devices.
+- Frontend login behavior aligns with backend authentication responses.

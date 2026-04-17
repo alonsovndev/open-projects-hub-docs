@@ -185,3 +185,13 @@
 - Directory structure: src/components/, src/pages/, src/services/, src/styles/, public/.
 - TypeScript configuration with strict mode enabled.
 - ESLint and Prettier configuration integrated.
+
+**Dependencies**:
+
+- [Technology Stack](../03-architecture/technology-stack.md).
+- [ADR-002: Frontend Framework](../03-architecture/adrs/adr-002-frontend-framework.md).
+
+**Success Metrics**:
+
+- Frontend development environment starts reliably and supports rapid iteration.
+- Linting and type-check checks are integrated into local and CI workflows.

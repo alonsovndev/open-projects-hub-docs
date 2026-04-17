@@ -2,9 +2,9 @@
 
 ## UI/UX Designer
 
-### US-EP4-UX-001: Export Flow Design
+### US-EP5-UX-001: Export Flow Design
 
-**Story ID**: US-EP4-UX-001
+**Story ID**: US-EP5-UX-001
 **Epic Link**: EPIC-5
 **Priority**: Must Have
 **Effort Estimate**: 3
@@ -25,13 +25,23 @@
 - High-fidelity mockups for success and error states.
 - Accessibility annotations for all components.
 
+**Dependencies**:
+
+- [Project Requirements by Feature](../../01-requirements/readme.md).
+- [Prototype Brief](../../05-prototype/prototype-brief.md).
+
+**Success Metrics**:
+
+- Export UX states are clear and reduce user confusion during failure scenarios.
+- Design handoff covers success, error, and accessibility states.
+
 ---
 
 ## Backend Engineer
 
-### US-EP4-BE-001: Backlog Export Service
+### US-EP5-BE-001: Backlog Export Service
 
-**Story ID**: US-EP4-BE-001
+**Story ID**: US-EP5-BE-001
 **Epic Link**: EPIC-5
 **Priority**: Must Have
 **Effort Estimate**: 5
@@ -52,13 +62,23 @@
 - Unit tests for export logic.
 - Documentation for export service.
 
+**Dependencies**:
+
+- [API Contract](../../03-architecture/api/api-contract.md).
+- [Architecture Solution Design](../../03-architecture/architecture-solution-design.md).
+
+**Success Metrics**:
+
+- Exported files are generated reliably for all supported project states.
+- Output excludes internal notes and respects MVP export rules.
+
 ---
 
 ## Frontend Engineer
 
-### US-EP4-FE-001: Export Button and Feedback
+### US-EP5-FE-001: Export Button and Feedback
 
-**Story ID**: US-EP4-FE-001
+**Story ID**: US-EP5-FE-001
 **Epic Link**: EPIC-5
 **Priority**: Must Have
 **Effort Estimate**: 3
@@ -78,3 +98,13 @@
 - Export button in the backlog view.
 - Success and error feedback for export action.
 - Unit tests for export button logic.
+
+**Dependencies**:
+
+- [ADR-002: Frontend Framework](../../03-architecture/adrs/adr-002-frontend-framework.md).
+- [API Contract](../../03-architecture/api/api-contract.md).
+
+**Success Metrics**:
+
+- Users can trigger export and understand result state without ambiguity.
+- UI feedback remains consistent for both success and failure outcomes.

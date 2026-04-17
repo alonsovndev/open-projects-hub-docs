@@ -25,6 +25,16 @@
 - High-fidelity mockups for project list and creation form.
 - Accessibility annotations for all components.
 
+**Dependencies**:
+
+- [Project Requirements by Feature](../../01-requirements/readme.md).
+- [Architecture Solution Design](../../03-architecture/architecture-solution-design.md).
+
+**Success Metrics**:
+
+- Lifecycle flow is validated with stakeholders before implementation.
+- UX artifacts provide clear handoff for engineering implementation.
+
 ---
 
 ## Backend Engineer
@@ -52,6 +62,16 @@
 - Database schema for clients and projects.
 - Unit tests for CRUD operations.
 
+**Dependencies**:
+
+- [Project Requirements by Feature](../../01-requirements/readme.md).
+- [Database Design](../../04-database/database-design.md).
+
+**Success Metrics**:
+
+- CRUD operations pass defined acceptance criteria and tests.
+- Archival behavior aligns with active-project limit constraints.
+
 ---
 
 ### US-EP1-BE-002: Active Project Limit Enforcement
@@ -75,6 +95,16 @@
 - Active-project limit enforcement logic.
 - Unit tests for active-project limit scenarios.
 - Documentation for active-project constraints.
+
+**Dependencies**:
+
+- [Project Requirements by Feature](../../01-requirements/readme.md).
+- [Architecture Solution Design](../../03-architecture/architecture-solution-design.md).
+
+**Success Metrics**:
+
+- Limit enforcement blocks invalid create/reactivate actions consistently.
+- Constraint behavior is documented and understood by the team.
 
 ---
 
@@ -102,3 +132,13 @@
 - Project list view with status indicators.
 - Project creation form with validation.
 - Error handling for active-project limit.
+
+**Dependencies**:
+
+- [Project Requirements by Feature](../../01-requirements/readme.md).
+- [Prototype Brief](../../05-prototype/prototype-brief.md).
+
+**Success Metrics**:
+
+- Admin users can complete core project management tasks without confusion.
+- UI communicates active-project constraints clearly.
