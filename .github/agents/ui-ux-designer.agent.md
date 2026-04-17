@@ -35,8 +35,7 @@ Before drafting:
 
 1. Confirm the target issue project from the issue template.
 2. Keep all outputs inside `docs/projects/{project}/` and the action-specific path.
-3. Use `docs/projects/project-template/` as read-only reference baseline unless the issue is specifically about template updates.
-4. If scope implies shared or cross-project changes, stop and request explicit confirmation.
+3. If scope implies shared or cross-project changes, stop and request explicit confirmation.
 
 ## Action Routing and Allowed Paths
 
