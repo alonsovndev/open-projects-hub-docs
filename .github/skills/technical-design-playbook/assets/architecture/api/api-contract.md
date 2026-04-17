@@ -18,7 +18,7 @@
 
 - [Architecture Solution Design](../architecture-solution-design.md)
 - [API Design Standards](./api-design-standards.md)
-- [Feature Requirements](../../01-requirements/project-requirements-by-feature.md)
+- [Feature Requirements Template](../../../product-owner-playbook/assets/requirements/prd-template-by-feature.md)
 
 ---
 

@@ -18,7 +18,7 @@ Cross-reference: deployment-architecture.md, technology-stack.md, adrs/.
 - [Architecture Solution Design](../architecture-solution-design.md)
 - [Technology Stack](../technology-stack.md)
 - [Deployment Architecture](deployment-architecture.md)
-- [Non-Functional Requirements](../../01-requirements/non-functional-requirements.md)
+- [Requirements Template](../../../product-owner-playbook/assets/requirements/prd-template-by-feature.md)
 
 ## 1. Monitoring Strategy
 

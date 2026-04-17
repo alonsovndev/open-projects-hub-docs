@@ -59,6 +59,29 @@ Turn product and architecture inputs into coherent technical documentation that 
 - Security architecture notes
 - Technical implementation plans and handoff notes
 
+## Skill Asset References
+
+Use these skill-local assets as canonical starting points when drafting technical artifacts:
+
+- Architecture overview and index: `assets/architecture/README.md`
+- Solution design template: `assets/architecture/architecture-solution-design.md`
+- Architecture styles guidance: `assets/architecture/architecture-styles.md`
+- Technology stack template: `assets/architecture/technology-stack.md`
+- Sequence diagrams template: `assets/architecture/sequence-diagrams.md`
+- ADR template: `assets/architecture/adrs/adr-template.md`
+- API contract template: `assets/architecture/api/api-contract.md`
+- API design standards: `assets/architecture/api/api-design-standards.md`
+- Event-driven architecture guidance: `assets/architecture/api/event-driven-architecture.md`
+- Security architecture template: `assets/architecture/security/security-architecture.md`
+- Threat model template: `assets/architecture/security/threat-model.md`
+- Deployment architecture template: `assets/architecture/ops/deployment-architecture.md`
+- CI/CD pipeline template: `assets/architecture/ops/ci-cd-pipeline.md`
+- Monitoring and observability template: `assets/architecture/ops/monitoring-observability.md`
+
+When the task depends on feature-level requirement scope, align constraints and traceability with:
+
+- `../product-owner-playbook/assets/requirements/prd-template-by-feature.md`
+
 ## Required Sections For Technical Docs
 
 Unless a template says otherwise, prefer this structure:

@@ -1,7 +1,7 @@
 <!-- AI AGENT INSTRUCTIONS
 Purpose: Document the layered security architecture for [Project Name].
 Replace all [placeholder] blocks with project-specific platforms, controls, and FR/NFR references.
-Cross-reference: threat-model.md, adrs/, technology-stack.md, non-functional-requirements.md.
+Cross-reference: threat-model.md, adrs/, technology-stack.md, and requirements template assets.
 -->
 
 # Security Architecture
@@ -16,9 +16,8 @@ Cross-reference: threat-model.md, adrs/, technology-stack.md, non-functional-req
 ## Sources
 
 - [Project Overview](../overview.md)
-- [Functional Requirements](../../01-requirements/functional-requirements.md)
-- [Non-Functional Requirements](../../01-requirements/non-functional-requirements.md)
-- [Role Mapping](../../02-planning/role-mapping.md)
+- [Requirements Template](../../../product-owner-playbook/assets/requirements/prd-template-by-feature.md)
+- [Role Mapping Template](../../../product-owner-playbook/assets/planning/role-mapping.md)
 - [Architecture Solution Design](../architecture-solution-design.md)
 - [Technology Stack](../technology-stack.md)
 - [ADR: Authentication and Authorization Strategy](../adrs/)

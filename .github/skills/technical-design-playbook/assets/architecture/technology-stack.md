@@ -18,8 +18,7 @@
 
 - [Architecture Solution Design](./architecture-solution-design.md)
 - [Architecture Styles](./architecture-styles.md)
-- [Feature Requirements](../01-requirements/project-requirements-by-feature.md)
-- [Non-Functional Quality View](../01-requirements/non-functional-requirements.md)
+- [Feature Requirements Template](../../product-owner-playbook/assets/requirements/prd-template-by-feature.md)
 
 ---
 

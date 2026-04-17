@@ -18,7 +18,7 @@
 
 - [Architecture Solution Design](../architecture-solution-design.md)
 - [Technology Stack](../technology-stack.md)
-- [Non-Functional Quality View](../../01-requirements/non-functional-requirements.md)
+- [Requirements Template](../../../product-owner-playbook/assets/requirements/prd-template-by-feature.md)
 
 ---
 

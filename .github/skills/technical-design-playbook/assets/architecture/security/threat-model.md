@@ -1,7 +1,7 @@
 <!-- AI AGENT INSTRUCTIONS
 Purpose: Document the threat model for [Project Name] using STRIDE methodology.
 Replace all [placeholder] blocks with project-specific platforms, assets, and risk assessments.
-Cross-reference: security-architecture.md, non-functional-requirements.md, adrs/.
+Cross-reference: security-architecture.md, requirements template assets, adrs/.
 -->
 
 # Threat Model
@@ -16,7 +16,7 @@ Cross-reference: security-architecture.md, non-functional-requirements.md, adrs/
 ## Sources
 
 - [Security Architecture](security-architecture.md)
-- [Non-Functional Requirements](../../01-requirements/non-functional-requirements.md)
+- [Requirements Template](../../../product-owner-playbook/assets/requirements/prd-template-by-feature.md)
 - [Architecture Solution Design](../architecture-solution-design.md)
 
 ## Scope and Method
