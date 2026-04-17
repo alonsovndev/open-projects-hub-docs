@@ -40,9 +40,3 @@ Measurable success criteria:
 - Admin users can authenticate and recover access through documented secure flows.
 - Auth errors do not reveal sensitive account state.
 - Successful auth entry lands users in the correct planning workspace.
-
-Acceptance criteria:
-
-- Given an Admin submits valid credentials, when login completes, then they reach the primary workspace.
-- Given invalid credentials or missing fields, when login is attempted, then feedback is clear and non-sensitive.
-- Given an Admin requests password reset, when the flow is completed with a valid token, then access can be restored through a secure reset path.

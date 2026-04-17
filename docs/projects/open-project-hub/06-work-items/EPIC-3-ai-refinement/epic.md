@@ -40,9 +40,3 @@ Measurable success criteria:
 - Admin can submit raw notes without extra formatting steps.
 - AI output returns structured draft stories with acceptance-criteria-ready content.
 - Draft content remains unofficial until explicit Admin approval is completed.
-
-Acceptance criteria:
-
-- Given an Admin starts refinement, when they submit plain text or bullet lists, then the flow accepts the input without attachments.
-- Given AI returns draft stories, when the Admin reviews them, then each story follows the standard user story structure and remains editable.
-- Given draft stories are not yet approved, when backlog or export outputs are reviewed, then draft stories are excluded from official artifacts.

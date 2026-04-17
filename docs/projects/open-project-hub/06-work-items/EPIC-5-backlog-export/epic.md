@@ -40,9 +40,3 @@ Measurable success criteria:
 - Every MVP project can present approved requirements in a structured backlog view.
 - Admin can request Markdown export without including draft or internal-only content.
 - Backlog and export outputs remain readable under MVP data limits.
-
-Acceptance criteria:
-
-- Given approved requirements exist, when backlog view is opened, then stories and acceptance criteria are shown in a readable structure.
-- Given an Admin requests export, when Markdown output is generated, then only approved requirements are included.
-- Given stakeholders review the deliverable, when they read the output, then the standard user story format is preserved.

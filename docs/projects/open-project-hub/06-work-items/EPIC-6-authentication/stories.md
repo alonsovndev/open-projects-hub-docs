@@ -4,8 +4,8 @@
 
 ### US-EP5-UX-001: Login Flow Design
 
+**Story ID**: US-EP5-UX-001
 **Epic Link**: EPIC-6
-**Epic**: Authentication
 **Priority**: Must Have
 **Effort Estimate**: 5
 
@@ -29,8 +29,8 @@
 
 ### US-EP5-UX-002: Password Reset Flow
 
+**Story ID**: US-EP5-UX-002
 **Epic Link**: EPIC-6
-**Epic**: Authentication
 **Priority**: Must Have
 **Effort Estimate**: 5
 
@@ -56,8 +56,8 @@
 
 ### US-EP5-BE-001: Authentication Middleware
 
+**Story ID**: US-EP5-BE-001
 **Epic Link**: EPIC-6
-**Epic**: Authentication
 **Priority**: Must Have
 **Effort Estimate**: 8
 
@@ -83,8 +83,8 @@
 
 ### US-EP5-FE-001: Login Page
 
+**Story ID**: US-EP5-FE-001
 **Epic Link**: EPIC-6
-**Epic**: Authentication
 **Priority**: Must Have
 **Effort Estimate**: 5
 

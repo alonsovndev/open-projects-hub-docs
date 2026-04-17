@@ -4,8 +4,8 @@
 
 ### US-EP1-UX-001: Project Lifecycle Flow Design
 
+**Story ID**: US-EP1-UX-001
 **Epic Link**: EPIC-1
-**Epic**: Client and Project Lifecycle Governance
 **Priority**: Must Have
 **Effort Estimate**: 5
 
@@ -31,8 +31,8 @@
 
 ### US-EP1-BE-001: Client and Project CRUD Operations
 
+**Story ID**: US-EP1-BE-001
 **Epic Link**: EPIC-1
-**Epic**: Client and Project Lifecycle Governance
 **Priority**: Must Have
 **Effort Estimate**: 8
 
@@ -56,8 +56,8 @@
 
 ### US-EP1-BE-002: Active Project Limit Enforcement
 
+**Story ID**: US-EP1-BE-002
 **Epic Link**: EPIC-1
-**Epic**: Client and Project Lifecycle Governance
 **Priority**: Must Have
 **Effort Estimate**: 5
 
@@ -82,8 +82,8 @@
 
 ### US-EP1-FE-001: Project Management UI
 
+**Story ID**: US-EP1-FE-001
 **Epic Link**: EPIC-1
-**Epic**: Client and Project Lifecycle Governance
 **Priority**: Must Have
 **Effort Estimate**: 8
 

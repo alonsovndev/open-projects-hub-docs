@@ -40,9 +40,3 @@ Measurable success criteria:
 - Viewer access is limited to approved requirements and project phase visibility.
 - No documented flow allows Viewer create, edit, comment, or delete actions.
 - Internal notes are excluded from Viewer-facing views and exports.
-
-Acceptance criteria:
-
-- Given a Viewer opens a project, when they review requirements, then the information is structured, readable, and read-only.
-- Given a Viewer attempts a write action, when they access project content, then edit and approval controls are absent or denied.
-- Given internal notes exist, when a Viewer-facing output is reviewed, then those notes are excluded.

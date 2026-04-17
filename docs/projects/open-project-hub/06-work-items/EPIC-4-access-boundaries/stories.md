@@ -4,12 +4,10 @@
 
 ### US-EP3-UX-001: Role-Based UI Design
 
-**Story Key**: US-EP3-UX-001
-**Summary**: Design role-based UI variations for Admin and Viewer users.
+**Story ID**: US-EP3-UX-001
 **Epic Link**: EPIC-4
-**Labels**: ui, ux, access-control
 **Priority**: Must Have
-**Story Points**: 5
+**Effort Estimate**: 5
 
 **As a** UI/UX Designer,
 **I want to** design role-based UI variations,
@@ -33,14 +31,10 @@
 
 ### US-EP3-BE-001: Role-Based Access Control
 
-**Story Key**: US-EP3-BE-001
-**Summary**: Implement role-based access control (RBAC).
+**Story ID**: US-EP3-BE-001
 **Epic Link**: EPIC-4
-**Epic**: Access Boundaries
-**Labels**: backend, rbac, access-control
 **Priority**: Must Have
 **Effort Estimate**: 8
-**Story Points**: 8
 
 **As a** Backend Engineer,
 **I want to** implement role-based access control (RBAC),
@@ -64,12 +58,10 @@
 
 ### US-EP3-FE-001: Role-Based UI Rendering
 
-**Story Key**: US-EP3-FE-001
-**Summary**: Implement role-based UI rendering.
+**Story ID**: US-EP3-FE-001
 **Epic Link**: EPIC-4
-**Labels**: frontend, ui, access-control
 **Priority**: Must Have
-**Story Points**: 5
+**Effort Estimate**: 5
 
 **As a** Frontend Engineer,
 **I want to** implement role-based UI rendering,

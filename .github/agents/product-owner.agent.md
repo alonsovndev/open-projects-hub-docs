@@ -38,4 +38,4 @@ You are the canonical `product-owner` agent for this repository.
 
 ## Action Routing and Allowed Paths
 
-The `product-owner` agent handles only these issue actions in the overview, open questions, planning, and requirements and user stories categories: `/docs/projects/{project}/overview/`, `/docs/projects/{project}/01-requirements/`, `/docs/projects/{project}/02-planning/`, and `/docs/projects/{project}/04-user-stories/`
+The `product-owner` agent handles only these issue actions in the overview, open questions, planning, and requirements and user stories categories: `/docs/projects/{project}/overview/`, `/docs/projects/{project}/01-requirements/`, `/docs/projects/{project}/02-planning/`, and `/docs/projects/{project}/06-work-itmes/`

@@ -1,9 +1,11 @@
+# Stories for Epic: User Authentication
+
 ## Backend Engineer
 
 ### US-EP1-BE-001: User Authentication Service
 
+**Story ID**: US-EP1-BE-001
 **Epic Link**: EPIC-2
-**Epic**: User Authentication
 **Priority**: Must Have
 **Effort Estimate**: 8
 
@@ -27,8 +29,8 @@
 
 ### US-EP1-BE-002: Password Reset and Recovery
 
+**Story ID**: US-EP1-BE-002
 **Epic Link**: EPIC-2
-**Epic**: User Authentication
 **Priority**: Must Have
 **Effort Estimate**: 5
 
@@ -65,8 +67,8 @@
 
 ### US-EP1-FE-001: Login Page and Authentication Flows
 
+**Story ID**: US-EP1-FE-001
 **Epic Link**: EPIC-2
-**Epic**: User Authentication
 **Priority**: Must Have
 **Effort Estimate**: 8
 
@@ -101,8 +103,8 @@
 
 ### US-EP1-FE-002: Password Reset Page and Flows
 
+**Story ID**: US-EP1-FE-002
 **Epic Link**: EPIC-2
-**Epic**: User Authentication
 **Priority**: Must Have
 **Effort Estimate**: 5
 

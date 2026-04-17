@@ -39,9 +39,3 @@ Measurable success criteria:
 - Admin can create, update, and archive client and project records within one planning workspace.
 - Fourth active project creation is blocked consistently across documented flows.
 - No MVP artifact introduces a project phase beyond discovery or planning.
-
-Acceptance criteria:
-
-- Given an Admin manages project records, when they create or edit a project, then the project must stay associated to a client and use only discovery or planning.
-- Given an Admin already has three active projects, when they attempt to create or reactivate another project, then the flow blocks the action and guides archival first.
-- Given a project is archived, when active-project limits are evaluated, then that project no longer counts toward the active limit.

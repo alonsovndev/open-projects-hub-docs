@@ -1,84 +1,13 @@
+# Stories for Epic: Foundational Infrastructure and Setup
+
 ## Backend Engineer
-
-### US-EP0-BE-004: API Documentation Foundation and Contract Definition
-
-**Epic Link**: EPIC-0
-**Epic**: Project and Local Development Setup (Foundational)
-**Priority**: Must Have
-**Effort Estimate**: 5
-
-**As a** Backend Engineer,
-**I want to** establish API documentation structure (OpenAPI/Swagger) and baseline endpoint contracts,
-**So that** frontend engineers and external stakeholders can reference a single source of truth for API behavior.
-
-**Acceptance Criteria**:
-
-- [ ] Given API is documented, when I review the documentation, then all MVP endpoints are listed with method, path, and expected responses.
-- [ ] Given API changes, when documentation is updated, then changes are reflected automatically (generated from code annotations).
-- [ ] Given a developer uses the API, when they access documentation, then request/response examples are clear and executable.
-
-**Deliverables**:
-
-- OpenAPI/Swagger specification file (openapi.yml or json).
-- API documentation generation setup (Swagger UI, ReDoc, or equivalent).
-- Baseline endpoint contracts linking to [API Contract](../03-architecture/api/api-contract.md).
-- Documentation generation in CI/CD pipeline.
-- README section on accessing and updating API documentation.
-
-**Dependencies**:
-
-- [API Contract](../03-architecture/api/api-contract.md).
-- [Technology Stack](../03-architecture/technology-stack.md).
-
-**Success Metrics**:
-
-- API documentation is auto-generated from code and available in CI artifacts.
-- All MVP endpoints are documented with examples.
-
----
-
-## Frontend Engineer
-
-### US-EP0-FE-001: React App Scaffolding and Development Environment
-
-**Epic Link**: EPIC-0
-**Epic**: Project and Local Development Setup (Foundational)
-**Priority**: Must Have
-**Effort Estimate**: 5
-
-**As a** Frontend Engineer,
-**I want to** scaffold a React application with build tooling, development server, and project structure,
-**So that** frontend development can begin with a consistent, fast-rebuild development environment.
-
-**Acceptance Criteria**:
-
-- [ ] Given the repo is cloned, when the dev server starts, then the app loads at localhost:3000 within 5 seconds.
-- [ ] Given a file is modified, when the browser tab is refreshed, then hot-reload shows changes immediately (within 2 seconds).
-- [ ] Given TypeScript or JSX is used, then linting and type-checking provide real-time feedback in the editor.
-- [ ] Given the app is built, when production build completes, then output is optimized and under code-split warnings.
-
-**Deliverables**:
-
-- React app scaffolding with Create React App, Vite (per [Technology Stack](../03-architecture/technology-stack.md)).
-- Development server configuration with fast rebuild and hot reload.
-- Directory structure: src/components/, src/pages/, src/services/, src/styles/, public/.
-- TypeScript configuration with strict mode enabled.
-- ESLint and Prettier configuration integrated.
-
----
 
 ### US-EP0-BE-001: Monorepo Structure and Backend Scaffolding
 
-**Story Key**: US-EP0-BE-001
-**Summary**: Establish monorepo folder structure with backend services, shared libraries, and configuration patterns.
+**Story ID**: US-EP0-BE-001
 **Epic Link**: EPIC-0
-**Labels**: backend, monorepo, setup
 **Priority**: Must Have
-**Story Points**: 8
-**Dependencies**:
-
-- [Architecture Solution Design](../03-architecture/architecture-solution-design.md)
-- [Technology Stack](../03-architecture/technology-stack.md)
+**Effort Estimate**: 8
 
 **As a** Backend Engineer,
 **I want to** establish monorepo folder structure with backend services, shared libraries, and configuration patterns,
@@ -114,8 +43,8 @@
 
 ### US-EP0-BE-002: Database Schema, Migrations, and Seed Data
 
+**Story ID**: US-EP0-BE-002
 **Epic Link**: EPIC-0
-**Epic**: Project and Local Development Setup (Foundational)
 **Priority**: Must Have
 **Effort Estimate**: 8
 
@@ -153,8 +82,8 @@
 
 ### US-EP0-BE-003: CI/CD Pipeline Scaffolding and Testing Framework
 
+**Story ID**: US-EP0-BE-003
 **Epic Link**: EPIC-0
-**Epic**: Project and Local Development Setup (Foundational)
 **Priority**: Must Have
 **Effort Estimate**: 8
 
@@ -189,3 +118,70 @@
 - CI pipeline runs in under 5 minutes.
 - Test coverage baseline established and enforced (70%+).
 - Linting, security, and coverage checks block non-conforming PRs.
+
+---
+
+### US-EP0-BE-004: API Documentation Foundation and Contract Definition
+
+**Story ID**: US-EP0-BE-004
+**Epic Link**: EPIC-0
+**Priority**: Must Have
+**Effort Estimate**: 5
+
+**As a** Backend Engineer,
+**I want to** establish API documentation structure (OpenAPI/Swagger) and baseline endpoint contracts,
+**So that** frontend engineers and external stakeholders can reference a single source of truth for API behavior.
+
+**Acceptance Criteria**:
+
+- [ ] Given API is documented, when I review the documentation, then all MVP endpoints are listed with method, path, and expected responses.
+- [ ] Given API changes, when documentation is updated, then changes are reflected automatically (generated from code annotations).
+- [ ] Given a developer uses the API, when they access documentation, then request/response examples are clear and executable.
+
+**Deliverables**:
+
+- OpenAPI/Swagger specification file (openapi.yml or json).
+- API documentation generation setup (Swagger UI, ReDoc, or equivalent).
+- Baseline endpoint contracts linking to [API Contract](../03-architecture/api/api-contract.md).
+- Documentation generation in CI/CD pipeline.
+- README section on accessing and updating API documentation.
+
+**Dependencies**:
+
+- [API Contract](../03-architecture/api/api-contract.md).
+- [Technology Stack](../03-architecture/technology-stack.md).
+
+**Success Metrics**:
+
+- API documentation is auto-generated from code and available in CI artifacts.
+- All MVP endpoints are documented with examples.
+
+---
+
+## Frontend Engineer
+
+### US-EP0-FE-001: React App Scaffolding and Development Environment
+
+**Story ID**: US-EP0-FE-001
+**Epic Link**: EPIC-0
+**Priority**: Must Have
+**Effort Estimate**: 5
+
+**As a** Frontend Engineer,
+**I want to** scaffold a React application with build tooling, development server, and project structure,
+**So that** frontend development can begin with a consistent, fast-rebuild development environment.
+
+**Acceptance Criteria**:
+
+- [ ] Given the repo is cloned, when the dev server starts, then the app loads at localhost:3000 within 5 seconds.
+- [ ] Given a file is modified, when the browser tab is refreshed, then hot-reload shows changes immediately (within 2 seconds).
+- [ ] Given TypeScript or JSX is used, then linting and type-checking provide real-time feedback in the editor.
+- [ ] Given the app is built, when production build completes, then output is optimized and under code-split warnings.
+
+**Deliverables**:
+
+- React app scaffolding with Create React App, Vite (per [Technology Stack](../03-architecture/technology-stack.md)).
+- Development server configuration with fast rebuild and hot reload.
+- Directory structure: src/components/, src/pages/, src/services/, src/styles/, public/.
+- TypeScript configuration with strict mode enabled.
+- ESLint and Prettier configuration integrated.
