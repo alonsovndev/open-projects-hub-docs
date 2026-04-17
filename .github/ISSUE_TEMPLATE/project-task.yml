@@ -73,7 +73,7 @@ body:
         Scope guardrails for generated/modified files:
 
         - 1 · Kickoff -> only: docs/projects/{project}/overview.md, docs/projects/{project}/open-questions.md, docs/projects/{project}/user-personas.md
-        - 2 · Requirements -> only inside: docs/projects/{project}/01-requirements/
+        - 2 · Requirements -> only inside: docs/projects/{project}/01-requirements/ | one file per feature (e.g. f-001-feature-name.md); do not consolidate all requirements into a single file
         - 3 · Planning -> only inside: docs/projects/{project}/02-planning/
         - 4.1 · Architecture – High-Level Solution Design -> only inside: docs/projects/{project}/03-architecture/
         - 4.2 · Architecture – Technology Stack -> only inside: docs/projects/{project}/03-architecture/
