@@ -6,19 +6,19 @@
 - **Status**: Draft
 - **Owner**: Product Owner
 - **Last Updated**: 2026-04-17
-- **Related Overview**: [./overview.md](./overview.md)
+- **Related Overview**: [overview](./overview.md)
 
 ## Persona Portfolio Summary
 
-| Persona ID | Persona Name | Segment | Priority | Main Outcome |
-| --- | --- | --- | --- | --- |
-| P-01 | Elena Morales | Prospective patient | Primary | Understand services and confidently request care |
-| P-02 | Dr. Andrés Vega | Clinic owner / administrator | Primary | Maintain trustworthy content and capture qualified leads |
-| P-03 | Sofía Ruiz | Front desk coordinator | Secondary | Respond to inquiries and keep operational details accurate |
+| Persona ID | Persona Name    | Segment                      | Priority  | Main Outcome                                               |
+| ---------- | --------------- | ---------------------------- | --------- | ---------------------------------------------------------- |
+| P-01       | Mariela Naranjo | Prospective patient          | Primary   | Understand services and confidently request care           |
+| P-02       | Aaron Fallas    | Clinic owner / administrator | Primary   | Maintain trustworthy content and capture qualified leads   |
+| P-03       | Noily Naranjo   | Front desk coordinator       | Secondary | Respond to inquiries and keep operational details accurate |
 
 ---
 
-## P-01: Elena Morales
+## P-01: Mariela Naranjo
 
 - **Priority**: Primary
 - **Role/Archetype**: Prospective patient researching spine and physiotherapy services
@@ -57,10 +57,10 @@
 
 #### 6) Success Indicators
 
-| Indicator | Baseline | Target | Measurement Method |
-| --- | --- | --- | --- |
-| Time to understand whether the clinic is relevant | TBD | Under 2 minutes | Usability test and session review |
-| Contact form completion rate | TBD | 60%+ for qualified visitors | Funnel analytics |
+| Indicator                                         | Baseline | Target                      | Measurement Method                |
+| ------------------------------------------------- | -------- | --------------------------- | --------------------------------- |
+| Time to understand whether the clinic is relevant | TBD      | Under 2 minutes             | Usability test and session review |
+| Contact form completion rate                      | TBD      | 60%+ for qualified visitors | Funnel analytics                  |
 
 #### 7) Representative Quote
 
@@ -80,7 +80,7 @@
 
 ---
 
-## P-02: Dr. Andrés Vega
+## P-02: Aaron Fallas
 
 - **Priority**: Primary
 - **Role/Archetype**: Clinic owner and content decision-maker
@@ -119,10 +119,10 @@
 
 #### 6) Success Indicators
 
-| Indicator | Baseline | Target | Measurement Method |
-| --- | --- | --- | --- |
-| Routine content update time | TBD | Under 15 minutes | Admin usability review |
-| Time to publish approved testimonial or service change | TBD | Same business day | Operational tracking |
+| Indicator                                              | Baseline | Target            | Measurement Method     |
+| ------------------------------------------------------ | -------- | ----------------- | ---------------------- |
+| Routine content update time                            | TBD      | Under 15 minutes  | Admin usability review |
+| Time to publish approved testimonial or service change | TBD      | Same business day | Operational tracking   |
 
 #### 7) Representative Quote
 
@@ -142,7 +142,7 @@
 
 ---
 
-## P-03: Sofía Ruiz
+## P-03: Noily Naranjo
 
 - **Priority**: Secondary
 - **Role/Archetype**: Front desk coordinator supporting patient communication
@@ -181,10 +181,10 @@
 
 #### 6) Success Indicators
 
-| Indicator | Baseline | Target | Measurement Method |
-| --- | --- | --- | --- |
-| Time to review and route a new inquiry | TBD | Under 5 minutes | Workflow observation |
-| Accuracy of public schedule/contact details | TBD | 95%+ | Monthly content audit |
+| Indicator                                   | Baseline | Target          | Measurement Method    |
+| ------------------------------------------- | -------- | --------------- | --------------------- |
+| Time to review and route a new inquiry      | TBD      | Under 5 minutes | Workflow observation  |
+| Accuracy of public schedule/contact details | TBD      | 95%+            | Monthly content audit |
 
 #### 7) Representative Quote
 
@@ -206,10 +206,10 @@
 
 ## Cross-Persona Conflict Check
 
-| Conflict | Personas Involved | Decision | Rationale |
-| --- | --- | --- | --- |
-| Simplicity for patients vs richer data capture for clinic operations | P-01, P-02, P-03 | Favor a short inquiry flow in MVP | Lower friction improves conversion while keeping operations manageable |
-| Broad admin power vs safe delegated staff access | P-02, P-03 | Use role-based admin scope | Protects sensitive actions while enabling day-to-day updates |
+| Conflict                                                             | Personas Involved | Decision                          | Rationale                                                              |
+| -------------------------------------------------------------------- | ----------------- | --------------------------------- | ---------------------------------------------------------------------- |
+| Simplicity for patients vs richer data capture for clinic operations | P-01, P-02, P-03  | Favor a short inquiry flow in MVP | Lower friction improves conversion while keeping operations manageable |
+| Broad admin power vs safe delegated staff access                     | P-02, P-03        | Use role-based admin scope        | Protects sensitive actions while enabling day-to-day updates           |
 
 ## Validation Plan
 
@@ -226,6 +226,6 @@
 
 ## Change Log
 
-| Date | Version | Change Summary | Author |
-| --- | --- | --- | --- |
-| 2026-04-17 | v0.1 | Initial persona set created for orthopedic-spine kickoff | Copilot |
+| Date       | Version | Change Summary                                           | Author  |
+| ---------- | ------- | -------------------------------------------------------- | ------- |
+| 2026-04-17 | v0.1    | Initial persona set created for orthopedic-spine kickoff | Copilot |
