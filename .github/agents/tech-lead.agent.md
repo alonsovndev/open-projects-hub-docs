@@ -35,8 +35,7 @@ Before drafting:
 
 1. Confirm the target issue project from the issue template.
 2. Confirm the selected action output path and keep all writes inside `docs/projects/{project}/`.
-3. Treat `docs/projects/project-template/` as reference baseline unless the issue explicitly targets template maintenance.
-4. If work requires cross-project edits, pause and request explicit scope confirmation.
+3. If work requires cross-project edits, pause and request explicit scope confirmation.
 
 ## Action Routing and Allowed Paths
 
