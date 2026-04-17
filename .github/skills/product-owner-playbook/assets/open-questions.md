@@ -66,16 +66,6 @@ Use one of the following categories in the register:
 
 ---
 
-## Decision Log (Closed Items)
-
-Summarize final decisions for quick scanning.
-
-| ID    | Final Decision | Rationale                        | Approved By | Approved On  |
-| :---- | :------------- | :------------------------------- | :---------- | :----------- |
-| Q-001 | [Decision]     | [Why this decision was selected] | [Role/Name] | [YYYY-MM-DD] |
-
----
-
 ## Propagation Checklist
 
 For each `Closed` question, update impacted docs:
