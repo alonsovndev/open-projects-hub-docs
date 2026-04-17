@@ -1,7 +1,7 @@
 # Epic: Project and Local Development Setup (Foundational)
 
 **Epic Title**: Project and Local Development Setup (Foundational)
-**Epic Key**: EPIC-0  
+**Epic ID**: EPIC-0  
 **Summary**: Establish foundational project structure, local environment setup, and deployment baseline.
 **Labels**: foundational, setup, ci-cd
 **Priority**: Must Have
