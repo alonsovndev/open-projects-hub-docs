@@ -88,17 +88,3 @@ For each `Closed` question, update impacted docs:
 - [ ] [./work-item-templates/stories-template.md](./work-item-templates/stories-template.md)
 
 ---
-
-## Escalation Rules
-
-- Escalate **High** priority questions that remain `Open` beyond due date.
-- Escalate any `Blocked` question affecting MVP scope or release readiness.
-- Do not close a question without a clear owner and rationale.
-
----
-
-## Change Log
-
-| Date         | Version | Change Summary | Author |
-| :----------- | :------ | :------------- | :----- |
-| [YYYY-MM-DD] | [vX.Y]  | [What changed] | [Name] |
