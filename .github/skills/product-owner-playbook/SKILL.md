@@ -52,6 +52,21 @@ Turn stakeholder goals into clear, prioritized, implementation-ready documentati
 
 ## Required Output Types
 
+### Work Item Templates (06-work-items)
+
+For epic work-item creation, use the templates below as the source format:
+
+- Epic template: `assets/work-item-templates/epic-template.md`
+- Stories template: `assets/work-item-templates/stories-template.md`
+
+When generating work items under `docs/projects/{project}/06-work-items/EPIC-*/`:
+
+- Keep the same heading and section order as the templates.
+- Keep story IDs and epic links consistent with the epic key.
+- Keep acceptance criteria in checklist BDD style.
+- Remove empty role sections if no stories are needed for that role.
+- Do not omit required metadata fields in epic and story headers.
+
 ### Stakeholder Discovery Summary
 
 ```markdown
@@ -102,37 +117,6 @@ Turn stakeholder goals into clear, prioritized, implementation-ready documentati
 ## Risks & Dependencies
 
 - **Risk:** [Description] -> **Mitigation:** [Action]
-```
-
-### User Story
-
-```markdown
-**Story ID**: US-[Phase]-[Epic]-[Number]
-**Epic**: [Epic Name]
-**Priority**: [Must Have | Should Have | Could Have | Won't Have]
-**Effort Estimate**: [Story Points: 1, 2, 3, 5, 8, 13]
-
-**As a** [user type/role],
-**I want to** [action/goal/feature],
-**So that** [benefit/value/outcome].
-
-**Acceptance Criteria (BDD Format)**:
-
-- [ ] Given [context], When [action], Then [expected outcome]
-- [ ] Include edge cases, validation rules, and error scenarios where relevant.
-
-**Technical Considerations**:
-
-- Clean Architecture layers impacted
-- Security/performance constraints
-
-## Reference
-
-- [Architecture Diagram](path/to/diagram)
-- [API Contract](path/to/api)
-- [Use Case Document](path/to/use-case)
-
----
 ```
 
 ## Operating Rules
