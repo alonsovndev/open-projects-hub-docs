@@ -18,7 +18,7 @@
 ## Sources
 
 - [Project Overview](../overview.md)
-- [Feature Requirements](../01-requirements/project-requirements-by-feature.md)
+- [Feature Requirements Template](../requirements/prd-template-by-feature.md)
 - [Phased Roadmap](./phased-roadmap.md)
 
 ---
@@ -93,7 +93,7 @@ Map each planning workstream to a feature or group of requirements.
 
 ## Requirement-Level Ownership
 
-For every Must-priority requirement, assign an explicit Owner (DRI) and Reviewer before planning sign-off. Pull IDs from `project-requirements-by-feature.md`.
+For every Must-priority requirement, assign an explicit Owner (DRI) and Reviewer before planning sign-off. Pull IDs from `requirements/prd-template-by-feature.md`.
 
 | Requirement ID | Requirement Summary         | Owner (DRI)        | Reviewer        | Implementer         | Phase   |
 | -------------- | --------------------------- | ------------------ | --------------- | ------------------- | ------- |

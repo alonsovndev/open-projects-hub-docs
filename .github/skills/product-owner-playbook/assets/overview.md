@@ -14,12 +14,12 @@ Use this file as the canonical project overview template for new projects.
 
 Use this map as the single source of truth for folder-index references.
 
-- `01-requirements/`
-- `02-planning/`
-- `03-architecture/`
-- `04-database/`
-- `05-prototype/`
-- `06-user-stories/`
+- `requirements/`
+- `planning/`
+- `work-item-templates/`
+- `overview.md`
+- `open-questions.md`
+- `user-personas.md`
 
 ---
 
@@ -178,12 +178,10 @@ Provide a short capability list (not full requirements).
 
 ## 13) Required Linked Artifacts
 
-- [Requirements](./01-requirements/)
-- [Planning](./02-planning/)
-- [Architecture](./03-architecture/)
-- [Database Design](./04-database/)
-- [Prototype](./05-prototype/)
-- [User Stories](./06-user-stories/)
+- [Requirements Template](./requirements/prd-template-by-feature.md)
+- [Planning: Phased Roadmap](./planning/phased-roadmap.md)
+- [Planning: Role Mapping](./planning/role-mapping.md)
+- [Work Item Templates](./work-item-templates/)
 - [Open Questions](./open-questions.md)
 - [User Personas](./user-personas.md)
 

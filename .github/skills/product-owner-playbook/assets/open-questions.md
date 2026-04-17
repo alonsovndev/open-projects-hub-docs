@@ -65,12 +65,11 @@ Summarize final decisions for quick scanning.
 For each `Closed` question, update impacted docs:
 
 - [ ] [./overview.md](./overview.md)
-- [ ] [./01-requirements/](./01-requirements/)
-- [ ] [./02-planning/](./02-planning/)
-- [ ] [./03-architecture/](./03-architecture/)
-- [ ] [./04-database/](./04-database/)
-- [ ] [./05-prototype/](./05-prototype/)
-- [ ] [./06-user-stories/](./06-user-stories/)
+- [ ] [./requirements/prd-template-by-feature.md](./requirements/prd-template-by-feature.md)
+- [ ] [./planning/phased-roadmap.md](./planning/phased-roadmap.md)
+- [ ] [./planning/role-mapping.md](./planning/role-mapping.md)
+- [ ] [./work-item-templates/epic-template.md](./work-item-templates/epic-template.md)
+- [ ] [./work-item-templates/stories-template.md](./work-item-templates/stories-template.md)
 
 ---
 

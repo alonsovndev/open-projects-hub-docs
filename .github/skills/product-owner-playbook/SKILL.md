@@ -52,13 +52,32 @@ Turn stakeholder goals into clear, prioritized, implementation-ready documentati
 
 ## Required Output Types
 
+### Skill Asset References
+
+Use these skill-local assets as canonical templates when drafting product-owner artifacts:
+
+- Project overview template: `assets/overview.md`
+- Open questions template: `assets/open-questions.md`
+- User personas template: `assets/user-personas.md`
+- Planning roadmap template: `assets/planning/phased-roadmap.md`
+- Planning role mapping template: `assets/planning/role-mapping.md`
+- Requirements template: `assets/requirements/prd-template-by-feature.md`
+- Work-item epic template: `assets/work-item-templates/epic-template.md`
+- Work-item stories template: `assets/work-item-templates/stories-template.md`
+
+When a task asks for planning outputs, always start from planning assets before drafting freeform content.
+
+When a task asks for requirements outputs, always start from the requirements asset template and preserve FR/NFR traceability.
+
+When a task asks for epic and story work items, always start from work-item templates and keep ID format consistent.
+
 ### Work Item Templates (06-work-items)
 
 For epic work-item creation, use the templates below as the source format:
 
 - Epic template: `assets/work-item-templates/epic-template.md`
 - Stories template: `assets/work-item-templates/stories-template.md`
-- PRD template: `assets/work-item-templates/prd-template-by-feature.md`
+- PRD template: `assets/requirements/prd-template-by-feature.md`
 
 When generating work items under `docs/projects/{project}/06-work-items/EPIC-*/`:
 
@@ -70,11 +89,19 @@ When generating work items under `docs/projects/{project}/06-work-items/EPIC-*/`
 
 For PRD drafting from requirements files under `docs/projects/{project}/01-requirements/`:
 
-- Use `assets/work-item-templates/prd-template-by-feature.md` as the baseline structure.
+- Use `assets/requirements/prd-template-by-feature.md` as the baseline structure.
 - Consolidate FR/NFR rows from the selected feature requirement files.
 - Preserve requirement IDs and source feature IDs exactly as written.
 - Include measurable success criteria and a traceability matrix to epics/stories.
 - Carry unresolved requirement questions into the PRD `Open Questions` section.
+
+### Planning Outputs
+
+For planning deliverables under `docs/projects/{project}/02-planning/`:
+
+- Use `assets/planning/phased-roadmap.md` for roadmap drafting and phase sequencing.
+- Use `assets/planning/role-mapping.md` for role ownership and RACI mapping.
+- Ensure every planned epic links back to at least one FR/NFR ID from requirements.
 
 ### Stakeholder Discovery Summary
 

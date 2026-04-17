@@ -19,7 +19,7 @@
 ## Sources
 
 - [Project Overview](../overview.md)
-- [Feature Requirements](../01-requirements/project-requirements-by-feature.md)
+- [Feature Requirements Template](../requirements/prd-template-by-feature.md)
 
 ## Planning Principles
 
