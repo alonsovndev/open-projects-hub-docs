@@ -16,11 +16,11 @@ Keep this file implementation-ready but technology-agnostic where possible.
 ## Sources
 
 - [Project Overview](../overview.md)
-- [Project Requirements by Feature](../01-requirements/project-requirements-by-feature.md)
-- [Phased Roadmap](../02-planning/phased-roadmap.md)
-- [Architecture Solution Design](../03-architecture/architecture-solution-design.md)
-- [API Contract](../03-architecture/api/api-contract.md)
-- [ADR: Database Decision](../03-architecture/adrs/)
+- [Requirements Template](../../product-owner-playbook/assets/requirements/prd-template-by-feature.md)
+- [Phased Roadmap Template](../../product-owner-playbook/assets/planning/phased-roadmap.md)
+- [Architecture Solution Design Template](../../technical-design-playbook/assets/architecture/architecture-solution-design.md)
+- [API Contract Template](../../technical-design-playbook/assets/architecture/api/api-contract.md)
+- [ADR Template](../../technical-design-playbook/assets/architecture/adrs/adr-template.md)
 
 ## Data Domains
 

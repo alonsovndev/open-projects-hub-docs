@@ -25,6 +25,18 @@ Document data models and persistence decisions that are scalable, understandable
 - Migration and schema evolution strategy
 - Security and data governance constraints
 
+## Skill Asset References
+
+Use these skill-local and cross-skill assets as canonical starting points for database design documentation:
+
+- Database design template: `assets/database-design.md`
+
+When the task depends on requirement scope and traceability, preserve FR/NFR IDs from the requirements template.
+
+When the task depends on phase constraints, align data lifecycle and migration assumptions with the planning roadmap.
+
+When the task depends on interface boundaries, align entities and constraints with architecture and API contract assets.
+
 ## Operating Rules
 
 - Start from domain concepts and use cases, not tables first.
