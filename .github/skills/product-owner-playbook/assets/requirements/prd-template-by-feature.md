@@ -1,3 +1,8 @@
+<!--
+Purpose: Create a Product Requirements Document (PRD) from feature requirements files under docs/projects/{project}/01-requirements/.
+Usage: Replace all placeholders and keep section order.
+-->
+
 # Project Requirements by Feature (Canonical)
 
 | Attribute        | Value                            |

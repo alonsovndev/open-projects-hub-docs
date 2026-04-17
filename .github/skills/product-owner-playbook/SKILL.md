@@ -58,6 +58,7 @@ For epic work-item creation, use the templates below as the source format:
 
 - Epic template: `assets/work-item-templates/epic-template.md`
 - Stories template: `assets/work-item-templates/stories-template.md`
+- PRD template: `assets/work-item-templates/prd-template-by-feature.md`
 
 When generating work items under `docs/projects/{project}/06-work-items/EPIC-*/`:
 
@@ -66,6 +67,14 @@ When generating work items under `docs/projects/{project}/06-work-items/EPIC-*/`
 - Keep acceptance criteria in checklist BDD style.
 - Remove empty role sections if no stories are needed for that role.
 - Do not omit required metadata fields in epic and story headers.
+
+For PRD drafting from requirements files under `docs/projects/{project}/01-requirements/`:
+
+- Use `assets/work-item-templates/prd-template-by-feature.md` as the baseline structure.
+- Consolidate FR/NFR rows from the selected feature requirement files.
+- Preserve requirement IDs and source feature IDs exactly as written.
+- Include measurable success criteria and a traceability matrix to epics/stories.
+- Carry unresolved requirement questions into the PRD `Open Questions` section.
 
 ### Stakeholder Discovery Summary
 
