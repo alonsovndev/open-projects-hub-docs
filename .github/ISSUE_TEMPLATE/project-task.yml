@@ -62,6 +62,46 @@ body:
     validations:
       required: true
 
+  # ── Execution Scope (Submitted) ──────────────────────────────────────────
+
+  - type: textarea
+    id: execution_scope
+    attributes:
+      label: "Execution Scope (Do not remove)"
+      description: "This block is included in the created issue so the agent applies strict output boundaries."
+      value: |
+        Scope guardrails for generated/modified files:
+
+        - 1 · Kickoff -> only: docs/projects/{project}/overview.md, docs/projects/{project}/open-questions.md, docs/projects/{project}/user-personas.md
+        - 2 · Requirements -> only inside: docs/projects/{project}/01-requirements/
+        - 3 · Planning -> only inside: docs/projects/{project}/02-planning/
+        - 4.1 · Architecture – High-Level Solution Design -> only inside: docs/projects/{project}/03-architecture/
+        - 4.2 · Architecture – Technology Stack -> only inside: docs/projects/{project}/03-architecture/
+        - 4.3 · Architecture – API Design Standards -> only inside: docs/projects/{project}/03-architecture/api/
+        - 4.4 · Architecture – API Contract -> only inside: docs/projects/{project}/03-architecture/api/
+        - 4.5 · Architecture – Diagrams -> only inside: docs/projects/{project}/03-architecture/diagrams/
+        - 4.6 · Architecture – Patterns -> only inside: docs/projects/{project}/03-architecture/
+        - 4.7 · Architecture – Security -> only inside: docs/projects/{project}/03-architecture/security/
+        - 4.8 · Architecture – Deployment & Infrastructure -> only inside: docs/projects/{project}/03-architecture/ops/ and deployment-related docs in docs/projects/{project}/03-architecture/
+        - 5 · Database Design -> only inside: docs/projects/{project}/04-database/
+        - 6 . · UI/UX Prototype (Stitch) -> only inside: docs/projects/{project}/05-prototype/
+        - 7 · Work Items -> only inside: docs/projects/{project}/06-work-items/
+
+        Output size guardrail:
+        - Keep PR/file changes limited to the selected action scope above.
+        - Do not modify files outside that scope.
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: scope_confirmation
+    attributes:
+      label: "Scope Confirmation"
+      description: "Required to prevent oversized, cross-phase documentation changes."
+      options:
+        - label: "I confirm the task must modify only files allowed by the selected Action scope."
+          required: true
+
   # ── Reference ─────────────────────────────────────────────────────────────
 
   - type: markdown
@@ -69,31 +109,17 @@ body:
       value: |
         ### Agent & Output Path Reference
 
+        _Display reference only. Enforced limits are captured in the submitted **Execution Scope** field above._
+
         | Action | Agent | Output path |
         |--------|-------|-------------|
-        | 1 · Kickoff | `product-owner` | `docs/projects/{project}/` (only `overview.md`, `open-questions.md`, `user-personas.md`) |
-        | 2 · Requirements | `product-owner` | `docs/projects/{project}/01-requirements/` (only requirement docs for this phase) |
-        | 3 · Planning | `product-owner` | `docs/projects/{project}/02-planning/` (only planning docs for this phase) |
-        | 4.x · Architecture (all) | `tech-lead` | `docs/projects/{project}/03-architecture/` (only architecture docs and subfolders for this phase) |
-        | 5 · Database Design | `tech-lead` | `docs/projects/{project}/04-database/` (only database design docs) |
-        | 6 . · UI/UX Prototype | `ui-ux-designer` | `docs/projects/{project}/05-prototype/` (only prototype docs and Stitch artifacts) |
-        | 7 ·  Work Items | `product-owner` | `docs/projects/{project}/06-work-items/` (only epic/story work-item docs) |
-
-        **Action constraints (delimited outputs):**
-        - `1 · Kickoff`: Generate only `overview.md`, `open-questions.md`, and `user-personas.md` in `docs/projects/{project}/`.
-        - `2 · Requirements`: Generate or update only files inside `docs/projects/{project}/01-requirements/`.
-        - `3 · Planning`: Generate or update only files inside `docs/projects/{project}/02-planning/`.
-        - `4.1 · Architecture – High-Level Solution Design`: Generate or update only files inside `docs/projects/{project}/03-architecture/` related to high-level solution design.
-        - `4.2 · Architecture – Technology Stack`: Generate or update only files inside `docs/projects/{project}/03-architecture/` related to the technology stack.
-        - `4.3 · Architecture – API Design Standards`: Generate or update only files inside `docs/projects/{project}/03-architecture/api/` for API design standards.
-        - `4.4 · Architecture – API Contract`: Generate or update only files inside `docs/projects/{project}/03-architecture/api/` for API contracts.
-        - `4.5 · Architecture – Diagrams`: Generate or update only files inside `docs/projects/{project}/03-architecture/diagrams/`.
-        - `4.6 · Architecture – Patterns`: Generate or update only files inside `docs/projects/{project}/03-architecture/` related to architecture patterns.
-        - `4.7 · Architecture – Security`: Generate or update only files inside `docs/projects/{project}/03-architecture/security/`.
-        - `4.8 · Architecture – Deployment & Infrastructure`: Generate or update only files inside `docs/projects/{project}/03-architecture/ops/` and deployment-related architecture docs.
-        - `5 · Database Design`: Generate or update only files inside `docs/projects/{project}/04-database/`.
-        - `6 . · UI/UX Prototype (Stitch)`: Generate or update only files inside `docs/projects/{project}/05-prototype/`.
-        - `7 · Work Items`: Generate or update only files inside `docs/projects/{project}/06-work-items/`.
+        | 1 · Kickoff | `product-owner` | `docs/projects/{project}/` |
+        | 2 · Requirements | `product-owner` | `docs/projects/{project}/01-requirements/` |
+        | 3 · Planning | `product-owner` | `docs/projects/{project}/02-planning/` |
+        | 4.x · Architecture (all) | `tech-lead` | `docs/projects/{project}/03-architecture/` |
+        | 5 · Database Design | `tech-lead` | `docs/projects/{project}/04-database/` |
+        | 6 . · UI/UX Prototype | `ui-ux-designer` | `docs/projects/{project}/05-prototype/` |
+        | 7 · Work Items | `product-owner` | `docs/projects/{project}/06-work-items/` |
 
   # ── Context ───────────────────────────────────────────────────────────────
 
