@@ -36,6 +36,11 @@ Dependencies:
 - [Source doc 2](path/to/doc)
 - [Source doc 3](path/to/doc)
 
+Success Metrics:
+
+- [Measurable outcome 1]
+- [Measurable outcome 2]
+
 ---
 
 ## Backend Engineer
@@ -69,6 +74,11 @@ Dependencies:
 - [Source doc 2](path/to/doc)
 - [Source doc 3](path/to/doc)
 
+Success Metrics:
+
+- [Measurable outcome 1]
+- [Measurable outcome 2]
+
 ---
 
 ## Frontend Engineer
@@ -101,3 +111,8 @@ Dependencies:
 - [Source doc 1](path/to/doc)
 - [Source doc 2](path/to/doc)
 - [Source doc 3](path/to/doc)
+
+Success Metrics:
+
+- [Measurable outcome 1]
+- [Measurable outcome 2]
