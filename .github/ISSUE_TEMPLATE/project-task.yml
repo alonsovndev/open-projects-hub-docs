@@ -72,14 +72,28 @@ body:
         | Action | Agent | Output path |
         |--------|-------|-------------|
         | 1 · Kickoff | `product-owner` | `docs/projects/{project}/` (only `overview.md`, `open-questions.md`, `user-personas.md`) |
-        | 2 · Requirements | `product-owner` | `docs/projects/{project}/01-requirements/` |
-        | 3 · Planning | `product-owner` | `docs/projects/{project}/02-planning/` |
-        | 4.x · Architecture (all) | `tech-lead` | `docs/projects/{project}/03-architecture/` |
-        | 5 · Database Design | `tech-lead` | `docs/projects/{project}/04-database/` |
-        | 6 . · UI/UX Prototype | `ui-ux-designer` | `docs/projects/{project}/05-prototype/` |
-        | 7 ·  Work Items | `product-owner` | `docs/projects/{project}/06-work-items/` |
+        | 2 · Requirements | `product-owner` | `docs/projects/{project}/01-requirements/` (only requirement docs for this phase) |
+        | 3 · Planning | `product-owner` | `docs/projects/{project}/02-planning/` (only planning docs for this phase) |
+        | 4.x · Architecture (all) | `tech-lead` | `docs/projects/{project}/03-architecture/` (only architecture docs and subfolders for this phase) |
+        | 5 · Database Design | `tech-lead` | `docs/projects/{project}/04-database/` (only database design docs) |
+        | 6 . · UI/UX Prototype | `ui-ux-designer` | `docs/projects/{project}/05-prototype/` (only prototype docs and Stitch artifacts) |
+        | 7 ·  Work Items | `product-owner` | `docs/projects/{project}/06-work-items/` (only epic/story work-item docs) |
 
-        **Kickoff constraint:** For action `1 · Kickoff`, generate only these files in `docs/projects/{project}/`: `overview.md`, `open-questions.md`, `user-personas.md`.
+        **Action constraints (delimited outputs):**
+        - `1 · Kickoff`: Generate only `overview.md`, `open-questions.md`, and `user-personas.md` in `docs/projects/{project}/`.
+        - `2 · Requirements`: Generate or update only files inside `docs/projects/{project}/01-requirements/`.
+        - `3 · Planning`: Generate or update only files inside `docs/projects/{project}/02-planning/`.
+        - `4.1 · Architecture – High-Level Solution Design`: Generate or update only files inside `docs/projects/{project}/03-architecture/` related to high-level solution design.
+        - `4.2 · Architecture – Technology Stack`: Generate or update only files inside `docs/projects/{project}/03-architecture/` related to the technology stack.
+        - `4.3 · Architecture – API Design Standards`: Generate or update only files inside `docs/projects/{project}/03-architecture/api/` for API design standards.
+        - `4.4 · Architecture – API Contract`: Generate or update only files inside `docs/projects/{project}/03-architecture/api/` for API contracts.
+        - `4.5 · Architecture – Diagrams`: Generate or update only files inside `docs/projects/{project}/03-architecture/diagrams/`.
+        - `4.6 · Architecture – Patterns`: Generate or update only files inside `docs/projects/{project}/03-architecture/` related to architecture patterns.
+        - `4.7 · Architecture – Security`: Generate or update only files inside `docs/projects/{project}/03-architecture/security/`.
+        - `4.8 · Architecture – Deployment & Infrastructure`: Generate or update only files inside `docs/projects/{project}/03-architecture/ops/` and deployment-related architecture docs.
+        - `5 · Database Design`: Generate or update only files inside `docs/projects/{project}/04-database/`.
+        - `6 . · UI/UX Prototype (Stitch)`: Generate or update only files inside `docs/projects/{project}/05-prototype/`.
+        - `7 · Work Items`: Generate or update only files inside `docs/projects/{project}/06-work-items/`.
 
   # ── Context ───────────────────────────────────────────────────────────────
 
