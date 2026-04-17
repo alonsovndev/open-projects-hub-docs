@@ -39,11 +39,11 @@ Public-facing React web application with an internal admin panel.
 
 ## 4) Target Users and Roles
 
-| Role | Description | Core Needs | Permission Level |
-| --- | --- | --- | --- |
-| Prospective Patient | A new or returning patient researching care options | Clear services, trust signals, location, schedule, and simple contact flow | Public |
-| Clinic Owner / Admin | Business owner managing brand, operations, and lead intake | Content control, testimonial management, inquiry visibility, and simple administration | Full |
-| Front Desk / Coordinator | Staff member supporting communication and scheduling | Accurate clinic information and lightweight operational updates | Scoped |
+| Role                     | Description                                                | Core Needs                                                                             | Permission Level |
+| ------------------------ | ---------------------------------------------------------- | -------------------------------------------------------------------------------------- | ---------------- |
+| Prospective Patient      | A new or returning patient researching care options        | Clear services, trust signals, location, schedule, and simple contact flow             | Public           |
+| Clinic Owner / Admin     | Business owner managing brand, operations, and lead intake | Content control, testimonial management, inquiry visibility, and simple administration | Full             |
+| Front Desk / Coordinator | Staff member supporting communication and scheduling       | Accurate clinic information and lightweight operational updates                        | Scoped           |
 
 ## 5) Goals and Success Metrics
 
@@ -60,12 +60,12 @@ Public-facing React web application with an internal admin panel.
 
 ### 5.3 Success Metrics (Measurable)
 
-| Metric | Baseline | Target | Timeframe | Owner |
-| --- | --- | --- | --- | --- |
-| Visitor-to-inquiry conversion rate | TBD | +20% vs current site/baseline | 90 days post-launch | Clinic Owner |
-| Bounce rate on core landing pages | TBD | Under 45% | 90 days post-launch | Product Owner |
-| Mobile Lighthouse accessibility score | TBD | 90+ | Before launch | Delivery Team |
-| Admin content update turnaround | Manual / ad hoc | Under 15 minutes per routine update | First month after launch | Clinic Admin |
+| Metric                                | Baseline        | Target                              | Timeframe                | Owner         |
+| ------------------------------------- | --------------- | ----------------------------------- | ------------------------ | ------------- |
+| Visitor-to-inquiry conversion rate    | TBD             | +20% vs current site/baseline       | 90 days post-launch      | Clinic Owner  |
+| Bounce rate on core landing pages     | TBD             | Under 45%                           | 90 days post-launch      | Product Owner |
+| Mobile Lighthouse accessibility score | TBD             | 90+                                 | Before launch            | Delivery Team |
+| Admin content update turnaround       | Manual / ad hoc | Under 15 minutes per routine update | First month after launch | Clinic Admin  |
 
 ## 6) MVP Scope
 
@@ -106,57 +106,29 @@ Public-facing React web application with an internal admin panel.
 - **Usability**: Low-friction navigation, readable content, and strong contact calls to action.
 - **Accessibility**: WCAG-aligned content structure, keyboard navigation, form feedback, and adequate contrast.
 
-## 9) Solution Direction
+## 9) Risks, Dependencies, and Assumptions
 
-### 9.1 Architecture Approach
+### 9.1 Top Risks and Mitigations
 
-Public marketing experience plus a lightweight admin workspace for content operations.
+| Risk                                                                 | Impact | Mitigation                                                                   | Owner         |
+| -------------------------------------------------------------------- | ------ | ---------------------------------------------------------------------------- | ------------- |
+| Appointment workflow expectations exceed simple inquiry handling     | High   | Confirm booking scope early and keep MVP boundaries explicit                 | Product Owner |
+| Privacy or compliance expectations are unclear for patient inquiries | High   | Confirm legal/privacy requirements before finalizing form fields and storage | Product Owner |
+| Multilingual scope expands beyond MVP capacity                       | Medium | Define supported languages and translation workflow before design sign-off   | Product Owner |
 
-### 9.2 Technology Direction
-
-- **Frontend**: React web application
-- **Backend**: TBD
-- **Data**: TBD
-- **Infra/CI-CD**: TBD
-
-### 9.3 Key Design Principles
-
-- Keep the patient journey simple, trustworthy, and mobile first.
-- Separate public content delivery from admin-only operations.
-- Prefer maintainable workflows over over-engineered automation in MVP.
-
-## 10) Delivery Plan (High Level)
-
-| Phase / Week | Focus | Expected Output |
-| --- | --- | --- |
-| Week 1 | Discovery and scope alignment | Approved kickoff docs and MVP boundaries |
-| Week 2 | IA, content model, and UX baseline | Page map, admin scope, and content priorities |
-| Weeks 3-5 | Core website and contact/admin flows | Functional public pages and basic admin workflows |
-| Weeks 6-8 | SEO, accessibility, multilingual hardening, and launch prep | Launch-ready MVP |
-
-## 11) Risks, Dependencies, and Assumptions
-
-### 11.1 Top Risks and Mitigations
-
-| Risk | Impact | Mitigation | Owner |
-| --- | --- | --- | --- |
-| Appointment workflow expectations exceed simple inquiry handling | High | Confirm booking scope early and keep MVP boundaries explicit | Product Owner |
-| Privacy or compliance expectations are unclear for patient inquiries | High | Confirm legal/privacy requirements before finalizing form fields and storage | Product Owner |
-| Multilingual scope expands beyond MVP capacity | Medium | Define supported languages and translation workflow before design sign-off | Product Owner |
-
-### 11.2 Dependencies
+### 9.2 Dependencies
 
 - Approved clinic branding, service descriptions, and testimonial content.
 - Decision on appointment handling model, admin permissions, and language support.
 - Access to map/location assets, social accounts, and SEO inputs.
 
-### 11.3 Assumptions
+### 9.3 Assumptions
 
 - The primary acquisition path is through organic search, referrals, and direct local discovery.
 - The first release focuses on lead capture and content management rather than full clinical operations.
 - Admin users prefer simple CRUD workflows over advanced workflow automation.
 
-## 12) Release Readiness Criteria
+## 10) Release Readiness Criteria
 
 - [ ] Core public pages approved
 - [ ] Contact and appointment inquiry path validated
@@ -164,19 +136,13 @@ Public marketing experience plus a lightweight admin workspace for content opera
 - [ ] Accessibility and SEO baselines met
 - [ ] Required kickoff documentation published
 
-## 13) Required Linked Artifacts
+## 11) Required Linked Artifacts
 
 - [Open Questions](./open-questions.md)
 - [User Personas](./user-personas.md)
 
-## 14) Open Questions
+## 12) Change Log
 
-- What level of appointment scheduling is expected in MVP versus a simple inquiry workflow?
-- What patient information can be collected and stored through contact forms?
-- Which languages must be available at launch?
-
-## 15) Change Log
-
-| Date | Version | Change Summary | Author |
-| --- | --- | --- | --- |
-| 2026-04-17 | v0.1 | Initial kickoff overview drafted for orthopedic-spine | Copilot |
+| Date       | Version | Change Summary                                        | Author  |
+| ---------- | ------- | ----------------------------------------------------- | ------- |
+| 2026-04-17 | v0.1    | Initial kickoff overview drafted for orthopedic-spine | Copilot |

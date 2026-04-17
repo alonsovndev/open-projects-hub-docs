@@ -121,54 +121,26 @@ Provide a short capability list (not full requirements).
 - **Usability**: [e.g., error clarity, form feedback]
 - **Observability**: [e.g., logs, tracing, error monitoring]
 
-## 9) Solution Direction
+## 9) Risks, Dependencies, and Assumptions
 
-### 9.1 Architecture Approach
-
-[Example: Modular monolith now, migration path later]
-
-### 9.2 Technology Direction
-
-- **Frontend**: [Stack]
-- **Backend**: [Stack]
-- **Data**: [Database + ORM]
-- **Infra/CI-CD**: [Tooling]
-
-### 9.3 Key Design Principles
-
-- [Principle 1]
-- [Principle 2]
-- [Principle 3]
-
-## 10) Delivery Plan (High Level)
-
-| Phase / Week | Focus                               | Expected Output                 |
-| ------------ | ----------------------------------- | ------------------------------- |
-| [W1]         | [Discovery + architecture baseline] | [Approved scope + initial docs] |
-| [W2]         | [Core backend/auth]                 | [Core flows working]            |
-| [W3]         | [Primary domain features]           | [End-to-end MVP flows]          |
-| [W4+]        | [Stabilization + hardening]         | [Release-ready MVP]             |
-
-## 11) Risks, Dependencies, and Assumptions
-
-### 11.1 Top Risks and Mitigations
+### 9.1 Top Risks and Mitigations
 
 | Risk     | Impact  | Mitigation | Owner  |
 | -------- | ------- | ---------- | ------ |
 | [Risk 1] | [H/M/L] | [Action]   | [Role] |
 | [Risk 2] | [H/M/L] | [Action]   | [Role] |
 
-### 11.2 Dependencies
+### 9.2 Dependencies
 
 - [Dependency 1]
 - [Dependency 2]
 
-### 11.3 Assumptions
+### 9.3 Assumptions
 
 - [Assumption 1]
 - [Assumption 2]
 
-## 12) Release Readiness Criteria
+## 10) Release Readiness Criteria
 
 - [ ] MVP scope complete
 - [ ] Critical security checks passed
@@ -176,7 +148,7 @@ Provide a short capability list (not full requirements).
 - [ ] Core user flows validated
 - [ ] Required documentation published
 
-## 13) Required Linked Artifacts
+## 11) Required Linked Artifacts
 
 - [Requirements Template](./requirements/prd-template-by-feature.md)
 - [Planning: Phased Roadmap](./planning/phased-roadmap.md)
@@ -185,13 +157,7 @@ Provide a short capability list (not full requirements).
 - [Open Questions](./open-questions.md)
 - [User Personas](./user-personas.md)
 
-## 14) Open Questions
-
-- [Question 1]
-- [Question 2]
-- [Question 3]
-
-## 15) Change Log
+## 12) Change Log
 
 | Date         | Version | Change Summary | Author |
 | ------------ | ------- | -------------- | ------ |
