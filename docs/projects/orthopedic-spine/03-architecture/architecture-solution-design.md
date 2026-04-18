@@ -3,9 +3,9 @@
 | Attribute        | Value            |
 | ---------------- | ---------------- |
 | **Project**      | Orthopedic Spine |
-| **Version**      | 1.0              |
+| **Version**      | 1.1              |
 | **Status**       | Draft            |
-| **Last Updated** | 2026-04-17       |
+| **Last Updated** | 2026-04-18       |
 | **Owner**        | Tech Lead        |
 
 ## Sources
@@ -15,6 +15,7 @@
 - [User Personas](../user-personas.md)
 - [Project Requirements by Feature](../01-requirements/readme.md)
 - [Phased Roadmap](../02-planning/phased-roadmap.md)
+- [Architecture Styles Decision](./architecture-styles.md)
 
 ---
 
@@ -38,7 +39,7 @@ The solution is designed as a separately deployed React frontend backed by one m
 
 **Separate React frontend + modular monolith backend organized around public content, inquiry management, and access control domains.**
 
-See [ADR-001: High-Level Architecture Pattern](./adrs/adr-001-high-level-architecture.md).
+See [Architecture Styles Decision](./architecture-styles.md) and [ADR-001: High-Level Architecture Pattern](./adrs/adr-001-high-level-architecture.md).
 
 ### Candidate Pattern Comparison
 
@@ -160,6 +161,7 @@ sequenceDiagram
 
 ## References
 
+- [Architecture Styles Decision](./architecture-styles.md)
 - [ADR-001: High-Level Architecture Pattern](./adrs/adr-001-high-level-architecture.md)
 - [Project Requirements by Feature](../01-requirements/readme.md)
 - [Phased Roadmap](../02-planning/phased-roadmap.md)
@@ -170,4 +172,5 @@ sequenceDiagram
 
 | Date       | Version | Change Summary                                          | Author    |
 | ---------- | ------- | ------------------------------------------------------- | --------- |
+| 2026-04-18 | 1.1     | Linked solution design to the architecture styles doc.  | Tech Lead |
 | 2026-04-17 | 1.0     | Added initial high-level solution design for MVP scope. | Tech Lead |
