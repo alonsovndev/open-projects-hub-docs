@@ -3,7 +3,7 @@
 | Attribute        | Value            |
 | ---------------- | ---------------- |
 | **Project**      | Orthopedic Spine |
-| **Version**      | 1.1              |
+| **Version**      | 1.2              |
 | **Status**       | Draft            |
 | **Last Updated** | 2026-04-18       |
 | **Owner**        | Tech Lead        |
@@ -141,6 +141,10 @@ sequenceDiagram
 - **Database/Auth/Storage**: managed platform services to reduce operational burden for the MVP.
 - **Operational posture**: no analytics pipeline is required in MVP; focus operational visibility on submission failures, auth failures, and admin publishing issues.
 - **Rollback**: revert frontend or backend independently when a release affects public content or protected workflows.
+- **Operational detail docs**:
+  - [Deployment & Infrastructure Architecture](./ops/deployment-architecture.md)
+  - [CI/CD Pipeline Architecture](./ops/ci-cd-pipeline.md)
+  - [Monitoring & Observability Architecture](./ops/monitoring-observability.md)
 
 ## Scalability Considerations
 
@@ -165,6 +169,9 @@ sequenceDiagram
 - [ADR-001: High-Level Architecture Pattern](./adrs/adr-001-high-level-architecture.md)
 - [Project Requirements by Feature](../01-requirements/readme.md)
 - [Phased Roadmap](../02-planning/phased-roadmap.md)
+- [Deployment & Infrastructure Architecture](./ops/deployment-architecture.md)
+- [CI/CD Pipeline Architecture](./ops/ci-cd-pipeline.md)
+- [Monitoring & Observability Architecture](./ops/monitoring-observability.md)
 
 ---
 
@@ -172,5 +179,6 @@ sequenceDiagram
 
 | Date       | Version | Change Summary                                          | Author    |
 | ---------- | ------- | ------------------------------------------------------- | --------- |
+| 2026-04-18 | 1.2     | Added links to deployment, CI/CD, and observability docs. | Tech Lead |
 | 2026-04-18 | 1.1     | Linked solution design to the architecture styles doc.  | Tech Lead |
 | 2026-04-17 | 1.0     | Added initial high-level solution design for MVP scope. | Tech Lead |
