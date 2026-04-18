@@ -3,9 +3,9 @@
 | Attribute        | Value            |
 | ---------------- | ---------------- |
 | **Project**      | Orthopedic Spine |
-| **Version**      | 1.0              |
+| **Version**      | 1.1              |
 | **Status**       | Draft            |
-| **Last Updated** | 2026-04-17       |
+| **Last Updated** | 2026-04-18       |
 | **Owner**        | Tech Lead        |
 
 ## Sources
@@ -14,6 +14,7 @@
 - [Open Questions](../open-questions.md)
 - [Project Requirements by Feature](../01-requirements/readme.md)
 - [Phased Roadmap](../02-planning/phased-roadmap.md)
+- [Architecture Styles Decision](./architecture-styles.md)
 - [Architecture Solution Design](./architecture-solution-design.md)
 - [ADR-001: High-Level Architecture Pattern](./adrs/adr-001-high-level-architecture.md)
 
@@ -96,6 +97,7 @@
 
 ## References
 
+- [Architecture Styles Decision](./architecture-styles.md)
 - [Architecture Solution Design](./architecture-solution-design.md)
 - [ADR-001: High-Level Architecture Pattern](./adrs/adr-001-high-level-architecture.md)
 - [F-002 Inquiry and Appointment Request Flow](../01-requirements/f-002-inquiry-and-appointment-request-flow.md)
@@ -108,4 +110,5 @@
 
 | Date       | Version | Change Summary                                      | Author    |
 | ---------- | ------- | --------------------------------------------------- | --------- |
+| 2026-04-18 | 1.1     | Added architecture styles as a source and reference. | Tech Lead |
 | 2026-04-17 | 1.0     | Added initial technology stack decision baseline.   | Tech Lead |
