@@ -1,0 +1,37 @@
+flowchart TD
+    Patient[Prospective Patient]
+    Frontend[React Frontend\nPublic forms + protected workspace]
+    Turnstile[Cloudflare Turnstile]
+
+    subgraph Backend["FastAPI Modular Monolith"]
+        Access[Access Control]
+        Inquiries[Inquiry Module]
+        Content[Public Content Module]
+        Testimonials[Testimonial Module]
+    end
+
+    DB[(Supabase PostgreSQL)]
+    Storage[Supabase Storage]
+    Email[Resend]
+    Admin[Clinic Admin]
+    Staff[Front Desk Staff]
+
+    Patient -->|Browse site and open inquiry flow| Frontend
+    Frontend -->|Anti-spam challenge| Turnstile
+    Turnstile -->|Challenge token| Frontend
+    Frontend -->|Minimal inquiry payload + token| Inquiries
+    Inquiries -->|Verify token| Turnstile
+    Inquiries -->|Store inquiry and status| DB
+    Inquiries -->|Notify clinic team| Email
+
+    Admin -->|Sign in and manage content| Frontend
+    Staff -->|Sign in and review inquiries| Frontend
+    Frontend -->|Protected API calls| Access
+    Access -->|Authorize admin/staff scope| Inquiries
+    Access -->|Authorize admin workflows| Content
+    Access -->|Authorize testimonial approval| Testimonials
+
+    Content -->|Save bilingual content and clinic profile| DB
+    Testimonials -->|Save approval state and copy| DB
+    Testimonials -->|Store media assets| Storage
+    DB -->|Published content and scoped inquiry data| Frontend

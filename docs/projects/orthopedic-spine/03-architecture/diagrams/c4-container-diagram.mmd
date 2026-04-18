@@ -1,0 +1,34 @@
+flowchart TB
+    Patient[Prospective Patient]
+    Admin[Clinic Admin]
+    Staff[Front Desk Staff]
+
+    FE[Vercel Frontend\nReact + TypeScript + react-i18next]
+    API[Render Backend API\nFastAPI Modular Monolith]
+    DB[(Supabase PostgreSQL)]
+    Auth[Supabase Auth + JWT]
+    Storage[Supabase Storage]
+    Turnstile[Cloudflare Turnstile]
+    Email[Resend]
+    Sentry[Sentry]
+    Maps[Google Maps Embed]
+    WhatsApp[WhatsApp Deep Link]
+
+    Patient --> FE
+    Admin --> FE
+    Staff --> FE
+
+    FE -->|HTTPS JSON APIs| API
+    FE -->|Admin/staff sign-in| Auth
+    FE -->|Challenge public inquiry submission| Turnstile
+    FE -->|Location lookup| Maps
+    FE -->|Optional follow-up handoff| WhatsApp
+
+    API -->|Persist content, inquiries, roles| DB
+    API -->|Validate identity and role context| Auth
+    API -->|Verify anti-spam token| Turnstile
+    API -->|Store media references| Storage
+    API -->|Send internal notifications| Email
+
+    FE -->|Frontend errors and releases| Sentry
+    API -->|Backend errors and releases| Sentry
