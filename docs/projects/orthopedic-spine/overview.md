@@ -54,7 +54,7 @@ Public-facing React web application with an internal admin panel.
 
 ### 5.2 Product/Technical Goals
 
-- Deliver a responsive and accessible React experience for public users and admins.
+- Deliver a responsive and accessible web experience for public users and admins.
 - Provide manageable content workflows for testimonials, services, and clinic information.
 - Establish a secure baseline for contact submissions, admin access, and spam protection.
 
