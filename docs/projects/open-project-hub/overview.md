@@ -60,6 +60,7 @@ The Open Freelancer Project Hub addresses these challenges by offering:
 
 ### Technical Goals
 
+- Build a full-stack web application with a React (TypeScript) frontend and a Python/FastAPI backend, structured as two separate projects within a monorepo.
 - Implement a Modular Monolith backend using Python, FastAPI, and PostgreSQL following Clean Architecture and DDD principles.
 - Ensure high code quality with a mandatory Test-Driven Development (TDD) approach, targeting a minimum of 70% test coverage.
 - Establish a secure foundation adhering to OWASP Top 10 guidelines and Security by Design principles.
