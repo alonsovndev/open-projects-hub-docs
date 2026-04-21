@@ -30,8 +30,8 @@
 
 **Dependencies**:
 
-- [Architecture Solution Design](../03-architecture/architecture-solution-design.md).
-- [Technology Stack](../03-architecture/technology-stack.md).
+- [Architecture Solution Design](../../03-architecture/architecture-solution-design.md).
+- [Technology Stack](../../03-architecture/technology-stack.md).
 
 **Success Metrics**:
 
@@ -61,7 +61,7 @@
 
 **Deliverables**:
 
-- Database schema SQL or ORM migration definitions (based on [Database Design](../04-database/database-design.md)).
+- Database schema SQL or ORM migration definitions (based on [Database Design](../../04-database/database-design.md)).
 - Migration tooling configuration (Alembic, Flyway, or equivalent).
 - Seed data script with realistic MVP test fixtures.
 - Migration documentation and rollback procedures.
@@ -69,8 +69,8 @@
 
 **Dependencies**:
 
-- [Database Design](../04-database/database-design.md).
-- [ADR-007: ORM Choice](../03-architecture/adrs/adr-007-orm-choice.md).
+- [Database Design](../../04-database/database-design.md).
+- [ADR-007: ORM Choice](../../03-architecture/adrs/adr-007-orm-choice.md).
 
 **Success Metrics**:
 
@@ -110,8 +110,8 @@
 
 **Dependencies**:
 
-- [Technology Stack](../03-architecture/technology-stack.md).
-- [ADR-009: Testing Framework](../03-architecture/adrs/adr-009-testing-framework.md).
+- [Technology Stack](../../03-architecture/technology-stack.md).
+- [ADR-009: Testing Framework](../../03-architecture/adrs/adr-009-testing-framework.md).
 
 **Success Metrics**:
 
@@ -142,14 +142,14 @@
 
 - OpenAPI/Swagger specification file (openapi.yml or json).
 - API documentation generation setup (Swagger UI, ReDoc, or equivalent).
-- Baseline endpoint contracts linking to [API Contract](../03-architecture/api/api-contract.md).
+- Baseline endpoint contracts linking to [API Contract](../../03-architecture/api/api-contract.md).
 - Documentation generation in CI/CD pipeline.
 - README section on accessing and updating API documentation.
 
 **Dependencies**:
 
-- [API Contract](../03-architecture/api/api-contract.md).
-- [Technology Stack](../03-architecture/technology-stack.md).
+- [API Contract](../../03-architecture/api/api-contract.md).
+- [Technology Stack](../../03-architecture/technology-stack.md).
 
 **Success Metrics**:
 
@@ -180,7 +180,7 @@
 
 **Deliverables**:
 
-- React app scaffolding with Create React App, Vite (per [Technology Stack](../03-architecture/technology-stack.md)).
+- React app scaffolding with Create React App, Vite (per [Technology Stack](../../03-architecture/technology-stack.md)).
 - Development server configuration with fast rebuild and hot reload.
 - Directory structure: src/components/, src/pages/, src/services/, src/styles/, public/.
 - TypeScript configuration with strict mode enabled.
@@ -188,8 +188,8 @@
 
 **Dependencies**:
 
-- [Technology Stack](../03-architecture/technology-stack.md).
-- [ADR-002: Frontend Framework](../03-architecture/adrs/adr-002-frontend-framework.md).
+- [Technology Stack](../../03-architecture/technology-stack.md).
+- [ADR-002: Frontend Framework](../../03-architecture/adrs/adr-002-frontend-framework.md).
 
 **Success Metrics**:
 

@@ -34,9 +34,9 @@ Related feature and requirement IDs: Foundational (no direct feature mapping; su
 
 Dependencies:
 
-- [Architecture Solution Design](../03-architecture/architecture-solution-design.md)
-- [Technology Stack](../03-architecture/technology-stack.md)
-- [Database Design](../04-database/database-design.md)
+- [Architecture Solution Design](../../03-architecture/architecture-solution-design.md)
+- [Technology Stack](../../03-architecture/technology-stack.md)
+- [Database Design](../../04-database/database-design.md)
 
 Measurable success criteria:
 

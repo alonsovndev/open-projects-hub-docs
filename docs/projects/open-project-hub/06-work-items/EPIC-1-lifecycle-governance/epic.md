@@ -29,10 +29,10 @@ Related feature and requirement IDs: F-001; FR-001-01, FR-001-02, FR-001-03; NFR
 
 Dependencies:
 
-- [Project Overview](../overview.md)
-- [Feature Requirements](../01-requirements/f-001-client-and-project-lifecycle-management.md)
-- [Phased Roadmap](../02-planning/phased-roadmap.md)
-- [Database Design](../04-database/database-design.md)
+- [Project Overview](../../overview.md)
+- [Feature Requirements](../../01-requirements/f-001-client-and-project-lifecycle-management.md)
+- [Phased Roadmap](../../02-planning/phased-roadmap.md)
+- [Database Design](../../04-database/database-design.md)
 
 Measurable success criteria:
 

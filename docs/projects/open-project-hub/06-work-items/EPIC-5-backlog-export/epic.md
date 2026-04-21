@@ -1,6 +1,6 @@
 # Epic: Requirements Backlog and Markdown Export
 
-**Epic Key**: EPIC-4
+**Epic Key**: EPIC-5
 **Summary**: Enable structured backlog view and Markdown export.
 **Labels**: backlog, export
 **Priority**: Must Have
@@ -29,11 +29,11 @@ Related feature and requirement IDs: F-004; FR-004-01, FR-004-02; NFR-004-01, NF
 
 Dependencies:
 
-- [Feature Requirements](../01-requirements/f-004-requirements-backlog-and-markdown-export.md)
-- [Architecture Solution Design](../03-architecture/architecture-solution-design.md)
-- [API Contract](../03-architecture/api/api-contract.md)
-- [Database Design](../04-database/database-design.md)
-- [Sequence Diagrams](../03-architecture/sequence-diagrams.md)
+- [Feature Requirements](../../01-requirements/f-004-requirements-backlog-and-markdown-export.md)
+- [Architecture Solution Design](../../03-architecture/architecture-solution-design.md)
+- [API Contract](../../03-architecture/api/api-contract.md)
+- [Database Design](../../04-database/database-design.md)
+- [Sequence Diagrams](../../03-architecture/sequence-diagrams.md)
 
 Measurable success criteria:
 

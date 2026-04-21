@@ -1,6 +1,6 @@
 # Epic: Authentication and User Management
 
-**Epic Key**: EPIC-5
+**Epic Key**: EPIC-6
 **Summary**: Define secure Admin authentication and recovery flows.
 **Labels**: authentication, admin
 **Priority**: Must Have
@@ -29,11 +29,11 @@ Related feature and requirement IDs: F-007, F-009; FR-007-01, FR-007-02, FR-007-
 
 Dependencies:
 
-- [Feature Requirements](../01-requirements/f-007-admin-login.md)
-- [Feature Requirements](../01-requirements/f-009-reset-password.md)
-- [Role Mapping](../02-planning/role-mapping.md)
-- [Security Architecture](../03-architecture/security/security-architecture.md)
-- [API Contract](../03-architecture/api/api-contract.md)
+- [Feature Requirements](../../01-requirements/f-007-admin-login.md)
+- [Feature Requirements](../../01-requirements/f-009-reset-password.md)
+- [Role Mapping](../../02-planning/role-mapping.md)
+- [Security Architecture](../../03-architecture/security/security-architecture.md)
+- [API Contract](../../03-architecture/api/api-contract.md)
 
 Measurable success criteria:
 

@@ -62,13 +62,13 @@
 
 **Dependencies**:
 
-- [ADR-005: Authentication](../03-architecture/adrs/adr-005-authentication.md).
-- [API Contract](../03-architecture/api/api-contract.md).
+- [ADR-005: Authentication](../../03-architecture/adrs/adr-005-authentication.md).
+- [API Contract](../../03-architecture/api/api-contract.md).
 
 **Success Metrics**:
 
 - Password reset flow is secure and follows best practices.
-- 100% test coverage for password reset flows.
+- Automated tests cover at least 70% of core authentication and reset logic.
 - Reset links expire after a configurable time period.
 
 ---
@@ -100,13 +100,13 @@
 
 **Dependencies**:
 
-- [ADR-002: Frontend Framework](../03-architecture/adrs/adr-002-frontend-framework.md).
-- [API Contract](../03-architecture/api/api-contract.md).
+- [ADR-002: Frontend Framework](../../03-architecture/adrs/adr-002-frontend-framework.md).
+- [API Contract](../../03-architecture/api/api-contract.md).
 
 **Success Metrics**:
 
 - Login page loads in under 2 seconds.
-- 100% test coverage for login flows.
+- Automated tests cover at least 70% of core authentication and login flow logic.
 - Responsive design works on mobile and desktop.
 
 ---

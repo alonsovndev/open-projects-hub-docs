@@ -19,8 +19,8 @@ This epic focuses on implementing secure user authentication mechanisms, includi
 
 ## Dependencies
 
-- [ADR-005: Authentication](../03-architecture/adrs/adr-005-authentication.md).
-- [API Contract](../03-architecture/api/api-contract.md).
+- [ADR-005: Authentication](../../03-architecture/adrs/adr-005-authentication.md).
+- [API Contract](../../03-architecture/api/api-contract.md).
 
 ## Success Metrics
 
@@ -28,7 +28,7 @@ This epic focuses on implementing secure user authentication mechanisms, includi
 - Password reset flow is secure and follows best practices.
 - Frontend login and password reset flows are responsive and accessible.
 
-**Epic Key**: EPIC-1
+**Epic Key**: EPIC-2
 **Summary**: Implement secure user authentication mechanisms.
 **Labels**: authentication, security
 **Priority**: Must Have

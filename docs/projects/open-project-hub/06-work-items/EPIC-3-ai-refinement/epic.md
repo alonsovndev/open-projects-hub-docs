@@ -1,6 +1,6 @@
 # Epic: AI Refinement and Approval Workflow
 
-**Epic Key**: EPIC-2
+**Epic Key**: EPIC-3
 **Summary**: Create controlled refinement workflow for client notes.
 **Labels**: ai, refinement
 **Priority**: Must Have
@@ -29,11 +29,11 @@ Related feature and requirement IDs: F-002; FR-002-01, FR-002-02, FR-002-03; NFR
 
 Dependencies:
 
-- [Feature Requirements](../01-requirements/f-002-ai-refinement-and-approval-workflow.md)
-- [Phased Roadmap](../02-planning/phased-roadmap.md)
-- [Architecture Solution Design](../03-architecture/architecture-solution-design.md)
-- [API Contract](../03-architecture/api/api-contract.md)
-- [Sequence Diagrams](../03-architecture/sequence-diagrams.md)
+- [Feature Requirements](../../01-requirements/f-002-ai-refinement-and-approval-workflow.md)
+- [Phased Roadmap](../../02-planning/phased-roadmap.md)
+- [Architecture Solution Design](../../03-architecture/architecture-solution-design.md)
+- [API Contract](../../03-architecture/api/api-contract.md)
+- [Sequence Diagrams](../../03-architecture/sequence-diagrams.md)
 
 Measurable success criteria:
 

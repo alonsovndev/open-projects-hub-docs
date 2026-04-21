@@ -1,6 +1,6 @@
 # Epic: Access Control and Visibility Boundaries
 
-**Epic Key**: EPIC-3
+**Epic Key**: EPIC-4
 **Summary**: Enforce Admin and Viewer boundaries for safe collaboration.
 **Labels**: access-control, visibility
 **Priority**: Must Have
@@ -29,11 +29,11 @@ Related feature and requirement IDs: F-003; FR-003-01, FR-003-02, FR-003-03; NFR
 
 Dependencies:
 
-- [Feature Requirements](../01-requirements/f-003-access-control-and-visibility-boundaries.md)
-- [Role Mapping](../02-planning/role-mapping.md)
-- [Phased Roadmap](../02-planning/phased-roadmap.md)
-- [Security Architecture](../03-architecture/security/security-architecture.md)
-- [Sequence Diagrams](../03-architecture/sequence-diagrams.md)
+- [Feature Requirements](../../01-requirements/f-003-access-control-and-visibility-boundaries.md)
+- [Role Mapping](../../02-planning/role-mapping.md)
+- [Phased Roadmap](../../02-planning/phased-roadmap.md)
+- [Security Architecture](../../03-architecture/security/security-architecture.md)
+- [Sequence Diagrams](../../03-architecture/sequence-diagrams.md)
 
 Measurable success criteria:
 

@@ -8,13 +8,6 @@
 | **Last Updated** | 2026-03-23                  |
 | **Owner**        | Product Owner               |
 
-## How to Use (AI Agent Instructions)
-
-- Keep phase boundaries driven by acceptance criteria and requirement readiness.
-- Link every epic to at least one `FR-*` or `NFR-*` requirement.
-- Place features in the earliest phase where scope is fully clarified.
-- Update the Feature Traceability Matrix whenever features, epics, or story IDs change.
-
 ## Sources
 
 - [Project Overview](../overview.md)

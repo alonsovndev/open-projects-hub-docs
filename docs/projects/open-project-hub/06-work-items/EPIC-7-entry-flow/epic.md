@@ -1,6 +1,6 @@
 # Epic: Minimal Onboarding and Entry Flow
 
-**Epic Key**: EPIC-6
+**Epic Key**: EPIC-7
 **Summary**: Improve first-use quality through onboarding and entry clarity.
 **Labels**: onboarding, entry-flow
 **Priority**: Must Have
@@ -29,10 +29,10 @@ Related feature and requirement IDs: F-005, F-006, F-008; FR-005-01, FR-006-01, 
 
 Dependencies:
 
-- [Feature Requirements](../01-requirements/f-005-minimal-onboarding.md)
-- [Feature Requirements](../01-requirements/f-006-landing-page.md)
-- [Feature Requirements](../01-requirements/f-008-create-account.md)
-- [Phased Roadmap](../02-planning/phased-roadmap.md)
+- [Feature Requirements](../../01-requirements/f-005-minimal-onboarding.md)
+- [Feature Requirements](../../01-requirements/f-006-landing-page.md)
+- [Feature Requirements](../../01-requirements/f-008-create-account.md)
+- [Phased Roadmap](../../02-planning/phased-roadmap.md)
 
 Measurable success criteria:
 
