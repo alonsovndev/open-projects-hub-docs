@@ -1,5 +1,6 @@
 # Epic: AI Refinement and Approval Workflow
 
+**Epic Title**: AI Refinement and Approval Workflow
 **Epic Key**: EPIC-3
 **Summary**: Create controlled refinement workflow for client notes.
 **Labels**: ai, refinement
@@ -9,9 +10,10 @@
 
 ---
 
-**Problem Statement:** Freelancers lose time and introduce inconsistency when they manually rewrite ambiguous client notes into structured backlog items.
+**Epic Description:**
+Problem Statement: Freelancers lose time and introduce inconsistency when they manually rewrite ambiguous client notes into structured backlog items.
 
-**Objective:** Create a controlled refinement workflow that converts raw notes into editable draft stories and requires explicit Admin approval before publication.
+Objective: Create a controlled refinement workflow that converts raw notes into editable draft stories and requires explicit Admin approval before publication.
 
 Included scope:
 

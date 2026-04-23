@@ -1,5 +1,6 @@
 # Epic: Client and Project Lifecycle Governance
 
+**Epic Title**: Client and Project Lifecycle Governance
 **Epic Key**: EPIC-1
 **Summary**: Provide stable client and project lifecycle governance.
 **Labels**: lifecycle, governance
@@ -9,9 +10,10 @@
 
 ---
 
-**Problem Statement:** Freelancers need a reliable way to manage clients and projects without allowing the workspace to drift into unsupported lifecycle states or uncontrolled project sprawl.
+**Epic Description:**
+Problem Statement: Freelancers need a reliable way to manage clients and projects without allowing the workspace to drift into unsupported lifecycle states or uncontrolled project sprawl.
 
-**Objective:** Provide a stable planning workspace where Admin users can manage clients and projects under explicit MVP lifecycle and active-project constraints.
+Objective: Provide a stable planning workspace where Admin users can manage clients and projects under explicit MVP lifecycle and active-project constraints.
 
 Included scope:
 

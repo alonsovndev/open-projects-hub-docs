@@ -1,5 +1,6 @@
 # Epic: Requirements Backlog and Markdown Export
 
+**Epic Title**: Requirements Backlog and Markdown Export
 **Epic Key**: EPIC-5
 **Summary**: Enable structured backlog view and Markdown export.
 **Labels**: backlog, export
@@ -9,9 +10,10 @@
 
 ---
 
-**Problem Statement:** Planning work loses value if freelancers cannot share a clean, structured artifact with stakeholders after approval.
+**Epic Description:**
+Problem Statement: Planning work loses value if freelancers cannot share a clean, structured artifact with stakeholders after approval.
 
-**Objective:** Make the approved backlog visible inside the product and exportable to Markdown as the official MVP deliverable.
+Objective: Make the approved backlog visible inside the product and exportable to Markdown as the official MVP deliverable.
 
 Included scope:
 

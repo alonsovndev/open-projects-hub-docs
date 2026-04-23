@@ -1,5 +1,6 @@
 # Epic: Authentication and User Management
 
+**Epic Title**: Authentication and User Management
 **Epic Key**: EPIC-6
 **Summary**: Define secure Admin authentication and recovery flows.
 **Labels**: authentication, admin
@@ -9,9 +10,10 @@
 
 ---
 
-**Problem Statement:** The planning workspace cannot be trusted unless Admin entry and recovery flows are secure, predictable, and aligned to the same scope boundaries as the rest of the MVP.
+**Epic Description:**
+Problem Statement: The planning workspace cannot be trusted unless Admin entry and recovery flows are secure, predictable, and aligned to the same scope boundaries as the rest of the MVP.
 
-**Objective:** Define the MVP authentication baseline so Admin users can log in securely, recover access safely, and enter the project workspace without ambiguity.
+Objective: Define the MVP authentication baseline so Admin users can log in securely, recover access safely, and enter the project workspace without ambiguity.
 
 Included scope:
 

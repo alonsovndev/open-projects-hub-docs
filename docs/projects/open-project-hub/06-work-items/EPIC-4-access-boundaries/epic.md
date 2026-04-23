@@ -1,5 +1,6 @@
 # Epic: Access Control and Visibility Boundaries
 
+**Epic Title**: Access Control and Visibility Boundaries
 **Epic Key**: EPIC-4
 **Summary**: Enforce Admin and Viewer boundaries for safe collaboration.
 **Labels**: access-control, visibility
@@ -9,9 +10,10 @@
 
 ---
 
-**Problem Statement:** Client-facing transparency is useful only if it does not expose internal notes or allow viewers to alter planning artifacts.
+**Epic Description:**
+Problem Statement: Client-facing transparency is useful only if it does not expose internal notes or allow viewers to alter planning artifacts.
 
-**Objective:** Enforce simple Admin and Viewer boundaries so the MVP supports safe collaboration without expanding into full multi-user workflow management.
+Objective: Enforce simple Admin and Viewer boundaries so the MVP supports safe collaboration without expanding into full multi-user workflow management.
 
 Included scope:
 

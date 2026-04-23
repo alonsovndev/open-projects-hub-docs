@@ -1,7 +1,7 @@
 # Epic: Project and Local Development Setup (Foundational)
 
 **Epic Title**: Project and Local Development Setup (Foundational)
-**Epic ID**: EPIC-0  
+**Epic Key**: EPIC-0
 **Summary**: Establish foundational project structure, local environment setup, and deployment baseline.
 **Labels**: foundational, setup, ci-cd
 **Priority**: Must Have
@@ -17,7 +17,7 @@ Objective: Establish the foundational project structure, local environment setup
 
 Included scope:
 
-- Monorepo structure and folder organization for backend, frontend, and shared layers
+- Repository structure and folder organization for one backend modular monolith repo and one frontend repo
 - Local development environment setup (Python, Node.js, Docker, database)
 - CI/CD pipeline scaffolding and basic testing framework integration
 - Database schema creation and seed data generation
@@ -40,7 +40,7 @@ Dependencies:
 
 Measurable success criteria:
 
-- Every engineer can clone the repo and run local dev environment in under 15 minutes.
+- Every engineer can clone both repositories and run local dev environments in under 15 minutes.
 - CI/CD pipeline runs on every commit and reports clear pass/fail status.
 - Database schema is created and seed data is populated automatically in local dev.
 - Deployment to staging is repeatable and documented.

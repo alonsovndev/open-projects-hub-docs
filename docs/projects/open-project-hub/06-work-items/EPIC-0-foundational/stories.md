@@ -2,7 +2,7 @@
 
 ## Backend Engineer
 
-### US-EP0-BE-001: Monorepo Structure and Backend Scaffolding
+### US-EP0-BE-001: Backend Modular Monolith Structure and Scaffolding
 
 **Story ID**: US-EP0-BE-001
 **Epic Link**: EPIC-0
@@ -10,19 +10,19 @@
 **Effort Estimate**: 8
 
 **As a** Backend Engineer,
-**I want to** establish monorepo folder structure with backend services, shared libraries, and configuration patterns,
+**I want to** establish a backend modular monolith repository structure with clear module boundaries and configuration patterns,
 **So that** all team members can develop and test code with consistent project organization.
 
 **Acceptance Criteria**:
 
-- [ ] Given the monorepo is cloned, then folder structure includes backend/, shared/, config/, and tests/ directories.
+- [ ] Given the backend repository is cloned, then folder structure includes modules/, shared/, config/, and tests/ directories.
 - [ ] Given a backend service is added, then it follows consistent package structure (models/, services/, handlers/, tests/).
 - [ ] Given a developer runs setup script, then all dependencies are installed and project is ready for local development.
 - [ ] Given a developer adds a new module, then import paths use consistent absolute or relative patterns.
 
 **Deliverables**:
 
-- Monorepo root with frontend/, backend/, shared/ directories.
+- Backend repository root with modules/, shared/, config/, and tests/ directories.
 - Backend service template with boilerplate models, services, and handlers.
 - Setup script (setup.sh or equivalent) for fast local environment configuration.
 - Configuration management foundation (.env, settings module) for dev/test/staging/prod.
@@ -36,7 +36,7 @@
 **Success Metrics**:
 
 - First-time setup completes in under 15 minutes.
-- Monorepo structure is documented and consistent.
+- Backend repository modular structure is documented and consistent.
 - All imports follow agreed pattern (no mixed relative/absolute paths).
 
 ---
@@ -173,7 +173,7 @@
 
 **Acceptance Criteria**:
 
-- [ ] Given the repo is cloned, when the dev server starts, then the app loads at localhost:3000 within 5 seconds.
+- [ ] Given the frontend repository is cloned, when the dev server starts, then the app loads at localhost:3000 within 5 seconds.
 - [ ] Given a file is modified, when the browser tab is refreshed, then hot-reload shows changes immediately (within 2 seconds).
 - [ ] Given TypeScript or JSX is used, then linting and type-checking provide real-time feedback in the editor.
 - [ ] Given the app is built, when production build completes, then output is optimized and under code-split warnings.
