@@ -3,7 +3,7 @@
 | Attribute        | Value                       |
 | ---------------- | --------------------------- |
 | **Project**      | Open Freelancer Project Hub |
-| **Version**      | 1.1                         |
+| **Version**      | 1.2                         |
 | **Status**       | Draft                       |
 | **Last Updated** | 2026-07-29                  |
 | **Owner**        | Product Owner               |
@@ -26,6 +26,8 @@
 | FR-008-05 | User can request verification code resend up to 3 times within a 15-minute window.                                                               | Security baseline      | Must     | Product Owner | —                            | Previous code is invalidated when new code is sent; rate limit prevents abuse; user sees remaining attempts.                                     | Draft  |
 | FR-008-06 | Account is created and activated only after successful email verification code entry.                                                            | Security baseline      | Must     | Product Owner | —                            | User cannot log in until valid code is submitted; pending verification state is persisted; clear instructions guide user through verification.   | Draft  |
 | FR-008-07 | New account creation routes user to login or first-use onboarding path after email verification.                                                 | Onboarding scope       | Should   | Product Owner | Q-021                        | Successfully verified user is directed to the next step without requiring manual navigation.                                                     | Draft  |
+| FR-008-08 | System prevents duplicate accounts with same email and provides clear feedback.                            | Data integrity              | Must     | Product Owner | —                            | Registration with existing email returns error "Account already exists with this email"; user redirected to login or password reset.    | Draft     |
+| FR-008-09 | Password requirements: minimum 8 characters, at least 1 uppercase letter, 1 number, 1 special character.   | Security baseline           | Must     | Product Owner | —                            | Password field enforces rules with inline validation; error messages specify missing requirements; form submission blocked until rules satisfied. | Draft     |
 
 ## Feature-Scoped Non-Functional Requirements
 
@@ -38,7 +40,7 @@
 
 ## Dependencies and Risks
 
-- **Dependencies**: Identity provider setup, email delivery service (SMTP/API), verification code storage and expiry mechanism, rate limiting infrastructure, session bootstrap strategy.
+- **Dependencies**: Identity provider setup, email delivery service (SMTP/API) per NFR-X10, verification code storage and expiry mechanism, rate limiting infrastructure, session bootstrap strategy.
 - **Risks**:
   - Email delivery delays or failures prevent account activation; mitigation is retry mechanism with clear user feedback and resend option.
   - Friction in registration and verification increases abandonment; mitigation is minimal required fields, clear inline guidance, and 5-minute code validity window.
@@ -55,7 +57,9 @@
 
 ## Change Log
 
-| Date       | Version | Change Summary                                                                          | Author        |
-| ---------- | ------- | --------------------------------------------------------------------------------------- | ------------- |
-| 2026-03-23 | 1.0     | Initial feature requirements created.                                                   | Product Owner |
+| Date       | Version | Change Summary                                                                              | Author        |
+| ---------- | ------- | ------------------------------------------------------------------------------------------- | ------------- |
+| 2026-07-30 | 1.2     | Added FR-008-08 (duplicate email handling), FR-008-09 (password requirements), NFR-X10 dependency. | Product Owner |
+| 2026-07-29 | 1.1     | Added email verification code requirements (FR-008-03 to FR-008-06, NFR-008-02/03).         | Product Owner |
+| 2026-03-23 | 1.0     | Initial feature requirements created.                                                       | Product Owner |
 | 2026-07-29 | 1.1     | Added email verification code requirements (FR-008-03 to FR-008-06, NFR-008-02/03).     | Product Owner |

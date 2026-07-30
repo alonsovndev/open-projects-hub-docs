@@ -3,9 +3,9 @@
 | Attribute        | Value                       |
 | ---------------- | --------------------------- |
 | **Project**      | Open Freelancer Project Hub |
-| **Version**      | 1.3                         |
+| **Version**      | 1.4                         |
 | **Status**       | Draft                       |
-| **Last Updated** | 2026-07-29                  |
+| **Last Updated** | 2026-07-30                  |
 | **Owner**        | Product Owner               |
 
 ## Purpose
@@ -35,6 +35,7 @@ Detailed requirements are maintained in dedicated feature files.
 | F-008      | Account Creation                         | New admin can register and start onboarding               | Should   | Draft     | Product Owner | [F-008](./f-008-create-account.md) |
 | F-009      | Reset Password                           | Admin can recover account access safely                   | Must     | Draft     | Product Owner | [F-009](./f-009-reset-password.md) |
 | F-010      | AI Credits and API Key Management        | Users get 5 free credits and can add own AI provider keys | Must     | Draft     | Product Owner | [F-010](./f-010-ai-credits-and-api-key-management.md) |
+| F-011      | Viewer Account Management                | Viewer can be invited and access granted projects         | Must     | Draft     | Product Owner | [F-011](./f-011-viewer-account-management.md) |
 
 ---
 
@@ -46,18 +47,21 @@ Detailed requirements are maintained in dedicated feature files.
 | NFR-X02 | Privacy              | The platform follows GDPR-aligned privacy practices with deletion and archival support.                                 | Deleted projects become inaccessible to Admin and Viewer roles within 24 hours; archived projects are excluded from the active-project limit. | Must     | Tech Lead     | Clarified |
 | NFR-X03 | Testability          | MVP core logic keeps an automated test coverage threshold.                                                              | Automated tests cover at least 70% of core application logic.                                                                                 | Must     | Backend Lead  | Clarified |
 | NFR-X04 | Readability          | Viewer-facing requirements remain readable to non-technical stakeholders.                                               | Viewer views present user stories in the standard template with plain-language titles and omit internal notes.                                | Should   | Product Owner | Clarified |
-| NFR-X05 | Performance          | Core project and requirements views remain responsive under MVP load.                                                   | With up to 3 active projects and 200 approved user stories, project list and requirements views render within 2 seconds of request.           | Should   | Tech Lead     | Draft     |
+| NFR-X05 | Performance          | Core project and requirements views remain responsive under MVP load.                                                   | MVP load: 10 concurrent Admins + 20 Viewers, 100 requests/min peak, 3 active projects per Admin, 200 total stories. Project list and requirements views render within 2 seconds. | Should   | Tech Lead     | Draft     |
 | NFR-X06 | Scalability          | MVP usage limits are supported without data loss or degradation.                                                        | Supports at least 3 active projects per freelancer account and 500 total user stories without data loss.                                      | Should   | Tech Lead     | Draft     |
 | NFR-X07 | Accessibility        | Primary workflows meet baseline accessibility standards.                                                                | Requirements views meet WCAG 2.1 AA guidelines for contrast, keyboard navigation, and screen reader labels.                                   | Should   | UI/UX Lead    | Draft     |
 | NFR-X08 | Delivery Feasibility | MVP scope remains deliverable in planned schedule.                                                                      | MVP scope is achievable within a 1–1.5 month delivery window, assuming the defined scope and constraints.                                     | Should   | Product Owner | Draft     |
+| NFR-X09 | Session Management   | User sessions are secure, time-bound, and manageable across devices.                                                    | Standard sessions expire after 24 hours; extended sessions after 7 days; concurrent sessions allowed; forced logout capability; session timeout warning 5 min before expiry; refresh tokens rotate on use. | Must     | Tech Lead     | Draft     |
+| NFR-X10 | Email Notifications  | Platform delivers transactional emails reliably with retry and failure handling.                                        | 95% delivered within 30 seconds; 3 retry attempts with exponential backoff; user feedback on failures; max 10 emails per account per hour; supports verification codes, password reset, and Viewer invitations. | Must     | Tech Lead     | Draft     |
 
 ---
 
 ## Change Log
 
-| Date       | Version | Change Summary                                                                 | Author        |
-| ---------- | ------- | ------------------------------------------------------------------------------ | ------------- |
-| 2026-07-29 | 1.3     | Added F-010 AI Credits and API Key Management.                                 | Product Owner |
-| 2026-03-23 | 1.2     | Renamed index file, fixed links, restored F-002 map, and added F-006 to F-009. | Product Owner |
-| 2026-03-23 | 1.1     | Removed F-002 AI Refinement and Approval Workflow.                             | Product Owner |
-| 2026-03-23 | 1.0     | Initial feature-based requirements baseline created.                           | Product Owner |
+| Date       | Version | Change Summary                                                                                                                                  | Author        |
+| ---------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
+| 2026-07-30 | 1.4     | Added F-011 Viewer Account Management, NFR-X09 Session Management, NFR-X10 Email Notifications; updated NFR-X05 with explicit MVP load assumptions. | Product Owner |
+| 2026-07-29 | 1.3     | Added F-010 AI Credits and API Key Management.                                                                                                  | Product Owner |
+| 2026-03-23 | 1.2     | Renamed index file, fixed links, restored F-002 map, and added F-006 to F-009.                                                                  | Product Owner |
+| 2026-03-23 | 1.1     | Removed F-002 AI Refinement and Approval Workflow.                                                                                              | Product Owner |
+| 2026-03-23 | 1.0     | Initial feature-based requirements baseline created.                                                                                            | Product Owner |
