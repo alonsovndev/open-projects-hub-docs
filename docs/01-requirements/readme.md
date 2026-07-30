@@ -81,13 +81,13 @@ The following infrastructure choices impact requirements scope and should guide 
 
 | Decision Area | Specified Choice | Impact on Requirements | Rationale |
 |---------------|------------------|------------------------|-----------|
-| **Database** | Supabase (PostgreSQL) | Row-level security for access control (NFR-011-02); built-in auth integration | Specified in architecture docs; impacts security model and access control implementation |
-| **Hosting** | Render | Performance targets in NFR-X05; cost constraints | Specified in architecture docs; impacts scalability targets and deployment approach |
-| **Email Service** | *Implementation Team Decision* | Email delivery requirements in NFR-X10 (95% within 30s, retry logic) | Any transactional email service (SendGrid, Postmark, AWS SES, etc.) that meets NFR-X10 metrics |
+| **Database** | *Implementation Team Decision* | Must support access control enforcement (NFR-X03); recommend row-level security or application-level ACL | Relational database (PostgreSQL, MySQL, etc.) or managed database service that supports MVP requirements |
+| **Hosting** | *Implementation Team Decision* | Must meet performance targets in NFR-X05 and scalability in NFR-X06 | Any hosting platform (cloud provider, PaaS, or managed service) that satisfies NFR-X05, NFR-X06, and cost constraints |
+| **Email Service** | *Implementation Team Decision* | Email delivery requirements in NFR-X10 (95% within 30s, retry logic) | Any transactional email service (SendGrid, Postmark, AWS SES, Mailgun, etc.) that meets NFR-X10 metrics |
 | **Session Management** | *Implementation Team Decision* | Session requirements in NFR-X09 (24-hour standard, 7-day extended, concurrent allowed) | JWT or session tokens acceptable; implementation must meet timeout and refresh requirements |
 | **API Providers** | Gemini, OpenAI, DeepSeek | AI refinement workflow in F-002, F-010; user brings own keys | Platform provides 5 trial credits using platform-managed keys; users configure own API keys for unlimited use |
 
-**Note**: Infrastructure decisions marked "*Implementation Team Decision*" should be documented in the implementation repository's ADRs (Architecture Decision Records), not in this requirements specification.
+**Note**: All infrastructure decisions should be documented in the implementation repository's ADRs (Architecture Decision Records), not in this requirements specification. Chosen technologies must satisfy the non-functional requirements (NFR-X01 to NFR-X10).
 
 **Validation Checklist for "Ready for Implementation"**:
 
