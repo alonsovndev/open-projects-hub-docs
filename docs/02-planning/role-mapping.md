@@ -3,9 +3,9 @@
 | Attribute        | Value                       |
 | ---------------- | --------------------------- |
 | **Project**      | Open Freelancer Project Hub |
-| **Version**      | 1.1                         |
-| **Status**       | Draft                       |
-| **Last Updated** | 2026-03-23                  |
+| **Version**      | 1.3                         |
+| **Status**       | Review Pending              |
+| **Last Updated** | 2026-07-30                  |
 | **Owner**        | Product Owner               |
 
 ## How to Use (AI Agent Instructions)
@@ -31,7 +31,9 @@
 | Backend Engineer  | Domain and workflow constraints, data/access rule planning, export and auth flow feasibility       |
 | Frontend Engineer | Entry-flow behavior, requirements interaction planning, viewer/admin UX implementation feasibility |
 | UI/UX Designer    | Usability, information architecture, accessibility, onboarding and entry-flow clarity              |
-| Product Owner     | Prioritization, phase scoping, stakeholder alignment, acceptance sign-off                          |
+| Product Owner     | Requirements analysis, prioritization, phase scoping, stakeholder alignment, acceptance sign-off   |
+
+> **Note**: Product Owner combines traditional Product Owner and Business Analyst responsibilities, including requirements gathering, analysis, stakeholder communication, and acceptance criteria definition.
 
 ---
 
@@ -39,6 +41,7 @@
 
 | Workstream                                  | Feature(s)     | Owner          | Primary           | Support           | Informed       |
 | ------------------------------------------- | -------------- | -------------- | ----------------- | ----------------- | -------------- |
+| Foundation & engineering readiness (Phase 0)| Infrastructure | Tech Lead      | Backend Engineer, Frontend Engineer | All engineers | Product Owner  |
 | Client and project lifecycle governance     | F-001          | Tech Lead      | Backend Engineer  | Frontend Engineer | UI/UX Designer |
 | AI refinement and approval flow             | F-002          | Tech Lead      | Backend Engineer  | Frontend Engineer | Product Owner  |
 | Access and visibility boundaries            | F-003          | Tech Lead      | Backend Engineer  | Frontend Engineer | UI/UX Designer |
@@ -48,11 +51,23 @@
 | Admin login and session entry controls      | F-007          | Tech Lead      | Backend Engineer  | Frontend Engineer | Product Owner  |
 | Account creation and first-use path         | F-008          | Product Owner  | Frontend Engineer | Backend Engineer  | UI/UX Designer |
 | Password reset and recovery safety          | F-009          | Tech Lead      | Backend Engineer  | Frontend Engineer | Product Owner  |
-| Cross-phase quality and governance controls | F-001 to F-009 | Tech Lead      | Tech Lead         | All roles         | Product Owner  |
+| AI credits and API key management           | F-010          | Tech Lead      | Backend Engineer  | Frontend Engineer | Product Owner  |
+| Viewer account management and invitations   | F-011          | Tech Lead      | Backend Engineer  | Frontend Engineer | Product Owner  |
+| Cross-phase quality and governance controls | F-001 to F-011 | Tech Lead      | Tech Lead         | All roles         | Product Owner  |
 
 ---
 
 ## Phase-Level Task Ownership (RACI)
+
+### Phase 0 (Foundation & Engineering Readiness)
+
+| Priority | Epic / Task                              | Accountable   | Responsible                         | Consulted                                           |
+| -------- | ---------------------------------------- | ------------- | ----------------------------------- | --------------------------------------------------- |
+| Must     | Repository structure & tooling config    | Tech Lead     | Backend Engineer, Frontend Engineer | All engineers                                       |
+| Must     | Development environment documentation    | Tech Lead     | Backend Engineer, Frontend Engineer | All engineers                                       |
+| Must     | CI/CD pipeline implementation            | Tech Lead     | Backend Engineer                    | Frontend Engineer, All engineers                    |
+| Must     | Database foundation & API baseline       | Tech Lead     | Backend Engineer                    | Frontend Engineer                                   |
+| Must     | Engineering standards documentation      | Tech Lead     | Tech Lead                           | Backend Engineer, Frontend Engineer, Product Owner  |
 
 ### MVP Phase
 
@@ -62,6 +77,8 @@
 | Must     | Core planning workflows (F-001 to F-004) | Tech Lead     | Backend Engineer, Frontend Engineer | UI/UX Designer, Product Owner                       |
 | Must     | Access/auth baseline (F-007, F-009)      | Tech Lead     | Backend Engineer                    | Frontend Engineer, Product Owner                    |
 | Must     | Export and quality baseline checks       | Tech Lead     | Backend Engineer, Frontend Engineer | UI/UX Designer                                      |
+| Must     | AI credits and API key management (F-010)| Tech Lead     | Backend Engineer                    | Frontend Engineer, Product Owner                    |
+| Must     | Viewer account management (F-011)        | Tech Lead     | Backend Engineer                    | Frontend Engineer, Product Owner                    |
 
 ### Phase 1
 
@@ -121,9 +138,25 @@
 | FR-008-02      | Registration validation and credential rules     | Tech Lead         | Product Owner  | Backend Engineer                    | MVP   |
 | FR-009-01      | Password reset request                           | Backend Engineer  | Tech Lead      | Backend Engineer                    | MVP   |
 | FR-009-02      | Secure reset token and password update           | Tech Lead         | Product Owner  | Backend Engineer                    | MVP   |
+| FR-010-01      | 5 free AI credits per new account                | Backend Engineer  | Product Owner  | Backend Engineer                    | MVP   |
+| FR-010-02      | Credit consumption on successful refinement      | Backend Engineer  | Tech Lead      | Backend Engineer                    | MVP   |
+| FR-010-03      | Block refinement when credits depleted           | Backend Engineer  | Product Owner  | Backend Engineer, Frontend Engineer | MVP   |
+| FR-010-04      | Add/update/delete API keys for AI providers      | Backend Engineer  | Tech Lead      | Backend Engineer, Frontend Engineer | MVP   |
+| FR-010-05      | Validate API keys on save                        | Backend Engineer  | Tech Lead      | Backend Engineer                    | MVP   |
+| FR-010-06      | Provider selection for refinements               | Frontend Engineer | Product Owner  | Frontend Engineer                   | MVP   |
+| FR-010-07      | Masked API key display                           | Tech Lead         | Tech Lead      | Backend Engineer, Frontend Engineer | MVP   |
+| FR-010-08      | Bypass credit checks with user API keys          | Backend Engineer  | Tech Lead      | Backend Engineer                    | MVP   |
+| FR-011-01      | Admin invites Viewer by email and project access | Backend Engineer  | Product Owner  | Backend Engineer, Frontend Engineer | MVP   |
+| FR-011-02      | Viewer receives secure invitation email          | Backend Engineer  | Tech Lead      | Backend Engineer                    | MVP   |
+| FR-011-03      | Viewer completes account setup via invitation    | Frontend Engineer | Product Owner  | Backend Engineer, Frontend Engineer | MVP   |
+| FR-011-04      | Admin grants/revokes Viewer project access       | Backend Engineer  | Tech Lead      | Backend Engineer, Frontend Engineer | MVP   |
+| FR-011-05      | Viewer accesses only granted projects            | Tech Lead         | Tech Lead      | Backend Engineer                    | MVP   |
+| FR-011-06      | Admin views Viewer list with permissions         | Frontend Engineer | Product Owner  | Frontend Engineer                   | MVP   |
 | NFR-X01        | OWASP-aligned security baseline                  | Tech Lead         | Tech Lead      | All Engineers                       | MVP   |
 | NFR-X02        | GDPR-aligned privacy baseline                    | Tech Lead         | Product Owner  | Backend Engineer                    | MVP   |
 | NFR-X03        | Test coverage baseline                           | Tech Lead         | Tech Lead      | Backend Engineer, Frontend Engineer | MVP   |
+| NFR-X09        | Session management and security                  | Tech Lead         | Tech Lead      | Backend Engineer                    | MVP   |
+| NFR-X10        | Email notification delivery and reliability      | Tech Lead         | Tech Lead      | Backend Engineer                    | MVP   |
 
 > **Rule:** No Must-priority requirement may enter an active sprint without a named DRI in this table.
 
@@ -133,5 +166,7 @@
 
 | Date       | Version | Change Summary                                                                   | Author        |
 | ---------- | ------- | -------------------------------------------------------------------------------- | ------------- |
+| 2026-07-30 | 1.3     | Added Phase 0 (Foundation & Engineering Readiness) workstream and task ownership; clarified Tech Lead ownership for foundational work. | Product Owner |
+| 2026-07-30 | 1.2     | Added F-010 and F-011 to all matrices; added NFR-X09 and NFR-X10; clarified Product Owner role combines PO and BA responsibilities; aligned with requirements v1.6. | Product Owner |
 | 2026-03-23 | 1.1     | Refactored role mapping to template structure and aligned ownership to features. | Product Owner |
 | 2026-02-28 | 1.0     | Initial role-mapping draft created.                                              | Product Owner |

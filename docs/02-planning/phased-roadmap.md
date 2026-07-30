@@ -3,9 +3,9 @@
 | Attribute        | Value                       |
 | ---------------- | --------------------------- |
 | **Project**      | Open Freelancer Project Hub |
-| **Version**      | 1.1                         |
-| **Status**       | Draft                       |
-| **Last Updated** | 2026-03-23                  |
+| **Version**      | 1.3                         |
+| **Status**       | Review Pending              |
+| **Last Updated** | 2026-07-30                  |
 | **Owner**        | Product Owner               |
 
 ## Sources
@@ -24,11 +24,72 @@
 
 ## Phase Overview
 
-| Phase   | Name                             | Objective                                                       | Status  | Target Window |
-| ------- | -------------------------------- | --------------------------------------------------------------- | ------- | ------------- |
-| MVP     | Core Planning Backbone           | Deliver core planning value with secure access and exports      | Planned | Weeks 1-4     |
-| Phase 1 | UX and Entry-Flow Hardening      | Improve onboarding and auth-adjacent user quality               | Planned | Weeks 5-6     |
-| Phase 2 | Governance and Scale Preparation | Prepare post-MVP governance, traceability depth, and scale plan | Planned | TBD           |
+| Phase   | Name                               | Objective                                                              | Status  | Target Window  |
+| ------- | ---------------------------------- | ---------------------------------------------------------------------- | ------- | -------------- |
+| Phase 0 | Foundation & Engineering Readiness | Establish development infrastructure and standards before feature work | Planned | Week 0 (1-2 weeks) |
+| MVP     | Core Planning Backbone             | Deliver core planning value with secure access and exports            | Planned | Weeks 1-4      |
+| Phase 1 | UX and Entry-Flow Hardening        | Improve onboarding and auth-adjacent user quality                     | Planned | Weeks 5-6      |
+| Phase 2 | Governance and Scale Preparation   | Prepare post-MVP governance, traceability depth, and scale plan       | Planned | TBD            |
+
+---
+
+## Phase 0 (Foundation & Engineering Readiness)
+
+### Goals
+
+1. Establish complete development environment with < 30 min setup time for new engineers.
+2. Configure all linting, formatting, and CI/CD quality gates.
+3. Define and document project structure and coding standards.
+4. Implement database foundation with schema, migrations, and seed data.
+5. Create API baseline with authentication middleware and health checks.
+6. Enable all engineers to start MVP feature work with clear conventions.
+
+### Prioritized Tasks
+
+| Priority | Task                                    | Owner            | Estimate | Deliverable                                      |
+| -------- | --------------------------------------- | ---------------- | -------- | ------------------------------------------------ |
+| Must     | Repository structure & tooling config   | Tech Lead        | 1 day    | Monorepo structure, linter configs, pre-commit hooks |
+| Must     | Development environment setup guide     | Tech Lead        | 2 days   | `docs/development/SETUP.md`                      |
+| Must     | Project structure standards             | Tech Lead        | 1 day    | `docs/development/PROJECT_STRUCTURE.md`          |
+| Must     | CI/CD pipeline implementation           | Backend Engineer | 2-3 days | GitHub Actions workflows for backend + frontend  |
+| Must     | Database foundation                     | Backend Engineer | 2 days   | Schema, Alembic migrations, seed data scripts    |
+| Must     | API contract & auth middleware baseline | Backend Engineer | 2 days   | FastAPI baseline, JWT auth, health endpoints     |
+| Must     | Coding standards (essential)            | Tech Lead        | 1 day    | `docs/development/CODING_STANDARDS.md`           |
+| Must     | Testing standards (essential)           | Tech Lead        | 1 day    | `docs/development/TESTING_STANDARDS.md`          |
+| Must     | Code review guidelines                  | Tech Lead        | 0.5 days | `docs/development/CODE_REVIEW.md`                |
+
+### Key Deliverables
+
+- **Monorepo structure:** Backend and frontend folders with Clean Architecture and feature-based organization.
+- **Development environment guide:** Complete setup documentation enabling < 30 minute onboarding.
+- **CI/CD pipelines:** Automated quality gates (lint, type-check, test) for backend and frontend.
+- **Database foundation:** PostgreSQL schema, migration framework (Alembic), and seed data for local development.
+- **API baseline:** FastAPI application with versioning (`/api/v1/`), JWT authentication, CORS, error handling, and health checks.
+- **Engineering standards:** Essential coding standards, testing patterns, and code review guidelines.
+- **Tooling configuration:** Black, Ruff, mypy (backend); ESLint, Prettier, TypeScript strict (frontend).
+
+### Acceptance Criteria
+
+- [ ] All engineers can clone repo and run full stack locally within 30 minutes.
+- [ ] Backend CI pipeline operational and passing (lint, type-check, test).
+- [ ] Frontend CI pipeline operational and passing (lint, type-check, test).
+- [ ] Database migrations execute successfully; seed data loads without errors.
+- [ ] Health check endpoints (`/health`, `/ready`) respond with 200 status.
+- [ ] OpenAPI documentation endpoint (`/docs`) accessible and functional.
+- [ ] All Phase 0 documentation reviewed and approved by engineering team.
+- [ ] Branch protection rules active on `main` branch (require CI pass + 1 approval).
+- [ ] At least one practice PR created, reviewed, and merged using new standards.
+
+### Dependencies and Blockers
+
+**Blocks:**
+- All MVP phase features (F-001 through F-011) - cannot start feature implementation without foundation.
+
+**Requires:**
+- Supabase project created and configured.
+- GitHub repository initialized with appropriate permissions.
+- GitHub Actions enabled for CI/CD workflows.
+- Team access to development tools (Python 3.12+, Node.js 18+, Docker).
 
 ---
 
@@ -38,7 +99,9 @@
 
 1. Deliver the core planning workflow with feature coverage for `F-001` to `F-004`.
 2. Validate secure access and essential auth entry flows (`F-007`, `F-009`).
-3. Ensure Must-priority quality baselines are mapped and owned.
+3. Enable AI refinement with credit management and API key flexibility (`F-010`).
+4. Support Viewer account management and invitations (`F-011`).
+5. Ensure Must-priority quality baselines are mapped and owned.
 
 ### Prioritized Epics
 
@@ -49,12 +112,16 @@
 | Must     | Access boundary and role enforcement       | F-003             | FR-003-01, FR-003-02, NFR-003-01                                   | Tech Lead        |
 | Must     | Backlog and export deliverable             | F-004             | FR-004-01, FR-004-02                                               | Backend Engineer |
 | Must     | Admin authentication and recovery baseline | F-007, F-009      | FR-007-01, FR-007-02, FR-009-01, FR-009-02, NFR-007-01, NFR-009-01 | Tech Lead        |
-| Must     | Cross-cut quality baseline                 | F-001 to F-009    | NFR-X01, NFR-X02, NFR-X03                                          | Tech Lead        |
+| Must     | AI credits and API key management          | F-010             | FR-010-01 to FR-010-12, NFR-010-01 to NFR-010-06                   | Tech Lead        |
+| Must     | Viewer account management                  | F-011             | FR-011-01 to FR-011-12, NFR-011-01 to NFR-011-06                   | Tech Lead        |
+| Must     | Cross-cut quality baseline                 | F-001 to F-011    | NFR-X01, NFR-X02, NFR-X03, NFR-X09, NFR-X10                        | Tech Lead        |
 
 ### Key Deliverables
 
-- MVP scope baseline linked to feature-level requirements.
+- MVP scope baseline linked to feature-level requirements (F-001 to F-011).
 - Role-safe, approvable requirements backlog and Markdown export definition.
+- AI credit system with 5 free credits per account and secure API key management.
+- Viewer invitation workflow with project-level access controls.
 - Security and privacy checklist for Must-priority workflows.
 - Initial traceability matrix with story placeholders per feature.
 
@@ -137,6 +204,8 @@
 | F-007      | Admin Login                              | MVP     | Must     | Admin authentication and recovery baseline | US-BE-MVP-005, US-FE-MVP-005 | Planned |
 | F-008      | Account Creation                         | Phase 1 | Should   | Account creation flow maturity             | US-BE-P1-003, US-FE-P1-003   | Planned |
 | F-009      | Reset Password                           | MVP     | Must     | Admin authentication and recovery baseline | US-BE-MVP-006, US-FE-MVP-006 | Planned |
+| F-010      | AI Credits and API Key Management        | MVP     | Must     | AI credits and API key management          | US-BE-MVP-007, US-FE-MVP-007 | Planned |
+| F-011      | Viewer Account Management                | MVP     | Must     | Viewer account management                  | US-BE-MVP-008, US-FE-MVP-008 | Planned |
 
 ---
 
@@ -147,6 +216,8 @@
 | Scope creep between core planning and auth UX    | MVP, Phase 1   | Medium      | High   | Strict MoSCoW gating and feature-to-phase traceability checks | Product Owner  |
 | Ambiguity in requirement ID ownership            | MVP            | Medium      | High   | Maintain requirement-level ownership table in role mapping    | Tech Lead      |
 | Entry-flow quality drops due to split priorities | Phase 1        | Medium      | Medium | Shared UX+FE checkpoint before phase sign-off                 | UI/UX Designer |
+| API key management security complexity           | MVP            | Medium      | High   | Enforce NFR-010-01 to NFR-010-04 security baseline; security review mandatory | Tech Lead      |
+| Email delivery reliability for invitations       | MVP            | Low         | High   | Implement NFR-X10 with retry logic; monitor delivery metrics  | Tech Lead      |
 
 ---
 
@@ -154,5 +225,7 @@
 
 | Date       | Version | Change Summary                                                               | Author        |
 | ---------- | ------- | ---------------------------------------------------------------------------- | ------------- |
+| 2026-07-30 | 1.3     | Added Phase 0 (Foundation & Engineering Readiness) with 9 must-have tasks before MVP; updated phase overview and timeline. | Product Owner |
+| 2026-07-30 | 1.2     | Added F-010 and F-011 to MVP phase; updated goals, deliverables, traceability matrix, and risks; aligned with requirements v1.6. | Product Owner |
 | 2026-03-23 | 1.1     | Refactored roadmap to template structure and aligned to feature-based model. | Product Owner |
 | 2026-02-28 | 1.0     | Initial phased roadmap draft created.                                        | Product Owner |
