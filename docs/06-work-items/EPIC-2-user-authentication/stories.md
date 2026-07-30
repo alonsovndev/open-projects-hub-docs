@@ -73,6 +73,44 @@
 
 ---
 
+### US-EP2-BE-003: Account Creation Service
+
+**Story ID**: US-EP2-BE-003
+**Epic Link**: EPIC-2
+**Priority**: Must Have
+**Effort Estimate**: 8
+
+**As a** Backend Engineer,
+**I want to** implement an account creation service,
+**So that** new users can register and create an account.
+
+**Acceptance Criteria**:
+
+- [ ] Given a user provides a valid email and password, when they register, then a new user account is created.
+- [ ] Given a user attempts to register with an email that already exists, when they submit the form, then an error is returned.
+- [ ] Given a user provides an invalid password (e.g., too short), when they register, then an error is returned with clear feedback.
+
+**Deliverables**:
+
+- Account creation endpoint.
+- Validation logic for user registration data.
+- Unit tests for account creation scenarios.
+
+**Dependencies**:
+
+- [ADR-005: Authentication](../../03-architecture/adrs/adr-005-authentication.md).
+- [API Contract](../../03-architecture/api/api-contract.md).
+
+**Success Metrics**:
+
+- Account creation flow is secure and prevents duplicate registrations.
+- New user records are stored correctly in the database.
+- Core registration scenarios are covered by automated tests.
+
+---
+
+---
+
 ## Frontend Engineer
 
 ### US-EP2-FE-001: Login Page and Authentication Flows
@@ -143,3 +181,38 @@
 
 - Users can complete password reset without support intervention.
 - Reset flow behavior matches backend validation and security constraints.
+
+---
+
+### US-EP2-FE-003: Account Creation Page and Flow
+
+**Story ID**: US-EP2-FE-003
+**Epic Link**: EPIC-2
+**Priority**: Must Have
+**Effort Estimate**: 8
+
+**As a** Frontend Engineer,
+**I want to** create an account creation page and implement the registration flow,
+**So that** new users can register for the service.
+
+**Acceptance Criteria**:
+
+- [ ] Given the account creation page, when a user enters valid information (e.g., email, password), then a new account is created.
+- [ ] Given the account creation page, when a user enters invalid or incomplete information, then an error message is displayed.
+- [ ] Given a successful registration, when the user is created, then they are redirected to the login page or dashboard.
+
+**Deliverables**:
+
+- Account creation page with form validation.
+- Registration flow integration with backend endpoints.
+- Error handling and user feedback for registration scenarios.
+
+**Dependencies**:
+
+- [ADR-002: Frontend Framework](../../03-architecture/adrs/adr-002-frontend-framework.md).
+- [API Contract](../../03-architecture/api/api-contract.md).
+
+**Success Metrics**:
+
+- New users can successfully register for the service.
+- The registration form provides clear validation and feedback.

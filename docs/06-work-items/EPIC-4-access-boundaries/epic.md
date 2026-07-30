@@ -23,7 +23,7 @@ Included scope:
 
 Excluded scope:
 
-- Extra roles, collaborator invitations, and Viewer comments
+- Extra roles and Viewer comments
 - Shared editing and real-time collaboration
 - Audit-log or workflow history surfaces for end users
 
