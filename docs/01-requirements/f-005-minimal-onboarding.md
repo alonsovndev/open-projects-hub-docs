@@ -3,8 +3,8 @@
 | Attribute        | Value                       |
 | ---------------- | --------------------------- |
 | **Project**      | Open Freelancer Project Hub |
-| **Version**      | 1.2                         |
-| **Status**       | Review Pending              |
+| **Version**      | 1.3                         |
+| **Status**       | Clarified                   |
 | **Last Updated** | 2026-07-30                  |
 | **Owner**        | Product Owner               |
 
@@ -20,15 +20,15 @@
 | ID        | Requirement                                                                            | Source               | Priority | Owner (DRI)   | Decision Traceability (Q-ID) | Acceptance Criteria                                                                                          | Status    |
 | --------- | -------------------------------------------------------------------------------------- | -------------------- | -------- | ------------- | ---------------------------- | ------------------------------------------------------------------------------------------------------------ | --------- |
 | FR-005-01 | The MVP provides minimal onboarding through a welcome message and contextual tooltips triggered on first login after account creation and email verification. | Open Questions Q-021 | Should   | Product Owner | Q-021                        | First-time Admin users see a welcome message and at least one tooltip explaining the AI refinement workflow. | Clarified |
-| FR-005-02 | User can dismiss onboarding tooltips permanently via settings or temporarily via X button.                 | User control                | Should   | Product Owner | —                            | Tooltips have X button; dismissal persisted; settings page has "Reset onboarding" option; dismissed tooltips don't reappear.           | Draft     |
-| FR-005-03 | System detects first login after email verification (F-008) and triggers onboarding flow.                  | Trigger logic               | Must     | Product Owner | —                            | First-login flag set after F-008 email verification completion; onboarding triggered on first F-007 login; flag cleared after onboarding shown. | Draft     |
+| FR-005-02 | User can dismiss onboarding tooltips permanently via settings or temporarily via X button.                 | User control                | Should   | Product Owner | —                            | Tooltips have X button; dismissal persisted; settings page has "Reset onboarding" option; dismissed tooltips don't reappear.           | Clarified |
+| FR-005-03 | System detects first login after email verification (F-008) and triggers onboarding flow.                  | Trigger logic               | Must     | Product Owner | —                            | First-login flag set after F-008 email verification completion; onboarding triggered on first F-007 login; flag cleared after onboarding shown. | Clarified |
 
 ## Feature-Scoped Non-Functional Requirements
 
 | ID         | Requirement                                                     | Metric / Target                                                                                                        | Priority | Owner (DRI)   | Decision Traceability (Q-ID) | Status |
 | ---------- | --------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- | -------- | ------------- | ---------------------------- | ------ |
-| NFR-005-01 | Onboarding guidance meets baseline accessibility expectations.  | Requirements views and primary workflows meet WCAG 2.1 AA for contrast, keyboard navigation, and screen reader labels. | Should   | UI/UX Lead    | —                            | Draft  |
-| NFR-005-02 | Onboarding scope remains consistent with MVP delivery timeline. | MVP scope remains achievable within 1–1.5 month delivery window, assuming defined scope and constraints.               | Should   | Product Owner | —                            | Draft  |
+| NFR-005-01 | Onboarding guidance meets baseline accessibility expectations.  | Requirements views and primary workflows meet WCAG 2.1 AA for contrast, keyboard navigation, and screen reader labels. | Should   | UI/UX Lead    | —                            | Clarified |
+| NFR-005-02 | Onboarding scope remains consistent with MVP delivery timeline. | MVP scope remains achievable within 1–1.5 month delivery window, assuming defined scope and constraints.               | Should   | Product Owner | —                            | Clarified |
 
 ## Dependencies and Risks
 
@@ -48,6 +48,7 @@
 
 | Date       | Version | Change Summary                                                                                        | Author        |
 | ---------- | ------- | ----------------------------------------------------------------------------------------------------- | ------------- |
+| 2026-07-30 | 1.3     | Validated requirements and moved all requirements to Clarified status after implementation team review. | Product Owner |
 | 2026-07-30 | 1.2     | Added FR-005-02 to FR-005-03 (dismissal, first-login detection); clarified FR-005-01 trigger timing. | Product Owner |
 | 2026-03-23 | 1.1     | Updated traceability links after requirements folder flattening.                                      | Product Owner |
 | 2026-03-23 | 1.0     | Initial feature requirements created.                                                                 | Product Owner |

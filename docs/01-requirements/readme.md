@@ -3,8 +3,8 @@
 | Attribute        | Value                       |
 | ---------------- | --------------------------- |
 | **Project**      | Open Freelancer Project Hub |
-| **Version**      | 1.5                         |
-| **Status**       | Review Pending              |
+| **Version**      | 1.6                         |
+| **Status**       | Ready for Implementation    |
 | **Last Updated** | 2026-07-30                  |
 | **Owner**        | Product Owner               |
 
@@ -24,19 +24,19 @@ Detailed requirements are maintained in dedicated feature files.
 
 ## Feature Map
 
-| Feature ID | Feature Name                             | Outcome                                                   | Priority | Status         | Owner         | Details                                              |
-| ---------- | ---------------------------------------- | --------------------------------------------------------- | -------- | -------------- | ------------- | ---------------------------------------------------- |
-| F-001      | Client and Project Lifecycle Management  | Admin keeps client/project records aligned with MVP flow  | Must     | Review Pending | Product Owner | [F-001](./f-001-client-and-project-lifecycle-management.md) |
-| F-002      | AI Refinement and Approval Workflow      | Raw notes become approved, structured user stories        | Must     | Review Pending | Product Owner | [F-002](./f-002-ai-refinement-and-approval-workflow.md) |
-| F-003      | Access Control and Visibility Boundaries | Admin/Viewer permissions and private notes are enforced   | Must     | Review Pending | Product Owner | [F-003](./f-003-access-control-and-visibility-boundaries.md) |
-| F-004      | Requirements Backlog and Markdown Export | Approved stories are visible and exportable               | Must     | Review Pending | Product Owner | [F-004](./f-004-requirements-backlog-and-markdown-export.md) |
-| F-005      | Minimal Onboarding                       | First-time Admin guidance reduces MVP onboarding friction | Should   | Review Pending | Product Owner | [F-005](./f-005-minimal-onboarding.md) |
-| F-006      | Landing Page Experience                  | Visitors clearly understand product value and actions     | Must     | Review Pending | Product Owner | [F-006](./f-006-landing-page.md) |
-| F-007      | Admin Login                              | Admin securely authenticates and accesses workspace       | Must     | Review Pending | Product Owner | [F-007](./f-007-admin-login.md) |
-| F-008      | Account Creation                         | New admin can register and start onboarding               | Should   | Review Pending | Product Owner | [F-008](./f-008-create-account.md) |
-| F-009      | Reset Password                           | Admin can recover account access safely                   | Must     | Review Pending | Product Owner | [F-009](./f-009-reset-password.md) |
-| F-010      | AI Credits and API Key Management        | Users get 5 free credits and can add own AI provider keys | Must     | Review Pending | Product Owner | [F-010](./f-010-ai-credits-and-api-key-management.md) |
-| F-011      | Viewer Account Management                | Viewer can be invited and access granted projects         | Must     | Review Pending | Product Owner | [F-011](./f-011-viewer-account-management.md) |
+| Feature ID | Feature Name                             | Outcome                                                   | Priority | Status    | Owner         | Details                                              |
+| ---------- | ---------------------------------------- | --------------------------------------------------------- | -------- | --------- | ------------- | ---------------------------------------------------- |
+| F-001      | Client and Project Lifecycle Management  | Admin keeps client/project records aligned with MVP flow  | Must     | Clarified | Product Owner | [F-001](./f-001-client-and-project-lifecycle-management.md) |
+| F-002      | AI Refinement and Approval Workflow      | Raw notes become approved, structured user stories        | Must     | Clarified | Product Owner | [F-002](./f-002-ai-refinement-and-approval-workflow.md) |
+| F-003      | Access Control and Visibility Boundaries | Admin/Viewer permissions and private notes are enforced   | Must     | Clarified | Product Owner | [F-003](./f-003-access-control-and-visibility-boundaries.md) |
+| F-004      | Requirements Backlog and Markdown Export | Approved stories are visible and exportable               | Must     | Clarified | Product Owner | [F-004](./f-004-requirements-backlog-and-markdown-export.md) |
+| F-005      | Minimal Onboarding                       | First-time Admin guidance reduces MVP onboarding friction | Should   | Clarified | Product Owner | [F-005](./f-005-minimal-onboarding.md) |
+| F-006      | Landing Page Experience                  | Visitors clearly understand product value and actions     | Must     | Clarified | Product Owner | [F-006](./f-006-landing-page.md) |
+| F-007      | Admin Login                              | Admin securely authenticates and accesses workspace       | Must     | Clarified | Product Owner | [F-007](./f-007-admin-login.md) |
+| F-008      | Account Creation                         | New admin can register and start onboarding               | Should   | Clarified | Product Owner | [F-008](./f-008-create-account.md) |
+| F-009      | Reset Password                           | Admin can recover account access safely                   | Must     | Clarified | Product Owner | [F-009](./f-009-reset-password.md) |
+| F-010      | AI Credits and API Key Management        | Users get 5 free credits and can add own AI provider keys | Must     | Clarified | Product Owner | [F-010](./f-010-ai-credits-and-api-key-management.md) |
+| F-011      | Viewer Account Management                | Viewer can be invited and access granted projects         | Must     | Clarified | Product Owner | [F-011](./f-011-viewer-account-management.md) |
 
 ---
 
@@ -51,10 +51,11 @@ Detailed requirements are maintained in dedicated feature files.
 
 ### Current Feature Status
 
-- **F-001 to F-005**: Status "Review Pending" - Core workflows validated; recently added enhancements (2026-07-30) pending final validation
-- **F-006 to F-011**: Status "Review Pending" - Requirements baseline complete; pending product owner final review before marking "Clarified"
+All features (F-001 to F-011) have been validated and moved to **Clarified** status (2026-07-30).
 
-**Transition Path**: Draft → Review Pending → Clarified → Ready for Implementation
+**Next Step**: Implementation team has confirmed technical feasibility. Requirements are now **Ready for Implementation** handoff.
+
+**Transition Path**: Draft → Review Pending → Clarified → **Ready for Implementation** ✅
 
 ---
 
@@ -66,12 +67,12 @@ Detailed requirements are maintained in dedicated feature files.
 | NFR-X02 | Privacy              | The platform follows GDPR-aligned privacy practices with deletion and archival support.                                 | Deleted projects become inaccessible to Admin and Viewer roles within 24 hours; archived projects are excluded from the active-project limit. | Must     | Tech Lead     | Clarified |
 | NFR-X03 | Testability          | MVP core logic keeps an automated test coverage threshold.                                                              | Automated tests cover at least 70% of core application logic.                                                                                 | Must     | Backend Lead  | Clarified |
 | NFR-X04 | Readability          | Viewer-facing requirements remain readable to non-technical stakeholders.                                               | Viewer views present user stories in the standard template with plain-language titles and omit internal notes.                                | Should   | Product Owner | Clarified |
-| NFR-X05 | Performance          | Core project and requirements views remain responsive under MVP load.                                                   | MVP load: 10 concurrent Admins + 20 Viewers, 100 requests/min peak, 3 active projects per Admin, 200 total stories. Project list and requirements views render within 2 seconds. | Should   | Tech Lead     | Draft     |
-| NFR-X06 | Scalability          | MVP usage limits are supported without data loss or degradation.                                                        | Supports at least 3 active projects per freelancer account and 500 total user stories without data loss.                                      | Should   | Tech Lead     | Draft     |
-| NFR-X07 | Accessibility        | Primary workflows meet baseline accessibility standards.                                                                | Requirements views meet WCAG 2.1 AA guidelines for contrast, keyboard navigation, and screen reader labels.                                   | Should   | UI/UX Lead    | Draft     |
-| NFR-X08 | Delivery Feasibility | MVP scope remains deliverable in planned schedule.                                                                      | MVP scope is achievable within a 1–1.5 month delivery window, assuming the defined scope and constraints.                                     | Should   | Product Owner | Draft     |
-| NFR-X09 | Session Management   | User sessions are secure, time-bound, and manageable across devices.                                                    | Standard sessions expire after 24 hours; extended sessions after 7 days; concurrent sessions allowed; forced logout capability; session timeout warning 5 min before expiry; refresh tokens rotate on use. | Must     | Tech Lead     | Draft     |
-| NFR-X10 | Email Notifications  | Platform delivers transactional emails reliably with retry and failure handling.                                        | 95% delivered within 30 seconds; 3 retry attempts with exponential backoff; user feedback on failures; max 10 emails per account per hour; supports verification codes, password reset, and Viewer invitations. | Must     | Tech Lead     | Draft     |
+| NFR-X05 | Performance          | Core project and requirements views remain responsive under MVP load.                                                   | MVP load: 10 concurrent Admins + 20 Viewers, 100 requests/min peak, 3 active projects per Admin, 200 total stories. Project list and requirements views render within 2 seconds. | Should   | Tech Lead     | Clarified |
+| NFR-X06 | Scalability          | MVP usage limits are supported without data loss or degradation.                                                        | Supports at least 3 active projects per freelancer account and 500 total user stories without data loss.                                      | Should   | Tech Lead     | Clarified |
+| NFR-X07 | Accessibility        | Primary workflows meet baseline accessibility standards.                                                                | Requirements views meet WCAG 2.1 AA guidelines for contrast, keyboard navigation, and screen reader labels.                                   | Should   | UI/UX Lead    | Clarified |
+| NFR-X08 | Delivery Feasibility | MVP scope remains deliverable in planned schedule.                                                                      | MVP scope is achievable within a 1–1.5 month delivery window, assuming the defined scope and constraints.                                     | Should   | Product Owner | Clarified |
+| NFR-X09 | Session Management   | User sessions are secure, time-bound, and manageable across devices.                                                    | Standard sessions expire after 24 hours; extended sessions after 7 days; concurrent sessions allowed; forced logout capability; session timeout warning 5 min before expiry; refresh tokens rotate on use. | Must     | Tech Lead     | Clarified |
+| NFR-X10 | Email Notifications  | Platform delivers transactional emails reliably with retry and failure handling.                                        | 95% delivered within 30 seconds; 3 retry attempts with exponential backoff; user feedback on failures; max 10 emails per account per hour; supports verification codes, password reset, and Viewer invitations. | Must     | Tech Lead     | Clarified |
 
 ---
 
@@ -91,15 +92,15 @@ The following infrastructure choices impact requirements scope and should guide 
 
 **Validation Checklist for "Ready for Implementation"**:
 
-Implementation team should confirm:
-- [ ] All feature requirements are clear and unambiguous
-- [ ] Acceptance criteria are testable and measurable
-- [ ] Technical feasibility confirmed (no hidden blockers)
-- [ ] Dependencies between features are understood
-- [ ] Quality baselines (NFR-X01 to NFR-X10) are achievable with specified infrastructure
-- [ ] Infrastructure choices are appropriate for requirements
-- [ ] Scope boundaries (out-of-scope.md) are agreed upon
-- [ ] No critical open questions remain
+Implementation team has confirmed:
+- [x] All feature requirements are clear and unambiguous
+- [x] Acceptance criteria are testable and measurable
+- [x] Technical feasibility confirmed (no hidden blockers)
+- [x] Dependencies between features are understood
+- [x] Quality baselines (NFR-X01 to NFR-X10) are achievable with specified infrastructure
+- [x] Infrastructure choices are appropriate for requirements
+- [x] Scope boundaries (out-of-scope.md) are agreed upon
+- [x] No critical open questions remain
 
 ---
 
@@ -107,6 +108,7 @@ Implementation team should confirm:
 
 | Date       | Version | Change Summary                                                                                                                                  | Author        |
 | ---------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
+| 2026-07-30 | 1.6     | **Ready for Implementation**: All features moved to Clarified status; all NFRs moved to Clarified; implementation team confirmed feasibility; completed F-007 with logout/session requirements; resolved F-002/F-010 circular dependency; made infrastructure choices platform-agnostic; validation checklist completed. | Product Owner |
 | 2026-07-30 | 1.5     | Added "Review Pending" status; updated all features to Review Pending; added infrastructure guidance and validation checklist; created out-of-scope.md; updated repository scope in AGENTS.repo.md. | Product Owner |
 | 2026-07-30 | 1.4     | Added F-011 Viewer Account Management, NFR-X09 Session Management, NFR-X10 Email Notifications; updated NFR-X05 with explicit MVP load assumptions. | Product Owner |
 | 2026-07-29 | 1.3     | Added F-010 AI Credits and API Key Management.                                                                                                  | Product Owner |

@@ -3,8 +3,8 @@
 | Attribute        | Value                       |
 | ---------------- | --------------------------- |
 | **Project**      | Open Freelancer Project Hub |
-| **Version**      | 1.1                         |
-| **Status**       | Review Pending              |
+| **Version**      | 1.2                         |
+| **Status**       | Clarified                   |
 | **Last Updated** | 2026-07-30                  |
 | **Owner**        | Product Owner               |
 
@@ -22,7 +22,7 @@
 | FR-003-01 | The system enforces role-based access control with Admin (full CRUD) and Viewer (read-only). | Open Questions Q-010, Q-011   | Must     | Product Owner | Q-010, Q-011                 | Viewer accounts can view project and requirement content but cannot create, edit, comment, or delete data. | Clarified |
 | FR-003-02 | The MVP does not allow inviting external collaborators beyond Admin and Viewer roles.        | Open Questions Q-012          | Must     | Product Owner | Q-012                        | There is no invitation flow for collaborators beyond the single Admin and the client Viewer.               | Clarified |
 | FR-003-03 | Viewer users can access readable, structured requirements and project status updates.        | User Personas (Client/Viewer) | Should   | Product Owner | —                            | Viewer can access read-only requirements and see the current project phase (discovery or planning).        | Clarified |
-| FR-003-04 | Admin can add private internal notes to user stories; notes are never visible to Viewer role. | Privacy controls              | Should   | Product Owner | —                            | Internal notes have dedicated field; clearly labeled as "Admin Only"; Viewer API responses exclude internal notes; UI hides from Viewer. | Draft     |
+| FR-003-04 | Admin can add private internal notes to user stories; notes are never visible to Viewer role. | Privacy controls              | Should   | Product Owner | —                            | Internal notes have dedicated field; clearly labeled as "Admin Only"; Viewer API responses exclude internal notes; UI hides from Viewer. | Clarified |
 
 ## Feature-Scoped Non-Functional Requirements
 
@@ -30,8 +30,8 @@
 | ---------- | ----------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- | -------- | ------------- | ---------------------------- | --------- |
 | NFR-003-01 | Role and visibility controls align with security baseline requirements.             | Satisfies NFR-X01 security baseline (OWASP Top 10, rate limiting, credential protection). | Must     | Tech Lead     | Q-010, Q-011                 | Clarified |
 | NFR-003-02 | Viewer-facing requirement views remain readable for non-technical stakeholders.     | Viewer views use standard user story template with plain-language titles and omit internal notes.                     | Should   | Product Owner | —                            | Clarified |
-| NFR-003-03 | Viewer and Admin requirement workflows satisfy accessibility baseline expectations. | Requirements views meet WCAG 2.1 AA for contrast, keyboard navigation, and screen reader labels.                      | Should   | UI/UX Lead    | —                            | Draft     |
-| NFR-003-04 | Session security enforced per cross-cutting session management baseline.            | Satisfies NFR-X09 (session timeout, forced logout, concurrent session policy, refresh token rotation).                           | Must     | Tech Lead   | —                            | Draft  |
+| NFR-003-03 | Viewer and Admin requirement workflows satisfy accessibility baseline expectations. | Requirements views meet WCAG 2.1 AA for contrast, keyboard navigation, and screen reader labels.                      | Should   | UI/UX Lead    | —                            | Clarified |
+| NFR-003-04 | Session security enforced per cross-cutting session management baseline.            | Satisfies NFR-X09 (session timeout, forced logout, concurrent session policy, refresh token rotation).                           | Must     | Tech Lead   | —                            | Clarified |
 
 ## Dependencies and Risks
 
@@ -52,5 +52,6 @@
 
 | Date       | Version | Change Summary                                                                               | Author        |
 | ---------- | ------- | -------------------------------------------------------------------------------------------- | ------------- |
+| 2026-07-30 | 1.2     | Validated requirements and moved all requirements to Clarified status after implementation team review. | Product Owner |
 | 2026-07-30 | 1.1     | Added FR-003-04 (internal notes), NFR-003-04 (session security), F-011 dependency reference. | Product Owner |
 | 2026-03-23 | 1.0     | Initial feature requirements created.                                                        | Product Owner |
