@@ -3,7 +3,7 @@
 | Attribute        | Value                       |
 | ---------------- | --------------------------- |
 | **Project**      | Open Freelancer Project Hub |
-| **Version**      | 1.3                         |
+| **Version**      | 1.4                         |
 | **Status**       | Review Pending              |
 | **Last Updated** | 2026-07-30                  |
 | **Owner**        | Product Owner               |
@@ -24,16 +24,110 @@
 
 ## Phase Overview
 
-| Phase   | Name                               | Objective                                                              | Status  | Target Window  |
-| ------- | ---------------------------------- | ---------------------------------------------------------------------- | ------- | -------------- |
-| Phase 0 | Foundation & Engineering Readiness | Establish development infrastructure and standards before feature work | Planned | Week 0 (1-2 weeks) |
-| MVP     | Core Planning Backbone             | Deliver core planning value with secure access and exports            | Planned | Weeks 1-4      |
-| Phase 1 | UX and Entry-Flow Hardening        | Improve onboarding and auth-adjacent user quality                     | Planned | Weeks 5-6      |
-| Phase 2 | Governance and Scale Preparation   | Prepare post-MVP governance, traceability depth, and scale plan       | Planned | TBD            |
+| Phase    | Name                               | Objective                                                              | Status  | Target Window      | Execution Mode |
+| -------- | ---------------------------------- | ---------------------------------------------------------------------- | ------- | ------------------ | -------------- |
+| Phase -1 | UI/UX Prototyping & Validation     | Validate UI designs and obtain stakeholder approval before development | Planned | Week 0 (parallel)  | Parallel with Phase 0 |
+| Phase 0  | Foundation & Engineering Readiness | Establish development infrastructure and standards before feature work | Planned | Week 0 (parallel)  | Parallel with Phase -1 |
+| MVP      | Core Planning Backbone             | Deliver core planning value with secure access and exports            | Planned | Weeks 1-4          | Sequential |
+| Phase 1  | UX and Entry-Flow Hardening        | Improve onboarding and auth-adjacent user quality                     | Planned | Weeks 5-6          | Sequential |
+| Phase 2  | Governance and Scale Preparation   | Prepare post-MVP governance, traceability depth, and scale plan       | Planned | TBD                | Sequential |
+
+---
+
+## Phase -1 (UI/UX Prototyping & Validation)
+
+> **Execution Model:** Runs in parallel with Phase 0. Both phases must complete before MVP Week 1 begins.
+
+### Goals
+
+1. Complete high-fidelity prototypes for all MVP features (F-001 through F-011).
+2. Validate UI/UX designs with Product Owner and key stakeholders.
+3. Establish visual design system (colors, typography, component patterns, spacing).
+4. Obtain formal stakeholder sign-off on all UI designs before engineering begins.
+5. Create design handoff artifacts and conduct walkthrough with Frontend Engineer.
+
+### Prioritized Tasks
+
+| Priority | Task                                    | Owner          | Estimate | Deliverable                                      |
+| -------- | --------------------------------------- | -------------- | -------- | ------------------------------------------------ |
+| Must     | Complete/update MVP screen prototypes   | UI/UX Designer | 3-4 days | 15-20 screens for F-001 to F-011                 |
+| Must     | Stakeholder walkthrough & feedback      | Product Owner  | 1 day    | Consolidated feedback document                   |
+| Must     | Iterate prototypes based on feedback    | UI/UX Designer | 2-3 days | Revised prototypes addressing feedback           |
+| Must     | Final approval gate                     | Product Owner  | 0.5 days | Signed-off designs with approval artifact        |
+| Must     | Design handoff documentation            | UI/UX Designer | 1-2 days | Component specs, design tokens, assets           |
+| Should   | Interactive clickable prototype         | UI/UX Designer | 2 days   | Figma/Stitch clickable demo for user journeys    |
+| Should   | Accessibility review (WCAG 2.1 AA)      | UI/UX Designer | 1 day    | Accessibility checklist and compliance notes     |
+| Should   | Responsive design variants              | UI/UX Designer | 1-2 days | Mobile/tablet breakpoint designs                 |
+
+### Key Deliverables
+
+- **Complete prototype pack:** All MVP screens designed and approved (15-20 screens)
+  - Landing page and value proposition (F-006)
+  - Authentication flows: login, signup, password reset (F-007, F-008, F-009)
+  - Client and project management (F-001)
+  - AI refinement workspace with provider selection (F-002)
+  - Requirements backlog - Admin view with edit/approve controls (F-004)
+  - Requirements backlog - Viewer view (read-only) (F-003, F-004)
+  - Markdown export flow and confirmation (F-004)
+  - AI credits management and API key configuration (F-010)
+  - Viewer invitation and access grant flow (F-011)
+  - Minimal onboarding overlay for first-time Admin (F-005)
+
+- **Visual design system documentation:**
+  - Color palette with WCAG 2.1 AA contrast ratios
+  - Typography scale and font hierarchy
+  - Component library specifications (buttons, forms, cards, tags, modals)
+  - Spacing and grid system
+  - Iconography guidelines
+
+- **Design handoff package:**
+  - Component specifications (dimensions, states, behaviors, interactions)
+  - Design token definitions (colors, typography, spacing values)
+  - Asset export package (icons, logos, images, illustrations)
+  - Interaction specifications (animations, transitions, micro-interactions)
+  - Responsive breakpoints and layout guidelines
+  - Ant Design component mapping and customization notes
+
+- **Approval artifacts:**
+  - Stakeholder sign-off document with approval date
+  - Consolidated feedback log with resolutions and deferral decisions
+  - Deferred design improvements documented for Phase 1/2
+
+### Acceptance Criteria
+
+- [ ] All MVP features (F-001 through F-011) have high-fidelity prototypes completed.
+- [ ] Prototypes validated with at least 2 stakeholders (Product Owner + 1 other).
+- [ ] All critical feedback incorporated or explicitly logged as deferred with rationale.
+- [ ] Product Owner formal sign-off obtained and documented.
+- [ ] Design handoff documentation complete and reviewed by Tech Lead and Frontend Engineer.
+- [ ] UI/UX Designer conducted walkthrough session with Frontend Engineer (Q&A completed).
+- [ ] Accessibility baseline (WCAG 2.1 AA) validated for all critical user flows.
+- [ ] Responsive design variants documented for mobile and tablet breakpoints.
+- [ ] Design system tokens ready for implementation (colors, typography, spacing).
+
+### Dependencies and Blockers
+
+**Blocks:**
+- Frontend UI implementation (cannot start building screens without approved designs)
+- Frontend component library setup (needs design tokens and component specifications)
+
+**Requires:**
+- Requirements v1.6 complete (F-001 through F-011) ✅ Complete
+- User personas documented ✅ Exists in `docs/user-personas.md`
+- Existing prototypes in `docs/05-prototype/` ✅ 15+ screens already created
+
+**Can Run in Parallel With:**
+- Phase 0 Foundation & Engineering Readiness (backend setup, database, CI/CD, standards docs)
+
+**Coordination Points:**
+- Day 5-7: Frontend Engineer available for design handoff review
+- Day 7: Joint readiness gate with Phase 0 before MVP starts
 
 ---
 
 ## Phase 0 (Foundation & Engineering Readiness)
+
+> **Execution Model:** Runs in parallel with Phase -1. Both phases must complete before MVP Week 1 begins.
 
 ### Goals
 
@@ -91,6 +185,13 @@
 - GitHub Actions enabled for CI/CD workflows.
 - Team access to development tools (Python 3.12+, Node.js 18+, Docker).
 
+**Can Run in Parallel With:**
+- Phase -1 UI/UX Prototyping & Validation (no dependencies between backend setup and UI design)
+
+**Coordination Points:**
+- Day 5-7: Frontend Engineer transitions from tooling setup to design handoff review with UI/UX Designer
+- Day 7: Joint readiness gate - both Phase -1 and Phase 0 must be complete before MVP starts
+
 ---
 
 ## MVP Phase
@@ -130,6 +231,12 @@
 - [ ] All `Must` functional requirements in MVP scope are linked to an epic and owner.
 - [ ] All `Must` non-functional requirements are tied to measurable checks.
 - [ ] MVP excludes non-core collaboration expansion and non-essential integrations.
+
+### Prerequisites
+
+**Requires completion of:**
+- Phase -1 (UI/UX Prototyping & Validation) - all designs approved and handed off ✅
+- Phase 0 (Foundation & Engineering Readiness) - infrastructure and standards complete ✅
 
 ---
 
@@ -218,6 +325,8 @@
 | Entry-flow quality drops due to split priorities | Phase 1        | Medium      | Medium | Shared UX+FE checkpoint before phase sign-off                 | UI/UX Designer |
 | API key management security complexity           | MVP            | Medium      | High   | Enforce NFR-010-01 to NFR-010-04 security baseline; security review mandatory | Tech Lead      |
 | Email delivery reliability for invitations       | MVP            | Low         | High   | Implement NFR-X10 with retry logic; monitor delivery metrics  | Tech Lead      |
+| Prototypes require major rework during validation| Phase -1       | Low         | Medium | Early stakeholder involvement; iterate on feedback quickly; existing prototypes reduce risk | UI/UX Designer |
+| Phase -1 and Phase 0 not completing in sync     | Week 0         | Medium      | High   | Daily coordination; contingency buffer 2-3 days if needed; Frontend Engineer helps both tracks | Tech Lead      |
 
 ---
 
@@ -225,6 +334,7 @@
 
 | Date       | Version | Change Summary                                                               | Author        |
 | ---------- | ------- | ---------------------------------------------------------------------------- | ------------- |
+| 2026-07-30 | 1.4     | Added Phase -1 (UI/UX Prototyping & Validation) running parallel with Phase 0; updated phase overview with execution modes; added design approval gates and handoff process. | Product Owner |
 | 2026-07-30 | 1.3     | Added Phase 0 (Foundation & Engineering Readiness) with 9 must-have tasks before MVP; updated phase overview and timeline. | Product Owner |
 | 2026-07-30 | 1.2     | Added F-010 and F-011 to MVP phase; updated goals, deliverables, traceability matrix, and risks; aligned with requirements v1.6. | Product Owner |
 | 2026-03-23 | 1.1     | Refactored roadmap to template structure and aligned to feature-based model. | Product Owner |

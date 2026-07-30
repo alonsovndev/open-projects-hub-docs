@@ -3,7 +3,7 @@
 | Attribute        | Value                       |
 | ---------------- | --------------------------- |
 | **Project**      | Open Freelancer Project Hub |
-| **Version**      | 1.3                         |
+| **Version**      | 1.4                         |
 | **Status**       | Review Pending              |
 | **Last Updated** | 2026-07-30                  |
 | **Owner**        | Product Owner               |
@@ -41,6 +41,7 @@
 
 | Workstream                                  | Feature(s)     | Owner          | Primary           | Support           | Informed       |
 | ------------------------------------------- | -------------- | -------------- | ----------------- | ----------------- | -------------- |
+| UI/UX prototyping & validation (Phase -1)   | F-001 to F-011 | UI/UX Designer | UI/UX Designer    | Product Owner, Frontend Engineer | Tech Lead |
 | Foundation & engineering readiness (Phase 0)| Infrastructure | Tech Lead      | Backend Engineer, Frontend Engineer | All engineers | Product Owner  |
 | Client and project lifecycle governance     | F-001          | Tech Lead      | Backend Engineer  | Frontend Engineer | UI/UX Designer |
 | AI refinement and approval flow             | F-002          | Tech Lead      | Backend Engineer  | Frontend Engineer | Product Owner  |
@@ -59,7 +60,20 @@
 
 ## Phase-Level Task Ownership (RACI)
 
+### Phase -1 (UI/UX Prototyping & Validation)
+
+> **Execution Model:** Runs in parallel with Phase 0. Both phases must complete before MVP Week 1 begins.
+
+| Priority | Epic / Task                              | Accountable    | Responsible                    | Consulted                                    |
+| -------- | ---------------------------------------- | -------------- | ------------------------------ | -------------------------------------------- |
+| Must     | Complete/update MVP screen prototypes    | UI/UX Designer | UI/UX Designer                 | Product Owner, Frontend Engineer             |
+| Must     | Stakeholder validation & feedback        | Product Owner  | Product Owner, UI/UX Designer  | Tech Lead                                    |
+| Must     | Design iteration & final approval        | UI/UX Designer | UI/UX Designer                 | Product Owner                                |
+| Must     | Design handoff documentation             | UI/UX Designer | UI/UX Designer                 | Frontend Engineer, Tech Lead                 |
+
 ### Phase 0 (Foundation & Engineering Readiness)
+
+> **Execution Model:** Runs in parallel with Phase -1. Both phases must complete before MVP Week 1 begins.
 
 | Priority | Epic / Task                              | Accountable   | Responsible                         | Consulted                                           |
 | -------- | ---------------------------------------- | ------------- | ----------------------------------- | --------------------------------------------------- |
@@ -102,6 +116,9 @@
 
 | Cadence                      | Participants                                 | Purpose                                                        |
 | ---------------------------- | -------------------------------------------- | -------------------------------------------------------------- |
+| Phase -1/0 daily sync        | Tech Lead, UI/UX Designer, Product Owner     | Coordinate parallel execution; track progress; identify blockers during Week 0 |
+| Design walkthrough (Phase -1)| UI/UX Designer, Product Owner, Tech Lead     | Validate prototypes and collect stakeholder feedback          |
+| Design handoff (Phase -1/0)  | UI/UX Designer, Frontend Engineer, Tech Lead | Transfer approved designs and review component specifications |
 | Sprint kickoff               | Product Owner, Tech Lead, Engineers, UI/UX   | Confirm scope, ownership, and requirement traceability updates |
 | Requirement checkpoint       | Tech Lead, Backend Engineer, Product Owner   | Validate Must-priority acceptance criteria and DRI assignments |
 | UX/accessibility review      | UI/UX Designer, Frontend Engineer, Tech Lead | Validate user-facing quality before phase sign-off             |
@@ -166,6 +183,7 @@
 
 | Date       | Version | Change Summary                                                                   | Author        |
 | ---------- | ------- | -------------------------------------------------------------------------------- | ------------- |
+| 2026-07-30 | 1.4     | Added Phase -1 (UI/UX Prototyping & Validation) workstream and task ownership; updated coordination cadence for parallel Phase -1/0 execution; clarified UI/UX Designer ownership for design validation. | Product Owner |
 | 2026-07-30 | 1.3     | Added Phase 0 (Foundation & Engineering Readiness) workstream and task ownership; clarified Tech Lead ownership for foundational work. | Product Owner |
 | 2026-07-30 | 1.2     | Added F-010 and F-011 to all matrices; added NFR-X09 and NFR-X10; clarified Product Owner role combines PO and BA responsibilities; aligned with requirements v1.6. | Product Owner |
 | 2026-03-23 | 1.1     | Refactored role mapping to template structure and aligned ownership to features. | Product Owner |
