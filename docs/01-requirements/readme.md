@@ -3,8 +3,8 @@
 | Attribute        | Value                       |
 | ---------------- | --------------------------- |
 | **Project**      | Open Freelancer Project Hub |
-| **Version**      | 1.4                         |
-| **Status**       | Draft                       |
+| **Version**      | 1.5                         |
+| **Status**       | Review Pending              |
 | **Last Updated** | 2026-07-30                  |
 | **Owner**        | Product Owner               |
 
@@ -18,24 +18,43 @@ Detailed requirements are maintained in dedicated feature files.
 - [Project Overview](../overview.md)
 - [User Personas](../user-personas.md)
 - [Open Questions](../open-questions.md)
+- [Out of Scope Items](../out-of-scope.md)
 
 ---
 
 ## Feature Map
 
-| Feature ID | Feature Name                             | Outcome                                                   | Priority | Status    | Owner         | Details                                              |
-| ---------- | ---------------------------------------- | --------------------------------------------------------- | -------- | --------- | ------------- | ---------------------------------------------------- |
-| F-001      | Client and Project Lifecycle Management  | Admin keeps client/project records aligned with MVP flow  | Must     | Clarified | Product Owner | [F-001](./f-001-client-and-project-lifecycle-management.md) |
-| F-002      | AI Refinement and Approval Workflow      | Raw notes become approved, structured user stories        | Must     | Clarified | Product Owner | [F-002](./f-002-ai-refinement-and-approval-workflow.md) |
-| F-003      | Access Control and Visibility Boundaries | Admin/Viewer permissions and private notes are enforced   | Must     | Clarified | Product Owner | [F-003](./f-003-access-control-and-visibility-boundaries.md) |
-| F-004      | Requirements Backlog and Markdown Export | Approved stories are visible and exportable               | Must     | Clarified | Product Owner | [F-004](./f-004-requirements-backlog-and-markdown-export.md) |
-| F-005      | Minimal Onboarding                       | First-time Admin guidance reduces MVP onboarding friction | Should   | Clarified | Product Owner | [F-005](./f-005-minimal-onboarding.md) |
-| F-006      | Landing Page Experience                  | Visitors clearly understand product value and actions     | Must     | Draft     | Product Owner | [F-006](./f-006-landing-page.md) |
-| F-007      | Admin Login                              | Admin securely authenticates and accesses workspace       | Must     | Draft     | Product Owner | [F-007](./f-007-admin-login.md) |
-| F-008      | Account Creation                         | New admin can register and start onboarding               | Should   | Draft     | Product Owner | [F-008](./f-008-create-account.md) |
-| F-009      | Reset Password                           | Admin can recover account access safely                   | Must     | Draft     | Product Owner | [F-009](./f-009-reset-password.md) |
-| F-010      | AI Credits and API Key Management        | Users get 5 free credits and can add own AI provider keys | Must     | Draft     | Product Owner | [F-010](./f-010-ai-credits-and-api-key-management.md) |
-| F-011      | Viewer Account Management                | Viewer can be invited and access granted projects         | Must     | Draft     | Product Owner | [F-011](./f-011-viewer-account-management.md) |
+| Feature ID | Feature Name                             | Outcome                                                   | Priority | Status         | Owner         | Details                                              |
+| ---------- | ---------------------------------------- | --------------------------------------------------------- | -------- | -------------- | ------------- | ---------------------------------------------------- |
+| F-001      | Client and Project Lifecycle Management  | Admin keeps client/project records aligned with MVP flow  | Must     | Review Pending | Product Owner | [F-001](./f-001-client-and-project-lifecycle-management.md) |
+| F-002      | AI Refinement and Approval Workflow      | Raw notes become approved, structured user stories        | Must     | Review Pending | Product Owner | [F-002](./f-002-ai-refinement-and-approval-workflow.md) |
+| F-003      | Access Control and Visibility Boundaries | Admin/Viewer permissions and private notes are enforced   | Must     | Review Pending | Product Owner | [F-003](./f-003-access-control-and-visibility-boundaries.md) |
+| F-004      | Requirements Backlog and Markdown Export | Approved stories are visible and exportable               | Must     | Review Pending | Product Owner | [F-004](./f-004-requirements-backlog-and-markdown-export.md) |
+| F-005      | Minimal Onboarding                       | First-time Admin guidance reduces MVP onboarding friction | Should   | Review Pending | Product Owner | [F-005](./f-005-minimal-onboarding.md) |
+| F-006      | Landing Page Experience                  | Visitors clearly understand product value and actions     | Must     | Review Pending | Product Owner | [F-006](./f-006-landing-page.md) |
+| F-007      | Admin Login                              | Admin securely authenticates and accesses workspace       | Must     | Review Pending | Product Owner | [F-007](./f-007-admin-login.md) |
+| F-008      | Account Creation                         | New admin can register and start onboarding               | Should   | Review Pending | Product Owner | [F-008](./f-008-create-account.md) |
+| F-009      | Reset Password                           | Admin can recover account access safely                   | Must     | Review Pending | Product Owner | [F-009](./f-009-reset-password.md) |
+| F-010      | AI Credits and API Key Management        | Users get 5 free credits and can add own AI provider keys | Must     | Review Pending | Product Owner | [F-010](./f-010-ai-credits-and-api-key-management.md) |
+| F-011      | Viewer Account Management                | Viewer can be invited and access granted projects         | Must     | Review Pending | Product Owner | [F-011](./f-011-viewer-account-management.md) |
+
+---
+
+## Status Definitions
+
+| Status | Meaning | Criteria |
+|--------|---------|----------|
+| **Draft** | Requirements are documented but not yet validated or complete | Requirements capture initial understanding; may have open questions or missing acceptance criteria |
+| **Review Pending** | Baseline is complete and under validation review | All requirements documented with acceptance criteria; open questions resolved; pending final product owner validation before implementation handoff |
+| **Clarified** | Core requirements are validated and stable; ready for implementation planning | All functional requirements reviewed and approved; no open questions; dependencies identified; ready for implementation team to begin technical design |
+| **Ready for Implementation** | All requirements validated, reviewed, and implementation team confirmed feasibility | Feature marked "Clarified" + all individual requirements marked "Clarified" + implementation team reviewed and confirmed feasibility |
+
+### Current Feature Status
+
+- **F-001 to F-005**: Status "Review Pending" - Core workflows validated; recently added enhancements (2026-07-30) pending final validation
+- **F-006 to F-011**: Status "Review Pending" - Requirements baseline complete; pending product owner final review before marking "Clarified"
+
+**Transition Path**: Draft → Review Pending → Clarified → Ready for Implementation
 
 ---
 
@@ -56,10 +75,39 @@ Detailed requirements are maintained in dedicated feature files.
 
 ---
 
+## Infrastructure Decisions for Implementation Team
+
+The following infrastructure choices impact requirements scope and should guide implementation:
+
+| Decision Area | Specified Choice | Impact on Requirements | Rationale |
+|---------------|------------------|------------------------|-----------|
+| **Database** | Supabase (PostgreSQL) | Row-level security for access control (NFR-011-02); built-in auth integration | Specified in architecture docs; impacts security model and access control implementation |
+| **Hosting** | Render | Performance targets in NFR-X05; cost constraints | Specified in architecture docs; impacts scalability targets and deployment approach |
+| **Email Service** | *Implementation Team Decision* | Email delivery requirements in NFR-X10 (95% within 30s, retry logic) | Any transactional email service (SendGrid, Postmark, AWS SES, etc.) that meets NFR-X10 metrics |
+| **Session Management** | *Implementation Team Decision* | Session requirements in NFR-X09 (24-hour standard, 7-day extended, concurrent allowed) | JWT or session tokens acceptable; implementation must meet timeout and refresh requirements |
+| **API Providers** | Gemini, OpenAI, DeepSeek | AI refinement workflow in F-002, F-010; user brings own keys | Platform provides 5 trial credits using platform-managed keys; users configure own API keys for unlimited use |
+
+**Note**: Infrastructure decisions marked "*Implementation Team Decision*" should be documented in the implementation repository's ADRs (Architecture Decision Records), not in this requirements specification.
+
+**Validation Checklist for "Ready for Implementation"**:
+
+Implementation team should confirm:
+- [ ] All feature requirements are clear and unambiguous
+- [ ] Acceptance criteria are testable and measurable
+- [ ] Technical feasibility confirmed (no hidden blockers)
+- [ ] Dependencies between features are understood
+- [ ] Quality baselines (NFR-X01 to NFR-X10) are achievable with specified infrastructure
+- [ ] Infrastructure choices are appropriate for requirements
+- [ ] Scope boundaries (out-of-scope.md) are agreed upon
+- [ ] No critical open questions remain
+
+---
+
 ## Change Log
 
 | Date       | Version | Change Summary                                                                                                                                  | Author        |
 | ---------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
+| 2026-07-30 | 1.5     | Added "Review Pending" status; updated all features to Review Pending; added infrastructure guidance and validation checklist; created out-of-scope.md; updated repository scope in AGENTS.repo.md. | Product Owner |
 | 2026-07-30 | 1.4     | Added F-011 Viewer Account Management, NFR-X09 Session Management, NFR-X10 Email Notifications; updated NFR-X05 with explicit MVP load assumptions. | Product Owner |
 | 2026-07-29 | 1.3     | Added F-010 AI Credits and API Key Management.                                                                                                  | Product Owner |
 | 2026-03-23 | 1.2     | Renamed index file, fixed links, restored F-002 map, and added F-006 to F-009.                                                                  | Product Owner |

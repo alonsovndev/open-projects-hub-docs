@@ -4,7 +4,7 @@
 | ---------------- | --------------------------- |
 | **Project**      | Open Freelancer Project Hub |
 | **Version**      | 1.0                         |
-| **Status**       | Draft                       |
+| **Status**       | Review Pending              |
 | **Last Updated** | 2026-03-23                  |
 | **Owner**        | Product Owner               |
 
