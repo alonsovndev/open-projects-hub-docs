@@ -3,9 +3,9 @@
 | Attribute        | Value                       |
 | ---------------- | --------------------------- |
 | **Project**      | Open Freelancer Project Hub |
-| **Version**      | 1.2                         |
+| **Version**      | 1.3                         |
 | **Status**       | Draft                       |
-| **Last Updated** | 2026-03-23                  |
+| **Last Updated** | 2026-07-29                  |
 | **Owner**        | Product Owner               |
 
 ## Purpose
@@ -34,6 +34,7 @@ Detailed requirements are maintained in dedicated feature files.
 | F-007      | Admin Login                              | Admin securely authenticates and accesses workspace       | Must     | Draft     | Product Owner | [F-007](./f-007-admin-login.md) |
 | F-008      | Account Creation                         | New admin can register and start onboarding               | Should   | Draft     | Product Owner | [F-008](./f-008-create-account.md) |
 | F-009      | Reset Password                           | Admin can recover account access safely                   | Must     | Draft     | Product Owner | [F-009](./f-009-reset-password.md) |
+| F-010      | AI Credits and API Key Management        | Users get 5 free credits and can add own AI provider keys | Must     | Draft     | Product Owner | [F-010](./f-010-ai-credits-and-api-key-management.md) |
 
 ---
 
@@ -56,6 +57,7 @@ Detailed requirements are maintained in dedicated feature files.
 
 | Date       | Version | Change Summary                                                                 | Author        |
 | ---------- | ------- | ------------------------------------------------------------------------------ | ------------- |
+| 2026-07-29 | 1.3     | Added F-010 AI Credits and API Key Management.                                 | Product Owner |
 | 2026-03-23 | 1.2     | Renamed index file, fixed links, restored F-002 map, and added F-006 to F-009. | Product Owner |
 | 2026-03-23 | 1.1     | Removed F-002 AI Refinement and Approval Workflow.                             | Product Owner |
 | 2026-03-23 | 1.0     | Initial feature-based requirements baseline created.                           | Product Owner |
