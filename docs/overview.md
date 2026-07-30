@@ -67,7 +67,6 @@ The Open Freelancer Project Hub addresses these challenges by offering:
 
 ### Business Goals
 
-- Deliver a fully functional MVP within a 1 to 1.5 month timeframe.
 - Build an active open-source community around the tool to foster future contributions and feature expansions.
 
 ---
