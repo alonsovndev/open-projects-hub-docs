@@ -23,9 +23,9 @@
 
 ## Alternatives Considered
 
-1. **[Alternative 1]**
+1. ###[Alternative 1]
    - Why it was considered
    - Why it was not selected
-2. **[Alternative 2]**
+2. ###[Alternative 2]
    - Why it was considered
    - Why it was not selected
