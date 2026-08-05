@@ -9,8 +9,8 @@
 
 ## Sources
 
-- [Architecture Solution Design](../architecture-solution-design.md)
-- [Technology Stack](../technology-stack.md)
+- [Architecture Solution Design](../core/architecture-solution-design.md)
+- [Technology Stack](../core/technology-stack.md)
 - [API Contract](./api-contract.md)
 - [Feature Requirements](../../01-requirements/project-requirements-by-feature.md)
 - [Non-Functional Requirements](../../01-requirements/non-functional-requirements.md)

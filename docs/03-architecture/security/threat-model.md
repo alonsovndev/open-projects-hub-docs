@@ -13,7 +13,7 @@
 
 - [Security Architecture](./security-architecture.md)
 - [Non-Functional Requirements](../../01-requirements/non-functional-requirements.md)
-- [Architecture Solution Design](../architecture-solution-design.md)
+- [Architecture Solution Design](../core/architecture-solution-design.md)
 
 ---
 

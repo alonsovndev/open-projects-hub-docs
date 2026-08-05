@@ -11,8 +11,8 @@
 
 ## Sources
 
-- [Architecture Solution Design](../architecture-solution-design.md)
-- [Technology Stack](../technology-stack.md)
+- [Architecture Solution Design](../core/architecture-solution-design.md)
+- [Technology Stack](../core/technology-stack.md)
 - [Deployment Architecture](deployment-architecture.md)
 - [Non-Functional Requirements](../../01-requirements/non-functional-requirements.md)
 

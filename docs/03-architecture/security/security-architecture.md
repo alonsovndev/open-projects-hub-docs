@@ -11,8 +11,8 @@
 
 - [Functional Requirements](../../01-requirements/functional-requirements.md)
 - [Non-Functional Requirements](../../01-requirements/non-functional-requirements.md)
-- [Architecture Solution Design](../architecture-solution-design.md)
-- [Technology Stack](../technology-stack.md)
+- [Architecture Solution Design](../core/architecture-solution-design.md)
+- [Technology Stack](../core/technology-stack.md)
 - [ADR-005: Authentication and Authorization Strategy](../adrs/adr-005-authentication.md)
 - [ADR-012: Secrets Management Strategy](../adrs/adr-012-secrets-management.md)
 
