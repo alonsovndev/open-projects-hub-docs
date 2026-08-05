@@ -73,7 +73,52 @@ Each module owns:
 
 ## Evolution Strategy (Modular Monolith → Selective Microservices)
 
-Reference diagram: # TODO: add diagram
+### Evolution Path Visualization
+
+```mermaid
+graph TB
+    subgraph "Phase 1: MVP - Modular Monolith"
+        MM[Backend Monolith<br/>App Runner Container]
+        MM --> AUTH[Auth Module]
+        MM --> CLIENT[Client Management]
+        MM --> PROJECT[Project Management]
+        MM --> REQ[Requirements Refinement]
+        MM --> AC[Access Control]
+        MM --> EXPORT[Export & Reporting]
+        
+        MM --> DB[(RDS PostgreSQL)]
+    end
+    
+    subgraph "Phase 2: Selective Extraction (Future)"
+        direction TB
+        CORE[Core Monolith<br/>Auth + Client + Project<br/>+ Access Control]
+        
+        REQ_SVC[Requirements Service<br/>Independently Scalable]
+        EXPORT_SVC[Export Service<br/>Async Processing]
+        
+        CORE --> DB2[(Shared RDS)]
+        REQ_SVC --> DB2
+        EXPORT_SVC --> S3[(S3 Storage)]
+        
+        FE2[Frontend] -->|REST| CORE
+        FE2 -->|REST| REQ_SVC
+        FE2 -->|REST| EXPORT_SVC
+    end
+    
+    MM -.->|Extract when<br/>triggers met| REQ_SVC
+    MM -.->|Extract when<br/>triggers met| EXPORT_SVC
+    
+    style MM fill:#e1f5ff,stroke:#0066cc,stroke-width:3px
+    style CORE fill:#fff4e1,stroke:#cc8800,stroke-width:2px
+    style REQ_SVC fill:#e8f5e8,stroke:#00aa00,stroke-width:2px
+    style EXPORT_SVC fill:#e8f5e8,stroke:#00aa00,stroke-width:2px
+```
+
+**Evolution Principles:**
+1. **Start simple:** All modules coexist in monolith during MVP
+2. **Extract selectively:** Only when extraction triggers are sustained (see below)
+3. **Keep stable core:** Auth, Client, Project, Access Control likely remain in monolith
+4. **Extract candidates:** Requirements (AI workload) and Export (async processing) are prime candidates
 
 ### Trigger-based extraction criteria
 

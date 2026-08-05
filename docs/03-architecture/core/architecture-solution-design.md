@@ -4,7 +4,7 @@
 | ---------------- | --------------------------- |
 | **Project**      | Open Freelancer Project Hub |
 | **Version**      | 1.0                         |
-| **Status**       | Approved                    |
+| **Status**       | Accepted                    |
 | **Last Updated** | 2026-08-04                  |
 
 ## Sources

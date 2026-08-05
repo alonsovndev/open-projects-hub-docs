@@ -7,84 +7,87 @@
 | **Status**       | Accepted                    |
 | **Last Updated** | 2026-08-04                  |
 
-## Sources
+## Overview
 
-- [Project Overview](../../overview.md)
-- [Functional Requirements](../../01-requirements/functional-requirements.md)
-- [Non-Functional Requirements](../../01-requirements/non-functional-requirements.md)
-- [Role Mapping](../../02-planning/role-mapping.md)
-- [Phased Roadmap](../../02-planning/phased-roadmap.md)
-- [Architecture Solution Design](./architecture-solution-design.md)
-- [Architecture Styles Decision](./architecture-styles.md)
+This document defines the technology choices for the Open Freelancer Project Hub, organized by system layer. Each technology selection aligns with MVP delivery constraints, team expertise, and Clean Architecture principles.
 
 ## Technology Stack Matrix
 
-| Component                | Selected Technology                         | Version / Compatibility              | Role in System                                                 | Rationale                                                                                          | Trade-offs                                                               |
-| ------------------------ | ------------------------------------------- | ------------------------------------ | -------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
-| Frontend Framework       | React + TypeScript                          | React 18.x, TypeScript 5.x           | Admin/Viewer UI, project and requirements workflows            | Aligns with team expertise and ecosystem maturity; strong component model for structured workflows | Requires disciplined state management and type hygiene as codebase grows |
-| UI Library               | Ant Design                                  | 5.x                                  | Accessible, consistent UI components for fast MVP delivery     | Team familiarity and rapid UI assembly                                                             | Opinionated design system may require customization overhead             |
-| Frontend State           | Redux Toolkit                               | 2.x                                  | Predictable state handling for refinement and approval flows   | Strong fit for explicit workflow states and multi-step UI flows                                    | Additional boilerplate versus local-only state                           |
-| Backend Framework        | FastAPI (Python)                            | Python 3.12 + FastAPI 0.11x          | REST APIs, validation, domain orchestration entry points       | Team expertise, async support, OpenAPI generation, Clean Architecture compatibility                | Requires strict architectural boundaries to avoid framework leakage      |
-| Data Validation          | Pydantic                                    | 2.x                                  | Request/response and application DTO validation                | Tight FastAPI integration and explicit schema contracts                                            | Version coupling with framework ecosystem                                |
-| Database                 | Amazon RDS PostgreSQL                       | PostgreSQL 15+ (db.t3.micro)         | Primary transactional store for clients/projects/requirements  | ACID guarantees, relational integrity, mature SQL tooling, AWS Free Tier eligible (12 months)      | Requires relational schema evolution discipline; manual RLS implementation |
-| ORM                      | SQLAlchemy                                  | 2.x                                  | Persistence abstraction in infrastructure layer                | Mature Python ORM, strong repository pattern support                                               | ORM complexity and potential query performance pitfalls if not monitored |
-| Authentication           | Custom FastAPI Auth Module + JWT            | Python 3.12 + PyJWT/python-jose      | User identity, session lifecycle, role context via JWT tokens  | Full control over auth logic, AWS alignment, no per-user auth costs, Clean Architecture fit        | Implementation effort (~3-4 days); team owns security responsibility     |
-| Authorization            | Backend role checks + PostgreSQL RLS        | PostgreSQL RLS policies              | Data-level least-privilege enforcement for Admin/Viewer        | Defense in depth: API-layer + data-layer authorization                                             | Policy complexity can increase with domain growth                        |
-| Frontend Build Tool      | Vite                                        | 5.x                                  | Fast local build/dev and optimized production bundles          | Fast feedback loops and modern React/TS defaults                                                   | Plugin compatibility management                                          |
-| Backend Tooling          | Docker (multi-stage) + Uvicorn workers      | Docker 25.x                          | Reproducible backend packaging for AWS App Runner deployments  | Environment parity and predictable deploy artifacts                                                | Requires image hardening and resource tuning                             |
-| Testing (Backend)        | Pytest                                      | 8.x                                  | Unit/integration tests for domain and application behavior     | Python ecosystem standard; strong fixtures/mocking                                                 | Requires disciplined test pyramid design                                 |
-| Testing (Frontend)       | Vitest + React Testing Library + Playwright | Vitest 2.x, RTL 16.x, Playwright 1.x | Component tests, interaction tests, E2E critical-path coverage | Fast unit/integration loop plus realistic E2E regression checks                                    | E2E tests can be slower/flakier without stable fixtures                  |
-| Monitoring/Observability | Sentry Free + AWS CloudWatch Free Tier      | Sentry Developer Plan + CloudWatch   | Error tracking, performance monitoring, infrastructure metrics | $0/month hybrid strategy: Sentry for app errors/APM, CloudWatch for AWS infrastructure metrics     | Two tools to learn; event limit management required                      |
-| CI/CD                    | GitHub Actions                              | Hosted runners + workflow matrix     | Automated quality gates and environment deployments            | Native GitHub integration and flexible pipelines                                                   | Workflow sprawl risk without governance                                  |
-| Frontend Hosting         | Amazon S3 + CloudFront                      | S3 static site + CloudFront CDN      | Global edge delivery, HTTPS via ACM, static asset hosting      | AWS Free Tier eligible (12 months), global CDN performance, seamless AWS integration               | No automatic PR previews; requires cache invalidation strategy           |
-| Backend Hosting          | AWS App Runner                              | Container service with auto-scaling  | FastAPI container hosting with health checks and auto-scaling  | Docker-native deployment, AWS Free Tier eligible, low operational overhead, zero-downtime deploys   | Less control than ECS Fargate; fewer infra customization options         |
+| Component              | Selected Technology                  | Description                                                                                |
+| ---------------------- | ------------------------------------ | ------------------------------------------------------------------------------------------ |
+| **Frontend**           |                                      |                                                                                            |
+| Framework              | React + TypeScript                   | Component-based UI framework with type safety for Admin/Viewer workflows                   |
+| UI Library             | Ant Design                           | Accessible, production-ready component library for rapid MVP delivery                      |
+| State Management       | Redux Toolkit                        | Predictable state container for multi-step refinement and approval flows                   |
+| Build Tool             | Vite                                 | Fast development server and optimized production builds                                    |
+| Testing                | Vitest + React Testing Library       | Unit and component testing with fast feedback loops                                        |
+| E2E Testing            | Playwright                           | End-to-end testing for critical user workflows                                             |
+| **Backend**            |                                      |                                                                                            |
+| Framework              | FastAPI (Python)                     | Modern async framework with OpenAPI generation and Clean Architecture compatibility        |
+| Data Validation        | Pydantic                             | Request/response validation with strong typing                                             |
+| ORM                    | SQLAlchemy                           | Persistence layer abstraction in infrastructure layer following repository pattern         |
+| Testing                | Pytest                               | Unit and integration testing with fixtures and mocking support                             |
+| Containerization       | Docker + Uvicorn                     | Multi-stage builds for reproducible deployments                                            |
+| **Authentication**     |                                      |                                                                                            |
+| Auth Module            | Custom FastAPI + JWT                 | Internal bounded context handling user identity, login, and token issuance                 |
+| Password Hashing       | bcrypt (via passlib)                 | Secure password storage with industry-standard hashing                                     |
+| Token Management       | PyJWT / python-jose                  | JWT generation and validation for stateless authentication                                 |
+| Authorization          | Backend role checks + PostgreSQL RLS | Defense-in-depth: API-layer role validation + database-layer policy enforcement            |
+| **Data & Storage**     |                                      |                                                                                            |
+| Database               | Amazon RDS PostgreSQL                | Managed relational database with ACID guarantees and Free Tier eligibility (12 months)     |
+| File Storage           | Amazon S3                            | Object storage for exports and file attachments                                            |
+| **Infrastructure**     |                                      |                                                                                            |
+| Frontend Hosting       | Amazon S3 + CloudFront               | Static site hosting with global CDN, HTTPS via ACM, Free Tier eligible                     |
+| Backend Hosting        | AWS App Runner                       | Container service with auto-scaling, health checks, and zero-downtime deployments          |
+| Networking             | VPC + Security Groups                | Private network for RDS access from App Runner; public CloudFront and App Runner endpoints |
+| IaC                    | Terraform                            | Infrastructure as Code for repeatable AWS resource provisioning                            |
+| **Observability**      |                                      |                                                                                            |
+| Application Monitoring | Sentry (Free Developer Plan)         | Error tracking, performance monitoring, and release correlation for frontend and backend   |
+| Infrastructure Metrics | AWS CloudWatch (Free Tier)           | AWS service metrics, application logs, and infrastructure alarms                           |
+| **CI/CD**              |                                      |                                                                                            |
+| Pipeline               | GitHub Actions                       | Automated testing, quality gates, and deployment workflows                                 |
+| Container Registry     | Amazon ECR                           | Docker image storage for backend deployments                                               |
 
-## Integration Guidelines
+## Key Integration Patterns
 
-1. **S3 + CloudFront frontend → App Runner backend**
-   - HTTPS-only REST communication.
-   - CORS allowlist limited to trusted frontend CloudFront distribution.
-   - JWT bearer token propagated on authenticated routes.
-2. **App Runner backend → Amazon RDS PostgreSQL**
-   - SQLAlchemy used only in infrastructure layer.
-   - Connection pooling (5-10 connections for MVP) and query timeouts required for predictable latency.
-   - Database migrations must be backward compatible for rolling deploys.
-   - VPC connector enables private network access to RDS from App Runner.
-3. **Authentication and authorization**
-   - Custom FastAPI auth module handles user registration, login, and JWT token issuance.
-   - Backend validates JWT claims and enforces role permissions (Admin/Viewer).
-   - PostgreSQL RLS policies enforce least privilege at data-access layer.
-4. **Observability and release traceability**
-   - Sentry SDKs enabled in frontend and backend for error tracking and APM.
-   - CloudWatch monitors AWS infrastructure metrics (App Runner, RDS, S3, CloudFront).
-   - GitHub Actions publishes release metadata for deploy-to-error correlation.
-   - Combined monitoring maintains $0/month cost within free tiers.
-5. **Scaling path**
-   - Prioritize query optimization, indexing, and payload shaping before adding new infrastructure.
-   - Re-evaluate advanced distributed patterns only when sustained load requires them.
+### Frontend ↔ Backend Communication
 
-## Scalability and Performance Alignment
+- **Protocol:** HTTPS REST APIs with JWT bearer authentication
+- **CORS:** CloudFront distribution allowlisted for backend access
+- **State sync:** Frontend Redux state synchronized with backend via RTK Query
 
-- **Horizontal scaling:** Stateless backend services on AWS App Runner with externalized state (RDS PostgreSQL).
-- **Performance targets:** Index project and story query surfaces, optimize SQL/query patterns, and monitor p95 latency.
-- **MVP load fit:** Stack supports NFR-005 and NFR-006 targets for project/story limits with AWS Free Tier managed services.
-- **Evolution path:** Architecture preserves migration path from modular monolith to selective service extraction.
+### Backend ↔ Database
 
-## ADR Index
+- **Access pattern:** SQLAlchemy repository implementations in infrastructure layer
+- **Connection pooling:** 5-10 connections for MVP with query timeouts
+- **Network security:** VPC connector provides private RDS access from App Runner
+- **Migration strategy:** Backward-compatible versioned migrations for zero-downtime deploys
 
-- [ADR-001: High-Level Architecture Pattern](../adrs/adr-001-high-level-architecture.md)
-- [ADR-002: Backend Framework (FastAPI)](../adrs/adr-002-backend-framework.md)
-- [ADR-003: Frontend Framework (React + TypeScript)](../adrs/adr-003-frontend-framework.md)
-- [ADR-004: Database (Amazon RDS PostgreSQL)](../adrs/adr-004-database.md)
-- [ADR-005: Authentication and Authorization (Custom FastAPI Auth + JWT)](../adrs/adr-005-authentication.md)
-- [ADR-006: Deployment Platform (AWS)](../adrs/adr-006-deployment-platform.md)
-- [ADR-007: ORM Choice (SQLAlchemy)](../adrs/adr-007-orm-choice.md)
-- [ADR-008: Build Tooling (Vite + Docker)](../adrs/adr-008-build-tool.md)
-- [ADR-009: Monitoring and Observability (Sentry + CloudWatch)](../adrs/adr-009-monitoring-observability.md)
-- [ADR-010: Testing Framework Strategy](../adrs/adr-010-testing-framework.md)
-- [ADR-011: Secrets Management Strategy](../adrs/adr-011-secrets-management.md)
-- [ADR-012: Containerization Strategy](../adrs/adr-012-containerization.md)
-- [ADR-013: Infrastructure as Code (Terraform)](../adrs/adr-013-infrastructure-as-code.md)
-- [ADR-014: Environment Strategy](../adrs/adr-014-environment-strategy.md)
-- [ADR-015: Code Quality Tooling](../adrs/adr-015-code-quality-tooling.md)
-- [ADR-016: Git Workflow Strategy](../adrs/adr-016-git-workflow-strategy.md)
+### Authentication Flow
+
+1. User submits credentials to `/api/v1/auth/login` endpoint
+2. Auth module validates credentials and issues JWT token
+3. Frontend stores token and includes in Authorization header
+4. Backend middleware validates JWT on protected routes
+5. PostgreSQL RLS policies enforce data-level authorization
+
+### Observability Strategy
+
+- **Application layer:** Sentry captures errors, performance traces, and release metadata
+- **Infrastructure layer:** CloudWatch monitors AWS service metrics and application logs
+- **Cost target:** $0/month using free tiers (Sentry Free Developer + CloudWatch Free Tier)
+- **Alert channels:** Email notifications for critical errors and infrastructure alarms
+
+## Scalability & Performance Strategy
+
+- **Horizontal scaling:** Stateless backend containers on App Runner scale based on traffic
+- **Database optimization:** Query indexing on project/story surfaces with p95 latency monitoring
+- **MVP capacity:** Supports NFR-005/NFR-006 targets (3 projects, 30 stories per project) on AWS Free Tier
+- **Evolution readiness:** Module boundaries enable selective service extraction when growth demands it
+- **Performance-first:** Optimize queries and payloads before adding infrastructure complexity
+
+## Related Documentation
+
+- [Architecture Solution Design](./architecture-solution-design.md) - High-level system design and component interaction
+- [Architecture Styles](./architecture-styles.md) - Modular monolith rationale and evolution strategy
+- [Architecture Decision Records](../adrs/README.md) - Detailed rationale for each technology choice
