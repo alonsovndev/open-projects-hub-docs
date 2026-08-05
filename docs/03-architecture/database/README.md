@@ -11,8 +11,9 @@ This folder contains database architecture documentation including schema design
 
 ## Related Architecture Decision Records
 
-- [ADR-003: Database](../adrs/adr-003-database.md) (Supabase PostgreSQL)
+- [ADR-004: Database](../adrs/adr-004-database.md) (Amazon RDS PostgreSQL)
 - [ADR-007: ORM Choice](../adrs/adr-007-orm-choice.md) (SQLAlchemy)
+- [ADR-017: Database Migration Strategy](../adrs/adr-017-database-migration-strategy.md) (Alembic)
 
 ## Scope
 
@@ -43,7 +44,6 @@ This domain addresses the following Must-priority requirements:
 The following documents are planned for this domain:
 
 - **Schema Design**: Entity-relationship models, table definitions, constraints
-- **Migration Strategy**: Alembic patterns, versioning, rollback procedures
 - **RLS Policies**: Row-Level Security implementation patterns
 - **Query Optimization**: Query patterns, indexing strategy, N+1 prevention
 - **Backup & Recovery**: Backup strategy, point-in-time recovery, disaster recovery

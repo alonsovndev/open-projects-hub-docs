@@ -32,3 +32,4 @@ The following architectural decisions have been recorded:
 | [ADR-014](./adr-014-environment-strategy.md)                 | Environment Strategy (Local / Container / Dev)             |
 | [ADR-015](./adr-015-code-quality-tooling.md)                 | Code Quality Tooling Strategy                              |
 | [ADR-016](./adr-016-git-workflow-strategy.md)                | Git Workflow and Branch Strategy                           |
+| [ADR-017](./adr-017-database-migration-strategy.md)          | Database Migration Strategy (Alembic)                      |
