@@ -16,15 +16,15 @@ The following architectural decisions have been recorded:
 
 | ADR ID                                                       | Title                                                      |
 | ------------------------------------------------------------ | ---------------------------------------------------------- |
-| [ADR-000](./adr-000-high-level-architecture.md)              | High-Level Architecture Pattern (Modular Monolith)         |
-| [ADR-001](./adr-001-backend-framework.md)                    | Backend Framework (FastAPI)                                |
-| [ADR-002](./adr-002-frontend-framework.md)                   | Frontend Framework (React + TypeScript)                    |
-| [ADR-003](./adr-003-database.md)                             | Database (PostgreSQL)                                      |
-| [ADR-005](./adr-005-authentication.md)                       | Authentication and Authorization Strategy (JWT)            |
+| [ADR-001](./adr-001-high-level-architecture.md)              | High-Level Architecture Pattern (Modular Monolith)         |
+| [ADR-002](./adr-002-backend-framework.md)                    | Backend Framework (FastAPI)                                |
+| [ADR-003](./adr-003-frontend-framework.md)                   | Frontend Framework (React + TypeScript)                    |
+| [ADR-004](./adr-004-database.md)                             | Database (Amazon RDS PostgreSQL)                           |
+| [ADR-005](./adr-005-authentication.md)                       | Authentication and Authorization Strategy (Custom Auth + JWT) |
 | [ADR-006](./adr-006-deployment-platform.md)                  | Deployment Platform (AWS)                                  |
 | [ADR-007](./adr-007-orm-choice.md)                           | ORM Choice (SQLAlchemy)                                    |
 | [ADR-008](./adr-008-build-tool.md)                           | Build Tooling (Vite + Docker)                              |
-| [ADR-009](./adr-009-monitoring-observability.md)             | Monitoring and Observability (Sentry)                      |
+| [ADR-009](./adr-009-monitoring-observability.md)             | Monitoring and Observability (Sentry + CloudWatch)         |
 | [ADR-010](./adr-010-testing-framework.md)                    | Testing Framework Strategy (Pytest, Vitest, Playwright)    |
 | [ADR-011](./adr-011-secrets-management.md)                   | Secrets Management Strategy                                |
 | [ADR-012](./adr-012-containerization.md)                     | Containerization Strategy (Docker)                         |

@@ -1,4 +1,4 @@
-# ADR-002: Frontend Framework (React + TypeScript)
+# ADR-003: Frontend Framework (React + TypeScript)
 
 - **Status**: Accepted
 - **Date**: 2026-02-28

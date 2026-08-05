@@ -17,14 +17,17 @@ With the migration to AWS and the decision to implement a custom authentication 
 
 ## Decision
 
-Implement a **custom Python authentication module** in the FastAPI backend with **JWT-based authentication**, where authorization is enforced by backend role checks and PostgreSQL RLS policies.
+Implement a **custom authentication bounded context** as an internal module within the FastAPI backend monolith with **JWT-based authentication**, where authorization is enforced by backend role checks and PostgreSQL RLS policies.
+
+The auth module is a bounded context within the modular monolith, not a separate microservice. It follows Clean Architecture principles with clear boundaries between domain, application, and infrastructure layers.
 
 ### Architecture Components
 
-1. **Authentication Module (Python/FastAPI)**
+1. **Authentication Module (Internal Bounded Context)**
+   - **Location**: Part of the backend monolith (e.g., `src/modules/auth/` or `src/auth/`)
    - User registration endpoint (`POST /api/v1/auth/register`)
    - Login endpoint (`POST /api/v1/auth/login`) — returns JWT access token
-   - Token validation middleware (validates JWT on protected routes)
+   - Token validation middleware (validates JWT on protected routes across all modules)
    - Password hashing with `bcrypt` via `passlib`
    - JWT generation/verification using `python-jose` or `PyJWT`
 
@@ -69,10 +72,12 @@ Implement a **custom Python authentication module** in the FastAPI backend with 
 - **Full control**: Complete ownership of authentication logic and user data.
 - **AWS alignment**: No dependency on third-party auth services; everything runs on AWS infrastructure.
 - **Cost efficiency**: No per-user auth service charges (unlike Cognito beyond Free Tier or Supabase Auth).
-- **Clean Architecture fit**: Auth module implements domain-driven design with clear boundaries.
+- **Clean Architecture fit**: Auth module implements domain-driven design with clear boundaries within the modular monolith.
+- **Module cohesion**: Auth bounded context coexists with other modules (clients, projects, requirements) in a single deployable, simplifying development and deployment.
 - **Stateless scaling**: JWT tokens enable horizontal scaling without session affinity.
 - **Defense in depth**: Backend role checks + PostgreSQL RLS policies enforce authorization.
 - **Flexibility**: Easy to extend with custom auth flows, password policies, or audit logging.
+- **Shared infrastructure**: Auth module shares database connections, logging, monitoring, and deployment pipeline with other backend modules.
 
 ### Negative
 
@@ -81,6 +86,7 @@ Implement a **custom Python authentication module** in the FastAPI backend with 
 - **Maintenance burden**: Must handle password reset, email verification, account recovery flows manually.
 - **No built-in OAuth**: Social login providers require manual integration (future work).
 - **Token refresh complexity**: Refresh token rotation logic deferred to Phase 2.
+- **Module coupling risk**: Auth module must maintain clean boundaries with other backend modules to prevent tight coupling.
 
 ## Alternatives Considered
 
