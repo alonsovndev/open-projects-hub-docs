@@ -19,7 +19,7 @@ The platform infrastructure spans multiple AWS services (VPC, RDS, App Runner, S
 **Constraints:**
 
 - Must work within AWS Free Tier limits
-- Must support multiple environments (dev/staging/prod)
+- Must support multiple environments (dev/prod)
 - Must integrate with GitHub-based CI/CD workflows
 - Must protect production changes with approval gates
 - Must maintain state consistency across team members
@@ -58,13 +58,12 @@ Adopt **Terraform** as the Infrastructure as Code (IaC) tool with the following 
 ### Positive
 
 - Version-controlled infrastructure — all changes tracked in Git with PR review process
-- Repeatable environments — identical dev/staging/prod environments from same Terraform modules
+- Repeatable environments — identical dev/prod environments from same Terraform modules
 - Reduced configuration drift — Terraform state detects manual changes, enables drift detection
 - Clear change history — supports incident response, rollback, and compliance auditing
 - AWS-native focus — single provider simplifies module design vs. multi-cloud complexity
 - Team collaboration — infrastructure changes reviewed via pull requests like code
 - Automated workflows — GitHub Actions runs `terraform plan` on PRs, `terraform apply` on merge to main
-- State locking — DynamoDB prevents concurrent modifications and state corruption
 - Modular design — reusable modules (VPC, RDS, App Runner) accelerate new environment setup
 
 ### Negative
