@@ -545,7 +545,7 @@ Status codes: `204`, `400`, `401`, `403`, `404`, `409`, `500`
 
 - Validate API contract markdown changes with documentation checks on pull requests.
 - Add/maintain contract drift checks between implemented OpenAPI spec and this contract before production deploy.
-- Require CI pass for contract-related updates before merge to `develop` or `main`.
-- Enforce deployment flow: PR preview → staging verification → production release.
+- Require CI pass for contract-related updates before merge to `dev` or `main`.
+- Enforce deployment flow: PR preview → integration on `dev` → PR to `main` → production release.
 - Rollback by reverting merge commit and redeploying previous stable backend release.
-- Keep environment variables for auth/Sentry consistent across development, staging, and production.
+- Keep environment variables for auth/Sentry consistent across local and production environments.
