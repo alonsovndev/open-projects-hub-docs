@@ -35,19 +35,33 @@ feature/<desc>  fix/<desc>  docs/<desc>    ← created from dev in your fork
         main ───────────────────────────── production branch (upstream)
          │                                 PR from upstream dev to main
          │                                 2 approvals + CI pass required
+         │                                 merge builds candidate (no deploy)
          │
-         ▼  (merge to main)
-    Production ─────────────────────────── merge triggers deploy pipeline
+         ▼  (tag vX.Y.Z on main)
+    Production ─────────────────────────── tag triggers deploy pipeline
 ```
 
 **Permanent branches in the upstream org repo:** `dev`, `main`
 
 - **`dev`**: Integration branch. All feature, fix, docs, refactor, test, and chore PRs target `dev`. This is where changes converge and are tested together before promotion to production.
-- **`main`**: Production branch. Only receives merges from `dev` (via release PR) or `hotfix/*` branches. A merge to `main` triggers the production deployment pipeline.
+- **`main`**: Production branch. Only receives merges from `dev` (via release PR) or `hotfix/*` branches. A merge to `main` builds and freezes a production candidate but does **not** deploy. Deployment is triggered by tagging a semantic version (`vX.Y.Z`) on `main`.
 
 No direct commits to `dev` or `main`. All changes arrive via pull request from a contributor's fork.
 
 **Relationship to ADR-016:** The branching model, commit conventions, and merge strategy are defined in [ADR-016](../adrs/adr-016-git-workflow-strategy.md). This document defines the CI/CD pipeline that enforces these conventions.
+
+### Branch Protection Rules
+
+| Rule                    | `dev`                                       | `main`                                                      |
+| ----------------------- | ------------------------------------------- | ----------------------------------------------------------- |
+| Direct pushes           | ❌ Blocked                                  | ❌ Blocked                                                  |
+| PR required             | ✅ All changes via PR                       | ✅ All changes via PR from `dev` or hotfix                  |
+| Required approvals      | 1 (when team > 1)                           | 2                                                           |
+| Status checks           | ✅ Must pass (lint, test, type-check, docs) | ✅ Must pass (lint, test, type-check, docs, terraform plan) |
+| Up-to-date before merge | ✅ Required                                 | ✅ Required                                                 |
+| Conversation resolution | ✅ Required                                 | ✅ Required                                                 |
+| Stale reviews           | ✅ Dismissed on new commits                 | ✅ Dismissed on new commits                                 |
+| Force pushes            | ❌ Blocked                                  | ❌ Blocked                                                  |
 
 ---
 
@@ -86,6 +100,29 @@ git checkout feature/add-pipeline-audit
 git rebase upstream/dev
 git push origin feature/add-pipeline-audit --force-with-lease
 ```
+
+### Optional Git Aliases
+
+These user-level aliases simplify fork workflow. Add them to `~/.gitconfig`:
+
+```bash
+git config --global --edit
+```
+
+```ini
+[alias]
+   sync = !git fetch upstream && git merge upstream/$(git branch --show-current) && git push origin HEAD
+   resync = !git fetch upstream && git reset --hard upstream/$(git branch --show-current) && git push origin HEAD --force-with-lease
+   feat = "!f() { test -n \"$1\" || { echo \"usage: git feature <branch-name>\"; return 1; }; git checkout dev && git resync && git checkout -b \"$1\"; }; f"
+```
+
+| Alias             | What it does                                                                                                                                                                                                     |
+| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `git sync`        | Fetches `upstream`, merges `upstream/<current-branch>` into your current branch, then pushes the result to the same branch on your fork (`origin`). Use to bring a local branch up to date without rewriting it. |
+| `git resync`      | Fetches `upstream`, resets your current branch to exactly match `upstream/<current-branch>`, then force-pushes with `--force-with-lease`. Use to make your fork's `dev` or `main` match upstream exactly.        |
+| `git feat <name>` | Checks out `dev`, runs `git resync` so local and fork `dev` match `upstream/dev`, then creates the named feature branch from the refreshed `dev`. Example: `git feat feature/ai-refinement-ui`.                  |
+
+**Important:** Use `git resync` only on disposable local copies of shared branches (`dev` or `main`). Do not run it on a feature branch that contains unmerged work.
 
 ---
 
@@ -150,8 +187,59 @@ CI runs checks on the PR. After 1 approval and all checks passing, merge via sta
 ```bash
 # Open a PR from upstream dev into upstream main
 # Requires 2 approvals and all CI checks passing
-# Merge triggers the production deployment pipeline
+# Merge builds and freezes a production candidate — does NOT deploy
 ```
+
+### Releasing to Production
+
+Once the candidate is signed off, tag the release from upstream `main`:
+
+```bash
+git fetch upstream
+git checkout main
+git rebase upstream/main
+git tag v1.0.0
+git push upstream v1.0.0
+```
+
+The tag (`vX.Y.Z`) triggers the production deployment pipeline.
+
+### Release Versioning
+
+The project uses semantic versioning (`vMAJOR.MINOR.PATCH`):
+
+| Segment | Increment when                                   |
+| ------- | ------------------------------------------------ |
+| `MAJOR` | Breaking change to a public API or data contract |
+| `MINOR` | New feature, backwards-compatible                |
+| `PATCH` | Bug fix, backwards-compatible                    |
+
+Hotfixes increment `PATCH` (e.g., `v1.0.0` → `v1.0.1`). New features shipped via the normal `dev` → `main` cycle increment `MINOR` (e.g., `v1.0.1` → `v1.1.0`).
+
+### Commit Conventions
+
+All commits follow **Conventional Commits** (`<type>(<scope>): <description>`):
+
+| Type       | When to use                                   |
+| ---------- | --------------------------------------------- |
+| `feat`     | New feature for users                         |
+| `fix`      | Bug fix                                       |
+| `docs`     | Documentation only                            |
+| `style`    | Code formatting, whitespace (no logic change) |
+| `refactor` | Code change with no functional change         |
+| `test`     | Adding or updating tests                      |
+| `chore`    | Build process, tooling, dependencies          |
+| `perf`     | Performance improvements                      |
+| `ci`       | CI/CD configuration changes                   |
+
+Examples:
+
+- `feat(auth): add JWT refresh token rotation`
+- `fix(ui): resolve modal close button alignment`
+- `docs(adr): add code quality tooling strategy`
+- `refactor(api): extract validation logic to shared module`
+
+**Enforcement:** PR titles are validated via CI (GitHub Actions checks Conventional Commits format). No local commit hooks are enforced — this reduces developer friction during rapid iteration. CONTRIBUTING.md documents the format with examples for new contributors.
 
 ---
 
@@ -166,34 +254,7 @@ CI runs checks on the PR. After 1 approval and all checks passing, merge via sta
 
 The CI/CD pipeline is designed around the two-branch strategy to ensure code quality and a safe path to production.
 
-```mermaid
-flowchart LR
-    subgraph "Feature Development"
-        A(Sync fork dev) --> B(Create feature branch);
-        B --> C(Make changes & commit);
-        C --> D{Open PR to upstream dev};
-    end
-
-    subgraph "Integration Checks"
-        D --> E[CI: Lint, Test, Type-check, Build];
-        E --> F[1 Approval];
-        F --> G[Merge to dev];
-    end
-
-    subgraph "Production Release"
-        H{Open PR: dev → main} --> I[CI: Re-run critical tests];
-        I --> J[2 Approvals];
-        J --> K[Merge to main];
-    end
-
-    subgraph "Production Deployment"
-        K --> L[Terraform Apply];
-        L --> M[Run DB Migrations];
-        M --> N[Deploy to App Runner & S3];
-        N --> O[Smoke Tests];
-        O --> P[Tag Release in Sentry];
-    end
-```
+![CI/CD Pipeline Diagram](./images/git-ci-cd-pipeline.png)
 
 ---
 
@@ -206,16 +267,17 @@ flowchart LR
   - **No deployment occurs from this pipeline.**
 
 - **Release PR Pipeline (target: `main`):** Triggered on a PR from upstream `dev` to upstream `main`.
-  - This is a governance step. It re-runs critical tests.
+  - This is a governance step. It re-runs critical tests and builds the production Docker image (sha-tagged).
   - Requires 2 approvals before merging.
   - Runs `terraform plan` to confirm infrastructure changes.
-  - **No deployment occurs from this pipeline.**
+  - **Merge builds and freezes a candidate — does NOT deploy.**
 
-- **Production Deployment Pipeline (trigger: merge to `main`):**
+- **Production Deployment Pipeline (trigger: tag `vX.Y.Z` on `main`):**
+  - The tag promotes the already-built candidate image to production — no rebuild.
   - Applies any pending infrastructure changes via `terraform apply`.
   - Runs database migrations via Alembic.
-  - Deploys the new Docker image (built from `main`) to AWS App Runner.
-  - Deploys the new frontend build to S3 and invalidates the CloudFront cache.
+  - Deploys the candidate Docker image to AWS App Runner.
+  - Deploys the frontend build to S3 and invalidates the CloudFront cache.
   - Runs automated smoke tests against the live production environment.
   - Tags the new release in Sentry for error monitoring.
 
@@ -236,7 +298,14 @@ Use hotfixes only for critical production bugs that cannot wait for the normal `
 
 2. Fix, test, push to your fork, and open a PR into upstream `main` (2 approvals).
 
-3. After merge, the production deployment pipeline triggers automatically.
+3. After merge and approval, tag the hotfix release from upstream `main`:
+
+   ```bash
+   git tag v1.0.1
+   git push upstream v1.0.1
+   ```
+
+   The tag triggers the production deployment pipeline.
 
 4. Back-merge into upstream `dev` to keep branches in sync:
 
@@ -266,7 +335,7 @@ There is no persistent `staging` or `dev` environment. The `dev` branch provides
 ## 10. Database Migration Strategy
 
 - Migrations are managed via **Alembic** (see ADR-017) and are versioned and backward-compatible.
-- In the production pipeline (on merge to `main`), migrations are executed via an **AWS App Runner init container** or a pre-deployment step.
+- In the production pipeline (triggered by tag `vX.Y.Z` on `main`), migrations are executed via an **AWS App Runner init container** or a pre-deployment step.
 - A failed migration will fail the deployment pipeline, preventing the application from deploying against an incorrect schema version.
 
 ---
@@ -297,7 +366,7 @@ There is no persistent `staging` or `dev` environment. The `dev` branch provides
 
 ## 14. Deployment Impact Summary
 
-- The architecture supports a controlled release promotion from `dev` to `main`.
+- The architecture supports a controlled release promotion: `dev` → `main` (candidate) → tag `vX.Y.Z` (deploy).
 - Fork-based contributions ensure consistent workflow for all contributors and clean upstream history.
 - Sentry release tracking provides immediate visibility into the impact of a production deployment.
 - CloudWatch metrics and alarms monitor the health of the production environment.
@@ -308,11 +377,11 @@ There is no persistent `staging` or `dev` environment. The `dev` branch provides
 
 ## Change Log
 
-| Date       | Version | Change Summary                                                                                                        | Author |
-| ---------- | ------- | --------------------------------------------------------------------------------------------------------------------- | ------ |
-| 2026-02-28 | 1.0     | Initial draft — CI/CD pipeline architecture                                                                           | —      |
-| 2026-03-24 | 1.1     | Moved to ops/ subfolder; Sources section added                                                                        | —      |
-| 2026-08-04 | 2.0     | Updated for AWS migration: App Runner, RDS, S3+CloudFront, Alembic                                                    | —      |
-| 2026-08-04 | 2.1     | Simplified pipeline to remove staging environment                                                                     | —      |
-| 2026-08-04 | 2.2     | Updated branching strategy to GitFlow model (`develop` → `main`)                                                      | —      |
-| 2026-08-07 | 3.0     | Fork-based workflow, `dev`+`main` two-branch model, fork setup/sync, PR conventions, hotfix process, two-tier PR flow | —      |
+| Date       | Version | Change Summary                                                                                                                                                                                          | Author |
+| ---------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
+| 2026-02-28 | 1.0     | Initial draft — CI/CD pipeline architecture                                                                                                                                                             | —      |
+| 2026-03-24 | 1.1     | Moved to ops/ subfolder; Sources section added                                                                                                                                                          | —      |
+| 2026-08-04 | 2.0     | Updated for AWS migration: App Runner, RDS, S3+CloudFront, Alembic                                                                                                                                      | —      |
+| 2026-08-04 | 2.1     | Simplified pipeline to remove staging environment                                                                                                                                                       | —      |
+| 2026-08-04 | 2.2     | Updated branching strategy to GitFlow model (`develop` → `main`)                                                                                                                                        | —      |
+| 2026-08-07 | 3.0     | Fork-based workflow, `dev`+`main` two-branch model, fork setup/sync, PR conventions, hotfix process, two-tier PR flow, tag-based production deployment (merge to main = candidate, tag vX.Y.Z = deploy) | —      |
