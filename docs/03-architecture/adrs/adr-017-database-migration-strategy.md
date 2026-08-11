@@ -82,5 +82,5 @@ Adopt **Alembic** as the database migration tool with version-controlled migrati
 
 - [Alembic Documentation](https://alembic.sqlalchemy.org/)
 - [SQLAlchemy 2.0 Documentation](https://docs.sqlalchemy.org/en/20/)
-- [Database Design Document](../../04-database/database-design.md) - Schema entities requiring migration management
+- [Database Design Document](../database/database-design.md) - Schema entities requiring migration management
 
