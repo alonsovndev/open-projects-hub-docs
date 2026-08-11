@@ -3,7 +3,7 @@
 | Attribute        | Value                       |
 | ---------------- | --------------------------- |
 | **Project**      | Open Freelancer Project Hub |
-| **Version**      | 1.7                         |
+| **Version**      | 1.8                         |
 | **Status**       | Draft                       |
 | **Last Updated** | 2026-08-11                  |
 
@@ -27,7 +27,7 @@
 ## Data Domains
 
 - **Identity and Access:** User profile projection plus per-project role assignment for `admin` and `viewer` boundaries.
-- **Client and Project Lifecycle:** Basic client info, project metadata, phase/status, and archive behavior.
+- **Client and Project Lifecycle:** Basic client info, project metadata, phase/status, epic grouping, and archive behavior.
 - **Refinement and User Stories:** AI-generated user stories produced from refinement input, linked directly to projects with per-story approval tracking.
 
 ## Core Entities
@@ -37,14 +37,16 @@
 | `users`               | Application-visible user profile keyed to auth identity  | Identity and Access | `active`, `disabled` |
 | `clients`             | Basic client info managed by the freelancer Admin        | Client Lifecycle    | `active`, `archived` |
 | `projects`            | Project metadata, phase, and status                      | Project Lifecycle   | `active`, `archived` |
+| `epics`               | Grouping container for related user stories per project  | Project Lifecycle   | `open`, `in_progress`, `done` |
 | `project_memberships` | Per-project role assignment (admin or viewer)            | Identity and Access | active by record     |
 | `user_stories`        | AI-generated user stories produced from refinement input | Refinement Workflow | `draft`, `approved`  |
 
 ## Relationships
 
 - `users` owns `clients` and `projects` as the freelancer Admin boundary.
-- `projects` belongs to a `client` and has `project_memberships` and `user_stories`.
-- `user_stories` are approved individually and linked directly to their parent project.
+- `projects` belongs to a `client` and has `epics`, `project_memberships`, and `user_stories`.
+- `epics` group user stories within a project; each epic contains one or more `user_stories`.
+- `user_stories` are approved individually and linked to both their parent epic and project.
 
 ## Entity-Relationship Diagram (ERD)
 
@@ -55,6 +57,8 @@ erDiagram
     USERS ||--o{ PROJECT_MEMBERSHIPS : assigned_to
     PROJECTS ||--o{ PROJECT_MEMBERSHIPS : has
     CLIENTS ||--o{ PROJECTS : contains
+    PROJECTS ||--o{ EPICS : contains
+    EPICS ||--o{ USER_STORIES : contains
     PROJECTS ||--o{ USER_STORIES : has
 
     USERS {
@@ -99,9 +103,24 @@ erDiagram
         timestamptz updated_at
     }
 
+    EPICS {
+        uuid id PK
+        text epic_key UK
+        uuid project_id FK
+        string title
+        text summary
+        text description
+        jsonb labels
+        string priority
+        string status
+        timestamptz created_at
+        timestamptz updated_at
+    }
+
     USER_STORIES {
         uuid id PK
         text story_id UK
+        uuid epic_id FK
         uuid project_id FK
         integer sort_order
         string title
@@ -147,7 +166,19 @@ erDiagram
 - **Indexes:** `(owner_admin_user_id, status, created_at DESC)`, `(client_id, status)`.
 - **Business rule:** max 3 active projects per Admin, enforced at the service layer within a single transaction.
 
-### 4. `project_memberships`
+### 4. `epics`
+
+- **Purpose:** Grouping container for related user stories within a project. Maps to Jira epics for future integration.
+- **Primary key:** `id` (UUID).
+- **Human-readable key:** `epic_key` (TEXT, unique per project) following the convention `EPIC-{n}` (e.g., `EPIC-0`).
+- **Foreign keys:** `project_id -> projects.id`.
+- **Constraints:**
+  - `epic_key` unique per project (unique constraint on `(project_id, epic_key)`).
+  - `priority` check (`must_have`, `should_have`, `could_have`, `wont_have`).
+  - `status` check (`open`, `in_progress`, `done`).
+- **Indexes:** unique on `(project_id, epic_key)`, `(project_id, status)`, GIN on `(labels)`.
+
+### 5. `project_memberships`
 
 - **Purpose:** Per-project role assignment used for authorization and RLS decisions.
 - **Primary key:** `(project_id, user_id)`.
@@ -156,12 +187,12 @@ erDiagram
 - **Uniqueness:** partial unique index on `(project_id)` where `role = 'admin'`; partial unique index on `(project_id)` where `role = 'viewer'`.
 - **Indexes:** `(user_id)` for "my projects" authorization queries.
 
-### 5. `user_stories`
+### 6. `user_stories`
 
-- **Purpose:** AI-generated user stories directly linked to a project; individually approvable with acceptance criteria, priority, and estimation.
+- **Purpose:** AI-generated user stories linked to an epic within a project; individually approvable with acceptance criteria, priority, and estimation.
 - **Primary key:** `id` (UUID).
 - **Human-readable key:** `story_id` (TEXT, unique) following the convention `US-EP{epic}-{team}-{seq}` (e.g., `US-EP0-BE-001`).
-- **Foreign keys:** `project_id -> projects.id`, `approved_by_user_id -> users.id`.
+- **Foreign keys:** `epic_id -> epics.id` (NOT NULL), `project_id -> projects.id`, `approved_by_user_id -> users.id`.
 - **Constraints:**
   - `story_id` unique across all projects.
   - `priority` check (`must_have`, `should_have`, `could_have`, `wont_have`).
@@ -170,21 +201,22 @@ erDiagram
   - `sort_order >= 1`.
   - unique `(project_id, sort_order)` for deterministic ordering within a project.
   - `approved_by_user_id` and `approved_at` are `NULL` until explicit approval; a `CHECK` constraint requires both when `status = 'approved'`.
-- **Indexes:** unique on `(story_id)`, `(project_id, sort_order)`, `(project_id, status, created_at DESC)`, `(approved_by_user_id)`, GIN on `(acceptance_criteria)`, GIN on `(labels)`.
+- **Indexes:** unique on `(story_id)`, `(epic_id, sort_order)`, `(project_id, status, created_at DESC)`, `(approved_by_user_id)`, GIN on `(acceptance_criteria)`, GIN on `(labels)`.
 
 ## Constraints and Integrity Rules
 
 - **Primary keys:** UUIDs on all root entities; composite key on `project_memberships`.
-- **Foreign keys:** all child records reference their parent entities to prevent orphaned stories.
-- **Uniqueness:** `users.email`, `user_stories.story_id`, one admin and one viewer membership per project, ordered stories within each project.
-- **Check constraints:** lifecycle enums on all status fields, `user_stories.priority`, `projects.phase`, approval metadata pairing on `user_stories`.
+- **Foreign keys:** all child records reference their parent entities to prevent orphaned stories and epics.
+- **Uniqueness:** `users.email`, `user_stories.story_id`, `epics.epic_key` per project, one admin and one viewer membership per project, ordered stories within each project.
+- **Check constraints:** lifecycle enums on all status fields, `epics.priority`, `user_stories.priority`, `projects.phase`, approval metadata pairing on `user_stories`.
 - **Soft archive:** `clients` and `projects` use `status + archived_at` with CHECK constraints ensuring archival consistency.
 
 ## Access Patterns and Indexing Notes
 
 - **Dashboard list:** active projects by owner -> `(owner_admin_user_id, status, created_at DESC)` on `projects`.
+- **Epic board:** epics by project and status -> `(project_id, status)` on `epics`.
 - **Project detail:** stories by project and status -> `(project_id, status, created_at DESC)` on `user_stories`.
-- **Backlog view:** stories by project, filtered by priority and status -> composite index + `story_id` for ordering.
+- **Backlog view:** stories by epic, filtered by priority and status -> `(epic_id, sort_order)` + `story_id` for ordering.
 - **Story rendering:** ordered stories within a project -> `(project_id, sort_order)` on `user_stories`.
 
 ## Migration and Evolution Considerations
@@ -215,12 +247,12 @@ erDiagram
 | FR-001-02   | `projects.status` and owner index support the max-3-active-project validation path.                     |
 | FR-001-03   | `projects.phase` constrained to `discovery` and `planning`.                                             |
 | FR-002-01   | Raw input acceptance handled at application layer; refined output stored in `user_stories`.             |
-| FR-002-02   | `user_stories` stores generated stories with `story_id`, `title`, `description`, `acceptance_criteria`, `priority`, `story_points`, `labels`, ordering, and approval audit fields. |
-| FR-002-03   | `user_stories.status` plus `approved_by_user_id` and `approved_at` preserve the explicit approval gate.                                                |
-| FR-003-01   | `project_memberships.role` and `users.status` support Admin and Viewer authorization.                                                                  |
-| FR-003-02   | Partial unique membership indexes limit to one Admin and one Viewer per project.                                                                       |
-| FR-003-03   | Approved `user_stories` and `projects.phase` provide the Viewer-safe story and phase visibility model.                                                 |
-| FR-004-01   | `user_stories` with `acceptance_criteria`, `priority`, and `status` support structured backlog views grouped by priority and status.                   |
+| FR-002-02   | `user_stories` stores generated stories with `story_id`, `title`, `description`, `acceptance_criteria`, `priority`, `story_points`, `labels`, ordering, `epic_id`, and approval audit fields. |
+| FR-002-03   | `user_stories.status` plus `approved_by_user_id` and `approved_at` preserve the explicit approval gate.                                                                                        |
+| FR-003-01   | `project_memberships.role` and `users.status` support Admin and Viewer authorization.                                                                                                          |
+| FR-003-02   | Partial unique membership indexes limit to one Admin and one Viewer per project.                                                                                                               |
+| FR-003-03   | Approved `user_stories` and `projects.phase` provide the Viewer-safe story and phase visibility model.                                                                                         |
+| FR-004-01   | `epics` and `user_stories` with `acceptance_criteria`, `priority`, `status`, and `epic_id` FK support structured backlog views grouped by epic, priority, and status.                          |
 | FR-007-01   | `users` stores identity projection and `password_hash`; custom auth bounded context owns credential lifecycle. |
 | FR-009-01   | Password-reset flow managed by custom auth module per ADR-005; not stored in this schema.                     |
 | NFR-001-01  | Soft archive fields on `clients` and `projects` support privacy-aligned archival.                       |
@@ -232,6 +264,7 @@ erDiagram
 
 | Date       | Version | Change Summary                                                                                                                                                                                         | Author    |
 | ---------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------- |
+| 2026-08-11 | 1.8     | Added `epics` table (6-entity model). Added `epic_id` FK (NOT NULL) to `user_stories`. Backlog access pattern updated to epic-scoped. FR-004-01 traceability enhanced.                                                          | Tech Lead |
 | 2026-08-11 | 1.7     | Renamed `statement` to `description` on `user_stories`. Added `story_points` (INTEGER) and `labels` (JSONB) with GIN index.                                                                                                                                                    | Tech Lead |
 | 2026-08-11 | 1.6     | Added `story_id` (TEXT UK), `acceptance_criteria` (JSONB), and `priority` (CHECK) to `user_stories`. Added GIN index and backlog access pattern. FR-004-01 traceability added.                                                                                                   | Tech Lead |
 | 2026-08-11 | 1.5     | Corrected all Supabase references to Amazon RDS PostgreSQL + custom JWT auth per ADR-004/005. Added `password_hash` to `users`, `updated_at` to `project_memberships`, soft-archive CHECK constraints, FK index on `project_memberships.user_id`, and Alembic migration reference per ADR-017. | Tech Lead |

@@ -3,7 +3,7 @@
 | Attribute        | Value                       |
 | ---------------- | --------------------------- |
 | **Domain**       | Database Architecture       |
-| **Last Updated** | 2026-08-03                  |
+| **Last Updated** | 2026-08-11                  |
 
 ## Overview
 
@@ -18,7 +18,7 @@ This folder contains database architecture documentation including schema design
 ## Scope
 
 This domain covers:
-- Database schema design and entity relationships
+- Database schema design and entity relationships (6-entity model: users, clients, projects, epics, project_memberships, user_stories)
 - Migration strategy and version control
 - Row-Level Security (RLS) policies
 - Indexing strategy and query optimization
@@ -31,9 +31,10 @@ This domain addresses the following Must-priority requirements:
 
 | Requirement | Description |
 |-------------|-------------|
-| FR-001 | Project CRUD operations |
-| FR-003 | Requirement management |
-| FR-004 | Project template system |
+| FR-001 | Project and client CRUD operations |
+| FR-002 | AI refinement and user story generation |
+| FR-003 | Requirement and role-based access management |
+| FR-004 | Requirements backlog with epic grouping and Markdown export |
 | FR-006 | Project status tracking |
 | NFR-001 | Authentication and authorization |
 | NFR-005 | Performance (response time) |

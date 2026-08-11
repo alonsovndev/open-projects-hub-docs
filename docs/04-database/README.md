@@ -13,7 +13,7 @@ Database design documentation defining the core schema, entity relationships, in
 
 | Document | Description |
 |----------|-------------|
-| [database-design.md](./database-design.md) | Full schema design: 5-entity ERD, table definitions, constraints, indexes, RLS policies, access patterns, and requirements traceability |
+| [database-design.md](./database-design.md) | Full schema design: 6-entity ERD, table definitions, constraints, indexes, RLS policies, access patterns, and requirements traceability |
 
 ## Related Architecture Decision Records
 
@@ -34,7 +34,7 @@ Database design documentation defining the core schema, entity relationships, in
 | FR-003-01   | `project_memberships.role` and `users.status` for authorization |
 | FR-003-02   | Partial unique membership indexes (one Admin, one Viewer per project) |
 | FR-003-03   | Approved stories and phase visibility model |
-| FR-004-01   | `user_stories` with `acceptance_criteria`, `priority`, and `status` for backlog views |
+| FR-004-01   | `epics` and `user_stories` with `acceptance_criteria`, `priority`, `status`, and `epic_id` FK for backlog views grouped by epic |
 | FR-007-01   | `users` identity projection and `password_hash`; custom auth bounded context owns credential lifecycle |
 | NFR-001-01  | Soft archive fields on `clients` and `projects` |
 | NFR-003-01  | Membership-driven RBAC and RLS-compatible ownership fields |
