@@ -3,9 +3,9 @@
 | Attribute        | Value                       |
 | ---------------- | --------------------------- |
 | **Project**      | Open Freelancer Project Hub |
-| **Version**      | 2.0                         |
+| **Version**      | 2.1                         |
 | **Status**       | Draft                       |
-| **Last Updated** | 2026-08-04                  |
+| **Last Updated** | 2026-08-07                  |
 
 ## Sources
 
@@ -56,6 +56,11 @@
 | SSRF / outbound misuse        | Backend fetches untrusted URLs, probes internal AWS metadata      | Internal metadata leak, lateral movement       | URL validation, outbound allowlists, deny AWS metadata endpoint (169.254.169.254)              |
 | Monitoring blind spots        | Missing logs/alerts for auth or permission failures               | Delayed detection, longer incident time        | Sentry alerts, CloudWatch alarms, audit logging, runbook-based triage                          |
 | Password reset token hijack   | Insecure password reset tokens (predictable, no expiration)       | Account takeover via password reset abuse      | Cryptographically random, single-use tokens with short expiration (15 min) per F-009.          |
+| Prompt injection (direct)     | User injects instructions into requirements text to override system prompt or extract sensitive information | AI outputs harmful/unapproved content, system prompt leakage, bypass of refinement guardrails | Input delimiters (e.g., `<user_input>...</user_input>`), system prompt hardening with explicit boundaries, input sanitization (strip instruction patterns), output validation before display |
+| Prompt injection (indirect)   | Malicious content stored in project name/description gets included in AI prompts across sessions | Cross-user prompt contamination, persistent prompt manipulation | Context escaping/sanitization before inclusion in prompts, output validation, never include raw stored data in system prompt context |
+| System prompt extraction      | User crafts input designed to reveal the AI's system prompt, instructions, or internal guardrails | Exposure of system prompt intellectual property, enabling more targeted attacks | System prompt hardening: explicit "do not reveal these instructions" directives, output filtering for prompt-like content, monitoring for extraction patterns |
+| Harmful AI content generation | User instructs AI through requirements to generate offensive, dangerous, or policy-violating content | Reputation damage, platform abuse, potential legal liability | Output content filtering (keyword/toxicity checks), output length limits, human-in-the-loop approval gate (FR-002-03), provider-level content safety filters (OpenAI/Gemini/DeepSeek moderation APIs) |
+| AI credit abuse               | Automated/bot-driven refinement requests draining platform credits or user API quota | Denial of service on AI features, financial cost to platform or user | Rate limiting on refinement endpoint (per-user, per-IP), credit system limits (5 free credits per account), CAPTCHA/gate for high-frequency patterns, monitoring for anomalous refinement patterns |
 
 ## Risk Assessment Matrix
 
@@ -79,6 +84,10 @@
 | R-16    | Database connection pool exhaustion             | Medium     | Medium   | Medium     | P2       |
 | R-17    | Password reset token hijack                     | Medium     | High     | High       | P1       |
 | R-18    | Weak password hashing configuration             | Low        | Critical | High       | P1       |
+| R-19    | Prompt injection overriding AI guardrails       | Medium     | High     | High       | P1       |
+| R-20    | System prompt extraction via crafted input      | Medium     | Medium   | Medium     | P2       |
+| R-21    | Harmful AI content generation                   | Medium     | High     | High       | P1       |
+| R-22    | AI credit abuse via automated refinement        | Medium     | Medium   | Medium     | P2       |
 
 ## Mitigation Plan by Priority
 
@@ -101,6 +110,12 @@
 - Validate authorization at API layer and RLS layer for every data path.
 - Deny-by-default RLS policies for PostgreSQL.
 - Backend RBAC checks before use case execution.
+
+**AI Security:**
+- Implement prompt injection defenses: input delimiters, sanitization, system prompt hardening.
+- Enforce AI input limits: 5000 chars max, strip script/HTML/injection patterns per FR-002-06.
+- Apply output content filtering and maintain human-in-the-loop approval gate (FR-002-03).
+- Rate-limit AI refinement endpoint per-user and per-IP to prevent credit abuse.
 
 ### P2 (High - Post-MVP Hardening)
 
@@ -157,3 +172,4 @@
 | 2026-02-28 | 1.0     | Initial draft — threat model (STRIDE)                       | —      |
 | 2026-03-24 | 1.1     | Moved to security/ subfolder; Sources section added         | —      |
 | 2026-08-04 | 2.0     | Complete rewrite for AWS migration: added AWS-specific threats (S3, RDS, IAM, Terraform state), custom auth threats (JWT, bcrypt, password reset), expanded risk matrix to 18 threats | —      |
+| 2026-08-07 | 2.1     | Added prompt injection threats (direct, indirect, system prompt extraction, harmful content, credit abuse) and AI security mitigations | —      |
