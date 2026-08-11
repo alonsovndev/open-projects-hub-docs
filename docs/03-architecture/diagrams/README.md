@@ -37,7 +37,7 @@ See [flows.drawio.md](./flows.drawio.md) for migration guide and placeholders.
 
 See [deployment-security.drawio.md](./deployment-security.drawio.md) for migration guide and placeholders.
 
-- **Page 1: Cloud Deployment** — Vercel, Render, Supabase, Sentry topology
+- **Page 1: Cloud Deployment** — AWS (App Runner, RDS, S3, CloudFront) topology
   - Image: ![Cloud Deployment](./deployment-security-cloud.png) _(placeholder - generate from Drawio)_
 - **Page 2: Security Architecture** — Auth, RBAC, RLS layers
   - Image: ![Security Architecture](./deployment-security-architecture.png) _(placeholder - generate from Drawio)_
@@ -46,9 +46,9 @@ See [deployment-security.drawio.md](./deployment-security.drawio.md) for migrati
 
 ## Sequence Diagrams
 
-Detailed workflow explanations with embedded Mermaid diagrams:
+Detailed workflow explanations with embedded Mermaid diagrams — 13 sequence diagrams covering the full system lifecycle:
 
-- [Sequence Diagrams](./sequence-diagrams.md) — Authentication, authorization, AI refinement, error handling flows
+- [Sequence Diagrams](./sequence-diagrams.md) — Authentication, AI refinement, approval/visibility, markdown export, error handling, user registration, password reset, login+lockout, authorization layers, viewer invitation lifecycle, AI credits/API key management, AI security pipeline, and CI/CD deployment
 
 ## Migration Status
 
