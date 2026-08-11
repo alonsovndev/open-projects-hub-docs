@@ -3,9 +3,9 @@
 | Attribute        | Value                       |
 | ---------------- | --------------------------- |
 | **Project**      | Open Freelancer Project Hub |
-| **Version**      | 1.3                         |
+| **Version**      | 1.4                         |
 | **Status**       | Draft                       |
-| **Last Updated** | 2026-03-24                  |
+| **Last Updated** | 2026-08-11                  |
 
 ## Sources
 
@@ -28,7 +28,7 @@
 
 - **Identity and Access:** User profile projection plus per-project role assignment for `admin` and `viewer` boundaries.
 - **Client and Project Lifecycle:** Basic client info, project metadata, phase/status, and archive behavior.
-- **Refinement and User Stories:** Raw input capture, session approval state, and AI-generated user stories per session.
+- **Refinement and User Stories:** AI-generated user stories produced from refinement input, linked directly to projects with per-story approval tracking.
 
 ## Core Entities
 
@@ -38,15 +38,13 @@
 | `clients`             | Basic client info managed by the freelancer Admin          | Client Lifecycle    | `active`, `archived` |
 | `projects`            | Project metadata, phase, and status                        | Project Lifecycle   | `active`, `archived` |
 | `project_memberships` | Per-project role assignment (admin or viewer)              | Identity and Access | active by record     |
-| `refinement_sessions` | Raw refinement input and approval state per project        | Refinement Workflow | `draft`, `approved`  |
-| `user_stories`        | AI-generated user stories produced by a refinement session | Refinement Workflow | `draft`, `approved`  |
+| `user_stories`        | AI-generated user stories produced from refinement input   | Refinement Workflow | `draft`, `approved`  |
 
 ## Relationships
 
 - `users` owns `clients` and `projects` as the freelancer Admin boundary.
-- `projects` belongs to a `client` and has `project_memberships`, `refinement_sessions`, and `user_stories`.
-- `refinement_sessions` captures raw input per project; each session produces `user_stories`.
-- `user_stories` are approved individually and remain linked to both their originating session and project for direct querying.
+- `projects` belongs to a `client` and has `project_memberships` and `user_stories`.
+- `user_stories` are approved individually and linked directly to their parent project.
 
 ## Entity-Relationship Diagram (ERD)
 
@@ -57,8 +55,6 @@ erDiagram
     USERS ||--o{ PROJECT_MEMBERSHIPS : assigned_to
     PROJECTS ||--o{ PROJECT_MEMBERSHIPS : has
     CLIENTS ||--o{ PROJECTS : contains
-    PROJECTS ||--o{ REFINEMENT_SESSIONS : has
-    REFINEMENT_SESSIONS ||--o{ USER_STORIES : produces
     PROJECTS ||--o{ USER_STORIES : has
 
     USERS {
@@ -101,27 +97,15 @@ erDiagram
         timestamptz created_at
     }
 
-    REFINEMENT_SESSIONS {
-        uuid id PK
-        uuid project_id FK
-        uuid created_by_user_id FK
-        text raw_input
-        string source_format
-        string status
-        uuid approved_by_user_id FK
-        timestamptz approved_at
-        timestamptz created_at
-        timestamptz updated_at
-    }
-
     USER_STORIES {
         uuid id PK
-        uuid session_id FK
         uuid project_id FK
         integer sort_order
         string title
         text statement
         string status
+        uuid approved_by_user_id FK
+        timestamptz approved_at
         timestamptz created_at
         timestamptz updated_at
     }
@@ -164,42 +148,31 @@ erDiagram
 - **Constraints:** `role` check (`admin`, `viewer`).
 - **Uniqueness:** partial unique index on `(project_id)` where `role = 'admin'`; partial unique index on `(project_id)` where `role = 'viewer'`.
 
-### 5. `refinement_sessions`
+### 5. `user_stories`
 
-- **Purpose:** Captures raw input and tracks approval state for one AI refinement pass per project.
+- **Purpose:** AI-generated user stories directly linked to a project; individually approvable.
 - **Primary key:** `id` (UUID).
-- **Foreign keys:** `project_id -> projects.id`, `created_by_user_id -> users.id`, `approved_by_user_id -> users.id`.
-- **Constraints:**
-  - `status` check (`draft`, `approved`).
-  - `source_format` check (`plain_text`, `bullet_list`).
-  - `approved_by_user_id` and `approved_at` are `NULL` until approval; a `CHECK` constraint requires both when `status = 'approved'`.
-- **Indexes:** `(project_id, status, created_at DESC)`.
-
-### 6. `user_stories`
-
-- **Purpose:** AI-generated user stories produced by a refinement session; individually approvable.
-- **Primary key:** `id` (UUID).
-- **Foreign keys:** `session_id -> refinement_sessions.id`, `project_id -> projects.id`.
+- **Foreign keys:** `project_id -> projects.id`, `approved_by_user_id -> users.id`.
 - **Constraints:**
   - `status` check (`draft`, `approved`).
   - `sort_order >= 1`.
-  - unique `(session_id, sort_order)` for deterministic ordering within a session.
-- **Indexes:** `(session_id, sort_order)`, `(project_id, status, created_at DESC)`.
+  - unique `(project_id, sort_order)` for deterministic ordering within a project.
+  - `approved_by_user_id` and `approved_at` are `NULL` until explicit approval; a `CHECK` constraint requires both when `status = 'approved'`.
+- **Indexes:** `(project_id, sort_order)`, `(project_id, status, created_at DESC)`, `(approved_by_user_id)`.
 
 ## Constraints and Integrity Rules
 
 - **Primary keys:** UUIDs on all root entities; composite key on `project_memberships`.
-- **Foreign keys:** all child records reference their parent entities to prevent orphaned stories or sessions.
-- **Uniqueness:** `users.email`, one admin and one viewer membership per project, ordered stories within each session.
-- **Check constraints:** lifecycle enums on all status fields, `projects.phase`, approval metadata pairing on sessions.
+- **Foreign keys:** all child records reference their parent entities to prevent orphaned stories.
+- **Uniqueness:** `users.email`, one admin and one viewer membership per project, ordered stories within each project.
+- **Check constraints:** lifecycle enums on all status fields, `projects.phase`, approval metadata pairing on `user_stories`.
 - **Soft archive:** `clients` and `projects` use `status + archived_at` for privacy-aligned archival.
 
 ## Access Patterns and Indexing Notes
 
 - **Dashboard list:** active projects by owner -> `(owner_admin_user_id, status, created_at DESC)` on `projects`.
 - **Project detail:** stories by project and status -> `(project_id, status, created_at DESC)` on `user_stories`.
-- **Refinement review:** latest session per project -> `(project_id, status, created_at DESC)` on `refinement_sessions`.
-- **Story rendering:** ordered stories within a session -> `(session_id, sort_order)` on `user_stories`.
+- **Story rendering:** ordered stories within a project -> `(project_id, sort_order)` on `user_stories`.
 
 ## Migration and Evolution Considerations
 
@@ -216,9 +189,9 @@ erDiagram
 
 ## Risks and Open Questions
 
-- **Risk:** Max-3-active-project rule lives in the service layer; concurrent requests could bypass it. **Mitigation:** single-transaction check with SELECT FOR UPDATE or equivalent.
-- **Risk:** draft stories could be exposed to Viewer users if approval filtering is inconsistent across API responses and RLS policies. **Mitigation:** enforce `status = approved` visibility for Viewer paths and add role-based test coverage.
-- **Open question:** Should `user_stories` support individual archival or only session-level lifecycle transitions?
+- **Risk:** Max-3-active-project rule lives in the service layer; concurrent requests could bypass it. **Mitigation:** single-transaction check with `SELECT FOR UPDATE` or equivalent.
+- **Risk:** draft stories could be exposed to Viewer users if approval filtering is inconsistent across API responses and RLS policies. **Mitigation:** enforce `status = 'approved'` visibility for Viewer paths and add role-based test coverage.
+- **Open question:** Should `user_stories` support individual archival or only project-level lifecycle transitions?
 - **Open question:** When acceptance criteria are added post-MVP, should they be a child table of `user_stories` or a structured JSON field?
 
 ## Traceability to Requirements
@@ -228,9 +201,9 @@ erDiagram
 | FR-001-01   | `clients` and `projects` with `client_id` FK model the Admin-managed client and project relationship.   |
 | FR-001-02   | `projects.status` and owner index support the max-3-active-project validation path.                     |
 | FR-001-03   | `projects.phase` constrained to `discovery` and `planning`.                                             |
-| FR-002-01   | `refinement_sessions.raw_input` and `source_format` persist raw input.                                  |
-| FR-002-02   | `user_stories` stores generated stories with ordering and approval status.                              |
-| FR-002-03   | Approval fields on `refinement_sessions` and `user_stories.status` preserve the explicit approval gate. |
+| FR-002-01   | Raw input acceptance handled at application layer; refined output stored in `user_stories`.             |
+| FR-002-02   | `user_stories` stores generated stories with ordering, approval status, and approval audit fields.      |
+| FR-002-03   | `user_stories.status` plus `approved_by_user_id` and `approved_at` preserve the explicit approval gate. |
 | FR-003-01   | `project_memberships.role` and `users.status` support Admin and Viewer authorization.                   |
 | FR-003-02   | Partial unique membership indexes limit to one Admin and one Viewer per project.                        |
 | FR-003-03   | Approved `user_stories` and `projects.phase` provide the Viewer-safe story and phase visibility model.  |
@@ -245,6 +218,7 @@ erDiagram
 
 | Date       | Version | Change Summary                                                                                                                                                                                        | Author    |
 | ---------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- |
+| 2026-08-11 | 1.4     | Removed `refinement_sessions` table (raw input not persisted per FR-002 analysis). Added approval audit fields (`approved_by_user_id`, `approved_at`) to `user_stories`. Simplified to 5-entity model. | Tech Lead |
 | 2026-03-24 | 1.3     | Validation pass against current requirements direction. Removed `internal_notes` from `projects` and updated security/risk guidance to focus on story approval visibility.                            | Tech Lead |
 | 2026-03-24 | 1.2     | Simplified to 6-entity model. Removed ambiguity tracking, acceptance-criteria tables, requirements promotion, and export tracking. Renamed draft_stories to user_stories with direct approval status. | Tech Lead |
 | 2026-03-23 | 1.1     | Refactored to template structure, updated source links, aligned requirement IDs, and clarified auth boundary ownership.                                                                               | Tech Lead |
