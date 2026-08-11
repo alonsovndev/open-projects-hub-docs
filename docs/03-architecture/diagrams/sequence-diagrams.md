@@ -61,7 +61,6 @@ sequenceDiagram
 
     Admin->>FE: Enter raw notes and submit
     FE->>BE: POST /projects/{id}/refinement-sessions (draft)
-    BE->>DB: Persist raw input + metadata
     BE->>AI: Request refinement and ambiguity analysis
     AI-->>BE: Structured stories + ambiguity markers
     BE->>DB: Save generated draft stories
