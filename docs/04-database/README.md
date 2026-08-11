@@ -19,6 +19,7 @@ Database design documentation defining the core schema, entity relationships, in
 
 - [ADR-004: Database (Amazon RDS PostgreSQL)](../03-architecture/adrs/adr-004-database.md)
 - [ADR-005: Authentication and Authorization Strategy](../03-architecture/adrs/adr-005-authentication.md)
+- [ADR-017: Database Migration Strategy](../03-architecture/adrs/adr-017-database-migration-strategy.md)
 
 ## Requirements Coverage
 
@@ -28,12 +29,13 @@ Database design documentation defining the core schema, entity relationships, in
 | FR-001-02   | `projects.status` and owner index for max-3-active-project validation |
 | FR-001-03   | `projects.phase` constrained to `discovery` and `planning` |
 | FR-002-01   | Raw input acceptance handled at application layer; refined output stored in `user_stories` |
-| FR-002-02   | `user_stories` with ordering, approval status, and approval audit fields |
+| FR-002-02   | `user_stories` with `story_id`, `title`, `description`, `acceptance_criteria`, `priority`, `story_points`, `labels`, and approval audit fields |
 | FR-002-03   | `user_stories.status`, `approved_by_user_id`, and `approved_at` for explicit approval gate |
 | FR-003-01   | `project_memberships.role` and `users.status` for authorization |
 | FR-003-02   | Partial unique membership indexes (one Admin, one Viewer per project) |
 | FR-003-03   | Approved stories and phase visibility model |
-| FR-007-01   | `users` identity projection; Supabase Auth owns credentials |
+| FR-004-01   | `user_stories` with `acceptance_criteria`, `priority`, and `status` for backlog views |
+| FR-007-01   | `users` identity projection and `password_hash`; custom auth bounded context owns credential lifecycle |
 | NFR-001-01  | Soft archive fields on `clients` and `projects` |
 | NFR-003-01  | Membership-driven RBAC and RLS-compatible ownership fields |
 | NFR-X01     | Auth-provider boundary and sensitive-field handling |
@@ -50,7 +52,9 @@ This schema follows PostgreSQL best practices across the following categories.
 - **`text`** for variable-length string fields (no `varchar(n)` limits)
 - **Lowercase snake_case** identifiers throughout
 - **Foreign key indexes** on all FK columns for join performance
-- **Check constraints** for lifecycle enums on status and phase fields
+- **Check constraints** for lifecycle enums on status, phase, and priority fields
+- **JSONB `acceptance_criteria`** with GIN index for flexible checklist storage
+- **`story_id`** unique human-readable identifier (e.g., `US-EP0-BE-001`) for API, exports, and backlog views
 
 ### Indexing Strategy
 
@@ -62,8 +66,8 @@ This schema follows PostgreSQL best practices across the following categories.
 ### Security & Access Control
 
 - Row-Level Security (RLS) enforced with least-privilege defaults for Admin and Viewer boundaries
-- Authentication via provider identity with `auth.uid()` for multi-tenant isolation
-- Sensitive fields (`email`, `contact_email`) governed by provider boundary
+- Authentication via custom JWT auth bounded context (bcrypt/passlib per ADR-005)
+- Sensitive fields (`email`, `contact_email`, `password_hash`) governed by auth boundary
 - Lifecycle auditability via `created_at`, `updated_at`, `approved_at`, and `archived_at` columns
 - Least-privilege role design with separate read/write access patterns
 
