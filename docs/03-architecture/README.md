@@ -5,7 +5,7 @@
 | **Project**      | Open Freelancer Project Hub |
 | **Version**      | 1.0                         |
 | **Status**       | In Review                   |
-| **Last Updated** | 2026-03-24                  |
+| **Last Updated** | 2026-08-03                  |
 
 ## How to Use
 
@@ -18,13 +18,17 @@
 
 ## 1. Core Architecture
 
-- **[Architecture Solution Design](./architecture-solution-design.md)**: System context, selected pattern, component design, data flow, and high-level trade-offs.
-- **[Architecture Styles](./architecture-styles.md)**: Modular Monolith rationale, bounded context map, and evolution strategy toward selective microservices.
-- **[Sequence Diagrams](./sequence-diagrams.md)**: Key interaction flows — authentication, AI refinement, error handling.
+Files in `core/`:
 
-## 2. Technology Stack
+- **[Architecture Solution Design](./core/architecture-solution-design.md)**: System context, selected pattern, component design, data flow, and high-level trade-offs.
+- **[Architecture Styles](./core/architecture-styles.md)**: Modular Monolith rationale, bounded context map, and evolution strategy toward selective microservices.
+- **[Technology Stack](./core/technology-stack.md)**: Component-level technology choices (FastAPI, React, Supabase, Sentry, Vercel, Render) with rationale and trade-offs.
 
-- **[Technology Stack](./technology-stack.md)**: Component-level technology choices (FastAPI, React, Supabase, Sentry, Vercel, Render) with rationale and trade-offs.
+## 2. Database
+
+Files in `database/`:
+
+- **[Database Domain Overview](./database/README.md)**: Database architecture domain with schema design guidance, references to ADR-003, ADR-007, and planned documentation for migrations, RLS policies, and query optimization.
 
 ## 3. API and Communication
 
@@ -50,7 +54,10 @@ Files in `security/`:
 
 ## 6. Diagrams and Decision Records
 
-- **[Diagrams](./diagrams/)**: Architecture diagrams — C4 models, data flow, authentication flow, authorization flow, deployment.
+- **[Diagrams](./diagrams/)**: Architecture diagrams — C4 models, flows, deployment, security.
+  - Complex diagrams maintained in Drawio files: `c4-models.drawio`, `flows.drawio`, `deployment-security.drawio`
+  - See [Diagrams README](./diagrams/README.md) for full diagram index
+  - [Sequence Diagrams](./diagrams/sequence-diagrams.md): Key interaction flows with detailed explanations
 - **[ADRs](./adrs/)**: Architecture Decision Records with context, decision, and trade-offs.
   - Start with [ADR Template](./adrs/adr-template.md) for all new decisions.
 
@@ -62,7 +69,7 @@ This matrix confirms every Must-priority requirement is addressed by at least on
 
 | Architecture Domain       | Must FR(s) Covered                             | Must NFR(s) Covered       | Key ADR(s)                            |
 | ------------------------- | ---------------------------------------------- | ------------------------- | ------------------------------------- |
-| Core Architecture         | FR-001, FR-002, FR-003, FR-004                 | NFR-003, NFR-004          | ADR-001, ADR-009 (architecture-style) |
+| Core Architecture         | FR-001, FR-002, FR-003, FR-004                 | NFR-003, NFR-004          | ADR-000, ADR-009 (architecture-style) |
 | API and Communication     | FR-001, FR-002, FR-003, FR-004, FR-005, FR-006 | NFR-001, NFR-005          | ADR-005, ADR-009 (architecture-style) |
 | Deployment and Operations | —                                              | NFR-005, NFR-006          | ADR-006, ADR-008, ADR-013, ADR-014    |
 | Security                  | FR-008, FR-009, FR-010                         | NFR-001, NFR-002          | ADR-005, ADR-012                      |

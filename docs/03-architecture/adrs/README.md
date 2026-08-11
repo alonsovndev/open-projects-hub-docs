@@ -16,17 +16,20 @@ The following architectural decisions have been recorded:
 
 | ADR ID                                                       | Title                                                      |
 | ------------------------------------------------------------ | ---------------------------------------------------------- |
-| [ADR-000](./adr-001-high-level-architecture.md)              | High-Level Architecture Pattern (Modular Monolith)         |
-| [ADR-001](./adr-001-backend-framework.md)                    | Backend Framework (FastAPI)                                |
-| [ADR-002](./adr-002-frontend-framework.md)                   | Frontend Framework (React + TypeScript)                    |
-| [ADR-003](./adr-003-database.md)                             | Database (Supabase PostgreSQL)                             |
-| [ADR-005](./adr-005-authentication.md)                       | Authentication and Authorization Strategy (JWT)            |
-| [ADR-006](./adr-006-deployment-platform.md)                  | Deployment Platform (Vercel + Render)                      |
+| [ADR-001](./adr-001-high-level-architecture.md)              | High-Level Architecture Pattern (Modular Monolith)         |
+| [ADR-002](./adr-002-backend-framework.md)                    | Backend Framework (FastAPI)                                |
+| [ADR-003](./adr-003-frontend-framework.md)                   | Frontend Framework (React + TypeScript)                    |
+| [ADR-004](./adr-004-database.md)                             | Database (Amazon RDS PostgreSQL)                           |
+| [ADR-005](./adr-005-authentication.md)                       | Authentication and Authorization Strategy (Custom Auth + JWT) |
+| [ADR-006](./adr-006-deployment-platform.md)                  | Deployment Platform (AWS)                                  |
 | [ADR-007](./adr-007-orm-choice.md)                           | ORM Choice (SQLAlchemy)                                    |
 | [ADR-008](./adr-008-build-tool.md)                           | Build Tooling (Vite + Docker)                              |
-| [ADR-009](./adr-009-architecture-style.md)                   | Architecture Style (Modular Monolith First)                |
-| [ADR-009](./adr-009-testing-framework.md)                    | Testing Framework Strategy (Pytest, Vitest, Playwright)    |
-| [ADR-010](./adr-010-monitoring-observability.md)             | Monitoring and Observability (Sentry)                      |
-| [ADR-012](./adr-012-secrets-management.md)                   | Secrets Management Strategy                                |
-| [ADR-013](./adr-013-containerization.md)                     | Containerization Approach for Render Services              |
-| [ADR-014](./adr-014-infrastructure-as-code.md)               | Infrastructure as Code Strategy (Terraform)                |
+| [ADR-009](./adr-009-monitoring-observability.md)             | Monitoring and Observability (Sentry + CloudWatch)         |
+| [ADR-010](./adr-010-testing-framework.md)                    | Testing Framework Strategy (Pytest, Vitest, Playwright)    |
+| [ADR-011](./adr-011-secrets-management.md)                   | Secrets Management Strategy                                |
+| [ADR-012](./adr-012-containerization.md)                     | Containerization Strategy (Docker)                         |
+| [ADR-013](./adr-013-infrastructure-as-code.md)               | Infrastructure as Code Strategy (Terraform)                |
+| [ADR-014](./adr-014-environment-strategy.md)                 | Environment Strategy (Local / Container / Dev)             |
+| [ADR-015](./adr-015-code-quality-tooling.md)                 | Code Quality Tooling Strategy                              |
+| [ADR-016](./adr-016-git-workflow-strategy.md)                | Git Workflow and Branch Strategy                           |
+| [ADR-017](./adr-017-database-migration-strategy.md)          | Database Migration Strategy (Alembic)                      |

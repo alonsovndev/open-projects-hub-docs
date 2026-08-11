@@ -32,6 +32,17 @@ Unapproved AI-generated story pending Admin review. Not included in exports; not
 **Internal Notes**  
 Private Admin-only notes attached to user stories. Never visible to Viewer role; excluded from Viewer API responses and exports.
 
+## Epics & Backlog
+
+**Epic**  
+Grouping container for related user stories within a project. Maps to an implementation phase or feature area. Each epic has a unique key (e.g., `EPIC-0`), priority, and lifecycle status (`open`, `in_progress`, `done`). User stories reference their parent epic via `epic_id`.
+
+**Epic Key**  
+Human-readable identifier for an epic, unique per project. Follows the convention `EPIC-{n}` (e.g., `EPIC-0`, `EPIC-1`). Used in `story_id` prefixes (`US-EP0-BE-001`) and for Jira integration.
+
+**Backlog**  
+Structured view of user stories organized by epic, priority, and status. Supports filtering and reordering per FR-004. Approved stories with acceptance criteria form the backlog deliverable.
+
 ## Projects & Clients
 
 **Client**  
@@ -81,6 +92,6 @@ Non-functional requirement applying to multiple features; defined in README Cros
 
 ---
 
-**Version**: 1.0  
+**Version**: 1.1  
 **Last Updated**: 2026-07-30  
 **Owner**: Product Owner

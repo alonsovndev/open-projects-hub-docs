@@ -1,4 +1,4 @@
-# ADR-009: Testing Framework Strategy
+# ADR-010: Testing Framework Strategy
 
 - **Status**: Accepted
 - **Date**: 2026-02-28

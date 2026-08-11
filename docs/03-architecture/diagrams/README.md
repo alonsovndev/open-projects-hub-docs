@@ -1,25 +1,16 @@
 # Architecture Diagrams Index
 
-This directory contains Mermaid-based architecture visualizations for the Open Freelancer Project Hub.
+This directory contains architecture visualizations for the Open Freelancer Project Hub. Diagrams use embedded Mermaid syntax inside markdown files.
 
-## C4 Model
+## Sequence Diagrams
 
-- [`c4-system-context.mmd`](./c4-system-context.mmd) — C4 Level 1 system context (users and external systems).
-- [`c4-system-context.md`](./c4-system-context.md) — supporting explanation for Level 1.
-- [`c4-container-diagram.mmd`](./c4-container-diagram.mmd) — C4 Level 2 containers and technology boundaries.
-- [`c4-container.md`](./c4-container.md) — supporting explanation for Level 2.
-- [`c4-component-backend.mmd`](./c4-component-backend.mmd) — C4 Level 3 backend component interactions.
-- [`c4-component-frontend.mmd`](./c4-component-frontend.mmd) — C4 Level 3 frontend component interactions.
+Detailed workflow explanations with 13 sequence diagrams covering the full system lifecycle:
 
-## Flow Diagrams
+- [Sequence Diagrams](./sequence-diagrams.md) — Authentication, AI refinement, approval/visibility, markdown export, error handling, user registration, password reset, login+lockout, authorization layers, viewer invitation lifecycle, AI credits/API key management, AI security pipeline, and CI/CD deployment
 
-- [`data-flow.mmd`](./data-flow.mmd) — primary data flow from input through validation, processing, storage, and output.
+## Related Documents
 
-## Deployment & Evolution
-
-- [`deployment-cloud.mmd`](./deployment-cloud.mmd) — cloud deployment topology (Vercel, Render, Supabase, Sentry).
-- [`architecture-evolution.mmd`](./architecture-evolution.mmd) — staged architecture evolution path.
-
-## Related Document
-
-- [`../sequence-diagrams.md`](../sequence-diagrams.md) — sequence diagrams for key user/system workflows.
+- [Core Architecture](../core/) — High-level architecture patterns
+- [Security Architecture](../security/security-architecture.md) — Security design details
+- [Deployment Architecture](../ops/deployment-architecture.md) — Infrastructure details
+- [CI/CD Pipeline](../ops/ci-cd-pipeline.md) — Build and release pipeline

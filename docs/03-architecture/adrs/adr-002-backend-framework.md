@@ -1,4 +1,4 @@
-# ADR-001: Backend Framework (FastAPI)
+# ADR-002: Backend Framework (FastAPI)
 
 - **Status**: Accepted
 - **Date**: 2026-02-28

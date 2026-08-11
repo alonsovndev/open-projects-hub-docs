@@ -3,17 +3,17 @@
 | Attribute        | Value                       |
 | ---------------- | --------------------------- |
 | **Project**      | Open Freelancer Project Hub |
-| **Version**      | 1.0                         |
+| **Version**      | 2.0                         |
 | **Status**       | Draft                       |
-| **Last Updated** | 2026-02-28                  |
+| **Last Updated** | 2026-08-11                  |
 
 ## Sources
 
-- [Architecture Solution Design](../architecture-solution-design.md)
-- [Technology Stack](../technology-stack.md)
+- [Architecture Solution Design](../core/architecture-solution-design.md)
+- [Technology Stack](../core/technology-stack.md)
 - [API Contract](./api-contract.md)
-- [Feature Requirements](../../01-requirements/project-requirements-by-feature.md)
-- [Non-Functional Requirements](../../01-requirements/non-functional-requirements.md)
+- [Feature Requirements](../../01-requirements/README.md)
+- [Security Architecture](../security/security-architecture.md)
 
 ## API Style
 
@@ -78,34 +78,34 @@
 
 ## Authentication and Authorization Patterns
 
-- **Authentication:** Supabase Auth issues JWTs; APIs require `Authorization: Bearer <token>` for protected routes.
+- **Authentication:** FastAPI custom auth module issues JWTs; APIs require `Authorization: Bearer <token>` for protected routes (see ADR-005).
 - **Authorization model:** hybrid RBAC + data-level policies.
   - API layer enforces role permissions (Admin/Viewer capabilities).
-  - Supabase Row Level Security (RLS) enforces least-privilege data access.
-- **Token requirements:** short-lived access tokens with refresh-token rotation managed by Supabase.
-- **Service trust boundary:** backend validates JWT signature, expiration, audience, and required claims on every protected request.
+  - PostgreSQL Row Level Security (RLS) enforces least-privilege data access.
+- **Token requirements:** short-lived access tokens (1-hour default, configurable via `JWT_EXPIRE_MINUTES`). Refresh tokens deferred to Phase 2.
+- **Service trust boundary:** backend validates JWT signature, expiration, and required claims on every protected request.
 
 ## Rate Limiting and Throttling
 
 - **Baseline policy (per authenticated user/IP):**
   - `60 requests/minute` for standard read/write endpoints,
-  - stricter limits for auth-sensitive endpoints (login/password reset).
+  - stricter limits for auth-sensitive endpoints (5 attempts per 15 min on login, 3 verification code resends per 15 min, 3 password reset requests per 15 min).
 - **Limit response:** return `429 Too Many Requests` with `Retry-After` header.
 - **Response body for throttling:** same canonical error format with `code=RATE_LIMIT_EXCEEDED`.
 - **Implementation approach:** backend middleware with database-backed counters and endpoint-level guardrails.
 
-## Observability (Sentry)
+## Observability (Sentry + CloudWatch)
 
 - Attach `requestId`, endpoint, actor role, and version (`v1`) as Sentry context for API errors.
 - Track key API metrics in Sentry Performance: error rate, p95 latency, and 429 frequency by route.
+- CloudWatch monitors infrastructure-level API metrics (RDS connectivity, App Runner health).
 - Alert on sustained spikes in `5xx` and `429` responses.
 - Use release tagging from CI to correlate regressions with deployments.
 
 ## Deployment Impact (GitHub Actions)
 
-- Validate OpenAPI contract generation and API linting/checks on every PR.
+- Validate API design changes on every pull request.
 - Enforce backward-compatibility checks before merging breaking API changes.
-- Publish API version/release notes on deployment to staging/production.
 - Rollback strategy: revert to prior release and maintain previous major API version during deprecation window.
 - Manage environment variables/secrets for auth, rate-limiting configuration, and Sentry DSN per environment.
 
@@ -117,3 +117,4 @@
 | ---------- | ------- | -------------------------------------- | ------ |
 | 2026-02-28 | 1.0     | Initial draft — API design standards   | —      |
 | 2026-03-24 | 1.1     | Moved to api/ subfolder; links updated | —      |
+| 2026-08-11 | 2.0     | Aligned with AWS migration and custom JWT auth (ADR-005): replaced Supabase Auth references, added PostgreSQL RLS, added auth endpoint rate limits, updated observability to Sentry+CloudWatch, fixed broken source links | —      |
