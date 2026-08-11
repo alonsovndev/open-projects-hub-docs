@@ -3,9 +3,9 @@
 | Attribute        | Value                       |
 | ---------------- | --------------------------- |
 | **Project**      | Open Freelancer Project Hub |
-| **Version**      | 2.0                         |
+| **Version**      | 2.1                         |
 | **Status**       | Draft                       |
-| **Last Updated** | 2026-08-04                  |
+| **Last Updated** | 2026-08-07                  |
 
 ## Sources
 
@@ -42,6 +42,7 @@ Security principles applied:
 The platform uses a layered defense-in-depth model across **AWS infrastructure** (S3, CloudFront, App Runner, RDS) with custom authentication and comprehensive monitoring.
 
 **Architecture Layers:**
+
 - **Identity:** Custom JWT-based authentication module within FastAPI backend (ADR-005)
 - **Access Control:** Backend RBAC checks + PostgreSQL Row Level Security (RLS) policies
 - **Data Protection:** TLS in transit, AWS-managed encryption at rest (RDS, S3)
@@ -49,7 +50,60 @@ The platform uses a layered defense-in-depth model across **AWS infrastructure**
 - **Secrets Management:** AWS environment variables or Secrets Manager (ADR-011)
 - **Observability:** Sentry (app errors/performance) + CloudWatch (infrastructure/logs)
 
-> **Note:** The `security-architecture.mmd` diagram needs to be created. It should visualize the layered defense model, showing how user requests traverse CloudFront, App Runner, and RDS, and how services like Sentry, CloudWatch, and IAM interact with the core infrastructure.
+> **Note:** The diagram below visualizes the layered defense model: user requests traverse CloudFront, App Runner, and RDS, with Sentry, CloudWatch, and IAM providing observability and identity.
+
+```mermaid
+flowchart TB
+    subgraph Users["Users"]
+        Admin["Admin (Browser)"]
+        Viewer["Viewer (Browser)"]
+    end
+
+    subgraph Edge["Edge Layer"]
+        CF["CloudFront CDN<br/>HTTPS/TLS 1.2+<br/>DDoS Shield"]
+        S3F["S3 Frontend<br/>Static Assets<br/>SSE-S3 Encrypted"]
+    end
+
+    subgraph Compute["Compute Layer"]
+        AR["AWS App Runner<br/>FastAPI Backend<br/>JWT Auth Middleware<br/>RBAC Permission Layer<br/>Rate Limiting"]
+        ECR["ECR<br/>Immutable Images<br/>Vuln Scanned"]
+    end
+
+    subgraph Data["Data Layer"]
+        RDS[("RDS PostgreSQL<br/>Private Subnet<br/>TLS Connections<br/>RLS Policies<br/>Encrypted at Rest")]
+        S3D["S3 Data<br/>File Storage<br/>SSE-S3 Encrypted"]
+    end
+
+    subgraph Observability["Observability Layer"]
+        Sentry["Sentry<br/>Error Tracking<br/>Performance<br/>PII Scrubbed"]
+        CW["CloudWatch<br/>Logs & Metrics<br/>Alarms<br/>7-day Retention"]
+    end
+
+    subgraph Identity["Identity & Secrets"]
+        IAM["AWS IAM<br/>Least-Privilege<br/>Service Roles"]
+        Secrets["GitHub Secrets<br/>JWT Key<br/>DB Credentials<br/>Sentry DSN"]
+    end
+
+    Admin -->|"HTTPS"| CF
+    Viewer -->|"HTTPS"| CF
+    CF -->|"Static Assets"| S3F
+    CF -->|"API Requests<br/>Bearer JWT"| AR
+    AR -->|"VPC Connector<br/>TLS"| RDS
+    AR -->|"AWS SDK<br/>TLS"| S3D
+    AR -->|"Errors & Traces"| Sentry
+    AR -->|"Structured JSON Logs"| CW
+    RDS -->|"RDS Metrics"| CW
+    AR -..->|"IAM Role"| IAM
+    RDS -..->|"IAM Role"| IAM
+    AR -..->|"Env Vars"| Secrets
+
+    style Users fill:#e1f5fe,stroke:#01579b
+    style Edge fill:#fff3e0,stroke:#e65100
+    style Compute fill:#e8f5e9,stroke:#1b5e20
+    style Data fill:#fce4ec,stroke:#880e4f
+    style Observability fill:#f3e5f5,stroke:#4a148c
+    style Identity fill:#eceff1,stroke:#263238
+```
 
 ## Authentication Strategy
 
@@ -91,7 +145,50 @@ The platform uses a layered defense-in-depth model across **AWS infrastructure**
 }
 ```
 
-> **Note:** The `authentication-flow.mmd` diagram needs to be created. It should visualize the custom JWT flow described, including the client requesting a token from the `/login` endpoint and using it in the Authorization header for subsequent requests.
+> **Note:** The diagram below visualizes the custom JWT flow: client requesting a token from `/login`, then using it in the `Authorization` header for subsequent requests.
+
+```mermaid
+sequenceDiagram
+    participant Client as Client (Browser)
+    participant API as FastAPI Backend
+    participant DB as RDS PostgreSQL
+    participant JWT as JWT Module
+
+    Note over Client,JWT: === Registration Flow ===
+    Client->>API: POST /api/v1/auth/register<br/>{email, password}
+    API->>API: Validate password policy<br/>(8+ chars, upper, lower, digit)
+    API->>DB: INSERT INTO users<br/>(email, bcrypt(password, cost=12))
+    DB-->>API: User created
+    API-->>Client: 201 Created<br/>{user_id, email, role}
+
+    Note over Client,JWT: === Login Flow ===
+    Client->>API: POST /api/v1/auth/login<br/>{email, password}
+    API->>DB: SELECT * FROM users WHERE email = ?
+    DB-->>API: User record (hashed password)
+    API->>API: bcrypt.verify(password, hash)
+    alt Invalid credentials
+        API-->>Client: 401 Unauthorized
+    else Rate limit exceeded
+        API-->>Client: 429 Too Many Requests<br/>(5 failed attempts = lockout)
+    else Valid credentials
+        API->>JWT: Sign token<br/>{sub, email, role, exp, iat}
+        JWT-->>API: JWT access token (HS256)
+        API-->>Client: 200 OK<br/>{access_token, expires_in: 3600}
+    end
+
+    Note over Client,JWT: === Authenticated Request ===
+    Client->>API: GET /api/v1/projects<br/>Authorization: Bearer <token>
+    API->>JWT: Verify signature + expiration
+    alt Token invalid/expired
+        API-->>Client: 401 Unauthorized
+    else Token valid
+        JWT-->>API: Claims {sub, email, role}
+        API->>API: Extract user context
+        API->>DB: Query projects WHERE owner = user_id
+        DB-->>API: Project list
+        API-->>Client: 200 OK<br/>[{project data}]
+    end
+```
 
 ## Authorization Model
 
@@ -119,7 +216,50 @@ The platform uses a layered defense-in-depth model across **AWS infrastructure**
 5. PostgreSQL RLS policies enforce additional data-level access control
 6. Request proceeds or returns 401 (unauthenticated) / 403 (unauthorized)
 
-> **Note:** The `authorization-flow.mmd` diagram needs to be created. It should depict how a request is checked at the middleware, permission, and RLS layers.
+> **Note:** The diagram below depicts how a request is checked at the middleware, permission, and RLS layers.
+
+```mermaid
+flowchart LR
+    A[Client Request<br/>Bearer JWT] --> B
+
+    subgraph Middleware["1. JWT Middleware"]
+        B[Extract Token<br/>from Header] --> C{Signature<br/>Valid?}
+        C -->|No| R401A[401 Unauthorized]
+        C -->|Yes| D{Token<br/>Expired?}
+        D -->|Yes| R401B[401 Unauthorized]
+        D -->|No| E[Decode Claims<br/>sub, role, exp]
+    end
+
+    E --> F
+
+    subgraph Permission["2. Permission Layer RBAC"]
+        F{Route Requires<br/>Admin Role?}
+        F -->|Yes, is Admin| G[Pass]
+        F -->|Yes, is Viewer| R403A[403 Forbidden]
+        F -->|No| H{Resource<br/>Ownership?}
+        H -->|Owner| G
+        H -->|Not Owner| R403B[403 Forbidden]
+    end
+
+    G --> I
+
+    subgraph RLS["3. RLS PostgreSQL"]
+        I[Query with<br/>user_id context] --> J{RLS Policy<br/>Match?}
+        J -->|Allowed| K[Return Data]
+        J -->|Denied| L[Empty Result<br/>or Error]
+    end
+
+    K --> M[200 Response]
+    L --> N[200/403<br/>Filtered Response]
+
+    style R401A fill:#ffcdd2,stroke:#b71c1c
+    style R401B fill:#ffcdd2,stroke:#b71c1c
+    style R403A fill:#ffcdd2,stroke:#b71c1c
+    style R403B fill:#ffcdd2,stroke:#b71c1c
+    style Middleware fill:#e3f2fd,stroke:#1565c0
+    style Permission fill:#fff3e0,stroke:#e65100
+    style RLS fill:#fce4ec,stroke:#880e4f
+```
 
 ## Data Protection
 
@@ -156,7 +296,7 @@ The platform uses a layered defense-in-depth model across **AWS infrastructure**
 | Insecure Design                  | Threat modeling, ADR-driven design decisions, deny-by-default access         |
 | Security Misconfiguration        | Environment baselines, hardened defaults, restricted CORS and headers        |
 | Vulnerable Components            | Dependency scanning in CI, patch cadence, lockfile governance                |
-| Identification/Auth Failures     | Custom auth module, token lifecycle controls, rate-limited login paths         |
+| Identification/Auth Failures     | Custom auth module, token lifecycle controls, rate-limited login paths       |
 | Software/Data Integrity Failures | Protected CI pipelines, signed commits/tags where applicable, change reviews |
 | Logging/Monitoring Failures      | Sentry monitoring, audit logs, alerting and incident runbooks                |
 | SSRF                             | Outbound allowlists, URL validation for any server-side fetch behavior       |
@@ -164,6 +304,7 @@ The platform uses a layered defense-in-depth model across **AWS infrastructure**
 ## Network Security Architecture
 
 **AWS VPC Architecture:**
+
 - **Public subnets:** CloudFront distribution, App Runner public endpoint (HTTPS ingress)
 - **Private subnets:** RDS PostgreSQL (no public internet access)
 - **VPC connector:** App Runner uses VPC connector to access RDS in private subnet
@@ -171,6 +312,7 @@ The platform uses a layered defense-in-depth model across **AWS infrastructure**
 - **Network ACLs:** Default VPC ACLs with stateful firewall rules
 
 **Ingress Controls:**
+
 - CloudFront serves frontend static assets with edge caching and HTTPS termination
 - App Runner exposes backend API via public HTTPS endpoint (protected by JWT authentication)
 - No direct public access to RDS PostgreSQL (database accessible only from App Runner)
@@ -178,6 +320,7 @@ The platform uses a layered defense-in-depth model across **AWS infrastructure**
 - Rate-limiting middleware on authentication and mutation endpoints
 
 **WAF and DDoS Protection:**
+
 - AWS CloudFront provides basic DDoS protection (AWS Shield Standard, free)
 - CloudFront WAF rules (future enhancement) for advanced threat protection
 - App Runner managed platform provides basic DDoS mitigation
@@ -185,6 +328,7 @@ The platform uses a layered defense-in-depth model across **AWS infrastructure**
 ## Secrets Management Strategy
 
 **Secret Storage (see ADR-011):**
+
 - **Local Development:** `.env` files (git-ignored) loaded via Docker Compose
 - **CI/CD:** GitHub Actions encrypted secrets (environment-specific: dev, prod)
 - **Application Runtime:** AWS App Runner environment variables or AWS Secrets Manager (optional)
@@ -192,17 +336,20 @@ The platform uses a layered defense-in-depth model across **AWS infrastructure**
 - **JWT Signing Key:** Environment variable `JWT_SECRET_KEY` (rotated periodically)
 
 **Secret Categories:**
+
 - **Authentication:** JWT signing key (`JWT_SECRET_KEY`)
 - **Database:** RDS connection string (`DATABASE_URL` with credentials)
 - **External Services:** Sentry DSN, AWS access keys for CI/CD
 - **Encryption:** Future encryption keys for sensitive fields (deferred post-MVP)
 
 **Secret Access Controls:**
+
 - **Prohibited:** Secrets in git commits, source code, client-side bundles, unencrypted config files, logs
 - **Required:** `.gitignore` entries for all secret files, pre-commit hooks to scan for leaked secrets (e.g., `gitleaks`)
 - **Rotation:** Documented procedures for credential rotation without downtime (see runbook)
 
 **Secret Rotation Procedures:**
+
 1. Generate new secret value (e.g., new JWT signing key)
 2. Update secret in all environments (dev -> prod)
 3. Deploy application updates to use new secret
@@ -257,6 +404,7 @@ Additional controls:
 ## Observability (Sentry + CloudWatch)
 
 **Security-Relevant Monitoring:**
+
 - **Authentication failures:** Track failed login attempts, invalid JWT tokens, expired tokens
 - **Authorization denials:** Monitor 403 Forbidden responses, RLS policy violations
 - **Anomalous behavior:** Detect request spikes to auth endpoints, brute-force patterns
@@ -264,6 +412,7 @@ Additional controls:
 - **Infrastructure security:** CloudWatch alarms for RDS connectivity failures, unusual database query patterns
 
 **Alert Examples:**
+
 - Auth failure rate > baseline for 10 minutes (potential credential stuffing attack)
 - Repeated 403 responses from single IP (potential authorization bypass attempt)
 - Sudden spike in validation errors (potential input injection probing)
@@ -271,6 +420,7 @@ Additional controls:
 - Elevated App Runner CPU/memory (potential DDoS or resource exhaustion attack)
 
 **PII Scrubbing:**
+
 - Sentry `beforeSend` hook removes emails, passwords, tokens from error context
 - User IDs masked in breadcrumbs and session data
 - HTTP headers filtered (`Authorization`, `Cookie`, `X-API-Key`)
@@ -279,25 +429,28 @@ Additional controls:
 ## Deployment Impact (GitHub Actions)
 
 **Security Gates in CI/CD:**
-- **SAST (Static Analysis):** Code scanning for security vulnerabilities (future: Semgrep, Bandit for Python)
+
 - **Dependency Scanning:** Vulnerability checks on lockfiles (pip, npm) before deployment
 - **Secret Scanning:** Pre-commit hooks and CI checks for leaked secrets (`gitleaks`, `git-secrets`)
 - **Container Scanning:** ECR image vulnerability scanning after Docker build
 - **Infrastructure Validation:** Terraform security policy checks (e.g., no public RDS instances)
 
 **Environment Segregation:**
+
 - Dev/production secrets managed separately in GitHub environments
 - Environment-specific JWT signing keys and database credentials
 - No production secrets used in development environments
 - GitHub environment protection rules require manual approval for production deployments
 
 **Deployment Security:**
+
 - Automated Alembic migrations via init container (no manual database access)
 - App Runner deployment uses immutable Docker images from ECR (tagged with Git SHA)
 - CloudWatch logs capture deployment events for audit trail
 - Sentry release tagging correlates errors to specific deployments
 
 **Rollback Strategy:**
+
 - Application rollback: Redeploy previous Docker image from ECR
 - Database rollback: Forward-fix migrations preferred (backward-compatible schema changes)
 - Migration strategy ensures zero-downtime rollout (see ADR-017)
@@ -310,16 +463,14 @@ Additional controls:
 - [ADR-011: Secrets Management Strategy](../adrs/adr-011-secrets-management.md)
 - [ADR-012: Containerization Strategy](../adrs/adr-012-containerization.md)
 - [ADR-013: Infrastructure as Code Strategy (Terraform)](../adrs/adr-013-infrastructure-as-code.md)
-> **Note:** The `security-architecture.mmd` diagram needs to be created. It should visualize the layered defense model, showing how user requests traverse CloudFront, App Runner, and RDS, and how services like Sentry, CloudWatch, and IAM interact with the core infrastructure.
-> **Note:** The `authentication-flow.mmd` diagram needs to be created. It should visualize the custom JWT flow described, including the client requesting a token from the `/login` endpoint and using it in the Authorization header for subsequent requests.
-> **Note:** The `authorization-flow.mmd` diagram needs to be created. It should depict how a request is checked at the middleware, permission, and RLS layers.
 
 ---
 
 ## Change Log
 
-| Date       | Version | Change Summary                                              | Author |
-| ---------- | ------- | ----------------------------------------------------------- | ------ |
-| 2026-02-28 | 1.0     | Initial draft — security architecture                       | —      |
-| 2026-03-24 | 1.1     | Moved to security/ subfolder; links and Sources updated     | —      |
+| Date       | Version | Change Summary                                                                                            | Author |
+| ---------- | ------- | --------------------------------------------------------------------------------------------------------- | ------ |
+| 2026-02-28 | 1.0     | Initial draft — security architecture                                                                     | —      |
+| 2026-03-24 | 1.1     | Moved to security/ subfolder; links and Sources updated                                                   | —      |
 | 2026-08-04 | 2.0     | Complete rewrite for AWS migration: custom JWT auth, RDS, App Runner, VPC security, CloudWatch monitoring | —      |
+| 2026-08-07 | 2.1     | Added mermaid diagrams: layered defense model, JWT auth sequence, authorization middleware flow | —      |
