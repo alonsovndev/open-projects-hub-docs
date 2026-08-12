@@ -42,3 +42,13 @@ Measurable success criteria:
 - Viewer access is limited to approved requirements and project phase visibility.
 - No documented flow allows Viewer create, edit, comment, or delete actions.
 - Internal notes are excluded from Viewer-facing views and exports.
+
+## Release Checklist
+
+- [ ] Version bump in package.json / pyproject.toml
+- [ ] CHANGELOG.md updated with epic summary
+- [ ] Git tag created (e.g., v0.5.0 for MVP)
+- [ ] GitHub release published with notes
+- [ ] Deployed to staging/production
+- [ ] Smoke test passed
+

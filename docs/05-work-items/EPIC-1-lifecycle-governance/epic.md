@@ -41,3 +41,13 @@ Measurable success criteria:
 - Admin can create, update, and archive client and project records within one planning workspace.
 - Fourth active project creation is blocked consistently across documented flows.
 - No MVP artifact introduces a project phase beyond discovery or planning.
+
+## Release Checklist
+
+- [ ] Version bump in package.json / pyproject.toml
+- [ ] CHANGELOG.md updated with epic summary
+- [ ] Git tag created (e.g., v0.5.0 for MVP)
+- [ ] GitHub release published with notes
+- [ ] Deployed to staging/production
+- [ ] Smoke test passed
+

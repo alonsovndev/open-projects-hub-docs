@@ -43,3 +43,13 @@ Measurable success criteria:
 - Admin users can complete login, logout, and password reset through documented secure flows.
 - Auth and recovery responses avoid exposing sensitive account-state details.
 - Authentication flows remain usable and accessible across supported MVP devices.
+
+## Release Checklist
+
+- [ ] Version bump in package.json / pyproject.toml
+- [ ] CHANGELOG.md updated with epic summary
+- [ ] Git tag created (e.g., v0.5.0 for MVP)
+- [ ] GitHub release published with notes
+- [ ] Deployed to staging/production
+- [ ] Smoke test passed
+

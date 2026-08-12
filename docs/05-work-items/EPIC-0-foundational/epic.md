@@ -44,3 +44,13 @@ Measurable success criteria:
 - CI/CD pipeline runs on every commit and reports clear pass/fail status.
 - Database schema is created and seed data is populated automatically in local dev.
 - Deployment to staging is repeatable and documented.
+
+## Release Checklist
+
+- [ ] Version bump in package.json / pyproject.toml
+- [ ] CHANGELOG.md updated with epic summary
+- [ ] Git tag created (e.g., v0.5.0 for MVP)
+- [ ] GitHub release published with notes
+- [ ] Deployed to staging/production
+- [ ] Smoke test passed
+

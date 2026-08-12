@@ -52,3 +52,13 @@ Measurable success criteria:
 - Project list and requirements views render within 2 seconds under MVP load (10 Admins + 20 Viewers, 100 req/min peak).
 - Viewer-facing views meet WCAG 2.1 AA for contrast, keyboard navigation, and screen reader labels.
 - MVP scope achievable within the 1–1.5 month delivery window.
+
+## Release Checklist
+
+- [ ] Version bump in package.json / pyproject.toml
+- [ ] CHANGELOG.md updated with epic summary
+- [ ] Git tag created (e.g., v0.5.0 for MVP)
+- [ ] GitHub release published with notes
+- [ ] Deployed to staging/production
+- [ ] Smoke test passed
+

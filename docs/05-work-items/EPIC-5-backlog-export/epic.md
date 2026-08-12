@@ -42,3 +42,13 @@ Measurable success criteria:
 - Every MVP project can present approved requirements in a structured backlog view.
 - Admin can request Markdown export without including draft or internal-only content.
 - Backlog and export outputs remain readable under MVP data limits.
+
+## Release Checklist
+
+- [ ] Version bump in package.json / pyproject.toml
+- [ ] CHANGELOG.md updated with epic summary
+- [ ] Git tag created (e.g., v0.5.0 for MVP)
+- [ ] GitHub release published with notes
+- [ ] Deployed to staging/production
+- [ ] Smoke test passed
+

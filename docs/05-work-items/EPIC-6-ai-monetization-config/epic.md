@@ -40,3 +40,13 @@ Measurable success criteria:
 - Each AI refinement action decrements the credit count.
 - Users can add, update, and remove their own API keys.
 - Once free credits are exhausted, the system uses the user's API key.
+
+## Release Checklist
+
+- [ ] Version bump in package.json / pyproject.toml
+- [ ] CHANGELOG.md updated with epic summary
+- [ ] Git tag created (e.g., v0.5.0 for MVP)
+- [ ] GitHub release published with notes
+- [ ] Deployed to staging/production
+- [ ] Smoke test passed
+

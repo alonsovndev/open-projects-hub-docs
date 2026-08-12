@@ -4,7 +4,7 @@ This directory contains all the epics for the Open Projects Hub. Each epic is a 
 
 Each epic folder contains:
 
-- `epic.md`: A detailed description of the epic, including its goals, scope, and context.
+- `epic.md`: A detailed description of the epic, including its goals, scope, context, and a release checklist.
 - `stories.md`: A collection of user stories and spike investigations associated with the epic.
 
 ## MVP Epics (Phase 0 + MVP)
