@@ -1,5 +1,149 @@
 # Stories for Epic: Foundational Infrastructure and Setup
 
+## Spike Stories
+
+### SPIKE-1: Backend Framework Selection
+
+**Story ID**: SPIKE-1
+**Epic Link**: EPIC-0
+**Priority**: Spike
+**Effort Estimate**: 3
+**Status**: TODO
+**Labels**: spike, foundational, setup, ci-cd
+
+**As a** Backend Architect,
+**I want to** analyze and select a primary backend framework for the Python modular monolith,
+**So that** we choose a framework that supports Clean Architecture, modularity, testing, ORM integration, and OpenAPI generation.
+
+**Acceptance Criteria**:
+
+- [ ] Given the evaluation criteria, when comparing frameworks, then a recommendation with tradeoffs is produced.
+- [ ] Given candidate frameworks, when benchmarking, then performance overhead and ecosystem maturity are documented.
+- [ ] Given a chosen framework, when the ADR is created, then it contains rationale and migration considerations.
+
+**Deliverables**:
+
+- ADR: `adr-002-backend-framework.md` with decision and rationale.
+- Comparative notes and benchmark results for FastAPI, Django, and Flask.
+- Migration considerations and recommended starter template.
+
+**Dependencies**:
+
+- [Technology Stack](../../03-architecture/core/technology-stack.md).
+
+**Success Metrics**:
+
+- ADR accepted and backend framework locked before implementation begins.
+- Starter template or boilerplate identified for rapid project scaffolding.
+
+---
+
+### SPIKE-2: Database Technology Selection
+
+**Story ID**: SPIKE-2
+**Epic Link**: EPIC-0
+**Priority**: Spike
+**Effort Estimate**: 3
+**Status**: TODO
+**Labels**: spike, foundational, setup, ci-cd
+
+**As a** Backend Architect,
+**I want to** choose a primary database technology and hosting strategy,
+**So that** we have a reliable, scalable data layer that supports role-based access control and MVP requirements.
+
+**Acceptance Criteria**:
+
+- [ ] Given candidate databases (PostgreSQL, MySQL, MongoDB), when comparing, then a recommendation with tradeoffs is produced.
+- [ ] Given hosting options (managed service vs self-hosted), when evaluating, then cost, operational complexity, and RLS support are documented.
+- [ ] Given a chosen database, when the ADR is created, then it contains rationale and migration considerations.
+
+**Deliverables**:
+
+- ADR: `adr-004-database.md` with decision and rationale.
+- Comparative notes for PostgreSQL, MySQL, and MongoDB.
+- Recommended managed service provider and RLS compatibility assessment.
+
+**Dependencies**:
+
+- [Technology Stack](../../03-architecture/core/technology-stack.md).
+
+**Success Metrics**:
+
+- ADR accepted and database technology locked before schema design begins.
+- RLS compatibility confirmed for chosen database and hosting option.
+
+---
+
+### SPIKE-3: Frontend Framework Selection
+
+**Story ID**: SPIKE-3
+**Epic Link**: EPIC-0
+**Priority**: Spike
+**Effort Estimate**: 3
+**Status**: TODO
+**Labels**: spike, foundational, setup, ci-cd
+
+**As a** Frontend Architect,
+**I want to** select a primary frontend framework and build tool,
+**So that** we have a productive developer experience with TypeScript support, fast hot-reloading, and a mature component ecosystem.
+
+**Acceptance Criteria**:
+
+- [ ] Given candidate frameworks (React, Vue, Svelte), when comparing, then a recommendation with tradeoffs is produced.
+- [ ] Given build tools (Vite, Create React App, etc.), when benchmarking, then rebuild speed and developer experience are documented.
+- [ ] Given a chosen framework, when the ADR is created, then it contains rationale and starter configuration.
+
+**Deliverables**:
+
+- ADR: `adr-003-frontend-framework.md` with decision and rationale.
+- Comparative notes for React, Vue, and Svelte with TypeScript support.
+- Recommended build tool and starter configuration.
+
+**Dependencies**:
+
+- [Technology Stack](../../03-architecture/core/technology-stack.md).
+
+**Success Metrics**:
+
+- ADR accepted and frontend framework locked before UI implementation begins.
+- Starter configuration supports TypeScript strict mode and fast hot-reload.
+
+---
+
+### SPIKE-4: Deployment Platform Selection
+
+**Story ID**: SPIKE-4
+**Epic Link**: EPIC-0
+**Priority**: Spike
+**Effort Estimate**: 5
+**Status**: TODO
+**Labels**: spike, foundational, setup, ci-cd
+
+**As a** DevOps Engineer,
+**I want to** decide on a target platform for deploying backend and frontend applications,
+**So that** we have a clear, cost-effective, and operationally simple deployment path for MVP and future staging/production environments.
+
+**Acceptance Criteria**:
+
+- [ ] Given candidate platforms (Heroku, Vercel, Docker on AWS/GCP), when comparing, then cost, scalability, and operational tradeoffs are documented.
+- [ ] Given environment needs, when evaluating secrets and staging/production separation, then recommended strategy is provided.
+- [ ] Given selection, when ADR is created, then deployment pipeline recommendations are included.
+
+**Deliverables**:
+
+- ADR: `adr-006-deployment-platform.md` with chosen deployment strategy.
+- Recommended environment and secrets management approach.
+
+**Dependencies**:
+
+- [Technology Stack](../../03-architecture/core/technology-stack.md).
+
+**Success Metrics**:
+
+- ADR accepted and a deployment path defined.
+
+---
+
 ## Backend Engineer
 
 ### US-EP0-BE-001: Backend Modular Monolith Structure and Scaffolding
@@ -205,74 +349,3 @@
 
 - Frontend development environment starts reliably and supports rapid iteration.
 - Linting and type-check checks are integrated into local and CI workflows.
-
----
-
-## Spike Stories
-
-### SPIKE-1: Backend Framework Selection
-
-**Goal:** To analyze and select a primary backend framework for the Python modular monolith.
-
-**Questions to Answer:**
-- Which framework best supports Clean Architecture and modularity (FastAPI, Django, Flask)?
-- What is the performance overhead of each?
-- How mature is the ecosystem for testing, ORM integration, and OpenAPI generation?
-
-**Deliverable:** An ADR (`adr-002-backend-framework.md`) documenting the chosen framework and the rationale.
-
-**Timebox:** 2 days
-**Status**: TODO
-**Labels**: spike, foundational, setup, ci-cd
-
----
-
-### SPIKE-2: Database Technology Selection
-
-**Goal:** To choose a primary database technology and hosting strategy.
-
-**Questions to Answer:**
-- Should we use a relational (PostgreSQL, MySQL) or NoSQL (MongoDB) database?
-- What are the pros and cons of a managed service (e.g., Supabase, AWS RDS) versus self-hosting?
-- How will the choice impact our ability to implement role-based access control?
-
-**Deliverable:** An ADR (`adr-004-database.md`) documenting the chosen database technology.
-
-**Timebox:** 2 days
-**Status**: TODO
-**Labels**: spike, foundational, setup, ci-cd
-
----
-
-### SPIKE-3: Frontend Framework Selection
-
-**Goal:** To select a primary frontend framework and build tool.
-
-**Questions to Answer:**
-- Which framework provides the best developer experience with TypeScript (React, Vue, Svelte)?
-- What is the best build tool for performance and hot-reloading (Vite, Create React App, etc.)?
-- How does the component and state management ecosystem compare for each?
-
-**Deliverable:** An ADR (`adr-003-frontend-framework.md`) documenting the chosen frontend framework.
-
-**Timebox:** 2 days
-**Status**: TODO
-**Labels**: spike, foundational, setup, ci-cd
-
----
-
-### SPIKE-4: Deployment Platform Selection
-
-**Goal:** To decide on a target platform for deploying the backend and frontend applications.
-
-**Questions to Answer:**
-- What platform offers the best balance of cost, scalability, and operational simplicity for the MVP (e.g., Heroku, Vercel, Docker on AWS/GCP)?
-- How will we manage environment configuration and secrets?
-- What is the path for setting up separate staging and production environments?
-
-**Deliverable:** An ADR (`adr-006-deployment-platform.md`) documenting the chosen deployment strategy.
-
-**Timebox:** 3 days
-**Status**: TODO
-**Labels**: spike, foundational, setup, ci-cd
-
