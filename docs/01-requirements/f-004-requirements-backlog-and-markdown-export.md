@@ -30,7 +30,7 @@
 
 | ID         | Requirement                                                                 | Metric / Target                                                                                                          | Priority | Owner (DRI)   | Decision Traceability (Q-ID) | Status    |
 | ---------- | --------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ | -------- | ------------- | ---------------------------- | --------- |
-| NFR-004-01 | Viewer-facing requirement outputs remain readable and stakeholder-friendly. | Viewer views present user stories in standard template with plain-language titles and omit internal notes.               | Should   | Product Owner | —                            | Clarified |
+| NFR-004-01 | Viewer-facing requirement outputs remain readable and stakeholder-friendly. | Viewer views present user stories in standard template with plain-language titles. | Should | Product Owner | — | Clarified |
 | NFR-004-02 | Backlog and export views remain responsive for MVP data volume.             | Satisfies NFR-X05 performance baseline; renders within 2 seconds. | Should   | Tech Lead     | —                            | Clarified |
 
 ## Dependencies and Risks

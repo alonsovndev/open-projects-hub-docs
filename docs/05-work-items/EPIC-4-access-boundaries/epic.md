@@ -12,7 +12,7 @@
 ---
 
 **Epic Description:**
-Problem Statement: Client-facing transparency is useful only if it does not expose internal notes or allow viewers to alter planning artifacts.
+Problem Statement: Client-facing transparency is useful only if it does not allow viewers to alter planning artifacts.
 
 Objective: Enforce simple Admin and Viewer boundaries so the MVP supports safe collaboration without expanding into full multi-user workflow management.
 
@@ -20,7 +20,6 @@ Included scope:
 
 - Admin full-access and Viewer read-only boundaries
 - Viewer access to approved requirements and current project phase
-- Internal-note isolation from Viewer views
 
 Excluded scope:
 
@@ -42,7 +41,6 @@ Measurable success criteria:
 
 - Viewer access is limited to approved requirements and project phase visibility.
 - No documented flow allows Viewer create, edit, comment, or delete actions.
-- Internal notes are excluded from Viewer-facing views and exports.
 
 ## Release Checklist
 

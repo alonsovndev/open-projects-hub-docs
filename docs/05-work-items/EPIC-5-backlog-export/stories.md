@@ -56,9 +56,8 @@
 
 **Acceptance Criteria**:
 
-- [ ] Given a project ID, when the export endpoint is called, then a Markdown file is generated.
-- [ ] Given no approved stories exist, when the export endpoint is called, then an empty file is returned.
-- [ ] Given internal notes exist, when the export endpoint is called, then notes are excluded from the file.
+- [ ] Given a project has approved stories, when the export endpoint is called, then a Markdown file is generated.
+- [ ] Given no approved stories exist, when the export endpoint is called, then an empty file is returned with a warning.
 
 **Deliverables**:
 
@@ -74,7 +73,7 @@
 **Success Metrics**:
 
 - Exported files are generated reliably for all supported project states.
-- Output excludes internal notes and respects MVP export rules.
+- Output respects MVP export rules and includes only approved content.
 
 ---
 

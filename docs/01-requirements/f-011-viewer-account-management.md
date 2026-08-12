@@ -124,7 +124,7 @@
 5. Viewer clicks on project name
 6. System shows project's approved user stories per F-004 (Viewer read-only view)
 7. Viewer can export requirements if FR-004-05 allows (or blocked if Admin-only)
-8. Viewer cannot see internal notes (per F-003)
+8. Viewer sees only approved requirements per F-004 (read-only view).
 
 ## Open Questions for Implementation Team
 

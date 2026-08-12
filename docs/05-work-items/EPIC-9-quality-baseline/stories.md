@@ -241,7 +241,7 @@
 **Acceptance Criteria**:
 
 - [ ] Given Viewer-facing views, when audited, then they meet WCAG 2.1 AA for contrast, keyboard navigation, and screen reader labels.
-- [ ] Given approved backlog views, when reviewed by a non-technical user, then user stories are presented in the standard template with plain-language titles and no internal notes.
+- [ ] Given approved backlog views, when reviewed by a non-technical user, then user stories are presented in the standard template with plain-language titles.
 - [ ] Given primary CTAs, when navigated by keyboard, then focus order and labels are accessible.
 
 **Deliverables**:

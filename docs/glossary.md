@@ -8,7 +8,7 @@ This document defines key terms used throughout the requirements and architectur
 Freelancer account with full CRUD permissions on clients, projects, and user stories. Can invite Viewers, manage API keys, and export requirements.
 
 **Viewer**  
-Client contact role with read-only access to granted projects. Can view approved user stories but cannot see internal notes, edit content, or access Admin features. Must be invited by Admin.
+Client contact role with read-only access to granted projects. Can view approved user stories but cannot edit content or access Admin features. Must be invited by Admin.
 
 ## Project Lifecycle
 
@@ -28,9 +28,6 @@ Approved requirement in standard format: title + "As a [persona], I want [capabi
 
 **Draft Story**  
 Unapproved AI-generated story pending Admin review. Not included in exports; not visible to Viewer. Can be edited, approved, or deleted by Admin.
-
-**Internal Notes**  
-Private Admin-only notes attached to user stories. Never visible to Viewer role; excluded from Viewer API responses and exports.
 
 ## Epics & Backlog
 
