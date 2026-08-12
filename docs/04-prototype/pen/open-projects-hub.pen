@@ -348,7 +348,7 @@
               "id": "HWpO7",
               "name": "LogoText",
               "fill": "$primary",
-              "content": "Open Hub",
+              "content": "Open Projects Hub",
               "fontFamily": "$font-body",
               "fontSize": 18,
               "fontWeight": "$font-weight-bold"
@@ -678,7 +678,7 @@
               "id": "OnpU9",
               "name": "Logo",
               "fill": "$primary",
-              "content": "Open Freelancer Hub",
+              "content": "Open Projects Hub",
               "fontFamily": "$font-body",
               "fontSize": 20,
               "fontWeight": "$font-weight-bold"
@@ -909,7 +909,7 @@
               "id": "Zvusf",
               "name": "Logo",
               "fill": "$primary",
-              "content": "Open Freelancer Hub",
+              "content": "Open Projects Hub",
               "fontFamily": "$font-body",
               "fontSize": 20,
               "fontWeight": "$font-weight-bold"
@@ -1107,7 +1107,7 @@
               "id": "cU8qY",
               "name": "Logo",
               "fill": "$primary",
-              "content": "Open Freelancer Hub",
+              "content": "Open Projects Hub",
               "fontFamily": "$font-body",
               "fontSize": 20,
               "fontWeight": "$font-weight-bold"
@@ -1633,7 +1633,7 @@
               "id": "VCyj7",
               "name": "Logo",
               "fill": "$primary",
-              "content": "Open Freelancer Hub",
+              "content": "Open Projects Hub",
               "fontFamily": "$font-body",
               "fontSize": 20,
               "fontWeight": "$font-weight-bold"
@@ -1751,7 +1751,7 @@
               "id": "dYyWi",
               "name": "Logo",
               "fill": "$primary",
-              "content": "Open Freelancer Hub",
+              "content": "Open Projects Hub",
               "fontFamily": "$font-body",
               "fontSize": 20,
               "fontWeight": "$font-weight-bold"
@@ -1873,7 +1873,7 @@
               "id": "YFgdA",
               "name": "Logo",
               "fill": "$primary",
-              "content": "Open Freelancer Hub",
+              "content": "Open Projects Hub",
               "fontFamily": "$font-body",
               "fontSize": 20,
               "fontWeight": "$font-weight-bold"
@@ -2077,7 +2077,7 @@
               "id": "vfIkf",
               "name": "WelcomeTitle",
               "fill": "$text-primary",
-              "content": "Welcome to Open Freelancer Hub!",
+              "content": "Welcome to Open Projects Hub!",
               "fontFamily": "$font-body",
               "fontSize": 22,
               "fontWeight": "$font-weight-bold"
@@ -2395,8 +2395,8 @@
     {
       "type": "frame",
       "id": "wBUFI",
-      "x": 16747,
-      "y": 1020,
+      "x": 16807,
+      "y": 960,
       "name": "Page: Home",
       "clip": true,
       "width": 1440,
@@ -2426,7 +2426,7 @@
               "id": "Z1Fyje",
               "name": "Logo",
               "fill": "$primary",
-              "content": "Open Freelancer Hub",
+              "content": "Open Projects Hub",
               "fontFamily": "$font-body",
               "fontSize": 20,
               "fontWeight": "$font-weight-bold"
@@ -3449,7 +3449,7 @@
                       "id": "TGdPX",
                       "name": "BrandName",
                       "fill": "#ffffff",
-                      "content": "Open Projects Hub.",
+                      "content": "Open Projects Hub",
                       "fontFamily": "$font-body",
                       "fontSize": 18,
                       "fontWeight": "$font-weight-bold"
@@ -3975,6 +3975,7 @@
       "width": 1440,
       "height": 960,
       "clip": true,
+      "enabled": true,
       "descendants": {
         "oti7v": {
           "content": "Settings"
