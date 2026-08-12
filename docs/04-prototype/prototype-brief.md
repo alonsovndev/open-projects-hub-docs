@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Create a lightweight prototype brief that turns the repository planning documentation into a single source of truth for Stitch prototype generation and stakeholder review.
+Create a lightweight prototype brief that turns the repository planning documentation into a single source of truth for Pencil-based prototype design and stakeholder review.
 
 The prototype pack should help stakeholders validate the MVP planning experience without introducing undocumented product scope or implementation detail.
 
@@ -40,10 +40,13 @@ The Open Freelancer Project Hub is an open-source web platform that helps freela
 
 ### In Scope
 
+- Landing / Home page with hero, features, and CTAs
 - Entry and role selection page
 - Admin Sign Up, Sign In, Forgot Password, and Reset Password pages
-- Admin AI refinement workspace
-- Admin backlog view with approved requirements and Markdown export action
+- Admin AI refinement workspace with epic and user story generation
+- Admin backlog view with approved epics, user stories, and Markdown export action
+- Admin dashboard with project stats and quick actions
+- Admin settings with profile, password, and API key management
 - Viewer backlog view with read-only access
 - Optional Phase 1 onboarding overlay for first-time Admin guidance
 
@@ -63,50 +66,75 @@ The Open Freelancer Project Hub is an open-source web platform that helps freela
 - Primary action for Admin path and secondary action for Viewer path
 - State coverage: default, role selection feedback, minimal helper guidance
 
-### 2. Admin Sign Up
+### 2. Landing / Home Page
+
+- Top navigation bar with logo and Sign In CTA
+- Hero section with headline, subhead, and dual CTAs (Start Project, View Sample)
+- Three-card feature grid: Capture Raw Ideas, AI Refinement, Visualize & Export
+- Two-column info grid: For Freelancers and For Clients feature cards
+- Full-width CTA section with primary action
+- Footer with brand, directories, legal links, and copyright
+
+### 3. Admin Sign Up
 
 - Admin account creation form
 - Required field validation and terms acknowledgment
 - Link to sign in
 - State coverage: default, validation error, loading, success
 
-### 3. Admin Sign In
+### 4. Admin Sign In
 
 - Email/password authentication form
 - Remember-me and support links for account recovery and creation
 - State coverage: default, validation error, loading, unconfirmed/blocked notice
 
-### 4. Forgot Password
+### 5. Forgot Password
 
 - Email capture for reset request
 - Return to sign-in action
 - State coverage: default, validation error, loading, success
 
-### 5. Reset Password
+### 6. Reset Password
 
 - New password and confirmation inputs
 - Return-to-sign-in action
 - State coverage: default, validation error, loading, success
 
-### 6. Admin AI Refinement Workspace
+### 7. Admin AI Refinement Workspace
 
-- Project context header
+- Project context header with phase tag
 - Raw notes and bullet-list input area
 - Ambiguity review with inline highlights
-- Generated draft story cards
+- AI-generated epics with nested user stories
+- Draft story cards within epic containers
 - Edit and explicit approval controls
+- Bulk approve all action
 - State coverage: empty, loading, validation/error, draft-ready, approved confirmation
 
-### 7. Admin Backlog View and Markdown Export
+### 8. Admin Backlog View and Markdown Export
 
 - Project summary header with phase
-- Approved backlog list
+- Approved epic and story list with nested structure
 - Optional draft vs approved distinction for review context
 - Internal notes area visible only to Admin
 - Markdown export action
 - State coverage: empty backlog, mixed status, export-ready
 
-### 8. Viewer Backlog View
+### 9. Admin Dashboard
+
+- Welcome greeting with project stats
+- Stat cards: Active Projects, Approved Stories, AI Credits
+- Recent projects list with phase tags and story counts
+- Quick action: New Project CTA
+
+### 10. Admin Settings
+
+- Profile section: Full Name and Work Email fields
+- Password section: Current, New, and Confirm fields
+- API Keys section: masked key display with Add/Replace/Delete actions
+- Danger Zone: account deletion with confirmation guard
+
+### 11. Viewer Backlog View
 
 - Project summary header with phase
 - Approved requirements list
@@ -114,7 +142,7 @@ The Open Freelancer Project Hub is an open-source web platform that helps freela
 - Plain-language status visibility
 - Explicit omissions: no internal notes, no draft-only content, no edit controls
 
-### 9. Optional Phase 1 Onboarding Overlay
+### 12. Optional Phase 1 Onboarding Overlay
 
 - Welcome message
 - Tooltip for note entry
@@ -129,12 +157,15 @@ The Open Freelancer Project Hub is an open-source web platform that helps freela
 
 ```mermaid
 flowchart TD
-    A[Entry and Role Selection] --> B[Admin Sign Up or Sign In]
+    L[Landing / Home Page] --> A[Entry and Role Selection]
+    A --> B[Admin Sign Up or Sign In]
     B --> C[Forgot/Reset Password if needed]
     B --> D[Admin AI Refinement Workspace]
     D --> E[Admin Backlog and Markdown Export]
+    B --> G[Admin Dashboard]
+    B --> H[Admin Settings]
     A --> F[Viewer Backlog Read-only]
-    D -. Optional Phase 1 .-> G[Onboarding Overlay]
+    D -. Optional Phase 1 .-> I[Onboarding Overlay]
 ```
 
 ### Navigation Model
@@ -196,11 +227,14 @@ Every Must requirement should appear in at least one row before prototype sign-o
 
 | Screen / Flow                   | Covers FR(s)                               | Covers NFR(s)                      | Story (US-\*) | Milestone |
 | ------------------------------- | ------------------------------------------ | ---------------------------------- | ------------- | --------- |
+| Landing / Home Page             | FR-006-01, FR-006-02, FR-006-03            | NFR-006-01, NFR-006-02            | US-P1-UX-004  | MVP       |
 | Entry and Role Selection        | FR-006-01, FR-006-02                       | NFR-006-02                         | US-P1-UX-004  | MVP       |
 | Admin Sign Up                   | FR-008-01, FR-008-02                       | NFR-008-01, NFR-008-02             | US-P1-UX-004  | MVP       |
 | Admin Sign In + Recovery        | FR-007-01, FR-007-02, FR-009-01, FR-009-02 | NFR-007-01, NFR-009-02             | US-P1-UX-004  | MVP       |
 | Admin AI Refinement Workspace   | FR-002-01, FR-002-02, FR-002-03            | NFR-002-03                         | US-MVP-UX-001 | MVP       |
 | Admin Backlog + Markdown Export | FR-004-01, FR-004-02                       | NFR-004-02                         | US-MVP-UX-002 | MVP       |
+| Admin Dashboard                 | FR-001-01, FR-010-01                       | NFR-006-02                         | US-MVP-UX-001 | MVP       |
+| Admin Settings                  | FR-010-02, FR-010-03                       | NFR-010-01                         | US-MVP-UX-001 | MVP       |
 | Viewer Backlog Read-only        | FR-003-01, FR-003-03                       | NFR-003-02, NFR-003-03, NFR-004-01 | US-MVP-UX-002 | MVP       |
 | Optional Onboarding Overlay     | FR-005-01                                  | NFR-005-01                         | US-P1-UX-003  | Phase 1   |
 
@@ -228,5 +262,6 @@ Every Must requirement should appear in at least one row before prototype sign-o
 
 | Date       | Version | Change Summary                                                                                | Author         |
 | ---------- | ------- | --------------------------------------------------------------------------------------------- | -------------- |
+| 2026-08-11 | 1.3     | Migrated from Stitch to Pencil prototype. Added Landing/Home, Admin Dashboard, Settings pages. Added epic generation to refinement workspace. Updated sitemap and coverage matrix. | UI/UX Designer |
 | 2026-03-23 | 1.2     | Added auth/entry flows, requirements coverage matrix, and corrected feature-based references. | UI/UX Designer |
 | 2026-03-16 | 1.1     | Initial prototype brief baseline.                                                             | UI/UX Designer |

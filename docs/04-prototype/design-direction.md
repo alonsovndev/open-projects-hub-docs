@@ -1,8 +1,10 @@
-# Design Direction Snapshot: MVP Prototype
+# Design Direction Snapshot: Prototype (Pencil)
 
 ## Design Intent
 
 Create a prototype direction that feels **professional**, **clear**, **structured**, **accessible**, and **trustworthy** while staying lightweight enough for rapid iteration.
+
+The prototype is built in **Pencil** (`.pen` file) for interactive design validation. Pencil enables reusable components, design tokens, and instance overrides — making it easier to iterate on layout and validate visual consistency across all 12 MVP pages.
 
 The interface should feel like a planning workspace, not a delivery tool. It should help stakeholders understand how requirements move from raw notes to approved backlog content with minimal friction.
 
@@ -36,13 +38,13 @@ The interface should feel like a planning workspace, not a delivery tool. It sho
 
 No official brand palette is documented, so the prototype should use constrained placeholder rules instead of open-ended styling.
 
-| Token category | Purpose | Constraint |
-| --- | --- | --- |
-| Primary | Main actions and emphasis | Use for refine, approve, and export actions only |
-| Neutral | Layout, text, backgrounds, borders | Keep the interface calm and readable |
-| Success | Approved state | Use with a visible text label such as "Approved" |
-| Warning | Ambiguity highlights and caution states | Pair with iconography or text, not color alone |
-| Error | Validation or processing failure | Use for inline errors and blocking alerts |
+| Token category | Purpose                                 | Constraint                                       |
+| -------------- | --------------------------------------- | ------------------------------------------------ |
+| Primary        | Main actions and emphasis               | Use for refine, approve, and export actions only |
+| Neutral        | Layout, text, backgrounds, borders      | Keep the interface calm and readable             |
+| Success        | Approved state                          | Use with a visible text label such as "Approved" |
+| Warning        | Ambiguity highlights and caution states | Pair with iconography or text, not color alone   |
+| Error          | Validation or processing failure        | Use for inline errors and blocking alerts        |
 
 ## Typography Strategy
 
@@ -60,19 +62,21 @@ Typography should support non-technical readability and avoid dense, low-contras
 
 Use Ant Design-style components as the baseline for the prototype.
 
-| Component | Purpose | Required states |
-| --- | --- | --- |
-| Page header / summary bar | Show project name, client, phase, role | Default |
-| `Input.TextArea` | Accept raw notes and bullet lists | Default, focus, disabled, error |
-| Primary button | Refine notes, approve content, export Markdown | Default, hover, focus, disabled, loading |
-| Secondary button | Cancel, clear, skip onboarding | Default, hover, focus, disabled |
-| Story card | Display draft or approved user story content | Default, hover, focus-within |
-| Tag / badge | Show Discovery, Planning, Draft, Approved, Read-only | Default |
-| Tooltip / popover | Explain ambiguity highlights or onboarding guidance | Default, focus, dismissible |
-| Modal / confirmation dialog | Confirm explicit approval | Open, focus trap, dismissible |
-| Alert | Validation and error messaging | Error, warning, success |
-| Empty state | Show no-content scenarios | Empty |
-| Spinner / loading indicator | Show processing states | Loading |
+| Component                   | Purpose                                                                                             | Required states                          |
+| --------------------------- | --------------------------------------------------------------------------------------------------- | ---------------------------------------- |
+| Page header / summary bar   | Show project name, client, phase, role                                                              | Default                                  |
+| `Input.TextArea`            | Accept raw notes and bullet lists                                                                   | Default, focus, disabled, error          |
+| Primary button              | Refine notes, approve content, export Markdown                                                      | Default, hover, focus, disabled, loading |
+| Secondary button            | Cancel, clear, skip onboarding                                                                      | Default, hover, focus, disabled          |
+| Story card                  | Display draft or approved user story content                                                        | Default, hover, focus-within             |
+| Epic card                   | Group related user stories under an epic container with title, description, and acceptance criteria | Default, expanded                        |
+| AdminLayout shell           | 240px navigation sider with fluid content area: logo, menu items, page header, content body         | Default, collapsed sider                 |
+| Tag / badge                 | Show Discovery, Planning, Draft, Approved, Read-only                                                | Default                                  |
+| Tooltip / popover           | Explain ambiguity highlights or onboarding guidance                                                 | Default, focus, dismissible              |
+| Modal / confirmation dialog | Confirm explicit approval                                                                           | Open, focus trap, dismissible            |
+| Alert                       | Validation and error messaging                                                                      | Error, warning, success                  |
+| Empty state                 | Show no-content scenarios                                                                           | Empty                                    |
+| Spinner / loading indicator | Show processing states                                                                              | Loading                                  |
 
 ## Interaction Expectations
 
@@ -118,6 +122,7 @@ Use Ant Design-style components as the baseline for the prototype.
 
 ## Change Log
 
-| Date | Version | Change Summary | Author |
-| --- | --- | --- | --- |
-| 2026-03-23 | 1.1 | Updated scope and traceability for auth-entry + feature-sliced requirement IDs. | UI/UX Designer |
+| Date       | Version | Change Summary                                                                                                 | Author         |
+| ---------- | ------- | -------------------------------------------------------------------------------------------------------------- | -------------- |
+| 2026-08-11 | 1.2     | Updated for Pencil prototype migration. Added Epic card, AdminLayout shell components. Expanded to 12 screens. | UI/UX Designer |
+| 2026-03-23 | 1.1     | Updated scope and traceability for auth-entry + feature-sliced requirement IDs.                                | UI/UX Designer |
