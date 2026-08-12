@@ -4924,6 +4924,730 @@
           ]
         }
       ]
+    },
+    {
+      "type": "frame",
+      "id": "vqFLe",
+      "x": 22767,
+      "y": 1020,
+      "name": "Page: Privacy Policy",
+      "width": 1440,
+      "height": 1200,
+      "fill": "$bg",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "SeEZC",
+          "name": "TopBar",
+          "width": "fill_container",
+          "stroke": "$border",
+          "strokeWidth": {
+            "bottom": 1
+          },
+          "padding": [
+            20,
+            48
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "x3VDD",
+              "name": "Logo",
+              "fill": "$primary",
+              "content": "Open Projects Hub",
+              "fontFamily": "$font-body",
+              "fontSize": 20,
+              "fontWeight": "$font-weight-bold"
+            },
+            {
+              "type": "text",
+              "id": "NxmbM",
+              "name": "BackLink",
+              "fill": "$primary",
+              "content": "← Back to Home",
+              "fontFamily": "$font-body",
+              "fontSize": "$font-size-body",
+              "fontWeight": "$font-weight-medium"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "ykQTR",
+          "name": "Content",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 32,
+          "padding": [
+            64,
+            48,
+            96,
+            48
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "Tw4sB",
+              "name": "ContentCard",
+              "width": 720,
+              "layout": "vertical",
+              "gap": 24,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "CMtnM",
+                  "name": "Title",
+                  "fill": "$text-primary",
+                  "content": "Privacy Policy",
+                  "fontFamily": "$font-body",
+                  "fontSize": "$font-size-h1",
+                  "fontWeight": "$font-weight-bold"
+                },
+                {
+                  "type": "text",
+                  "id": "jF13c",
+                  "name": "UpdatedDate",
+                  "fill": "$text-tertiary",
+                  "content": "Last updated: August 12, 2026",
+                  "fontFamily": "$font-body",
+                  "fontSize": "$font-size-sm",
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "vfNa2",
+                  "name": "Section-Intro",
+                  "width": 720,
+                  "layout": "vertical",
+                  "gap": 12,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "IevmS",
+                      "name": "SectionTitle",
+                      "fill": "$text-primary",
+                      "content": "1. Introduction",
+                      "fontFamily": "$font-body",
+                      "fontSize": "$font-size-h3",
+                      "fontWeight": "$font-weight-semibold"
+                    },
+                    {
+                      "type": "text",
+                      "id": "xJJGi",
+                      "name": "SectionDesc",
+                      "fill": "$text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Open Projects Hub is committed to protecting your personal data. This Privacy Policy explains how we collect, use, and share information when you use our service.",
+                      "lineHeight": "$line-height-normal",
+                      "fontFamily": "$font-body",
+                      "fontSize": "$font-size-body",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "Dba4L",
+                  "name": "Section-Data",
+                  "width": 720,
+                  "layout": "vertical",
+                  "gap": 12,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "oUqjA",
+                      "name": "SectionTitle",
+                      "fill": "$text-primary",
+                      "content": "2. Data We Collect",
+                      "fontFamily": "$font-body",
+                      "fontSize": "$font-size-h3",
+                      "fontWeight": "$font-weight-semibold"
+                    },
+                    {
+                      "type": "text",
+                      "id": "ULtnM",
+                      "name": "SectionDesc",
+                      "fill": "$text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "• Account information (name, email, password hash)\n• Project notes and requirements you enter\n• AI API keys (encrypted at rest)\n• Usage analytics and session data\n• Browser and device metadata",
+                      "lineHeight": "$line-height-normal",
+                      "fontFamily": "$font-body",
+                      "fontSize": "$font-size-body",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "np0U4",
+                  "name": "Section-Usage",
+                  "width": 720,
+                  "layout": "vertical",
+                  "gap": 12,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "jPhtY",
+                      "name": "SectionTitle",
+                      "fill": "$text-primary",
+                      "content": "3. How We Use Your Data",
+                      "fontFamily": "$font-body",
+                      "fontSize": "$font-size-h3",
+                      "fontWeight": "$font-weight-semibold"
+                    },
+                    {
+                      "type": "text",
+                      "id": "HsY06",
+                      "name": "SectionDesc",
+                      "fill": "$text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "We use your data to provide the AI refinement service, manage your projects and backlogs, improve our product experience, and communicate important updates. We never sell your personal data to third parties.",
+                      "lineHeight": "$line-height-normal",
+                      "fontFamily": "$font-body",
+                      "fontSize": "$font-size-body",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "VHbHL",
+                  "name": "Section-Sharing",
+                  "width": 720,
+                  "layout": "vertical",
+                  "gap": 12,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "qJEEH",
+                      "name": "SectionTitle",
+                      "fill": "$text-primary",
+                      "content": "4. Third-Party Sharing",
+                      "fontFamily": "$font-body",
+                      "fontSize": "$font-size-h3",
+                      "fontWeight": "$font-weight-semibold"
+                    },
+                    {
+                      "type": "text",
+                      "id": "C1q3t",
+                      "name": "SectionDesc",
+                      "fill": "$text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Project notes sent to AI providers (OpenAI, Google Gemini) are processed under their respective privacy policies. We recommend excluding sensitive data from raw notes. API keys are encrypted and never shared with AI providers.",
+                      "lineHeight": "$line-height-normal",
+                      "fontFamily": "$font-body",
+                      "fontSize": "$font-size-body",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "RzhdR",
+                  "name": "Section-Security",
+                  "width": 720,
+                  "layout": "vertical",
+                  "gap": 12,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "Mikro",
+                      "name": "SectionTitle",
+                      "fill": "$text-primary",
+                      "content": "5. Data Security",
+                      "fontFamily": "$font-body",
+                      "fontSize": "$font-size-h3",
+                      "fontWeight": "$font-weight-semibold"
+                    },
+                    {
+                      "type": "text",
+                      "id": "o2aGM4",
+                      "name": "SectionDesc",
+                      "fill": "$text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "All data is encrypted at rest and in transit. We use industry-standard security practices including HTTPS/TLS, encrypted storage, and regular security audits.",
+                      "lineHeight": "$line-height-normal",
+                      "fontFamily": "$font-body",
+                      "fontSize": "$font-size-body",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "q4pNm",
+                  "name": "Section-Rights",
+                  "width": 720,
+                  "layout": "vertical",
+                  "gap": 12,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "x4Hcy",
+                      "name": "SectionTitle",
+                      "fill": "$text-primary",
+                      "content": "6. Your Rights",
+                      "fontFamily": "$font-body",
+                      "fontSize": "$font-size-h3",
+                      "fontWeight": "$font-weight-semibold"
+                    },
+                    {
+                      "type": "text",
+                      "id": "X792E",
+                      "name": "SectionDesc",
+                      "fill": "$text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "You can access, modify, or delete your account data at any time from Settings. You may also request a full data export or account deletion by contacting us.",
+                      "lineHeight": "$line-height-normal",
+                      "fontFamily": "$font-body",
+                      "fontSize": "$font-size-body",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "z2g4QY",
+                  "name": "Section-Contact",
+                  "width": 720,
+                  "layout": "vertical",
+                  "gap": 12,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "Ja0t8",
+                      "name": "SectionTitle",
+                      "fill": "$text-primary",
+                      "content": "7. Contact",
+                      "fontFamily": "$font-body",
+                      "fontSize": "$font-size-h3",
+                      "fontWeight": "$font-weight-semibold"
+                    },
+                    {
+                      "type": "text",
+                      "id": "vFUyB",
+                      "name": "SectionDesc",
+                      "fill": "$text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "For privacy inquiries, please contact us at privacy@openprojectshub.com.",
+                      "lineHeight": "$line-height-normal",
+                      "fontFamily": "$font-body",
+                      "fontSize": "$font-size-body",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "AbJEj",
+      "x": 24287,
+      "y": 1020,
+      "name": "Page: Terms of Service",
+      "width": 1440,
+      "height": 1800,
+      "fill": "$bg",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "eJAs1",
+          "name": "TopBar",
+          "width": "fill_container",
+          "stroke": "$border",
+          "strokeWidth": {
+            "bottom": 1
+          },
+          "padding": [
+            20,
+            48
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "J9GkX",
+              "name": "Logo",
+              "fill": "$primary",
+              "content": "Open Projects Hub",
+              "fontFamily": "$font-body",
+              "fontSize": 20,
+              "fontWeight": "$font-weight-bold"
+            },
+            {
+              "type": "text",
+              "id": "IR36v",
+              "name": "BackLink",
+              "fill": "$primary",
+              "content": "← Back to Home",
+              "fontFamily": "$font-body",
+              "fontSize": "$font-size-body",
+              "fontWeight": "$font-weight-medium"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "Y85lGX",
+          "name": "Content",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 32,
+          "padding": [
+            64,
+            48,
+            96,
+            48
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "Io25Z",
+              "name": "ContentCard",
+              "width": 720,
+              "layout": "vertical",
+              "gap": 24,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "S7uW2m",
+                  "name": "Title",
+                  "fill": "$text-primary",
+                  "content": "Terms of Service",
+                  "fontFamily": "$font-body",
+                  "fontSize": "$font-size-h1",
+                  "fontWeight": "$font-weight-bold"
+                },
+                {
+                  "type": "text",
+                  "id": "pCQ6g",
+                  "name": "UpdatedDate",
+                  "fill": "$text-tertiary",
+                  "content": "Last updated: August 12, 2026",
+                  "fontFamily": "$font-body",
+                  "fontSize": "$font-size-sm",
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "UNfCK",
+                  "name": "Section-Intro",
+                  "width": 720,
+                  "layout": "vertical",
+                  "gap": 12,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "gtGQH",
+                      "name": "SectionTitle",
+                      "fill": "$text-primary",
+                      "content": "1. Acceptance of Terms",
+                      "fontFamily": "$font-body",
+                      "fontSize": "$font-size-h3",
+                      "fontWeight": "$font-weight-semibold"
+                    },
+                    {
+                      "type": "text",
+                      "id": "JgedE",
+                      "name": "SectionDesc",
+                      "fill": "$text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "By accessing or using Open Projects Hub, you agree to be bound by these Terms of Service. If you do not agree, please do not use the service.",
+                      "lineHeight": "$line-height-normal",
+                      "fontFamily": "$font-body",
+                      "fontSize": "$font-size-body",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "Z8RA3",
+                  "name": "Section-Account",
+                  "width": 720,
+                  "layout": "vertical",
+                  "gap": 12,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "J2ZDr",
+                      "name": "SectionTitle",
+                      "fill": "$text-primary",
+                      "content": "2. Account Responsibilities",
+                      "fontFamily": "$font-body",
+                      "fontSize": "$font-size-h3",
+                      "fontWeight": "$font-weight-semibold"
+                    },
+                    {
+                      "type": "text",
+                      "id": "prvLe",
+                      "name": "SectionDesc",
+                      "fill": "$text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "You are responsible for maintaining the security of your account credentials. You must provide accurate registration information and keep it updated. One account per individual unless explicitly agreed otherwise.",
+                      "lineHeight": "$line-height-normal",
+                      "fontFamily": "$font-body",
+                      "fontSize": "$font-size-body",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "pKq3V",
+                  "name": "Section-Service",
+                  "width": 720,
+                  "layout": "vertical",
+                  "gap": 12,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "nA57Q",
+                      "name": "SectionTitle",
+                      "fill": "$text-primary",
+                      "content": "3. Service Description",
+                      "fontFamily": "$font-body",
+                      "fontSize": "$font-size-h3",
+                      "fontWeight": "$font-weight-semibold"
+                    },
+                    {
+                      "type": "text",
+                      "id": "sFtsj",
+                      "name": "SectionDesc",
+                      "fill": "$text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Open Projects Hub provides AI-assisted project management tools including note capture, epic and story generation, backlog management, and Markdown export. AI processing uses third-party providers.",
+                      "lineHeight": "$line-height-normal",
+                      "fontFamily": "$font-body",
+                      "fontSize": "$font-size-body",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "CXiyx",
+                  "name": "Section-AI",
+                  "width": 720,
+                  "layout": "vertical",
+                  "gap": 12,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "lBCf5",
+                      "name": "SectionTitle",
+                      "fill": "$text-primary",
+                      "content": "4. AI Usage Disclaimer",
+                      "fontFamily": "$font-body",
+                      "fontSize": "$font-size-h3",
+                      "fontWeight": "$font-weight-semibold"
+                    },
+                    {
+                      "type": "text",
+                      "id": "HY1Kd",
+                      "name": "SectionDesc",
+                      "fill": "$text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "AI-generated epics and stories are suggestions only. You remain responsible for reviewing, editing, and approving all content. Do not include sensitive or confidential data in raw notes sent to AI providers.",
+                      "lineHeight": "$line-height-normal",
+                      "fontFamily": "$font-body",
+                      "fontSize": "$font-size-body",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "tfVoa",
+                  "name": "Section-API",
+                  "width": 720,
+                  "layout": "vertical",
+                  "gap": 12,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "aRnza",
+                      "name": "SectionTitle",
+                      "fill": "$text-primary",
+                      "content": "5. API Keys & Credits",
+                      "fontFamily": "$font-body",
+                      "fontSize": "$font-size-h3",
+                      "fontWeight": "$font-weight-semibold"
+                    },
+                    {
+                      "type": "text",
+                      "id": "IQyjM",
+                      "name": "SectionDesc",
+                      "fill": "$text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "You may bring your own API keys for AI providers. Keys are encrypted at rest. Usage limits and credits are subject to your subscription tier. We are not responsible for charges from your API provider.",
+                      "lineHeight": "$line-height-normal",
+                      "fontFamily": "$font-body",
+                      "fontSize": "$font-size-body",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "Djbd0",
+                  "name": "Section-Restrictions",
+                  "width": 720,
+                  "layout": "vertical",
+                  "gap": 12,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "gqB6c",
+                      "name": "SectionTitle",
+                      "fill": "$text-primary",
+                      "content": "6. Acceptable Use",
+                      "fontFamily": "$font-body",
+                      "fontSize": "$font-size-h3",
+                      "fontWeight": "$font-weight-semibold"
+                    },
+                    {
+                      "type": "text",
+                      "id": "Z5sHAy",
+                      "name": "SectionDesc",
+                      "fill": "$text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "You may not use the service to: distribute malware, scrape or reverse-engineerate the platform, share accounts commercially, or violate applicable laws. We reserve the right to suspend accounts violating these terms.",
+                      "lineHeight": "$line-height-normal",
+                      "fontFamily": "$font-body",
+                      "fontSize": "$font-size-body",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "M7Jhke",
+                  "name": "Section-Termination",
+                  "width": 720,
+                  "layout": "vertical",
+                  "gap": 12,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "rh5Tx",
+                      "name": "SectionTitle",
+                      "fill": "$text-primary",
+                      "content": "7. Termination",
+                      "fontFamily": "$font-body",
+                      "fontSize": "$font-size-h3",
+                      "fontWeight": "$font-weight-semibold"
+                    },
+                    {
+                      "type": "text",
+                      "id": "dg6rn",
+                      "name": "SectionDesc",
+                      "fill": "$text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "You may delete your account at any time from Settings, which permanently removes all associated data. We may terminate access for violations of these terms with notice.",
+                      "lineHeight": "$line-height-normal",
+                      "fontFamily": "$font-body",
+                      "fontSize": "$font-size-body",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "vCwPw",
+                  "name": "Section-Liability",
+                  "width": 720,
+                  "layout": "vertical",
+                  "gap": 12,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "w3c0F",
+                      "name": "SectionTitle",
+                      "fill": "$text-primary",
+                      "content": "8. Limitation of Liability",
+                      "fontFamily": "$font-body",
+                      "fontSize": "$font-size-h3",
+                      "fontWeight": "$font-weight-semibold"
+                    },
+                    {
+                      "type": "text",
+                      "id": "rXrWj",
+                      "name": "SectionDesc",
+                      "fill": "$text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "The service is provided as-is. We do not guarantee uninterrupted access or AI output quality. Our liability is limited to the fees paid in the preceding 12 months.",
+                      "lineHeight": "$line-height-normal",
+                      "fontFamily": "$font-body",
+                      "fontSize": "$font-size-body",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "N0BRq",
+                  "name": "Section-Contact",
+                  "width": 720,
+                  "layout": "vertical",
+                  "gap": 12,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "u4VAC6",
+                      "name": "SectionTitle",
+                      "fill": "$text-primary",
+                      "content": "9. Contact",
+                      "fontFamily": "$font-body",
+                      "fontSize": "$font-size-h3",
+                      "fontWeight": "$font-weight-semibold"
+                    },
+                    {
+                      "type": "text",
+                      "id": "ic0qT",
+                      "name": "SectionDesc",
+                      "fill": "$text-secondary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "For questions about these terms, contact us at legal@openprojectshub.com.",
+                      "lineHeight": "$line-height-normal",
+                      "fontFamily": "$font-body",
+                      "fontSize": "$font-size-body",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ],
   "variables": {
