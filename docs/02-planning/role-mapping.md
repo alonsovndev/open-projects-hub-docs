@@ -8,14 +8,6 @@
 | **Last Updated** | 2026-07-30                  |
 | **Owner**        | Product Owner               |
 
-## Sources
-
-- [Project Overview](../overview.md)
-- [Feature Requirements](../01-requirements/readme.md)
-- [Phased Roadmap](./phased-roadmap.md)
-
----
-
 ## Role Definitions
 
 | Role              | Primary Planning Focus                                                                             |
@@ -30,4 +22,12 @@
 
 ---
 
-| 2026-02-28 | 1.0 | Initial role-mapping draft created. | Product Owner |
+## Source References
+
+- [Project Overview](../overview.md)
+- [Feature Requirements](../01-requirements/readme.md)
+- [Phased Roadmap](./phased-roadmap.md)
+
+---
+
+**Last Updated**: 2026-07-30

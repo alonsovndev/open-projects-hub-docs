@@ -44,9 +44,4 @@
 
 ---
 
-## Change Log
-
-| Date       | Version | Change Summary                        | Author        |
-| ---------- | ------- | ------------------------------------- | ------------- |
-| 2026-07-30 | 1.1     | Validated requirements and moved all requirements to Clarified status after implementation team review. | Product Owner |
-| 2026-03-23 | 1.0     | Initial feature requirements created. | Product Owner |
+**Last Updated**: 2026-07-30

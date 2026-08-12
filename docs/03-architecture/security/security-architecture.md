@@ -7,20 +7,26 @@
 | **Status**       | Draft                       |
 | **Last Updated** | 2026-08-07                  |
 
-## Sources
+## Table of Contents
 
-- [F-002: AI Refinement and Approval Workflow](../../01-requirements/f-002-ai-refinement-and-approval-workflow.md)
-- [F-003: Access Control and Visibility Boundaries](../../01-requirements/f-003-access-control-and-visibility-boundaries.md)
-- [F-007: Admin Login](../../01-requirements/f-007-admin-login.md)
-- [F-008: Account Creation](../../01-requirements/f-008-create-account.md)
-- [F-009: Reset Password](../../01-requirements/f-009-reset-password.md)
-- [F-010: AI Credits and API Key Management](../../01-requirements/f-010-ai-credits-and-api-key-management.md)
-- [F-011: Viewer Account Management](../../01-requirements/f-011-viewer-account-management.md)
-- [ADR-004: Database (Amazon RDS PostgreSQL)](../adrs/adr-004-database.md)
-- [ADR-005: Authentication and Authorization Strategy](../adrs/adr-005-authentication.md)
-- [ADR-006: Deployment Platform (AWS)](../adrs/adr-006-deployment-platform.md)
-- [ADR-011: Secrets Management Strategy](../adrs/adr-011-secrets-management.md)
-- [ADR-012: Containerization Strategy](../adrs/adr-012-containerization.md)
+- [Source References](#source-references)
+- [Security Objectives and Scope](#security-objectives-and-scope)
+- [Security Architecture Overview](#security-architecture-overview)
+- [Authentication Strategy](#authentication-strategy)
+- [Authorization Model](#authorization-model)
+- [Data Protection](#data-protection)
+- [AI Security and Prompt Injection Defenses](#ai-security-and-prompt-injection-defenses)
+- [OWASP Top 10 Compliance Mapping](#owasp-top-10-compliance-mapping)
+- [Network Security Architecture](#network-security-architecture)
+- [Secrets Management Strategy](#secrets-management-strategy)
+- [Security Headers and Web Best Practices](#security-headers-and-web-best-practices)
+- [Input Validation and Sanitization](#input-validation-and-sanitization)
+- [API Security](#api-security)
+- [Security Monitoring and Incident Response](#security-monitoring-and-incident-response)
+- [Secure Development and Security Testing Approach](#secure-development-and-security-testing-approach)
+- [Observability (Sentry + CloudWatch)](#observability-sentry--cloudwatch)
+- [Deployment Impact (GitHub Actions)](#deployment-impact-github-actions)
+- [ADR and Diagram References](#adr-and-diagram-references)
 
 ## Security Objectives and Scope
 
@@ -562,14 +568,21 @@ Additional controls:
 - [ADR-012: Containerization Strategy](../adrs/adr-012-containerization.md)
 - [ADR-013: Infrastructure as Code Strategy (Terraform)](../adrs/adr-013-infrastructure-as-code.md)
 
+## Source References
+
+- [F-002: AI Refinement and Approval Workflow](../../01-requirements/f-002-ai-refinement-and-approval-workflow.md)
+- [F-003: Access Control and Visibility Boundaries](../../01-requirements/f-003-access-control-and-visibility-boundaries.md)
+- [F-007: Admin Login](../../01-requirements/f-007-admin-login.md)
+- [F-008: Account Creation](../../01-requirements/f-008-create-account.md)
+- [F-009: Reset Password](../../01-requirements/f-009-reset-password.md)
+- [F-010: AI Credits and API Key Management](../../01-requirements/f-010-ai-credits-and-api-key-management.md)
+- [F-011: Viewer Account Management](../../01-requirements/f-011-viewer-account-management.md)
+- [ADR-004: Database (Amazon RDS PostgreSQL)](../adrs/adr-004-database.md)
+- [ADR-005: Authentication and Authorization Strategy](../adrs/adr-005-authentication.md)
+- [ADR-006: Deployment Platform (AWS)](../adrs/adr-006-deployment-platform.md)
+- [ADR-011: Secrets Management Strategy](../adrs/adr-011-secrets-management.md)
+- [ADR-012: Containerization Strategy](../adrs/adr-012-containerization.md)
+
 ---
 
-## Change Log
-
-| Date       | Version | Change Summary                                                                                            | Author |
-| ---------- | ------- | --------------------------------------------------------------------------------------------------------- | ------ |
-| 2026-02-28 | 1.0     | Initial draft — security architecture                                                                     | —      |
-| 2026-03-24 | 1.1     | Moved to security/ subfolder; links and Sources updated                                                   | —      |
-| 2026-08-04 | 2.0     | Complete rewrite for AWS migration: custom JWT auth, RDS, App Runner, VPC security, CloudWatch monitoring | —      |
-| 2026-08-07 | 2.1     | Added mermaid diagrams: layered defense model, JWT auth sequence, authorization middleware flow | —      |
-| 2026-08-07 | 2.2     | Added AI Security section: prompt injection defenses, input sanitization, prompt assembly, output validation, provider-specific mitigations | —      |
+**Last Updated**: 2026-08-07

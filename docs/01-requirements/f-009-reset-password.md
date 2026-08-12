@@ -51,10 +51,4 @@
 
 ---
 
-## Change Log
-
-| Date       | Version | Change Summary                                                                      | Author        |
-| ---------- | ------- | ----------------------------------------------------------------------------------- | ------------- |
-| 2026-07-30 | 1.2     | Validated requirements and moved all requirements to Clarified status after implementation team review. | Product Owner |
-| 2026-07-29 | 1.1     | Added 6-digit verification code requirements (FR-009-02 to FR-009-05, NFR-009-02).  | Product Owner |
-| 2026-03-23 | 1.0     | Initial feature requirements created.                                               | Product Owner |
+**Last Updated**: 2026-07-30

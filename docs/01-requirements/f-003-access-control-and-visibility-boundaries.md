@@ -47,11 +47,4 @@
 
 ---
 
-## Change Log
-
-| Date       | Version | Change Summary                                                                               | Author        |
-| ---------- | ------- | -------------------------------------------------------------------------------------------- | ------------- |
-| 2026-07-30 | 1.3     | Removed FR-003-04 (internal notes) and all internal notes references from scope and NFRs. | Product Owner |
-| 2026-07-30 | 1.2     | Validated requirements and moved all requirements to Clarified status after implementation team review. | Product Owner |
-| 2026-07-30 | 1.1     | Added FR-003-04 (internal notes), NFR-003-04 (session security), F-011 dependency reference. | Product Owner |
-| 2026-03-23 | 1.0     | Initial feature requirements created.                                                        | Product Owner |
+**Last Updated**: 2026-07-30

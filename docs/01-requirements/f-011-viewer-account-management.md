@@ -139,10 +139,4 @@
 
 ---
 
-## Change Log
-
-| Date       | Version | Change Summary                                                                                                       | Author        |
-| ---------- | ------- | -------------------------------------------------------------------------------------------------------------------- | ------------- |
-| 2026-07-30 | 1.2     | Validated requirements and moved all requirements to Clarified status after implementation team review. | Product Owner |
-| 2026-07-30 | 1.1     | Resolved open questions Q-035 to Q-040; added FR-011-10 to FR-011-12; updated NFR-011-05; clarified out-of-scope.   | Product Owner |
-| 2026-07-30 | 1.0     | Initial feature requirements for Viewer account management.                                                          | Product Owner |
+**Last Updated**: 2026-07-30

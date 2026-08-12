@@ -7,17 +7,23 @@
 | **Status**       | Draft                       |
 | **Last Updated** | 2026-08-07                  |
 
-## Sources
+## Table of Contents
 
-- [Deployment Architecture](./deployment-architecture.md)
-- [Requirements Home](../../01-requirements/README.md)
-- [ADR-006: Deployment Platform (AWS)](../adrs/adr-006-deployment-platform.md)
-- [ADR-011: Secrets Management Strategy](../adrs/adr-011-secrets-management.md)
-- [ADR-013: Infrastructure as Code Strategy](../adrs/adr-013-infrastructure-as-code.md)
-- [ADR-016: Git Workflow and Branch Strategy](../adrs/adr-016-git-workflow-strategy.md)
-- [ADR-017: Database Migration Strategy](../adrs/adr-017-database-migration-strategy.md)
-
----
+- [Source References](#source-references)
+- [1. Branching Strategy](#1-branching-strategy)
+- [2. Fork Setup & Sync](#2-fork-setup--sync)
+- [3. Branch Naming Conventions](#3-branch-naming-conventions)
+- [4. PR Conventions](#4-pr-conventions)
+- [5. CI/CD Tool Selection](#5-cicd-tool-selection)
+- [6. Pipeline Stages](#6-pipeline-stages)
+- [7. Build and Verification Responsibilities](#7-build-and-verification-responsibilities)
+- [8. Hotfix Process](#8-hotfix-process)
+- [9. Deployment Environment Strategy](#9-deployment-environment-strategy)
+- [10. Database Migration Strategy](#10-database-migration-strategy)
+- [11. Rollback Strategy](#11-rollback-strategy)
+- [12. Environment Variables and Secrets Management](#12-environment-variables-and-secrets-management)
+- [13. Zero-Downtime Deployment Approach](#13-zero-downtime-deployment-approach)
+- [14. Deployment Impact Summary](#14-deployment-impact-summary)
 
 ## 1. Branching Strategy
 
@@ -373,15 +379,16 @@ There is no persistent `staging` or `dev` environment. The `dev` branch provides
 - The pipeline design separates development integration (`dev`) from production releases (`main`), ensuring stability.
 - Hotfixes bypass `dev` and go directly to `main`, then back-merge to keep branches synchronized.
 
+## Source References
+
+- [Deployment Architecture](./deployment-architecture.md)
+- [Requirements Home](../../01-requirements/README.md)
+- [ADR-006: Deployment Platform (AWS)](../adrs/adr-006-deployment-platform.md)
+- [ADR-011: Secrets Management Strategy](../adrs/adr-011-secrets-management.md)
+- [ADR-013: Infrastructure as Code Strategy](../adrs/adr-013-infrastructure-as-code.md)
+- [ADR-016: Git Workflow and Branch Strategy](../adrs/adr-016-git-workflow-strategy.md)
+- [ADR-017: Database Migration Strategy](../adrs/adr-017-database-migration-strategy.md)
+
 ---
 
-## Change Log
-
-| Date       | Version | Change Summary                                                                                                                                                                                          | Author |
-| ---------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
-| 2026-02-28 | 1.0     | Initial draft — CI/CD pipeline architecture                                                                                                                                                             | —      |
-| 2026-03-24 | 1.1     | Moved to ops/ subfolder; Sources section added                                                                                                                                                          | —      |
-| 2026-08-04 | 2.0     | Updated for AWS migration: App Runner, RDS, S3+CloudFront, Alembic                                                                                                                                      | —      |
-| 2026-08-04 | 2.1     | Simplified pipeline to remove staging environment                                                                                                                                                       | —      |
-| 2026-08-04 | 2.2     | Updated branching strategy to GitFlow model (`develop` → `main`)                                                                                                                                        | —      |
-| 2026-08-07 | 3.0     | Fork-based workflow, `dev`+`main` two-branch model, fork setup/sync, PR conventions, hotfix process, two-tier PR flow, tag-based production deployment (merge to main = candidate, tag vX.Y.Z = deploy) | —      |
+**Last Updated**: 2026-08-07

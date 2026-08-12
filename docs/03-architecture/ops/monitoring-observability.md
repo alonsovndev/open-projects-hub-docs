@@ -7,15 +7,22 @@
 | **Status**       | Draft                       |
 | **Last Updated** | 2026-08-07                  |
 
-## 1. Monitoring Strategy
+## Table of Contents
 
-## Sources
-
-- [Deployment Architecture](./deployment-architecture.md)
-- [Requirements Home](../../01-requirements/README.md)
-- [ADR-009: Monitoring and Observability Strategy](../adrs/adr-009-monitoring-observability.md)
+- [1. Monitoring Strategy](#1-monitoring-strategy)
+- [Source References](#source-references)
+- [2. Log Aggregation Approach](#2-log-aggregation-approach)
+- [3. Distributed Tracing](#3-distributed-tracing)
+- [4. Key Metrics and Dashboards](#4-key-metrics-and-dashboards)
+- [5. Alerting Rules and Escalation](#5-alerting-rules-and-escalation)
+- [6. Performance Monitoring](#6-performance-monitoring)
+- [7. Observability Integration in Delivery Workflow](#7-observability-integration-in-delivery-workflow)
+- [8. Data Privacy and Security in Observability](#8-data-privacy-and-security-in-observability)
+- [9. Cost Management and Free Tier Boundaries](#9-cost-management-and-free-tier-boundaries)
 
 ---
+
+## 1. Monitoring Strategy
 
 The project adopts a **hybrid monitoring strategy maintaining $0/month cost** by leveraging Sentry Free Developer plan and AWS CloudWatch Free Tier with clear responsibility boundaries.
 
@@ -405,13 +412,12 @@ As part of the implementation, these Sentry and CloudWatch dashboards should be 
 3. Adjust log verbosity or sampling if approaching limits.
 4. Set up CloudWatch billing alarm for any unexpected charges.
 
+## Source References
+
+- [Deployment Architecture](./deployment-architecture.md)
+- [Requirements Home](../../01-requirements/README.md)
+- [ADR-009: Monitoring and Observability Strategy](../adrs/adr-009-monitoring-observability.md)
+
 ---
 
-## Change Log
-
-| Date       | Version | Change Summary                                                                                          | Author |
-| ---------- | ------- | ------------------------------------------------------------------------------------------------------- | ------ |
-| 2026-02-28 | 1.0     | Initial draft — monitoring and observability architecture                                               | —      |
-| 2026-03-24 | 1.1     | Aligned monitoring guidance with simplified MVP scope                                                   | —      |
-| 2026-08-04 | 1.2     | Updated for $0/month strategy: Sentry Free Developer + CloudWatch Free Tier hybrid with cost boundaries | —      |
-| 2026-08-07 | 1.3     | Added ASCII dashboard mockups for all Sentry and CloudWatch dashboards                                  | —      |
+**Last Updated**: 2026-08-07

@@ -110,8 +110,6 @@ These out-of-scope items may be reconsidered when:
 
 ---
 
-## Change Log
+---
 
-| Date       | Version | Change Summary                           | Author        |
-| ---------- | ------- | ---------------------------------------- | ------------- |
-| 2026-07-30 | 1.0     | Initial out-of-scope documentation for MVP baseline. | Product Owner |
+**Last Updated**: 2026-07-30

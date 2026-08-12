@@ -56,9 +56,4 @@
 
 ---
 
-## Change Log
-
-| Date       | Version | Change Summary                        | Author        |
-| ---------- | ------- | ------------------------------------- | ------------- |
-| 2026-07-30 | 1.1     | Added FR-007-04 (account lockout), FR-007-05 (logout), FR-007-06 (session expiry), FR-007-07 (remember me); enhanced acceptance criteria with specific error messages; added NFR-007-03 (performance); moved all requirements to Clarified status; updated dependencies and risks. | Product Owner |
-| 2026-03-23 | 1.0     | Initial feature requirements created. | Product Owner |
+**Last Updated**: 2026-07-30

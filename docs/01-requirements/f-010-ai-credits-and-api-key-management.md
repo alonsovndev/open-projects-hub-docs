@@ -126,12 +126,4 @@
 
 ---
 
-## Change Log
-
-| Date       | Version | Change Summary                                                                                                                       | Author        |
-| ---------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------ | ------------- |
-| 2026-07-30 | 1.4     | Enhanced acceptance criteria for all FR and NFR requirements with specific UI text, error messages, and behaviors; clarified dependency contract with F-002 (F-010 is provider, F-002 is consumer); moved all requirements to Clarified status. | Product Owner |
-| 2026-07-30 | 1.3     | Resolved open questions Q-030 to Q-034; added FR-010-12 (quota warning); clarified out-of-scope items.                              | Product Owner |
-| 2026-07-30 | 1.2     | Added FR-010-09 to FR-010-11 (key deletion fallback, error messages, key validation), F-002 dependency, credit timing clarification. | Product Owner |
-| 2026-07-29 | 1.1     | Removed implementation details; added user flows and open questions for clarity.                                                     | Product Owner |
-| 2026-07-29 | 1.0     | Initial feature requirements for AI credits and API keys.                                                                            | Product Owner |
+**Last Updated**: 2026-07-30

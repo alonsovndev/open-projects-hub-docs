@@ -7,16 +7,15 @@
 | **Status**       | Draft                       |
 | **Last Updated** | 2026-08-07                  |
 
-## Sources
+## Table of Contents
 
-- [Security Architecture](./security-architecture.md)
-- [F-007: Admin Login](../../01-requirements/f-007-admin-login.md)
-- [F-008: Account Creation](../../01-requirements/f-008-create-account.md)
-- [F-009: Reset Password](../../01-requirements/f-009-reset-password.md)
-- [ADR-005: Authentication Strategy (Custom JWT Auth)](../adrs/adr-005-authentication.md)
-- [ADR-006: Deployment Platform (AWS)](../adrs/adr-006-deployment-platform.md)
-- [ADR-011: Secrets Management Strategy](../adrs/adr-011-secrets-management.md)
-- [ADR-013: Infrastructure as Code Strategy](../adrs/adr-013-infrastructure-as-code.md)
+- [Source References](#source-references)
+- [Scope and Method](#scope-and-method)
+- [Assets to Protect](#assets-to-protect)
+- [Threats and Attack Vectors](#threats-and-attack-vectors)
+- [Risk Assessment Matrix](#risk-assessment-matrix)
+- [Mitigation Plan by Priority](#mitigation-plan-by-priority)
+- [Residual Risk and Review Cadence](#residual-risk-and-review-cadence)
 
 ---
 
@@ -163,13 +162,17 @@
 - Incorporate new AWS security features (e.g., GuardDuty, Security Hub).
 - Review and update associated ADRs when threat landscape changes.
 
+## Source References
+
+- [Security Architecture](./security-architecture.md)
+- [F-007: Admin Login](../../01-requirements/f-007-admin-login.md)
+- [F-008: Account Creation](../../01-requirements/f-008-create-account.md)
+- [F-009: Reset Password](../../01-requirements/f-009-reset-password.md)
+- [ADR-005: Authentication Strategy (Custom JWT Auth)](../adrs/adr-005-authentication.md)
+- [ADR-006: Deployment Platform (AWS)](../adrs/adr-006-deployment-platform.md)
+- [ADR-011: Secrets Management Strategy](../adrs/adr-011-secrets-management.md)
+- [ADR-013: Infrastructure as Code Strategy](../adrs/adr-013-infrastructure-as-code.md)
+
 ---
 
-## Change Log
-
-| Date       | Version | Change Summary                                              | Author |
-| ---------- | ------- | ----------------------------------------------------------- | ------ |
-| 2026-02-28 | 1.0     | Initial draft — threat model (STRIDE)                       | —      |
-| 2026-03-24 | 1.1     | Moved to security/ subfolder; Sources section added         | —      |
-| 2026-08-04 | 2.0     | Complete rewrite for AWS migration: added AWS-specific threats (S3, RDS, IAM, Terraform state), custom auth threats (JWT, bcrypt, password reset), expanded risk matrix to 18 threats | —      |
-| 2026-08-07 | 2.1     | Added prompt injection threats (direct, indirect, system prompt extraction, harmful content, credit abuse) and AI security mitigations | —      |
+**Last Updated**: 2026-08-07

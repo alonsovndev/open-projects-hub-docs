@@ -7,14 +7,19 @@
 | **Status**       | Draft                       |
 | **Last Updated** | 2026-08-04                  |
 
-## Sources
+## Table of Contents
 
-- [Requirements Home](../../01-requirements/README.md)
-- [ADR-004: Database (Amazon RDS PostgreSQL)](../adrs/adr-004-database.md)
-- [ADR-005: Authentication Strategy (Custom JWT Auth)](../adrs/adr-005-authentication.md)
-- [ADR-006: Deployment Platform (AWS)](../adrs/adr-006-deployment-platform.md)
-- [ADR-012: Containerization Strategy](../adrs/adr-012-containerization.md)
-- [ADR-013: Infrastructure as Code Strategy](../adrs/adr-013-infrastructure-as-code.md)
+- [Source References](#source-references)
+- [1. Scope and NFR Alignment](#1-scope-and-nfr-alignment)
+- [2. Cloud Platform Selection and Rationale](#2-cloud-platform-selection-and-rationale)
+- [3. Deployment Architecture](#3-deployment-architecture)
+- [4. Backup and Disaster Recovery](#4-backup-and-disaster-recovery)
+- [5. Environment Strategy](#5-environment-strategy)
+- [6. Cost Optimization Strategy](#6-cost-optimization-strategy)
+- [7. Infrastructure as Code (IaC) Approach](#7-infrastructure-as-code-iac-approach)
+- [8. Security Architecture Considerations](#8-security-architecture-considerations)
+- [9. Deployment Impact Summary (GitHub Actions)](#9-deployment-impact-summary-github-actions)
+- [10. Related ADRs](#10-related-adr)
 
 ---
 
@@ -335,12 +340,15 @@ See [Security Architecture](../security/security-architecture.md) for detailed s
 - [ADR-013: Infrastructure as Code Strategy](../adrs/adr-013-infrastructure-as-code.md)
 - [ADR-017: Database Migration Strategy](../adrs/adr-017-database-migration-strategy.md)
 
+## Source References
+
+- [Requirements Home](../../01-requirements/README.md)
+- [ADR-004: Database (Amazon RDS PostgreSQL)](../adrs/adr-004-database.md)
+- [ADR-005: Authentication Strategy (Custom JWT Auth)](../adrs/adr-005-authentication.md)
+- [ADR-006: Deployment Platform (AWS)](../adrs/adr-006-deployment-platform.md)
+- [ADR-012: Containerization Strategy](../adrs/adr-012-containerization.md)
+- [ADR-013: Infrastructure as Code Strategy](../adrs/adr-013-infrastructure-as-code.md)
+
 ---
 
-## Change Log
-
-| Date       | Version | Change Summary                                                                                 | Author |
-| ---------- | ------- | ---------------------------------------------------------------------------------------------- | ------ |
-| 2026-02-28 | 1.0     | Initial draft — deployment and infrastructure architecture                                     | —      |
-| 2026-03-24 | 1.1     | Aligned deployment guidance with simplified MVP scope                                          | —      |
-| 2026-08-04 | 2.0     | Complete rewrite for AWS migration: App Runner, RDS, S3+CloudFront, custom auth, Terraform IaC | —      |
+**Last Updated**: 2026-08-04

@@ -7,13 +7,16 @@
 | **Status**       | Draft                       |
 | **Last Updated** | 2026-08-11                  |
 
-## Sources
+## Table of Contents
 
-- [Architecture Solution Design](../core/architecture-solution-design.md)
-- [API Design Standards](./api-design-standards.md)
-- [Feature Requirements](../../01-requirements/README.md)
-- [Security Architecture](../security/security-architecture.md)
-- [ADR-005: Authentication Strategy](../adrs/adr-005-authentication.md)
+- [Source References](#source-references)
+- [API Scope and Conventions](#api-scope-and-conventions)
+- [Endpoint Catalog](#endpoint-catalog)
+- [Shared JSON Schemas](#shared-json-schemas)
+- [Detailed Endpoint Contracts](#detailed-endpoint-contracts)
+- [Standard Error Examples by Status](#standard-error-examples-by-status)
+- [Observability (Sentry + CloudWatch)](#observability-sentry--cloudwatch)
+- [Deployment Impact (GitHub Actions)](#deployment-impact-github-actions)
 
 ## API Scope and Conventions
 
@@ -1297,3 +1300,15 @@ Status codes (password): `200`, `400`, `401`, `403`, `422`, `500`
 - Enforce deployment flow: PR preview → integration on `dev` → PR to `main` → production release.
 - Rollback by redeploying previous stable backend release from ECR.
 - Keep environment variables for auth (`JWT_SECRET_KEY`), Sentry DSN, and database credentials consistent across environments.
+
+## Source References
+
+- [Architecture Solution Design](../core/architecture-solution-design.md)
+- [API Design Standards](./api-design-standards.md)
+- [Feature Requirements](../../01-requirements/README.md)
+- [Security Architecture](../security/security-architecture.md)
+- [ADR-005: Authentication Strategy](../adrs/adr-005-authentication.md)
+
+---
+
+**Last Updated**: 2026-08-11

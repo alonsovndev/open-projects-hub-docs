@@ -49,11 +49,4 @@
 
 ---
 
-## Change Log
-
-| Date       | Version | Change Summary                                                                             | Author        |
-| ---------- | ------- | ------------------------------------------------------------------------------------------ | ------------- |
-| 2026-07-30 | 1.3     | Validated requirements and moved all requirements to Clarified status after implementation team review. | Product Owner |
-| 2026-07-30 | 1.2     | Added FR-001-04 to FR-001-07 (client deletion, search/filter, metadata, reactivation).    | Product Owner |
-| 2026-03-23 | 1.1     | Updated traceability links after requirements folder flattening.                           | Product Owner |
-| 2026-03-23 | 1.0     | Initial feature requirements created.                                                      | Product Owner |
+**Last Updated**: 2026-07-30

@@ -8,17 +8,19 @@
 | **Last Updated** | 2026-07-30                  |
 | **Owner**        | Product Owner               |
 
+## Table of Contents
+
+- [Purpose](#purpose)
+- [Source References](#source-references)
+- [Feature Map](#feature-map)
+- [Status Definitions](#status-definitions)
+- [Cross-Cutting Quality Baseline](#cross-cutting-quality-baseline)
+- [Infrastructure Decisions for Implementation Team](#infrastructure-decisions-for-implementation-team)
+
 ## Purpose
 
 Single source of truth for requirements organized by feature slices.
 Detailed requirements are maintained in dedicated feature files.
-
-## Sources
-
-- [Project Overview](../overview.md)
-- [User Personas](../user-personas.md)
-- [Open Questions](../open-questions.md)
-- [Out of Scope Items](../out-of-scope.md)
 
 ---
 
@@ -102,16 +104,13 @@ Implementation team has confirmed:
 - [x] Scope boundaries (out-of-scope.md) are agreed upon
 - [x] No critical open questions remain
 
+## Source References
+
+- [Project Overview](../overview.md)
+- [User Personas](../user-personas.md)
+- [Open Questions](../open-questions.md)
+- [Out of Scope Items](../out-of-scope.md)
+
 ---
 
-## Change Log
-
-| Date       | Version | Change Summary                                                                                                                                  | Author        |
-| ---------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
-| 2026-07-30 | 1.6     | **Ready for Implementation**: All features moved to Clarified status; all NFRs moved to Clarified; implementation team confirmed feasibility; completed F-007 with logout/session requirements; resolved F-002/F-010 circular dependency; made infrastructure choices platform-agnostic; validation checklist completed. | Product Owner |
-| 2026-07-30 | 1.5     | Added "Review Pending" status; updated all features to Review Pending; added infrastructure guidance and validation checklist; created out-of-scope.md; updated repository scope in AGENTS.repo.md. | Product Owner |
-| 2026-07-30 | 1.4     | Added F-011 Viewer Account Management, NFR-X09 Session Management, NFR-X10 Email Notifications; updated NFR-X05 with explicit MVP load assumptions. | Product Owner |
-| 2026-07-29 | 1.3     | Added F-010 AI Credits and API Key Management.                                                                                                  | Product Owner |
-| 2026-03-23 | 1.2     | Renamed index file, fixed links, restored F-002 map, and added F-006 to F-009.                                                                  | Product Owner |
-| 2026-03-23 | 1.1     | Removed F-002 AI Refinement and Approval Workflow.                                                                                              | Product Owner |
-| 2026-03-23 | 1.0     | Initial feature-based requirements baseline created.                                                                                            | Product Owner |
+**Last Updated**: 2026-07-30

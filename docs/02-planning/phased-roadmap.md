@@ -8,10 +8,18 @@
 | **Last Updated** | 2026-07-30                  |
 | **Owner**        | Product Owner               |
 
-## Sources
+## Table of Contents
 
-- [Project Overview](../overview.md)
-- [Feature Requirements](../01-requirements/readme.md)
+- [Source References](#source-references)
+- [Planning Principles](#planning-principles)
+- [Phase Overview](#phase-overview)
+- [Phase -1 (UI/UX Prototyping & Validation)](#phase--1-uiux-prototyping--validation)
+- [Phase 0 (Foundation & Engineering Readiness)](#phase-0-foundation--engineering-readiness)
+- [MVP Phase](#mvp-phase)
+- [Phase 1](#phase-1)
+- [Phase 2 (Future)](#phase-2-future)
+- [Feature Traceability Matrix](#feature-traceability-matrix)
+- [Risks and Blockers](#risks-and-blockers)
 
 ## Planning Principles
 
@@ -333,14 +341,11 @@
 | Prototypes require major rework during validation| Phase -1       | Low         | Medium | Early stakeholder involvement; iterate on feedback quickly; existing prototypes reduce risk | UI/UX Designer |
 | Phase -1 and Phase 0 not completing in sync     | Week 0         | Medium      | High   | Daily coordination; contingency buffer 2-3 days if needed; Frontend Engineer helps both tracks | Tech Lead      |
 
+## Source References
+
+- [Project Overview](../overview.md)
+- [Feature Requirements](../01-requirements/readme.md)
+
 ---
 
-## Change Log
-
-| Date       | Version | Change Summary                                                               | Author        |
-| ---------- | ------- | ---------------------------------------------------------------------------- | ------------- |
-| 2026-07-30 | 1.4     | Added Phase -1 (UI/UX Prototyping & Validation) running parallel with Phase 0; updated phase overview with execution modes; added design approval gates and handoff process. | Product Owner |
-| 2026-07-30 | 1.3     | Added Phase 0 (Foundation & Engineering Readiness) with 9 must-have tasks before MVP; updated phase overview and timeline. | Product Owner |
-| 2026-07-30 | 1.2     | Added F-010 and F-011 to MVP phase; updated goals, deliverables, traceability matrix, and risks; aligned with requirements v1.6. | Product Owner |
-| 2026-03-23 | 1.1     | Refactored roadmap to template structure and aligned to feature-based model. | Product Owner |
-| 2026-02-28 | 1.0     | Initial phased roadmap draft created.                                        | Product Owner |
+**Last Updated**: 2026-07-30

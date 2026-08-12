@@ -120,9 +120,6 @@ Use Ant Design-style components as the baseline for the prototype.
 - Accessibility baseline: `NFR-003-03`, `NFR-007`, `US-P1-UX-003`
 - Prototype package expectation: `US-P1-UX-004`
 
-## Change Log
+---
 
-| Date       | Version | Change Summary                                                                                                 | Author         |
-| ---------- | ------- | -------------------------------------------------------------------------------------------------------------- | -------------- |
-| 2026-08-11 | 1.2     | Updated for Pencil prototype migration. Added Epic card, AdminLayout shell components. Expanded to 12 screens. | UI/UX Designer |
-| 2026-03-23 | 1.1     | Updated scope and traceability for auth-entry + feature-sliced requirement IDs.                                | UI/UX Designer |
+**Last Updated**: 2026-08-11

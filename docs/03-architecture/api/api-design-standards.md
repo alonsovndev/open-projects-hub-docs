@@ -7,13 +7,17 @@
 | **Status**       | Draft                       |
 | **Last Updated** | 2026-08-11                  |
 
-## Sources
+## Table of Contents
 
-- [Architecture Solution Design](../core/architecture-solution-design.md)
-- [Technology Stack](../core/technology-stack.md)
-- [API Contract](./api-contract.md)
-- [Feature Requirements](../../01-requirements/README.md)
-- [Security Architecture](../security/security-architecture.md)
+- [Source References](#source-references)
+- [API Style](#api-style)
+- [Versioning Strategy](#versioning-strategy)
+- [Error Handling Standards](#error-handling-standards)
+- [Response Format Conventions](#response-format-conventions)
+- [Authentication and Authorization Patterns](#authentication-and-authorization-patterns)
+- [Rate Limiting and Throttling](#rate-limiting-and-throttling)
+- [Observability (Sentry + CloudWatch)](#observability-sentry--cloudwatch)
+- [Deployment Impact (GitHub Actions)](#deployment-impact-github-actions)
 
 ## API Style
 
@@ -109,12 +113,14 @@
 - Rollback strategy: revert to prior release and maintain previous major API version during deprecation window.
 - Manage environment variables/secrets for auth, rate-limiting configuration, and Sentry DSN per environment.
 
+## Source References
+
+- [Architecture Solution Design](../core/architecture-solution-design.md)
+- [Technology Stack](../core/technology-stack.md)
+- [API Contract](./api-contract.md)
+- [Feature Requirements](../../01-requirements/README.md)
+- [Security Architecture](../security/security-architecture.md)
+
 ---
 
-## Change Log
-
-| Date       | Version | Change Summary                         | Author |
-| ---------- | ------- | -------------------------------------- | ------ |
-| 2026-02-28 | 1.0     | Initial draft — API design standards   | —      |
-| 2026-03-24 | 1.1     | Moved to api/ subfolder; links updated | —      |
-| 2026-08-11 | 2.0     | Aligned with AWS migration and custom JWT auth (ADR-005): replaced Supabase Auth references, added PostgreSQL RLS, added auth endpoint rate limits, updated observability to Sentry+CloudWatch, fixed broken source links | —      |
+**Last Updated**: 2026-08-11

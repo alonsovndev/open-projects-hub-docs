@@ -1,5 +1,20 @@
 # Prototype Brief: Open Projects Hub
 
+## Table of Contents
+
+- [Purpose](#purpose)
+- [Product Context](#product-context)
+- [Goals](#goals)
+- [Success Criteria](#success-criteria)
+- [Target Users](#target-users)
+- [MVP Prototype Scope](#mvp-prototype-scope)
+- [Pages and Sections per Page](#pages-and-sections-per-page)
+- [Information Architecture](#information-architecture)
+- [Key User Flows](#key-user-flows)
+- [Assumptions](#assumptions)
+- [Requirements Coverage Matrix](#requirements-coverage-matrix)
+- [Source References](#source-references)
+
 ## Purpose
 
 Create a lightweight prototype brief that turns the repository planning documentation into a single source of truth for Pencil-based prototype design and stakeholder review.
@@ -257,10 +272,6 @@ Every Must requirement should appear in at least one row before prototype sign-o
 - [UI/UX Designer User Stories](../06-user-stories/ui-ux-designer-stories.md)
 - [Product Epics](../06-user-stories/epics.md)
 
-## Change Log
+---
 
-| Date       | Version | Change Summary                                                                                | Author         |
-| ---------- | ------- | --------------------------------------------------------------------------------------------- | -------------- |
-| 2026-08-11 | 1.3     | Migrated from Stitch to Pencil prototype. Added Landing/Home, Admin Dashboard, Settings pages. Added epic generation to refinement workspace. Updated sitemap and coverage matrix. | UI/UX Designer |
-| 2026-03-23 | 1.2     | Added auth/entry flows, requirements coverage matrix, and corrected feature-based references. | UI/UX Designer |
-| 2026-03-16 | 1.1     | Initial prototype brief baseline.                                                             | UI/UX Designer |
+**Last Updated**: 2026-08-11

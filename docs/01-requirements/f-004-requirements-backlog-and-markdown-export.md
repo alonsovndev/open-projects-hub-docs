@@ -47,10 +47,4 @@
 
 ---
 
-## Change Log
-
-| Date       | Version | Change Summary                                                                                     | Author        |
-| ---------- | ------- | -------------------------------------------------------------------------------------------------- | ------------- |
-| 2026-07-30 | 1.2     | Validated requirements and moved all requirements to Clarified status after implementation team review. | Product Owner |
-| 2026-07-30 | 1.1     | Added FR-004-03 to FR-004-06 (reorder, export scope, Viewer restrictions, empty export handling). | Product Owner |
-| 2026-03-23 | 1.0     | Initial feature requirements created.                                                              | Product Owner |
+**Last Updated**: 2026-07-30

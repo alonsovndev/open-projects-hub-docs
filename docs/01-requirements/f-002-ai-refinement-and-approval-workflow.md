@@ -58,11 +58,6 @@
 
 ---
 
-## Change Log
+---
 
-| Date       | Version | Change Summary                                                                                                          | Author        |
-| ---------- | ------- | ----------------------------------------------------------------------------------------------------------------------- | ------------- |
-| 2026-07-30 | 1.3     | Enhanced acceptance criteria for FR-002-04 to FR-002-08 with specific error messages, timeout thresholds, and defaults; clarified F-010 dependency contract; moved all requirements and NFRs to Clarified status. | Product Owner |
-| 2026-07-30 | 1.2     | Added FR-002-04 to FR-002-08 (error handling, draft management, input validation, credit integration, provider selection). | Product Owner |
-| 2026-03-23 | 1.1     | Restored FR-002-02 and updated traceability links.                                                                      | Product Owner |
-| 2026-03-23 | 1.0     | Initial feature requirements created.                                                                                   | Product Owner |
+**Last Updated**: 2026-07-30

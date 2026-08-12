@@ -44,11 +44,4 @@
 
 ---
 
-## Change Log
-
-| Date       | Version | Change Summary                                                                                        | Author        |
-| ---------- | ------- | ----------------------------------------------------------------------------------------------------- | ------------- |
-| 2026-07-30 | 1.3     | Validated requirements and moved all requirements to Clarified status after implementation team review. | Product Owner |
-| 2026-07-30 | 1.2     | Added FR-005-02 to FR-005-03 (dismissal, first-login detection); clarified FR-005-01 trigger timing. | Product Owner |
-| 2026-03-23 | 1.1     | Updated traceability links after requirements folder flattening.                                      | Product Owner |
-| 2026-03-23 | 1.0     | Initial feature requirements created.                                                                 | Product Owner |
+**Last Updated**: 2026-07-30

@@ -12,11 +12,6 @@
 
 Single source of truth for project planning, including the phased roadmap, role definitions, and workstream ownership.
 
-## Sources
-
-- [Project Overview](../overview.md)
-- [Project Requirements](../01-requirements/README.md)
-
 ---
 
 ## Planning Documents
@@ -44,10 +39,11 @@ All planning documents have been updated to **Ready for Implementation**.
 
 **Transition Path**: Draft → Review Pending → **Ready for Implementation** ✅
 
+## Source References
+
+- [Project Overview](../overview.md)
+- [Project Requirements](../01-requirements/README.md)
+
 ---
 
-## Change Log
-
-| Date       | Version | Change Summary                                                          | Author        |
-| ---------- | ------- | ----------------------------------------------------------------------- | ------------- |
-| 2026-07-30 | 1.0     | Initial README created; consolidated status for the planning directory. | Product Owner |
+**Last Updated**: 2026-07-30

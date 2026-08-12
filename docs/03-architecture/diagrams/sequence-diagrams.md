@@ -7,18 +7,23 @@
 | **Status**       | Active                      |
 | **Last Updated** | 2026-08-11                  |
 
-## Sources
+## Table of Contents
 
-- [Architecture Solution Design](../core/architecture-solution-design.md)
-- [API Contract](../api/api-contract.md)
-- [Security Architecture](../security/security-architecture.md)
-- [CI/CD Pipeline](../ops/ci-cd-pipeline.md)
-- [Feature Requirements](../../01-requirements/project-requirements-by-feature.md)
-- [F-007: Admin Login](../../01-requirements/f-007-admin-login.md)
-- [F-008: Account Creation](../../01-requirements/f-008-create-account.md)
-- [F-009: Reset Password](../../01-requirements/f-009-reset-password.md)
-- [F-010: AI Credits and API Key Management](../../01-requirements/f-010-ai-credits-and-api-key-management.md)
-- [F-011: Viewer Account Management](../../01-requirements/f-011-viewer-account-management.md)
+- [Source References](#source-references)
+- [1) Authentication and Session Validation](#1-authentication-and-session-validation)
+- [2) AI-Assisted Requirements Refinement](#2-ai-assisted-requirements-refinement)
+- [3) Explicit Approval and Viewer Visibility](#3-explicit-approval-and-viewer-visibility)
+- [4) Markdown Export Workflow](#4-markdown-export-workflow)
+- [5) Error Handling and Observability Path](#5-error-handling-and-observability-path)
+- [6) User Registration and Email Verification](#6-user-registration-and-email-verification)
+- [7) Password Reset](#7-password-reset)
+- [8) Login with Rate Limiting and Lockout](#8-login-with-rate-limiting-and-lockout)
+- [9) Authorization 3-Layer Defense](#9-authorization-3-layer-defense)
+- [10) Viewer Invitation Lifecycle](#10-viewer-invitation-lifecycle)
+- [11) AI Credits Consumption and API Key Management](#11-ai-credits-consumption-and-api-key-management)
+- [12) AI Refinement 5-Stage Security Pipeline](#12-ai-refinement-5-stage-security-pipeline)
+- [13) CI/CD Pipeline](#13-cicd-pipeline)
+- [Diagram Coverage by Feature](#diagram-coverage-by-feature)
 
 ---
 
@@ -579,12 +584,19 @@ sequenceDiagram
 | 12 — AI Refinement 5-Stage Security Pipeline | F-002 (AI refinement), security-architecture.md |
 | 13 — CI/CD Pipeline | ci-cd-pipeline.md, deployment-architecture.md |
 
+## Source References
+
+- [Architecture Solution Design](../core/architecture-solution-design.md)
+- [API Contract](../api/api-contract.md)
+- [Security Architecture](../security/security-architecture.md)
+- [CI/CD Pipeline](../ops/ci-cd-pipeline.md)
+- [Feature Requirements](../../01-requirements/project-requirements-by-feature.md)
+- [F-007: Admin Login](../../01-requirements/f-007-admin-login.md)
+- [F-008: Account Creation](../../01-requirements/f-008-create-account.md)
+- [F-009: Reset Password](../../01-requirements/f-009-reset-password.md)
+- [F-010: AI Credits and API Key Management](../../01-requirements/f-010-ai-credits-and-api-key-management.md)
+- [F-011: Viewer Account Management](../../01-requirements/f-011-viewer-account-management.md)
+
 ---
 
-## Change Log
-
-| Date       | Version | Change Summary                                                                    | Author |
-| ---------- | ------- | --------------------------------------------------------------------------------- | ------ |
-| 2026-02-28 | 1.0     | Initial draft — key interaction flows                                             | —      |
-| 2026-03-24 | 1.1     | Added metadata table, Sources, Change Log                                         | —      |
-| 2026-08-11 | 2.0     | Full overhaul: updated all 5 diagrams to AWS stack (App Runner, RDS, S3, custom JWT), added 8 new diagrams covering registration, password reset, login+lockout, authorization layers, viewer lifecycle, AI credits/key management, AI security pipeline, and CI/CD pipeline. Added feature coverage matrix. | —      |
+**Last Updated**: 2026-08-11

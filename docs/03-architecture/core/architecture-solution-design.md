@@ -7,13 +7,20 @@
 | **Status**       | Accepted                    |
 | **Last Updated** | 2026-08-04                  |
 
-## Sources
+## Table of Contents
 
-- [Architecture Styles](./architecture-styles.md)
-- [Technology Stack](./technology-stack.md)
-- [Requirements](../../01-requirements/README.md)
-
----
+- [Source References](#source-references)
+- [System Context](#system-context)
+- [Architectural Approach](#architectural-approach)
+- [Component Design](#component-design)
+- [Data Flow](#data-flow)
+- [Integration Points](#integration-points)
+- [Observability (Hybrid: Sentry + CloudWatch)](#observability-hybrid-sentry--cloudwatch)
+- [Deployment Impact (GitHub Actions + AWS)](#deployment-impact-github-actions--aws)
+- [Security Considerations](#security-considerations)
+- [Scalability Considerations](#scalability-considerations)
+- [Trade-offs and Alternatives](#trade-offs-and-alternatives)
+- [ADR Reference](#adr-reference)
 
 ## System Context
 
@@ -181,12 +188,12 @@ sequenceDiagram
 - [ADR-006: Deployment Platform (AWS)](../adrs/adr-006-deployment-platform.md)
 - [ADR-009: Monitoring and Observability (Sentry + CloudWatch)](../adrs/adr-009-monitoring-observability.md)
 
+## Source References
+
+- [Architecture Styles](./architecture-styles.md)
+- [Technology Stack](./technology-stack.md)
+- [Requirements](../../01-requirements/README.md)
+
 ---
 
-## Change Log
-
-| Date       | Version | Change Summary                                     |
-| ---------- | ------- | -------------------------------------------------- |
-| 2026-02-28 | 1.0     | Initial draft — architecture solution design       |
-| 2026-03-24 | 1.1     | Added metadata table, Sources, and Change Log      |
-| 2026-08-04 | 2.0     | AWS migration: updated all diagrams and tech stack |
+**Last Updated**: 2026-08-04

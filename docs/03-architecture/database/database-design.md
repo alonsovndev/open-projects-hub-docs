@@ -7,14 +7,21 @@
 | **Status**       | Draft                       |
 | **Last Updated** | 2026-08-11                  |
 
-## Sources
+## Table of Contents
 
-- [Project Overview](../../overview.md)
-- [F-001 Client and Project Lifecycle Management](../../01-requirements/f-001-client-and-project-lifecycle-management.md)
-- [F-002 AI Refinement and Approval Workflow](../../01-requirements/f-002-ai-refinement-and-approval-workflow.md)
-- [F-003 Access Control and Visibility Boundaries](../../01-requirements/f-003-access-control-and-visibility-boundaries.md)
-- [ADR-004: Database (Amazon RDS PostgreSQL)](../adrs/adr-004-database.md)
-- [ADR-005: Authentication and Authorization Strategy](../adrs/adr-005-authentication.md)
+- [Source References](#source-references)
+- [Design Scope and Assumptions](#design-scope-and-assumptions)
+- [Data Domains](#data-domains)
+- [Core Entities](#core-entities)
+- [Relationships](#relationships)
+- [Entity-Relationship Diagram (ERD)](#entity-relationship-diagram-erd)
+- [Schema Documentation](#schema-documentation)
+- [Constraints and Integrity Rules](#constraints-and-integrity-rules)
+- [Access Patterns and Indexing Notes](#access-patterns-and-indexing-notes)
+- [Migration and Evolution Considerations](#migration-and-evolution-considerations)
+- [Security and Data Governance](#security-and-data-governance)
+- [Risks and Open Questions](#risks-and-open-questions)
+- [Traceability to Requirements](#traceability-to-requirements)
 
 ## Design Scope and Assumptions
 
@@ -260,16 +267,15 @@ erDiagram
 | NFR-X01     | Auth-provider boundary and sensitive-field handling support secure credential design.                   |
 | NFR-X06     | UUID keys and targeted indexes support MVP growth without logical schema changes.                       |
 
-## Change Log
+## Source References
 
-| Date       | Version | Change Summary                                                                                                                                                                                         | Author    |
-| ---------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------- |
-| 2026-08-11 | 1.8     | Added `epics` table (6-entity model). Added `epic_id` FK (NOT NULL) to `user_stories`. Backlog access pattern updated to epic-scoped. FR-004-01 traceability enhanced.                                                          | Tech Lead |
-| 2026-08-11 | 1.7     | Renamed `statement` to `description` on `user_stories`. Added `story_points` (INTEGER) and `labels` (JSONB) with GIN index.                                                                                                                                                    | Tech Lead |
-| 2026-08-11 | 1.6     | Added `story_id` (TEXT UK), `acceptance_criteria` (JSONB), and `priority` (CHECK) to `user_stories`. Added GIN index and backlog access pattern. FR-004-01 traceability added.                                                                                                   | Tech Lead |
-| 2026-08-11 | 1.5     | Corrected all Supabase references to Amazon RDS PostgreSQL + custom JWT auth per ADR-004/005. Added `password_hash` to `users`, `updated_at` to `project_memberships`, soft-archive CHECK constraints, FK index on `project_memberships.user_id`, and Alembic migration reference per ADR-017. | Tech Lead |
-| 2026-08-11 | 1.4     | Removed `refinement_sessions` table (raw input not persisted per FR-002 analysis). Added approval audit fields (`approved_by_user_id`, `approved_at`) to `user_stories`. Simplified to 5-entity model.                                            | Tech Lead |
-| 2026-03-24 | 1.3     | Validation pass against current requirements direction. Removed `internal_notes` from `projects` and updated security/risk guidance to focus on story approval visibility.                             | Tech Lead |
-| 2026-03-24 | 1.2     | Simplified to 6-entity model. Removed ambiguity tracking, acceptance-criteria tables, requirements promotion, and export tracking. Renamed draft_stories to user_stories with direct approval status.  | Tech Lead |
-| 2026-03-23 | 1.1     | Refactored to template structure, updated source links, aligned requirement IDs, and clarified auth boundary ownership.                                                                                | Tech Lead |
-| 2026-02-28 | 1.0     | Initial database design draft created.                                                                                                                                                                 | Tech Lead |
+- [Project Overview](../../overview.md)
+- [F-001 Client and Project Lifecycle Management](../../01-requirements/f-001-client-and-project-lifecycle-management.md)
+- [F-002 AI Refinement and Approval Workflow](../../01-requirements/f-002-ai-refinement-and-approval-workflow.md)
+- [F-003 Access Control and Visibility Boundaries](../../01-requirements/f-003-access-control-and-visibility-boundaries.md)
+- [ADR-004: Database (Amazon RDS PostgreSQL)](../adrs/adr-004-database.md)
+- [ADR-005: Authentication and Authorization Strategy](../adrs/adr-005-authentication.md)
+
+---
+
+**Last Updated**: 2026-08-11

@@ -55,12 +55,4 @@
 
 ---
 
-## Change Log
-
-| Date       | Version | Change Summary                                                                              | Author        |
-| ---------- | ------- | ------------------------------------------------------------------------------------------- | ------------- |
-| 2026-07-30 | 1.3     | Validated requirements and moved all requirements to Clarified status after implementation team review. | Product Owner |
-| 2026-07-30 | 1.2     | Added FR-008-08 (duplicate email handling), FR-008-09 (password requirements), NFR-X10 dependency. | Product Owner |
-| 2026-07-29 | 1.1     | Added email verification code requirements (FR-008-03 to FR-008-06, NFR-008-02/03).         | Product Owner |
-| 2026-03-23 | 1.0     | Initial feature requirements created.                                                       | Product Owner |
-| 2026-07-29 | 1.1     | Added email verification code requirements (FR-008-03 to FR-008-06, NFR-008-02/03).     | Product Owner |
+**Last Updated**: 2026-07-30
