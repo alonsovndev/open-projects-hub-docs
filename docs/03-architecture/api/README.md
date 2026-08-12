@@ -1,6 +1,6 @@
 # API and Communication
 
-This section defines the REST API contract, endpoint catalog, request/response schemas, and design standards for the Open Freelancer Project Hub.
+This section defines the REST API contract, endpoint catalog, request/response schemas, and design standards for the Open Projects Hub.
 
 ## Documents
 

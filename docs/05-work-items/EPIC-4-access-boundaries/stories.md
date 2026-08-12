@@ -8,6 +8,8 @@
 **Epic Link**: EPIC-4
 **Priority**: Must Have
 **Effort Estimate**: 5
+**Status**: TODO
+**Labels**: design, ux, access-control, visibility
 
 **As a** UI/UX Designer,
 **I want to** design role-based UI variations,
@@ -27,8 +29,8 @@
 
 **Dependencies**:
 
-- [Project Requirements by Feature](../../01-requirements/readme.md).
-- [Prototype Brief](../../05-prototype/prototype-brief.md).
+- [Project Requirements by Feature](../../01-requirements/README.md).
+- [Prototype Brief](../../04-prototype/prototype-brief.md).
 
 **Success Metrics**:
 
@@ -45,6 +47,8 @@
 **Epic Link**: EPIC-4
 **Priority**: Must Have
 **Effort Estimate**: 8
+**Status**: TODO
+**Labels**: backend, access-control, visibility
 
 **As a** Backend Engineer,
 **I want to** implement role-based access control (RBAC),
@@ -64,7 +68,7 @@
 
 **Dependencies**:
 
-- [Architecture Solution Design](../../03-architecture/architecture-solution-design.md).
+- [Architecture Solution Design](../../03-architecture/core/architecture-solution-design.md).
 - [API Contract](../../03-architecture/api/api-contract.md).
 
 **Success Metrics**:
@@ -82,6 +86,8 @@
 **Epic Link**: EPIC-4
 **Priority**: Must Have
 **Effort Estimate**: 5
+**Status**: TODO
+**Labels**: frontend, access-control, visibility
 
 **As a** Frontend Engineer,
 **I want to** implement role-based UI rendering,
@@ -101,7 +107,7 @@
 
 **Dependencies**:
 
-- [ADR-002: Frontend Framework](../../03-architecture/adrs/adr-002-frontend-framework.md).
+- [ADR-002: Frontend Framework](../../03-architecture/adrs/adr-003-frontend-framework.md).
 - [API Contract](../../03-architecture/api/api-contract.md).
 
 **Success Metrics**:

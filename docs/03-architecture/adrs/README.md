@@ -1,6 +1,6 @@
 # Architectural Decision Records (ADRs)
 
-This directory contains the Architectural Decision Records (ADRs) for the Open Freelancer Project Hub. An ADR is a short document that captures a significant architectural decision, the context that led to it, and the consequences of the decision.
+This directory contains the Architectural Decision Records (ADRs) for the Open Projects Hub. An ADR is a short document that captures a significant architectural decision, the context that led to it, and the consequences of the decision.
 
 We use ADRs to document our architectural journey and to provide a clear rationale for our choices to current and future contributors.
 

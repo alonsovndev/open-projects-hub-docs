@@ -1,5 +1,149 @@
 # Stories for Epic: Foundational Infrastructure and Setup
 
+## Spike Stories
+
+### SPIKE-1: Backend Framework Selection
+
+**Story ID**: SPIKE-1
+**Epic Link**: EPIC-0
+**Priority**: Spike
+**Effort Estimate**: 3
+**Status**: TODO
+**Labels**: spike, foundational, setup, ci-cd
+
+**As a** Tech Lead,
+**I want to** analyze and select a primary backend framework for the Python modular monolith,
+**So that** we choose a framework that supports Clean Architecture, modularity, testing, ORM integration, and OpenAPI generation.
+
+**Acceptance Criteria**:
+
+- [ ] Given the evaluation criteria, when comparing frameworks, then a recommendation with tradeoffs is produced.
+- [ ] Given candidate frameworks, when benchmarking, then performance overhead and ecosystem maturity are documented.
+- [ ] Given a chosen framework, when the ADR is created, then it contains rationale and migration considerations.
+
+**Deliverables**:
+
+- ADR: `adr-002-backend-framework.md` with decision and rationale.
+- Comparative notes and benchmark results for FastAPI, Django, and Flask.
+- Migration considerations and recommended starter template.
+
+**Dependencies**:
+
+- [Technology Stack](../../03-architecture/core/technology-stack.md).
+
+**Success Metrics**:
+
+- ADR accepted and backend framework locked before implementation begins.
+- Starter template or boilerplate identified for rapid project scaffolding.
+
+---
+
+### SPIKE-2: Database Technology Selection
+
+**Story ID**: SPIKE-2
+**Epic Link**: EPIC-0
+**Priority**: Spike
+**Effort Estimate**: 3
+**Status**: TODO
+**Labels**: spike, foundational, setup, ci-cd
+
+**As a** Tech Lead,
+**I want to** choose a primary database technology and hosting strategy,
+**So that** we have a reliable, scalable data layer that supports role-based access control and MVP requirements.
+
+**Acceptance Criteria**:
+
+- [ ] Given candidate databases (PostgreSQL, MySQL, MongoDB), when comparing, then a recommendation with tradeoffs is produced.
+- [ ] Given hosting options (managed service vs self-hosted), when evaluating, then cost, operational complexity, and RLS support are documented.
+- [ ] Given a chosen database, when the ADR is created, then it contains rationale and migration considerations.
+
+**Deliverables**:
+
+- ADR: `adr-004-database.md` with decision and rationale.
+- Comparative notes for PostgreSQL, MySQL, and MongoDB.
+- Recommended managed service provider and RLS compatibility assessment.
+
+**Dependencies**:
+
+- [Technology Stack](../../03-architecture/core/technology-stack.md).
+
+**Success Metrics**:
+
+- ADR accepted and database technology locked before schema design begins.
+- RLS compatibility confirmed for chosen database and hosting option.
+
+---
+
+### SPIKE-3: Frontend Framework Selection
+
+**Story ID**: SPIKE-3
+**Epic Link**: EPIC-0
+**Priority**: Spike
+**Effort Estimate**: 3
+**Status**: TODO
+**Labels**: spike, foundational, setup, ci-cd
+
+**As a** Tech Lead,
+**I want to** select a primary frontend framework and build tool,
+**So that** we have a productive developer experience with TypeScript support, fast hot-reloading, and a mature component ecosystem.
+
+**Acceptance Criteria**:
+
+- [ ] Given candidate frameworks (React, Vue, Svelte), when comparing, then a recommendation with tradeoffs is produced.
+- [ ] Given build tools (Vite, Create React App, etc.), when benchmarking, then rebuild speed and developer experience are documented.
+- [ ] Given a chosen framework, when the ADR is created, then it contains rationale and starter configuration.
+
+**Deliverables**:
+
+- ADR: `adr-003-frontend-framework.md` with decision and rationale.
+- Comparative notes for React, Vue, and Svelte with TypeScript support.
+- Recommended build tool and starter configuration.
+
+**Dependencies**:
+
+- [Technology Stack](../../03-architecture/core/technology-stack.md).
+
+**Success Metrics**:
+
+- ADR accepted and frontend framework locked before UI implementation begins.
+- Starter configuration supports TypeScript strict mode and fast hot-reload.
+
+---
+
+### SPIKE-4: Deployment Platform Selection
+
+**Story ID**: SPIKE-4
+**Epic Link**: EPIC-0
+**Priority**: Spike
+**Effort Estimate**: 5
+**Status**: TODO
+**Labels**: spike, foundational, setup, ci-cd
+
+**As a** Tech Lead,
+**I want to** decide on a target platform for deploying backend and frontend applications,
+**So that** we have a clear, cost-effective, and operationally simple deployment path for MVP and future staging/production environments.
+
+**Acceptance Criteria**:
+
+- [ ] Given candidate platforms (Heroku, Vercel, Docker on AWS/GCP), when comparing, then cost, scalability, and operational tradeoffs are documented.
+- [ ] Given environment needs, when evaluating secrets and staging/production separation, then recommended strategy is provided.
+- [ ] Given selection, when ADR is created, then deployment pipeline recommendations are included.
+
+**Deliverables**:
+
+- ADR: `adr-006-deployment-platform.md` with chosen deployment strategy.
+- Recommended environment and secrets management approach.
+
+**Dependencies**:
+
+- [Technology Stack](../../03-architecture/core/technology-stack.md).
+
+**Success Metrics**:
+
+- ADR accepted and a deployment path defined.
+
+---
+
 ## Backend Engineer
 
 ### US-EP0-BE-001: Backend Modular Monolith Structure and Scaffolding
@@ -8,6 +152,8 @@
 **Epic Link**: EPIC-0
 **Priority**: Must Have
 **Effort Estimate**: 8
+**Status**: TODO
+**Labels**: backend, foundational, setup, ci-cd
 
 **As a** Backend Engineer,
 **I want to** establish a backend modular monolith repository structure with clear module boundaries and configuration patterns,
@@ -30,8 +176,8 @@
 
 **Dependencies**:
 
-- [Architecture Solution Design](../../03-architecture/architecture-solution-design.md).
-- [Technology Stack](../../03-architecture/technology-stack.md).
+- [Architecture Solution Design](../../03-architecture/core/architecture-solution-design.md).
+- [Technology Stack](../../03-architecture/core/technology-stack.md).
 
 **Success Metrics**:
 
@@ -47,6 +193,8 @@
 **Epic Link**: EPIC-0
 **Priority**: Must Have
 **Effort Estimate**: 8
+**Status**: TODO
+**Labels**: backend, foundational, setup, ci-cd
 
 **As a** Backend Engineer,
 **I want to** implement database schema with migration tooling and seed data generation,
@@ -61,7 +209,7 @@
 
 **Deliverables**:
 
-- Database schema SQL or ORM migration definitions (based on [Database Design](../../04-database/database-design.md)).
+- Database schema SQL or ORM migration definitions (based on [Database Design](../../03-architecture/database/database-design.md)).
 - Migration tooling configuration (Alembic, Flyway, or equivalent).
 - Seed data script with realistic MVP test fixtures.
 - Migration documentation and rollback procedures.
@@ -69,7 +217,7 @@
 
 **Dependencies**:
 
-- [Database Design](../../04-database/database-design.md).
+- [Database Design](../../03-architecture/database/database-design.md).
 - [ADR-007: ORM Choice](../../03-architecture/adrs/adr-007-orm-choice.md).
 
 **Success Metrics**:
@@ -86,6 +234,8 @@
 **Epic Link**: EPIC-0
 **Priority**: Must Have
 **Effort Estimate**: 8
+**Status**: TODO
+**Labels**: backend, foundational, setup, ci-cd
 
 **As a** Backend Engineer,
 **I want to** set up automated testing framework, linting, and CI/CD pipeline that runs on every commit,
@@ -110,8 +260,8 @@
 
 **Dependencies**:
 
-- [Technology Stack](../../03-architecture/technology-stack.md).
-- [ADR-009: Testing Framework](../../03-architecture/adrs/adr-009-testing-framework.md).
+- [Technology Stack](../../03-architecture/core/technology-stack.md).
+- [ADR-009: Testing Framework](../../03-architecture/adrs/adr-010-testing-framework.md).
 
 **Success Metrics**:
 
@@ -127,6 +277,8 @@
 **Epic Link**: EPIC-0
 **Priority**: Must Have
 **Effort Estimate**: 5
+**Status**: TODO
+**Labels**: backend, foundational, setup, ci-cd
 
 **As a** Backend Engineer,
 **I want to** establish API documentation structure (OpenAPI/Swagger) and baseline endpoint contracts,
@@ -149,7 +301,7 @@
 **Dependencies**:
 
 - [API Contract](../../03-architecture/api/api-contract.md).
-- [Technology Stack](../../03-architecture/technology-stack.md).
+- [Technology Stack](../../03-architecture/core/technology-stack.md).
 
 **Success Metrics**:
 
@@ -166,6 +318,8 @@
 **Epic Link**: EPIC-0
 **Priority**: Must Have
 **Effort Estimate**: 5
+**Status**: TODO
+**Labels**: frontend, foundational, setup, ci-cd
 
 **As a** Frontend Engineer,
 **I want to** scaffold a React application with build tooling, development server, and project structure,
@@ -180,7 +334,7 @@
 
 **Deliverables**:
 
-- React app scaffolding with Create React App, Vite (per [Technology Stack](../../03-architecture/technology-stack.md)).
+- React app scaffolding with Create React App, Vite (per [Technology Stack](../../03-architecture/core/technology-stack.md)).
 - Development server configuration with fast rebuild and hot reload.
 - Directory structure: src/components/, src/pages/, src/services/, src/styles/, public/.
 - TypeScript configuration with strict mode enabled.
@@ -188,10 +342,90 @@
 
 **Dependencies**:
 
-- [Technology Stack](../../03-architecture/technology-stack.md).
-- [ADR-002: Frontend Framework](../../03-architecture/adrs/adr-002-frontend-framework.md).
+- [Technology Stack](../../03-architecture/core/technology-stack.md).
+- [ADR-002: Frontend Framework](../../03-architecture/adrs/adr-003-frontend-framework.md).
 
 **Success Metrics**:
 
 - Frontend development environment starts reliably and supports rapid iteration.
 - Linting and type-check checks are integrated into local and CI workflows.
+
+---
+
+### US-EP0-BE-005: Production Deployment Pipeline
+
+**Story ID**: US-EP0-BE-005
+**Epic Link**: EPIC-0
+**Priority**: Must Have
+**Effort Estimate**: 5
+**Status**: TODO
+**Labels**: backend, foundational, setup, ci-cd, deployment
+
+**As a** Backend Engineer,
+**I want to** automate staging and production deployments through CI/CD,
+**So that** releases are repeatable, consistent, and require zero manual steps.
+
+**Acceptance Criteria**:
+
+- [ ] Given a merged PR to `main`, when the CI/CD pipeline runs, then the backend and frontend are deployed to staging automatically.
+- [ ] Given a git tag (e.g., `v0.5.0`), when the pipeline executes, then the application is deployed to production after manual approval gate.
+- [ ] Given a deployment failure, when the pipeline detects it, then the build is marked failed and a notification is sent.
+- [ ] Given environment variables and secrets, when deploying, then they are sourced from the platform's secure secret store (not committed to repo).
+
+**Deliverables**:
+
+- CI/CD workflow for automated staging deployment on merge to `main`.
+- Production deployment workflow with manual approval gate (tagged releases).
+- Environment-specific configuration (dev, staging, production) with secret management.
+- Deployment documentation covering rollback procedures and manual intervention steps.
+
+**Dependencies**:
+
+- [ADR-006: Deployment Platform](../../03-architecture/adrs/adr-006-deployment-platform.md).
+- [CI/CD Pipeline Scaffolding](../../05-work-items/EPIC-0-foundational/stories.md#us-ep0-be-003-cicd-pipeline-scaffolding-and-testing-framework).
+
+**Success Metrics**:
+
+- Staging deployment completes within 10 minutes of merge to `main`.
+- Production deployment is triggered by tag and requires explicit approval.
+- Zero manual steps required for standard deployments.
+
+---
+
+### US-EP0-BE-006: Monitoring, Logging, and Observability
+
+**Story ID**: US-EP0-BE-006
+**Epic Link**: EPIC-0
+**Priority**: Should Have
+**Effort Estimate**: 5
+**Status**: TODO
+**Labels**: backend, foundational, setup, observability, monitoring
+
+**As a** Backend Engineer,
+**I want to** integrate structured logging and error tracking into the application,
+**So that** the team can detect, diagnose, and resolve production issues quickly.
+
+**Acceptance Criteria**:
+
+- [ ] Given an unhandled exception, when it occurs in production, then it is captured by an error tracking service (e.g., Sentry) with stack trace, user context, and request metadata.
+- [ ] Given an API request, when it is processed, then a structured log entry is emitted with timestamp, method, path, status code, and duration.
+- [ ] Given a health check endpoint, when queried, then it reports application readiness and database connectivity status.
+- [ ] Given log output, when reviewed, then it follows a consistent JSON or key-value format for easy parsing and analysis.
+
+**Deliverables**:
+
+- Structured logging middleware integrated into backend (e.g., structlog, Pino, or equivalent).
+- Error tracking SDK integration (e.g., Sentry, Bugsnag) with source map upload for frontend.
+- Health and readiness endpoints (`/health`, `/ready`) with dependency checks.
+- Dashboard or log aggregation configuration (e.g., Logtail, Datadog, or platform-native logging).
+
+**Dependencies**:
+
+- [ADR-006: Deployment Platform](../../03-architecture/adrs/adr-006-deployment-platform.md).
+- [Monitoring & Observability](../../03-architecture/ops/monitoring-observability.md).
+
+**Success Metrics**:
+
+- All unhandled exceptions are captured with actionable context.
+- Log entries are queryable and filterable by severity, service, and request ID.
+- Health endpoints return accurate readiness status for load balancers and CI/CD gates.

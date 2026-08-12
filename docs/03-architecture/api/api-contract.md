@@ -2,7 +2,7 @@
 
 | Attribute        | Value                       |
 | ---------------- | --------------------------- |
-| **Project**      | Open Freelancer Project Hub |
+| **Project**      | Open Projects Hub |
 | **Version**      | 2.0                         |
 | **Status**       | Draft                       |
 | **Last Updated** | 2026-08-11                  |
@@ -25,7 +25,7 @@
 - **Datetime format:** ISO 8601 UTC (`YYYY-MM-DDTHH:MM:SSZ`)
 - **Roles:**
   - `Admin`: full CRUD
-  - `Viewer`: read-only project/requirements visibility (no internal notes)
+  - `Viewer`: read-only project/requirements visibility
 
 ## Endpoint Catalog
 
@@ -187,7 +187,7 @@ Request schema:
     "name": { "type": "string", "minLength": 1, "maxLength": 120 },
     "description": { "type": "string", "maxLength": 5000 },
     "phase": { "type": "string", "enum": ["discovery", "planning"] },
-    "internalNotes": { "type": "string", "maxLength": 5000 }
+
   }
 }
 ```
@@ -200,7 +200,7 @@ Request example:
   "name": "Freelancer Portal MVP",
   "description": "Discovery and planning for marketplace workflow",
   "phase": "discovery",
-  "internalNotes": "Client wants release in 6 weeks"
+
 }
 ```
 
@@ -217,7 +217,7 @@ Success response (`201`) schema:
     "description": { "type": "string" },
     "phase": { "type": "string", "enum": ["discovery", "planning"] },
     "status": { "type": "string", "enum": ["active", "archived"] },
-    "internalNotes": { "type": "string" },
+
     "createdAt": { "type": "string", "format": "date-time" },
     "updatedAt": { "type": "string", "format": "date-time" }
   }
@@ -234,7 +234,7 @@ Success response example:
   "description": "Discovery and planning for marketplace workflow",
   "phase": "discovery",
   "status": "active",
-  "internalNotes": "Client wants release in 6 weeks",
+
   "createdAt": "2026-02-28T17:00:00Z",
   "updatedAt": "2026-02-28T17:00:00Z"
 }
@@ -245,7 +245,7 @@ Status codes: `201`, `400`, `401`, `403`, `409`, `422`, `500`
 ### 2) List Projects (Paginated)
 
 - **Method/URL:** `GET /api/v1/projects?page=1&pageSize=20&phase=discovery&status=active&clientId=...&search=portal&dateFrom=2026-01-01&dateTo=2026-12-31`
-- **Description:** Returns projects visible to caller role. Viewer never receives `internalNotes`. Supports optional filters.
+**Description:** Returns projects visible to caller role. Supports optional filters.
 
 Query parameters:
 
@@ -472,7 +472,7 @@ Request schema:
       "minItems": 1,
       "items": { "type": "string", "minLength": 1, "maxLength": 500 }
     },
-    "internalNotes": { "type": "string", "maxLength": 5000 }
+
   }
 }
 ```
@@ -503,9 +503,9 @@ Request schema:
 ```json
 {
   "type": "object",
-  "required": ["includeInternalNotes"],
+
   "properties": {
-    "includeInternalNotes": { "type": "boolean" },
+
     "status": { "type": "string", "enum": ["approved", "draft", "all"] },
     "dateFrom": { "type": "string", "format": "date" },
     "dateTo": { "type": "string", "format": "date" }
@@ -568,7 +568,7 @@ Request schema:
     "description": { "type": "string", "maxLength": 5000 },
     "phase": { "type": "string", "enum": ["discovery", "planning"] },
     "status": { "type": "string", "enum": ["active", "archived"] },
-    "internalNotes": { "type": "string", "maxLength": 5000 }
+
   }
 }
 ```
@@ -583,7 +583,7 @@ Success response example (`200`):
   "description": "Discovery and planning for marketplace workflow",
   "phase": "planning",
   "status": "active",
-  "internalNotes": "Client wants release in 6 weeks",
+
   "createdAt": "2026-02-28T17:00:00Z",
   "updatedAt": "2026-08-11T10:00:00Z"
 }

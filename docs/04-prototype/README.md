@@ -1,4 +1,4 @@
-# Prototype — Open Freelancer Project Hub
+# Prototype — Open Projects Hub
 
 UI/UX prototype for the MVP planning experience, built in **Pencil** (`.pen` file) with reusable components and design tokens.
 
@@ -35,7 +35,7 @@ Open it from Pencil via **File → Open** and navigate to the path above, or use
 | 5 | Forgot Password | Public | Email capture for reset code |
 | 6 | Reset Password | Public | 6-digit code + new password + confirm |
 | 7 | AI Refinement Workspace | Admin | Split-pane: raw notes → generated epics & stories, ambiguity bar, approve |
-| 8 | Admin Backlog | Admin | Filter bar, epic + story list, internal notes, Markdown export |
+| 8 | Admin Backlog | Admin | Filter bar, epic + story list, Markdown export |
 | 9 | Admin Dashboard | Admin | Welcome card, stats (projects/stories/credits), recent projects list |
 | 10 | Admin Settings | Admin | Profile, password, API keys management, danger zone |
 | 11 | Viewer Backlog | Public | Read-only stories with epic tags, phase badge, no edit controls |

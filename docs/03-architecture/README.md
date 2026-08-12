@@ -1,8 +1,8 @@
-# Architecture Overview — Open Freelancer Project Hub
+# Architecture Overview — Open Projects Hub
 
 | Attribute        | Value                       |
 | ---------------- | --------------------------- |
-| **Project**      | Open Freelancer Project Hub |
+| **Project**      | Open Projects Hub |
 | **Version**      | 1.0                         |
 | **Status**       | In Review                   |
 | **Last Updated** | 2026-08-03                  |

@@ -8,6 +8,8 @@
 **Epic Link**: EPIC-5
 **Priority**: Must Have
 **Effort Estimate**: 3
+**Status**: TODO
+**Labels**: design, ux, backlog, export
 
 **As a** UI/UX Designer,
 **I want to** design the export flow,
@@ -27,8 +29,8 @@
 
 **Dependencies**:
 
-- [Project Requirements by Feature](../../01-requirements/readme.md).
-- [Prototype Brief](../../05-prototype/prototype-brief.md).
+- [Project Requirements by Feature](../../01-requirements/README.md).
+- [Prototype Brief](../../04-prototype/prototype-brief.md).
 
 **Success Metrics**:
 
@@ -45,6 +47,8 @@
 **Epic Link**: EPIC-5
 **Priority**: Must Have
 **Effort Estimate**: 5
+**Status**: TODO
+**Labels**: backend, backlog, export
 
 **As a** Backend Engineer,
 **I want to** implement a backlog export service,
@@ -52,9 +56,8 @@
 
 **Acceptance Criteria**:
 
-- [ ] Given a project ID, when the export endpoint is called, then a Markdown file is generated.
-- [ ] Given no approved stories exist, when the export endpoint is called, then an empty file is returned.
-- [ ] Given internal notes exist, when the export endpoint is called, then notes are excluded from the file.
+- [ ] Given a project has approved stories, when the export endpoint is called, then a Markdown file is generated.
+- [ ] Given no approved stories exist, when the export endpoint is called, then an empty file is returned with a warning.
 
 **Deliverables**:
 
@@ -65,12 +68,12 @@
 **Dependencies**:
 
 - [API Contract](../../03-architecture/api/api-contract.md).
-- [Architecture Solution Design](../../03-architecture/architecture-solution-design.md).
+- [Architecture Solution Design](../../03-architecture/core/architecture-solution-design.md).
 
 **Success Metrics**:
 
 - Exported files are generated reliably for all supported project states.
-- Output excludes internal notes and respects MVP export rules.
+- Output respects MVP export rules and includes only approved content.
 
 ---
 
@@ -82,6 +85,8 @@
 **Epic Link**: EPIC-5
 **Priority**: Must Have
 **Effort Estimate**: 3
+**Status**: TODO
+**Labels**: frontend, backlog, export
 
 **As a** Frontend Engineer,
 **I want to** implement an export button with feedback,
@@ -101,7 +106,7 @@
 
 **Dependencies**:
 
-- [ADR-002: Frontend Framework](../../03-architecture/adrs/adr-002-frontend-framework.md).
+- [ADR-002: Frontend Framework](../../03-architecture/adrs/adr-003-frontend-framework.md).
 - [API Contract](../../03-architecture/api/api-contract.md).
 
 **Success Metrics**:

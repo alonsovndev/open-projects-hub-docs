@@ -8,6 +8,8 @@
 **Epic Link**: EPIC-1
 **Priority**: Must Have
 **Effort Estimate**: 5
+**Status**: TODO
+**Labels**: design, ux, lifecycle, governance
 
 **As a** UI/UX Designer,
 **I want to** design the project lifecycle flow,
@@ -27,8 +29,8 @@
 
 **Dependencies**:
 
-- [Project Requirements by Feature](../../01-requirements/readme.md).
-- [Architecture Solution Design](../../03-architecture/architecture-solution-design.md).
+- [Project Requirements by Feature](../../01-requirements/README.md).
+- [Architecture Solution Design](../../03-architecture/core/architecture-solution-design.md).
 
 **Success Metrics**:
 
@@ -45,6 +47,8 @@
 **Epic Link**: EPIC-1
 **Priority**: Must Have
 **Effort Estimate**: 8
+**Status**: TODO
+**Labels**: backend, lifecycle, governance
 
 **As a** Backend Engineer,
 **I want to** implement CRUD operations for clients and projects,
@@ -64,8 +68,8 @@
 
 **Dependencies**:
 
-- [Project Requirements by Feature](../../01-requirements/readme.md).
-- [Database Design](../../04-database/database-design.md).
+- [Project Requirements by Feature](../../01-requirements/README.md).
+- [Database Design](../../03-architecture/database/database-design.md).
 
 **Success Metrics**:
 
@@ -80,6 +84,8 @@
 **Epic Link**: EPIC-1
 **Priority**: Must Have
 **Effort Estimate**: 5
+**Status**: TODO
+**Labels**: backend, lifecycle, governance
 
 **As a** Backend Engineer,
 **I want to** enforce an active-project limit of three per Admin,
@@ -98,8 +104,8 @@
 
 **Dependencies**:
 
-- [Project Requirements by Feature](../../01-requirements/readme.md).
-- [Architecture Solution Design](../../03-architecture/architecture-solution-design.md).
+- [Project Requirements by Feature](../../01-requirements/README.md).
+- [Architecture Solution Design](../../03-architecture/core/architecture-solution-design.md).
 
 **Success Metrics**:
 
@@ -116,6 +122,8 @@
 **Epic Link**: EPIC-1
 **Priority**: Must Have
 **Effort Estimate**: 8
+**Status**: TODO
+**Labels**: frontend, lifecycle, governance
 
 **As a** Frontend Engineer,
 **I want to** create a project management UI,
@@ -135,8 +143,8 @@
 
 **Dependencies**:
 
-- [Project Requirements by Feature](../../01-requirements/readme.md).
-- [Prototype Brief](../../05-prototype/prototype-brief.md).
+- [Project Requirements by Feature](../../01-requirements/README.md).
+- [Prototype Brief](../../04-prototype/prototype-brief.md).
 
 **Success Metrics**:
 

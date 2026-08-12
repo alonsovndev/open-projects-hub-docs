@@ -1,5 +1,44 @@
 # Stories for Epic: Viewer Collaboration Lifecycle
 
+## UI/UX Designer
+
+### US-EP7-UX-001: Viewer Invitation Flow Design
+
+**Story ID**: US-EP7-UX-001
+**Epic Link**: EPIC-7
+**Priority**: Must Have
+**Effort Estimate**: 3
+**Status**: TODO
+**Labels**: design, ux, collaboration, access-control
+
+**As a** UI/UX Designer,
+**I want to** design the Viewer invitation and access management flows,
+**So that** Admins can easily invite clients and manage their project access without confusion.
+
+**Acceptance Criteria**:
+
+- [ ] Given an Admin inviting a Viewer, when they review the flow, then it clearly communicates what access the Viewer will receive.
+- [ ] Given an Admin managing existing Viewers, when they grant/revoke project access, then the UI provides clear success/error feedback.
+- [ ] Given a Viewer list, when the Admin reviews it, then each Viewer's associated projects and invitation status are clearly displayed.
+
+**Deliverables**:
+
+- Viewer invitation flow wireframes and state maps.
+- High-fidelity mockups for invite form, Viewer list, and project access toggle.
+- Accessibility annotations for labels, errors, and keyboard flow.
+
+**Dependencies**:
+
+- [Feature Requirements: F-011](../../01-requirements/f-011-viewer-account-management.md).
+- [Prototype Brief](../../04-prototype/prototype-brief.md).
+
+**Success Metrics**:
+
+- Admins can complete invitation and access management tasks without guidance.
+- Design assets support accessible implementation across target devices.
+
+---
+
 ## Backend Engineer
 
 ### US-EP7-BE-001: Viewer Invitation Service
@@ -8,6 +47,8 @@
 **Epic Link**: EPIC-7
 **Priority**: Must Have
 **Effort Estimate**: 8
+**Status**: TODO
+**Labels**: backend, collaboration, access-control
 
 **As a** Backend Engineer,
 **I want to** implement a service to handle viewer invitations,
@@ -28,7 +69,7 @@
 **Dependencies**:
 
 - [API Contract](../../03-architecture/api/api-contract.md).
-- [Email Service NFR](../../01-requirements/README.md#NFR-X10)
+- [Email Service NFR](../../01-requirements/README.md#cross-cutting-quality-baseline)
 
 **Success Metrics**:
 
@@ -43,6 +84,8 @@
 **Epic Link**: EPIC-7
 **Priority**: Must Have
 **Effort Estimate**: 5
+**Status**: TODO
+**Labels**: backend, collaboration, access-control
 
 **As a** Backend Engineer,
 **I want to** implement endpoints to manage viewer access to projects,
@@ -62,13 +105,52 @@
 
 **Dependencies**:
 
-- [Database Design](../../04-database/database-design.md).
+- [Database Design](../../03-architecture/database/database-design.md).
 - [API Contract](../../03-architecture/api/api-contract.md).
 
 **Success Metrics**:
 
 - Viewer access is strictly limited to projects approved by the Admin.
 - The system correctly enforces the separation of project data between different viewers.
+
+---
+
+### US-EP7-BE-003: Invitation Lifecycle Management
+
+**Story ID**: US-EP7-BE-003
+**Epic Link**: EPIC-7
+**Priority**: Should Have
+**Effort Estimate**: 3
+**Status**: TODO
+**Labels**: backend, collaboration, access-control
+
+**As a** Backend Engineer,
+**I want to** manage the full lifecycle of Viewer invitations including expiry, revocation, and resend,
+**So that** invitations remain secure and Admins retain control over the invitation process.
+
+**Acceptance Criteria**:
+
+- [ ] Given an invitation is sent, when the configured expiry period (e.g., 7 days) elapses, then the invitation token is invalidated and cannot be used.
+- [ ] Given an Admin resends an invitation, when the new invitation is generated, then the old token is invalidated and a fresh email is sent.
+- [ ] Given an Admin revokes an invitation before acceptance, when the action is taken, then the token is immediately invalidated.
+- [ ] Given a Viewer attempts to register with an expired or revoked token, when they submit, then they receive a clear error with a link to request a new invitation.
+
+**Deliverables**:
+
+- Invitation expiry logic with configurable TTL.
+- Resend and revoke invitation endpoints.
+- Unit tests for expiry, resend, and revocation scenarios.
+
+**Dependencies**:
+
+- [Viewer Invitation Service](../../05-work-items/EPIC-7-viewer-collaboration-lifecycle/stories.md#us-ep7-be-001-viewer-invitation-service).
+- [Email Service NFR](../../01-requirements/README.md#cross-cutting-quality-baseline).
+
+**Success Metrics**:
+
+- Expired invitations are consistently rejected at registration.
+- Admins can resend or revoke invitations without leaving orphaned tokens.
+- Zero security gaps where revoked tokens remain usable.
 
 ## Frontend Engineer
 
@@ -78,6 +160,8 @@
 **Epic Link**: EPIC-7
 **Priority**: Must Have
 **Effort Estimate**: 8
+**Status**: TODO
+**Labels**: frontend, collaboration, access-control
 
 **As a** Frontend Engineer,
 **I want to** create an interface for Admins to manage viewers,
@@ -97,7 +181,7 @@
 
 **Dependencies**:
 
-- [Prototype Brief](../../05-prototype/prototype-brief.md).
+- [Prototype Brief](../../04-prototype/prototype-brief.md).
 - [API Contract](../../03-architecture/api/api-contract.md).
 
 **Success Metrics**:

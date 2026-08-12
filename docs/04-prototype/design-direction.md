@@ -10,7 +10,7 @@ The interface should feel like a planning workspace, not a delivery tool. It sho
 
 ## Product Language and Scope Rules
 
-- Use the documented terms: **Discovery**, **Planning**, **Admin**, **Viewer**, **user stories**, **acceptance criteria**, and **internal notes**.
+- Use the documented terms: **Discovery**, **Planning**, **Admin**, **Viewer**, **user stories**, **acceptance criteria**.
 - Keep the prototype focused on planning workflows and lightweight authentication entry only.
 - Treat AI output as draft content until explicit Admin approval.
 - Show Viewer screens as readable and read-only.
@@ -54,7 +54,7 @@ No documented brand type system exists, so use a constrained, highly readable sy
 - **Section title**: used for major areas such as Raw Notes, Draft Stories, Approved Backlog
 - **Card title**: used for user story titles
 - **Body text**: used for "As a / I want / so that" and acceptance criteria
-- **Secondary text**: used for help copy, phase labels, and internal-note labels
+- **Secondary text**: used for help copy and phase labels
 
 Typography should support non-technical readability and avoid dense, low-contrast microcopy.
 
@@ -83,7 +83,7 @@ Use Ant Design-style components as the baseline for the prototype.
 - Ambiguity must appear **inline** with the raw notes context.
 - Approval must feel intentional and separate from generation.
 - Viewer pages must show the same planning context without edit controls.
-- Internal notes must be clearly separated in Admin views and fully absent in Viewer views.
+- Admin views must remain focused on planning actions; Viewer views show only approved content.
 - Optional onboarding should explain note entry, ambiguity review, editing, and approval in plain language.
 
 ## Responsive Behavior
@@ -116,7 +116,7 @@ Use Ant Design-style components as the baseline for the prototype.
 - Entry and auth workflow: `FR-006-01`, `FR-006-02`, `FR-007-01`, `FR-008-01`, `FR-009-01`
 - Refinement workflow: `FR-002-01`, `FR-002-02`, `FR-002-03`, `US-MVP-UX-001`
 - Backlog visibility and export: `FR-004-01`, `FR-004-02`, `US-MVP-UX-002`
-- Role boundaries and internal-note isolation: `FR-003-01`, `FR-003-03`, `NFR-003-02`, `NFR-004-01`
+- Role boundaries and access isolation: `FR-003-01`, `FR-003-03`, `NFR-003-02`, `NFR-004-01`
 - Accessibility baseline: `NFR-003-03`, `NFR-007`, `US-P1-UX-003`
 - Prototype package expectation: `US-P1-UX-004`
 

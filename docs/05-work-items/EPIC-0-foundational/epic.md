@@ -7,6 +7,7 @@
 **Priority**: Must Have
 **Components**: Backend, Frontend, Database
 **Fix Version**: MVP-1
+**Status**: TODO
 
 ---
 
@@ -30,13 +31,13 @@ Excluded scope:
 - Team onboarding and documentation beyond setup-critical items
 - Advanced deployment automation or multi-region strategies
 
-Related feature and requirement IDs: Foundational (no direct feature mapping; supports all features F-001 through F-009)
+Related feature and requirement IDs: Foundational (no direct feature mapping; supports all features F-001 through F-011)
 
 Dependencies:
 
-- [Architecture Solution Design](../../03-architecture/architecture-solution-design.md)
-- [Technology Stack](../../03-architecture/technology-stack.md)
-- [Database Design](../../04-database/database-design.md)
+- [Architecture Solution Design](../../03-architecture/core/architecture-solution-design.md)
+- [Technology Stack](../../03-architecture/core/technology-stack.md)
+- [Database Design](../../03-architecture/database/database-design.md)
 
 Measurable success criteria:
 
@@ -44,3 +45,12 @@ Measurable success criteria:
 - CI/CD pipeline runs on every commit and reports clear pass/fail status.
 - Database schema is created and seed data is populated automatically in local dev.
 - Deployment to staging is repeatable and documented.
+
+## Release Checklist
+
+- [ ] Version bump in package.json / pyproject.toml
+- [ ] CHANGELOG.md updated with epic summary
+- [ ] Git tag created (e.g., v0.5.0 for MVP)
+- [ ] GitHub release published with notes
+- [ ] Deployed to staging/production
+- [ ] Smoke test passed

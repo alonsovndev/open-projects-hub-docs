@@ -2,7 +2,7 @@
 
 | Attribute        | Value                       |
 | ---------------- | --------------------------- |
-| **Project**      | Open Freelancer Project Hub |
+| **Project**      | Open Projects Hub |
 | **Version**      | 2.0                         |
 | **Status**       | Active                      |
 | **Last Updated** | 2026-08-11                  |
@@ -22,7 +22,7 @@
 
 ---
 
-This document captures key user and system interaction flows for the Open Freelancer Project Hub. All diagrams reflect the current AWS-based architecture: **FastAPI backend on App Runner**, **custom JWT auth**, **RDS PostgreSQL**, **S3 + CloudFront frontend**, and **S3 file storage**.
+This document captures key user and system interaction flows for the Open Projects Hub. All diagrams reflect the current AWS-based architecture: **FastAPI backend on App Runner**, **custom JWT auth**, **RDS PostgreSQL**, **S3 + CloudFront frontend**, and **S3 file storage**.
 
 ## 1) Authentication and Session Validation
 
@@ -86,7 +86,7 @@ sequenceDiagram
     Viewer->>FE: Open project requirements page
     FE->>BE: GET /projects/{id}/requirements
     BE->>DB: Fetch approved stories only (RLS-enforced)
-    BE-->>FE: Read-only requirements payload (no internalNotes)
+    BE-->>FE: Read-only requirements payload (admin-only fields excluded)
     FE-->>Viewer: Render approved backlog
 ```
 
@@ -306,7 +306,7 @@ sequenceDiagram
     end
 ```
 
-> **Defense-in-depth**: Each layer acts as an independent gate. JWT validates identity, RBAC enforces role/ownership, and RLS provides data-level last-mile protection. Viewers never see internal notes, admin-only fields, or cross-project data.
+> **Defense-in-depth**: Each layer acts as an independent gate. JWT validates identity, RBAC enforces role/ownership, and RLS provides data-level last-mile protection. Viewers never see admin-only fields or cross-project data.
 
 ---
 
@@ -357,7 +357,7 @@ sequenceDiagram
     Viewer->>FE: Log in (via F-007 login flow)
     FE->>BE: GET /api/v1/projects (authenticated request)
     BE->>DB: Query projects via RLS (Viewer scope only)
-    DB-->>BE: Granted projects (read-only, no internalNotes)
+    DB-->>BE: Granted projects (read-only, admin-only fields excluded)
     BE-->>FE: Viewer dashboard with project list
     FE-->>Viewer: Read-only project views
 

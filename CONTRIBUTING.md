@@ -1,6 +1,6 @@
-# Contributing to Open Freelancer Project Hub
+# Contributing to Open Projects Hub
 
-Thank you for your interest in contributing to the **Open Freelancer Project Hub**! 🎉
+Thank you for your interest in contributing to the **Open Projects Hub**! 🎉
 
 This is an open-source project, and we welcome contributions from developers, students, and freelancers of all experience levels. Whether it's a bug fix, a new feature, improved documentation, or an architectural suggestion — every contribution matters.
 
@@ -29,7 +29,7 @@ By participating in this project, you agree to maintain a respectful and inclusi
 
 ## Project Context
 
-The Open Freelancer Project Hub is a full-stack web application built to help freelancers manage clients, structure project requirements, and use AI to refine ambiguous ideas into actionable technical specifications.
+The Open Projects Hub is a full-stack web application built to help freelancers manage clients, structure project requirements, and use AI to refine ambiguous ideas into actionable technical specifications.
 
 **Key characteristics:**
 
@@ -267,4 +267,4 @@ Don't hesitate to ask — we're happy to help!
 
 ---
 
-Thank you for contributing to the Open Freelancer Project Hub! 🚀
+Thank you for contributing to the Open Projects Hub! 🚀

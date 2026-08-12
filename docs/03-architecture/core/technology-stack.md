@@ -2,14 +2,14 @@
 
 | Attribute        | Value                       |
 | ---------------- | --------------------------- |
-| **Project**      | Open Freelancer Project Hub |
+| **Project**      | Open Projects Hub |
 | **Version**      | 1.0                         |
 | **Status**       | Accepted                    |
 | **Last Updated** | 2026-08-04                  |
 
 ## Overview
 
-This document defines the technology choices for the Open Freelancer Project Hub, organized by system layer. Each technology selection aligns with MVP delivery constraints, team expertise, and Clean Architecture principles.
+This document defines the technology choices for the Open Projects Hub, organized by system layer. Each technology selection aligns with MVP delivery constraints, team expertise, and Clean Architecture principles.
 
 ## Technology Stack Matrix
 

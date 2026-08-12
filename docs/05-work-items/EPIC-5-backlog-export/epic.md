@@ -7,6 +7,7 @@
 **Priority**: Must Have
 **Components**: Backend, Frontend
 **Fix Version**: MVP-1
+**Status**: TODO
 
 ---
 
@@ -32,13 +33,23 @@ Related feature and requirement IDs: F-004; FR-004-01, FR-004-02; NFR-004-01, NF
 Dependencies:
 
 - [Feature Requirements](../../01-requirements/f-004-requirements-backlog-and-markdown-export.md)
-- [Architecture Solution Design](../../03-architecture/architecture-solution-design.md)
+- [Architecture Solution Design](../../03-architecture/core/architecture-solution-design.md)
 - [API Contract](../../03-architecture/api/api-contract.md)
-- [Database Design](../../04-database/database-design.md)
-- [Sequence Diagrams](../../03-architecture/sequence-diagrams.md)
+- [Database Design](../../03-architecture/database/database-design.md)
+- [Sequence Diagrams](../../03-architecture/diagrams/sequence-diagrams.md)
 
 Measurable success criteria:
 
 - Every MVP project can present approved requirements in a structured backlog view.
 - Admin can request Markdown export without including draft or internal-only content.
 - Backlog and export outputs remain readable under MVP data limits.
+
+## Release Checklist
+
+- [ ] Version bump in package.json / pyproject.toml
+- [ ] CHANGELOG.md updated with epic summary
+- [ ] Git tag created (e.g., v0.5.0 for MVP)
+- [ ] GitHub release published with notes
+- [ ] Deployed to staging/production
+- [ ] Smoke test passed
+

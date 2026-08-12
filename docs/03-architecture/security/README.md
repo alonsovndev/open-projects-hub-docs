@@ -1,6 +1,6 @@
 # Security Architecture
 
-This section defines the security architecture, threat model, and best practices for the Open Freelancer Project Hub.
+This section defines the security architecture, threat model, and best practices for the Open Projects Hub.
 
 ## Documents
 

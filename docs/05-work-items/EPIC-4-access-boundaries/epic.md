@@ -7,11 +7,12 @@
 **Priority**: Must Have
 **Components**: Backend, Frontend
 **Fix Version**: MVP-1
+**Status**: TODO
 
 ---
 
 **Epic Description:**
-Problem Statement: Client-facing transparency is useful only if it does not expose internal notes or allow viewers to alter planning artifacts.
+Problem Statement: Client-facing transparency is useful only if it does not allow viewers to alter planning artifacts.
 
 Objective: Enforce simple Admin and Viewer boundaries so the MVP supports safe collaboration without expanding into full multi-user workflow management.
 
@@ -19,7 +20,6 @@ Included scope:
 
 - Admin full-access and Viewer read-only boundaries
 - Viewer access to approved requirements and current project phase
-- Internal-note isolation from Viewer views
 
 Excluded scope:
 
@@ -35,10 +35,19 @@ Dependencies:
 - [Role Mapping](../../02-planning/role-mapping.md)
 - [Phased Roadmap](../../02-planning/phased-roadmap.md)
 - [Security Architecture](../../03-architecture/security/security-architecture.md)
-- [Sequence Diagrams](../../03-architecture/sequence-diagrams.md)
+- [Sequence Diagrams](../../03-architecture/diagrams/sequence-diagrams.md)
 
 Measurable success criteria:
 
 - Viewer access is limited to approved requirements and project phase visibility.
 - No documented flow allows Viewer create, edit, comment, or delete actions.
-- Internal notes are excluded from Viewer-facing views and exports.
+
+## Release Checklist
+
+- [ ] Version bump in package.json / pyproject.toml
+- [ ] CHANGELOG.md updated with epic summary
+- [ ] Git tag created (e.g., v0.5.0 for MVP)
+- [ ] GitHub release published with notes
+- [ ] Deployed to staging/production
+- [ ] Smoke test passed
+

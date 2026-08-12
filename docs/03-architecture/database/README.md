@@ -7,7 +7,7 @@
 
 ## Overview
 
-Database architecture documentation defining the core schema, entity relationships, indexing strategy, Row-Level Security (RLS) policies, and data governance rules for the Open Freelancer Project Hub MVP.
+Database architecture documentation defining the core schema, entity relationships, indexing strategy, Row-Level Security (RLS) policies, and data governance rules for the Open Projects Hub MVP.
 
 ## Documents
 

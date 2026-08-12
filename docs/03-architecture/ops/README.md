@@ -1,6 +1,6 @@
 # Operations Architecture
 
-This section defines the infrastructure, deployment, CI/CD, and monitoring architecture for the Open Freelancer Project Hub.
+This section defines the infrastructure, deployment, CI/CD, and monitoring architecture for the Open Projects Hub.
 
 ## Documents
 

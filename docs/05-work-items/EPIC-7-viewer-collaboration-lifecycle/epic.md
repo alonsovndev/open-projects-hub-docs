@@ -7,6 +7,7 @@
 **Priority**: Must Have
 **Components**: Backend, Frontend
 **Fix Version**: MVP-1
+**Status**: TODO
 
 ---
 
@@ -40,3 +41,13 @@ Measurable success criteria:
 - An invited user can register as a Viewer.
 - Admins can associate a Viewer with one of their projects.
 - Viewers can only see the projects they have been granted access to.
+
+## Release Checklist
+
+- [ ] Version bump in package.json / pyproject.toml
+- [ ] CHANGELOG.md updated with epic summary
+- [ ] Git tag created (e.g., v0.5.0 for MVP)
+- [ ] GitHub release published with notes
+- [ ] Deployed to staging/production
+- [ ] Smoke test passed
+

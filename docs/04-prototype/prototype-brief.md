@@ -1,4 +1,4 @@
-# Prototype Brief: Open Freelancer Project Hub
+# Prototype Brief: Open Projects Hub
 
 ## Purpose
 
@@ -8,7 +8,7 @@ The prototype pack should help stakeholders validate the MVP planning experience
 
 ## Product Context
 
-The Open Freelancer Project Hub is an open-source web platform that helps freelancers turn ambiguous client notes into structured project requirements. The MVP is limited to **Discovery** and **Planning** workflows, with role-based access for:
+The Open Projects Hub is an open-source web platform that helps freelancers turn ambiguous client notes into structured project requirements. The MVP is limited to **Discovery** and **Planning** workflows, with role-based access for:
 
 - **Admin**: freelancer owner with full CRUD on planning content
 - **Viewer**: client with read-only access to approved requirements and project phase visibility
@@ -25,7 +25,7 @@ The Open Freelancer Project Hub is an open-source web platform that helps freela
 
 - Stakeholders can explain the end-to-end MVP path (entry, auth, refinement, approval, export, Viewer review) after one walkthrough.
 - Admin and Viewer permissions are visually distinct without extra explanation.
-- Viewer-facing screens contain no internal notes and no edit affordances.
+- Viewer-facing screens contain no edit affordances.
 - The prototype terminology stays aligned with documented feature requirements and roadmap scope.
 
 ## Target Users
@@ -116,7 +116,6 @@ The Open Freelancer Project Hub is an open-source web platform that helps freela
 - Project summary header with phase
 - Approved epic and story list with nested structure
 - Optional draft vs approved distinction for review context
-- Internal notes area visible only to Admin
 - Markdown export action
 - State coverage: empty backlog, mixed status, export-ready
 
@@ -140,7 +139,7 @@ The Open Freelancer Project Hub is an open-source web platform that helps freela
 - Approved requirements list
 - Read-only presentation cues
 - Plain-language status visibility
-- Explicit omissions: no internal notes, no draft-only content, no edit controls
+- Explicit omissions: no draft-only content, no edit controls
 
 ### 12. Optional Phase 1 Onboarding Overlay
 

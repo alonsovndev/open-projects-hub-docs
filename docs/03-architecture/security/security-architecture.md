@@ -2,7 +2,7 @@
 
 | Attribute        | Value                       |
 | ---------------- | --------------------------- |
-| **Project**      | Open Freelancer Project Hub |
+| **Project**      | Open Projects Hub |
 | **Version**      | 2.2                         |
 | **Status**       | Draft                       |
 | **Last Updated** | 2026-08-07                  |
@@ -196,13 +196,13 @@ sequenceDiagram
 ### RBAC + Resource Attributes
 
 - **RBAC baseline:** `admin` and `viewer` roles mapped to F-003 access requirements
-- **ABAC constraints:** Resource ownership, project membership, and data visibility flags (e.g., internal notes)
+- **ABAC constraints:** Resource ownership, project membership, and data visibility flags
 - **Permission model:** Backend authorizes action-level permissions before executing use cases
 - **Data-level enforcement:** PostgreSQL Row Level Security (RLS) policies as last-mile protection
 
 ### Least-Privilege Rules
 
-- **Viewer role:** Read-only access, excluded from internal notes and admin operations
+- **Viewer role:** Read-only access, excluded from admin operations
 - **Admin role:** Full CRUD scope limited to authorized project boundaries (no cross-project access)
 - **Service credentials:** Split by environment (dev/prod) and duty (app runtime, migrations, CI/CD)
 - **Database access:** RDS accessible only from App Runner via VPC connector (no public internet access)
@@ -282,7 +282,7 @@ flowchart LR
 ### Sensitive Data Handling
 
 - **No plaintext secrets:** JWT signing keys, database credentials, API keys stored in environment variables or AWS Secrets Manager
-- **PII protection:** User emails and internal notes masked/redacted in logs and error payloads (Sentry `beforeSend` hook)
+- **PII protection:** User emails masked/redacted in logs and error payloads (Sentry `beforeSend` hook)
 - **Password security:** Passwords hashed with bcrypt (cost factor 12), never logged or transmitted in plaintext
 - **Token security:** JWT tokens should be stored in secure, `HttpOnly` cookies. Short expiration times are enforced.
 - **Data retention:** Soft delete for projects/clients with `archived_at` timestamp (aligns with GDPR requirements)

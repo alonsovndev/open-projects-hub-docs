@@ -2,7 +2,7 @@
 
 | Attribute        | Value                       |
 | ---------------- | --------------------------- |
-| **Project**      | Open Freelancer Project Hub |
+| **Project**      | Open Projects Hub |
 | **Version**      | 1.0                         |
 | **Status**       | Accepted                    |
 | **Last Updated** | 2026-08-04                  |

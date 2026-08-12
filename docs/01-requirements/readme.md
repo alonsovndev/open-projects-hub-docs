@@ -2,7 +2,7 @@
 
 | Attribute        | Value                       |
 | ---------------- | --------------------------- |
-| **Project**      | Open Freelancer Project Hub |
+| **Project**      | Open Projects Hub |
 | **Version**      | 1.6                         |
 | **Status**       | Ready for Implementation    |
 | **Last Updated** | 2026-07-30                  |
@@ -28,7 +28,7 @@ Detailed requirements are maintained in dedicated feature files.
 | ---------- | ---------------------------------------- | --------------------------------------------------------- | -------- | --------- | ------------- | ---------------------------------------------------- |
 | F-001      | Client and Project Lifecycle Management  | Admin keeps client/project records aligned with MVP flow  | Must     | Clarified | Product Owner | [F-001](./f-001-client-and-project-lifecycle-management.md) |
 | F-002      | AI Refinement and Approval Workflow      | Raw notes become approved, structured user stories        | Must     | Clarified | Product Owner | [F-002](./f-002-ai-refinement-and-approval-workflow.md) |
-| F-003      | Access Control and Visibility Boundaries | Admin/Viewer permissions and private notes are enforced   | Must     | Clarified | Product Owner | [F-003](./f-003-access-control-and-visibility-boundaries.md) |
+| F-003      | Access Control and Visibility Boundaries | Admin/Viewer permissions are enforced                       | Must     | Clarified | Product Owner | [F-003](./f-003-access-control-and-visibility-boundaries.md) |
 | F-004      | Requirements Backlog and Markdown Export | Approved stories are visible and exportable               | Must     | Clarified | Product Owner | [F-004](./f-004-requirements-backlog-and-markdown-export.md) |
 | F-005      | Minimal Onboarding                       | First-time Admin guidance reduces MVP onboarding friction | Should   | Clarified | Product Owner | [F-005](./f-005-minimal-onboarding.md) |
 | F-006      | Landing Page Experience                  | Visitors clearly understand product value and actions     | Must     | Clarified | Product Owner | [F-006](./f-006-landing-page.md) |
@@ -66,7 +66,7 @@ All features (F-001 to F-011) have been validated and moved to **Clarified** sta
 | NFR-X01 | Security             | The platform adheres to OWASP Top 10 security best practices, including secure credential storage and login protection. | OWASP Top 10 checklist satisfied; login attempts are rate-limited; passwords are stored using strong one-way hashing.                         | Must     | Tech Lead     | Clarified |
 | NFR-X02 | Privacy              | The platform follows GDPR-aligned privacy practices with deletion and archival support.                                 | Deleted projects become inaccessible to Admin and Viewer roles within 24 hours; archived projects are excluded from the active-project limit. | Must     | Tech Lead     | Clarified |
 | NFR-X03 | Testability          | MVP core logic keeps an automated test coverage threshold.                                                              | Automated tests cover at least 70% of core application logic.                                                                                 | Must     | Backend Lead  | Clarified |
-| NFR-X04 | Readability          | Viewer-facing requirements remain readable to non-technical stakeholders.                                               | Viewer views present user stories in the standard template with plain-language titles and omit internal notes.                                | Should   | Product Owner | Clarified |
+| NFR-X04 | Readability          | Viewer-facing requirements remain readable to non-technical stakeholders.                                               | Viewer views present user stories in the standard template with plain-language titles.                                | Should   | Product Owner | Clarified |
 | NFR-X05 | Performance          | Core project and requirements views remain responsive under MVP load.                                                   | MVP load: 10 concurrent Admins + 20 Viewers, 100 requests/min peak, 3 active projects per Admin, 200 total stories. Project list and requirements views render within 2 seconds. | Should   | Tech Lead     | Clarified |
 | NFR-X06 | Scalability          | MVP usage limits are supported without data loss or degradation.                                                        | Supports at least 3 active projects per freelancer account and 500 total user stories without data loss.                                      | Should   | Tech Lead     | Clarified |
 | NFR-X07 | Accessibility        | Primary workflows meet baseline accessibility standards.                                                                | Requirements views meet WCAG 2.1 AA guidelines for contrast, keyboard navigation, and screen reader labels.                                   | Should   | UI/UX Lead    | Clarified |

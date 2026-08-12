@@ -1,8 +1,8 @@
-# Open Freelancer Project Hub — Architecture Solution Design
+# Open Projects Hub — Architecture Solution Design
 
 | Attribute        | Value                       |
 | ---------------- | --------------------------- |
-| **Project**      | Open Freelancer Project Hub |
+| **Project**      | Open Projects Hub |
 | **Version**      | 1.0                         |
 | **Status**       | Accepted                    |
 | **Last Updated** | 2026-08-04                  |
@@ -17,7 +17,7 @@
 
 ## System Context
 
-The Open Freelancer Project Hub must support AI-assisted requirement refinement, role-based collaboration (Admin/Viewer), and secure project management for freelancers within MVP limits. Based on functional and non-functional requirements, the architecture must prioritize:
+The Open Projects Hub must support AI-assisted requirement refinement, role-based collaboration (Admin/Viewer), and secure project management for freelancers within MVP limits. Based on functional and non-functional requirements, the architecture must prioritize:
 
 - rapid MVP delivery for a small team,
 - strong maintainability through clear boundaries,

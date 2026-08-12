@@ -2,7 +2,7 @@
 
 | Attribute        | Value                       |
 | ---------------- | --------------------------- |
-| **Project**      | Open Freelancer Project Hub |
+| **Project**      | Open Projects Hub |
 | **Version**      | 2.1                         |
 | **Status**       | Draft                       |
 | **Last Updated** | 2026-08-07                  |
@@ -28,7 +28,7 @@
 ## Assets to Protect
 
 1. **User identities, sessions, and JWT tokens** (authentication credentials)
-2. **Project requirements, internal notes, and client metadata** (business data)
+2. **Project requirements and client metadata** (business data)
 3. **Secrets** (JWT signing keys, database credentials, AWS access keys, environment variables)
 4. **AWS infrastructure** (RDS database, S3 buckets, App Runner service, ECR images)
 5. **Deployment pipeline integrity** (GitHub Actions workflows, Terraform state, Docker images)
@@ -41,7 +41,7 @@
 | Account takeover              | Credential stuffing, password reuse, JWT token theft              | Unauthorized data access/modification          | bcrypt password hashing, JWT short TTL (1h), rate limiting on login, future MFA                |
 | JWT token compromise          | Token leaked in logs, XSS, insecure storage in browser           | Session hijacking, unauthorized API access     | Secure `HttpOnly` cookies for token storage, PII scrubbing in logs, short token expiration        |
 | Weak password hashing         | Rainbow table attacks if bcrypt misconfigured                     | Bulk credential compromise                     | bcrypt cost factor 12, password policy enforcement (8+ chars, mixed case, digits)              |
-| Broken authorization          | Missing role check, weak RLS policy, privilege escalation         | Viewer access to admin-only/internal notes     | Backend RBAC checks, deny-by-default RLS, authorization test coverage                          |
+| Broken authorization          | Missing role check, weak RLS policy, privilege escalation         | Viewer access to admin-only data         | Backend RBAC checks, deny-by-default RLS, authorization test coverage                          |
 | Injection/XSS                 | Unsanitized input rendered or queried unsafely                    | Data leak, account/session compromise          | Pydantic typed validation, SQLAlchemy ORM parameterization, output encoding, CSP headers       |
 | Secrets exposure              | Secrets in git commits, logs, CloudWatch, or Terraform state      | Full system compromise, database access        | .gitignore enforcement, pre-commit hooks (gitleaks), Terraform state encryption (S3 backend)   |
 | RDS credential compromise     | Hardcoded credentials, exposed environment variables              | Direct database access, data exfiltration      | Secrets in App Runner env vars or AWS Secrets Manager, no plaintext credentials in source      |
@@ -71,7 +71,7 @@
 | R-03    | Secrets leakage in logs/Terraform state/git     | Low        | Critical | High       | P1       |
 | R-04    | RDS credential compromise                       | Low        | Critical | High       | P1       |
 | R-05    | S3 bucket misconfiguration (public access)      | Medium     | High     | High       | P1       |
-| R-06    | Authorization bypass exposing internal notes    | Medium     | High     | High       | P1       |
+| R-06    | Authorization bypass exposing admin-only data    | Medium     | High     | High       | P1       |
 | R-07    | Injection/XSS through unsanitized content       | Medium     | Medium   | Medium     | P2       |
 | R-08    | API abuse causing service instability           | Medium     | Medium   | Medium     | P2       |
 | R-09    | CI/CD supply-chain compromise                   | Low        | Critical | High       | P1       |
