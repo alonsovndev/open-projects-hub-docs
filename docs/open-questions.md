@@ -1,6 +1,6 @@
 # Open Questions
 
-**Purpose:** Capture and resolve questions to finalize scope, workflows, and success criteria for the Open Freelancer Project Hub.
+**Purpose:** Capture and resolve questions to finalize scope, workflows, and success criteria for the Open Projects Hub.
 
 ---
 

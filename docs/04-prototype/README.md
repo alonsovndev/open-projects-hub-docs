@@ -1,4 +1,4 @@
-# Prototype — Open Freelancer Project Hub
+# Prototype — Open Projects Hub
 
 UI/UX prototype for the MVP planning experience, built in **Pencil** (`.pen` file) with reusable components and design tokens.
 

@@ -2,7 +2,7 @@
 
 | Attribute        | Value                       |
 | ---------------- | --------------------------- |
-| **Project**      | Open Freelancer Project Hub |
+| **Project**      | Open Projects Hub |
 | **Version**      | 2.0                         |
 | **Status**       | Active                      |
 | **Last Updated** | 2026-08-11                  |
@@ -22,7 +22,7 @@
 
 ---
 
-This document captures key user and system interaction flows for the Open Freelancer Project Hub. All diagrams reflect the current AWS-based architecture: **FastAPI backend on App Runner**, **custom JWT auth**, **RDS PostgreSQL**, **S3 + CloudFront frontend**, and **S3 file storage**.
+This document captures key user and system interaction flows for the Open Projects Hub. All diagrams reflect the current AWS-based architecture: **FastAPI backend on App Runner**, **custom JWT auth**, **RDS PostgreSQL**, **S3 + CloudFront frontend**, and **S3 file storage**.
 
 ## 1) Authentication and Session Validation
 

@@ -1,10 +1,10 @@
-# Open Freelancer Project Hub Overview
+# Open Projects Hub Overview
 
 **Tagline**: _"Empowering Freelancers with AI-Assisted Project Management and Structured Delivery."_
 
 ## 2. Core Concept
 
-The Open Freelancer Project Hub is an open-source web platform designed to streamline and professionalize the project management experience for freelancers. It provides a centralized hub to manage clients, structure project requirements, and utilize an AI engine to refine ambiguous ideas into clear, actionable technical specifications.
+The Open Projects Hub is an open-source web platform designed to streamline and professionalize the project management experience for freelancers. It provides a centralized hub to manage clients, structure project requirements, and utilize an AI engine to refine ambiguous ideas into clear, actionable technical specifications.
 
 ### Vision Statement
 
@@ -25,7 +25,7 @@ Freelancers frequently struggle with the initial phases of a project, specifical
 
 ### The Solution
 
-The Open Freelancer Project Hub addresses these challenges by offering:
+The Open Projects Hub addresses these challenges by offering:
 
 - **AI-Assisted Requirements Refinement**: An integrated AI engine that detects ambiguities and automatically generates structured user stories from raw input.
 - **Centralized Management**: A single platform to manage clients and up to three concurrent projects (MVP constraint) efficiently.

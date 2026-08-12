@@ -1,4 +1,4 @@
-# Prototype Brief: Open Freelancer Project Hub
+# Prototype Brief: Open Projects Hub
 
 ## Purpose
 
@@ -8,7 +8,7 @@ The prototype pack should help stakeholders validate the MVP planning experience
 
 ## Product Context
 
-The Open Freelancer Project Hub is an open-source web platform that helps freelancers turn ambiguous client notes into structured project requirements. The MVP is limited to **Discovery** and **Planning** workflows, with role-based access for:
+The Open Projects Hub is an open-source web platform that helps freelancers turn ambiguous client notes into structured project requirements. The MVP is limited to **Discovery** and **Planning** workflows, with role-based access for:
 
 - **Admin**: freelancer owner with full CRUD on planning content
 - **Viewer**: client with read-only access to approved requirements and project phase visibility

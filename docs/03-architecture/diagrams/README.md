@@ -1,6 +1,6 @@
 # Architecture Diagrams Index
 
-This directory contains architecture visualizations for the Open Freelancer Project Hub. Diagrams use embedded Mermaid syntax inside markdown files.
+This directory contains architecture visualizations for the Open Projects Hub. Diagrams use embedded Mermaid syntax inside markdown files.
 
 ## Sequence Diagrams
 
