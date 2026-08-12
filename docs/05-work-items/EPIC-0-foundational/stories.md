@@ -11,7 +11,7 @@
 **Status**: TODO
 **Labels**: spike, foundational, setup, ci-cd
 
-**As a** Backend Architect,
+**As a** Tech Lead,
 **I want to** analyze and select a primary backend framework for the Python modular monolith,
 **So that** we choose a framework that supports Clean Architecture, modularity, testing, ORM integration, and OpenAPI generation.
 
@@ -47,7 +47,7 @@
 **Status**: TODO
 **Labels**: spike, foundational, setup, ci-cd
 
-**As a** Backend Architect,
+**As a** Tech Lead,
 **I want to** choose a primary database technology and hosting strategy,
 **So that** we have a reliable, scalable data layer that supports role-based access control and MVP requirements.
 
@@ -83,7 +83,7 @@
 **Status**: TODO
 **Labels**: spike, foundational, setup, ci-cd
 
-**As a** Frontend Architect,
+**As a** Tech Lead,
 **I want to** select a primary frontend framework and build tool,
 **So that** we have a productive developer experience with TypeScript support, fast hot-reloading, and a mature component ecosystem.
 
@@ -119,7 +119,7 @@
 **Status**: TODO
 **Labels**: spike, foundational, setup, ci-cd
 
-**As a** DevOps Engineer,
+**As a** Tech Lead,
 **I want to** decide on a target platform for deploying backend and frontend applications,
 **So that** we have a clear, cost-effective, and operationally simple deployment path for MVP and future staging/production environments.
 
