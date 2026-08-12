@@ -349,3 +349,83 @@
 
 - Frontend development environment starts reliably and supports rapid iteration.
 - Linting and type-check checks are integrated into local and CI workflows.
+
+---
+
+### US-EP0-BE-005: Production Deployment Pipeline
+
+**Story ID**: US-EP0-BE-005
+**Epic Link**: EPIC-0
+**Priority**: Must Have
+**Effort Estimate**: 5
+**Status**: TODO
+**Labels**: backend, foundational, setup, ci-cd, deployment
+
+**As a** Backend Engineer,
+**I want to** automate staging and production deployments through CI/CD,
+**So that** releases are repeatable, consistent, and require zero manual steps.
+
+**Acceptance Criteria**:
+
+- [ ] Given a merged PR to `main`, when the CI/CD pipeline runs, then the backend and frontend are deployed to staging automatically.
+- [ ] Given a git tag (e.g., `v0.5.0`), when the pipeline executes, then the application is deployed to production after manual approval gate.
+- [ ] Given a deployment failure, when the pipeline detects it, then the build is marked failed and a notification is sent.
+- [ ] Given environment variables and secrets, when deploying, then they are sourced from the platform's secure secret store (not committed to repo).
+
+**Deliverables**:
+
+- CI/CD workflow for automated staging deployment on merge to `main`.
+- Production deployment workflow with manual approval gate (tagged releases).
+- Environment-specific configuration (dev, staging, production) with secret management.
+- Deployment documentation covering rollback procedures and manual intervention steps.
+
+**Dependencies**:
+
+- [ADR-006: Deployment Platform](../../03-architecture/adrs/adr-006-deployment-platform.md).
+- [CI/CD Pipeline Scaffolding](../../05-work-items/EPIC-0-foundational/stories.md#us-ep0-be-003-cicd-pipeline-scaffolding-and-testing-framework).
+
+**Success Metrics**:
+
+- Staging deployment completes within 10 minutes of merge to `main`.
+- Production deployment is triggered by tag and requires explicit approval.
+- Zero manual steps required for standard deployments.
+
+---
+
+### US-EP0-BE-006: Monitoring, Logging, and Observability
+
+**Story ID**: US-EP0-BE-006
+**Epic Link**: EPIC-0
+**Priority**: Should Have
+**Effort Estimate**: 5
+**Status**: TODO
+**Labels**: backend, foundational, setup, observability, monitoring
+
+**As a** Backend Engineer,
+**I want to** integrate structured logging and error tracking into the application,
+**So that** the team can detect, diagnose, and resolve production issues quickly.
+
+**Acceptance Criteria**:
+
+- [ ] Given an unhandled exception, when it occurs in production, then it is captured by an error tracking service (e.g., Sentry) with stack trace, user context, and request metadata.
+- [ ] Given an API request, when it is processed, then a structured log entry is emitted with timestamp, method, path, status code, and duration.
+- [ ] Given a health check endpoint, when queried, then it reports application readiness and database connectivity status.
+- [ ] Given log output, when reviewed, then it follows a consistent JSON or key-value format for easy parsing and analysis.
+
+**Deliverables**:
+
+- Structured logging middleware integrated into backend (e.g., structlog, Pino, or equivalent).
+- Error tracking SDK integration (e.g., Sentry, Bugsnag) with source map upload for frontend.
+- Health and readiness endpoints (`/health`, `/ready`) with dependency checks.
+- Dashboard or log aggregation configuration (e.g., Logtail, Datadog, or platform-native logging).
+
+**Dependencies**:
+
+- [ADR-006: Deployment Platform](../../03-architecture/adrs/adr-006-deployment-platform.md).
+- [Monitoring & Observability](../../03-architecture/ops/monitoring-observability.md).
+
+**Success Metrics**:
+
+- All unhandled exceptions are captured with actionable context.
+- Log entries are queryable and filterable by severity, service, and request ID.
+- Health endpoints return accurate readiness status for load balancers and CI/CD gates.

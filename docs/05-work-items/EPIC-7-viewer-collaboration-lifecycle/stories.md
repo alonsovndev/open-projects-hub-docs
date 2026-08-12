@@ -113,6 +113,45 @@
 - Viewer access is strictly limited to projects approved by the Admin.
 - The system correctly enforces the separation of project data between different viewers.
 
+---
+
+### US-EP7-BE-003: Invitation Lifecycle Management
+
+**Story ID**: US-EP7-BE-003
+**Epic Link**: EPIC-7
+**Priority**: Should Have
+**Effort Estimate**: 3
+**Status**: TODO
+**Labels**: backend, collaboration, access-control
+
+**As a** Backend Engineer,
+**I want to** manage the full lifecycle of Viewer invitations including expiry, revocation, and resend,
+**So that** invitations remain secure and Admins retain control over the invitation process.
+
+**Acceptance Criteria**:
+
+- [ ] Given an invitation is sent, when the configured expiry period (e.g., 7 days) elapses, then the invitation token is invalidated and cannot be used.
+- [ ] Given an Admin resends an invitation, when the new invitation is generated, then the old token is invalidated and a fresh email is sent.
+- [ ] Given an Admin revokes an invitation before acceptance, when the action is taken, then the token is immediately invalidated.
+- [ ] Given a Viewer attempts to register with an expired or revoked token, when they submit, then they receive a clear error with a link to request a new invitation.
+
+**Deliverables**:
+
+- Invitation expiry logic with configurable TTL.
+- Resend and revoke invitation endpoints.
+- Unit tests for expiry, resend, and revocation scenarios.
+
+**Dependencies**:
+
+- [Viewer Invitation Service](../../05-work-items/EPIC-7-viewer-collaboration-lifecycle/stories.md#us-ep7-be-001-viewer-invitation-service).
+- [Email Service NFR](../../01-requirements/README.md#cross-cutting-quality-baseline).
+
+**Success Metrics**:
+
+- Expired invitations are consistently rejected at registration.
+- Admins can resend or revoke invitations without leaving orphaned tokens.
+- Zero security gaps where revoked tokens remain usable.
+
 ## Frontend Engineer
 
 ### US-EP7-FE-001: Viewer Invitation Interface

@@ -258,3 +258,44 @@
 
 - All Viewer-facing views pass WCAG 2.1 AA audit.
 - Non-technical stakeholders confirm readability of exported and viewed requirements.
+
+---
+
+### US-EP9-QA-003: End-to-End Integration Test Suite
+
+**Story ID**: US-EP9-QA-003
+**Epic Link**: EPIC-9
+**Priority**: Must Have
+**Effort Estimate**: 8
+**Status**: TODO
+**Labels**: qa, testing, quality, e2e, integration
+
+**As a** QA Engineer,
+**I want to** implement end-to-end integration tests covering complete user journeys across frontend and backend,
+**So that** cross-component regressions are caught before reaching production.
+
+**Acceptance Criteria**:
+
+- [ ] Given a new Admin account, when they complete the full MVP workflow (login → create client → create project → refine notes → approve stories → export to Markdown), then all steps succeed without errors.
+- [ ] Given an Admin invites a Viewer, when the Viewer registers and logs in, then they can only see the projects they were granted access to and cannot edit or delete anything.
+- [ ] Given an Admin configures their own API key, when they run out of free credits, then refinement continues using their key without interruption.
+- [ ] Given a project is archived or deleted, when any user accesses it, then it is excluded from active counts and access is denied as specified.
+
+**Deliverables**:
+
+- E2E test suite using Playwright (or equivalent) covering at least 5 critical user journeys.
+- Test fixtures for Admin, Viewer, and project data setup.
+- CI/CD integration: E2E tests run on PR to `main` and block merge on failure.
+- Documentation for running E2E tests locally and in CI.
+
+**Dependencies**:
+
+- All MVP feature epics (EPIC-1 through EPIC-7) implemented.
+- [Testing Framework ADR](../../03-architecture/adrs/adr-010-testing-framework.md).
+- [Phased Roadmap](../../02-planning/phased-roadmap.md).
+
+**Success Metrics**:
+
+- At least 5 critical user journeys covered by automated E2E tests.
+- E2E suite completes in under 15 minutes in CI.
+- No false-positive failures across 10 consecutive CI runs.

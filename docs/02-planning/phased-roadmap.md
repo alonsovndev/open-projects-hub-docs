@@ -313,7 +313,11 @@
 | F-009      | Reset Password                           | MVP     | Must     | [EPIC-2](../05-work-items/EPIC-2-user-authentication/) | US-EP2-BE-002, US-EP2-FE-002 | Planned |
 | F-010      | AI Credits and API Key Management        | MVP     | Must     | [EPIC-6](../05-work-items/EPIC-6-ai-monetization-config/) | US-EP6-UX-001, US-EP6-BE-001, US-EP6-BE-002, US-EP6-FE-001 | Planned |
 | F-011      | Viewer Account Management                | MVP     | Must     | [EPIC-7](../05-work-items/EPIC-7-viewer-collaboration-lifecycle/) | US-EP7-UX-001, US-EP7-BE-001, US-EP7-BE-002, US-EP7-FE-001 | Planned |
-| NFR-X01–X10| Cross-Cutting Quality Baseline           | MVP     | Must     | [EPIC-9](../05-work-items/EPIC-9-quality-baseline/) | US-EP9-BE-001 to US-EP9-BE-004, US-EP9-QA-001, US-EP9-QA-002, US-EP9-UX-001 | Planned |
+| NFR-X01–X10| Cross-Cutting Quality Baseline           | MVP     | Must     | [EPIC-9](../05-work-items/EPIC-9-quality-baseline/) | US-EP9-BE-001 to US-EP9-BE-004, US-EP9-QA-001 to US-EP9-QA-003, US-EP9-UX-001 | Planned |
+| —          | Production Deployment Pipeline           | MVP     | Must     | [EPIC-0](../05-work-items/EPIC-0-foundational/) | US-EP0-BE-005 | Planned |
+| —          | Monitoring & Observability               | MVP     | Should   | [EPIC-0](../05-work-items/EPIC-0-foundational/) | US-EP0-BE-006 | Planned |
+| —          | API Key Rotation & Provider Fallback     | MVP     | Must     | [EPIC-6](../05-work-items/EPIC-6-ai-monetization-config/) | US-EP6-BE-003 | Planned |
+| —          | Invitation Lifecycle Management          | MVP     | Should   | [EPIC-7](../05-work-items/EPIC-7-viewer-collaboration-lifecycle/) | US-EP7-BE-003 | Planned |
 
 ---
 

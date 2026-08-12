@@ -113,6 +113,47 @@
 - User API keys are stored securely.
 - The system correctly prioritizes user keys over platform credits/keys.
 
+---
+
+### US-EP6-BE-003: API Key Rotation and Provider Fallback
+
+**Story ID**: US-EP6-BE-003
+**Epic Link**: EPIC-6
+**Priority**: Must Have
+**Effort Estimate**: 5
+**Status**: TODO
+**Labels**: backend, ai, monetization, configuration, security
+
+**As a** Backend Engineer,
+**I want to** implement API key rotation support and provider fallback behavior,
+**So that** users can rotate compromised keys and refinement remains available when a provider is unreachable.
+
+**Acceptance Criteria**:
+
+- [ ] Given a user replaces their API key, when the new key is saved, then the old key is invalidated and cannot be used for subsequent requests.
+- [ ] Given a user's configured provider (e.g., OpenAI) returns an error or rate limit, when refinement is requested, then the system attempts fallback to the next available provider (Gemini, DeepSeek) if configured.
+- [ ] Given no provider is reachable and no credits remain, when refinement is attempted, then a clear error indicates the specific failure (provider down, rate limited, or no credits).
+- [ ] Given an API key is stored, when inspected in logs or error reports, then it is never exposed in plaintext (masked or redacted).
+
+**Deliverables**:
+
+- Key rotation logic with old-key invalidation on replacement.
+- Provider fallback chain (OpenAI → Gemini → DeepSeek) with configurable priority.
+- Key masking in logs, error messages, and API responses.
+- Unit tests for rotation, fallback, and key-exposure prevention.
+
+**Dependencies**:
+
+- [ADR-006: Secret Management](../../03-architecture/adrs/adr-011-secrets-management.md).
+- [AI Refinement Service](../../05-work-items/EPIC-3-ai-refinement/stories.md#us-ep3-be-001-ai-refinement-service).
+- [API Contract](../../03-architecture/api/api-contract.md).
+
+**Success Metrics**:
+
+- Old API keys are rejected immediately after rotation.
+- Fallback provider serves refinement requests when primary is unavailable.
+- Zero plaintext API key exposures in logs or responses.
+
 ## Frontend Engineer
 
 ### US-EP6-FE-001: API Key Management Interface
