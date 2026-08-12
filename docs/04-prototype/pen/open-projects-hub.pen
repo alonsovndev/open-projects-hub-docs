@@ -278,15 +278,6 @@
               "fontWeight": "normal"
             }
           ]
-        },
-        {
-          "type": "frame",
-          "id": "gYk9X",
-          "name": "Footer",
-          "width": "fill_container",
-          "height": "fit_content(0)",
-          "justifyContent": "space_between",
-          "alignItems": "center"
         }
       ]
     },
@@ -1379,6 +1370,66 @@
                     },
                     {
                       "type": "frame",
+                      "id": "FdBh5",
+                      "name": "AIDisclaimer",
+                      "width": "fill_container",
+                      "fill": "#fffbe6",
+                      "cornerRadius": "$radius-sm",
+                      "stroke": "$warning",
+                      "strokeWidth": 1,
+                      "gap": 8,
+                      "padding": [
+                        10,
+                        14
+                      ],
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "Mnueh",
+                          "name": "ShieldIcon",
+                          "width": 18,
+                          "height": 18,
+                          "icon": "shield-alert",
+                          "library": "lucide",
+                          "fill": "$warning"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "THrup",
+                          "name": "DisclaimerText",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 4,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "TvTQD",
+                              "name": "DisclaimerTitle",
+                              "fill": "$text-primary",
+                              "content": "AI Processing Notice",
+                              "fontFamily": "$font-body",
+                              "fontSize": "$font-size-sm",
+                              "fontWeight": "$font-weight-semibold"
+                            },
+                            {
+                              "type": "text",
+                              "id": "Ag9N1",
+                              "name": "DisclaimerBody",
+                              "fill": "$text-secondary",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "Your raw notes are sent to third-party AI providers (OpenAI, Gemini, DeepSeek) for processing. Do not include passwords, API keys, or personal client data. By clicking Generate, you consent to this external data transfer.",
+                              "lineHeight": "$line-height-normal",
+                              "fontFamily": "$font-body",
+                              "fontSize": "$font-size-xs",
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
                       "id": "PpOO7",
                       "name": "NotesInput",
                       "width": "fill_container",
@@ -1447,44 +1498,6 @@
                           "type": "ref",
                           "ref": "zEizh",
                           "name": "ApproveAllBtn"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "frame",
-                      "id": "JQk17",
-                      "name": "AmbiguityBar",
-                      "width": "fill_container",
-                      "fill": "#fffbe6",
-                      "cornerRadius": "$radius-sm",
-                      "stroke": "$warning",
-                      "strokeWidth": 1,
-                      "gap": 8,
-                      "padding": [
-                        10,
-                        14
-                      ],
-                      "alignItems": "center",
-                      "children": [
-                        {
-                          "type": "icon",
-                          "id": "q0uvBk",
-                          "name": "WarningIcon",
-                          "width": 16,
-                          "height": 16,
-                          "icon": "triangle-alert",
-                          "library": "lucide",
-                          "fill": "$warning"
-                        },
-                        {
-                          "type": "text",
-                          "id": "yzoo2",
-                          "name": "AmbiguityText",
-                          "fill": "$text-primary",
-                          "content": "3 ambiguities detected — review highlighted items before approving.",
-                          "fontFamily": "$font-body",
-                          "fontSize": "$font-size-sm",
-                          "fontWeight": "normal"
                         }
                       ]
                     },
@@ -2007,76 +2020,28 @@
                   "type": "ref",
                   "ref": "MZPIE",
                   "name": "Product Creation Form",
-                  "width": "fill_container",
-                  "descendants": {
-                    "gYk9X": {
-                      "children": [
-                        {
-                          "id": "yViyP",
-                          "type": "ref",
-                          "ref": "S8aYaw",
-                          "name": "EpicTag"
-                        }
-                      ]
-                    }
-                  }
+                  "width": "fill_container"
                 },
                 {
                   "id": "p2p1bU",
                   "type": "ref",
                   "ref": "MZPIE",
                   "name": "Listing Dashboard",
-                  "width": "fill_container",
-                  "descendants": {
-                    "gYk9X": {
-                      "children": [
-                        {
-                          "id": "DP2M4",
-                          "type": "ref",
-                          "ref": "S8aYaw",
-                          "name": "EpicTag"
-                        }
-                      ]
-                    }
-                  }
+                  "width": "fill_container"
                 },
                 {
                   "id": "QIhIa",
                   "type": "ref",
                   "ref": "MZPIE",
                   "name": "Product Browse & Search",
-                  "width": "fill_container",
-                  "descendants": {
-                    "gYk9X": {
-                      "children": [
-                        {
-                          "id": "lG9A0",
-                          "type": "ref",
-                          "ref": "S8aYaw",
-                          "name": "EpicTag"
-                        }
-                      ]
-                    }
-                  }
+                  "width": "fill_container"
                 },
                 {
                   "id": "tRZ44",
                   "type": "ref",
                   "ref": "MZPIE",
                   "name": "Cart & Checkout",
-                  "width": "fill_container",
-                  "descendants": {
-                    "gYk9X": {
-                      "children": [
-                        {
-                          "id": "Z7kpm",
-                          "type": "ref",
-                          "ref": "S8aYaw",
-                          "name": "EpicTag"
-                        }
-                      ]
-                    }
-                  }
+                  "width": "fill_container"
                 }
               ]
             }
