@@ -7,6 +7,7 @@
 **Priority**: Must Have
 **Components**: Backend, Database
 **Fix Version**: MVP-1
+**Status**: TODO
 
 ---
 

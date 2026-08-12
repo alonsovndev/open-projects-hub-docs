@@ -8,6 +8,8 @@
 **Epic Link**: EPIC-0
 **Priority**: Must Have
 **Effort Estimate**: 8
+**Status**: TODO
+**Labels**: backend, foundational, setup, ci-cd
 
 **As a** Backend Engineer,
 **I want to** establish a backend modular monolith repository structure with clear module boundaries and configuration patterns,
@@ -47,6 +49,8 @@
 **Epic Link**: EPIC-0
 **Priority**: Must Have
 **Effort Estimate**: 8
+**Status**: TODO
+**Labels**: backend, foundational, setup, ci-cd
 
 **As a** Backend Engineer,
 **I want to** implement database schema with migration tooling and seed data generation,
@@ -86,6 +90,8 @@
 **Epic Link**: EPIC-0
 **Priority**: Must Have
 **Effort Estimate**: 8
+**Status**: TODO
+**Labels**: backend, foundational, setup, ci-cd
 
 **As a** Backend Engineer,
 **I want to** set up automated testing framework, linting, and CI/CD pipeline that runs on every commit,
@@ -127,6 +133,8 @@
 **Epic Link**: EPIC-0
 **Priority**: Must Have
 **Effort Estimate**: 5
+**Status**: TODO
+**Labels**: backend, foundational, setup, ci-cd
 
 **As a** Backend Engineer,
 **I want to** establish API documentation structure (OpenAPI/Swagger) and baseline endpoint contracts,
@@ -166,6 +174,8 @@
 **Epic Link**: EPIC-0
 **Priority**: Must Have
 **Effort Estimate**: 5
+**Status**: TODO
+**Labels**: frontend, foundational, setup, ci-cd
 
 **As a** Frontend Engineer,
 **I want to** scaffold a React application with build tooling, development server, and project structure,
@@ -212,6 +222,8 @@
 **Deliverable:** An ADR (`adr-002-backend-framework.md`) documenting the chosen framework and the rationale.
 
 **Timebox:** 2 days
+**Status**: TODO
+**Labels**: spike, foundational, setup, ci-cd
 
 ---
 
@@ -227,6 +239,8 @@
 **Deliverable:** An ADR (`adr-004-database.md`) documenting the chosen database technology.
 
 **Timebox:** 2 days
+**Status**: TODO
+**Labels**: spike, foundational, setup, ci-cd
 
 ---
 
@@ -242,6 +256,8 @@
 **Deliverable:** An ADR (`adr-003-frontend-framework.md`) documenting the chosen frontend framework.
 
 **Timebox:** 2 days
+**Status**: TODO
+**Labels**: spike, foundational, setup, ci-cd
 
 ---
 
@@ -257,4 +273,6 @@
 **Deliverable:** An ADR (`adr-006-deployment-platform.md`) documenting the chosen deployment strategy.
 
 **Timebox:** 3 days
+**Status**: TODO
+**Labels**: spike, foundational, setup, ci-cd
 

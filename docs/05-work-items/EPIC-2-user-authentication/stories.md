@@ -8,6 +8,8 @@
 **Epic Link**: EPIC-2
 **Priority**: Must Have
 **Effort Estimate**: 8
+**Status**: TODO
+**Labels**: backend, authentication, security
 
 **As a** Backend Engineer,
 **I want to** implement a user authentication service,
@@ -43,6 +45,8 @@
 **Epic Link**: EPIC-2
 **Priority**: Must Have
 **Effort Estimate**: 5
+**Status**: TODO
+**Labels**: backend, authentication, security
 
 **As a** Backend Engineer,
 **I want to** implement password reset and recovery functionality,
@@ -81,6 +85,8 @@
 **Epic Link**: EPIC-2
 **Priority**: Must Have
 **Effort Estimate**: 8
+**Status**: TODO
+**Labels**: frontend, authentication, security
 
 **As a** Frontend Engineer,
 **I want to** create a login page and implement authentication flows,
@@ -117,6 +123,8 @@
 **Epic Link**: EPIC-2
 **Priority**: Must Have
 **Effort Estimate**: 5
+**Status**: TODO
+**Labels**: frontend, authentication, security
 
 **As a** Frontend Engineer,
 **I want to** create a password reset page and implement recovery flows,

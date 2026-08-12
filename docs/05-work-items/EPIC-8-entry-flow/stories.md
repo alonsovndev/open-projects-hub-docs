@@ -8,6 +8,8 @@
 **Epic Link**: EPIC-8
 **Priority**: Should Have
 **Effort Estimate**: 5
+**Status**: TODO
+**Labels**: design, ux, onboarding, entry-flow
 
 **As a** UI/UX Designer,
 **I want to** design the onboarding flow,
@@ -43,6 +45,8 @@
 **Epic Link**: EPIC-8
 **Priority**: Should Have
 **Effort Estimate**: 5
+**Status**: TODO
+**Labels**: design, ux, onboarding, entry-flow
 
 **As a** UI/UX Designer,
 **I want to** design the landing page value proposition and CTA hierarchy,
@@ -78,6 +82,8 @@
 **Epic Link**: EPIC-8
 **Priority**: Should Have
 **Effort Estimate**: 5
+**Status**: TODO
+**Labels**: design, ux, onboarding, entry-flow
 
 **As a** UI/UX Designer,
 **I want to** design a clear account creation and next-step flow,
@@ -115,6 +121,8 @@
 **Epic Link**: EPIC-8
 **Priority**: Should Have
 **Effort Estimate**: 3
+**Status**: TODO
+**Labels**: backend, onboarding, entry-flow
 
 **As a** Backend Engineer,
 **I want to** implement an onboarding progress tracker,
@@ -150,6 +158,8 @@
 **Epic Link**: EPIC-8
 **Priority**: Should Have
 **Effort Estimate**: 5
+**Status**: TODO
+**Labels**: backend, onboarding, entry-flow
 
 **As a** Backend Engineer,
 **I want to** implement account registration and secure credential validation,
@@ -188,6 +198,8 @@
 **Epic Link**: EPIC-8
 **Priority**: Should Have
 **Effort Estimate**: 5
+**Status**: TODO
+**Labels**: frontend, onboarding, entry-flow
 
 **As a** Frontend Engineer,
 **I want to** create an onboarding UI,
@@ -223,6 +235,8 @@
 **Epic Link**: EPIC-8
 **Priority**: Should Have
 **Effort Estimate**: 5
+**Status**: TODO
+**Labels**: frontend, onboarding, entry-flow
 
 **As a** Frontend Engineer,
 **I want to** implement the landing page with clear value messaging and CTAs,
@@ -259,6 +273,8 @@
 **Epic Link**: EPIC-8
 **Priority**: Should Have
 **Effort Estimate**: 8
+**Status**: TODO
+**Labels**: frontend, onboarding, entry-flow
 
 **As a** Frontend Engineer,
 **I want to** implement the account creation form with validation and post-success routing,

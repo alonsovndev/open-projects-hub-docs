@@ -8,6 +8,8 @@
 **Epic Link**: EPIC-6
 **Priority**: Must Have
 **Effort Estimate**: 3
+**Status**: TODO
+**Labels**: design, ux, ai, monetization, configuration
 
 **As a** UI/UX Designer,
 **I want to** design the settings interface for API key management and credit status,
@@ -45,6 +47,8 @@
 **Epic Link**: EPIC-6
 **Priority**: Must Have
 **Effort Estimate**: 8
+**Status**: TODO
+**Labels**: backend, ai, monetization, configuration
 
 **As a** Backend Engineer,
 **I want to** implement a service to manage AI credits,
@@ -80,6 +84,8 @@
 **Epic Link**: EPIC-6
 **Priority**: Must Have
 **Effort Estimate**: 5
+**Status**: TODO
+**Labels**: backend, ai, monetization, configuration
 
 **As a** Backend Engineer,
 **I want to** create endpoints for managing user API keys,
@@ -115,6 +121,8 @@
 **Epic Link**: EPIC-6
 **Priority**: Must Have
 **Effort Estimate**: 8
+**Status**: TODO
+**Labels**: frontend, ai, monetization, configuration
 
 **As a** Frontend Engineer,
 **I want to** create a settings page for API key management,

@@ -8,6 +8,8 @@
 **Epic Link**: EPIC-7
 **Priority**: Must Have
 **Effort Estimate**: 3
+**Status**: TODO
+**Labels**: design, ux, collaboration, access-control
 
 **As a** UI/UX Designer,
 **I want to** design the Viewer invitation and access management flows,
@@ -45,6 +47,8 @@
 **Epic Link**: EPIC-7
 **Priority**: Must Have
 **Effort Estimate**: 8
+**Status**: TODO
+**Labels**: backend, collaboration, access-control
 
 **As a** Backend Engineer,
 **I want to** implement a service to handle viewer invitations,
@@ -80,6 +84,8 @@
 **Epic Link**: EPIC-7
 **Priority**: Must Have
 **Effort Estimate**: 5
+**Status**: TODO
+**Labels**: backend, collaboration, access-control
 
 **As a** Backend Engineer,
 **I want to** implement endpoints to manage viewer access to projects,
@@ -115,6 +121,8 @@
 **Epic Link**: EPIC-7
 **Priority**: Must Have
 **Effort Estimate**: 8
+**Status**: TODO
+**Labels**: frontend, collaboration, access-control
 
 **As a** Frontend Engineer,
 **I want to** create an interface for Admins to manage viewers,

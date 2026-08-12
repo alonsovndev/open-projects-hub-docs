@@ -8,6 +8,8 @@
 **Epic Link**: EPIC-4
 **Priority**: Must Have
 **Effort Estimate**: 5
+**Status**: TODO
+**Labels**: design, ux, access-control, visibility
 
 **As a** UI/UX Designer,
 **I want to** design role-based UI variations,
@@ -45,6 +47,8 @@
 **Epic Link**: EPIC-4
 **Priority**: Must Have
 **Effort Estimate**: 8
+**Status**: TODO
+**Labels**: backend, access-control, visibility
 
 **As a** Backend Engineer,
 **I want to** implement role-based access control (RBAC),
@@ -82,6 +86,8 @@
 **Epic Link**: EPIC-4
 **Priority**: Must Have
 **Effort Estimate**: 5
+**Status**: TODO
+**Labels**: frontend, access-control, visibility
 
 **As a** Frontend Engineer,
 **I want to** implement role-based UI rendering,

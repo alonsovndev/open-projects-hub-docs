@@ -8,6 +8,8 @@
 **Epic Link**: EPIC-3
 **Priority**: Must Have
 **Effort Estimate**: 5
+**Status**: TODO
+**Labels**: design, ux, ai, refinement
 
 **As a** UI/UX Designer,
 **I want to** design the refinement flow, including input, loading, and preview states,
@@ -45,6 +47,8 @@
 **Epic Link**: EPIC-3
 **Priority**: Must Have
 **Effort Estimate**: 8
+**Status**: TODO
+**Labels**: backend, ai, refinement
 
 **As a** Backend Engineer,
 **I want to** implement an AI refinement service that processes raw notes and generates structured user stories,
@@ -82,6 +86,8 @@
 **Epic Link**: EPIC-3
 **Priority**: Must Have
 **Effort Estimate**: 5
+**Status**: TODO
+**Labels**: frontend, ai, refinement
 
 **As a** Frontend Engineer,
 **I want to** create a refinement input form and preview interface,

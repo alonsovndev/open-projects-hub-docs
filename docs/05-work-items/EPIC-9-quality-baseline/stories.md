@@ -8,6 +8,8 @@
 **Epic Link**: EPIC-9
 **Priority**: Must Have
 **Effort Estimate**: 5
+**Status**: TODO
+**Labels**: backend, quality, nfr, security, performance
 
 **As a** Backend Engineer,
 **I want to** implement transactional email delivery with retry and rate limiting,
@@ -43,6 +45,8 @@
 **Epic Link**: EPIC-9
 **Priority**: Must Have
 **Effort Estimate**: 5
+**Status**: TODO
+**Labels**: backend, quality, nfr, security, performance
 
 **As a** Backend Engineer,
 **I want to** enforce session expiry, refresh rotation, and forced logout,
@@ -78,6 +82,8 @@
 **Epic Link**: EPIC-9
 **Priority**: Must Have
 **Effort Estimate**: 5
+**Status**: TODO
+**Labels**: backend, quality, nfr, security, performance
 
 **As a** Backend Engineer,
 **I want to** apply OWASP Top 10 security controls across all endpoints,
@@ -113,6 +119,8 @@
 **Epic Link**: EPIC-9
 **Priority**: Must Have
 **Effort Estimate**: 3
+**Status**: TODO
+**Labels**: backend, quality, nfr, security, performance
 
 **As a** Backend Engineer,
 **I want to** enforce GDPR-aligned deletion and archival,
@@ -149,6 +157,8 @@
 **Epic Link**: EPIC-9
 **Priority**: Must Have
 **Effort Estimate**: 3
+**Status**: TODO
+**Labels**: qa, testing, quality, nfr, security, performance
 
 **As a** QA Engineer,
 **I want to** enforce a ≥ 70% test coverage gate on core application logic,
@@ -183,6 +193,8 @@
 **Epic Link**: EPIC-9
 **Priority**: Must Have
 **Effort Estimate**: 3
+**Status**: TODO
+**Labels**: qa, testing, quality, nfr, security, performance
 
 **As a** QA Engineer,
 **I want to** validate performance under MVP load assumptions,
@@ -219,6 +231,8 @@
 **Epic Link**: EPIC-9
 **Priority**: Must Have
 **Effort Estimate**: 3
+**Status**: TODO
+**Labels**: design, ux, quality, nfr, security, performance
 
 **As a** UI/UX Designer,
 **I want to** validate accessibility and readability across all Viewer-facing views,

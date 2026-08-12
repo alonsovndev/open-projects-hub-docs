@@ -8,6 +8,8 @@
 **Epic Link**: EPIC-1
 **Priority**: Must Have
 **Effort Estimate**: 5
+**Status**: TODO
+**Labels**: design, ux, lifecycle, governance
 
 **As a** UI/UX Designer,
 **I want to** design the project lifecycle flow,
@@ -45,6 +47,8 @@
 **Epic Link**: EPIC-1
 **Priority**: Must Have
 **Effort Estimate**: 8
+**Status**: TODO
+**Labels**: backend, lifecycle, governance
 
 **As a** Backend Engineer,
 **I want to** implement CRUD operations for clients and projects,
@@ -80,6 +84,8 @@
 **Epic Link**: EPIC-1
 **Priority**: Must Have
 **Effort Estimate**: 5
+**Status**: TODO
+**Labels**: backend, lifecycle, governance
 
 **As a** Backend Engineer,
 **I want to** enforce an active-project limit of three per Admin,
@@ -116,6 +122,8 @@
 **Epic Link**: EPIC-1
 **Priority**: Must Have
 **Effort Estimate**: 8
+**Status**: TODO
+**Labels**: frontend, lifecycle, governance
 
 **As a** Frontend Engineer,
 **I want to** create a project management UI,

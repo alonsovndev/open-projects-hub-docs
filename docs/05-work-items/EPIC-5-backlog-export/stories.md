@@ -8,6 +8,8 @@
 **Epic Link**: EPIC-5
 **Priority**: Must Have
 **Effort Estimate**: 3
+**Status**: TODO
+**Labels**: design, ux, backlog, export
 
 **As a** UI/UX Designer,
 **I want to** design the export flow,
@@ -45,6 +47,8 @@
 **Epic Link**: EPIC-5
 **Priority**: Must Have
 **Effort Estimate**: 5
+**Status**: TODO
+**Labels**: backend, backlog, export
 
 **As a** Backend Engineer,
 **I want to** implement a backlog export service,
@@ -82,6 +86,8 @@
 **Epic Link**: EPIC-5
 **Priority**: Must Have
 **Effort Estimate**: 3
+**Status**: TODO
+**Labels**: frontend, backlog, export
 
 **As a** Frontend Engineer,
 **I want to** implement an export button with feedback,
