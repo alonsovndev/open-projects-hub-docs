@@ -35,7 +35,7 @@ Dependencies:
 - [Role Mapping](../../02-planning/role-mapping.md)
 - [Phased Roadmap](../../02-planning/phased-roadmap.md)
 - [Security Architecture](../../03-architecture/security/security-architecture.md)
-- [Sequence Diagrams](../../03-architecture/sequence-diagrams.md)
+- [Sequence Diagrams](../../03-architecture/diagrams/sequence-diagrams.md)
 
 Measurable success criteria:
 

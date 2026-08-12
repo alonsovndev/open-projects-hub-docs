@@ -27,8 +27,8 @@
 
 **Dependencies**:
 
-- [Project Requirements by Feature](../../01-requirements/readme.md).
-- [Prototype Brief](../../05-prototype/prototype-brief.md).
+- [Project Requirements by Feature](../../01-requirements/README.md).
+- [Prototype Brief](../../04-prototype/prototype-brief.md).
 
 **Success Metrics**:
 
@@ -64,7 +64,7 @@
 
 **Dependencies**:
 
-- [Architecture Solution Design](../../03-architecture/architecture-solution-design.md).
+- [Architecture Solution Design](../../03-architecture/core/architecture-solution-design.md).
 - [API Contract](../../03-architecture/api/api-contract.md).
 
 **Success Metrics**:
@@ -101,7 +101,7 @@
 
 **Dependencies**:
 
-- [ADR-002: Frontend Framework](../../03-architecture/adrs/adr-002-frontend-framework.md).
+- [ADR-002: Frontend Framework](../../03-architecture/adrs/adr-003-frontend-framework.md).
 - [API Contract](../../03-architecture/api/api-contract.md).
 
 **Success Metrics**:

@@ -1,5 +1,42 @@
 # Stories for Epic: AI Monetization and Configuration
 
+## UI/UX Designer
+
+### US-EP6-UX-001: API Key & Credits Settings Interface Design
+
+**Story ID**: US-EP6-UX-001
+**Epic Link**: EPIC-6
+**Priority**: Must Have
+**Effort Estimate**: 3
+
+**As a** UI/UX Designer,
+**I want to** design the settings interface for API key management and credit status,
+**So that** users can clearly understand their credit balance and configure provider keys without confusion.
+
+**Acceptance Criteria**:
+
+- [ ] Given a user on the settings page, when they review their AI section, then credit balance and remaining free credits are clearly visible.
+- [ ] Given a user adding an API key, when they submit, then validation feedback is clear and secure (no key echoing).
+- [ ] Given a user with zero credits, when they attempt refinement, then the prompt to add a key is actionable and non-blocking.
+
+**Deliverables**:
+
+- Settings page wireframes for credit display and API key CRUD.
+- High-fidelity mockups for provider selection and key input states.
+- Accessibility annotations for labels, errors, and keyboard flow.
+
+**Dependencies**:
+
+- [Feature Requirements: F-010](../../01-requirements/f-010-ai-credits-and-api-key-management.md).
+- [Prototype Brief](../../04-prototype/prototype-brief.md).
+
+**Success Metrics**:
+
+- Users can identify their credit status and configure keys without guidance.
+- Design assets support accessible implementation across target devices.
+
+---
+
 ## Backend Engineer
 
 ### US-EP6-BE-001: AI Credit Management Service
@@ -27,7 +64,7 @@
 
 **Dependencies**:
 
-- [Database Design](../../04-database/database-design.md).
+- [Database Design](../../03-architecture/database/database-design.md).
 - [API Contract](../../03-architecture/api/api-contract.md).
 
 **Success Metrics**:
@@ -62,7 +99,7 @@
 
 **Dependencies**:
 
-- [ADR-006: Secret Management](../../03-architecture/adrs/adr-006-secret-management.md).
+- [ADR-006: Secret Management](../../03-architecture/adrs/adr-011-secrets-management.md).
 - [API Contract](../../03-architecture/api/api-contract.md).
 
 **Success Metrics**:
@@ -97,7 +134,7 @@
 
 **Dependencies**:
 
-- [Prototype Brief](../../05-prototype/prototype-brief.md).
+- [Prototype Brief](../../04-prototype/prototype-brief.md).
 - [API Contract](../../03-architecture/api/api-contract.md).
 
 **Success Metrics**:

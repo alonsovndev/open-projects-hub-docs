@@ -27,8 +27,8 @@
 
 **Dependencies**:
 
-- [Project Requirements by Feature](../../01-requirements/readme.md).
-- [Architecture Solution Design](../../03-architecture/architecture-solution-design.md).
+- [Project Requirements by Feature](../../01-requirements/README.md).
+- [Architecture Solution Design](../../03-architecture/core/architecture-solution-design.md).
 
 **Success Metrics**:
 
@@ -64,8 +64,8 @@
 
 **Dependencies**:
 
-- [Project Requirements by Feature](../../01-requirements/readme.md).
-- [Database Design](../../04-database/database-design.md).
+- [Project Requirements by Feature](../../01-requirements/README.md).
+- [Database Design](../../03-architecture/database/database-design.md).
 
 **Success Metrics**:
 
@@ -98,8 +98,8 @@
 
 **Dependencies**:
 
-- [Project Requirements by Feature](../../01-requirements/readme.md).
-- [Architecture Solution Design](../../03-architecture/architecture-solution-design.md).
+- [Project Requirements by Feature](../../01-requirements/README.md).
+- [Architecture Solution Design](../../03-architecture/core/architecture-solution-design.md).
 
 **Success Metrics**:
 
@@ -135,8 +135,8 @@
 
 **Dependencies**:
 
-- [Project Requirements by Feature](../../01-requirements/readme.md).
-- [Prototype Brief](../../05-prototype/prototype-brief.md).
+- [Project Requirements by Feature](../../01-requirements/README.md).
+- [Prototype Brief](../../04-prototype/prototype-brief.md).
 
 **Success Metrics**:
 

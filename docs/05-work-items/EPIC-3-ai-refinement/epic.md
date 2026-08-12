@@ -33,9 +33,9 @@ Dependencies:
 
 - [Feature Requirements](../../01-requirements/f-002-ai-refinement-and-approval-workflow.md)
 - [Phased Roadmap](../../02-planning/phased-roadmap.md)
-- [Architecture Solution Design](../../03-architecture/architecture-solution-design.md)
+- [Architecture Solution Design](../../03-architecture/core/architecture-solution-design.md)
 - [API Contract](../../03-architecture/api/api-contract.md)
-- [Sequence Diagrams](../../03-architecture/sequence-diagrams.md)
+- [Sequence Diagrams](../../03-architecture/diagrams/sequence-diagrams.md)
 
 Measurable success criteria:
 

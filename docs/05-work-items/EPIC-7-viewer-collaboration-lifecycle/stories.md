@@ -1,5 +1,42 @@
 # Stories for Epic: Viewer Collaboration Lifecycle
 
+## UI/UX Designer
+
+### US-EP7-UX-001: Viewer Invitation Flow Design
+
+**Story ID**: US-EP7-UX-001
+**Epic Link**: EPIC-7
+**Priority**: Must Have
+**Effort Estimate**: 3
+
+**As a** UI/UX Designer,
+**I want to** design the Viewer invitation and access management flows,
+**So that** Admins can easily invite clients and manage their project access without confusion.
+
+**Acceptance Criteria**:
+
+- [ ] Given an Admin inviting a Viewer, when they review the flow, then it clearly communicates what access the Viewer will receive.
+- [ ] Given an Admin managing existing Viewers, when they grant/revoke project access, then the UI provides clear success/error feedback.
+- [ ] Given a Viewer list, when the Admin reviews it, then each Viewer's associated projects and invitation status are clearly displayed.
+
+**Deliverables**:
+
+- Viewer invitation flow wireframes and state maps.
+- High-fidelity mockups for invite form, Viewer list, and project access toggle.
+- Accessibility annotations for labels, errors, and keyboard flow.
+
+**Dependencies**:
+
+- [Feature Requirements: F-011](../../01-requirements/f-011-viewer-account-management.md).
+- [Prototype Brief](../../04-prototype/prototype-brief.md).
+
+**Success Metrics**:
+
+- Admins can complete invitation and access management tasks without guidance.
+- Design assets support accessible implementation across target devices.
+
+---
+
 ## Backend Engineer
 
 ### US-EP7-BE-001: Viewer Invitation Service
@@ -28,7 +65,7 @@
 **Dependencies**:
 
 - [API Contract](../../03-architecture/api/api-contract.md).
-- [Email Service NFR](../../01-requirements/README.md#NFR-X10)
+- [Email Service NFR](../../01-requirements/README.md#cross-cutting-quality-baseline)
 
 **Success Metrics**:
 
@@ -62,7 +99,7 @@
 
 **Dependencies**:
 
-- [Database Design](../../04-database/database-design.md).
+- [Database Design](../../03-architecture/database/database-design.md).
 - [API Contract](../../03-architecture/api/api-contract.md).
 
 **Success Metrics**:
@@ -97,7 +134,7 @@
 
 **Dependencies**:
 
-- [Prototype Brief](../../05-prototype/prototype-brief.md).
+- [Prototype Brief](../../04-prototype/prototype-brief.md).
 - [API Contract](../../03-architecture/api/api-contract.md).
 
 **Success Metrics**:

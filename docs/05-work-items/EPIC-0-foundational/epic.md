@@ -30,13 +30,13 @@ Excluded scope:
 - Team onboarding and documentation beyond setup-critical items
 - Advanced deployment automation or multi-region strategies
 
-Related feature and requirement IDs: Foundational (no direct feature mapping; supports all features F-001 through F-009)
+Related feature and requirement IDs: Foundational (no direct feature mapping; supports all features F-001 through F-011)
 
 Dependencies:
 
-- [Architecture Solution Design](../../03-architecture/architecture-solution-design.md)
-- [Technology Stack](../../03-architecture/technology-stack.md)
-- [Database Design](../../04-database/database-design.md)
+- [Architecture Solution Design](../../03-architecture/core/architecture-solution-design.md)
+- [Technology Stack](../../03-architecture/core/technology-stack.md)
+- [Database Design](../../03-architecture/database/database-design.md)
 
 Measurable success criteria:
 

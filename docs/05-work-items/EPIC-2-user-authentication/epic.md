@@ -17,7 +17,6 @@ Objective: Implement secure authentication, session handling, and recovery capab
 
 Included scope:
 
-- Account creation flow
 - Login and logout flows with secure session management
 - Password reset and account recovery flow
 - Frontend authentication UI and backend auth endpoint integration
@@ -27,13 +26,13 @@ Excluded scope:
 - Social login, SSO, and multi-factor authentication
 - Fine-grained RBAC expansion beyond MVP role boundaries
 - Enterprise identity provider integrations
+- Account creation and email verification (F-008, Phase 1 — see EPIC-8)
 
-Related feature and requirement IDs: F-007, F-008, F-009; FR-007-01, FR-007-02, FR-007-03, FR-009-01, FR-009-02, FR-009-03; NFR-007-01, NFR-007-02, NFR-009-01, NFR-009-02
+Related feature and requirement IDs: F-007, F-009; FR-007-01, FR-007-02, FR-007-03, FR-009-01, FR-009-02, FR-009-03; NFR-007-01, NFR-007-02, NFR-009-01, NFR-009-02
 
 Dependencies:
 
 - [Feature Requirements](../../01-requirements/f-007-admin-login.md)
-- [Feature Requirements](../../01-requirements/f-008-create-account.md)
 - [Feature Requirements](../../01-requirements/f-009-reset-password.md)
 - [ADR-005: Authentication](../../03-architecture/adrs/adr-005-authentication.md)
 - [API Contract](../../03-architecture/api/api-contract.md)

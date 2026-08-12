@@ -34,7 +34,7 @@ Dependencies:
 - [Project Overview](../../overview.md)
 - [Feature Requirements](../../01-requirements/f-001-client-and-project-lifecycle-management.md)
 - [Phased Roadmap](../../02-planning/phased-roadmap.md)
-- [Database Design](../../04-database/database-design.md)
+- [Database Design](../../03-architecture/database/database-design.md)
 
 Measurable success criteria:
 

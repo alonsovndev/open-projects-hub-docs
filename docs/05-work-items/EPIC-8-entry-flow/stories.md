@@ -2,10 +2,10 @@
 
 ## UI/UX Designer
 
-### US-EP7-UX-001: Onboarding Flow Design
+### US-EP8-UX-001: Onboarding Flow Design
 
-**Story ID**: US-EP7-UX-001
-**Epic Link**: EPIC-7
+**Story ID**: US-EP8-UX-001
+**Epic Link**: EPIC-8
 **Priority**: Should Have
 **Effort Estimate**: 5
 
@@ -27,8 +27,8 @@
 
 **Dependencies**:
 
-- [Project Requirements by Feature](../../01-requirements/readme.md).
-- [Prototype Brief](../../05-prototype/prototype-brief.md).
+- [Project Requirements by Feature](../../01-requirements/README.md).
+- [Prototype Brief](../../04-prototype/prototype-brief.md).
 
 **Success Metrics**:
 
@@ -37,10 +37,10 @@
 
 ---
 
-### US-EP7-UX-002: Landing Page and CTA Design
+### US-EP8-UX-002: Landing Page and CTA Design
 
-**Story ID**: US-EP7-UX-002
-**Epic Link**: EPIC-7
+**Story ID**: US-EP8-UX-002
+**Epic Link**: EPIC-8
 **Priority**: Should Have
 **Effort Estimate**: 5
 
@@ -62,8 +62,8 @@
 
 **Dependencies**:
 
-- [Project Requirements by Feature](../../01-requirements/readme.md).
-- [Prototype Brief](../../05-prototype/prototype-brief.md).
+- [Project Requirements by Feature](../../01-requirements/README.md).
+- [Prototype Brief](../../04-prototype/prototype-brief.md).
 
 **Success Metrics**:
 
@@ -72,10 +72,10 @@
 
 ---
 
-### US-EP7-UX-003: Account Creation Flow Design
+### US-EP8-UX-003: Account Creation Flow Design
 
-**Story ID**: US-EP7-UX-003
-**Epic Link**: EPIC-7
+**Story ID**: US-EP8-UX-003
+**Epic Link**: EPIC-8
 **Priority**: Should Have
 **Effort Estimate**: 5
 
@@ -97,8 +97,8 @@
 
 **Dependencies**:
 
-- [Project Requirements by Feature](../../01-requirements/readme.md).
-- [Prototype Brief](../../05-prototype/prototype-brief.md).
+- [Project Requirements by Feature](../../01-requirements/README.md).
+- [Prototype Brief](../../04-prototype/prototype-brief.md).
 
 **Success Metrics**:
 
@@ -109,10 +109,10 @@
 
 ## Backend Engineer
 
-### US-EP7-BE-001: Onboarding Progress Tracker
+### US-EP8-BE-001: Onboarding Progress Tracker
 
-**Story ID**: US-EP7-BE-001
-**Epic Link**: EPIC-7
+**Story ID**: US-EP8-BE-001
+**Epic Link**: EPIC-8
 **Priority**: Should Have
 **Effort Estimate**: 3
 
@@ -134,8 +134,8 @@
 
 **Dependencies**:
 
-- [Architecture Solution Design](../../03-architecture/architecture-solution-design.md).
-- [Database Design](../../04-database/database-design.md).
+- [Architecture Solution Design](../../03-architecture/core/architecture-solution-design.md).
+- [Database Design](../../03-architecture/database/database-design.md).
 
 **Success Metrics**:
 
@@ -144,10 +144,10 @@
 
 ---
 
-### US-EP7-BE-002: Account Registration and Validation API
+### US-EP8-BE-002: Account Registration and Validation API
 
-**Story ID**: US-EP7-BE-002
-**Epic Link**: EPIC-7
+**Story ID**: US-EP8-BE-002
+**Epic Link**: EPIC-8
 **Priority**: Should Have
 **Effort Estimate**: 5
 
@@ -182,10 +182,10 @@
 
 ## Frontend Engineer
 
-### US-EP7-FE-001: Onboarding UI
+### US-EP8-FE-001: Onboarding UI
 
-**Story ID**: US-EP7-FE-001
-**Epic Link**: EPIC-7
+**Story ID**: US-EP8-FE-001
+**Epic Link**: EPIC-8
 **Priority**: Should Have
 **Effort Estimate**: 5
 
@@ -207,7 +207,7 @@
 
 **Dependencies**:
 
-- [ADR-002: Frontend Framework](../../03-architecture/adrs/adr-002-frontend-framework.md).
+- [ADR-002: Frontend Framework](../../03-architecture/adrs/adr-003-frontend-framework.md).
 - [API Contract](../../03-architecture/api/api-contract.md).
 
 **Success Metrics**:
@@ -217,10 +217,10 @@
 
 ---
 
-### US-EP7-FE-002: Landing Page Entry Experience
+### US-EP8-FE-002: Landing Page Entry Experience
 
-**Story ID**: US-EP7-FE-002
-**Epic Link**: EPIC-7
+**Story ID**: US-EP8-FE-002
+**Epic Link**: EPIC-8
 **Priority**: Should Have
 **Effort Estimate**: 5
 
@@ -243,8 +243,8 @@
 **Dependencies**:
 
 - [Feature Requirements: F-006](../../01-requirements/f-006-landing-page.md).
-- [ADR-002: Frontend Framework](../../03-architecture/adrs/adr-002-frontend-framework.md).
-- [Prototype Brief](../../05-prototype/prototype-brief.md).
+- [ADR-002: Frontend Framework](../../03-architecture/adrs/adr-003-frontend-framework.md).
+- [Prototype Brief](../../04-prototype/prototype-brief.md).
 
 **Success Metrics**:
 
@@ -253,10 +253,10 @@
 
 ---
 
-### US-EP7-FE-003: Account Creation Flow and Next-Step Routing
+### US-EP8-FE-003: Account Creation Flow and Next-Step Routing
 
-**Story ID**: US-EP7-FE-003
-**Epic Link**: EPIC-7
+**Story ID**: US-EP8-FE-003
+**Epic Link**: EPIC-8
 **Priority**: Should Have
 **Effort Estimate**: 8
 
@@ -280,7 +280,7 @@
 
 - [Feature Requirements: F-008](../../01-requirements/f-008-create-account.md).
 - [API Contract](../../03-architecture/api/api-contract.md).
-- [ADR-002: Frontend Framework](../../03-architecture/adrs/adr-002-frontend-framework.md).
+- [ADR-002: Frontend Framework](../../03-architecture/adrs/adr-003-frontend-framework.md).
 
 **Success Metrics**:
 

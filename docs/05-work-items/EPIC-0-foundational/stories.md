@@ -30,8 +30,8 @@
 
 **Dependencies**:
 
-- [Architecture Solution Design](../../03-architecture/architecture-solution-design.md).
-- [Technology Stack](../../03-architecture/technology-stack.md).
+- [Architecture Solution Design](../../03-architecture/core/architecture-solution-design.md).
+- [Technology Stack](../../03-architecture/core/technology-stack.md).
 
 **Success Metrics**:
 
@@ -61,7 +61,7 @@
 
 **Deliverables**:
 
-- Database schema SQL or ORM migration definitions (based on [Database Design](../../04-database/database-design.md)).
+- Database schema SQL or ORM migration definitions (based on [Database Design](../../03-architecture/database/database-design.md)).
 - Migration tooling configuration (Alembic, Flyway, or equivalent).
 - Seed data script with realistic MVP test fixtures.
 - Migration documentation and rollback procedures.
@@ -69,7 +69,7 @@
 
 **Dependencies**:
 
-- [Database Design](../../04-database/database-design.md).
+- [Database Design](../../03-architecture/database/database-design.md).
 - [ADR-007: ORM Choice](../../03-architecture/adrs/adr-007-orm-choice.md).
 
 **Success Metrics**:
@@ -110,8 +110,8 @@
 
 **Dependencies**:
 
-- [Technology Stack](../../03-architecture/technology-stack.md).
-- [ADR-009: Testing Framework](../../03-architecture/adrs/adr-009-testing-framework.md).
+- [Technology Stack](../../03-architecture/core/technology-stack.md).
+- [ADR-009: Testing Framework](../../03-architecture/adrs/adr-010-testing-framework.md).
 
 **Success Metrics**:
 
@@ -149,7 +149,7 @@
 **Dependencies**:
 
 - [API Contract](../../03-architecture/api/api-contract.md).
-- [Technology Stack](../../03-architecture/technology-stack.md).
+- [Technology Stack](../../03-architecture/core/technology-stack.md).
 
 **Success Metrics**:
 
@@ -180,7 +180,7 @@
 
 **Deliverables**:
 
-- React app scaffolding with Create React App, Vite (per [Technology Stack](../../03-architecture/technology-stack.md)).
+- React app scaffolding with Create React App, Vite (per [Technology Stack](../../03-architecture/core/technology-stack.md)).
 - Development server configuration with fast rebuild and hot reload.
 - Directory structure: src/components/, src/pages/, src/services/, src/styles/, public/.
 - TypeScript configuration with strict mode enabled.
@@ -188,10 +188,73 @@
 
 **Dependencies**:
 
-- [Technology Stack](../../03-architecture/technology-stack.md).
-- [ADR-002: Frontend Framework](../../03-architecture/adrs/adr-002-frontend-framework.md).
+- [Technology Stack](../../03-architecture/core/technology-stack.md).
+- [ADR-002: Frontend Framework](../../03-architecture/adrs/adr-003-frontend-framework.md).
 
 **Success Metrics**:
 
 - Frontend development environment starts reliably and supports rapid iteration.
 - Linting and type-check checks are integrated into local and CI workflows.
+
+---
+
+## Spike Stories
+
+### SPIKE-1: Backend Framework Selection
+
+**Goal:** To analyze and select a primary backend framework for the Python modular monolith.
+
+**Questions to Answer:**
+- Which framework best supports Clean Architecture and modularity (FastAPI, Django, Flask)?
+- What is the performance overhead of each?
+- How mature is the ecosystem for testing, ORM integration, and OpenAPI generation?
+
+**Deliverable:** An ADR (`adr-002-backend-framework.md`) documenting the chosen framework and the rationale.
+
+**Timebox:** 2 days
+
+---
+
+### SPIKE-2: Database Technology Selection
+
+**Goal:** To choose a primary database technology and hosting strategy.
+
+**Questions to Answer:**
+- Should we use a relational (PostgreSQL, MySQL) or NoSQL (MongoDB) database?
+- What are the pros and cons of a managed service (e.g., Supabase, AWS RDS) versus self-hosting?
+- How will the choice impact our ability to implement role-based access control?
+
+**Deliverable:** An ADR (`adr-004-database.md`) documenting the chosen database technology.
+
+**Timebox:** 2 days
+
+---
+
+### SPIKE-3: Frontend Framework Selection
+
+**Goal:** To select a primary frontend framework and build tool.
+
+**Questions to Answer:**
+- Which framework provides the best developer experience with TypeScript (React, Vue, Svelte)?
+- What is the best build tool for performance and hot-reloading (Vite, Create React App, etc.)?
+- How does the component and state management ecosystem compare for each?
+
+**Deliverable:** An ADR (`adr-003-frontend-framework.md`) documenting the chosen frontend framework.
+
+**Timebox:** 2 days
+
+---
+
+### SPIKE-4: Deployment Platform Selection
+
+**Goal:** To decide on a target platform for deploying the backend and frontend applications.
+
+**Questions to Answer:**
+- What platform offers the best balance of cost, scalability, and operational simplicity for the MVP (e.g., Heroku, Vercel, Docker on AWS/GCP)?
+- How will we manage environment configuration and secrets?
+- What is the path for setting up separate staging and production environments?
+
+**Deliverable:** An ADR (`adr-006-deployment-platform.md`) documenting the chosen deployment strategy.
+
+**Timebox:** 3 days
+
