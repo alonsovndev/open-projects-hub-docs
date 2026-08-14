@@ -1,11 +1,10 @@
 # Architecture Styles Decision
 
-| Attribute        | Value                       |
-| ---------------- | --------------------------- |
-| **Project**      | Open Projects Hub |
-| **Version**      | 1.0                         |
-| **Status**       | Accepted                    |
-| **Last Updated** | 2026-08-04                  |
+| Attribute   | Value             |
+| ----------- | ----------------- |
+| **Project** | Open Projects Hub |
+| **Version** | 1.0               |
+| **Status**  | Accepted          |
 
 ## Decision Summary
 
@@ -29,6 +28,7 @@ The architecture style selection balances MVP velocity, maintainability, and fut
 | **Modular Monolith (Selected)** | Strong module boundaries, single deployable, easier refactor and extraction | Requires discipline to protect module boundaries                            | **Best fit for MVP + planned evolution**                   |
 
 **Why Modular Monolith wins:**
+
 - **Delivery speed:** Single deployment artifact accelerates MVP timeline (1-1.5 months)
 - **Operational simplicity:** One Docker container, one database, one CI/CD pipeline for small team
 - **Clean Architecture fit:** Module boundaries enforce domain isolation without distributed system overhead
@@ -54,6 +54,7 @@ Each module owns:
 - infrastructure adapters behind module contracts.
 
 **Cross-module dependencies:**
+
 - **Auth** → provides JWT validation middleware consumed by all protected endpoints
 - **Access Control** → uses Auth user context to enforce Admin/Viewer rules
 - **All modules** → use Access Control to check permissions before operations
@@ -85,29 +86,29 @@ graph TB
         MM --> REQ[Requirements Refinement]
         MM --> AC[Access Control]
         MM --> EXPORT[Export & Reporting]
-        
+
         MM --> DB[(RDS PostgreSQL)]
     end
-    
+
     subgraph "Phase 2: Selective Extraction (Future)"
         direction TB
         CORE[Core Monolith<br/>Auth + Client + Project<br/>+ Access Control]
-        
+
         REQ_SVC[Requirements Service<br/>Independently Scalable]
         EXPORT_SVC[Export Service<br/>Async Processing]
-        
+
         CORE --> DB2[(Shared RDS)]
         REQ_SVC --> DB2
         EXPORT_SVC --> S3[(S3 Storage)]
-        
+
         FE2[Frontend] -->|REST| CORE
         FE2 -->|REST| REQ_SVC
         FE2 -->|REST| EXPORT_SVC
     end
-    
+
     MM -.->|Extract when<br/>triggers met| REQ_SVC
     MM -.->|Extract when<br/>triggers met| EXPORT_SVC
-    
+
     style MM fill:#e1f5ff,stroke:#0066cc,stroke-width:3px
     style CORE fill:#fff4e1,stroke:#cc8800,stroke-width:2px
     style REQ_SVC fill:#e8f5e8,stroke:#00aa00,stroke-width:2px
@@ -115,6 +116,7 @@ graph TB
 ```
 
 **Evolution Principles:**
+
 1. **Start simple:** All modules coexist in monolith during MVP
 2. **Extract selectively:** Only when extraction triggers are sustained (see below)
 3. **Keep stable core:** Auth, Client, Project, Access Control likely remain in monolith
@@ -141,7 +143,11 @@ Extract a module into a service only when at least one trigger is sustained:
 - Modular boundaries reduce refactor risk while enabling selective horizontal scaling later.
 - Additional distributed patterns are deferred to future scope reviews.
 
-## Related Documents
+## Source References
 
 - [Architecture Solution Design](./architecture-solution-design.md)
 - [ADR-001: High-Level Architecture](../adrs/adr-001-high-level-architecture.md)
+
+---
+
+**Last Updated**: 2026-08-04

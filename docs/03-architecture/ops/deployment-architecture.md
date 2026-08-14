@@ -5,7 +5,6 @@
 | **Project**      | Open Projects Hub |
 | **Version**      | 2.0                         |
 | **Status**       | Draft                       |
-| **Last Updated** | 2026-08-04                  |
 
 ## Table of Contents
 

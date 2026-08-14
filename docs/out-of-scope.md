@@ -4,8 +4,7 @@
 | ---------------- | --------------------------- |
 | **Project**      | Open Projects Hub |
 | **Version**      | 1.0                         |
-| **Status**       | Clarified                   |
-| **Last Updated** | 2026-07-30                  |
+| **Status**       | Accepted                    |
 | **Owner**        | Product Owner               |
 
 ## Purpose
