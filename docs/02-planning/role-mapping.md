@@ -25,7 +25,7 @@
 ## Source References
 
 - [Project Overview](../overview.md)
-- [Feature Requirements](../01-requirements/readme.md)
+- [Feature Requirements](../01-requirements/README.md)
 - [Phased Roadmap](./phased-roadmap.md)
 
 ---
