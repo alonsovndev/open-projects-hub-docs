@@ -218,7 +218,7 @@
 **Dependencies**:
 
 - [Database Design](../../03-architecture/database/database-design.md).
-- [ADR-007: ORM Choice](../../03-architecture/adrs/adr-007-orm-choice.md).
+- [ADR-007: ORM Choice](../../04-decisions/adr-007-orm-choice.md).
 
 **Success Metrics**:
 
@@ -261,7 +261,7 @@
 **Dependencies**:
 
 - [Technology Stack](../../03-architecture/core/technology-stack.md).
-- [ADR-009: Testing Framework](../../03-architecture/adrs/adr-010-testing-framework.md).
+- [ADR-009: Testing Framework](../../04-decisions/adr-010-testing-framework.md).
 
 **Success Metrics**:
 
@@ -343,7 +343,7 @@
 **Dependencies**:
 
 - [Technology Stack](../../03-architecture/core/technology-stack.md).
-- [ADR-002: Frontend Framework](../../03-architecture/adrs/adr-003-frontend-framework.md).
+- [ADR-002: Frontend Framework](../../04-decisions/adr-003-frontend-framework.md).
 
 **Success Metrics**:
 
@@ -381,8 +381,8 @@
 
 **Dependencies**:
 
-- [ADR-006: Deployment Platform](../../03-architecture/adrs/adr-006-deployment-platform.md).
-- [CI/CD Pipeline Scaffolding](../../05-work-items/EPIC-0-foundational/stories.md#us-ep0-be-003-cicd-pipeline-scaffolding-and-testing-framework).
+- [ADR-006: Deployment Platform](../../04-decisions/adr-006-deployment-platform.md).
+- [CI/CD Pipeline Scaffolding](../../06-work-items/EPIC-0-foundational/stories.md#us-ep0-be-003-cicd-pipeline-scaffolding-and-testing-framework).
 
 **Success Metrics**:
 
@@ -421,7 +421,7 @@
 
 **Dependencies**:
 
-- [ADR-006: Deployment Platform](../../03-architecture/adrs/adr-006-deployment-platform.md).
+- [ADR-006: Deployment Platform](../../04-decisions/adr-006-deployment-platform.md).
 - [Monitoring & Observability](../../03-architecture/ops/monitoring-observability.md).
 
 **Success Metrics**:

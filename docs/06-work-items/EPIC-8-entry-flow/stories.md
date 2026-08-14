@@ -30,7 +30,7 @@
 **Dependencies**:
 
 - [Project Requirements by Feature](../../01-requirements/README.md).
-- [Prototype Brief](../../04-prototype/prototype-brief.md).
+- [Prototype Brief](../../05-prototype/prototype-brief.md).
 
 **Success Metrics**:
 
@@ -67,7 +67,7 @@
 **Dependencies**:
 
 - [Project Requirements by Feature](../../01-requirements/README.md).
-- [Prototype Brief](../../04-prototype/prototype-brief.md).
+- [Prototype Brief](../../05-prototype/prototype-brief.md).
 
 **Success Metrics**:
 
@@ -104,7 +104,7 @@
 **Dependencies**:
 
 - [Project Requirements by Feature](../../01-requirements/README.md).
-- [Prototype Brief](../../04-prototype/prototype-brief.md).
+- [Prototype Brief](../../05-prototype/prototype-brief.md).
 
 **Success Metrics**:
 
@@ -219,7 +219,7 @@
 
 **Dependencies**:
 
-- [ADR-002: Frontend Framework](../../03-architecture/adrs/adr-003-frontend-framework.md).
+- [ADR-002: Frontend Framework](../../04-decisions/adr-003-frontend-framework.md).
 - [API Contract](../../03-architecture/api/api-contract.md).
 
 **Success Metrics**:
@@ -257,8 +257,8 @@
 **Dependencies**:
 
 - [Feature Requirements: F-006](../../01-requirements/f-006-landing-page.md).
-- [ADR-002: Frontend Framework](../../03-architecture/adrs/adr-003-frontend-framework.md).
-- [Prototype Brief](../../04-prototype/prototype-brief.md).
+- [ADR-002: Frontend Framework](../../04-decisions/adr-003-frontend-framework.md).
+- [Prototype Brief](../../05-prototype/prototype-brief.md).
 
 **Success Metrics**:
 
@@ -296,7 +296,7 @@
 
 - [Feature Requirements: F-008](../../01-requirements/f-008-create-account.md).
 - [API Contract](../../03-architecture/api/api-contract.md).
-- [ADR-002: Frontend Framework](../../03-architecture/adrs/adr-003-frontend-framework.md).
+- [ADR-002: Frontend Framework](../../04-decisions/adr-003-frontend-framework.md).
 
 **Success Metrics**:
 

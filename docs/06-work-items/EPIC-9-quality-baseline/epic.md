@@ -41,7 +41,7 @@ Dependencies:
 - [Threat Model](../../03-architecture/security/threat-model.md)
 - [API Contract](../../03-architecture/api/api-contract.md)
 - [Monitoring & Observability](../../03-architecture/ops/monitoring-observability.md)
-- [Testing Framework ADR](../../03-architecture/adrs/adr-010-testing-framework.md)
+- [Testing Framework ADR](../../04-decisions/adr-010-testing-framework.md)
 
 Measurable success criteria:
 

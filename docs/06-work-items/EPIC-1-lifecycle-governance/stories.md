@@ -144,7 +144,7 @@
 **Dependencies**:
 
 - [Project Requirements by Feature](../../01-requirements/README.md).
-- [Prototype Brief](../../04-prototype/prototype-brief.md).
+- [Prototype Brief](../../05-prototype/prototype-brief.md).
 
 **Success Metrics**:
 

@@ -110,10 +110,10 @@ Implementation team has confirmed:
 
 ## Source References
 
-- [Project Overview](../overview.md)
-- [User Personas](../user-personas.md)
-- [Open Questions](../open-questions.md)
-- [Out of Scope Items](../out-of-scope.md)
+- [Project Overview](../00-context/overview.md)
+- [User Personas](../00-context/user-personas.md)
+- [Open Questions](../00-context/open-questions.md)
+- [Out of Scope Items](../00-context/out-of-scope.md)
 
 ---
 

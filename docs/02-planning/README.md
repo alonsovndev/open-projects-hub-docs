@@ -40,7 +40,7 @@ All planning documents have been updated to **Ready for Implementation**.
 
 ## Source References
 
-- [Project Overview](../overview.md)
+- [Project Overview](../00-context/overview.md)
 - [Project Requirements](../01-requirements/README.md)
 
 ---

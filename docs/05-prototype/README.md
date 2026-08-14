@@ -17,7 +17,7 @@ The `.pen` file opens in **Pencil** — a collaborative design tool.
 
 ```bash
 # File location
-open-projects-hub-docs/docs/04-prototype/pen/prototype.pen
+open-projects-hub-docs/docs/05-prototype/pen/prototype.pen
 ```
 
 Open it from Pencil via **File → Open** and navigate to the path above, or use the Pencil CLI.
@@ -77,6 +77,6 @@ The prototype covers the MVP **Discovery** and **Planning** workflows only. Out 
 
 - [Prototype Brief](./prototype-brief.md)
 - [Design Direction](./design-direction.md)
-- [Project Overview](../overview.md)
+- [Project Overview](../00-context/overview.md)
 - [Requirements by Feature](../01-requirements/)
 - [Architecture](../03-architecture/)

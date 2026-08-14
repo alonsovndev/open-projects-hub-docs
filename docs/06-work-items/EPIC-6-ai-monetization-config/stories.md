@@ -30,7 +30,7 @@
 **Dependencies**:
 
 - [Feature Requirements: F-010](../../01-requirements/f-010-ai-credits-and-api-key-management.md).
-- [Prototype Brief](../../04-prototype/prototype-brief.md).
+- [Prototype Brief](../../05-prototype/prototype-brief.md).
 
 **Success Metrics**:
 
@@ -105,7 +105,7 @@
 
 **Dependencies**:
 
-- [ADR-006: Secret Management](../../03-architecture/adrs/adr-011-secrets-management.md).
+- [ADR-006: Secret Management](../../04-decisions/adr-011-secrets-management.md).
 - [API Contract](../../03-architecture/api/api-contract.md).
 
 **Success Metrics**:
@@ -144,8 +144,8 @@
 
 **Dependencies**:
 
-- [ADR-006: Secret Management](../../03-architecture/adrs/adr-011-secrets-management.md).
-- [AI Refinement Service](../../05-work-items/EPIC-3-ai-refinement/stories.md#us-ep3-be-001-ai-refinement-service).
+- [ADR-006: Secret Management](../../04-decisions/adr-011-secrets-management.md).
+- [AI Refinement Service](../../06-work-items/EPIC-3-ai-refinement/stories.md#us-ep3-be-001-ai-refinement-service).
 - [API Contract](../../03-architecture/api/api-contract.md).
 
 **Success Metrics**:
@@ -183,7 +183,7 @@
 
 **Dependencies**:
 
-- [Prototype Brief](../../04-prototype/prototype-brief.md).
+- [Prototype Brief](../../05-prototype/prototype-brief.md).
 - [API Contract](../../03-architecture/api/api-contract.md).
 
 **Success Metrics**:

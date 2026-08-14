@@ -268,7 +268,7 @@ erDiagram
 
 ## Source References
 
-- [Project Overview](../../overview.md)
+- [Project Overview](../../00-context/overview.md)
 - [F-001 Client and Project Lifecycle Management](../../01-requirements/f-001-client-and-project-lifecycle-management.md)
 - [F-002 AI Refinement and Approval Workflow](../../01-requirements/f-002-ai-refinement-and-approval-workflow.md)
 - [F-003 Access Control and Visibility Boundaries](../../01-requirements/f-003-access-control-and-visibility-boundaries.md)

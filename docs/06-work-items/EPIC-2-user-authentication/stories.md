@@ -29,7 +29,7 @@
 
 **Dependencies**:
 
-- [ADR-005: Authentication](../../03-architecture/adrs/adr-005-authentication.md).
+- [ADR-005: Authentication](../../04-decisions/adr-005-authentication.md).
 - [API Contract](../../03-architecture/api/api-contract.md).
 
 **Success Metrics**:
@@ -66,7 +66,7 @@
 
 **Dependencies**:
 
-- [ADR-005: Authentication](../../03-architecture/adrs/adr-005-authentication.md).
+- [ADR-005: Authentication](../../04-decisions/adr-005-authentication.md).
 - [API Contract](../../03-architecture/api/api-contract.md).
 
 **Success Metrics**:
@@ -106,7 +106,7 @@
 
 **Dependencies**:
 
-- [ADR-002: Frontend Framework](../../03-architecture/adrs/adr-003-frontend-framework.md).
+- [ADR-002: Frontend Framework](../../04-decisions/adr-003-frontend-framework.md).
 - [API Contract](../../03-architecture/api/api-contract.md).
 
 **Success Metrics**:
@@ -144,7 +144,7 @@
 
 **Dependencies**:
 
-- [ADR-002: Frontend Framework](../../03-architecture/adrs/adr-003-frontend-framework.md).
+- [ADR-002: Frontend Framework](../../04-decisions/adr-003-frontend-framework.md).
 - [API Contract](../../03-architecture/api/api-contract.md).
 
 **Success Metrics**:

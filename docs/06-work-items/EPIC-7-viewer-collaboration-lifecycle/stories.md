@@ -30,7 +30,7 @@
 **Dependencies**:
 
 - [Feature Requirements: F-011](../../01-requirements/f-011-viewer-account-management.md).
-- [Prototype Brief](../../04-prototype/prototype-brief.md).
+- [Prototype Brief](../../05-prototype/prototype-brief.md).
 
 **Success Metrics**:
 
@@ -143,7 +143,7 @@
 
 **Dependencies**:
 
-- [Viewer Invitation Service](../../05-work-items/EPIC-7-viewer-collaboration-lifecycle/stories.md#us-ep7-be-001-viewer-invitation-service).
+- [Viewer Invitation Service](../../06-work-items/EPIC-7-viewer-collaboration-lifecycle/stories.md#us-ep7-be-001-viewer-invitation-service).
 - [Email Service NFR](../../01-requirements/README.md#cross-cutting-quality-baseline).
 
 **Success Metrics**:
@@ -181,7 +181,7 @@
 
 **Dependencies**:
 
-- [Prototype Brief](../../04-prototype/prototype-brief.md).
+- [Prototype Brief](../../05-prototype/prototype-brief.md).
 - [API Contract](../../03-architecture/api/api-contract.md).
 
 **Success Metrics**:

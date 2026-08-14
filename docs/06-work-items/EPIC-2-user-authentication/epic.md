@@ -35,7 +35,7 @@ Dependencies:
 
 - [Feature Requirements](../../01-requirements/f-007-admin-login.md)
 - [Feature Requirements](../../01-requirements/f-009-reset-password.md)
-- [ADR-005: Authentication](../../03-architecture/adrs/adr-005-authentication.md)
+- [ADR-005: Authentication](../../04-decisions/adr-005-authentication.md)
 - [API Contract](../../03-architecture/api/api-contract.md)
 - [Security Architecture](../../03-architecture/security/security-architecture.md)
 

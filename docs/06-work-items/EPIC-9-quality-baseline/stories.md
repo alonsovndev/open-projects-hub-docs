@@ -66,7 +66,7 @@
 
 **Dependencies**:
 
-- [ADR-005: Authentication](../../03-architecture/adrs/adr-005-authentication.md).
+- [ADR-005: Authentication](../../04-decisions/adr-005-authentication.md).
 - [API Contract](../../03-architecture/api/api-contract.md).
 
 **Success Metrics**:
@@ -177,7 +177,7 @@
 
 **Dependencies**:
 
-- [ADR-010: Testing Framework](../../03-architecture/adrs/adr-010-testing-framework.md).
+- [ADR-010: Testing Framework](../../04-decisions/adr-010-testing-framework.md).
 - CI/CD pipeline configuration.
 
 **Success Metrics**:
@@ -291,7 +291,7 @@
 **Dependencies**:
 
 - All MVP feature epics (EPIC-1 through EPIC-7) implemented.
-- [Testing Framework ADR](../../03-architecture/adrs/adr-010-testing-framework.md).
+- [Testing Framework ADR](../../04-decisions/adr-010-testing-framework.md).
 - [Phased Roadmap](../../02-planning/phased-roadmap.md).
 
 **Success Metrics**:
