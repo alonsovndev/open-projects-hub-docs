@@ -1,5 +1,13 @@
 # Project Requirements by Feature
 
+| Attribute        | Value                       |
+| ---------------- | --------------------------- |
+| **Project**      | Open Projects Hub |
+| **Version**      | 1.6                         |
+| **Status**       | Accepted                    |
+| **Readiness**    | Ready for Implementation    |
+| **Owner**        | Product Owner               |
+
 ## Table of Contents
 
 - [Project Requirements by Feature](#project-requirements-by-feature)

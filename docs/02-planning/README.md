@@ -1,5 +1,12 @@
 # Project Planning
 
+| Attribute        | Value                       |
+| ---------------- | --------------------------- |
+| **Project**      | Open Projects Hub |
+| **Version**      | 1.4                         |
+| **Status**       | Accepted                    |
+| **Owner**        | Product Owner               |
+
 ## Purpose
 
 Single source of truth for project planning, including the phased roadmap, role definitions, and workstream ownership.

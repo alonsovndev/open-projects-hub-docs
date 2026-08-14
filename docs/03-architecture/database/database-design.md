@@ -4,7 +4,7 @@
 | ---------------- | --------------------------- |
 | **Project**      | Open Projects Hub |
 | **Version**      | 1.8                         |
-| **Status**       | Draft                       |
+| **Status**       | Accepted                    |
 
 ## Table of Contents
 
