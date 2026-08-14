@@ -1,12 +1,5 @@
 # Architecture Overview — Open Projects Hub
 
-| Attribute        | Value                       |
-| ---------------- | --------------------------- |
-| **Project**      | Open Projects Hub |
-| **Version**      | 1.0                         |
-| **Status**       | In Review                   |
-| **Last Updated** | 2026-08-03                  |
-
 ## How to Use
 
 - Every section links to a document that contains the authoritative decision or design for that concern.

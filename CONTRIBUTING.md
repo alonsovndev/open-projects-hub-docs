@@ -39,7 +39,7 @@ The Open Projects Hub is a full-stack web application built to help freelancers 
 - **Deployment**: Vercel (frontend) + Render (backend)
 - **Testing**: Pytest (backend), Vitest + React Testing Library (frontend), Playwright (E2E)
 
-For the full picture, start with the [Project Overview](./docs/overview.md) and the [Architecture README](./docs/03-architecture/README.md).
+For the full picture, start with the [Project Overview](./docs/00-context/overview.md) and the [Architecture README](./docs/03-architecture/README.md).
 
 ---
 

@@ -1,29 +1,30 @@
 # Sequence Diagrams
 
-| Attribute        | Value                       |
-| ---------------- | --------------------------- |
-| **Project**      | Open Projects Hub |
-| **Version**      | 2.0                         |
-| **Status**       | Active                      |
-| **Last Updated** | 2026-08-11                  |
+| Attribute   | Value             |
+| ----------- | ----------------- |
+| **Project** | Open Projects Hub |
+| **Version** | 2.0               |
+| **Status**  | Accepted          |
 
 ## Table of Contents
 
-- [Source References](#source-references)
-- [1) Authentication and Session Validation](#1-authentication-and-session-validation)
-- [2) AI-Assisted Requirements Refinement](#2-ai-assisted-requirements-refinement)
-- [3) Explicit Approval and Viewer Visibility](#3-explicit-approval-and-viewer-visibility)
-- [4) Markdown Export Workflow](#4-markdown-export-workflow)
-- [5) Error Handling and Observability Path](#5-error-handling-and-observability-path)
-- [6) User Registration and Email Verification](#6-user-registration-and-email-verification)
-- [7) Password Reset](#7-password-reset)
-- [8) Login with Rate Limiting and Lockout](#8-login-with-rate-limiting-and-lockout)
-- [9) Authorization 3-Layer Defense](#9-authorization-3-layer-defense)
-- [10) Viewer Invitation Lifecycle](#10-viewer-invitation-lifecycle)
-- [11) AI Credits Consumption and API Key Management](#11-ai-credits-consumption-and-api-key-management)
-- [12) AI Refinement 5-Stage Security Pipeline](#12-ai-refinement-5-stage-security-pipeline)
-- [13) CI/CD Pipeline](#13-cicd-pipeline)
-- [Diagram Coverage by Feature](#diagram-coverage-by-feature)
+- [Sequence Diagrams](#sequence-diagrams)
+  - [Table of Contents](#table-of-contents)
+  - [1) Authentication and Session Validation](#1-authentication-and-session-validation)
+  - [2) AI-Assisted Requirements Refinement](#2-ai-assisted-requirements-refinement)
+  - [3) Explicit Approval and Viewer Visibility](#3-explicit-approval-and-viewer-visibility)
+  - [4) Markdown Export Workflow](#4-markdown-export-workflow)
+  - [5) Error Handling and Observability Path](#5-error-handling-and-observability-path)
+  - [6) User Registration and Email Verification](#6-user-registration-and-email-verification)
+  - [7) Password Reset](#7-password-reset)
+  - [8) Login with Rate Limiting and Lockout](#8-login-with-rate-limiting-and-lockout)
+  - [9) Authorization 3-Layer Defense](#9-authorization-3-layer-defense)
+  - [10) Viewer Invitation Lifecycle](#10-viewer-invitation-lifecycle)
+  - [11) AI Credits Consumption and API Key Management](#11-ai-credits-consumption-and-api-key-management)
+  - [12) AI Refinement 5-Stage Security Pipeline](#12-ai-refinement-5-stage-security-pipeline)
+  - [13) CI/CD Pipeline](#13-cicd-pipeline)
+  - [Diagram Coverage by Feature](#diagram-coverage-by-feature)
+  - [Source References](#source-references)
 
 ---
 
@@ -568,21 +569,21 @@ sequenceDiagram
 
 ## Diagram Coverage by Feature
 
-| Diagram | Feature / Architecture Domain |
-|---------|------------------------------|
-| 1 — Authentication & Session Validation | F-007 (login), security-architecture.md |
-| 2 — AI-Assisted Requirements Refinement | F-002 (AI refinement), F-004 (backlog) |
-| 3 — Explicit Approval & Viewer Visibility | F-002 (approval), F-003 (access control) |
-| 4 — Markdown Export | F-004 (export) |
-| 5 — Error Handling & Observability | NFR-X01 through NFR-X06, monitoring-observability.md |
-| 6 — User Registration & Email Verification | F-008 (account creation), F-005 (onboarding trigger) |
-| 7 — Password Reset | F-009 (password reset) |
-| 8 — Login with Rate Limiting & Lockout | F-007 (admin login) |
-| 9 — Authorization 3-Layer Defense | F-003 (access control), security-architecture.md |
-| 10 — Viewer Invitation Lifecycle | F-011 (viewer account management) |
-| 11 — AI Credits & API Key Management | F-010 (AI credits), ADR-012 (secrets management) |
-| 12 — AI Refinement 5-Stage Security Pipeline | F-002 (AI refinement), security-architecture.md |
-| 13 — CI/CD Pipeline | ci-cd-pipeline.md, deployment-architecture.md |
+| Diagram                                      | Feature / Architecture Domain                        |
+| -------------------------------------------- | ---------------------------------------------------- |
+| 1 — Authentication & Session Validation      | F-007 (login), security-architecture.md              |
+| 2 — AI-Assisted Requirements Refinement      | F-002 (AI refinement), F-004 (backlog)               |
+| 3 — Explicit Approval & Viewer Visibility    | F-002 (approval), F-003 (access control)             |
+| 4 — Markdown Export                          | F-004 (export)                                       |
+| 5 — Error Handling & Observability           | NFR-X01 through NFR-X06, monitoring-observability.md |
+| 6 — User Registration & Email Verification   | F-008 (account creation), F-005 (onboarding trigger) |
+| 7 — Password Reset                           | F-009 (password reset)                               |
+| 8 — Login with Rate Limiting & Lockout       | F-007 (admin login)                                  |
+| 9 — Authorization 3-Layer Defense            | F-003 (access control), security-architecture.md     |
+| 10 — Viewer Invitation Lifecycle             | F-011 (viewer account management)                    |
+| 11 — AI Credits & API Key Management         | F-010 (AI credits), ADR-012 (secrets management)     |
+| 12 — AI Refinement 5-Stage Security Pipeline | F-002 (AI refinement), security-architecture.md      |
+| 13 — CI/CD Pipeline                          | ci-cd-pipeline.md, deployment-architecture.md        |
 
 ## Source References
 

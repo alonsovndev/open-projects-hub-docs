@@ -1,11 +1,10 @@
 # Technology Stack
 
-| Attribute        | Value                       |
-| ---------------- | --------------------------- |
-| **Project**      | Open Projects Hub |
-| **Version**      | 1.0                         |
-| **Status**       | Accepted                    |
-| **Last Updated** | 2026-08-04                  |
+| Attribute   | Value             |
+| ----------- | ----------------- |
+| **Project** | Open Projects Hub |
+| **Version** | 1.0               |
+| **Status**  | Accepted          |
 
 ## Overview
 
@@ -86,8 +85,12 @@ This document defines the technology choices for the Open Projects Hub, organize
 - **Evolution readiness:** Module boundaries enable selective service extraction when growth demands it
 - **Performance-first:** Optimize queries and payloads before adding infrastructure complexity
 
-## Related Documentation
+## Source References
 
 - [Architecture Solution Design](./architecture-solution-design.md) - High-level system design and component interaction
 - [Architecture Styles](./architecture-styles.md) - Modular monolith rationale and evolution strategy
 - [Architecture Decision Records](../adrs/README.md) - Detailed rationale for each technology choice
+
+---
+
+**Last Updated**: 2026-08-04

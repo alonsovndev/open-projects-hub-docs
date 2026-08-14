@@ -15,7 +15,7 @@ Our vision is to create an accessible tool that empowers freelancers to deliver 
 - 🤖 **AI-Assisted Requirements Refinement**: An integrated AI engine that detects ambiguities and automatically generates structured user stories from raw input.
 - 🗂️ **Centralized Management**: A single platform to manage clients and projects efficiently.
 - 🔒 **Role-Based Access Control**: Secure, structured access levels (e.g., Admin, Viewer) to ensure safe collaboration.
-- academically-focused\*\*: Built with modern best practices (Clean Architecture, DDD, TDD) to serve as a real-world reference project.
+- 🎓 **Academically-Focused**: Built with modern best practices (Clean Architecture, DDD, TDD) to serve as a real-world reference project.
 - 📖 **Open Source**: A community-driven project open to contributions and learning.
 
 ## Who is this for?
@@ -34,16 +34,15 @@ This project is currently in the detailed planning and architecture phase. The c
 
 This repository contains extensive documentation covering every aspect of the project. Here’s a guide to help you find what you're looking for:
 
-| Section                        | Description                                                         | Link                                                                                     |
-| ------------------------------ | ------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
-| 🚀 **Project Overview**        | The vision, problem statement, and high-level goals of the project. | [`docs/overview.md`](./docs/overview.md)                                                 |
-| ✅ **Functional Requirements** | Detailed breakdown of all functional requirements for the platform. | [`docs/01-requirements/`](./docs/01-requirements/)                                       |
-| 🏛️ **Software Architecture**   | High-level architecture, design patterns, and technology stack.     | [`docs/03-architecture/`](./docs/03-architecture/)                                       |
-| decision-records\*\*           | Key architectural decisions and their justifications (ADRs).        | [`docs/03-architecture/adrs/`](./docs/03-architecture/adrs/)                             |
-| 💻 **Technology Stack**        | A summary of the technologies and frameworks used in the project.   | [`docs/03-architecture/technology-stack.md`](./docs/03-architecture/technology-stack.md) |
-| 🗄️ **Database Design**         | The design and schema for the project's database.                   | [`docs/04-database/database-design.md`](./docs/04-database/database-design.md)           |
-| ✨ **Prototype & UX**          | Mockups and prototypes exploring the user experience.               | [`docs/05-prototype/`](./docs/05-prototype/)                                             |
-| 📋 **Work Items & Epics**      | A breakdown of the development work into epics and user stories.    | [`docs/06-work-items/`](./docs/06-work-items/)                                           |
+| Section                                               | Description                                                         |
+| ----------------------------------------------------- | ------------------------------------------------------------------- |
+| [📋 Project Context](./docs/00-context/)              | Overview, personas, glossary, and scope.                            |
+| [✅ Functional Requirements](./docs/01-requirements/) | Detailed breakdown of all functional requirements for the platform. |
+| [📅 Project Planning](./docs/02-planning/)            | Roadmap, role mapping, and delivery timeline.                       |
+| [🏛️ Software Architecture](./docs/03-architecture/)   | High-level architecture, design patterns, and technology stack.     |
+| [📐 Decisions (ADRs)](./docs/04-decisions/)           | Key architectural decisions and their justifications.               |
+| [✨ Prototype & UX](./docs/05-prototype/)             | Mockups and prototypes exploring the user experience.               |
+| [📋 Work Items & Epics](./docs/06-work-items/)        | A breakdown of the development work into epics and user stories.    |
 
 ## How to Contribute
 

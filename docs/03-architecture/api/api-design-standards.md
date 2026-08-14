@@ -4,8 +4,7 @@
 | ---------------- | --------------------------- |
 | **Project**      | Open Projects Hub |
 | **Version**      | 2.0                         |
-| **Status**       | Draft                       |
-| **Last Updated** | 2026-08-11                  |
+| **Status**       | Accepted                    |
 
 ## Table of Contents
 

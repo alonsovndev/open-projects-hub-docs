@@ -1,18 +1,13 @@
 # Database Architecture
 
-| Attribute        | Value                       |
-| ---------------- | --------------------------- |
-| Domain           | Database Architecture       |
-| Last Updated     | 2026-08-11                  |
-
 ## Overview
 
 Database architecture documentation defining the core schema, entity relationships, indexing strategy, Row-Level Security (RLS) policies, and data governance rules for the Open Projects Hub MVP.
 
 ## Documents
 
-| Document | Description |
-|----------|-------------|
+| Document                                   | Description                                                                                                                             |
+| ------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------- |
 | [database-design.md](./database-design.md) | Full schema design: 6-entity ERD, table definitions, constraints, indexes, RLS policies, access patterns, and requirements traceability |
 
 ## Related Architecture Decision Records
@@ -25,6 +20,7 @@ Database architecture documentation defining the core schema, entity relationshi
 ## Scope
 
 This domain covers:
+
 - Database schema design and entity relationships (6-entity model: users, clients, projects, epics, project_memberships, user_stories)
 - Migration strategy and version control (Alembic per ADR-017)
 - Row-Level Security (RLS) policies
@@ -34,23 +30,23 @@ This domain covers:
 
 ## Requirements Coverage
 
-| Requirement | Database Coverage |
-|-------------|-------------------|
-| FR-001-01   | `clients` and `projects` with `client_id` FK |
-| FR-001-02   | `projects.status` and owner index for max-3-active-project validation |
-| FR-001-03   | `projects.phase` constrained to `discovery` and `planning` |
-| FR-002-01   | Raw input acceptance handled at application layer; refined output stored in `user_stories` |
+| Requirement | Database Coverage                                                                                                                              |
+| ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| FR-001-01   | `clients` and `projects` with `client_id` FK                                                                                                   |
+| FR-001-02   | `projects.status` and owner index for max-3-active-project validation                                                                          |
+| FR-001-03   | `projects.phase` constrained to `discovery` and `planning`                                                                                     |
+| FR-002-01   | Raw input acceptance handled at application layer; refined output stored in `user_stories`                                                     |
 | FR-002-02   | `user_stories` with `story_id`, `title`, `description`, `acceptance_criteria`, `priority`, `story_points`, `labels`, and approval audit fields |
-| FR-002-03   | `user_stories.status`, `approved_by_user_id`, and `approved_at` for explicit approval gate |
-| FR-003-01   | `project_memberships.role` and `users.status` for authorization |
-| FR-003-02   | Partial unique membership indexes (one Admin, one Viewer per project) |
-| FR-003-03   | Approved stories and phase visibility model |
-| FR-004-01   | `epics` and `user_stories` with `acceptance_criteria`, `priority`, `status`, and `epic_id` FK for backlog views grouped by epic |
-| FR-007-01   | `users` identity projection and `password_hash`; custom auth bounded context owns credential lifecycle |
-| NFR-001-01  | Soft archive fields on `clients` and `projects` |
-| NFR-003-01  | Membership-driven RBAC and RLS-compatible ownership fields |
-| NFR-X01     | Auth-provider boundary and sensitive-field handling |
-| NFR-X06     | UUID keys and targeted indexes for MVP growth |
+| FR-002-03   | `user_stories.status`, `approved_by_user_id`, and `approved_at` for explicit approval gate                                                     |
+| FR-003-01   | `project_memberships.role` and `users.status` for authorization                                                                                |
+| FR-003-02   | Partial unique membership indexes (one Admin, one Viewer per project)                                                                          |
+| FR-003-03   | Approved stories and phase visibility model                                                                                                    |
+| FR-004-01   | `epics` and `user_stories` with `acceptance_criteria`, `priority`, `status`, and `epic_id` FK for backlog views grouped by epic                |
+| FR-007-01   | `users` identity projection and `password_hash`; custom auth bounded context owns credential lifecycle                                         |
+| NFR-001-01  | Soft archive fields on `clients` and `projects`                                                                                                |
+| NFR-003-01  | Membership-driven RBAC and RLS-compatible ownership fields                                                                                     |
+| NFR-X01     | Auth-provider boundary and sensitive-field handling                                                                                            |
+| NFR-X06     | UUID keys and targeted indexes for MVP growth                                                                                                  |
 
 ## Postgres Best Practices Applied
 
@@ -96,7 +92,7 @@ This schema follows PostgreSQL best practices across the following categories.
 - Prepared statements configured for pooling compatibility (unnamed or session mode where needed)
 - Idle timeout configuration to reclaim unused connections
 
-## Additional Resources
+## Source References
 
 - [PostgreSQL Documentation](https://www.postgresql.org/docs/current/)
 - [Amazon RDS for PostgreSQL](https://aws.amazon.com/rds/postgresql/)

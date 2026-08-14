@@ -1,10 +1,5 @@
 # Core Architecture
 
-| Attribute        | Value                      |
-| ---------------- | -------------------------- |
-| **Domain**       | Core Architecture Concepts |
-| **Last Updated** | 2026-08-04                 |
-
 ## Overview
 
 This folder contains foundational architecture documents that define the system's high-level design, technology choices, and architectural patterns.

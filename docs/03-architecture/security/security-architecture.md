@@ -1,32 +1,50 @@
 # Security Architecture
 
-| Attribute        | Value                       |
-| ---------------- | --------------------------- |
-| **Project**      | Open Projects Hub |
-| **Version**      | 2.2                         |
-| **Status**       | Draft                       |
-| **Last Updated** | 2026-08-07                  |
+| Attribute   | Value             |
+| ----------- | ----------------- |
+| **Project** | Open Projects Hub |
+| **Version** | 2.2               |
+| **Status**  | Accepted          |
 
 ## Table of Contents
 
-- [Source References](#source-references)
-- [Security Objectives and Scope](#security-objectives-and-scope)
-- [Security Architecture Overview](#security-architecture-overview)
-- [Authentication Strategy](#authentication-strategy)
-- [Authorization Model](#authorization-model)
-- [Data Protection](#data-protection)
-- [AI Security and Prompt Injection Defenses](#ai-security-and-prompt-injection-defenses)
-- [OWASP Top 10 Compliance Mapping](#owasp-top-10-compliance-mapping)
-- [Network Security Architecture](#network-security-architecture)
-- [Secrets Management Strategy](#secrets-management-strategy)
-- [Security Headers and Web Best Practices](#security-headers-and-web-best-practices)
-- [Input Validation and Sanitization](#input-validation-and-sanitization)
-- [API Security](#api-security)
-- [Security Monitoring and Incident Response](#security-monitoring-and-incident-response)
-- [Secure Development and Security Testing Approach](#secure-development-and-security-testing-approach)
-- [Observability (Sentry + CloudWatch)](#observability-sentry--cloudwatch)
-- [Deployment Impact (GitHub Actions)](#deployment-impact-github-actions)
-- [ADR and Diagram References](#adr-and-diagram-references)
+- [Security Architecture](#security-architecture)
+  - [Table of Contents](#table-of-contents)
+  - [Security Objectives and Scope](#security-objectives-and-scope)
+  - [Security Architecture Overview](#security-architecture-overview)
+  - [Authentication Strategy](#authentication-strategy)
+    - [Selected Model (MVP)](#selected-model-mvp)
+    - [Authentication Endpoints](#authentication-endpoints)
+    - [Authentication Controls](#authentication-controls)
+    - [Token Structure](#token-structure)
+  - [Authorization Model](#authorization-model)
+    - [RBAC + Resource Attributes](#rbac--resource-attributes)
+    - [Least-Privilege Rules](#least-privilege-rules)
+    - [Authorization Flow](#authorization-flow)
+  - [Data Protection](#data-protection)
+    - [Encryption at Rest](#encryption-at-rest)
+    - [Encryption in Transit](#encryption-in-transit)
+    - [Sensitive Data Handling](#sensitive-data-handling)
+  - [AI Security and Prompt Injection Defenses](#ai-security-and-prompt-injection-defenses)
+    - [Defense Layers](#defense-layers)
+    - [1. Input Sanitization (Pre-Processing)](#1-input-sanitization-pre-processing)
+    - [2. Prompt Assembly (System Prompt Hardening)](#2-prompt-assembly-system-prompt-hardening)
+    - [3. Output Validation (Post-Processing)](#3-output-validation-post-processing)
+    - [4. Human-in-the-Loop Approval Gate](#4-human-in-the-loop-approval-gate)
+    - [5. Monitoring and Rate Limiting](#5-monitoring-and-rate-limiting)
+    - [Provider-Specific Considerations](#provider-specific-considerations)
+  - [OWASP Top 10 Compliance Mapping](#owasp-top-10-compliance-mapping)
+  - [Network Security Architecture](#network-security-architecture)
+  - [Secrets Management Strategy](#secrets-management-strategy)
+  - [Security Headers and Web Best Practices](#security-headers-and-web-best-practices)
+  - [Input Validation and Sanitization](#input-validation-and-sanitization)
+  - [API Security](#api-security)
+  - [Security Monitoring and Incident Response](#security-monitoring-and-incident-response)
+  - [Secure Development and Security Testing Approach](#secure-development-and-security-testing-approach)
+  - [Observability (Sentry + CloudWatch)](#observability-sentry--cloudwatch)
+  - [Deployment Impact (GitHub Actions)](#deployment-impact-github-actions)
+  - [ADR and Diagram References](#adr-and-diagram-references)
+  - [Source References](#source-references)
 
 ## Security Objectives and Scope
 
@@ -383,26 +401,26 @@ All AI-generated content is draft-only until Admin approval (FR-002-03):
 
 ### Provider-Specific Considerations
 
-| Provider | Safety Features | Mitigation |
-|---|---|---|
-| **Gemini** | Safety settings (HARM_CATEGORY_* thresholds), content filtering | Configure strict thresholds on all harm categories; use `BLOCK_ONLY_HIGH` as minimum |
-| **OpenAI** | Moderation API endpoint, content policy filters | Call moderation endpoint before sending prompt; reject flagged content before LLM processing |
-| **DeepSeek** | Basic content filtering | Rely more heavily on input sanitization and output validation layers; monitor for gaps |
+| Provider     | Safety Features                                                  | Mitigation                                                                                   |
+| ------------ | ---------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| **Gemini**   | Safety settings (HARM*CATEGORY*\* thresholds), content filtering | Configure strict thresholds on all harm categories; use `BLOCK_ONLY_HIGH` as minimum         |
+| **OpenAI**   | Moderation API endpoint, content policy filters                  | Call moderation endpoint before sending prompt; reject flagged content before LLM processing |
+| **DeepSeek** | Basic content filtering                                          | Rely more heavily on input sanitization and output validation layers; monitor for gaps       |
 
 ## OWASP Top 10 Compliance Mapping
 
-| OWASP Risk Area                  | Primary Mitigations in Architecture                                          |
-| -------------------------------- | ---------------------------------------------------------------------------- |
-| Broken Access Control            | RBAC checks in backend + RLS at data layer + least privilege defaults        |
-| Cryptographic Failures           | TLS everywhere, managed encryption at rest, secret rotation policy           |
-| Injection                        | Parameterized queries via ORM, strict input validation, output encoding      |
-| Insecure Design                  | Threat modeling, ADR-driven design decisions, deny-by-default access         |
-| Security Misconfiguration        | Environment baselines, hardened defaults, restricted CORS and headers        |
-| Vulnerable Components            | Dependency scanning in CI, patch cadence, lockfile governance                |
-| Identification/Auth Failures     | Custom auth module, token lifecycle controls, rate-limited login paths       |
-| Software/Data Integrity Failures | Protected CI pipelines, signed commits/tags where applicable, change reviews |
-| Logging/Monitoring Failures      | Sentry monitoring, audit logs, alerting and incident runbooks                |
-| SSRF                             | Outbound allowlists, URL validation for any server-side fetch behavior       |
+| OWASP Risk Area                            | Primary Mitigations in Architecture                                                                                         |
+| ------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------- |
+| Broken Access Control                      | RBAC checks in backend + RLS at data layer + least privilege defaults                                                       |
+| Cryptographic Failures                     | TLS everywhere, managed encryption at rest, secret rotation policy                                                          |
+| Injection                                  | Parameterized queries via ORM, strict input validation, output encoding                                                     |
+| Insecure Design                            | Threat modeling, ADR-driven design decisions, deny-by-default access                                                        |
+| Security Misconfiguration                  | Environment baselines, hardened defaults, restricted CORS and headers                                                       |
+| Vulnerable Components                      | Dependency scanning in CI, patch cadence, lockfile governance                                                               |
+| Identification/Auth Failures               | Custom auth module, token lifecycle controls, rate-limited login paths                                                      |
+| Software/Data Integrity Failures           | Protected CI pipelines, signed commits/tags where applicable, change reviews                                                |
+| Logging/Monitoring Failures                | Sentry monitoring, audit logs, alerting and incident runbooks                                                               |
+| SSRF                                       | Outbound allowlists, URL validation for any server-side fetch behavior                                                      |
 | LLM01: Prompt Injection (OWASP LLM Top 10) | Input sanitization + delimiters, system prompt hardening, output validation, human-in-the-loop approval gate, rate limiting |
 
 ## Network Security Architecture

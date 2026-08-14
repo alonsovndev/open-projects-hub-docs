@@ -4,8 +4,7 @@
 | ---------------- | --------------------------- |
 | **Project**      | Open Projects Hub |
 | **Version**      | 1.4                         |
-| **Status**       | Ready for Implementation    |
-| **Last Updated** | 2026-07-30                  |
+| **Status**       | Accepted                    |
 | **Owner**        | Product Owner               |
 
 ## Role Definitions
@@ -24,8 +23,8 @@
 
 ## Source References
 
-- [Project Overview](../overview.md)
-- [Feature Requirements](../01-requirements/readme.md)
+- [Project Overview](../00-context/overview.md)
+- [Feature Requirements](../01-requirements/README.md)
 - [Phased Roadmap](./phased-roadmap.md)
 
 ---
