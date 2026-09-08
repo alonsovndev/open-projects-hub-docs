@@ -8,7 +8,7 @@
 
 ## Table of Contents
 
-- [Threat Model](#threat-model)
+- Threat Model
   - [Table of Contents](#table-of-contents)
   - [Scope and Method](#scope-and-method)
   - [Assets to Protect](#assets-to-protect)
@@ -183,10 +183,10 @@
 - [F-007: Admin Login](../../01-requirements/f-007-admin-login.md)
 - [F-008: Account Creation](../../01-requirements/f-008-create-account.md)
 - [F-009: Reset Password](../../01-requirements/f-009-reset-password.md)
-- [ADR-005: Authentication Strategy (Custom JWT Auth)](../adrs/adr-005-authentication.md)
-- [ADR-006: Deployment Platform (AWS)](../adrs/adr-006-deployment-platform.md)
-- [ADR-011: Secrets Management Strategy](../adrs/adr-011-secrets-management.md)
-- [ADR-013: Infrastructure as Code Strategy](../adrs/adr-013-infrastructure-as-code.md)
+- [ADR-005: Authentication Strategy (Custom JWT Auth)](../../04-decisions/adr-005-authentication.md)
+- [ADR-006: Deployment Platform (AWS)](../../04-decisions/adr-006-deployment-platform.md)
+- [ADR-011: Secrets Management Strategy](../../04-decisions/adr-011-secrets-management.md)
+- [ADR-013: Infrastructure as Code Strategy](../../04-decisions/adr-013-infrastructure-as-code.md)
 
 ---
 

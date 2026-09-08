@@ -51,8 +51,8 @@ Files in `security/`:
   - Complex diagrams maintained in Drawio files: `c4-models.drawio`, `flows.drawio`, `deployment-security.drawio`
   - See [Diagrams README](./diagrams/README.md) for full diagram index
   - [Sequence Diagrams](./diagrams/sequence-diagrams.md): Key interaction flows with detailed explanations
-- **[ADRs](./adrs/)**: Architecture Decision Records with context, decision, and trade-offs.
-  - Start with [ADR Template](./adrs/adr-template.md) for all new decisions.
+- **[ADRs](../04-decisions/)**: Architecture Decision Records with context, decision, and trade-offs.
+  - Start with [ADR Template](../04-decisions/adr-template.md) for all new decisions.
 
 ---
 

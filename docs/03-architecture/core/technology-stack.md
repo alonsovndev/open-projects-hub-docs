@@ -89,7 +89,7 @@ This document defines the technology choices for the Open Projects Hub, organize
 
 - [Architecture Solution Design](./architecture-solution-design.md) - High-level system design and component interaction
 - [Architecture Styles](./architecture-styles.md) - Modular monolith rationale and evolution strategy
-- [Architecture Decision Records](../adrs/README.md) - Detailed rationale for each technology choice
+- [Architecture Decision Records](../../04-decisions/README.md) - Detailed rationale for each technology choice
 
 ---
 

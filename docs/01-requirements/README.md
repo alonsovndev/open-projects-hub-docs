@@ -10,7 +10,7 @@
 
 ## Table of Contents
 
-- [Project Requirements by Feature](#project-requirements-by-feature)
+- Project Requirements by Feature
   - [Table of Contents](#table-of-contents)
   - [Purpose](#purpose)
   - [Feature Map](#feature-map)

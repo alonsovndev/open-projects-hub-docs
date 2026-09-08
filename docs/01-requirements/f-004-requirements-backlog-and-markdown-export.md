@@ -41,8 +41,8 @@
 ## Traceability
 
 - **Related Open Questions**: Q-014, Q-015
-- **Related User Stories**: [Epics](../06-user-stories/epics.md)
-- **Related Architecture/ADR**: [API Design Standards](../03-architecture/api-design-standards.md)
+- **Related User Stories**: [Epics](../06-work-items/README.md)
+- **Related Architecture/ADR**: [API Design Standards](../03-architecture/api/api-design-standards.md)
 - **Related Prototype**: [Prototype Brief](../05-prototype/prototype-brief.md)
 
 ---

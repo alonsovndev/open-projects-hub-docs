@@ -18,7 +18,7 @@
 - [7. Infrastructure as Code (IaC) Approach](#7-infrastructure-as-code-iac-approach)
 - [8. Security Architecture Considerations](#8-security-architecture-considerations)
 - [9. Deployment Impact Summary (GitHub Actions)](#9-deployment-impact-summary-github-actions)
-- [10. Related ADRs](#10-related-adr)
+- [10. Related ADRs](#10-related-adrs)
 
 ---
 
@@ -68,7 +68,7 @@ This model provides consolidated AWS infrastructure while maintaining operationa
 
 ![Deployment Architecture Diagram](./images/deployment-arch-aws.png)
 
-See also: [ADR-006: Deployment Platform](../adrs/adr-006-deployment-platform.md) for detailed architecture.
+See also: [ADR-006: Deployment Platform](../../04-decisions/adr-006-deployment-platform.md) for detailed architecture.
 
 ### 3.1 Compute Resources
 
@@ -331,22 +331,22 @@ See [Security Architecture](../security/security-architecture.md) for detailed s
 
 ## 10. Related ADRs
 
-- [ADR-004: Database (Amazon RDS PostgreSQL)](../adrs/adr-004-database.md)
-- [ADR-005: Authentication Strategy (Custom JWT Auth)](../adrs/adr-005-authentication.md)
-- [ADR-006: Deployment Platform (AWS)](../adrs/adr-006-deployment-platform.md)
-- [ADR-011: Secrets Management Strategy](../adrs/adr-011-secrets-management.md)
-- [ADR-012: Containerization Strategy](../adrs/adr-012-containerization.md)
-- [ADR-013: Infrastructure as Code Strategy](../adrs/adr-013-infrastructure-as-code.md)
-- [ADR-017: Database Migration Strategy](../adrs/adr-017-database-migration-strategy.md)
+- [ADR-004: Database (Amazon RDS PostgreSQL)](../../04-decisions/adr-004-database.md)
+- [ADR-005: Authentication Strategy (Custom JWT Auth)](../../04-decisions/adr-005-authentication.md)
+- [ADR-006: Deployment Platform (AWS)](../../04-decisions/adr-006-deployment-platform.md)
+- [ADR-011: Secrets Management Strategy](../../04-decisions/adr-011-secrets-management.md)
+- [ADR-012: Containerization Strategy](../../04-decisions/adr-012-containerization.md)
+- [ADR-013: Infrastructure as Code Strategy](../../04-decisions/adr-013-infrastructure-as-code.md)
+- [ADR-017: Database Migration Strategy](../../04-decisions/adr-017-database-migration-strategy.md)
 
 ## Source References
 
 - [Requirements Home](../../01-requirements/README.md)
-- [ADR-004: Database (Amazon RDS PostgreSQL)](../adrs/adr-004-database.md)
-- [ADR-005: Authentication Strategy (Custom JWT Auth)](../adrs/adr-005-authentication.md)
-- [ADR-006: Deployment Platform (AWS)](../adrs/adr-006-deployment-platform.md)
-- [ADR-012: Containerization Strategy](../adrs/adr-012-containerization.md)
-- [ADR-013: Infrastructure as Code Strategy](../adrs/adr-013-infrastructure-as-code.md)
+- [ADR-004: Database (Amazon RDS PostgreSQL)](../../04-decisions/adr-004-database.md)
+- [ADR-005: Authentication Strategy (Custom JWT Auth)](../../04-decisions/adr-005-authentication.md)
+- [ADR-006: Deployment Platform (AWS)](../../04-decisions/adr-006-deployment-platform.md)
+- [ADR-012: Containerization Strategy](../../04-decisions/adr-012-containerization.md)
+- [ADR-013: Infrastructure as Code Strategy](../../04-decisions/adr-013-infrastructure-as-code.md)
 
 ---
 

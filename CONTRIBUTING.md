@@ -135,20 +135,30 @@ Then open a Pull Request on GitHub targeting the `main` branch.
 
 ## Project Structure
 
+This repo is a [Docusaurus](https://docusaurus.io/) site. Its content lives under
+`docs/`; everything else is site scaffolding.
+
 ```
 open-projects-hub-docs/
 ├── docs/
-│   ├── 01-requirements/      # Feature-based functional requirements
-│   ├── 02-planning/          # Phased roadmap and role mapping
-│   ├── 03-architecture/      # Architecture design, ADRs, API, security, ops
-│   ├── 04-database/          # Database schema and design
-│   ├── 05-prototype/         # UI prototypes and design direction
-│   └── 06-work-items/       # Epics and user stories
+│   ├── intro.md               # Site landing page
+│   ├── 00-context/            # Project overview, personas, glossary, scope
+│   ├── 01-requirements/       # Feature-based functional requirements
+│   ├── 02-planning/           # Phased roadmap and role mapping
+│   ├── 03-architecture/       # Architecture design, API, database, diagrams, ops, security
+│   ├── 04-decisions/          # Architectural Decision Records (ADRs)
+│   ├── 05-prototype/          # UI prototypes and design direction
+│   └── 06-work-items/         # Epics and user stories
+├── src/, static/               # Docusaurus homepage, CSS, images
+├── docusaurus.config.ts, sidebars.ts
 ├── README.md
-├── CONTRIBUTING.md           # You are here
-├── LICENSE                   # MIT License
+├── CONTRIBUTING.md             # You are here
+├── LICENSE                     # MIT License
 └── settings.yml
 ```
+
+Each `docs/` folder has a `README.md` (index page) and a `_category_.json` (sidebar
+label/ordering) — follow that convention when adding new sections.
 
 ---
 
@@ -199,6 +209,17 @@ This project follows a **Test-Driven Development (TDD)** approach with a minimum
 - Run all existing tests and ensure they pass.
 - Add tests for any new logic or changed behavior.
 - Do not skip, weaken, or remove tests to make builds pass — fix the underlying issue.
+
+**Docs-site changes specifically** — since this repo is itself a Docusaurus site:
+
+```bash
+npm install
+npm run typecheck   # TypeScript check
+npm run build        # Production build; fails on any broken internal link/anchor
+```
+
+`npm run build` is the required check for any change under `docs/`, `src/`, or the
+Docusaurus config files.
 
 ---
 

@@ -43,7 +43,7 @@ The architecture prioritizes:
 - **Clean Architecture principles** keeping domain/application layers framework-agnostic
 - **Evolutionary design** enabling future service extraction when scale demands it
 
-For detailed rationale and alternatives considered, see [ADR-001: High-Level Architecture Pattern](../adrs/adr-001-high-level-architecture.md).
+For detailed rationale and alternatives considered, see [ADR-001: High-Level Architecture Pattern](../../04-decisions/adr-001-high-level-architecture.md).
 
 ### Key Design Principles
 
@@ -181,11 +181,11 @@ sequenceDiagram
 
 ## ADR Reference
 
-- [ADR-001: High-Level Architecture](../adrs/adr-001-high-level-architecture.md)
-- [ADR-004: Database (Amazon RDS PostgreSQL)](../adrs/adr-004-database.md)
-- [ADR-005: Authentication (Custom FastAPI Auth + JWT)](../adrs/adr-005-authentication.md)
-- [ADR-006: Deployment Platform (AWS)](../adrs/adr-006-deployment-platform.md)
-- [ADR-009: Monitoring and Observability (Sentry + CloudWatch)](../adrs/adr-009-monitoring-observability.md)
+- [ADR-001: High-Level Architecture](../../04-decisions/adr-001-high-level-architecture.md)
+- [ADR-004: Database (Amazon RDS PostgreSQL)](../../04-decisions/adr-004-database.md)
+- [ADR-005: Authentication (Custom FastAPI Auth + JWT)](../../04-decisions/adr-005-authentication.md)
+- [ADR-006: Deployment Platform (AWS)](../../04-decisions/adr-006-deployment-platform.md)
+- [ADR-009: Monitoring and Observability (Sentry + CloudWatch)](../../04-decisions/adr-009-monitoring-observability.md)
 
 ## Source References
 

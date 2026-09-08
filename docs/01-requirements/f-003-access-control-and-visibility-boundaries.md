@@ -40,8 +40,8 @@
 ## Traceability
 
 - **Related Open Questions**: Q-010, Q-011, Q-012, Q-019
-- **Related User Stories**: [Frontend Engineer Stories](../06-user-stories/frontend-engineer-stories.md)
-- **Related Architecture/ADR**: [Security Architecture](../03-architecture/security-architecture.md)
+- **Related User Stories**: [Frontend Engineer Stories](../06-work-items/README.md)
+- **Related Architecture/ADR**: [Security Architecture](../03-architecture/security/security-architecture.md)
 - **Related Features**: [F-011: Viewer Account Management](./f-011-viewer-account-management.md)
 - **Related Prototype**: [Design Direction](../05-prototype/design-direction.md)
 

@@ -64,10 +64,10 @@
 ## Traceability
 
 - **Related Open Questions**: Q-004, Q-005, Q-006, Q-007, Q-008 (AI refinement workflow context)
-- **Related User Stories**: [Backend Engineer Stories](../06-user-stories/backend-engineer-stories.md), [Frontend Engineer Stories](../06-user-stories/frontend-engineer-stories.md)
-- **Related Architecture/ADR**: [Security Architecture](../03-architecture/security/security-architecture.md), [ADR-012: Secrets Management Strategy](../04-decisions/adr-012-secrets-management.md)
+- **Related User Stories**: [Backend Engineer Stories](../06-work-items/README.md), [Frontend Engineer Stories](../06-work-items/README.md)
+- **Related Architecture/ADR**: [Security Architecture](../03-architecture/security/security-architecture.md), [ADR-012: Secrets Management Strategy](../04-decisions/adr-011-secrets-management.md)
 - **Related Features**: [F-002: AI Refinement and Approval Workflow](./f-002-ai-refinement-and-approval-workflow.md), [F-008: Account Creation](./f-008-create-account.md)
-- **Related Prototype**: [Stitch Prompt](../05-prototype/stitch-prompt.md)
+- **Related Prototype**: [Stitch Prompt](../05-prototype/README.md)
 
 ---
 

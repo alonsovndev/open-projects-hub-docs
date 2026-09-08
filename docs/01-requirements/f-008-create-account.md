@@ -49,9 +49,9 @@
 ## Traceability
 
 - **Related Open Questions**: Q-021
-- **Related User Stories**: [Frontend Engineer Stories](../06-user-stories/frontend-engineer-stories.md)
-- **Related Architecture/ADR**: [Security Architecture](../03-architecture/security-architecture.md)
-- **Related Prototype**: [Stitch Prompt](../05-prototype/stitch-prompt.md)
+- **Related User Stories**: [Frontend Engineer Stories](../06-work-items/README.md)
+- **Related Architecture/ADR**: [Security Architecture](../03-architecture/security/security-architecture.md)
+- **Related Prototype**: [Stitch Prompt](../05-prototype/README.md)
 
 ---
 

@@ -12,10 +12,10 @@ Database architecture documentation defining the core schema, entity relationshi
 
 ## Related Architecture Decision Records
 
-- [ADR-004: Database (Amazon RDS PostgreSQL)](../adrs/adr-004-database.md)
-- [ADR-005: Authentication and Authorization Strategy](../adrs/adr-005-authentication.md)
-- [ADR-007: ORM Choice (SQLAlchemy)](../adrs/adr-007-orm-choice.md)
-- [ADR-017: Database Migration Strategy](../adrs/adr-017-database-migration-strategy.md)
+- [ADR-004: Database (Amazon RDS PostgreSQL)](../../04-decisions/adr-004-database.md)
+- [ADR-005: Authentication and Authorization Strategy](../../04-decisions/adr-005-authentication.md)
+- [ADR-007: ORM Choice (SQLAlchemy)](../../04-decisions/adr-007-orm-choice.md)
+- [ADR-017: Database Migration Strategy](../../04-decisions/adr-017-database-migration-strategy.md)
 
 ## Scope
 

@@ -8,7 +8,7 @@
 
 ## Table of Contents
 
-- [Security Architecture](#security-architecture)
+- Security Architecture
   - [Table of Contents](#table-of-contents)
   - [Security Objectives and Scope](#security-objectives-and-scope)
   - [Security Architecture Overview](#security-architecture-overview)
@@ -579,12 +579,12 @@ Additional controls:
 
 ## ADR and Diagram References
 
-- [ADR-004: Database (Amazon RDS PostgreSQL)](../adrs/adr-004-database.md)
-- [ADR-005: Authentication and Authorization Strategy (Custom JWT Auth)](../adrs/adr-005-authentication.md)
-- [ADR-006: Deployment Platform (AWS)](../adrs/adr-006-deployment-platform.md)
-- [ADR-011: Secrets Management Strategy](../adrs/adr-011-secrets-management.md)
-- [ADR-012: Containerization Strategy](../adrs/adr-012-containerization.md)
-- [ADR-013: Infrastructure as Code Strategy (Terraform)](../adrs/adr-013-infrastructure-as-code.md)
+- [ADR-004: Database (Amazon RDS PostgreSQL)](../../04-decisions/adr-004-database.md)
+- [ADR-005: Authentication and Authorization Strategy (Custom JWT Auth)](../../04-decisions/adr-005-authentication.md)
+- [ADR-006: Deployment Platform (AWS)](../../04-decisions/adr-006-deployment-platform.md)
+- [ADR-011: Secrets Management Strategy](../../04-decisions/adr-011-secrets-management.md)
+- [ADR-012: Containerization Strategy](../../04-decisions/adr-012-containerization.md)
+- [ADR-013: Infrastructure as Code Strategy (Terraform)](../../04-decisions/adr-013-infrastructure-as-code.md)
 
 ## Source References
 
@@ -595,11 +595,11 @@ Additional controls:
 - [F-009: Reset Password](../../01-requirements/f-009-reset-password.md)
 - [F-010: AI Credits and API Key Management](../../01-requirements/f-010-ai-credits-and-api-key-management.md)
 - [F-011: Viewer Account Management](../../01-requirements/f-011-viewer-account-management.md)
-- [ADR-004: Database (Amazon RDS PostgreSQL)](../adrs/adr-004-database.md)
-- [ADR-005: Authentication and Authorization Strategy](../adrs/adr-005-authentication.md)
-- [ADR-006: Deployment Platform (AWS)](../adrs/adr-006-deployment-platform.md)
-- [ADR-011: Secrets Management Strategy](../adrs/adr-011-secrets-management.md)
-- [ADR-012: Containerization Strategy](../adrs/adr-012-containerization.md)
+- [ADR-004: Database (Amazon RDS PostgreSQL)](../../04-decisions/adr-004-database.md)
+- [ADR-005: Authentication and Authorization Strategy](../../04-decisions/adr-005-authentication.md)
+- [ADR-006: Deployment Platform (AWS)](../../04-decisions/adr-006-deployment-platform.md)
+- [ADR-011: Secrets Management Strategy](../../04-decisions/adr-011-secrets-management.md)
+- [ADR-012: Containerization Strategy](../../04-decisions/adr-012-containerization.md)
 
 ---
 

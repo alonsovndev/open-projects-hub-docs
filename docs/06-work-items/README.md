@@ -11,18 +11,18 @@ Each epic folder contains:
 
 | Epic ID                                            | Summary                                                                                                        |
 | -------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
-| [EPIC-0](./EPIC-0-foundational/)                   | Establish foundational project structure, local environment setup, and deployment baseline.                    |
-| [EPIC-1](./EPIC-1-lifecycle-governance/)           | Provide stable client and project lifecycle governance.                                                        |
-| [EPIC-2](./EPIC-2-user-authentication/)            | Implement secure user authentication mechanisms (login, password reset).                                       |
-| [EPIC-3](./EPIC-3-ai-refinement/)                  | Create a controlled refinement workflow for converting client notes into user stories.                         |
-| [EPIC-4](./EPIC-4-access-boundaries/)              | Enforce Admin and Viewer boundaries for safe collaboration.                                                    |
-| [EPIC-5](./EPIC-5-backlog-export/)                 | Enable structured backlog viewing and Markdown export.                                                         |
-| [EPIC-6](./EPIC-6-ai-monetization-config/)         | Provide AI credit tracking and user-managed API key configuration.                                             |
-| [EPIC-7](./EPIC-7-viewer-collaboration-lifecycle/) | Implement Viewer invitation, registration, and project access lifecycle.                                       |
-| [EPIC-9](./EPIC-9-quality-baseline/)               | Enforce cross-cutting quality baselines (security, session, email, test coverage, performance, accessibility). |
+| [EPIC-0](./EPIC-0-foundational/epic.md)                   | Establish foundational project structure, local environment setup, and deployment baseline.                    |
+| [EPIC-1](./EPIC-1-lifecycle-governance/epic.md)           | Provide stable client and project lifecycle governance.                                                        |
+| [EPIC-2](./EPIC-2-user-authentication/epic.md)            | Implement secure user authentication mechanisms (login, password reset).                                       |
+| [EPIC-3](./EPIC-3-ai-refinement/epic.md)                  | Create a controlled refinement workflow for converting client notes into user stories.                         |
+| [EPIC-4](./EPIC-4-access-boundaries/epic.md)              | Enforce Admin and Viewer boundaries for safe collaboration.                                                    |
+| [EPIC-5](./EPIC-5-backlog-export/epic.md)                 | Enable structured backlog viewing and Markdown export.                                                         |
+| [EPIC-6](./EPIC-6-ai-monetization-config/epic.md)         | Provide AI credit tracking and user-managed API key configuration.                                             |
+| [EPIC-7](./EPIC-7-viewer-collaboration-lifecycle/epic.md) | Implement Viewer invitation, registration, and project access lifecycle.                                       |
+| [EPIC-9](./EPIC-9-quality-baseline/epic.md)               | Enforce cross-cutting quality baselines (security, session, email, test coverage, performance, accessibility). |
 
 ## Phase 1 Epics
 
 | Epic ID                        | Summary                                                                                 |
 | ------------------------------ | --------------------------------------------------------------------------------------- |
-| [EPIC-8](./EPIC-8-entry-flow/) | Improve first-use quality through onboarding, landing page, and account creation flows. |
+| [EPIC-8](./EPIC-8-entry-flow/epic.md) | Improve first-use quality through onboarding, landing page, and account creation flows. |

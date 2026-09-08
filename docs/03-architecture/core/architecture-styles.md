@@ -34,7 +34,7 @@ The architecture style selection balances MVP velocity, maintainability, and fut
 - **Clean Architecture fit:** Module boundaries enforce domain isolation without distributed system overhead
 - **Evolution path:** Bounded contexts can be extracted to services when growth triggers justify it
 
-For detailed alternatives analysis, see [ADR-001: High-Level Architecture Pattern](../adrs/adr-001-high-level-architecture.md).
+For detailed alternatives analysis, see [ADR-001: High-Level Architecture Pattern](../../04-decisions/adr-001-high-level-architecture.md).
 
 ## Bounded Context Alignment
 
@@ -146,7 +146,7 @@ Extract a module into a service only when at least one trigger is sustained:
 ## Source References
 
 - [Architecture Solution Design](./architecture-solution-design.md)
-- [ADR-001: High-Level Architecture](../adrs/adr-001-high-level-architecture.md)
+- [ADR-001: High-Level Architecture](../../04-decisions/adr-001-high-level-architecture.md)
 
 ---
 
