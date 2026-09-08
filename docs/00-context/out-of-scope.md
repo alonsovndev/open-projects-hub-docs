@@ -1,3 +1,7 @@
+---
+sidebar_position: 4
+---
+
 # Out of Scope for MVP
 
 | Attribute   | Value             |
@@ -112,4 +116,4 @@ These out-of-scope items may be reconsidered when:
 
 ---
 
-**Last Updated**: 2026-07-30
+**Last Updated**: 2026-09-08

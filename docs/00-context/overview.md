@@ -1,4 +1,8 @@
-# Open Projects Hub Overview
+---
+sidebar_position: 1
+---
+
+# Overview
 
 **Tagline**: _"Empowering Freelancers with AI-Assisted Project Management and Structured Delivery."_
 
@@ -81,4 +85,20 @@ The Open Projects Hub addresses these challenges by offering:
 
 ---
 
-**Last Updated**: 2026-03-23
+## 7. Success Metrics
+
+### How Success Is Measured
+
+The MVP targets qualitative validation with individual freelancers rather than
+large-scale analytics infrastructure:
+
+- **Clarity of generated requirements**: AI-refined user stories and acceptance
+  criteria are clear and actionable enough for freelancers to hand off with
+  confidence.
+- **Reduced documentation time**: Freelancers spend measurably less time
+  translating raw client input into structured requirements compared to manual
+  documentation.
+
+---
+
+**Last Updated**: 2026-09-08

@@ -2,7 +2,7 @@
 sidebar_position: 0
 ---
 
-# Open Projects Hub Documentation
+# Introduction
 
 Welcome to the documentation site for the **Open Projects Hub** — an open-source
 platform that helps freelancers manage clients, structure project requirements, and
@@ -10,15 +10,15 @@ use AI to refine ambiguous ideas into actionable technical specifications.
 
 ## Navigating the Documentation
 
-| Section                                                | Description                                                          |
-| ------------------------------------------------------- | ---------------------------------------------------------------------- |
-| [Project Context](./00-context/)                       | Overview, personas, glossary, and scope.                              |
-| [Functional Requirements](./01-requirements/)           | Detailed breakdown of all functional requirements for the platform.    |
-| [Project Planning](./02-planning/)                      | Roadmap, role mapping, and delivery timeline.                          |
-| [Software Architecture](./03-architecture/)             | High-level architecture, design patterns, and technology stack.       |
-| [Decisions (ADRs)](./04-decisions/)                     | Key architectural decisions and their justifications.                 |
-| [Prototype & UX](./05-prototype/)                       | Mockups and prototypes exploring the user experience.                 |
-| [Work Items & Epics](./06-work-items/)                  | A breakdown of the development work into epics and user stories.      |
+| Section                                       | Description                                                         |
+| --------------------------------------------- | ------------------------------------------------------------------- |
+| [Project Context](./00-context/)              | Overview, personas, glossary, and scope.                            |
+| [Functional Requirements](./01-requirements/) | Detailed breakdown of all functional requirements for the platform. |
+| [Project Planning](./02-planning/)            | Roadmap, role mapping, and delivery timeline.                       |
+| [Software Architecture](./03-architecture/)   | High-level architecture, design patterns, and technology stack.     |
+| [Decisions (ADRs)](./04-decisions/)           | Key architectural decisions and their justifications.               |
+| [Prototype & UX](./05-prototype/)             | Mockups and prototypes exploring the user experience.               |
+| [Work Items & Epics](./06-work-items/)        | A breakdown of the development work into epics and user stories.    |
 
 See the root [README](https://github.com/alonsovndev/open-projects-hub-docs) for the
 project pitch, current status, and how to contribute.
