@@ -1306,7 +1306,7 @@ Status codes (password): `200`, `400`, `401`, `403`, `422`, `500`
 - [API Design Standards](./api-design-standards.md)
 - [Feature Requirements](../../01-requirements/README.md)
 - [Security Architecture](../security/security-architecture.md)
-- [ADR-005: Authentication Strategy](../adrs/adr-005-authentication.md)
+- [ADR-005: Authentication Strategy](../../04-decisions/adr-005-authentication.md)
 
 ---
 

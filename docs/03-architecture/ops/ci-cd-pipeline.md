@@ -53,7 +53,7 @@ feature/<desc>  fix/<desc>  docs/<desc>    ← created from dev in your fork
 
 No direct commits to `dev` or `main`. All changes arrive via pull request from a contributor's fork.
 
-**Relationship to ADR-016:** The branching model, commit conventions, and merge strategy are defined in [ADR-016](../adrs/adr-016-git-workflow-strategy.md). This document defines the CI/CD pipeline that enforces these conventions.
+**Relationship to ADR-016:** The branching model, commit conventions, and merge strategy are defined in [ADR-016](../../04-decisions/adr-016-git-workflow-strategy.md). This document defines the CI/CD pipeline that enforces these conventions.
 
 ### Branch Protection Rules
 
@@ -382,11 +382,11 @@ There is no persistent `staging` or `dev` environment. The `dev` branch provides
 
 - [Deployment Architecture](./deployment-architecture.md)
 - [Requirements Home](../../01-requirements/README.md)
-- [ADR-006: Deployment Platform (AWS)](../adrs/adr-006-deployment-platform.md)
-- [ADR-011: Secrets Management Strategy](../adrs/adr-011-secrets-management.md)
-- [ADR-013: Infrastructure as Code Strategy](../adrs/adr-013-infrastructure-as-code.md)
-- [ADR-016: Git Workflow and Branch Strategy](../adrs/adr-016-git-workflow-strategy.md)
-- [ADR-017: Database Migration Strategy](../adrs/adr-017-database-migration-strategy.md)
+- [ADR-006: Deployment Platform (AWS)](../../04-decisions/adr-006-deployment-platform.md)
+- [ADR-011: Secrets Management Strategy](../../04-decisions/adr-011-secrets-management.md)
+- [ADR-013: Infrastructure as Code Strategy](../../04-decisions/adr-013-infrastructure-as-code.md)
+- [ADR-016: Git Workflow and Branch Strategy](../../04-decisions/adr-016-git-workflow-strategy.md)
+- [ADR-017: Database Migration Strategy](../../04-decisions/adr-017-database-migration-strategy.md)
 
 ---
 

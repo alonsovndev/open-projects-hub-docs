@@ -23,7 +23,7 @@ Adopt a **two-branch model (`dev` + `main`)** with **fork-based contributions**,
 - **Conventional Commits**: `<type>(<scope>): <description>` format enforced via CI on PR titles.
 - **Tag-based deployment**: Merge to `main` builds and freezes a production candidate. A semantic version tag (`vX.Y.Z`) on `main` triggers the production deployment pipeline.
 
-For the full operational workflow — branch naming, fork setup, PR conventions, branch protection rules, commit types, hotfix process, and pipeline stages — see [CI/CD Pipeline Architecture](../ops/ci-cd-pipeline.md).
+For the full operational workflow — branch naming, fork setup, PR conventions, branch protection rules, commit types, hotfix process, and pipeline stages — see [CI/CD Pipeline Architecture](../03-architecture/ops/ci-cd-pipeline.md).
 
 ## Consequences
 

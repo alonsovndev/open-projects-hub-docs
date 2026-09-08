@@ -8,7 +8,7 @@
 
 ## Table of Contents
 
-- [Sequence Diagrams](#sequence-diagrams)
+- Sequence Diagrams
   - [Table of Contents](#table-of-contents)
   - [1) Authentication and Session Validation](#1-authentication-and-session-validation)
   - [2) AI-Assisted Requirements Refinement](#2-ai-assisted-requirements-refinement)
@@ -591,7 +591,7 @@ sequenceDiagram
 - [API Contract](../api/api-contract.md)
 - [Security Architecture](../security/security-architecture.md)
 - [CI/CD Pipeline](../ops/ci-cd-pipeline.md)
-- [Feature Requirements](../../01-requirements/project-requirements-by-feature.md)
+- [Feature Requirements](../../01-requirements/README.md)
 - [F-007: Admin Login](../../01-requirements/f-007-admin-login.md)
 - [F-008: Account Creation](../../01-requirements/f-008-create-account.md)
 - [F-009: Reset Password](../../01-requirements/f-009-reset-password.md)

@@ -415,7 +415,7 @@ As part of the implementation, these Sentry and CloudWatch dashboards should be 
 
 - [Deployment Architecture](./deployment-architecture.md)
 - [Requirements Home](../../01-requirements/README.md)
-- [ADR-009: Monitoring and Observability Strategy](../adrs/adr-009-monitoring-observability.md)
+- [ADR-009: Monitoring and Observability Strategy](../../04-decisions/adr-009-monitoring-observability.md)
 
 ---
 

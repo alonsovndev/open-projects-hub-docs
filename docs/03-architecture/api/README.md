@@ -9,5 +9,5 @@ This section defines the REST API contract, endpoint catalog, request/response s
 
 ## Related ADRs
 
-- **[ADR-002: Backend Framework (FastAPI)](../adrs/adr-002-backend-framework.md)**
-- **[ADR-005: Authentication and Authorization Strategy (Custom JWT)](../adrs/adr-005-authentication.md)**
+- **[ADR-002: Backend Framework (FastAPI)](../../04-decisions/adr-002-backend-framework.md)**
+- **[ADR-005: Authentication and Authorization Strategy (Custom JWT)](../../04-decisions/adr-005-authentication.md)**

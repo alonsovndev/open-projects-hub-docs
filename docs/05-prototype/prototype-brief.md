@@ -268,9 +268,9 @@ Every Must requirement should appear in at least one row before prototype sign-o
 - [F-009 Reset Password](../01-requirements/f-009-reset-password.md)
 - [Phased Roadmap](../02-planning/phased-roadmap.md)
 - [Role Mapping](../02-planning/role-mapping.md)
-- [Architecture Solution Design](../03-architecture/architecture-solution-design.md)
-- [UI/UX Designer User Stories](../06-user-stories/ui-ux-designer-stories.md)
-- [Product Epics](../06-user-stories/epics.md)
+- [Architecture Solution Design](../03-architecture/core/architecture-solution-design.md)
+- [UI/UX Designer User Stories](../06-work-items/README.md)
+- [Product Epics](../06-work-items/README.md)
 
 ---
 
