@@ -12,7 +12,7 @@ sidebar_position: 1
 
 ## Table of Contents
 
-- [Architecture Solution Design](#architecture-solution-design)
+- Architecture Solution Design
   - [Table of Contents](#table-of-contents)
   - [System Context](#system-context)
   - [Architectural Approach](#architectural-approach)
@@ -87,13 +87,14 @@ sequenceDiagram
     participant User as Admin
     participant FE as Frontend (S3+CloudFront)
     participant BE as Backend (App Runner)<br/>Auth Module
+    participant AI as AI Refinement Adapter
     participant DB as RDS PostgreSQL
 
     User->>FE: Submit requirements notes
     FE->>BE: Request with JWT token
     BE->>BE: Validate JWT & extract role
-    BE->>DB: Persist draft + audit metadata
-    DB-->>BE: Stored draft
+    BE->>AI: Request refinement (raw notes, not persisted)
+    AI-->>BE: Structured user story + acceptance criteria
     BE-->>FE: Structured user stories (draft)
     User->>FE: Approve stories
     FE->>BE: Approve request (JWT)
@@ -206,4 +207,4 @@ sequenceDiagram
 
 ---
 
-**Last Updated**: 2026-08-04
+**Last Updated**: 2026-09-08
