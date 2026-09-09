@@ -20,7 +20,7 @@
 | ID        | Requirement                                                                                                              | Source               | Priority | Owner (DRI)   | Decision Traceability (Q-ID) | Acceptance Criteria                                                                                                              | Status    |
 | --------- | ------------------------------------------------------------------------------------------------------------------------ | -------------------- | -------- | ------------- | ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | --------- |
 | FR-001-01 | The system allows an Admin to create and manage client records and associate each project with a client.                 | Overview             | Must     | Product Owner | —                            | Admin can create, view, update, and archive client records and select a client when creating or editing a project.               | Clarified |
-| FR-001-02 | The system allows an Admin to create and manage projects with a maximum of three active projects per freelancer account. | Open Questions Q-001 | Must     | Product Owner | Q-001                        | Attempting to create a fourth active project is blocked and the Admin is prompted to archive an existing project.                | Clarified |
+| FR-001-02 | The system allows an Admin to create and manage projects with a maximum of three active projects per freelancer account. | Open Questions Q-001, Q-002 | Must     | Product Owner | Q-001, Q-002                 | Attempting to create a fourth active project is blocked and the Admin is prompted to archive an existing project.                | Clarified |
 | FR-001-03 | The MVP supports only discovery and planning phases for projects.                                                        | Open Questions Q-003 | Must     | Product Owner | Q-003                        | Project status options are limited to discovery and planning; no delivery or handoff features are available in MVP UI or export. | Clarified |
 | FR-001-04 | Admin can archive or delete client; deletion is blocked if client has active projects.                                  | Data integrity       | Must     | Product Owner | —                            | Archiving client preserves data; attempting to delete client with active projects shows error "Archive or reassign projects first"; deletion allowed only after projects are archived or reassigned. | Clarified |
 | FR-001-05 | Admin can search and filter projects by status, client, or date.                                                        | Usability            | Should   | Product Owner | —                            | Project list has search input and filter dropdowns; search covers project name; filters for status (active/archived), client, date range; results update without page reload. | Clarified |
@@ -42,11 +42,11 @@
 
 ## Traceability
 
-- **Related Open Questions**: Q-001, Q-003, Q-017, Q-018
+- **Related Open Questions**: Q-001, Q-002, Q-003, Q-017, Q-018
 - **Related User Stories**: [Epics](../06-work-items/README.md)
 - **Related Architecture/ADR**: [Architecture Solution Design](../03-architecture/core/architecture-solution-design.md)
 - **Related Prototype**: [Prototype Brief](../05-prototype/prototype-brief.md)
 
 ---
 
-**Last Updated**: 2026-07-30
+**Last Updated**: 2026-09-08

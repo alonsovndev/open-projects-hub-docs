@@ -256,7 +256,6 @@ Every Must requirement should appear in at least one row before prototype sign-o
 
 - [Project Overview](../00-context/overview.md)
 - [User Personas](../00-context/user-personas.md)
-- [Open Questions](../00-context/open-questions.md)
 - [Project Requirements by Feature](../01-requirements/README.md)
 - [F-002 AI Refinement and Approval Workflow](../01-requirements/f-002-ai-refinement-and-approval-workflow.md)
 - [F-003 Access Control and Visibility Boundaries](../01-requirements/f-003-access-control-and-visibility-boundaries.md)

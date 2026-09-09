@@ -112,9 +112,8 @@ Implementation team has confirmed:
 
 - [Project Overview](../00-context/overview.md)
 - [User Personas](../00-context/user-personas.md)
-- [Open Questions](../00-context/open-questions.md)
 - [Out of Scope Items](../00-context/out-of-scope.md)
 
 ---
 
-**Last Updated**: 2026-07-30
+**Last Updated**: 2026-09-08
