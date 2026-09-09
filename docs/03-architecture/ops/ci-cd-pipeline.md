@@ -77,7 +77,7 @@ No direct commits to `dev` or `main`. All changes arrive via pull request from a
 | ----------------------- | ------------------------------------------- | ----------------------------------------------------------- |
 | Direct pushes           | ❌ Blocked                                  | ❌ Blocked                                                  |
 | PR required             | ✅ All changes via PR                       | ✅ All changes via PR from `dev` or hotfix                  |
-| Required approvals      | 1 (when team > 1)                           | 1                                                           |
+| Required approvals      | 1 (when team > 1)                           | 2                                                           |
 | Status checks           | ✅ Must pass (lint, test, type-check, docs) | ✅ Must pass (lint, test, type-check, docs, terraform plan) |
 | Up-to-date before merge | ✅ Required                                 | ✅ Required                                                 |
 | Conversation resolution | ✅ Required                                 | ✅ Required                                                 |
