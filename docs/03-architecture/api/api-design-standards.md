@@ -27,8 +27,10 @@ sidebar_position: 1
 - **Primary style:** REST JSON APIs for all core business workflows.
 - **GraphQL stance:** Not adopted for MVP to reduce operational and governance complexity.
 - **Resource naming:** plural, kebab-case nouns in paths (e.g., `/api/v1/projects`, `/api/v1/requirements`).
+- **Self/current-user resources:** the authenticated caller's own data is addressed as `/{plural-resource}/me/...` (e.g., `/api/v1/users/me/profile`, `/api/v1/viewers/me/password`) — never a singular resource root.
 - **Relationship access:** nested routes only when ownership is explicit (e.g., `/api/v1/projects/{projectId}/requirements`).
 - **Action endpoints:** avoid verbs in URLs; non-CRUD actions use sub-resources (e.g., `/approve`, `/archive`) only when domain-specific behavior is required.
+- **HTTP methods:** `GET` (read), `POST` (create), `PUT` (full resource replace — all fields required in the request), `PATCH` (partial update — fields optional), `DELETE` (soft-archive/remove).
 
 ## Versioning Strategy
 
@@ -41,7 +43,7 @@ sidebar_position: 1
 ## Error Handling Standards
 
 - **Transport semantics:** use standard HTTP status codes.
-- **Minimum status code set:** `200`, `201`, `204`, `400`, `401`, `403`, `404`, `409`, `422`, `429`, `500`.
+- **Minimum status code set:** `200`, `201`, `204`, `400`, `401`, `402`, `403`, `404`, `409`, `422`, `429`, `500`. `402` is reserved specifically for AI-credit exhaustion on the platform provider.
 - **Canonical error payload:**
 
 ```json
@@ -126,4 +128,4 @@ sidebar_position: 1
 
 ---
 
-**Last Updated**: 2026-08-11
+**Last Updated**: 2026-09-08

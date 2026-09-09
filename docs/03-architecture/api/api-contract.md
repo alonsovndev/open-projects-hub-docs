@@ -45,22 +45,22 @@ sidebar_position: 2
 | Auth         | POST   | `/auth/forgot-password`                                         | Request password reset code                  | Public           |
 | Auth         | POST   | `/auth/reset-password`                                          | Submit reset code + new password             | Public           |
 | Auth         | POST   | `/auth/resend-reset-code`                                       | Resend password reset code                   | Public           |
-| User         | GET    | `/user/profile`                                                 | Get current user profile                     | Admin, Viewer    |
-| User         | PUT    | `/user/profile`                                                 | Update profile (display name, preferences)   | Admin, Viewer    |
-| Credits      | GET    | `/user/credits`                                                 | Get AI credit balance                        | Admin            |
-| API Keys     | GET    | `/user/api-keys`                                                | List configured AI provider keys (masked)    | Admin            |
-| API Keys     | POST   | `/user/api-keys`                                                | Add or replace API key for a provider        | Admin            |
-| API Keys     | DELETE | `/user/api-keys/{provider}`                                     | Delete API key for a provider                | Admin            |
-| API Keys     | POST   | `/user/api-keys/{provider}/validate`                            | Validate an API key against provider         | Admin            |
+| User         | GET    | `/users/me/profile`                                             | Get current user profile                     | Admin, Viewer    |
+| User         | PATCH  | `/users/me/profile`                                             | Update profile (display name, preferences)   | Admin, Viewer    |
+| Credits      | GET    | `/users/me/credits`                                             | Get AI credit balance                        | Admin            |
+| API Keys     | GET    | `/users/me/api-keys`                                            | List configured AI provider keys (masked)    | Admin            |
+| API Keys     | POST   | `/users/me/api-keys`                                            | Add or replace API key for a provider        | Admin            |
+| API Keys     | DELETE | `/users/me/api-keys/{provider}`                                 | Delete API key for a provider                | Admin            |
+| API Keys     | POST   | `/users/me/api-keys/{provider}/validate`                        | Validate an API key against provider         | Admin            |
 | Clients      | GET    | `/clients`                                                      | List clients                                 | Admin            |
 | Clients      | POST   | `/clients`                                                      | Create client                                | Admin            |
 | Clients      | GET    | `/clients/{clientId}`                                           | Get client details                           | Admin            |
-| Clients      | PUT    | `/clients/{clientId}`                                           | Update client                                | Admin            |
+| Clients      | PATCH  | `/clients/{clientId}`                                           | Update client                                | Admin            |
 | Clients      | DELETE | `/clients/{clientId}`                                           | Archive client (soft-delete)                 | Admin            |
 | Projects     | GET    | `/projects`                                                     | List projects (with search/filter params)    | Admin, Viewer    |
 | Projects     | POST   | `/projects`                                                     | Create project (max 3 active)                | Admin            |
 | Projects     | GET    | `/projects/{projectId}`                                         | Get project details                          | Admin, Viewer    |
-| Projects     | PUT    | `/projects/{projectId}`                                         | Update project metadata (incl. reactivate)   | Admin            |
+| Projects     | PATCH  | `/projects/{projectId}`                                         | Update project metadata (incl. reactivate)   | Admin            |
 | Projects     | DELETE | `/projects/{projectId}`                                         | Archive project                              | Admin            |
 | Refinement   | GET    | `/projects/{projectId}/refinement-sessions`                     | List refinement sessions                     | Admin            |
 | Refinement   | POST   | `/projects/{projectId}/refinement-sessions`                     | Create draft from raw notes (AI refinement)  | Admin            |
@@ -71,7 +71,7 @@ sidebar_position: 2
 | Requirements | GET    | `/projects/{projectId}/requirements`                            | List approved requirements                   | Admin, Viewer    |
 | Requirements | PUT    | `/projects/{projectId}/requirements/{requirementId}`            | Edit requirement                             | Admin            |
 | Requirements | DELETE | `/projects/{projectId}/requirements/{requirementId}`            | Archive requirement                          | Admin            |
-| Requirements | PUT    | `/projects/{projectId}/requirements/reorder`                    | Reorder requirements (bulk sort-order)       | Admin            |
+| Requirements | PATCH  | `/projects/{projectId}/requirements/reorder`                    | Reorder requirements (bulk sort-order)       | Admin            |
 | Exports      | POST   | `/projects/{projectId}/exports/markdown`                        | Generate markdown export                     | Admin            |
 | Exports      | GET    | `/projects/{projectId}/exports/{exportId}`                      | Retrieve export metadata/download URL        | Admin            |
 | Viewers      | GET    | `/viewers`                                                      | List all viewers with access                 | Admin            |
@@ -168,6 +168,7 @@ Example:
 | `204` | No Content            | Successful archive/delete           |
 | `400` | Bad Request           | Invalid payload/query               |
 | `401` | Unauthorized          | Missing/invalid JWT                 |
+| `402` | Payment Required      | AI credits exhausted (platform provider) |
 | `403` | Forbidden             | Role not allowed                    |
 | `404` | Not Found             | Missing resource                    |
 | `409` | Conflict              | Project state/rule conflict         |
@@ -192,8 +193,7 @@ Request schema:
     "clientId": { "type": "string", "format": "uuid" },
     "name": { "type": "string", "minLength": 1, "maxLength": 120 },
     "description": { "type": "string", "maxLength": 5000 },
-    "phase": { "type": "string", "enum": ["discovery", "planning"] },
-
+    "phase": { "type": "string", "enum": ["discovery", "planning"] }
   }
 }
 ```
@@ -205,8 +205,7 @@ Request example:
   "clientId": "11111111-1111-1111-1111-111111111111",
   "name": "Freelancer Portal MVP",
   "description": "Discovery and planning for marketplace workflow",
-  "phase": "discovery",
-
+  "phase": "discovery"
 }
 ```
 
@@ -393,7 +392,7 @@ Success response example:
 }
 ```
 
-Status codes: `201`, `400`, `401`, `403`, `404`, `422`, `500`
+Status codes: `201`, `400`, `401`, `402`, `403`, `404`, `422`, `500`
 
 ### 4) Approve Refinement Session
 
@@ -477,8 +476,7 @@ Request schema:
       "type": "array",
       "minItems": 1,
       "items": { "type": "string", "minLength": 1, "maxLength": 500 }
-    },
-
+    }
   }
 }
 ```
@@ -561,7 +559,7 @@ Status codes: `204`, `400`, `401`, `403`, `404`, `409`, `500`
 
 ### 9) Update Project
 
-- **Method/URL:** `PUT /api/v1/projects/{projectId}`
+- **Method/URL:** `PATCH /api/v1/projects/{projectId}`
 - **Description:** Update project metadata, including status change (reactivate archived → active). 409 if reactivating would exceed 3-active limit.
 
 Request schema:
@@ -573,8 +571,7 @@ Request schema:
     "name": { "type": "string", "minLength": 1, "maxLength": 120 },
     "description": { "type": "string", "maxLength": 5000 },
     "phase": { "type": "string", "enum": ["discovery", "planning"] },
-    "status": { "type": "string", "enum": ["active", "archived"] },
-
+    "status": { "type": "string", "enum": ["active", "archived"] }
   }
 }
 ```
@@ -599,7 +596,7 @@ Status codes: `200`, `400`, `401`, `403`, `404`, `409`, `422`, `500`
 
 ### 10) Update Client
 
-- **Method/URL:** `PUT /api/v1/clients/{clientId}`
+- **Method/URL:** `PATCH /api/v1/clients/{clientId}`
 - **Description:** Update client metadata.
 
 Request schema:
@@ -815,7 +812,7 @@ Status codes: `204`, `401`, `500`
 
 ### 16) User Profile
 
-- **Method/URL:** `GET /api/v1/user/profile`, `PUT /api/v1/user/profile`
+- **Method/URL:** `GET /api/v1/users/me/profile`, `PATCH /api/v1/users/me/profile`
 - **Description:** Get or update current user's profile (display name, preferences, onboarding state).
 
 Response example (`200`):
@@ -848,7 +845,7 @@ Status codes: `200`, `400`, `401`, `422`, `500`
 
 ### 17) AI Credits
 
-- **Method/URL:** `GET /api/v1/user/credits`
+- **Method/URL:** `GET /api/v1/users/me/credits`
 - **Description:** Returns current AI credit balance. Credits are granted (5) after email verification.
 
 Response example (`200`):
@@ -864,10 +861,10 @@ Status codes: `200`, `401`, `500`
 
 ### 18) API Key Management
 
-- **List keys:** `GET /api/v1/user/api-keys` — returns configured providers with masked keys.
-- **Add/replace key:** `POST /api/v1/user/api-keys` — upsert an API key for a provider. Validates against provider on save.
-- **Delete key:** `DELETE /api/v1/user/api-keys/{provider}` — remove key for a provider.
-- **Validate key:** `POST /api/v1/user/api-keys/{provider}/validate` — tests key against provider's endpoint.
+- **List keys:** `GET /api/v1/users/me/api-keys` — returns configured providers with masked keys.
+- **Add/replace key:** `POST /api/v1/users/me/api-keys` — upsert an API key for a provider. Validates against provider on save.
+- **Delete key:** `DELETE /api/v1/users/me/api-keys/{provider}` — remove key for a provider.
+- **Validate key:** `POST /api/v1/users/me/api-keys/{provider}/validate` — tests key against provider's endpoint.
 
 List response example (`200`):
 
@@ -966,7 +963,7 @@ Status codes (delete): `204`, `401`, `403`, `404`, `409`, `500`
 
 ### 20) Requirements — Reorder
 
-- **Method/URL:** `PUT /api/v1/projects/{projectId}/requirements/reorder`
+- **Method/URL:** `PATCH /api/v1/projects/{projectId}/requirements/reorder`
 - **Description:** Bulk update sort order for requirements (drag-and-drop reorder in UI).
 
 Request schema:
@@ -1263,7 +1260,7 @@ Status codes (password): `200`, `400`, `401`, `403`, `422`, `500`
 }
 ```
 
-### Insufficient Credits (402 or 422)
+### Insufficient Credits (402)
 
 ```json
 {
@@ -1314,4 +1311,4 @@ Status codes (password): `200`, `400`, `401`, `403`, `422`, `500`
 
 ---
 
-**Last Updated**: 2026-08-11
+**Last Updated**: 2026-09-08
