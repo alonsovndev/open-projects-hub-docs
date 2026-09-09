@@ -24,7 +24,7 @@ Open it from Pencil via **File → Open** and navigate to the path above, or use
 
 ## What's Inside
 
-### 19 Artboards
+### 22 Artboards
 
 | #   | Artboard                    | Layout  | Key Features                                                              |
 | --- | --------------------------- | ------- | ------------------------------------------------------------------------- |
@@ -40,13 +40,16 @@ Open it from Pencil via **File → Open** and navigate to the path above, or use
 | 10  | Admin Settings              | Admin   | Profile, password, API keys management, danger zone                       |
 | 11  | Projects                    | Admin   | Search + status/client/date filters, project rows with phase & status     |
 | 12  | New Project                 | Admin   | Name, client, phase, description, active-slot hint                        |
-| 13  | Clients                     | Admin   | Client list, search, inline New Client modal                              |
+| 13  | Clients                     | Admin   | Client list, search, per-row Edit + Archive-or-Delete (FR-001-04)         |
 | 14  | Viewer Backlog              | Public  | Read-only stories with status tags, phase badge, no edit controls         |
 | 15  | Onboarding Overlay          | Overlay | 4-step welcome tour: notes, ambiguities, epics & stories, approval        |
 | 16  | Privacy Policy              | Public  | Legal content page                                                        |
 | 17  | Terms of Service            | Public  | Legal content page                                                        |
 | 18  | Modal: Project Limit Reached| Overlay | Blocks a 4th active project; prompts to archive (FR-001-02, FR-001-07)    |
 | 19  | Modal: Client Delete Blocked| Overlay | Blocks deleting a client with active projects (FR-001-04)                 |
+| 20  | Modal: New Client           | Overlay | Client name + contact email, Cancel/Create                                |
+| 21  | Projects — Empty            | Admin   | Empty state before any project exists                                     |
+| 22  | New Project — Validation Error | Admin | Inline alert + field error state for a missing project name              |
 
 ### 17 Reusable Components
 
@@ -87,6 +90,7 @@ The prototype covers the MVP **Discovery** and **Planning** workflows only. Out 
 | 2026-08-11 | Removed Stitch screens; added Home, Dashboard, Settings pages                                  |
 | 2026-09-08 | Wired Sider into AdminLayout; replaced all placeholder labels/content; added AmbiguityBar, provider selector, and story status tags; fixed two WCAG AA contrast failures |
 | 2026-09-08 | Added F-001 coverage: Projects list, New Project form, and the limit-reached / delete-blocked modals; added Select, Alert, EmptyState, ListRow, Modal components and a Clients nav item |
+| 2026-09-08 | Rebuilt Clients on `AdminLayout` for shell consistency; unified sample data across Projects/Clients/modals; added New Client modal plus empty and validation-error states |
 
 ## Source References
 

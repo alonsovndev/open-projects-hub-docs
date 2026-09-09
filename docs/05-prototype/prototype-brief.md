@@ -255,6 +255,9 @@ Every Must requirement should appear in at least one row before prototype sign-o
 | Clients                         | FR-001-01, FR-001-04                       | NFR-001-01                         | US-MVP-UX-001 | MVP       |
 | Modal: Project Limit Reached    | FR-001-02, FR-001-07                       | —                                  | US-MVP-UX-001 | MVP       |
 | Modal: Client Delete Blocked    | FR-001-04                                  | NFR-001-01                         | US-MVP-UX-001 | MVP       |
+| Modal: New Client               | FR-001-01                                  | —                                  | US-MVP-UX-001 | MVP       |
+| Projects — Empty                | FR-001-05                                  | —                                  | US-MVP-UX-001 | MVP       |
+| New Project — Validation Error  | FR-001-06                                  | —                                  | US-MVP-UX-001 | MVP       |
 | Admin Settings                  | FR-010-02, FR-010-03                       | NFR-010-01                         | US-MVP-UX-001 | MVP       |
 | Viewer Backlog Read-only        | FR-003-01, FR-003-03                       | NFR-003-02, NFR-003-03, NFR-004-01 | US-MVP-UX-002 | MVP       |
 | Optional Onboarding Overlay     | FR-005-01                                  | NFR-005-01                         | US-P1-UX-003  | Phase 1   |

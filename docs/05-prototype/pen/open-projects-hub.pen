@@ -4966,608 +4966,6 @@
     },
     {
       "type": "frame",
-      "id": "ajwuM",
-      "x": 21247,
-      "y": 1020,
-      "name": "Page: Clients",
-      "clip": true,
-      "width": 1440,
-      "height": 960,
-      "fill": "$bg",
-      "layout": "vertical",
-      "children": [
-        {
-          "type": "frame",
-          "id": "ltEFV",
-          "name": "TopBar",
-          "width": "fill_container",
-          "stroke": "$border",
-          "strokeWidth": {
-            "bottom": 1
-          },
-          "padding": [
-            16,
-            48
-          ],
-          "justifyContent": "space_between",
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "text",
-              "id": "c1gdh",
-              "name": "Logo",
-              "fill": "$primary",
-              "content": "Open Projects Hub",
-              "fontFamily": "$font-body",
-              "fontSize": 20,
-              "fontWeight": "$font-weight-bold"
-            },
-            {
-              "type": "text",
-              "id": "yI9LM",
-              "name": "AdminLabel",
-              "fill": "$text-tertiary",
-              "content": "Admin · Alex Rivera",
-              "fontFamily": "$font-body",
-              "fontSize": "$font-size-sm",
-              "fontWeight": "$font-weight-medium"
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "YpDZd",
-          "name": "PageHeader",
-          "width": "fill_container",
-          "padding": [
-            20,
-            32
-          ],
-          "justifyContent": "space_between",
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "text",
-              "id": "KOdAM",
-              "name": "Title",
-              "fill": "$text-primary",
-              "content": "Clients",
-              "fontFamily": "$font-body",
-              "fontSize": "$font-size-h2",
-              "fontWeight": "$font-weight-bold"
-            },
-            {
-              "id": "ibP2I",
-              "type": "ref",
-              "ref": "zEizh",
-              "name": "AddClientBtn",
-              "descendants": {
-                "WhXJ5": {
-                  "content": "Add Client"
-                }
-              }
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "T1bOLH",
-          "name": "ContentBody",
-          "width": "fill_container",
-          "height": "fill_container",
-          "layout": "vertical",
-          "gap": 16,
-          "padding": 32,
-          "children": [
-            {
-              "type": "frame",
-              "id": "JRNur",
-              "name": "Toolbar",
-              "width": "fill_container",
-              "fill": "$surface",
-              "cornerRadius": "$radius-md",
-              "padding": [
-                12,
-                16
-              ],
-              "justifyContent": "space_between",
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "frame",
-                  "id": "B50ysD",
-                  "name": "SearchBox",
-                  "width": 280,
-                  "height": 36,
-                  "fill": "$bg",
-                  "cornerRadius": "$radius-sm",
-                  "stroke": "$border",
-                  "strokeWidth": 1,
-                  "gap": 8,
-                  "padding": [
-                    0,
-                    12
-                  ],
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "icon",
-                      "id": "Cg5OB",
-                      "name": "SearchIcon",
-                      "width": 16,
-                      "height": 16,
-                      "icon": "search",
-                      "library": "lucide",
-                      "fill": "$text-tertiary"
-                    },
-                    {
-                      "type": "text",
-                      "id": "vlEjl",
-                      "name": "SearchPlaceholder",
-                      "fill": "$text-tertiary",
-                      "content": "Search clients…",
-                      "fontFamily": "$font-body",
-                      "fontSize": "$font-size-body",
-                      "fontWeight": "normal"
-                    }
-                  ]
-                },
-                {
-                  "type": "text",
-                  "id": "LP33g",
-                  "name": "ClientCount",
-                  "fill": "$text-tertiary",
-                  "content": "3 clients · 2 active",
-                  "fontFamily": "$font-body",
-                  "fontSize": "$font-size-sm",
-                  "fontWeight": "normal"
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "TNwCQ",
-              "name": "ClientsList",
-              "width": "fill_container",
-              "layout": "vertical",
-              "gap": 12,
-              "children": [
-                {
-                  "type": "frame",
-                  "id": "o4nSc",
-                  "name": "ClientRow - Acme Corp",
-                  "width": "fill_container",
-                  "fill": "$bg",
-                  "cornerRadius": "$radius-md",
-                  "stroke": "$border",
-                  "strokeWidth": 1,
-                  "padding": [
-                    14,
-                    20
-                  ],
-                  "justifyContent": "space_between",
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "frame",
-                      "id": "SytyO",
-                      "name": "ClientInfo",
-                      "layout": "vertical",
-                      "gap": 2,
-                      "children": [
-                        {
-                          "type": "text",
-                          "id": "ADegc",
-                          "name": "ClientName",
-                          "fill": "$text-primary",
-                          "content": "Acme Corp",
-                          "fontFamily": "$font-body",
-                          "fontSize": "$font-size-body",
-                          "fontWeight": "$font-weight-medium"
-                        },
-                        {
-                          "type": "text",
-                          "id": "xlh8m",
-                          "name": "ClientEmail",
-                          "fill": "$text-tertiary",
-                          "content": "pm@acmecorp.com",
-                          "fontFamily": "$font-body",
-                          "fontSize": "$font-size-sm",
-                          "fontWeight": "normal"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "frame",
-                      "id": "QuYUZ",
-                      "name": "Meta",
-                      "gap": 12,
-                      "alignItems": "center",
-                      "children": [
-                        {
-                          "id": "cGlky",
-                          "type": "ref",
-                          "ref": "V7DP6x",
-                          "name": "StatusTag",
-                          "descendants": {
-                            "ys9sm": {
-                              "content": "Active"
-                            }
-                          }
-                        },
-                        {
-                          "type": "text",
-                          "id": "n6SlCp",
-                          "name": "ProjectCount",
-                          "fill": "$text-tertiary",
-                          "content": "2 projects",
-                          "fontFamily": "$font-body",
-                          "fontSize": "$font-size-sm",
-                          "fontWeight": "normal"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "frame",
-                      "id": "S0t75M",
-                      "name": "Actions",
-                      "gap": 16,
-                      "alignItems": "center",
-                      "children": [
-                        {
-                          "type": "text",
-                          "id": "rU0vm",
-                          "name": "EditLink",
-                          "fill": "$primary",
-                          "content": "Edit",
-                          "fontFamily": "$font-body",
-                          "fontSize": "$font-size-body",
-                          "fontWeight": "normal"
-                        },
-                        {
-                          "type": "text",
-                          "id": "I3Mrek",
-                          "name": "ActionLink",
-                          "fill": "$error",
-                          "content": "Archive",
-                          "fontFamily": "$font-body",
-                          "fontSize": "$font-size-body",
-                          "fontWeight": "normal"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "frame",
-                  "id": "n5CcX",
-                  "name": "ClientRow - Globex Industries",
-                  "width": "fill_container",
-                  "fill": "$bg",
-                  "cornerRadius": "$radius-md",
-                  "stroke": "$border",
-                  "strokeWidth": 1,
-                  "padding": [
-                    14,
-                    20
-                  ],
-                  "justifyContent": "space_between",
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "frame",
-                      "id": "t9MI3V",
-                      "name": "ClientInfo",
-                      "layout": "vertical",
-                      "gap": 2,
-                      "children": [
-                        {
-                          "type": "text",
-                          "id": "y5OI0",
-                          "name": "ClientName",
-                          "fill": "$text-primary",
-                          "content": "Globex Industries",
-                          "fontFamily": "$font-body",
-                          "fontSize": "$font-size-body",
-                          "fontWeight": "$font-weight-medium"
-                        },
-                        {
-                          "type": "text",
-                          "id": "x6bbdg",
-                          "name": "ClientEmail",
-                          "fill": "$text-tertiary",
-                          "content": "hello@globex.io",
-                          "fontFamily": "$font-body",
-                          "fontSize": "$font-size-sm",
-                          "fontWeight": "normal"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "frame",
-                      "id": "Xr065",
-                      "name": "Meta",
-                      "gap": 12,
-                      "alignItems": "center",
-                      "children": [
-                        {
-                          "id": "p2FNn",
-                          "type": "ref",
-                          "ref": "V7DP6x",
-                          "name": "StatusTag",
-                          "descendants": {
-                            "ys9sm": {
-                              "content": "Active"
-                            }
-                          }
-                        },
-                        {
-                          "type": "text",
-                          "id": "Fv1I9",
-                          "name": "ProjectCount",
-                          "fill": "$text-tertiary",
-                          "content": "1 project",
-                          "fontFamily": "$font-body",
-                          "fontSize": "$font-size-sm",
-                          "fontWeight": "normal"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "frame",
-                      "id": "w0u7FJ",
-                      "name": "Actions",
-                      "gap": 16,
-                      "alignItems": "center",
-                      "children": [
-                        {
-                          "type": "text",
-                          "id": "CuGEd",
-                          "name": "EditLink",
-                          "fill": "$primary",
-                          "content": "Edit",
-                          "fontFamily": "$font-body",
-                          "fontSize": "$font-size-body",
-                          "fontWeight": "normal"
-                        },
-                        {
-                          "type": "text",
-                          "id": "I8NIB",
-                          "name": "ActionLink",
-                          "fill": "$error",
-                          "content": "Archive",
-                          "fontFamily": "$font-body",
-                          "fontSize": "$font-size-body",
-                          "fontWeight": "normal"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "frame",
-                  "id": "A40cs",
-                  "name": "ClientRow - Novatech Solutions",
-                  "width": "fill_container",
-                  "fill": "$bg",
-                  "cornerRadius": "$radius-md",
-                  "stroke": "$border",
-                  "strokeWidth": 1,
-                  "padding": [
-                    14,
-                    20
-                  ],
-                  "justifyContent": "space_between",
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "frame",
-                      "id": "NUO9j",
-                      "name": "ClientInfo",
-                      "layout": "vertical",
-                      "gap": 2,
-                      "children": [
-                        {
-                          "type": "text",
-                          "id": "br3fy",
-                          "name": "ClientName",
-                          "fill": "$text-primary",
-                          "content": "Novatech Solutions",
-                          "fontFamily": "$font-body",
-                          "fontSize": "$font-size-body",
-                          "fontWeight": "$font-weight-medium"
-                        },
-                        {
-                          "type": "text",
-                          "id": "EviVq",
-                          "name": "ClientEmail",
-                          "fill": "$text-tertiary",
-                          "content": "ops@novatech.co",
-                          "fontFamily": "$font-body",
-                          "fontSize": "$font-size-sm",
-                          "fontWeight": "normal"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "frame",
-                      "id": "kWQEP",
-                      "name": "Meta",
-                      "gap": 12,
-                      "alignItems": "center",
-                      "children": [
-                        {
-                          "id": "w8jb3V",
-                          "type": "ref",
-                          "ref": "S8aYaw",
-                          "name": "StatusTag",
-                          "descendants": {
-                            "NGhri": {
-                              "content": "Archived"
-                            }
-                          }
-                        },
-                        {
-                          "type": "text",
-                          "id": "gn2k8",
-                          "name": "ProjectCount",
-                          "fill": "$text-tertiary",
-                          "content": "0 projects",
-                          "fontFamily": "$font-body",
-                          "fontSize": "$font-size-sm",
-                          "fontWeight": "normal"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "frame",
-                      "id": "M50gEJ",
-                      "name": "Actions",
-                      "gap": 16,
-                      "alignItems": "center",
-                      "children": [
-                        {
-                          "type": "text",
-                          "id": "Svoqc",
-                          "name": "EditLink",
-                          "fill": "$primary",
-                          "content": "Edit",
-                          "fontFamily": "$font-body",
-                          "fontSize": "$font-size-body",
-                          "fontWeight": "normal"
-                        },
-                        {
-                          "type": "text",
-                          "id": "AA7Ms",
-                          "name": "ActionLink",
-                          "fill": "$error",
-                          "content": "Delete",
-                          "fontFamily": "$font-body",
-                          "fontSize": "$font-size-body",
-                          "fontWeight": "normal"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "XjldZ",
-          "layoutPosition": "absolute",
-          "x": 0,
-          "y": 0,
-          "name": "ModalDim",
-          "opacity": 0.35,
-          "width": 1440,
-          "height": 960,
-          "fill": "#000000"
-        },
-        {
-          "type": "frame",
-          "id": "ZCaOP",
-          "layoutPosition": "absolute",
-          "x": 460,
-          "y": 220,
-          "name": "NewClientModal",
-          "width": 520,
-          "fill": "$bg",
-          "cornerRadius": "$radius-lg",
-          "effect": {
-            "type": "shadow",
-            "shadowType": "outer",
-            "color": "#00000022",
-            "offset": {
-              "x": 0,
-              "y": 12
-            },
-            "blur": 40
-          },
-          "layout": "vertical",
-          "gap": 24,
-          "padding": 40,
-          "children": [
-            {
-              "type": "text",
-              "id": "Gb1wg",
-              "name": "ModalTitle",
-              "fill": "$text-primary",
-              "content": "New Client",
-              "fontFamily": "$font-body",
-              "fontSize": "$font-size-h3",
-              "fontWeight": "$font-weight-semibold"
-            },
-            {
-              "id": "hpFHj",
-              "type": "ref",
-              "ref": "r50qj",
-              "name": "ClientNameField",
-              "width": "fill_container",
-              "descendants": {
-                "W0mIjC": {
-                  "content": "Client Name"
-                },
-                "cw4dQ": {
-                  "content": "e.g. Acme Corp"
-                }
-              }
-            },
-            {
-              "id": "FeYyE",
-              "type": "ref",
-              "ref": "r50qj",
-              "name": "ContactEmailField",
-              "width": "fill_container",
-              "descendants": {
-                "W0mIjC": {
-                  "content": "Contact Email"
-                },
-                "cw4dQ": {
-                  "content": "name@company.com"
-                }
-              }
-            },
-            {
-              "type": "frame",
-              "id": "JSKlE",
-              "name": "ModalActions",
-              "width": "fill_container",
-              "justifyContent": "space_between",
-              "alignItems": "center",
-              "children": [
-                {
-                  "id": "VaDb0",
-                  "type": "ref",
-                  "ref": "Awwh3",
-                  "name": "CancelBtn",
-                  "descendants": {
-                    "CoZnr": {
-                      "content": "Cancel"
-                    }
-                  }
-                },
-                {
-                  "id": "D9NUD",
-                  "type": "ref",
-                  "ref": "zEizh",
-                  "name": "CreateClientBtn",
-                  "descendants": {
-                    "WhXJ5": {
-                      "content": "Create Client"
-                    }
-                  }
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "type": "frame",
       "id": "vqFLe",
       "x": 22767,
       "y": 1020,
@@ -7043,14 +6441,14 @@
                   "id": "l6NjT",
                   "type": "ref",
                   "ref": "QzPiX",
-                  "name": "Row-Portfolio Redesign",
+                  "name": "Row-Acme Mobile App",
                   "width": "fill_container",
                   "descendants": {
                     "m9SsnC": {
-                      "content": "Portfolio Redesign"
+                      "content": "Acme Mobile App"
                     },
                     "QsBTl": {
-                      "content": "Studio Lumen · updated 5 days ago"
+                      "content": "Acme Corp · updated 4 days ago"
                     },
                     "xvCTk/NGhri": {
                       "content": "Discovery"
@@ -7068,14 +6466,14 @@
                   "id": "Gt1tx",
                   "type": "ref",
                   "ref": "QzPiX",
-                  "name": "Row-Craft Marketplace",
+                  "name": "Row-Globex Partner Portal",
                   "width": "fill_container",
                   "descendants": {
                     "m9SsnC": {
-                      "content": "Craft Marketplace"
+                      "content": "Globex Partner Portal"
                     },
                     "QsBTl": {
-                      "content": "Handmade Co · updated 3 weeks ago"
+                      "content": "Globex Industries · updated 1 week ago"
                     },
                     "xvCTk/NGhri": {
                       "content": "Planning"
@@ -7093,14 +6491,14 @@
                   "id": "Ngxij",
                   "type": "ref",
                   "ref": "QzPiX",
-                  "name": "Row-Bakery Landing Page",
+                  "name": "Row-Globex Legacy Site",
                   "width": "fill_container",
                   "descendants": {
                     "m9SsnC": {
-                      "content": "Bakery Landing Page"
+                      "content": "Globex Legacy Site"
                     },
                     "QsBTl": {
-                      "content": "Sweet Crumb · archived 12 Aug"
+                      "content": "Globex Industries · archived 12 Aug"
                     },
                     "xvCTk/NGhri": {
                       "content": "Discovery"
@@ -7378,6 +6776,802 @@
         },
         "tfZnQ/WhXJ5": {
           "content": "View Projects"
+        }
+      }
+    },
+    {
+      "id": "U5Cl08",
+      "type": "ref",
+      "ref": "h9Fk3h",
+      "name": "Page: Clients",
+      "x": 21247,
+      "y": 1020,
+      "width": 1440,
+      "height": 960,
+      "clip": true,
+      "descendants": {
+        "oti7v": {
+          "content": "Clients"
+        },
+        "VyZoZ": {
+          "children": [
+            {
+              "id": "pHtBb",
+              "type": "ref",
+              "ref": "zEizh",
+              "name": "AddClientBtn",
+              "height": 36,
+              "descendants": {
+                "WhXJ5": {
+                  "content": "Add Client"
+                }
+              }
+            }
+          ]
+        },
+        "QXO0h": {
+          "children": [
+            {
+              "type": "frame",
+              "id": "g2IQ18",
+              "name": "Toolbar",
+              "width": "fill_container",
+              "fill": "$surface",
+              "cornerRadius": "$radius-md",
+              "padding": [
+                12,
+                16
+              ],
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "h3cQg",
+                  "name": "SearchBox",
+                  "width": 280,
+                  "fill": "$bg",
+                  "cornerRadius": "$radius-md",
+                  "stroke": "$border",
+                  "strokeWidth": 1,
+                  "gap": 8,
+                  "padding": [
+                    8,
+                    12
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "b6AfeD",
+                      "name": "SearchIcon",
+                      "width": 16,
+                      "height": 16,
+                      "icon": "search",
+                      "library": "lucide",
+                      "fill": "$text-tertiary"
+                    },
+                    {
+                      "type": "text",
+                      "id": "S5Plj6",
+                      "name": "Placeholder",
+                      "fill": "$text-tertiary",
+                      "content": "Search clients…",
+                      "fontFamily": "$font-body",
+                      "fontSize": "$font-size-body",
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "uPyBj",
+                  "name": "ClientCount",
+                  "fill": "$text-tertiary",
+                  "content": "3 clients · 2 with active projects",
+                  "fontFamily": "$font-body",
+                  "fontSize": "$font-size-sm",
+                  "fontWeight": "$font-weight-medium"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "WmziT",
+              "name": "ClientsList",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 12,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "wbnUW",
+                  "name": "ClientRow - Acme Corp",
+                  "width": "fill_container",
+                  "fill": "$bg",
+                  "cornerRadius": "$radius-md",
+                  "stroke": "$border",
+                  "strokeWidth": 1,
+                  "padding": [
+                    16,
+                    20
+                  ],
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "tquig",
+                      "name": "Info",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "rUL8V",
+                          "name": "Name",
+                          "fill": "$text-primary",
+                          "content": "Acme Corp",
+                          "fontFamily": "$font-body",
+                          "fontSize": "$font-size-body",
+                          "fontWeight": "$font-weight-semibold"
+                        },
+                        {
+                          "type": "text",
+                          "id": "dyofm",
+                          "name": "Email",
+                          "fill": "$text-secondary",
+                          "content": "pm@acmecorp.com",
+                          "fontFamily": "$font-body",
+                          "fontSize": "$font-size-sm",
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Wjc52",
+                      "name": "Right",
+                      "gap": 16,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "FKjUI",
+                          "name": "Count",
+                          "fill": "$text-tertiary",
+                          "content": "2 active projects",
+                          "fontFamily": "$font-body",
+                          "fontSize": "$font-size-sm",
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "M24Bmm",
+                          "name": "Edit",
+                          "fill": "$primary",
+                          "content": "Edit",
+                          "fontFamily": "$font-body",
+                          "fontSize": "$font-size-sm",
+                          "fontWeight": "$font-weight-medium"
+                        },
+                        {
+                          "type": "text",
+                          "id": "Y8pLDZ",
+                          "name": "Archive",
+                          "fill": "$primary",
+                          "content": "Archive",
+                          "fontFamily": "$font-body",
+                          "fontSize": "$font-size-sm",
+                          "fontWeight": "$font-weight-medium"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "vsQGz",
+                  "name": "ClientRow - Globex Industries",
+                  "width": "fill_container",
+                  "fill": "$bg",
+                  "cornerRadius": "$radius-md",
+                  "stroke": "$border",
+                  "strokeWidth": 1,
+                  "padding": [
+                    16,
+                    20
+                  ],
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "AYgDO",
+                      "name": "Info",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "Cri1x",
+                          "name": "Name",
+                          "fill": "$text-primary",
+                          "content": "Globex Industries",
+                          "fontFamily": "$font-body",
+                          "fontSize": "$font-size-body",
+                          "fontWeight": "$font-weight-semibold"
+                        },
+                        {
+                          "type": "text",
+                          "id": "g5K4BW",
+                          "name": "Email",
+                          "fill": "$text-secondary",
+                          "content": "hello@globex.io",
+                          "fontFamily": "$font-body",
+                          "fontSize": "$font-size-sm",
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Y2G69",
+                      "name": "Right",
+                      "gap": 16,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "QF8yi",
+                          "name": "Count",
+                          "fill": "$text-tertiary",
+                          "content": "1 active project",
+                          "fontFamily": "$font-body",
+                          "fontSize": "$font-size-sm",
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "q1Yzl2",
+                          "name": "Edit",
+                          "fill": "$primary",
+                          "content": "Edit",
+                          "fontFamily": "$font-body",
+                          "fontSize": "$font-size-sm",
+                          "fontWeight": "$font-weight-medium"
+                        },
+                        {
+                          "type": "text",
+                          "id": "gU80o",
+                          "name": "Archive",
+                          "fill": "$primary",
+                          "content": "Archive",
+                          "fontFamily": "$font-body",
+                          "fontSize": "$font-size-sm",
+                          "fontWeight": "$font-weight-medium"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "jgR4u",
+                  "name": "ClientRow - Novatech Solutions",
+                  "width": "fill_container",
+                  "fill": "$bg",
+                  "cornerRadius": "$radius-md",
+                  "stroke": "$border",
+                  "strokeWidth": 1,
+                  "padding": [
+                    16,
+                    20
+                  ],
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "zQPTM",
+                      "name": "Info",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "nf6FQ",
+                          "name": "Name",
+                          "fill": "$text-primary",
+                          "content": "Novatech Solutions",
+                          "fontFamily": "$font-body",
+                          "fontSize": "$font-size-body",
+                          "fontWeight": "$font-weight-semibold"
+                        },
+                        {
+                          "type": "text",
+                          "id": "II6q6",
+                          "name": "Email",
+                          "fill": "$text-secondary",
+                          "content": "ops@novatech.co",
+                          "fontFamily": "$font-body",
+                          "fontSize": "$font-size-sm",
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "xk7cM",
+                      "name": "Right",
+                      "gap": 16,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "NALFM",
+                          "name": "Count",
+                          "fill": "$text-tertiary",
+                          "content": "No projects",
+                          "fontFamily": "$font-body",
+                          "fontSize": "$font-size-sm",
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "t2Pnwe",
+                          "name": "Edit",
+                          "fill": "$primary",
+                          "content": "Edit",
+                          "fontFamily": "$font-body",
+                          "fontSize": "$font-size-sm",
+                          "fontWeight": "$font-weight-medium"
+                        },
+                        {
+                          "type": "text",
+                          "id": "nZhpu",
+                          "name": "Delete",
+                          "fill": "$error-dark",
+                          "content": "Delete",
+                          "fontFamily": "$font-body",
+                          "fontSize": "$font-size-sm",
+                          "fontWeight": "$font-weight-medium"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "ektTj",
+              "name": "ListHint",
+              "fill": "$text-tertiary",
+              "content": "Clients with active projects can be archived but not deleted.",
+              "fontFamily": "$font-body",
+              "fontSize": "$font-size-xs",
+              "fontWeight": "normal"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "frame",
+      "id": "S70c09",
+      "x": 36600,
+      "y": 1020,
+      "name": "Modal: New Client",
+      "clip": true,
+      "width": 1440,
+      "height": 960,
+      "fill": "#00000059",
+      "layout": "vertical",
+      "justifyContent": "center",
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "frame",
+          "id": "PKO0u",
+          "name": "Card",
+          "width": 480,
+          "fill": "$bg",
+          "cornerRadius": "$radius-lg",
+          "layout": "vertical",
+          "gap": "$spacing-md",
+          "padding": 32,
+          "children": [
+            {
+              "type": "frame",
+              "id": "RX6pV",
+              "name": "TitleRow",
+              "width": "fill_container",
+              "gap": 10,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "bjRsY",
+                  "name": "Icon",
+                  "width": 20,
+                  "height": 20,
+                  "icon": "user-plus",
+                  "library": "lucide",
+                  "fill": "$primary"
+                },
+                {
+                  "type": "text",
+                  "id": "gGtXR",
+                  "name": "Title",
+                  "fill": "$text-primary",
+                  "content": "New Client",
+                  "fontFamily": "$font-body",
+                  "fontSize": "$font-size-h3",
+                  "fontWeight": "$font-weight-semibold"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "SfQ06",
+              "name": "Body",
+              "fill": "$text-secondary",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Add a client so you can attach projects to them.",
+              "lineHeight": "$line-height-normal",
+              "fontFamily": "$font-body",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            },
+            {
+              "id": "D24Qd",
+              "type": "ref",
+              "ref": "r50qj",
+              "name": "Client Name",
+              "width": "fill_container",
+              "descendants": {
+                "W0mIjC": {
+                  "content": "Client Name"
+                },
+                "cw4dQ": {
+                  "content": "Acme Corp"
+                }
+              }
+            },
+            {
+              "id": "W2dm7x",
+              "type": "ref",
+              "ref": "r50qj",
+              "name": "Contact Email",
+              "width": "fill_container",
+              "descendants": {
+                "W0mIjC": {
+                  "content": "Contact Email"
+                },
+                "cw4dQ": {
+                  "content": "pm@acmecorp.com"
+                }
+              }
+            },
+            {
+              "type": "frame",
+              "id": "UTlOI",
+              "name": "Actions",
+              "width": "fill_container",
+              "gap": "$spacing-sm",
+              "justifyContent": "end",
+              "children": [
+                {
+                  "id": "h8zub",
+                  "type": "ref",
+                  "ref": "Awwh3",
+                  "name": "CancelBtn",
+                  "height": 40,
+                  "descendants": {
+                    "CoZnr": {
+                      "content": "Cancel"
+                    }
+                  }
+                },
+                {
+                  "id": "R2GBt",
+                  "type": "ref",
+                  "ref": "zEizh",
+                  "name": "CreateBtn",
+                  "height": 40,
+                  "descendants": {
+                    "WhXJ5": {
+                      "content": "Create Client"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ArEsS",
+      "type": "ref",
+      "ref": "h9Fk3h",
+      "name": "Page: Projects — Empty",
+      "x": 38100,
+      "y": 1020,
+      "width": 1440,
+      "height": 960,
+      "clip": true,
+      "descendants": {
+        "oti7v": {
+          "content": "Projects"
+        },
+        "VyZoZ": {
+          "children": [
+            {
+              "id": "KCsAM",
+              "type": "ref",
+              "ref": "zEizh",
+              "name": "NewProjectBtn",
+              "height": 36,
+              "descendants": {
+                "WhXJ5": {
+                  "content": "New Project"
+                }
+              }
+            }
+          ]
+        },
+        "QXO0h": {
+          "children": [
+            {
+              "id": "qN5EJ",
+              "type": "ref",
+              "ref": "rK9AY",
+              "name": "EmptyState",
+              "width": "fill_container",
+              "descendants": {
+                "gCxXH": {
+                  "content": "No projects yet"
+                },
+                "pUmtY": {
+                  "content": "Create your first project to start turning client notes into structured requirements."
+                },
+                "tZgw3/WhXJ5": {
+                  "content": "New Project"
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "yeopf",
+      "type": "ref",
+      "ref": "h9Fk3h",
+      "name": "Page: New Project — Validation Error",
+      "x": 39600,
+      "y": 1020,
+      "width": 1440,
+      "height": 960,
+      "clip": true,
+      "descendants": {
+        "oti7v": {
+          "content": "New Project"
+        },
+        "VyZoZ": {
+          "children": [
+            {
+              "id": "iSb7B",
+              "type": "ref",
+              "ref": "Awwh3",
+              "name": "BackBtn",
+              "height": 36,
+              "descendants": {
+                "CoZnr": {
+                  "content": "← Back to Projects"
+                }
+              }
+            }
+          ]
+        },
+        "QXO0h": {
+          "children": [
+            {
+              "type": "frame",
+              "id": "lcnLW",
+              "name": "FormArea",
+              "width": "fill_container",
+              "layout": "vertical",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "Crim6",
+                  "name": "FormCard",
+                  "width": 640,
+                  "fill": "$bg",
+                  "cornerRadius": "$radius-lg",
+                  "stroke": "$border",
+                  "strokeWidth": 1,
+                  "layout": "vertical",
+                  "gap": 20,
+                  "padding": 32,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "ja5ZA",
+                      "name": "FormTitle",
+                      "fill": "$text-primary",
+                      "content": "Project details",
+                      "fontFamily": "$font-body",
+                      "fontSize": "$font-size-h3",
+                      "fontWeight": "$font-weight-semibold"
+                    },
+                    {
+                      "id": "CKJCP",
+                      "type": "ref",
+                      "ref": "XY6tN",
+                      "name": "ValidationAlert",
+                      "width": "fill_container",
+                      "descendants": {
+                        "m0x4n2": {
+                          "content": "Project name is required"
+                        },
+                        "P54cxb": {
+                          "content": "Enter a name between 1 and 120 characters before creating the project."
+                        }
+                      }
+                    },
+                    {
+                      "id": "eEMQl",
+                      "type": "ref",
+                      "ref": "r50qj",
+                      "name": "Project Name",
+                      "width": "fill_container",
+                      "descendants": {
+                        "W0mIjC": {
+                          "content": "Project Name"
+                        },
+                        "goz1h": {
+                          "stroke": "$error"
+                        },
+                        "cw4dQ": {
+                          "content": "Enter a project name"
+                        }
+                      }
+                    },
+                    {
+                      "id": "cbtnh",
+                      "type": "ref",
+                      "ref": "Y7BZOF",
+                      "name": "Client",
+                      "width": "fill_container",
+                      "descendants": {
+                        "gsQCW": {
+                          "content": "Client"
+                        },
+                        "vkGzl": {
+                          "content": "Acme Corp"
+                        }
+                      }
+                    },
+                    {
+                      "id": "eJSt0",
+                      "type": "ref",
+                      "ref": "Y7BZOF",
+                      "name": "Phase",
+                      "width": "fill_container",
+                      "descendants": {
+                        "gsQCW": {
+                          "content": "Phase"
+                        },
+                        "vkGzl": {
+                          "content": "Discovery"
+                        }
+                      }
+                    },
+                    {
+                      "type": "frame",
+                      "id": "sZdYH",
+                      "name": "Description",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 6,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "srOeF",
+                          "name": "Label",
+                          "fill": "$text-primary",
+                          "content": "Description (optional)",
+                          "fontFamily": "$font-body",
+                          "fontSize": "$font-size-body",
+                          "fontWeight": "$font-weight-medium"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "kYevP",
+                          "name": "TextArea",
+                          "width": "fill_container",
+                          "height": 96,
+                          "fill": "$bg",
+                          "cornerRadius": "$radius-md",
+                          "stroke": "$border",
+                          "strokeWidth": 1,
+                          "padding": [
+                            9,
+                            12
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "YzJKR",
+                              "name": "Placeholder",
+                              "fill": "$text-tertiary",
+                              "content": "What is this project about?",
+                              "fontFamily": "$font-body",
+                              "fontSize": "$font-size-body",
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "vUr4W",
+                      "name": "LimitHint",
+                      "fill": "$text-tertiary",
+                      "content": "Uses 1 of your 3 active project slots. Archived projects do not count.",
+                      "fontFamily": "$font-body",
+                      "fontSize": "$font-size-xs",
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "bVick",
+                      "name": "Actions",
+                      "width": "fill_container",
+                      "gap": "$spacing-sm",
+                      "justifyContent": "end",
+                      "children": [
+                        {
+                          "id": "jkxQf",
+                          "type": "ref",
+                          "ref": "Awwh3",
+                          "name": "CancelBtn",
+                          "height": 40,
+                          "descendants": {
+                            "CoZnr": {
+                              "content": "Cancel"
+                            }
+                          }
+                        },
+                        {
+                          "id": "qwAfP",
+                          "type": "ref",
+                          "ref": "zEizh",
+                          "name": "CreateBtn",
+                          "height": 40,
+                          "descendants": {
+                            "WhXJ5": {
+                              "content": "Create Project"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
         }
       }
     }
