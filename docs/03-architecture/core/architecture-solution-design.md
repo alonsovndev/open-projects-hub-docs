@@ -1,25 +1,36 @@
-# Open Projects Hub — Architecture Solution Design
+---
+sidebar_position: 1
+---
 
-| Attribute        | Value                       |
-| ---------------- | --------------------------- |
-| **Project**      | Open Projects Hub |
-| **Version**      | 1.0                         |
-| **Status**       | Accepted                    |
+# Architecture Solution Design
+
+| Attribute   | Value             |
+| ----------- | ----------------- |
+| **Project** | Open Projects Hub |
+| **Version** | 1.0               |
+| **Status**  | Accepted          |
 
 ## Table of Contents
 
-- [Source References](#source-references)
-- [System Context](#system-context)
-- [Architectural Approach](#architectural-approach)
-- [Component Design](#component-design)
-- [Data Flow](#data-flow)
-- [Integration Points](#integration-points)
-- [Observability (Hybrid: Sentry + CloudWatch)](#observability-hybrid-sentry--cloudwatch)
-- [Deployment Impact (GitHub Actions + AWS)](#deployment-impact-github-actions--aws)
-- [Security Considerations](#security-considerations)
-- [Scalability Considerations](#scalability-considerations)
-- [Trade-offs and Alternatives](#trade-offs-and-alternatives)
-- [ADR Reference](#adr-reference)
+- Architecture Solution Design
+  - [Table of Contents](#table-of-contents)
+  - [System Context](#system-context)
+  - [Architectural Approach](#architectural-approach)
+    - [Key Design Principles](#key-design-principles)
+  - [Component Design](#component-design)
+  - [Data Flow](#data-flow)
+  - [Integration Points](#integration-points)
+  - [Observability (Hybrid: Sentry + CloudWatch)](#observability-hybrid-sentry--cloudwatch)
+    - [Sentry (Free Developer Plan)](#sentry-free-developer-plan)
+    - [CloudWatch (Free Tier)](#cloudwatch-free-tier)
+    - [Key Signals to Monitor](#key-signals-to-monitor)
+    - [Alerting Configuration](#alerting-configuration)
+  - [Deployment Impact (GitHub Actions + AWS)](#deployment-impact-github-actions--aws)
+  - [Security Considerations](#security-considerations)
+  - [Scalability Considerations](#scalability-considerations)
+  - [Trade-offs and Alternatives](#trade-offs-and-alternatives)
+  - [ADR Reference](#adr-reference)
+  - [Source References](#source-references)
 
 ## System Context
 
@@ -76,13 +87,14 @@ sequenceDiagram
     participant User as Admin
     participant FE as Frontend (S3+CloudFront)
     participant BE as Backend (App Runner)<br/>Auth Module
+    participant AI as AI Refinement Adapter
     participant DB as RDS PostgreSQL
 
     User->>FE: Submit requirements notes
     FE->>BE: Request with JWT token
     BE->>BE: Validate JWT & extract role
-    BE->>DB: Persist draft + audit metadata
-    DB-->>BE: Stored draft
+    BE->>AI: Request refinement (raw notes, not persisted)
+    AI-->>BE: Structured user story + acceptance criteria
     BE-->>FE: Structured user stories (draft)
     User->>FE: Approve stories
     FE->>BE: Approve request (JWT)
@@ -195,4 +207,4 @@ sequenceDiagram
 
 ---
 
-**Last Updated**: 2026-08-04
+**Last Updated**: 2026-09-08
