@@ -4,35 +4,45 @@ sidebar_position: 2
 
 # CI/CD Pipeline Architecture
 
-| Attribute        | Value                       |
-| ---------------- | --------------------------- |
-| **Project**      | Open Projects Hub |
-| **Version**      | 3.0                         |
-| **Status**       | Accepted                    |
+| Attribute   | Value             |
+| ----------- | ----------------- |
+| **Project** | Open Projects Hub |
+| **Version** | 3.0               |
+| **Status**  | Accepted          |
 
 ## Table of Contents
 
-- [Source References](#source-references)
-- [1. Branching Strategy](#1-branching-strategy)
-- [2. Fork Setup & Sync](#2-fork-setup--sync)
-- [3. Branch Naming Conventions](#3-branch-naming-conventions)
-- [4. PR Conventions](#4-pr-conventions)
-- [5. CI/CD Tool Selection](#5-cicd-tool-selection)
-- [6. Pipeline Stages](#6-pipeline-stages)
-- [7. Build and Verification Responsibilities](#7-build-and-verification-responsibilities)
-- [8. Hotfix Process](#8-hotfix-process)
-- [9. Deployment Environment Strategy](#9-deployment-environment-strategy)
-- [10. Database Migration Strategy](#10-database-migration-strategy)
-- [11. Rollback Strategy](#11-rollback-strategy)
-- [12. Environment Variables and Secrets Management](#12-environment-variables-and-secrets-management)
-- [13. Zero-Downtime Deployment Approach](#13-zero-downtime-deployment-approach)
-- [14. Deployment Impact Summary](#14-deployment-impact-summary)
+- CI/CD Pipeline Architecture
+  - [Table of Contents](#table-of-contents)
+  - [1. Branching Strategy](#1-branching-strategy)
+    - [Branch Protection Rules](#branch-protection-rules)
+  - [2. Fork Setup \& Sync](#2-fork-setup--sync)
+    - [One-time Fork Setup](#one-time-fork-setup)
+    - [Keeping Your Fork in Sync](#keeping-your-fork-in-sync)
+  - [3. Branch Naming Conventions](#3-branch-naming-conventions)
+  - [4. PR Conventions](#4-pr-conventions)
+    - [Feature PR Flow (target: `dev`)](#feature-pr-flow-target-dev)
+    - [Release PR Flow (dev → main)](#release-pr-flow-dev--main)
+    - [Releasing to Production](#releasing-to-production)
+    - [Release Versioning](#release-versioning)
+    - [Commit Conventions](#commit-conventions)
+  - [5. CI/CD Tool Selection](#5-cicd-tool-selection)
+  - [6. Pipeline Stages](#6-pipeline-stages)
+  - [7. Build and Verification Responsibilities](#7-build-and-verification-responsibilities)
+  - [8. Hotfix Process](#8-hotfix-process)
+  - [9. Deployment Environment Strategy](#9-deployment-environment-strategy)
+  - [10. Database Migration Strategy](#10-database-migration-strategy)
+  - [11. Rollback Strategy](#11-rollback-strategy)
+  - [12. Environment Variables and Secrets Management](#12-environment-variables-and-secrets-management)
+  - [13. Zero-Downtime Deployment Approach](#13-zero-downtime-deployment-approach)
+  - [14. Deployment Impact Summary](#14-deployment-impact-summary)
+  - [Source References](#source-references)
 
 ## 1. Branching Strategy
 
 The project uses a **two-branch model** (`dev` + `main`) with fork-based contributions. All contributors — core team and external — work from forks and submit pull requests to the upstream repository.
 
-```
+```text
 feature/<desc>  fix/<desc>  docs/<desc>    ← created from dev in your fork
          │
          ▼
@@ -50,6 +60,8 @@ feature/<desc>  fix/<desc>  docs/<desc>    ← created from dev in your fork
     Production ─────────────────────────── tag triggers deploy pipeline
 ```
 
+![Branching Strategy Diagram](./images/branching-strategy.png)
+
 **Permanent branches in the upstream org repo:** `dev`, `main`
 
 - **`dev`**: Integration branch. All feature, fix, docs, refactor, test, and chore PRs target `dev`. This is where changes converge and are tested together before promotion to production.
@@ -65,7 +77,7 @@ No direct commits to `dev` or `main`. All changes arrive via pull request from a
 | ----------------------- | ------------------------------------------- | ----------------------------------------------------------- |
 | Direct pushes           | ❌ Blocked                                  | ❌ Blocked                                                  |
 | PR required             | ✅ All changes via PR                       | ✅ All changes via PR from `dev` or hotfix                  |
-| Required approvals      | 1 (when team > 1)                           | 2                                                           |
+| Required approvals      | 1 (when team > 1)                           | 1                                                           |
 | Status checks           | ✅ Must pass (lint, test, type-check, docs) | ✅ Must pass (lint, test, type-check, docs, terraform plan) |
 | Up-to-date before merge | ✅ Required                                 | ✅ Required                                                 |
 | Conversation resolution | ✅ Required                                 | ✅ Required                                                 |
@@ -109,29 +121,6 @@ git checkout feature/add-pipeline-audit
 git rebase upstream/dev
 git push origin feature/add-pipeline-audit --force-with-lease
 ```
-
-### Optional Git Aliases
-
-These user-level aliases simplify fork workflow. Add them to `~/.gitconfig`:
-
-```bash
-git config --global --edit
-```
-
-```ini
-[alias]
-   sync = !git fetch upstream && git merge upstream/$(git branch --show-current) && git push origin HEAD
-   resync = !git fetch upstream && git reset --hard upstream/$(git branch --show-current) && git push origin HEAD --force-with-lease
-   feat = "!f() { test -n \"$1\" || { echo \"usage: git feature <branch-name>\"; return 1; }; git checkout dev && git resync && git checkout -b \"$1\"; }; f"
-```
-
-| Alias             | What it does                                                                                                                                                                                                     |
-| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `git sync`        | Fetches `upstream`, merges `upstream/<current-branch>` into your current branch, then pushes the result to the same branch on your fork (`origin`). Use to bring a local branch up to date without rewriting it. |
-| `git resync`      | Fetches `upstream`, resets your current branch to exactly match `upstream/<current-branch>`, then force-pushes with `--force-with-lease`. Use to make your fork's `dev` or `main` match upstream exactly.        |
-| `git feat <name>` | Checks out `dev`, runs `git resync` so local and fork `dev` match `upstream/dev`, then creates the named feature branch from the refreshed `dev`. Example: `git feat feature/ai-refinement-ui`.                  |
-
-**Important:** Use `git resync` only on disposable local copies of shared branches (`dev` or `main`). Do not run it on a feature branch that contains unmerged work.
 
 ---
 
