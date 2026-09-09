@@ -1,4 +1,8 @@
-# Architecture Styles Decision
+---
+sidebar_position: 2
+---
+
+# Architecture Styles
 
 | Attribute   | Value             |
 | ----------- | ----------------- |

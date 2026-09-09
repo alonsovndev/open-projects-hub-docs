@@ -1,3 +1,7 @@
+---
+sidebar_position: 1
+---
+
 # API Design Standards
 
 | Attribute        | Value                       |
