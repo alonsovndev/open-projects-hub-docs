@@ -104,7 +104,7 @@
       "reusable": true,
       "width": 82,
       "height": 22,
-      "fill": "#f6ffed",
+      "fill": "$success-light",
       "cornerRadius": 100,
       "padding": [
         2,
@@ -117,7 +117,7 @@
           "type": "text",
           "id": "ys9sm",
           "name": "Label",
-          "fill": "$success",
+          "fill": "$success-dark",
           "content": "Approved",
           "fontFamily": "$font-body",
           "fontSize": "$font-size-xs",
@@ -240,6 +240,12 @@
               "fontFamily": "$font-body",
               "fontSize": "$font-size-h3",
               "fontWeight": "$font-weight-semibold"
+            },
+            {
+              "id": "kJU7t",
+              "type": "ref",
+              "ref": "x4GaMq",
+              "name": "StatusTag"
             }
           ]
         },
@@ -373,35 +379,90 @@
               "type": "ref",
               "ref": "JPmtg",
               "name": "Dashboard",
-              "width": "fill_container"
+              "width": "fill_container",
+              "descendants": {
+                "piFNM": {
+                  "icon": "layout-dashboard"
+                },
+                "QdF1U": {
+                  "content": "Dashboard"
+                }
+              }
             },
             {
               "id": "J2pQ89",
               "type": "ref",
               "ref": "JPmtg",
               "name": "Projects",
-              "width": "fill_container"
+              "width": "fill_container",
+              "descendants": {
+                "piFNM": {
+                  "icon": "folder"
+                },
+                "QdF1U": {
+                  "content": "Projects"
+                }
+              }
+            },
+            {
+              "id": "A3P9SL",
+              "type": "ref",
+              "ref": "JPmtg",
+              "name": "Clients",
+              "width": "fill_container",
+              "descendants": {
+                "piFNM": {
+                  "icon": "users"
+                },
+                "QdF1U": {
+                  "content": "Clients"
+                }
+              }
             },
             {
               "id": "XuFeT",
               "type": "ref",
               "ref": "JPmtg",
               "name": "Refinement",
-              "width": "fill_container"
+              "width": "fill_container",
+              "descendants": {
+                "piFNM": {
+                  "icon": "sparkles"
+                },
+                "QdF1U": {
+                  "content": "Refinement"
+                }
+              }
             },
             {
               "id": "D87kG",
               "type": "ref",
               "ref": "JPmtg",
               "name": "Backlog",
-              "width": "fill_container"
+              "width": "fill_container",
+              "descendants": {
+                "piFNM": {
+                  "icon": "list-checks"
+                },
+                "QdF1U": {
+                  "content": "Backlog"
+                }
+              }
             },
             {
               "id": "k3zR7t",
               "type": "ref",
               "ref": "JPmtg",
               "name": "Settings",
-              "width": "fill_container"
+              "width": "fill_container",
+              "descendants": {
+                "piFNM": {
+                  "icon": "settings"
+                },
+                "QdF1U": {
+                  "content": "Settings"
+                }
+              }
             }
           ]
         },
@@ -584,7 +645,16 @@
           "name": "SiderSlot",
           "width": 240,
           "height": "fill_container",
-          "layout": "vertical"
+          "layout": "vertical",
+          "children": [
+            {
+              "id": "bOunQ",
+              "type": "ref",
+              "ref": "Uyh9u",
+              "name": "Sider",
+              "height": "fill_container"
+            }
+          ]
         },
         {
           "type": "frame",
@@ -802,7 +872,12 @@
                   "id": "G48hrh",
                   "type": "ref",
                   "ref": "zEizh",
-                  "name": "CTA"
+                  "name": "CTA",
+                  "descendants": {
+                    "WhXJ5": {
+                      "content": "Continue as Freelancer"
+                    }
+                  }
                 }
               ]
             },
@@ -869,7 +944,12 @@
                   "id": "PbObR",
                   "type": "ref",
                   "ref": "Awwh3",
-                  "name": "CTA"
+                  "name": "CTA",
+                  "descendants": {
+                    "CoZnr": {
+                      "content": "Continue as Client"
+                    }
+                  }
                 }
               ]
             }
@@ -976,28 +1056,60 @@
                       "type": "ref",
                       "ref": "r50qj",
                       "name": "Full Name",
-                      "width": "fill_container"
+                      "width": "fill_container",
+                      "descendants": {
+                        "W0mIjC": {
+                          "content": "Full Name"
+                        },
+                        "cw4dQ": {
+                          "content": "Alex Rivera"
+                        }
+                      }
                     },
                     {
                       "id": "k1vMY",
                       "type": "ref",
                       "ref": "r50qj",
                       "name": "Work Email",
-                      "width": "fill_container"
+                      "width": "fill_container",
+                      "descendants": {
+                        "W0mIjC": {
+                          "content": "Work Email"
+                        },
+                        "cw4dQ": {
+                          "content": "alex@example.com"
+                        }
+                      }
                     },
                     {
                       "id": "CAuHE",
                       "type": "ref",
                       "ref": "r50qj",
                       "name": "Password",
-                      "width": "fill_container"
+                      "width": "fill_container",
+                      "descendants": {
+                        "W0mIjC": {
+                          "content": "Password"
+                        },
+                        "cw4dQ": {
+                          "content": "At least 8 characters"
+                        }
+                      }
                     },
                     {
                       "id": "CYJtw",
                       "type": "ref",
                       "ref": "r50qj",
                       "name": "Confirm Password",
-                      "width": "fill_container"
+                      "width": "fill_container",
+                      "descendants": {
+                        "W0mIjC": {
+                          "content": "Confirm Password"
+                        },
+                        "cw4dQ": {
+                          "content": "Re-enter your password"
+                        }
+                      }
                     }
                   ]
                 },
@@ -1037,7 +1149,12 @@
                   "ref": "zEizh",
                   "name": "SubmitBtn",
                   "width": "fill_container",
-                  "height": 44
+                  "height": 44,
+                  "descendants": {
+                    "WhXJ5": {
+                      "content": "Create Account"
+                    }
+                  }
                 },
                 {
                   "type": "frame",
@@ -1174,14 +1291,30 @@
                       "type": "ref",
                       "ref": "r50qj",
                       "name": "Email",
-                      "width": "fill_container"
+                      "width": "fill_container",
+                      "descendants": {
+                        "W0mIjC": {
+                          "content": "Email"
+                        },
+                        "cw4dQ": {
+                          "content": "alex@example.com"
+                        }
+                      }
                     },
                     {
                       "id": "JeYlX",
                       "type": "ref",
                       "ref": "r50qj",
                       "name": "Password",
-                      "width": "fill_container"
+                      "width": "fill_container",
+                      "descendants": {
+                        "W0mIjC": {
+                          "content": "Password"
+                        },
+                        "cw4dQ": {
+                          "content": "At least 8 characters"
+                        }
+                      }
                     }
                   ]
                 },
@@ -1242,7 +1375,12 @@
                   "ref": "zEizh",
                   "name": "SubmitBtn",
                   "width": "fill_container",
-                  "height": 44
+                  "height": 44,
+                  "descendants": {
+                    "WhXJ5": {
+                      "content": "Sign In"
+                    }
+                  }
                 },
                 {
                   "type": "frame",
@@ -1373,7 +1511,7 @@
                       "id": "PpOO7",
                       "name": "NotesInput",
                       "width": "fill_container",
-                      "height": "fill_container",
+                      "height": 230,
                       "fill": "$bg",
                       "cornerRadius": "$radius-md",
                       "stroke": "$border",
@@ -1397,12 +1535,102 @@
                       ]
                     },
                     {
+                      "id": "Yq66x",
+                      "type": "ref",
+                      "ref": "NcXOV",
+                      "name": "AmbiguityBar",
+                      "width": "fill_container"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "twS1K",
+                      "name": "ProviderRow",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 6,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "XxD6p",
+                          "name": "LabelRow",
+                          "width": "fill_container",
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "PyXvC",
+                              "name": "Label",
+                              "fill": "$text-primary",
+                              "content": "AI Provider",
+                              "fontFamily": "$font-body",
+                              "fontSize": "$font-size-body",
+                              "fontWeight": "$font-weight-medium"
+                            },
+                            {
+                              "type": "text",
+                              "id": "YTOnm",
+                              "name": "Credits",
+                              "fill": "$text-secondary",
+                              "content": "4 of 5 free credits left",
+                              "fontFamily": "$font-body",
+                              "fontSize": "$font-size-xs",
+                              "fontWeight": "$font-weight-medium"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "TD3xC",
+                          "name": "Select",
+                          "width": "fill_container",
+                          "fill": "$bg",
+                          "cornerRadius": "$radius-md",
+                          "stroke": "$border",
+                          "strokeWidth": 1,
+                          "padding": [
+                            9,
+                            12
+                          ],
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "bVp16",
+                              "name": "Value",
+                              "fill": "$text-primary",
+                              "content": "Platform — uses free credits",
+                              "fontFamily": "$font-body",
+                              "fontSize": "$font-size-body",
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "icon",
+                              "id": "K0nCD",
+                              "name": "Chevron",
+                              "width": 16,
+                              "height": 16,
+                              "icon": "chevron-down",
+                              "library": "lucide",
+                              "fill": "$text-secondary"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
                       "id": "pHACV",
                       "type": "ref",
                       "ref": "zEizh",
                       "name": "GenerateBtn",
                       "width": "fill_container",
-                      "height": 44
+                      "height": 44,
+                      "descendants": {
+                        "WhXJ5": {
+                          "content": "Generate Epics & Stories"
+                        }
+                      }
                     },
                     {
                       "type": "text",
@@ -1451,7 +1679,12 @@
                           "id": "zmH05",
                           "type": "ref",
                           "ref": "zEizh",
-                          "name": "ApproveAllBtn"
+                          "name": "ApproveAllBtn",
+                          "descendants": {
+                            "WhXJ5": {
+                              "content": "Approve All"
+                            }
+                          }
                         }
                       ]
                     },
@@ -1469,14 +1702,72 @@
                           "type": "ref",
                           "ref": "s63ms9",
                           "name": "Epic: Seller Listing Management",
-                          "width": "fill_container"
+                          "width": "fill_container",
+                          "descendants": {
+                            "TgwZB": {
+                              "content": "Seller Listing Management"
+                            },
+                            "u40SOR": {
+                              "content": "Enable sellers to create, publish, and maintain product listings for their handmade crafts."
+                            },
+                            "uFkEU": {
+                              "content": "- Sellers can publish a listing with photos and pricing\n- Listings can be edited or unpublished at any time"
+                            },
+                            "tUkvv/Z0dRi": {
+                              "content": "Create a Product Listing"
+                            },
+                            "tUkvv/vviL9": {
+                              "content": "As a seller, I want to list a product with photos and pricing, so that buyers can discover and purchase my crafts."
+                            },
+                            "tUkvv/R7JFC": {
+                              "content": "- Upload up to 8 photos per listing\n- Set price, stock count, and description\n- Save as draft before publishing"
+                            },
+                            "A1cjUy/Z0dRi": {
+                              "content": "Manage Existing Listings"
+                            },
+                            "A1cjUy/vviL9": {
+                              "content": "As a seller, I want to see all my listings in one place, so that I can update stock and pricing quickly."
+                            },
+                            "A1cjUy/R7JFC": {
+                              "content": "- Listings show status and stock level\n- Inline edit for price and stock\n- Unpublish without deleting"
+                            }
+                          }
                         },
                         {
                           "id": "xnLYZ",
                           "type": "ref",
                           "ref": "s63ms9",
                           "name": "Epic: Buyer Shopping Flow",
-                          "width": "fill_container"
+                          "width": "fill_container",
+                          "descendants": {
+                            "TgwZB": {
+                              "content": "Buyer Shopping Flow"
+                            },
+                            "u40SOR": {
+                              "content": "Let buyers discover crafts, collect them in a cart, and complete a secure checkout."
+                            },
+                            "uFkEU": {
+                              "content": "- Buyers can search and filter the catalog\n- Cart persists across sessions\n- Checkout completes with confirmation"
+                            },
+                            "tUkvv/Z0dRi": {
+                              "content": "Browse and Search Products"
+                            },
+                            "tUkvv/vviL9": {
+                              "content": "As a buyer, I want to browse and search products, so that I can find crafts that match what I am looking for."
+                            },
+                            "tUkvv/R7JFC": {
+                              "content": "- Keyword search across title and description\n- Filter by category and price range\n- Results paginate at 24 items"
+                            },
+                            "A1cjUy/Z0dRi": {
+                              "content": "Cart and Checkout"
+                            },
+                            "A1cjUy/vviL9": {
+                              "content": "As a buyer, I want to add items to a cart and check out, so that I can purchase several crafts in one order."
+                            },
+                            "A1cjUy/R7JFC": {
+                              "content": "- Add, update quantity, and remove items\n- Order summary shows totals before payment\n- Confirmation email on successful order"
+                            }
+                          }
                         }
                       ]
                     }
@@ -1509,7 +1800,12 @@
               "type": "ref",
               "ref": "Awwh3",
               "name": "ExportBtn",
-              "height": 36
+              "height": 36,
+              "descendants": {
+                "CoZnr": {
+                  "content": "Export Markdown"
+                }
+              }
             }
           ]
         },
@@ -1586,14 +1882,100 @@
                   "type": "ref",
                   "ref": "s63ms9",
                   "name": "Epic: Seller Listing Management",
-                  "width": "fill_container"
+                  "width": "fill_container",
+                  "descendants": {
+                    "TgwZB": {
+                      "content": "Seller Listing Management"
+                    },
+                    "u40SOR": {
+                      "content": "Enable sellers to create, publish, and maintain product listings for their handmade crafts."
+                    },
+                    "uFkEU": {
+                      "content": "- Sellers can publish a listing with photos and pricing\n- Listings can be edited or unpublished at any time"
+                    },
+                    "tUkvv/Z0dRi": {
+                      "content": "Create a Product Listing"
+                    },
+                    "tUkvv/kJU7t": {
+                      "fill": "$success-light"
+                    },
+                    "tUkvv/kJU7t/UO6Rz": {
+                      "content": "Approved",
+                      "fill": "$success-dark"
+                    },
+                    "tUkvv/vviL9": {
+                      "content": "As a seller, I want to list a product with photos and pricing, so that buyers can discover and purchase my crafts."
+                    },
+                    "tUkvv/R7JFC": {
+                      "content": "- Upload up to 8 photos per listing\n- Set price, stock count, and description\n- Save as draft before publishing"
+                    },
+                    "A1cjUy/Z0dRi": {
+                      "content": "Manage Existing Listings"
+                    },
+                    "A1cjUy/kJU7t": {
+                      "fill": "$success-light"
+                    },
+                    "A1cjUy/kJU7t/UO6Rz": {
+                      "content": "Approved",
+                      "fill": "$success-dark"
+                    },
+                    "A1cjUy/vviL9": {
+                      "content": "As a seller, I want to see all my listings in one place, so that I can update stock and pricing quickly."
+                    },
+                    "A1cjUy/R7JFC": {
+                      "content": "- Listings show status and stock level\n- Inline edit for price and stock\n- Unpublish without deleting"
+                    }
+                  }
                 },
                 {
                   "id": "SD3ZS",
                   "type": "ref",
                   "ref": "s63ms9",
                   "name": "Epic: Buyer Shopping Flow",
-                  "width": "fill_container"
+                  "width": "fill_container",
+                  "descendants": {
+                    "TgwZB": {
+                      "content": "Buyer Shopping Flow"
+                    },
+                    "u40SOR": {
+                      "content": "Let buyers discover crafts, collect them in a cart, and complete a secure checkout."
+                    },
+                    "uFkEU": {
+                      "content": "- Buyers can search and filter the catalog\n- Cart persists across sessions\n- Checkout completes with confirmation"
+                    },
+                    "tUkvv/Z0dRi": {
+                      "content": "Browse and Search Products"
+                    },
+                    "tUkvv/kJU7t": {
+                      "fill": "$success-light"
+                    },
+                    "tUkvv/kJU7t/UO6Rz": {
+                      "content": "Approved",
+                      "fill": "$success-dark"
+                    },
+                    "tUkvv/vviL9": {
+                      "content": "As a buyer, I want to browse and search products, so that I can find crafts that match what I am looking for."
+                    },
+                    "tUkvv/R7JFC": {
+                      "content": "- Keyword search across title and description\n- Filter by category and price range\n- Results paginate at 24 items"
+                    },
+                    "A1cjUy/Z0dRi": {
+                      "content": "Cart and Checkout"
+                    },
+                    "A1cjUy/kJU7t": {
+                      "fill": "$success-light"
+                    },
+                    "A1cjUy/kJU7t/UO6Rz": {
+                      "content": "Approved",
+                      "fill": "$success-dark"
+                    },
+                    "A1cjUy/vviL9": {
+                      "content": "As a buyer, I want to add items to a cart and check out, so that I can purchase several crafts in one order."
+                    },
+                    "A1cjUy/R7JFC": {
+                      "content": "- Add, update quantity, and remove items\n- Order summary shows totals before payment\n- Confirmation email on successful order"
+                    }
+                  }
                 }
               ]
             }
@@ -1693,7 +2075,15 @@
                   "type": "ref",
                   "ref": "r50qj",
                   "name": "Email",
-                  "width": "fill_container"
+                  "width": "fill_container",
+                  "descendants": {
+                    "W0mIjC": {
+                      "content": "Email"
+                    },
+                    "cw4dQ": {
+                      "content": "alex@example.com"
+                    }
+                  }
                 },
                 {
                   "id": "MQWKa",
@@ -1701,14 +2091,19 @@
                   "ref": "zEizh",
                   "name": "SubmitBtn",
                   "width": "fill_container",
-                  "height": 44
+                  "height": 44,
+                  "descendants": {
+                    "WhXJ5": {
+                      "content": "Send Reset Code"
+                    }
+                  }
                 },
                 {
                   "type": "text",
                   "id": "z6zkS6",
                   "name": "BackLink",
                   "fill": "$primary",
-                  "content": "<- Back to Sign In",
+                  "content": "← Back to Sign In",
                   "fontFamily": "$font-body",
                   "fontSize": "$font-size-body",
                   "fontWeight": "normal"
@@ -1811,21 +2206,45 @@
                   "type": "ref",
                   "ref": "r50qj",
                   "name": "ResetCode",
-                  "width": "fill_container"
+                  "width": "fill_container",
+                  "descendants": {
+                    "W0mIjC": {
+                      "content": "Reset Code"
+                    },
+                    "cw4dQ": {
+                      "content": "6-digit code"
+                    }
+                  }
                 },
                 {
                   "id": "yp1CY",
                   "type": "ref",
                   "ref": "r50qj",
                   "name": "NewPassword",
-                  "width": "fill_container"
+                  "width": "fill_container",
+                  "descendants": {
+                    "W0mIjC": {
+                      "content": "New Password"
+                    },
+                    "cw4dQ": {
+                      "content": "At least 8 characters"
+                    }
+                  }
                 },
                 {
                   "id": "ObmZu",
                   "type": "ref",
                   "ref": "r50qj",
                   "name": "ConfirmPassword",
-                  "width": "fill_container"
+                  "width": "fill_container",
+                  "descendants": {
+                    "W0mIjC": {
+                      "content": "Confirm Password"
+                    },
+                    "cw4dQ": {
+                      "content": "Re-enter your password"
+                    }
+                  }
                 },
                 {
                   "id": "gg1Fk",
@@ -1833,7 +2252,12 @@
                   "ref": "zEizh",
                   "name": "SubmitBtn",
                   "width": "fill_container",
-                  "height": 44
+                  "height": 44,
+                  "descendants": {
+                    "WhXJ5": {
+                      "content": "Reset Password"
+                    }
+                  }
                 }
               ]
             }
@@ -1851,6 +2275,7 @@
       "width": 1440,
       "fill": "$bg",
       "layout": "vertical",
+      "alignItems": "center",
       "children": [
         {
           "type": "frame",
@@ -1974,28 +2399,100 @@
                   "type": "ref",
                   "ref": "MZPIE",
                   "name": "Product Creation Form",
-                  "width": "fill_container"
+                  "width": "fill_container",
+                  "descendants": {
+                    "Z0dRi": {
+                      "content": "Create a Product Listing"
+                    },
+                    "kJU7t": {
+                      "fill": "$success-light"
+                    },
+                    "kJU7t/UO6Rz": {
+                      "content": "Approved",
+                      "fill": "$success-dark"
+                    },
+                    "vviL9": {
+                      "content": "As a seller, I want to list a product with photos and pricing, so that buyers can discover and purchase my crafts."
+                    },
+                    "R7JFC": {
+                      "content": "- Upload up to 8 photos per listing\n- Set price, stock count, and description\n- Save as draft before publishing"
+                    }
+                  }
                 },
                 {
                   "id": "p2p1bU",
                   "type": "ref",
                   "ref": "MZPIE",
                   "name": "Listing Dashboard",
-                  "width": "fill_container"
+                  "width": "fill_container",
+                  "descendants": {
+                    "Z0dRi": {
+                      "content": "Manage Existing Listings"
+                    },
+                    "kJU7t": {
+                      "fill": "$success-light"
+                    },
+                    "kJU7t/UO6Rz": {
+                      "content": "Approved",
+                      "fill": "$success-dark"
+                    },
+                    "vviL9": {
+                      "content": "As a seller, I want to see all my listings in one place, so that I can update stock and pricing quickly."
+                    },
+                    "R7JFC": {
+                      "content": "- Listings show status and stock level\n- Inline edit for price and stock\n- Unpublish without deleting"
+                    }
+                  }
                 },
                 {
                   "id": "QIhIa",
                   "type": "ref",
                   "ref": "MZPIE",
                   "name": "Product Browse & Search",
-                  "width": "fill_container"
+                  "width": "fill_container",
+                  "descendants": {
+                    "Z0dRi": {
+                      "content": "Browse and Search Products"
+                    },
+                    "kJU7t": {
+                      "fill": "$success-light"
+                    },
+                    "kJU7t/UO6Rz": {
+                      "content": "Approved",
+                      "fill": "$success-dark"
+                    },
+                    "vviL9": {
+                      "content": "As a buyer, I want to browse and search products, so that I can find crafts that match what I am looking for."
+                    },
+                    "R7JFC": {
+                      "content": "- Keyword search across title and description\n- Filter by category and price range\n- Results paginate at 24 items"
+                    }
+                  }
                 },
                 {
                   "id": "tRZ44",
                   "type": "ref",
                   "ref": "MZPIE",
                   "name": "Cart & Checkout",
-                  "width": "fill_container"
+                  "width": "fill_container",
+                  "descendants": {
+                    "Z0dRi": {
+                      "content": "Cart and Checkout"
+                    },
+                    "kJU7t": {
+                      "fill": "$success-light"
+                    },
+                    "kJU7t/UO6Rz": {
+                      "content": "Approved",
+                      "fill": "$success-dark"
+                    },
+                    "vviL9": {
+                      "content": "As a buyer, I want to add items to a cart and check out, so that I can purchase several crafts in one order."
+                    },
+                    "R7JFC": {
+                      "content": "- Add, update quantity, and remove items\n- Order summary shows totals before payment\n- Confirmation email on successful order"
+                    }
+                  }
                 }
               ]
             }
@@ -2169,6 +2666,70 @@
                 },
                 {
                   "type": "frame",
+                  "id": "ErLv8",
+                  "name": "Step2",
+                  "width": "fill_container",
+                  "gap": 12,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "FJMMd",
+                      "name": "NumBadge",
+                      "width": 24,
+                      "height": 24,
+                      "fill": "$primary",
+                      "cornerRadius": 100,
+                      "justifyContent": "center",
+                      "alignItems": "center"
+                    },
+                    {
+                      "type": "text",
+                      "id": "l29eP8",
+                      "name": "NumText",
+                      "fill": "#ffffff",
+                      "content": "2",
+                      "fontFamily": "$font-body",
+                      "fontSize": 12,
+                      "fontWeight": "$font-weight-bold"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "bs4PF",
+                      "name": "TextCol",
+                      "width": 360,
+                      "layout": "vertical",
+                      "gap": 2,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "axn5N",
+                          "name": "StepTitle",
+                          "fill": "$text-primary",
+                          "content": "Review Ambiguities",
+                          "fontFamily": "$font-body",
+                          "fontSize": "$font-size-body",
+                          "fontWeight": "$font-weight-semibold"
+                        },
+                        {
+                          "type": "text",
+                          "id": "E1q6pi",
+                          "name": "StepDesc",
+                          "fill": "$text-secondary",
+                          "textGrowth": "fixed-width",
+                          "width": 360,
+                          "content": "Vague phrases are flagged for you to clarify before generating.",
+                          "lineHeight": "$line-height-normal",
+                          "fontFamily": "$font-body",
+                          "fontSize": "$font-size-sm",
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
                   "id": "KLEtN",
                   "name": "Step3",
                   "width": "fill_container",
@@ -2191,7 +2752,7 @@
                       "id": "aXULN",
                       "name": "NumText",
                       "fill": "#ffffff",
-                      "content": "2",
+                      "content": "3",
                       "fontFamily": "$font-body",
                       "fontSize": 12,
                       "fontWeight": "$font-weight-bold"
@@ -2255,7 +2816,7 @@
                       "id": "dr4si",
                       "name": "NumText",
                       "fill": "#ffffff",
-                      "content": "3",
+                      "content": "4",
                       "fontFamily": "$font-body",
                       "fontSize": 12,
                       "fontWeight": "$font-weight-bold"
@@ -2320,7 +2881,12 @@
                   "id": "WYwcl",
                   "type": "ref",
                   "ref": "zEizh",
-                  "name": "GotItBtn"
+                  "name": "GotItBtn",
+                  "descendants": {
+                    "WhXJ5": {
+                      "content": "Got It"
+                    }
+                  }
                 }
               ]
             }
@@ -2400,7 +2966,12 @@
                   "type": "ref",
                   "ref": "zEizh",
                   "name": "SignInBtn",
-                  "height": 36
+                  "height": 36,
+                  "descendants": {
+                    "WhXJ5": {
+                      "content": "Sign In"
+                    }
+                  }
                 }
               ]
             }
@@ -2467,14 +3038,24 @@
                       "type": "ref",
                       "ref": "zEizh",
                       "name": "StartProjectBtn",
-                      "height": 48
+                      "height": 48,
+                      "descendants": {
+                        "WhXJ5": {
+                          "content": "Start a Project"
+                        }
+                      }
                     },
                     {
                       "id": "yuyXi",
                       "type": "ref",
                       "ref": "Awwh3",
                       "name": "ViewSampleBtn",
-                      "height": 48
+                      "height": 48,
+                      "descendants": {
+                        "CoZnr": {
+                          "content": "View Sample"
+                        }
+                      }
                     }
                   ]
                 }
@@ -3596,7 +4177,12 @@
                   "type": "ref",
                   "ref": "zEizh",
                   "name": "NewProjectBtn",
-                  "height": 40
+                  "height": 40,
+                  "descendants": {
+                    "WhXJ5": {
+                      "content": "New Project"
+                    }
+                  }
                 }
               ]
             },
@@ -3954,14 +4540,30 @@
                       "type": "ref",
                       "ref": "r50qj",
                       "name": "FullName",
-                      "width": 480
+                      "width": 480,
+                      "descendants": {
+                        "W0mIjC": {
+                          "content": "Full Name"
+                        },
+                        "cw4dQ": {
+                          "content": "Alex Rivera"
+                        }
+                      }
                     },
                     {
                       "id": "abVMk",
                       "type": "ref",
                       "ref": "r50qj",
                       "name": "WorkEmail",
-                      "width": 480
+                      "width": 480,
+                      "descendants": {
+                        "W0mIjC": {
+                          "content": "Work Email"
+                        },
+                        "cw4dQ": {
+                          "content": "alex@example.com"
+                        }
+                      }
                     }
                   ]
                 },
@@ -3970,7 +4572,12 @@
                   "type": "ref",
                   "ref": "zEizh",
                   "name": "SaveProfileBtn",
-                  "height": 40
+                  "height": 40,
+                  "descendants": {
+                    "WhXJ5": {
+                      "content": "Save Changes"
+                    }
+                  }
                 }
               ]
             },
@@ -4010,21 +4617,45 @@
                       "type": "ref",
                       "ref": "r50qj",
                       "name": "CurrentPassword",
-                      "width": 480
+                      "width": 480,
+                      "descendants": {
+                        "W0mIjC": {
+                          "content": "Current Password"
+                        },
+                        "cw4dQ": {
+                          "content": "At least 8 characters"
+                        }
+                      }
                     },
                     {
                       "id": "Cpl6P",
                       "type": "ref",
                       "ref": "r50qj",
                       "name": "NewPassword",
-                      "width": 480
+                      "width": 480,
+                      "descendants": {
+                        "W0mIjC": {
+                          "content": "New Password"
+                        },
+                        "cw4dQ": {
+                          "content": "At least 8 characters"
+                        }
+                      }
                     },
                     {
                       "id": "f81Cai",
                       "type": "ref",
                       "ref": "r50qj",
                       "name": "ConfirmNew Password",
-                      "width": 480
+                      "width": 480,
+                      "descendants": {
+                        "W0mIjC": {
+                          "content": "Confirm New Password"
+                        },
+                        "cw4dQ": {
+                          "content": "Re-enter your password"
+                        }
+                      }
                     }
                   ]
                 },
@@ -4033,7 +4664,12 @@
                   "type": "ref",
                   "ref": "zEizh",
                   "name": "UpdatePwdBtn",
-                  "height": 40
+                  "height": 40,
+                  "descendants": {
+                    "WhXJ5": {
+                      "content": "Update Password"
+                    }
+                  }
                 }
               ]
             },
@@ -4250,7 +4886,12 @@
                   "type": "ref",
                   "ref": "Awwh3",
                   "name": "AddKeyBtn",
-                  "height": 40
+                  "height": 40,
+                  "descendants": {
+                    "CoZnr": {
+                      "content": "Add API Key"
+                    }
+                  }
                 }
               ]
             },
@@ -5648,6 +6289,1097 @@
           ]
         }
       ]
+    },
+    {
+      "type": "frame",
+      "id": "NcXOV",
+      "x": 25727,
+      "y": 0,
+      "name": "AmbiguityBar",
+      "reusable": true,
+      "width": 440,
+      "fill": "$warning-light",
+      "cornerRadius": "$radius-md",
+      "stroke": "$warning",
+      "strokeWidth": 1,
+      "layout": "vertical",
+      "gap": "$spacing-sm",
+      "padding": "$spacing-md",
+      "children": [
+        {
+          "type": "frame",
+          "id": "dFiYy",
+          "name": "Header",
+          "width": "fill_container",
+          "gap": 8,
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon",
+              "id": "klSzZ",
+              "name": "WarnIcon",
+              "width": 16,
+              "height": 16,
+              "icon": "alert-triangle",
+              "library": "lucide",
+              "fill": "$warning-dark"
+            },
+            {
+              "type": "text",
+              "id": "q2TwR",
+              "name": "HeaderText",
+              "fill": "$warning-dark",
+              "content": "2 items need clarification",
+              "fontFamily": "$font-body",
+              "fontSize": "$font-size-sm",
+              "fontWeight": "$font-weight-semibold"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "YoCXN",
+          "name": "Items",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 10,
+          "children": [
+            {
+              "type": "frame",
+              "id": "so8J6",
+              "name": "AmbiguityItem",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 2,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "I5eYsw",
+                  "name": "Phrase",
+                  "fill": "$text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "\"Payment integration (Stripe or PayPal)\"",
+                  "lineHeight": "$line-height-normal",
+                  "fontFamily": "$font-body",
+                  "fontSize": "$font-size-sm",
+                  "fontWeight": "$font-weight-medium"
+                },
+                {
+                  "type": "text",
+                  "id": "yxxyK",
+                  "name": "Reason",
+                  "fill": "$warning-dark",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Which provider should the MVP integrate? Both implies extra scope.",
+                  "lineHeight": "$line-height-normal",
+                  "fontFamily": "$font-body",
+                  "fontSize": "$font-size-xs",
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "GNOS2",
+              "name": "AmbiguityItem",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 2,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "COV41",
+                  "name": "Phrase",
+                  "fill": "$text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "\"Order tracking and notifications\"",
+                  "lineHeight": "$line-height-normal",
+                  "fontFamily": "$font-body",
+                  "fontSize": "$font-size-sm",
+                  "fontWeight": "$font-weight-medium"
+                },
+                {
+                  "type": "text",
+                  "id": "dVAmg",
+                  "name": "Reason",
+                  "fill": "$warning-dark",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Notification channel is unspecified — email, SMS, or in-app?",
+                  "lineHeight": "$line-height-normal",
+                  "fontFamily": "$font-body",
+                  "fontSize": "$font-size-xs",
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "Y7BZOF",
+      "x": 26167,
+      "y": 0,
+      "name": "Select",
+      "reusable": true,
+      "width": 300,
+      "layout": "vertical",
+      "gap": 6,
+      "children": [
+        {
+          "type": "text",
+          "id": "gsQCW",
+          "name": "Label",
+          "fill": "$text-primary",
+          "content": "Field Label",
+          "fontFamily": "$font-body",
+          "fontSize": "$font-size-body",
+          "fontWeight": "$font-weight-medium"
+        },
+        {
+          "type": "frame",
+          "id": "L3uobZ",
+          "name": "Control",
+          "width": "fill_container",
+          "fill": "$bg",
+          "cornerRadius": "$radius-md",
+          "stroke": "$border",
+          "strokeWidth": 1,
+          "padding": [
+            9,
+            12
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "vkGzl",
+              "name": "Value",
+              "fill": "$text-primary",
+              "content": "Select an option",
+              "fontFamily": "$font-body",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            },
+            {
+              "type": "icon",
+              "id": "ZP3t8",
+              "name": "Chevron",
+              "width": 16,
+              "height": 16,
+              "icon": "chevron-down",
+              "library": "lucide",
+              "fill": "$text-secondary"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "XY6tN",
+      "x": 26467,
+      "y": 0,
+      "name": "Alert",
+      "reusable": true,
+      "width": 440,
+      "fill": "$error-light",
+      "cornerRadius": "$radius-md",
+      "stroke": "$error",
+      "strokeWidth": 1,
+      "gap": 10,
+      "padding": "$spacing-md",
+      "children": [
+        {
+          "type": "icon",
+          "id": "AntAf",
+          "name": "Icon",
+          "width": 16,
+          "height": 16,
+          "icon": "alert-circle",
+          "library": "lucide",
+          "fill": "$error-dark"
+        },
+        {
+          "type": "frame",
+          "id": "N9dQEr",
+          "name": "Text",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 2,
+          "children": [
+            {
+              "type": "text",
+              "id": "m0x4n2",
+              "name": "Title",
+              "fill": "$error-dark",
+              "content": "Something needs your attention",
+              "fontFamily": "$font-body",
+              "fontSize": "$font-size-sm",
+              "fontWeight": "$font-weight-semibold"
+            },
+            {
+              "type": "text",
+              "id": "P54cxb",
+              "name": "Body",
+              "fill": "$error-dark",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Explain what went wrong and how to fix it.",
+              "lineHeight": "$line-height-normal",
+              "fontFamily": "$font-body",
+              "fontSize": "$font-size-xs",
+              "fontWeight": "normal"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "rK9AY",
+      "x": 26907,
+      "y": 0,
+      "name": "EmptyState",
+      "reusable": true,
+      "width": 520,
+      "layout": "vertical",
+      "gap": "$spacing-md",
+      "padding": [
+        64,
+        32
+      ],
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "icon",
+          "id": "U5N49l",
+          "name": "Icon",
+          "width": 40,
+          "height": 40,
+          "icon": "inbox",
+          "library": "lucide",
+          "fill": "$text-tertiary"
+        },
+        {
+          "type": "text",
+          "id": "gCxXH",
+          "name": "Title",
+          "fill": "$text-primary",
+          "content": "Nothing here yet",
+          "fontFamily": "$font-body",
+          "fontSize": "$font-size-h3",
+          "fontWeight": "$font-weight-semibold"
+        },
+        {
+          "type": "text",
+          "id": "pUmtY",
+          "name": "Description",
+          "fill": "$text-secondary",
+          "textGrowth": "fixed-width",
+          "width": "fill_container",
+          "content": "Create your first item to get started.",
+          "lineHeight": "$line-height-normal",
+          "textAlign": "center",
+          "fontFamily": "$font-body",
+          "fontSize": "$font-size-body",
+          "fontWeight": "normal"
+        },
+        {
+          "id": "tZgw3",
+          "type": "ref",
+          "ref": "zEizh",
+          "name": "CTA",
+          "descendants": {
+            "WhXJ5": {
+              "content": "Create"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "QzPiX",
+      "x": 27427,
+      "y": 0,
+      "name": "ListRow",
+      "reusable": true,
+      "width": 900,
+      "fill": "$bg",
+      "cornerRadius": "$radius-md",
+      "stroke": "$border",
+      "strokeWidth": 1,
+      "padding": [
+        16,
+        20
+      ],
+      "justifyContent": "space_between",
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "frame",
+          "id": "gG74r",
+          "name": "Main",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 4,
+          "children": [
+            {
+              "type": "text",
+              "id": "m9SsnC",
+              "name": "Primary",
+              "fill": "$text-primary",
+              "content": "Item name",
+              "fontFamily": "$font-body",
+              "fontSize": "$font-size-body",
+              "fontWeight": "$font-weight-semibold"
+            },
+            {
+              "type": "text",
+              "id": "QsBTl",
+              "name": "Secondary",
+              "fill": "$text-secondary",
+              "content": "Supporting metadata",
+              "fontFamily": "$font-body",
+              "fontSize": "$font-size-sm",
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "P5lfep",
+          "name": "Right",
+          "gap": 12,
+          "alignItems": "center",
+          "children": [
+            {
+              "id": "xvCTk",
+              "type": "ref",
+              "ref": "S8aYaw",
+              "name": "PhaseTag"
+            },
+            {
+              "id": "U99zWU",
+              "type": "ref",
+              "ref": "S8aYaw",
+              "name": "StatusTag"
+            },
+            {
+              "type": "icon",
+              "id": "IkWkR",
+              "name": "Actions",
+              "width": 20,
+              "height": 20,
+              "icon": "more-horizontal",
+              "library": "lucide",
+              "fill": "$text-secondary"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "bApHl",
+      "x": 28327,
+      "y": 0,
+      "name": "Modal",
+      "reusable": true,
+      "width": 1440,
+      "height": 960,
+      "fill": "#00000059",
+      "layout": "vertical",
+      "justifyContent": "center",
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "frame",
+          "id": "ikYqF",
+          "name": "Card",
+          "width": 480,
+          "fill": "$bg",
+          "cornerRadius": "$radius-lg",
+          "layout": "vertical",
+          "gap": "$spacing-md",
+          "padding": 32,
+          "children": [
+            {
+              "type": "frame",
+              "id": "DWHdy",
+              "name": "TitleRow",
+              "width": "fill_container",
+              "gap": 10,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "DuPve",
+                  "name": "Icon",
+                  "width": 20,
+                  "height": 20,
+                  "icon": "alert-triangle",
+                  "library": "lucide",
+                  "fill": "$warning-dark"
+                },
+                {
+                  "type": "text",
+                  "id": "efLVa",
+                  "name": "Title",
+                  "fill": "$text-primary",
+                  "content": "Confirm action",
+                  "fontFamily": "$font-body",
+                  "fontSize": "$font-size-h3",
+                  "fontWeight": "$font-weight-semibold"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "IhaU0",
+              "name": "Body",
+              "fill": "$text-secondary",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Explain what will happen and what the user should do next.",
+              "lineHeight": "$line-height-normal",
+              "fontFamily": "$font-body",
+              "fontSize": "$font-size-body",
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "HF3Dn",
+              "name": "Actions",
+              "width": "fill_container",
+              "gap": "$spacing-sm",
+              "justifyContent": "end",
+              "children": [
+                {
+                  "id": "ghrao",
+                  "type": "ref",
+                  "ref": "Awwh3",
+                  "name": "CancelBtn",
+                  "descendants": {
+                    "CoZnr": {
+                      "content": "Cancel"
+                    }
+                  }
+                },
+                {
+                  "id": "tfZnQ",
+                  "type": "ref",
+                  "ref": "zEizh",
+                  "name": "ConfirmBtn",
+                  "descendants": {
+                    "WhXJ5": {
+                      "content": "Confirm"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ncooy",
+      "type": "ref",
+      "ref": "h9Fk3h",
+      "name": "Page: Projects",
+      "x": 30600,
+      "y": 1020,
+      "width": 1440,
+      "height": 960,
+      "clip": true,
+      "descendants": {
+        "oti7v": {
+          "content": "Projects"
+        },
+        "VyZoZ": {
+          "children": [
+            {
+              "id": "fZLEa",
+              "type": "ref",
+              "ref": "zEizh",
+              "name": "NewProjectBtn",
+              "height": 36,
+              "descendants": {
+                "WhXJ5": {
+                  "content": "New Project"
+                }
+              }
+            }
+          ]
+        },
+        "QXO0h": {
+          "children": [
+            {
+              "type": "frame",
+              "id": "z4nC7c",
+              "name": "FilterBar",
+              "width": "fill_container",
+              "fill": "$surface",
+              "cornerRadius": "$radius-md",
+              "padding": [
+                12,
+                16
+              ],
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "oshnl",
+                  "name": "FilterLeft",
+                  "gap": 12,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "GpY5q",
+                      "name": "SearchBox",
+                      "width": 280,
+                      "fill": "$bg",
+                      "cornerRadius": "$radius-md",
+                      "stroke": "$border",
+                      "strokeWidth": 1,
+                      "gap": 8,
+                      "padding": [
+                        8,
+                        12
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "m5QA1",
+                          "name": "SearchIcon",
+                          "width": 16,
+                          "height": 16,
+                          "icon": "search",
+                          "library": "lucide",
+                          "fill": "$text-tertiary"
+                        },
+                        {
+                          "type": "text",
+                          "id": "IUZyY",
+                          "name": "Placeholder",
+                          "fill": "$text-tertiary",
+                          "content": "Search projects...",
+                          "fontFamily": "$font-body",
+                          "fontSize": "$font-size-body",
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "avjmO",
+                      "name": "Filter-Status: Active",
+                      "fill": "$bg",
+                      "cornerRadius": "$radius-md",
+                      "stroke": "$border",
+                      "strokeWidth": 1,
+                      "gap": 8,
+                      "padding": [
+                        8,
+                        12
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "p2bGx",
+                          "name": "Label",
+                          "fill": "$text-primary",
+                          "content": "Status: Active",
+                          "fontFamily": "$font-body",
+                          "fontSize": "$font-size-body",
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "icon",
+                          "id": "h9kHL",
+                          "name": "Chevron",
+                          "width": 16,
+                          "height": 16,
+                          "icon": "chevron-down",
+                          "library": "lucide",
+                          "fill": "$text-secondary"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "m7A1n",
+                      "name": "Filter-Client: All",
+                      "fill": "$bg",
+                      "cornerRadius": "$radius-md",
+                      "stroke": "$border",
+                      "strokeWidth": 1,
+                      "gap": 8,
+                      "padding": [
+                        8,
+                        12
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "ITVt5",
+                          "name": "Label",
+                          "fill": "$text-primary",
+                          "content": "Client: All",
+                          "fontFamily": "$font-body",
+                          "fontSize": "$font-size-body",
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "icon",
+                          "id": "E0jQzL",
+                          "name": "Chevron",
+                          "width": 16,
+                          "height": 16,
+                          "icon": "chevron-down",
+                          "library": "lucide",
+                          "fill": "$text-secondary"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "iKMqW",
+                      "name": "Filter-Any date",
+                      "fill": "$bg",
+                      "cornerRadius": "$radius-md",
+                      "stroke": "$border",
+                      "strokeWidth": 1,
+                      "gap": 8,
+                      "padding": [
+                        8,
+                        12
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "Qb50Q",
+                          "name": "Label",
+                          "fill": "$text-primary",
+                          "content": "Any date",
+                          "fontFamily": "$font-body",
+                          "fontSize": "$font-size-body",
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "icon",
+                          "id": "H59EaR",
+                          "name": "Chevron",
+                          "width": 16,
+                          "height": 16,
+                          "icon": "chevron-down",
+                          "library": "lucide",
+                          "fill": "$text-secondary"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "wxBgu",
+                  "name": "ProjectCount",
+                  "fill": "$text-tertiary",
+                  "content": "3 of 3 active projects used",
+                  "fontFamily": "$font-body",
+                  "fontSize": "$font-size-sm",
+                  "fontWeight": "$font-weight-medium"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "f8MEF8",
+              "name": "ProjectsList",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 12,
+              "children": [
+                {
+                  "id": "wr7cD",
+                  "type": "ref",
+                  "ref": "QzPiX",
+                  "name": "Row-Acme Web Platform",
+                  "width": "fill_container",
+                  "descendants": {
+                    "m9SsnC": {
+                      "content": "Acme Web Platform"
+                    },
+                    "QsBTl": {
+                      "content": "Acme Corp · updated 2 days ago"
+                    },
+                    "xvCTk/NGhri": {
+                      "content": "Planning"
+                    },
+                    "U99zWU": {
+                      "fill": "$success-light"
+                    },
+                    "U99zWU/NGhri": {
+                      "content": "Active",
+                      "fill": "$success-dark"
+                    }
+                  }
+                },
+                {
+                  "id": "l6NjT",
+                  "type": "ref",
+                  "ref": "QzPiX",
+                  "name": "Row-Portfolio Redesign",
+                  "width": "fill_container",
+                  "descendants": {
+                    "m9SsnC": {
+                      "content": "Portfolio Redesign"
+                    },
+                    "QsBTl": {
+                      "content": "Studio Lumen · updated 5 days ago"
+                    },
+                    "xvCTk/NGhri": {
+                      "content": "Discovery"
+                    },
+                    "U99zWU": {
+                      "fill": "$success-light"
+                    },
+                    "U99zWU/NGhri": {
+                      "content": "Active",
+                      "fill": "$success-dark"
+                    }
+                  }
+                },
+                {
+                  "id": "Gt1tx",
+                  "type": "ref",
+                  "ref": "QzPiX",
+                  "name": "Row-Craft Marketplace",
+                  "width": "fill_container",
+                  "descendants": {
+                    "m9SsnC": {
+                      "content": "Craft Marketplace"
+                    },
+                    "QsBTl": {
+                      "content": "Handmade Co · updated 3 weeks ago"
+                    },
+                    "xvCTk/NGhri": {
+                      "content": "Planning"
+                    },
+                    "U99zWU": {
+                      "fill": "$success-light"
+                    },
+                    "U99zWU/NGhri": {
+                      "content": "Active",
+                      "fill": "$success-dark"
+                    }
+                  }
+                },
+                {
+                  "id": "Ngxij",
+                  "type": "ref",
+                  "ref": "QzPiX",
+                  "name": "Row-Bakery Landing Page",
+                  "width": "fill_container",
+                  "descendants": {
+                    "m9SsnC": {
+                      "content": "Bakery Landing Page"
+                    },
+                    "QsBTl": {
+                      "content": "Sweet Crumb · archived 12 Aug"
+                    },
+                    "xvCTk/NGhri": {
+                      "content": "Discovery"
+                    },
+                    "U99zWU/NGhri": {
+                      "content": "Archived"
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "AYSrs",
+              "name": "ListFooter",
+              "fill": "$text-tertiary",
+              "content": "Showing 4 of 4 projects",
+              "fontFamily": "$font-body",
+              "fontSize": "$font-size-sm",
+              "fontWeight": "normal"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ZOb4x",
+      "type": "ref",
+      "ref": "h9Fk3h",
+      "name": "Page: New Project",
+      "x": 32100,
+      "y": 1020,
+      "width": 1440,
+      "height": 960,
+      "clip": true,
+      "descendants": {
+        "oti7v": {
+          "content": "New Project"
+        },
+        "VyZoZ": {
+          "children": [
+            {
+              "id": "b7X8tC",
+              "type": "ref",
+              "ref": "Awwh3",
+              "name": "BackBtn",
+              "height": 36,
+              "descendants": {
+                "CoZnr": {
+                  "content": "← Back to Projects"
+                }
+              }
+            }
+          ]
+        },
+        "QXO0h": {
+          "children": [
+            {
+              "type": "frame",
+              "id": "kmckY",
+              "name": "FormArea",
+              "width": "fill_container",
+              "layout": "vertical",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "pdB56",
+                  "name": "FormCard",
+                  "width": 640,
+                  "fill": "$bg",
+                  "cornerRadius": "$radius-lg",
+                  "stroke": "$border",
+                  "strokeWidth": 1,
+                  "layout": "vertical",
+                  "gap": 20,
+                  "padding": 32,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "wiWiX",
+                      "name": "FormTitle",
+                      "fill": "$text-primary",
+                      "content": "Project details",
+                      "fontFamily": "$font-body",
+                      "fontSize": "$font-size-h3",
+                      "fontWeight": "$font-weight-semibold"
+                    },
+                    {
+                      "id": "xtA9j",
+                      "type": "ref",
+                      "ref": "r50qj",
+                      "name": "Project Name",
+                      "width": "fill_container",
+                      "descendants": {
+                        "W0mIjC": {
+                          "content": "Project Name"
+                        },
+                        "cw4dQ": {
+                          "content": "Acme Web Platform"
+                        }
+                      }
+                    },
+                    {
+                      "id": "FNzCK",
+                      "type": "ref",
+                      "ref": "Y7BZOF",
+                      "name": "Client",
+                      "width": "fill_container",
+                      "descendants": {
+                        "gsQCW": {
+                          "content": "Client"
+                        },
+                        "vkGzl": {
+                          "content": "Acme Corp"
+                        }
+                      }
+                    },
+                    {
+                      "id": "Z0p3Df",
+                      "type": "ref",
+                      "ref": "Y7BZOF",
+                      "name": "Phase",
+                      "width": "fill_container",
+                      "descendants": {
+                        "gsQCW": {
+                          "content": "Phase"
+                        },
+                        "vkGzl": {
+                          "content": "Discovery"
+                        }
+                      }
+                    },
+                    {
+                      "type": "frame",
+                      "id": "FGo27",
+                      "name": "Description",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 6,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "IYwMD",
+                          "name": "Label",
+                          "fill": "$text-primary",
+                          "content": "Description (optional)",
+                          "fontFamily": "$font-body",
+                          "fontSize": "$font-size-body",
+                          "fontWeight": "$font-weight-medium"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "zSMph",
+                          "name": "TextArea",
+                          "width": "fill_container",
+                          "height": 96,
+                          "fill": "$bg",
+                          "cornerRadius": "$radius-md",
+                          "stroke": "$border",
+                          "strokeWidth": 1,
+                          "padding": [
+                            9,
+                            12
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "Ai7Rb",
+                              "name": "Placeholder",
+                              "fill": "$text-tertiary",
+                              "content": "What is this project about?",
+                              "fontFamily": "$font-body",
+                              "fontSize": "$font-size-body",
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "p9j6r",
+                      "name": "LimitHint",
+                      "fill": "$text-tertiary",
+                      "content": "Uses 1 of your 3 active project slots. Archived projects do not count.",
+                      "fontFamily": "$font-body",
+                      "fontSize": "$font-size-xs",
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "pDCtF",
+                      "name": "Actions",
+                      "width": "fill_container",
+                      "gap": "$spacing-sm",
+                      "justifyContent": "end",
+                      "children": [
+                        {
+                          "id": "FL5TC",
+                          "type": "ref",
+                          "ref": "Awwh3",
+                          "name": "CancelBtn",
+                          "height": 40,
+                          "descendants": {
+                            "CoZnr": {
+                              "content": "Cancel"
+                            }
+                          }
+                        },
+                        {
+                          "id": "B83d1v",
+                          "type": "ref",
+                          "ref": "zEizh",
+                          "name": "CreateBtn",
+                          "height": 40,
+                          "descendants": {
+                            "WhXJ5": {
+                              "content": "Create Project"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "rq4Lv",
+      "type": "ref",
+      "ref": "bApHl",
+      "name": "Modal: Project Limit Reached",
+      "x": 33600,
+      "y": 1020,
+      "width": 1440,
+      "height": 960,
+      "clip": true,
+      "descendants": {
+        "efLVa": {
+          "content": "Active project limit reached"
+        },
+        "IhaU0": {
+          "content": "You already have 3 active projects. Archive one before creating a new project or reactivating an archived one."
+        },
+        "tfZnQ/WhXJ5": {
+          "content": "Archive a Project"
+        }
+      }
+    },
+    {
+      "id": "wmqet",
+      "type": "ref",
+      "ref": "bApHl",
+      "name": "Modal: Client Delete Blocked",
+      "x": 35100,
+      "y": 1020,
+      "width": 1440,
+      "height": 960,
+      "clip": true,
+      "descendants": {
+        "DuPve": {
+          "icon": "alert-circle",
+          "fill": "$error-dark"
+        },
+        "efLVa": {
+          "content": "Archive or reassign projects first"
+        },
+        "IhaU0": {
+          "content": "Acme Corp still has 2 active projects. Archive or reassign them before deleting this client."
+        },
+        "tfZnQ/WhXJ5": {
+          "content": "View Projects"
+        }
+      }
     }
   ],
   "variables": {
@@ -5685,7 +7417,7 @@
     },
     "text-tertiary": {
       "type": "color",
-      "value": "#999999"
+      "value": "#767676"
     },
     "border": {
       "type": "color",
@@ -5814,6 +7546,30 @@
     "shadow-sm": {
       "type": "string",
       "value": "0 1px 2px rgba(0,0,0,0.06)"
+    },
+    "success-light": {
+      "type": "color",
+      "value": "#f6ffed"
+    },
+    "success-dark": {
+      "type": "color",
+      "value": "#237804"
+    },
+    "warning-light": {
+      "type": "color",
+      "value": "#fffbe6"
+    },
+    "warning-dark": {
+      "type": "color",
+      "value": "#874d00"
+    },
+    "error-light": {
+      "type": "color",
+      "value": "#fff2f0"
+    },
+    "error-dark": {
+      "type": "color",
+      "value": "#a8071a"
     }
   },
   "fileToken": "ea4a313d-4329-41f6-8dda-5b7d584d9f54"
