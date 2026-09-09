@@ -8,8 +8,9 @@
 **Epic Link**: EPIC-1
 **Issue Type**: Story
 **Priority**: Must Have
-**Effort Estimate**: 5
+**Effort Estimate**: 3
 **Status**: TODO
+**Fix Version**: MVP-1
 **Labels**: design, ux, lifecycle, governance
 **Requirements**: FR-001-01, FR-001-02, FR-001-03
 
@@ -51,6 +52,7 @@
 **Priority**: Must Have
 **Effort Estimate**: 8
 **Status**: TODO
+**Fix Version**: MVP-1
 **Labels**: backend, lifecycle, governance
 **Requirements**: FR-001-01, FR-001-06
 
@@ -88,8 +90,9 @@
 **Epic Link**: EPIC-1
 **Issue Type**: Story
 **Priority**: Must Have
-**Effort Estimate**: 5
+**Effort Estimate**: 3
 **Status**: TODO
+**Fix Version**: MVP-1
 **Labels**: backend, lifecycle, governance
 **Requirements**: FR-001-02, FR-001-03, FR-001-07
 
@@ -128,6 +131,7 @@
 **Priority**: Must Have
 **Effort Estimate**: 5
 **Status**: TODO
+**Fix Version**: MVP-1
 **Labels**: backend, lifecycle, governance, privacy
 **Requirements**: FR-001-04, NFR-001-01
 
@@ -170,6 +174,7 @@
 **Priority**: Should Have
 **Effort Estimate**: 3
 **Status**: TODO
+**Fix Version**: MVP-1
 **Labels**: backend, lifecycle, governance
 **Requirements**: FR-001-05, NFR-001-03
 
@@ -213,6 +218,7 @@
 **Priority**: Must Have
 **Effort Estimate**: 8
 **Status**: TODO
+**Fix Version**: MVP-1
 **Labels**: frontend, lifecycle, governance
 **Requirements**: FR-001-01, FR-001-02, NFR-001-02
 
@@ -252,6 +258,7 @@
 **Priority**: Should Have
 **Effort Estimate**: 5
 **Status**: TODO
+**Fix Version**: MVP-1
 **Labels**: frontend, lifecycle, governance
 **Requirements**: FR-001-04, FR-001-05, FR-001-06, NFR-001-02
 
@@ -294,8 +301,9 @@
 **Epic Link**: EPIC-1
 **Issue Type**: Task
 **Priority**: Must Have
-**Effort Estimate**: 3
+**Effort Estimate**: 2
 **Status**: TODO
+**Fix Version**: MVP-1
 **Labels**: release, deployment, lifecycle
 **Requirements**: n/a (release effort for F-001)
 

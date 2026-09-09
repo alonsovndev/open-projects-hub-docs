@@ -8,8 +8,9 @@
 **Epic Link**: EPIC-8
 **Issue Type**: Story
 **Priority**: Should Have
-**Effort Estimate**: 5
+**Effort Estimate**: 3
 **Status**: TODO
+**Fix Version**: Phase 1
 **Labels**: design, ux, onboarding, entry-flow
 **Requirements**: FR-005-01, NFR-005-01
 
@@ -47,8 +48,9 @@
 **Epic Link**: EPIC-8
 **Issue Type**: Story
 **Priority**: Should Have
-**Effort Estimate**: 5
+**Effort Estimate**: 3
 **Status**: TODO
+**Fix Version**: Phase 1
 **Labels**: design, ux, onboarding, entry-flow
 **Requirements**: FR-006-01, FR-006-02, NFR-006-02
 
@@ -86,8 +88,9 @@
 **Epic Link**: EPIC-8
 **Issue Type**: Story
 **Priority**: Should Have
-**Effort Estimate**: 5
+**Effort Estimate**: 3
 **Status**: TODO
+**Fix Version**: Phase 1
 **Labels**: design, ux, onboarding, entry-flow
 **Requirements**: FR-008-01, NFR-008-04
 
@@ -127,8 +130,9 @@
 **Epic Link**: EPIC-8
 **Issue Type**: Story
 **Priority**: Should Have
-**Effort Estimate**: 3
+**Effort Estimate**: 2
 **Status**: TODO
+**Fix Version**: Phase 1
 **Labels**: backend, onboarding, entry-flow
 **Requirements**: FR-005-03, NFR-005-02
 
@@ -168,6 +172,7 @@
 **Priority**: Should Have
 **Effort Estimate**: 5
 **Status**: TODO
+**Fix Version**: Phase 1
 **Labels**: backend, onboarding, entry-flow
 **Requirements**: FR-008-01, FR-008-02, FR-008-08, FR-008-09, NFR-008-01
 
@@ -208,6 +213,7 @@
 **Priority**: Should Have
 **Effort Estimate**: 5
 **Status**: TODO
+**Fix Version**: Phase 1
 **Labels**: backend, onboarding, entry-flow, security
 **Requirements**: FR-008-03, FR-008-04, FR-008-05, FR-008-06, NFR-008-02, NFR-008-03
 
@@ -254,6 +260,7 @@
 **Priority**: Should Have
 **Effort Estimate**: 5
 **Status**: TODO
+**Fix Version**: Phase 1
 **Labels**: frontend, onboarding, entry-flow
 **Requirements**: FR-005-01, FR-005-02, NFR-005-01
 
@@ -293,6 +300,7 @@
 **Priority**: Should Have
 **Effort Estimate**: 5
 **Status**: TODO
+**Fix Version**: Phase 1
 **Labels**: frontend, onboarding, entry-flow
 **Requirements**: FR-006-01, FR-006-02, FR-006-03, NFR-006-01
 
@@ -331,8 +339,9 @@
 **Epic Link**: EPIC-8
 **Issue Type**: Story
 **Priority**: Should Have
-**Effort Estimate**: 8
+**Effort Estimate**: 5
 **Status**: TODO
+**Fix Version**: Phase 1
 **Labels**: frontend, onboarding, entry-flow
 **Requirements**: FR-008-01, FR-008-07, NFR-008-04
 
@@ -371,8 +380,9 @@
 **Epic Link**: EPIC-8
 **Issue Type**: Story
 **Priority**: Should Have
-**Effort Estimate**: 5
+**Effort Estimate**: 3
 **Status**: TODO
+**Fix Version**: Phase 1
 **Labels**: frontend, onboarding, entry-flow
 **Requirements**: FR-008-03, FR-008-05, FR-008-06, FR-008-07, NFR-008-04
 
@@ -416,8 +426,9 @@
 **Epic Link**: EPIC-8
 **Issue Type**: Task
 **Priority**: Should Have
-**Effort Estimate**: 3
+**Effort Estimate**: 2
 **Status**: TODO
+**Fix Version**: Phase 1
 **Labels**: release, deployment, onboarding
 **Requirements**: n/a (release effort for F-005)
 
@@ -466,8 +477,9 @@
 **Epic Link**: EPIC-8
 **Issue Type**: Task
 **Priority**: Must Have
-**Effort Estimate**: 3
+**Effort Estimate**: 2
 **Status**: TODO
+**Fix Version**: Phase 1
 **Labels**: release, deployment, entry-flow
 **Requirements**: n/a (release effort for F-006)
 
@@ -516,8 +528,9 @@
 **Epic Link**: EPIC-8
 **Issue Type**: Task
 **Priority**: Should Have
-**Effort Estimate**: 3
+**Effort Estimate**: 2
 **Status**: TODO
+**Fix Version**: Phase 1
 **Labels**: release, deployment, entry-flow
 **Requirements**: n/a (release effort for F-008)
 

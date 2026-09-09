@@ -10,6 +10,7 @@
 **Priority**: Must Have
 **Effort Estimate**: 5
 **Status**: TODO
+**Fix Version**: Phase 1
 **Labels**: design, ux, craft
 **Requirements**: NFR-X04, NFR-X07
 
@@ -54,6 +55,7 @@
 **Priority**: Must Have
 **Effort Estimate**: 5
 **Status**: TODO
+**Fix Version**: Phase 1
 **Labels**: frontend, design, craft
 **Requirements**: NFR-X04, NFR-X07
 
@@ -94,6 +96,7 @@
 **Priority**: Should Have
 **Effort Estimate**: 5
 **Status**: TODO
+**Fix Version**: Phase 1
 **Labels**: frontend, design, craft, refinement
 **Requirements**: NFR-002-03, NFR-X04
 
@@ -136,6 +139,7 @@
 **Priority**: Should Have
 **Effort Estimate**: 5
 **Status**: TODO
+**Fix Version**: Phase 1
 **Labels**: frontend, design, craft, backlog
 **Requirements**: NFR-004-01, NFR-X04
 
@@ -176,6 +180,7 @@
 **Priority**: Should Have
 **Effort Estimate**: 5
 **Status**: TODO
+**Fix Version**: Phase 1
 **Labels**: frontend, design, craft, entry-flow
 **Requirements**: NFR-003-02, NFR-006-02, NFR-X04
 
@@ -215,8 +220,9 @@
 **Epic Link**: EPIC-11
 **Issue Type**: Story
 **Priority**: Should Have
-**Effort Estimate**: 3
+**Effort Estimate**: 5
 **Status**: TODO
+**Fix Version**: Phase 1
 **Labels**: frontend, design, craft
 **Requirements**: NFR-002-02, NFR-X04
 
@@ -258,6 +264,7 @@
 **Priority**: Could Have
 **Effort Estimate**: 3
 **Status**: TODO
+**Fix Version**: Phase 1
 **Labels**: frontend, design, craft, accessibility
 **Requirements**: NFR-X07
 
@@ -298,6 +305,7 @@
 **Priority**: Should Have
 **Effort Estimate**: 3
 **Status**: TODO
+**Fix Version**: Phase 1
 **Labels**: frontend, design, craft, accessibility
 **Requirements**: NFR-X07
 

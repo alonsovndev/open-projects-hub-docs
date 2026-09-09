@@ -10,6 +10,7 @@
 **Priority**: Must Have
 **Effort Estimate**: 8
 **Status**: TODO
+**Fix Version**: MVP-1
 **Labels**: backend, authentication, security
 **Requirements**: FR-007-01, FR-007-02, NFR-007-01, NFR-007-03
 
@@ -49,6 +50,7 @@
 **Priority**: Must Have
 **Effort Estimate**: 5
 **Status**: TODO
+**Fix Version**: MVP-1
 **Labels**: backend, authentication, security
 **Requirements**: FR-009-01, FR-009-02, NFR-009-01
 
@@ -89,6 +91,7 @@
 **Priority**: Must Have
 **Effort Estimate**: 5
 **Status**: TODO
+**Fix Version**: MVP-1
 **Labels**: backend, authentication, security
 **Requirements**: FR-007-04, FR-007-05
 
@@ -128,8 +131,9 @@
 **Epic Link**: EPIC-2
 **Issue Type**: Story
 **Priority**: Must Have
-**Effort Estimate**: 5
+**Effort Estimate**: 8
 **Status**: TODO
+**Fix Version**: MVP-1
 **Labels**: backend, authentication, security, session
 **Requirements**: FR-007-06, FR-007-07, NFR-003-04, NFR-X09
 
@@ -173,6 +177,7 @@
 **Priority**: Must Have
 **Effort Estimate**: 5
 **Status**: TODO
+**Fix Version**: MVP-1
 **Labels**: backend, authentication, security
 **Requirements**: FR-009-03, FR-009-04, NFR-009-02
 
@@ -215,8 +220,9 @@
 **Epic Link**: EPIC-2
 **Issue Type**: Story
 **Priority**: Must Have
-**Effort Estimate**: 8
+**Effort Estimate**: 5
 **Status**: TODO
+**Fix Version**: MVP-1
 **Labels**: frontend, authentication, security
 **Requirements**: FR-007-02, FR-007-03, NFR-007-02
 
@@ -257,6 +263,7 @@
 **Priority**: Must Have
 **Effort Estimate**: 5
 **Status**: TODO
+**Fix Version**: MVP-1
 **Labels**: frontend, authentication, security
 **Requirements**: FR-009-05, FR-009-06, NFR-009-03
 
@@ -296,6 +303,7 @@
 **Priority**: Should Have
 **Effort Estimate**: 3
 **Status**: TODO
+**Fix Version**: MVP-1
 **Labels**: frontend, authentication, session
 **Requirements**: FR-007-06, FR-007-07
 
@@ -337,8 +345,9 @@
 **Epic Link**: EPIC-2
 **Issue Type**: Task
 **Priority**: Must Have
-**Effort Estimate**: 3
+**Effort Estimate**: 2
 **Status**: TODO
+**Fix Version**: MVP-1
 **Labels**: release, deployment, authentication
 **Requirements**: n/a (release effort for F-007)
 
@@ -387,8 +396,9 @@
 **Epic Link**: EPIC-2
 **Issue Type**: Task
 **Priority**: Must Have
-**Effort Estimate**: 3
+**Effort Estimate**: 2
 **Status**: TODO
+**Fix Version**: MVP-1
 **Labels**: release, deployment, authentication
 **Requirements**: n/a (release effort for F-009)
 

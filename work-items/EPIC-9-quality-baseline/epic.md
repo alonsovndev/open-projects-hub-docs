@@ -6,7 +6,7 @@
 **Labels**: quality, nfr, security, performance
 **Priority**: Must Have
 **Components**: Backend, Frontend
-**Fix Version**: MVP-1
+**Fix Version**: MVP-1, Phase 1
 **Status**: TODO
 
 ---

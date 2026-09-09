@@ -35,8 +35,8 @@
 | -------- | ---------------------------------- | ---------------------------------------------------------------------- | ------- | ------------------ | -------------- |
 | Phase -1 | UI/UX Prototyping & Validation     | Validate UI designs and obtain stakeholder approval before development | Planned | Week 0 (parallel)  | Parallel with Phase 0 |
 | Phase 0  | Foundation & Engineering Readiness | Establish development infrastructure and standards before feature work | Planned | Week 0 (parallel)  | Parallel with Phase -1 |
-| MVP      | Core Planning Backbone             | Deliver core planning value with secure access and exports            | Planned | Weeks 1-4          | Sequential |
-| Phase 1  | UX and Entry-Flow Hardening        | Improve onboarding and auth-adjacent user quality                     | Planned | Weeks 5-6          | Sequential |
+| MVP      | Core Planning Backbone             | Deliver core planning value with secure access and exports            | Planned | Weeks 1-11         | Sequential |
+| Phase 1  | UX and Entry-Flow Hardening        | Improve onboarding, entry flow, monetization config, and UI craft     | Planned | Weeks 12-19        | Sequential |
 | Phase 2  | Governance and Scale Preparation   | Prepare post-MVP governance, traceability depth, and scale plan       | Planned | TBD                | Sequential |
 
 ---
@@ -207,38 +207,62 @@
 
 1. Deliver the core planning workflow with feature coverage for `F-001` to `F-004`.
 2. Validate secure access and essential auth entry flows (`F-007`, `F-009`).
-3. Enable AI refinement with credit management and API key flexibility (`F-010`).
-4. Support Viewer account management and invitations (`F-011`).
-5. Ensure Must-priority quality baselines are mapped and owned.
+3. Support the Viewer access slice of `F-011` — invite, accept, and read granted projects.
+4. Ensure Must-priority quality baselines are mapped and owned.
+5. Run AI refinement on a platform-provided provider key; credit accounting and user-managed
+   keys (`F-010`) are deferred to Phase 1.
+
+### Capacity Basis
+
+MVP scope is sized against an explicit assumption so that `NFR-X08` is checkable rather than
+aspirational: **2 developers at ~12 story points per developer per week**. Phase -1 and
+Phase 0 are complete, so EPIC-0's 64 points are already delivered and excluded.
+
+| Measure | Value |
+| ------- | ----- |
+| MVP-1 total | 314 points across 66 stories |
+| Already delivered (EPIC-0) | 64 points |
+| Remaining MVP work | **250 points** |
+| Assumed velocity | ~24 points per week |
+| Implied duration | **~10-11 weeks (2.5 months)** |
+
+This exceeds the original 1–1.5 month target even after deferring `F-010`, the Viewer
+management tail, validation testing, and all Phase 1 scope. `NFR-X08` has been updated to
+match the scope the plan can actually deliver. Shortening it further means cutting from the
+core loop (lifecycle, refinement, approval, backlog, export, access), which would leave the
+MVP without a shippable end-to-end workflow. Re-derive these numbers if team size changes.
 
 ### Prioritized Epics
 
 | Priority | Epic                                       | Linked Feature(s) | Linked Requirements                                                | Owner            |
 | -------- | ------------------------------------------ | ----------------- | ------------------------------------------------------------------ | ---------------- |
 | Must     | Client and project lifecycle governance (EPIC-1)    | F-001             | FR-001-01, FR-001-02, FR-001-03, FR-001-04, FR-001-05, FR-001-06, FR-001-07; NFR-001-01, NFR-001-02, NFR-001-03 | Product Owner    |
-| Must     | AI refinement and approval control (EPIC-3)         | F-002             | FR-002-01, FR-002-02, FR-002-03, FR-002-04, FR-002-05, FR-002-06, FR-002-07, FR-002-08; NFR-002-01, NFR-002-02, NFR-002-03 | Product Owner    |
+| Must     | AI refinement and approval control (EPIC-3)         | F-002             | FR-002-01, FR-002-02, FR-002-03, FR-002-04, FR-002-05, FR-002-06; NFR-002-01, NFR-002-02, NFR-002-03 | Product Owner    |
 | Must     | Access boundary and role enforcement (EPIC-4)       | F-003             | FR-003-01, FR-003-02, FR-003-03; NFR-003-01, NFR-003-02, NFR-003-03 | Tech Lead        |
-| Must     | Backlog and export deliverable (EPIC-5)             | F-004             | FR-004-01, FR-004-02, FR-004-03, FR-004-04, FR-004-05, FR-004-06; NFR-004-01, NFR-004-02 | Backend Engineer |
+| Must     | Backlog and export deliverable (EPIC-5)             | F-004             | FR-004-01, FR-004-02, FR-004-03, FR-004-05; NFR-004-01, NFR-004-02 | Backend Engineer |
 | Must     | Admin authentication and recovery baseline (EPIC-2) | F-007, F-009      | FR-007-01, FR-007-02, FR-007-03, FR-007-04, FR-007-05, FR-007-06, FR-007-07; FR-009-01, FR-009-02, FR-009-03, FR-009-04, FR-009-05, FR-009-06; NFR-007-01, NFR-007-02, NFR-007-03; NFR-009-01, NFR-009-02, NFR-009-03; NFR-003-04 | Tech Lead        |
-| Must     | AI credits and API key management (EPIC-6)          | F-010             | FR-010-01, FR-010-02, FR-010-03, FR-010-04, FR-010-05, FR-010-06, FR-010-07, FR-010-08, FR-010-09, FR-010-10, FR-010-11, FR-010-12; NFR-010-01, NFR-010-02, NFR-010-03, NFR-010-04, NFR-010-05, NFR-010-06 | Tech Lead        |
-| Must     | Viewer account management (EPIC-7)                  | F-011             | FR-011-01, FR-011-02, FR-011-03, FR-011-04, FR-011-05, FR-011-06, FR-011-07, FR-011-08, FR-011-09, FR-011-10, FR-011-11, FR-011-12; NFR-011-01, NFR-011-02, NFR-011-03, NFR-011-04, NFR-011-05 | Tech Lead        |
+| Must     | Viewer access slice (EPIC-7)                        | F-011             | FR-011-01, FR-011-02, FR-011-03, FR-011-04, FR-011-05, FR-011-06, FR-011-09, FR-011-11, FR-011-12; NFR-011-01, NFR-011-02, NFR-011-03, NFR-011-04, NFR-011-05 | Tech Lead        |
 | Must     | Cross-cut quality baseline (EPIC-9)                 | F-001 to F-011    | NFR-X01, NFR-X02, NFR-X03, NFR-X08, NFR-X09, NFR-X10 | Tech Lead        |
-| Must     | Code quality and maintainability (EPIC-12)          | F-001 to F-011    | NFR-X01, NFR-X03 | Tech Lead        |
+| Must     | Code quality tooling baseline (EPIC-12)             | F-001 to F-011    | NFR-X01, NFR-X03 | Tech Lead        |
 
 ### Key Deliverables
 
-- MVP scope baseline linked to feature-level requirements (F-001 to F-011).
+- MVP scope baseline linked to feature-level requirements (F-001 to F-004, F-007, F-009, and
+  the F-011 access slice).
 - Role-safe, approvable requirements backlog and Markdown export definition.
-- AI credit system with 5 free credits per account and secure API key management.
-- Viewer invitation workflow with project-level access controls.
+- Viewer invitation, acceptance, and project-level access controls.
+- AI refinement running on a platform-provided provider key (credit accounting and
+  user-managed keys deferred to Phase 1).
 - Security and privacy checklist for Must-priority workflows.
-- Initial traceability matrix with story placeholders per feature.
+- Automated code quality baseline (lint, format, type-check, pre-commit hooks, CI gates).
+- Traceability matrix generated from the work items in `work-items/`.
 
 ### Acceptance Criteria
 
 - [ ] All `Must` functional requirements in MVP scope are linked to an epic and owner.
 - [ ] All `Must` non-functional requirements are tied to measurable checks.
 - [ ] MVP excludes non-core collaboration expansion and non-essential integrations.
+- [ ] Remaining MVP effort stays within the capacity basis above, or the scope is re-cut.
 
 ### Prerequisites
 
@@ -266,6 +290,12 @@
 | Should   | Readability and accessibility hardening | F-003, F-004, F-007 | FR-003-03, NFR-003-03, NFR-004-01, NFR-007-02, NFR-X07 | UI/UX Designer    |
 | Should   | SEO and discoverability (EPIC-10)       | F-006               | FR-006-01, FR-006-03, NFR-006-01, NFR-006-02, NFR-X11  | Frontend Engineer |
 | Should   | UI craft and design quality (EPIC-11)   | F-001 to F-011      | NFR-X04, NFR-X07                                       | UI/UX Designer    |
+| Must     | AI credits and API key management (EPIC-6) | F-010            | FR-010-01, FR-010-02, FR-010-03, FR-010-04, FR-010-05, FR-010-06, FR-010-07, FR-010-08, FR-010-09, FR-010-10, FR-010-11, FR-010-12; NFR-010-01, NFR-010-02, NFR-010-03, NFR-010-04, NFR-010-05, NFR-010-06 | Tech Lead         |
+| Must     | Provider selection and credit consumption (EPIC-3) | F-002    | FR-002-07, FR-002-08 | Backend Engineer  |
+| Should   | Export scoping and empty-export guard (EPIC-5) | F-004        | FR-004-04, FR-004-06 | Backend Engineer  |
+| Should   | Viewer invitation management tail (EPIC-7) | F-011            | FR-011-07, FR-011-08, FR-011-10 | Backend Engineer  |
+| Should   | Validation testing and accessibility audit (EPIC-9) | F-001 to F-011 | NFR-X03, NFR-X04, NFR-X05, NFR-X06, NFR-X07 | Tech Lead         |
+| Should   | Architecture guards and dependency review (EPIC-12) | F-001 to F-011 | NFR-X01, NFR-X03 | Tech Lead         |
 
 ### Key Deliverables
 
@@ -311,26 +341,24 @@
 
 ## Feature Traceability Matrix
 
-| Feature ID | Feature Name                             | Phase   | Priority | Linked Epic(s)                             | Linked Stories (US-\*)       | Status  |
-| ---------- | ---------------------------------------- | ------- | -------- | ------------------------------------------ | ---------------------------- | ------- |
-| F-001      | Client and Project Lifecycle Management | MVP | Must | EPIC-1, EPIC-9 | US-EP1-BE-001, US-EP1-BE-002, US-EP1-BE-003, US-EP1-BE-004, US-EP1-FE-001, US-EP1-FE-002, US-EP1-REL-001, US-EP1-UX-001, US-EP9-BE-004 | Planned |
-| F-002      | AI Refinement and Approval Workflow | MVP | Must | EPIC-3, EPIC-11 | US-EP3-BE-001, US-EP3-BE-002, US-EP3-BE-003, US-EP3-BE-004, US-EP3-BE-005, US-EP3-FE-001, US-EP3-FE-002, US-EP3-REL-001, US-EP3-UX-001, US-EP11-FE-002, US-EP11-FE-005 | Planned |
-| F-003      | Access Control and Visibility Boundaries | MVP | Must | EPIC-2, EPIC-4, EPIC-9, EPIC-11 | US-EP2-BE-004, US-EP4-BE-001, US-EP4-FE-001, US-EP4-REL-001, US-EP4-UX-001, US-EP9-BE-002, US-EP11-FE-004 | Planned |
-| F-004      | Requirements Backlog and Markdown Export | MVP | Must | EPIC-5, EPIC-11 | US-EP5-BE-001, US-EP5-BE-002, US-EP5-BE-003, US-EP5-FE-001, US-EP5-FE-002, US-EP5-REL-001, US-EP5-UX-001, US-EP11-FE-003 | Planned |
-| F-005      | Minimal Onboarding | Phase 1 | Should | EPIC-8 | US-EP8-BE-001, US-EP8-FE-001, US-EP8-REL-001, US-EP8-UX-001 | Planned |
-| F-006      | Landing Page Experience | Phase 1 | Must | EPIC-8, EPIC-10, EPIC-11 | US-EP8-FE-002, US-EP8-REL-002, US-EP8-UX-002, US-EP10-FE-001, US-EP10-FE-004, US-EP10-QA-001, US-EP11-FE-004 | Planned |
-| F-007      | Admin Login | MVP | Must | EPIC-2 | US-EP2-BE-001, US-EP2-BE-003, US-EP2-BE-004, US-EP2-FE-001, US-EP2-FE-003, US-EP2-REL-001 | Planned |
-| F-008      | Account Creation | Phase 1 | Should | EPIC-8 | US-EP8-BE-002, US-EP8-BE-003, US-EP8-FE-003, US-EP8-FE-004, US-EP8-REL-003, US-EP8-UX-003 | Planned |
-| F-009      | Reset Password | MVP | Must | EPIC-2 | US-EP2-BE-002, US-EP2-BE-005, US-EP2-FE-002, US-EP2-REL-002 | Planned |
-| F-010      | AI Credits and API Key Management | MVP | Must | EPIC-6 | US-EP6-BE-001, US-EP6-BE-002, US-EP6-BE-003, US-EP6-BE-004, US-EP6-BE-005, US-EP6-FE-001, US-EP6-FE-002, US-EP6-REL-001, US-EP6-UX-001 | Planned |
-| F-011      | Viewer Account Management | MVP | Must | EPIC-7 | US-EP7-BE-001, US-EP7-BE-002, US-EP7-BE-003, US-EP7-BE-004, US-EP7-BE-005, US-EP7-FE-001, US-EP7-FE-002, US-EP7-REL-001, US-EP7-UX-001 | Planned |
-| NFR-X01–X11| Cross-Cutting Quality Baseline | MVP | Must | EPIC-9 | US-EP9-BE-001, US-EP9-BE-002, US-EP9-BE-003, US-EP9-BE-004, US-EP9-PO-001, US-EP9-QA-001, US-EP9-QA-002, US-EP9-QA-003, US-EP9-UX-001 | Planned |
-| —          | Production Deployment Pipeline | MVP | Must | EPIC-0 | US-EP0-BE-005 | Planned |
-| —          | Monitoring & Observability | MVP | Should | EPIC-0 | US-EP0-BE-006 | Planned |
-| NFR-X11    | SEO and Discoverability | Phase 1 | Should | EPIC-10 | US-EP10-FE-001, US-EP10-FE-002, US-EP10-FE-003, US-EP10-FE-004, US-EP10-FE-005, US-EP10-QA-001 | Planned |
-| —          | UI Craft and Design Quality | Phase 1 | Should | EPIC-11 | US-EP11-FE-001, US-EP11-FE-002, US-EP11-FE-003, US-EP11-FE-004, US-EP11-FE-005, US-EP11-FE-006, US-EP11-FE-007, US-EP11-UX-001 | Planned |
-| NFR-X03    | Code Quality and Maintainability | MVP | Must | EPIC-12 | US-EP12-BE-001, US-EP12-BE-002, US-EP12-BE-003, US-EP12-BE-004, US-EP12-BE-005, US-EP12-FE-001, US-EP12-QA-001 | Planned |
-
+| Feature ID | Feature Name | Phase | Priority | Linked Epic(s) | Linked Stories (US-\*) — (M) MVP-1, (P1) Phase 1 | Status |
+| ---------- | ------------ | ----- | -------- | -------------- | ------------------------------------------------ | ------ |
+| F-001 | Client and Project Lifecycle Management | MVP-1 | Must | EPIC-1, EPIC-9 | US-EP1-BE-001 (M), US-EP1-BE-002 (M), US-EP1-BE-003 (M), US-EP1-BE-004 (M), US-EP1-FE-001 (M), US-EP1-FE-002 (M), US-EP1-REL-001 (M), US-EP1-UX-001 (M), US-EP9-BE-004 (M) | Planned |
+| F-002 | AI Refinement and Approval Workflow | MVP-1 + Phase 1 | Must | EPIC-3, EPIC-11 | US-EP3-BE-001 (M), US-EP3-BE-002 (M), US-EP3-BE-003 (M), US-EP3-BE-004 (M), US-EP3-BE-005 (P1), US-EP3-FE-001 (M), US-EP3-FE-002 (M), US-EP3-REL-001 (M), US-EP3-UX-001 (M), US-EP11-FE-002 (P1), US-EP11-FE-005 (P1) | Planned |
+| F-003 | Access Control and Visibility Boundaries | MVP-1 + Phase 1 | Must | EPIC-2, EPIC-4, EPIC-9, EPIC-11 | US-EP2-BE-004 (M), US-EP4-BE-001 (M), US-EP4-FE-001 (M), US-EP4-REL-001 (M), US-EP4-UX-001 (M), US-EP9-BE-002 (M), US-EP11-FE-004 (P1) | Planned |
+| F-004 | Requirements Backlog and Markdown Export | MVP-1 + Phase 1 | Must | EPIC-5, EPIC-11 | US-EP5-BE-001 (M), US-EP5-BE-002 (M), US-EP5-BE-003 (P1), US-EP5-FE-001 (M), US-EP5-FE-002 (M), US-EP5-REL-001 (M), US-EP5-UX-001 (M), US-EP11-FE-003 (P1) | Planned |
+| F-005 | Minimal Onboarding | Phase 1 | Should | EPIC-8 | US-EP8-BE-001 (P1), US-EP8-FE-001 (P1), US-EP8-REL-001 (P1), US-EP8-UX-001 (P1) | Planned |
+| F-006 | Landing Page Experience | Phase 1 | Must | EPIC-8, EPIC-10, EPIC-11 | US-EP8-FE-002 (P1), US-EP8-REL-002 (P1), US-EP8-UX-002 (P1), US-EP10-FE-001 (P1), US-EP10-FE-004 (P1), US-EP10-QA-001 (P1), US-EP11-FE-004 (P1) | Planned |
+| F-007 | Admin Login | MVP-1 | Must | EPIC-2 | US-EP2-BE-001 (M), US-EP2-BE-003 (M), US-EP2-BE-004 (M), US-EP2-FE-001 (M), US-EP2-FE-003 (M), US-EP2-REL-001 (M) | Planned |
+| F-008 | Account Creation | Phase 1 | Should | EPIC-8 | US-EP8-BE-002 (P1), US-EP8-BE-003 (P1), US-EP8-FE-003 (P1), US-EP8-FE-004 (P1), US-EP8-REL-003 (P1), US-EP8-UX-003 (P1) | Planned |
+| F-009 | Reset Password | MVP-1 | Must | EPIC-2 | US-EP2-BE-002 (M), US-EP2-BE-005 (M), US-EP2-FE-002 (M), US-EP2-REL-002 (M) | Planned |
+| F-010 | AI Credits and API Key Management | Phase 1 | Must | EPIC-6 | US-EP6-BE-001 (P1), US-EP6-BE-002 (P1), US-EP6-BE-003 (P1), US-EP6-BE-004 (P1), US-EP6-BE-005 (P1), US-EP6-FE-001 (P1), US-EP6-FE-002 (P1), US-EP6-REL-001 (P1), US-EP6-UX-001 (P1) | Planned |
+| F-011 | Viewer Account Management | MVP-1 + Phase 1 | Must | EPIC-7 | US-EP7-BE-001 (M), US-EP7-BE-002 (M), US-EP7-BE-003 (P1), US-EP7-BE-004 (M), US-EP7-BE-005 (M), US-EP7-FE-001 (M), US-EP7-FE-002 (M), US-EP7-REL-001 (M), US-EP7-UX-001 (M) | Planned |
+| NFR-X01–X11 | Cross-Cutting Quality Baseline | MVP-1 + Phase 1 | Must | EPIC-9 | US-EP9-BE-001 (M), US-EP9-BE-002 (M), US-EP9-BE-003 (M), US-EP9-BE-004 (M), US-EP9-PO-001 (M), US-EP9-QA-001 (M), US-EP9-QA-002 (P1), US-EP9-QA-003 (P1), US-EP9-QA-004 (P1), US-EP9-UX-001 (P1) | Planned |
+| — | Foundational Setup and Deployment | MVP-1 | Must | EPIC-0 | US-EP0-BE-001 (M), US-EP0-BE-002 (M), US-EP0-BE-003 (M), US-EP0-BE-004 (M), US-EP0-BE-005 (M), US-EP0-BE-006 (M), US-EP0-FE-001 (M), US-EP0-SP-001 (M), US-EP0-SP-002 (M), US-EP0-SP-003 (M), US-EP0-SP-004 (M) | Planned |
+| NFR-X11 | SEO and Discoverability | Phase 1 | Should | EPIC-10 | US-EP10-FE-001 (P1), US-EP10-FE-002 (P1), US-EP10-FE-003 (P1), US-EP10-FE-004 (P1), US-EP10-FE-005 (P1), US-EP10-QA-001 (P1) | Planned |
+| — | UI Craft and Design Quality | Phase 1 | Should | EPIC-11 | US-EP11-FE-001 (P1), US-EP11-FE-002 (P1), US-EP11-FE-003 (P1), US-EP11-FE-004 (P1), US-EP11-FE-005 (P1), US-EP11-FE-006 (P1), US-EP11-FE-007 (P1), US-EP11-UX-001 (P1) | Planned |
+| NFR-X01, NFR-X03 | Code Quality and Maintainability | MVP-1 + Phase 1 | Must | EPIC-12 | US-EP12-BE-001 (M), US-EP12-BE-002 (M), US-EP12-BE-003 (M), US-EP12-BE-004 (P1), US-EP12-BE-005 (P1), US-EP12-FE-001 (M), US-EP12-QA-001 (M) | Planned |
 ---
 
 ## Risks and Blockers

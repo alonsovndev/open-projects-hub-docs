@@ -10,6 +10,7 @@
 **Priority**: Must Have
 **Effort Estimate**: 3
 **Status**: TODO
+**Fix Version**: MVP-1
 **Labels**: design, ux, collaboration, access-control
 **Requirements**: FR-011-01, FR-011-06, NFR-011-04
 
@@ -51,6 +52,7 @@
 **Priority**: Must Have
 **Effort Estimate**: 8
 **Status**: TODO
+**Fix Version**: MVP-1
 **Labels**: backend, collaboration, access-control
 **Requirements**: FR-011-01, FR-011-02, NFR-011-01, NFR-011-03
 
@@ -88,8 +90,9 @@
 **Epic Link**: EPIC-7
 **Issue Type**: Story
 **Priority**: Must Have
-**Effort Estimate**: 5
+**Effort Estimate**: 8
 **Status**: TODO
+**Fix Version**: MVP-1
 **Labels**: backend, collaboration, access-control
 **Requirements**: FR-011-04, FR-011-05, NFR-011-02, NFR-011-05
 
@@ -127,8 +130,9 @@
 **Epic Link**: EPIC-7
 **Issue Type**: Story
 **Priority**: Should Have
-**Effort Estimate**: 3
+**Effort Estimate**: 5
 **Status**: TODO
+**Fix Version**: Phase 1
 **Labels**: backend, collaboration, access-control
 **Requirements**: FR-011-07, FR-011-08, FR-011-10
 
@@ -170,6 +174,7 @@
 **Priority**: Must Have
 **Effort Estimate**: 5
 **Status**: TODO
+**Fix Version**: MVP-1
 **Labels**: backend, collaboration, access-control
 **Requirements**: FR-011-03, FR-011-09, NFR-011-01
 
@@ -213,6 +218,7 @@
 **Priority**: Must Have
 **Effort Estimate**: 3
 **Status**: TODO
+**Fix Version**: MVP-1
 **Labels**: backend, collaboration, access-control, security
 **Requirements**: FR-011-11, FR-011-12
 
@@ -256,6 +262,7 @@
 **Priority**: Must Have
 **Effort Estimate**: 8
 **Status**: TODO
+**Fix Version**: MVP-1
 **Labels**: frontend, collaboration, access-control
 **Requirements**: FR-011-01, FR-011-06, NFR-011-04
 
@@ -295,6 +302,7 @@
 **Priority**: Must Have
 **Effort Estimate**: 5
 **Status**: TODO
+**Fix Version**: MVP-1
 **Labels**: frontend, collaboration, access-control
 **Requirements**: FR-011-03, FR-011-09, NFR-011-04
 
@@ -337,8 +345,9 @@
 **Epic Link**: EPIC-7
 **Issue Type**: Task
 **Priority**: Must Have
-**Effort Estimate**: 3
+**Effort Estimate**: 2
 **Status**: TODO
+**Fix Version**: MVP-1
 **Labels**: release, deployment, collaboration
 **Requirements**: n/a (release effort for F-011)
 

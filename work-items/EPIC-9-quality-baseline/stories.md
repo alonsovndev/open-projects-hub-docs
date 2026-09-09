@@ -8,8 +8,9 @@
 **Epic Link**: EPIC-9
 **Issue Type**: Story
 **Priority**: Must Have
-**Effort Estimate**: 5
+**Effort Estimate**: 8
 **Status**: TODO
+**Fix Version**: MVP-1
 **Labels**: backend, quality, nfr, email
 **Requirements**: NFR-X10
 
@@ -49,6 +50,7 @@
 **Priority**: Must Have
 **Effort Estimate**: 5
 **Status**: TODO
+**Fix Version**: MVP-1
 **Labels**: backend, quality, nfr, security, session
 **Requirements**: NFR-X09, NFR-003-04
 
@@ -88,6 +90,7 @@
 **Priority**: Must Have
 **Effort Estimate**: 5
 **Status**: TODO
+**Fix Version**: MVP-1
 **Labels**: backend, quality, nfr, security
 **Requirements**: NFR-X01
 
@@ -127,6 +130,7 @@
 **Priority**: Must Have
 **Effort Estimate**: 3
 **Status**: TODO
+**Fix Version**: MVP-1
 **Labels**: backend, quality, nfr, privacy
 **Requirements**: NFR-X02, NFR-001-01
 
@@ -167,6 +171,7 @@
 **Priority**: Must Have
 **Effort Estimate**: 3
 **Status**: TODO
+**Fix Version**: MVP-1
 **Labels**: qa, testing, quality, nfr
 **Requirements**: NFR-X03
 
@@ -206,8 +211,9 @@
 **Epic Link**: EPIC-9
 **Issue Type**: Story
 **Priority**: Must Have
-**Effort Estimate**: 3
+**Effort Estimate**: 5
 **Status**: TODO
+**Fix Version**: Phase 1
 **Labels**: qa, testing, quality, nfr
 **Requirements**: NFR-X05, NFR-X06
 
@@ -238,7 +244,7 @@
 
 ---
 
-### US-EP9-QA-003: End-to-End Integration Test Suite
+### US-EP9-QA-003: End-to-End Admin Journey Test Suite
 
 **Story ID**: US-EP9-QA-003
 **Epic Link**: EPIC-9
@@ -246,39 +252,78 @@
 **Priority**: Must Have
 **Effort Estimate**: 8
 **Status**: TODO
+**Fix Version**: Phase 1
 **Labels**: qa, testing, quality, e2e, integration
 **Requirements**: NFR-X03
 
 **As a** QA Engineer,
-**I want to** implement end-to-end integration tests covering complete user journeys across frontend and backend,
-**So that** cross-component regressions are caught before reaching production.
+**I want to** cover the core Admin journey end to end across frontend and backend,
+**So that** the primary revenue-path workflow cannot regress unnoticed.
 
 **Acceptance Criteria**:
 
-- [ ] Given a new Admin account, when they complete the full MVP workflow (login → create client → create project → refine notes → approve stories → export to Markdown), then all steps succeed without errors.
-- [ ] Given an Admin invites a Viewer, when the Viewer registers and logs in, then they can only see the projects they were granted access to and cannot edit or delete anything.
-- [ ] Given an Admin configures their own API key, when they run out of free credits, then refinement continues using their key without interruption.
+- [ ] Given a new Admin account, when they complete the full MVP workflow (login, create client, create project, refine notes, approve stories, export to Markdown), then all steps succeed without errors.
 - [ ] Given a project is archived or deleted, when any user accesses it, then it is excluded from active counts and access is denied as specified.
+- [ ] Given the suite runs in CI, when it executes on a pull request to `main`, then failures block the merge.
+- [ ] Given the suite runs repeatedly, when 10 consecutive CI runs complete, then no false-positive failures occur.
 
 **Deliverables**:
 
-- E2E test suite using Playwright (or equivalent) covering at least 5 critical user journeys.
-- Test fixtures for Admin, Viewer, and project data setup.
-- CI/CD integration: E2E tests run on PR to `main` and block merge on failure.
-- Documentation for running E2E tests locally and in CI.
+- Playwright (or equivalent) suite covering the Admin create-to-export journey.
+- Test fixtures for Admin and project data setup.
+- CI integration running the suite on pull requests to `main`.
 
 **Dependencies**:
 
-- [Foundational Setup](../EPIC-0-foundational/epic.md) and all MVP feature epics (EPIC-1 through EPIC-7) implemented.
+- [Foundational Setup](../EPIC-0-foundational/epic.md) and the MVP feature epics (EPIC-1 through EPIC-5) implemented.
 - [ADR-010: Testing Framework](../../docs/04-decisions/adr-010-testing-framework.md).
-- [Phased Roadmap](../../docs/02-planning/phased-roadmap.md).
 
 **Success Metrics**:
 
-- At least 5 critical user journeys covered by automated E2E tests.
-- E2E suite completes in under 15 minutes in CI.
+- The Admin create-to-export journey is covered end to end.
 - No false-positive failures across 10 consecutive CI runs.
 
+---
+
+### US-EP9-QA-004: End-to-End Access and Provider Journey Test Suite
+
+**Story ID**: US-EP9-QA-004
+**Epic Link**: EPIC-9
+**Issue Type**: Story
+**Priority**: Should Have
+**Effort Estimate**: 5
+**Status**: TODO
+**Fix Version**: Phase 1
+**Labels**: qa, testing, quality, e2e, integration
+**Requirements**: NFR-X03
+
+**As a** QA Engineer,
+**I want to** cover the Viewer access and provider-key journeys end to end,
+**So that** access isolation and provider fallback cannot regress unnoticed.
+
+**Acceptance Criteria**:
+
+- [ ] Given an Admin invites a Viewer, when the Viewer registers and logs in, then they see only the projects they were granted and cannot edit or delete anything.
+- [ ] Given an Admin configures their own API key, when free credits are exhausted, then refinement continues using their key without interruption.
+- [ ] Given a Viewer's access is revoked, when they next request the project, then access is denied.
+- [ ] Given the suite runs in CI, when it executes on a pull request to `main`, then failures block the merge.
+
+**Deliverables**:
+
+- Playwright (or equivalent) suite covering Viewer access isolation and provider-key fallback.
+- Test fixtures for Viewer accounts, access grants, and provider keys.
+- Documentation for running the E2E suites locally and in CI.
+
+**Dependencies**:
+
+- [Viewer Project Access Control](../EPIC-7-viewer-collaboration-lifecycle/stories.md#us-ep7-be-002-viewer-project-access-control).
+- [API Key Rotation and Provider Fallback](../EPIC-6-ai-monetization-config/stories.md#us-ep6-be-003-api-key-rotation-and-provider-fallback).
+- [ADR-010: Testing Framework](../../docs/04-decisions/adr-010-testing-framework.md).
+
+**Success Metrics**:
+
+- Viewer isolation and provider fallback are both covered end to end.
+- No false-positive failures across 10 consecutive CI runs.
 ---
 
 ## UI/UX Designer
@@ -291,6 +336,7 @@
 **Priority**: Must Have
 **Effort Estimate**: 3
 **Status**: TODO
+**Fix Version**: Phase 1
 **Labels**: design, ux, quality, nfr, accessibility
 **Requirements**: NFR-X04, NFR-X07
 
@@ -331,6 +377,7 @@
 **Priority**: Must Have
 **Effort Estimate**: 3
 **Status**: TODO
+**Fix Version**: MVP-1
 **Labels**: product, governance, quality, nfr
 **Requirements**: NFR-X08
 

@@ -33,7 +33,7 @@ The architecture style selection balances MVP velocity, maintainability, and fut
 
 **Why Modular Monolith wins:**
 
-- **Delivery speed:** Single deployment artifact accelerates MVP timeline (1-1.5 months)
+- **Delivery speed:** Single deployment artifact accelerates the MVP timeline (see NFR-X08)
 - **Operational simplicity:** One Docker container, one database, one CI/CD pipeline for small team
 - **Clean Architecture fit:** Module boundaries enforce domain isolation without distributed system overhead
 - **Evolution path:** Bounded contexts can be extracted to services when growth triggers justify it

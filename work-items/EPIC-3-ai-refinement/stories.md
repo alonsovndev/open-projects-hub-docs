@@ -8,8 +8,9 @@
 **Epic Link**: EPIC-3
 **Issue Type**: Story
 **Priority**: Must Have
-**Effort Estimate**: 5
+**Effort Estimate**: 3
 **Status**: TODO
+**Fix Version**: MVP-1
 **Labels**: design, ux, ai, refinement
 **Requirements**: FR-002-01, FR-002-02, FR-002-03
 
@@ -51,6 +52,7 @@
 **Priority**: Must Have
 **Effort Estimate**: 8
 **Status**: TODO
+**Fix Version**: MVP-1
 **Labels**: backend, ai, refinement
 **Requirements**: FR-002-01, FR-002-02, NFR-002-01, NFR-002-02
 
@@ -90,6 +92,7 @@
 **Priority**: Must Have
 **Effort Estimate**: 5
 **Status**: TODO
+**Fix Version**: MVP-1
 **Labels**: backend, ai, refinement
 **Requirements**: FR-002-05
 
@@ -131,6 +134,7 @@
 **Priority**: Must Have
 **Effort Estimate**: 3
 **Status**: TODO
+**Fix Version**: MVP-1
 **Labels**: backend, ai, refinement
 **Requirements**: FR-002-04
 
@@ -173,6 +177,7 @@
 **Priority**: Must Have
 **Effort Estimate**: 3
 **Status**: TODO
+**Fix Version**: MVP-1
 **Labels**: backend, ai, refinement, security
 **Requirements**: FR-002-06
 
@@ -214,6 +219,7 @@
 **Priority**: Must Have
 **Effort Estimate**: 5
 **Status**: TODO
+**Fix Version**: Phase 1
 **Labels**: backend, ai, refinement, monetization
 **Requirements**: FR-002-07, FR-002-08
 
@@ -257,6 +263,7 @@
 **Priority**: Must Have
 **Effort Estimate**: 5
 **Status**: TODO
+**Fix Version**: MVP-1
 **Labels**: frontend, ai, refinement
 **Requirements**: FR-002-01, FR-002-02, NFR-002-02, NFR-002-03
 
@@ -296,6 +303,7 @@
 **Priority**: Must Have
 **Effort Estimate**: 8
 **Status**: TODO
+**Fix Version**: MVP-1
 **Labels**: frontend, ai, refinement
 **Requirements**: FR-002-03, FR-002-05, NFR-002-03
 
@@ -338,8 +346,9 @@
 **Epic Link**: EPIC-3
 **Issue Type**: Task
 **Priority**: Must Have
-**Effort Estimate**: 3
+**Effort Estimate**: 2
 **Status**: TODO
+**Fix Version**: MVP-1
 **Labels**: release, deployment, refinement
 **Requirements**: n/a (release effort for F-002)
 

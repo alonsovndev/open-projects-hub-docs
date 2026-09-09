@@ -8,8 +8,9 @@
 **Epic Link**: EPIC-4
 **Issue Type**: Story
 **Priority**: Must Have
-**Effort Estimate**: 5
+**Effort Estimate**: 3
 **Status**: TODO
+**Fix Version**: MVP-1
 **Labels**: design, ux, access-control, visibility
 **Requirements**: FR-003-01, FR-003-03, NFR-003-02
 
@@ -51,6 +52,7 @@
 **Priority**: Must Have
 **Effort Estimate**: 8
 **Status**: TODO
+**Fix Version**: MVP-1
 **Labels**: backend, access-control, visibility
 **Requirements**: FR-003-01, FR-003-02, NFR-003-01
 
@@ -92,6 +94,7 @@
 **Priority**: Must Have
 **Effort Estimate**: 5
 **Status**: TODO
+**Fix Version**: MVP-1
 **Labels**: frontend, access-control, visibility
 **Requirements**: FR-003-01, FR-003-03, NFR-003-03
 
@@ -131,8 +134,9 @@
 **Epic Link**: EPIC-4
 **Issue Type**: Task
 **Priority**: Must Have
-**Effort Estimate**: 3
+**Effort Estimate**: 2
 **Status**: TODO
+**Fix Version**: MVP-1
 **Labels**: release, deployment, access-control
 **Requirements**: n/a (release effort for F-003)
 

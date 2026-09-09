@@ -34,7 +34,7 @@ Sequence numbers are assigned per epic, per role.
 | `Issue Type` | `Story`, `Spike`, `Task` | Issue Type |
 | `Priority` | `Must Have`, `Should Have`, `Could Have` | Priority |
 | `Status` | `TODO` | Status |
-| `Effort Estimate` | Fibonacci story points: 1, 2, 3, 5, 8, 13 | Story Points |
+| `Effort Estimate` | Fibonacci story points: 1, 2, 3, 5, 8 (13 must be split) | Story Points |
 | `Fix Version` | `MVP-1`, `Phase 1` | Fix Version |
 | `Components` | `Backend`, `Frontend`, `Database` | Components |
 | `Labels` | lowercase kebab-case, comma separated | Labels |
@@ -44,6 +44,20 @@ Sequence numbers are assigned per epic, per role.
 Owner is expressed by the role group heading a story sits under, since
 `docs/02-planning/role-mapping.md` defines roles rather than named assignees. Assignees are
 set at import time.
+
+### Sizing anchors
+
+| Points | Anchor |
+| --- | --- |
+| 1 | Config or copy change, single file, no new behavior |
+| 2 | Small change on one surface, no new integration |
+| 3 | Small feature slice, one component, straightforward tests |
+| 5 | Standard story: one component plus its tests and error paths |
+| 8 | Multi-component work, or one component with substantial edge cases |
+| 13 | Too large or too uncertain — split before it enters a sprint |
+
+`Fix Version` is set per story, not only per epic, because several epics have a core slice in
+MVP-1 and a deferred tail in Phase 1. Each `epic.md` records the span its stories cover.
 
 ### Story structure
 
@@ -67,30 +81,40 @@ semver tag, `terraform apply`, App Runner rolling deploy, CloudFront invalidatio
 production smoke test, Sentry release, release-health watch, and a documented rollback.
 There is **no staging environment** (see ADR-014).
 
-## MVP Epics (Phase 0 + MVP)
+## Epic Index
 
-| Epic | Summary | Stories | Points |
-| --- | --- | --- | --- |
-| [EPIC-0](./EPIC-0-foundational/epic.md) | Establish foundational project structure, local environment setup, and deployment baseline. | 11 | 58 |
-| [EPIC-1](./EPIC-1-lifecycle-governance/epic.md) | Provide stable client and project lifecycle governance. | 8 | 42 |
-| [EPIC-2](./EPIC-2-user-authentication/epic.md) | Implement secure user authentication mechanisms (login, password reset, sessions). | 10 | 50 |
-| [EPIC-3](./EPIC-3-ai-refinement/epic.md) | Create a controlled refinement workflow for converting client notes into approved user stories. | 9 | 45 |
-| [EPIC-4](./EPIC-4-access-boundaries/epic.md) | Enforce Admin and Viewer boundaries for safe collaboration. | 4 | 21 |
-| [EPIC-5](./EPIC-5-backlog-export/epic.md) | Enable structured backlog viewing and Markdown export. | 7 | 27 |
-| [EPIC-6](./EPIC-6-ai-monetization-config/epic.md) | Provide AI credit tracking and user-managed API key configuration. | 9 | 45 |
-| [EPIC-7](./EPIC-7-viewer-collaboration-lifecycle/epic.md) | Implement Viewer invitation, registration, and project access lifecycle. | 9 | 43 |
-| [EPIC-9](./EPIC-9-quality-baseline/epic.md) | Enforce cross-cutting quality baselines (security, session, email, coverage, performance, accessibility, scope governance). | 9 | 38 |
-| [EPIC-12](./EPIC-12-code-quality/epic.md) | Automate the code quality baseline across both stacks so defects are caught before review. | 7 | 30 |
+Points are split by the `Fix Version` on each story: an epic can contribute to both phases.
 
-## Phase 1 Epics
+| Epic | Summary | Stories | MVP-1 pts | Phase 1 pts |
+| --- | --- | --- | --- | --- |
+| [EPIC-0](./EPIC-0-foundational/epic.md) | Foundational project structure, local environment, and deployment baseline. | 11 | 64 | — |
+| [EPIC-1](./EPIC-1-lifecycle-governance/epic.md) | Client and project lifecycle governance. | 8 | 37 | — |
+| [EPIC-2](./EPIC-2-user-authentication/epic.md) | Authentication: login, password reset, sessions. | 10 | 48 | — |
+| [EPIC-3](./EPIC-3-ai-refinement/epic.md) | Controlled refinement workflow from notes to approved stories. | 9 | 37 | 5 |
+| [EPIC-4](./EPIC-4-access-boundaries/epic.md) | Admin and Viewer boundary enforcement. | 4 | 18 | — |
+| [EPIC-5](./EPIC-5-backlog-export/epic.md) | Structured backlog viewing and Markdown export. | 7 | 24 | 3 |
+| [EPIC-6](./EPIC-6-ai-monetization-config/epic.md) | AI credit tracking and user-managed API keys. | 9 | — | 45 |
+| [EPIC-7](./EPIC-7-viewer-collaboration-lifecycle/epic.md) | Viewer invitation, registration, and project access. | 9 | 42 | 5 |
+| [EPIC-8](./EPIC-8-entry-flow/epic.md) | Onboarding, landing page, and account creation flows. | 13 | — | 45 |
+| [EPIC-9](./EPIC-9-quality-baseline/epic.md) | Cross-cutting quality baseline and validation. | 10 | 27 | 21 |
+| [EPIC-10](./EPIC-10-seo-discoverability/epic.md) | Discoverability of the public entry pages. | 6 | — | 20 |
+| [EPIC-11](./EPIC-11-ui-craft/epic.md) | Interface craft above component-library defaults. | 8 | — | 36 |
+| [EPIC-12](./EPIC-12-code-quality/epic.md) | Automated code quality baseline across both stacks. | 7 | 17 | 6 |
 
-| Epic | Summary | Stories | Points |
-| --- | --- | --- | --- |
-| [EPIC-8](./EPIC-8-entry-flow/epic.md) | Improve first-use quality through onboarding, landing page, and account creation flows. | 13 | 60 |
-| [EPIC-10](./EPIC-10-seo-discoverability/epic.md) | Make the public entry pages discoverable, correctly previewed when shared, and fast. | 6 | 21 |
-| [EPIC-11](./EPIC-11-ui-craft/epic.md) | Raise the interface above default component-library output without adding design-system depth. | 8 | 34 |
+**Totals**: 13 epics, 111 stories, 500 story points — **314 in MVP-1** (66 stories) and
+**186 in Phase 1** (45 stories).
 
-**Totals**: 13 epics, 110 stories, 514 story points.
+## Delivery capacity
+
+EPIC-0's 64 points are already delivered (Phase -1 and Phase 0 are complete in the roadmap),
+leaving **250 points of remaining MVP work**. At the roadmap's stated basis of 2 developers
+and ~12 points each per week, that is roughly **10-11 weeks**, which is why `NFR-X08` was
+revised from 1–1.5 months to 2.5 months rather than left as a target the plan would miss.
+
+Scope already deferred to Phase 1 to reach that number: all of `F-010` (credits and API
+keys), provider selection in refinement, export scoping, the Viewer management tail, the
+validation and accessibility test pass, and the architecture guard tests. Cutting further
+means removing part of the core loop, which would leave no shippable end-to-end workflow.
 
 ## Documentation reconciliation
 

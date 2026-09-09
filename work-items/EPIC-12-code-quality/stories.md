@@ -8,8 +8,9 @@
 **Epic Link**: EPIC-12
 **Issue Type**: Story
 **Priority**: Must Have
-**Effort Estimate**: 5
+**Effort Estimate**: 3
 **Status**: TODO
+**Fix Version**: MVP-1
 **Labels**: backend, code-quality, tooling
 **Requirements**: NFR-X03
 
@@ -48,8 +49,9 @@
 **Epic Link**: EPIC-12
 **Issue Type**: Story
 **Priority**: Must Have
-**Effort Estimate**: 5
+**Effort Estimate**: 3
 **Status**: TODO
+**Fix Version**: MVP-1
 **Labels**: backend, code-quality, tooling, security
 **Requirements**: NFR-X01
 
@@ -93,6 +95,7 @@
 **Priority**: Must Have
 **Effort Estimate**: 5
 **Status**: TODO
+**Fix Version**: MVP-1
 **Labels**: backend, code-quality, ci
 **Requirements**: NFR-X03
 
@@ -134,6 +137,7 @@
 **Priority**: Should Have
 **Effort Estimate**: 5
 **Status**: TODO
+**Fix Version**: Phase 1
 **Labels**: backend, code-quality, architecture
 **Requirements**: NFR-X03
 
@@ -173,8 +177,9 @@
 **Epic Link**: EPIC-12
 **Issue Type**: Story
 **Priority**: Could Have
-**Effort Estimate**: 2
+**Effort Estimate**: 1
 **Status**: TODO
+**Fix Version**: Phase 1
 **Labels**: backend, code-quality, security
 **Requirements**: NFR-X01
 
@@ -214,8 +219,9 @@
 **Epic Link**: EPIC-12
 **Issue Type**: Story
 **Priority**: Must Have
-**Effort Estimate**: 5
+**Effort Estimate**: 3
 **Status**: TODO
+**Fix Version**: MVP-1
 **Labels**: frontend, code-quality, tooling
 **Requirements**: NFR-X03
 
@@ -258,6 +264,7 @@
 **Priority**: Must Have
 **Effort Estimate**: 3
 **Status**: TODO
+**Fix Version**: MVP-1
 **Labels**: qa, code-quality, testing
 **Requirements**: NFR-X03
 

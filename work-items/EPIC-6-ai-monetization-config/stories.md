@@ -10,6 +10,7 @@
 **Priority**: Must Have
 **Effort Estimate**: 3
 **Status**: TODO
+**Fix Version**: Phase 1
 **Labels**: design, ux, ai, monetization, configuration
 **Requirements**: FR-010-01, FR-010-04, FR-010-07, NFR-010-06
 
@@ -51,6 +52,7 @@
 **Priority**: Must Have
 **Effort Estimate**: 8
 **Status**: TODO
+**Fix Version**: Phase 1
 **Labels**: backend, ai, monetization, configuration
 **Requirements**: FR-010-01, FR-010-02, FR-010-03
 
@@ -88,8 +90,9 @@
 **Epic Link**: EPIC-6
 **Issue Type**: Story
 **Priority**: Must Have
-**Effort Estimate**: 5
+**Effort Estimate**: 8
 **Status**: TODO
+**Fix Version**: Phase 1
 **Labels**: backend, ai, monetization, configuration
 **Requirements**: FR-010-04, FR-010-05, FR-010-07, FR-010-08, NFR-010-01, NFR-010-02
 
@@ -129,6 +132,7 @@
 **Priority**: Must Have
 **Effort Estimate**: 5
 **Status**: TODO
+**Fix Version**: Phase 1
 **Labels**: backend, ai, monetization, configuration, security
 **Requirements**: FR-010-11, NFR-010-02, NFR-010-04
 
@@ -172,6 +176,7 @@
 **Priority**: Must Have
 **Effort Estimate**: 5
 **Status**: TODO
+**Fix Version**: Phase 1
 **Labels**: backend, ai, monetization, configuration
 **Requirements**: FR-010-10, FR-010-12, NFR-010-02
 
@@ -214,6 +219,7 @@
 **Priority**: Should Have
 **Effort Estimate**: 3
 **Status**: TODO
+**Fix Version**: Phase 1
 **Labels**: backend, ai, monetization, configuration, security
 **Requirements**: FR-010-09, NFR-010-03, NFR-010-04
 
@@ -258,6 +264,7 @@
 **Priority**: Must Have
 **Effort Estimate**: 8
 **Status**: TODO
+**Fix Version**: Phase 1
 **Labels**: frontend, ai, monetization, configuration
 **Requirements**: FR-010-04, FR-010-06, FR-010-07, NFR-010-06
 
@@ -295,8 +302,9 @@
 **Epic Link**: EPIC-6
 **Issue Type**: Story
 **Priority**: Must Have
-**Effort Estimate**: 5
+**Effort Estimate**: 3
 **Status**: TODO
+**Fix Version**: Phase 1
 **Labels**: frontend, ai, monetization, configuration
 **Requirements**: FR-010-03, FR-010-06, NFR-010-05, NFR-010-06
 
@@ -339,8 +347,9 @@
 **Epic Link**: EPIC-6
 **Issue Type**: Task
 **Priority**: Must Have
-**Effort Estimate**: 3
+**Effort Estimate**: 2
 **Status**: TODO
+**Fix Version**: Phase 1
 **Labels**: release, deployment, monetization
 **Requirements**: n/a (release effort for F-010)
 

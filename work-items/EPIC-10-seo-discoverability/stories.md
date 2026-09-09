@@ -10,6 +10,7 @@
 **Priority**: Should Have
 **Effort Estimate**: 5
 **Status**: TODO
+**Fix Version**: Phase 1
 **Labels**: frontend, seo, discoverability
 **Requirements**: FR-006-01, FR-006-03, NFR-X11
 
@@ -52,6 +53,7 @@
 **Priority**: Should Have
 **Effort Estimate**: 3
 **Status**: TODO
+**Fix Version**: Phase 1
 **Labels**: frontend, seo, discoverability
 **Requirements**: NFR-X11
 
@@ -90,8 +92,9 @@
 **Epic Link**: EPIC-10
 **Issue Type**: Story
 **Priority**: Could Have
-**Effort Estimate**: 3
+**Effort Estimate**: 2
 **Status**: TODO
+**Fix Version**: Phase 1
 **Labels**: frontend, seo, discoverability
 **Requirements**: NFR-X11
 
@@ -131,6 +134,7 @@
 **Priority**: Should Have
 **Effort Estimate**: 3
 **Status**: TODO
+**Fix Version**: Phase 1
 **Labels**: frontend, seo, accessibility
 **Requirements**: NFR-006-02, NFR-X07, NFR-X11
 
@@ -172,6 +176,7 @@
 **Priority**: Could Have
 **Effort Estimate**: 2
 **Status**: TODO
+**Fix Version**: Phase 1
 **Labels**: frontend, seo, design
 **Requirements**: NFR-X11
 
@@ -213,6 +218,7 @@
 **Priority**: Should Have
 **Effort Estimate**: 5
 **Status**: TODO
+**Fix Version**: Phase 1
 **Labels**: qa, seo, performance
 **Requirements**: NFR-006-01, NFR-X05, NFR-X11
 

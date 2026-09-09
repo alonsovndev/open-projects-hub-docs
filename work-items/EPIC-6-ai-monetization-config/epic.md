@@ -6,7 +6,7 @@
 **Labels**: ai, monetization, configuration
 **Priority**: Must Have
 **Components**: Backend, Frontend
-**Fix Version**: MVP-1
+**Fix Version**: Phase 1
 **Status**: TODO
 
 ---
