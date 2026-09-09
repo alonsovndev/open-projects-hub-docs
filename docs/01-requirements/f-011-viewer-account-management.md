@@ -61,7 +61,6 @@
 ## Traceability
 
 - **Related Open Questions**: Q-001 (workspace definition), Q-008 (access control scope)
-- **Related User Stories**: [Backend Engineer Stories](../06-work-items/README.md), [Frontend Engineer Stories](../06-work-items/README.md)
 - **Related Architecture/ADR**: [Security Architecture](../03-architecture/security/security-architecture.md), [ADR-005: Authentication and Authorization Strategy](../04-decisions/adr-005-authentication.md)
 - **Related Features**: [F-003: Access Control and Visibility Boundaries](./f-003-access-control-and-visibility-boundaries.md), [F-008: Account Creation](./f-008-create-account.md)
 - **Related Prototype**: [Design Direction](../05-prototype/design-direction.md)

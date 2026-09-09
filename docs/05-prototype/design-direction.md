@@ -113,12 +113,12 @@ Use Ant Design-style components as the baseline for the prototype.
 
 ## Traceability
 
-- Entry and auth workflow: `FR-006-01`, `FR-006-02`, `FR-007-01`, `FR-008-01`, `FR-009-01`
-- Refinement workflow: `FR-002-01`, `FR-002-02`, `FR-002-03`, `US-MVP-UX-001`
-- Backlog visibility and export: `FR-004-01`, `FR-004-02`, `US-MVP-UX-002`
-- Role boundaries and access isolation: `FR-003-01`, `FR-003-03`, `NFR-003-02`, `NFR-004-01`
-- Accessibility baseline: `NFR-003-03`, `NFR-007`, `US-P1-UX-003`
-- Prototype package expectation: `US-P1-UX-004`
+- Entry and auth workflow: `FR-006-01`, `FR-006-02`, `FR-007-01`, `FR-008-01`, `FR-009-01`, `US-EP8-UX-002`, `US-EP8-UX-003`
+- Refinement workflow: `FR-002-01`, `FR-002-02`, `FR-002-03`, `US-EP3-UX-001`
+- Backlog visibility and export: `FR-004-01`, `FR-004-02`, `US-EP5-UX-001`
+- Role boundaries and access isolation: `FR-003-01`, `FR-003-03`, `NFR-003-02`, `NFR-004-01`, `US-EP4-UX-001`
+- Accessibility baseline: `NFR-003-03`, `NFR-007-02`, `NFR-X07`, `US-EP9-UX-001`
+- Design quality bar and token set: `NFR-X04`, `US-EP11-UX-001`
 
 ---
 

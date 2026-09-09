@@ -45,7 +45,6 @@
 ## Traceability
 
 - **Related Open Questions**: Q-010, Q-011
-- **Related User Stories**: [Backend Engineer Stories](../06-work-items/README.md)
 - **Related Architecture/ADR**: [Security Architecture](../03-architecture/security/security-architecture.md)
 - **Related Prototype**: [Prototype Brief](../05-prototype/prototype-brief.md)
 

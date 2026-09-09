@@ -31,8 +31,9 @@ only adds rules specific to **this** repository — it does not restate global o
 - Use the `mermaid-author` skill when creating or editing Mermaid diagrams — this repo
   already relies on them under `docs/03-architecture/`.
 - Follow the existing numbered top-level structure (`00-context`, `01-requirements`,
-  `02-planning`, `03-architecture`, `04-decisions`, `05-prototype`, `06-work-items`) and
-  each section's `_category_.json` / `README.md` conventions when adding new pages.
+  `02-planning`, `03-architecture`, `04-decisions`, `05-prototype`) and each section's
+  `_category_.json` / `README.md` conventions when adding new pages. Note: `work-items/`
+  lives at the repo root, outside `docs/` — it is not part of the published site.
 <!-- ai-repo-setup:generated:end -->
 
 <!-- ai-repo-setup:custom:start -->
