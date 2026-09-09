@@ -22,6 +22,25 @@ open-projects-hub-docs/docs/05-prototype/pen/open-projects-hub.pen
 
 Open it from Pencil via **File → Open** and navigate to the path above, or use the Pencil CLI.
 
+## Screens Preview
+
+Static exports of the 12 core pages, so the prototype can be browsed without opening Pencil. Modal, empty, and validation-error states aren't captured here — see the full artboard list below or open the `.pen` file for those.
+
+| Screen | Preview |
+| --- | --- |
+| Landing / Home | ![Landing / Home](./images/02-landing-home.png) |
+| Entry & Role Selection | ![Entry & Role Selection](./images/01-entry-role-selection.png) |
+| Admin Sign Up | ![Admin Sign Up](./images/03-admin-sign-up.png) |
+| Admin Sign In | ![Admin Sign In](./images/04-admin-sign-in.png) |
+| Forgot Password | ![Forgot Password](./images/05-forgot-password.png) |
+| Reset Password | ![Reset Password](./images/06-reset-password.png) |
+| AI Refinement Workspace | ![AI Refinement Workspace](./images/07-ai-refinement-workspace.png) |
+| Admin Backlog | ![Admin Backlog](./images/08-admin-backlog.png) |
+| Admin Dashboard | ![Admin Dashboard](./images/09-admin-dashboard.png) |
+| Admin Settings | ![Admin Settings](./images/10-admin-settings.png) |
+| Viewer Backlog | ![Viewer Backlog](./images/11-viewer-backlog.png) |
+| Onboarding Overlay | ![Onboarding Overlay](./images/12-onboarding-overlay.png) |
+
 ## What's Inside
 
 ### 22 Artboards
