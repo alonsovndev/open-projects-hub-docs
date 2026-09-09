@@ -278,8 +278,6 @@ Every Must requirement should appear in at least one row before prototype sign-o
 - [Phased Roadmap](../02-planning/phased-roadmap.md)
 - [Role Mapping](../02-planning/role-mapping.md)
 - [Architecture Solution Design](../03-architecture/core/architecture-solution-design.md)
-- [UI/UX Designer User Stories](../06-work-items/README.md)
-- [Product Epics](../06-work-items/README.md)
 
 ---
 

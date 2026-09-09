@@ -143,7 +143,7 @@
 
 **Dependencies**:
 
-- [Viewer Invitation Service](../../06-work-items/EPIC-7-viewer-collaboration-lifecycle/stories.md#us-ep7-be-001-viewer-invitation-service).
+- [Viewer Invitation Service](./stories.md#us-ep7-be-001-viewer-invitation-service).
 - [Email Service NFR](../../01-requirements/README.md#cross-cutting-quality-baseline).
 
 **Success Metrics**:

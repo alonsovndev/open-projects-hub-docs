@@ -382,7 +382,7 @@
 **Dependencies**:
 
 - [ADR-006: Deployment Platform](../../04-decisions/adr-006-deployment-platform.md).
-- [CI/CD Pipeline Scaffolding](../../06-work-items/EPIC-0-foundational/stories.md#us-ep0-be-003-cicd-pipeline-scaffolding-and-testing-framework).
+- [CI/CD Pipeline Scaffolding](./stories.md#us-ep0-be-003-cicd-pipeline-scaffolding-and-testing-framework).
 
 **Success Metrics**:
 

@@ -51,7 +51,6 @@
 ## Traceability
 
 - **Related Open Questions**: Q-004, Q-005, Q-006, Q-007, Q-008
-- **Related User Stories**: [Backend Engineer Stories](../06-work-items/README.md)
 - **Related Architecture/ADR**: [API Contract](../03-architecture/api/api-contract.md)
 - **Related Features**: [F-010: AI Credits and API Key Management](./f-010-ai-credits-and-api-key-management.md)
 - **Related Prototype**: [Stitch Prompt](../05-prototype/README.md)

@@ -52,8 +52,10 @@ content root). This is distinct from the product CI/CD documented under
 `docs/03-architecture/ops/` — `.github/workflows/deploy.yml` builds and publishes this
 docs site itself, not the Open Projects Hub product.
 
-- Follow the existing numbered top-level structure (`00-context` … `06-work-items`) and
-  each folder's `_category_.json` / `README.md` conventions when adding new pages.
+- Follow the existing numbered top-level structure (`00-context` … `05-prototype`) and
+  each folder's `_category_.json` / `README.md` conventions when adding new pages. Note:
+  `work-items/` lives at the repo root, outside `docs/` — it is not part of the published
+  site.
 - `npm run build` must pass with zero broken-link/anchor errors before considering a
   docs change complete (`onBrokenLinks`/`onBrokenAnchors: "throw"` in
   `docusaurus.config.ts`).

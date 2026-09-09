@@ -43,7 +43,6 @@
 ## Traceability
 
 - **Related Open Questions**: Q-001, Q-002, Q-003, Q-017, Q-018
-- **Related User Stories**: [Epics](../06-work-items/README.md)
 - **Related Architecture/ADR**: [Architecture Solution Design](../03-architecture/core/architecture-solution-design.md)
 - **Related Prototype**: [Prototype Brief](../05-prototype/prototype-brief.md)
 

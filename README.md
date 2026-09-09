@@ -42,7 +42,6 @@ This repository contains extensive documentation covering every aspect of the pr
 | [🏛️ Software Architecture](./docs/03-architecture/)   | High-level architecture, design patterns, and technology stack.     |
 | [📐 Decisions (ADRs)](./docs/04-decisions/)           | Key architectural decisions and their justifications.               |
 | [✨ Prototype & UX](./docs/05-prototype/)             | Mockups and prototypes exploring the user experience.               |
-| [📋 Work Items & Epics](./docs/06-work-items/)        | A breakdown of the development work into epics and user stories.    |
 
 ## How to Contribute
 

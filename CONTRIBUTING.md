@@ -52,7 +52,7 @@ For the full picture, start with the [Project Overview](./docs/00-context/overvi
 - 📝 **Improve documentation** — Docs are never perfect. Help us make them clearer.
 - 🧪 **Write tests** — Help us maintain our 70% minimum coverage target.
 - 🔧 **Fix bugs** — Pick an issue labeled `good first issue` or `help wanted`.
-- 🏗️ **Implement features** — Check the [Epics Index](./docs/06-work-items/README.md) for planned work.
+- 🏗️ **Implement features** — Check open issues for planned work.
 
 ### Good First Issues
 
@@ -147,8 +147,7 @@ open-projects-hub-docs/
 │   ├── 02-planning/           # Phased roadmap and role mapping
 │   ├── 03-architecture/       # Architecture design, API, database, diagrams, ops, security
 │   ├── 04-decisions/          # Architectural Decision Records (ADRs)
-│   ├── 05-prototype/          # UI prototypes and design direction
-│   └── 06-work-items/         # Epics and user stories
+│   └── 05-prototype/          # UI prototypes and design direction
 ├── src/, static/               # Docusaurus homepage, CSS, images
 ├── docusaurus.config.ts, sidebars.ts
 ├── README.md

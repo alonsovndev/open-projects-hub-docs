@@ -145,7 +145,7 @@
 **Dependencies**:
 
 - [ADR-006: Secret Management](../../04-decisions/adr-011-secrets-management.md).
-- [AI Refinement Service](../../06-work-items/EPIC-3-ai-refinement/stories.md#us-ep3-be-001-ai-refinement-service).
+- [AI Refinement Service](../EPIC-3-ai-refinement/stories.md#us-ep3-be-001-ai-refinement-service).
 - [API Contract](../../03-architecture/api/api-contract.md).
 
 **Success Metrics**:

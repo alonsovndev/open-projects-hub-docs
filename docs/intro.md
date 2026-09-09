@@ -18,7 +18,6 @@ use AI to refine ambiguous ideas into actionable technical specifications.
 | [Software Architecture](./03-architecture/)   | High-level architecture, design patterns, and technology stack.     |
 | [Decisions (ADRs)](./04-decisions/)           | Key architectural decisions and their justifications.               |
 | [Prototype & UX](./05-prototype/)             | Mockups and prototypes exploring the user experience.               |
-| [Work Items & Epics](./06-work-items/)        | A breakdown of the development work into epics and user stories.    |
 
 See the root [README](https://github.com/alonsovndev/open-projects-hub-docs) for the
 project pitch, current status, and how to contribute.

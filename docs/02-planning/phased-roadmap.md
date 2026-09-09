@@ -222,7 +222,7 @@
 | Must     | Admin authentication and recovery baseline | F-007, F-009      | FR-007-01, FR-007-02, FR-009-01, FR-009-02, NFR-007-01, NFR-009-01 | Tech Lead        |
 | Must     | AI credits and API key management          | F-010             | FR-010-01 to FR-010-12, NFR-010-01 to NFR-010-06                   | Tech Lead        |
 | Must     | Viewer account management                  | F-011             | FR-011-01 to FR-011-12, NFR-011-01 to NFR-011-06                   | Tech Lead        |
-| Must     | Cross-cut quality baseline ([EPIC-9](../06-work-items/EPIC-9-quality-baseline/epic.md)) | F-001 to F-011    | NFR-X01, NFR-X02, NFR-X03, NFR-X09, NFR-X10                        | Tech Lead        |
+| Must     | Cross-cut quality baseline (EPIC-9) | F-001 to F-011    | NFR-X01, NFR-X02, NFR-X03, NFR-X09, NFR-X10                        | Tech Lead        |
 
 ### Key Deliverables
 
@@ -309,22 +309,22 @@
 
 | Feature ID | Feature Name                             | Phase   | Priority | Linked Epic(s)                             | Linked Stories (US-\*)       | Status  |
 | ---------- | ---------------------------------------- | ------- | -------- | ------------------------------------------ | ---------------------------- | ------- |
-| F-001      | Client and Project Lifecycle Management  | MVP     | Must     | [EPIC-1](../06-work-items/EPIC-1-lifecycle-governance/epic.md) | US-EP1-UX-001, US-EP1-BE-001, US-EP1-BE-002, US-EP1-FE-001 | Planned |
-| F-002      | AI Refinement and Approval Workflow      | MVP     | Must     | [EPIC-3](../06-work-items/EPIC-3-ai-refinement/epic.md) | US-EP3-UX-001, US-EP3-BE-001, US-EP3-FE-001 | Planned |
-| F-003      | Access Control and Visibility Boundaries | MVP     | Must     | [EPIC-4](../06-work-items/EPIC-4-access-boundaries/epic.md) | US-EP4-UX-001, US-EP4-BE-001, US-EP4-FE-001 | Planned |
-| F-004      | Requirements Backlog and Markdown Export | MVP     | Must     | [EPIC-5](../06-work-items/EPIC-5-backlog-export/epic.md) | US-EP5-UX-001, US-EP5-BE-001, US-EP5-FE-001 | Planned |
-| F-005      | Minimal Onboarding                       | Phase 1 | Should   | [EPIC-8](../06-work-items/EPIC-8-entry-flow/epic.md) | US-EP8-UX-001, US-EP8-BE-001, US-EP8-FE-001 | Planned |
-| F-006      | Landing Page Experience                  | Phase 1 | Must     | [EPIC-8](../06-work-items/EPIC-8-entry-flow/epic.md) | US-EP8-UX-002, US-EP8-FE-002 | Planned |
-| F-007      | Admin Login                              | MVP     | Must     | [EPIC-2](../06-work-items/EPIC-2-user-authentication/epic.md) | US-EP2-BE-001, US-EP2-FE-001 | Planned |
-| F-008      | Account Creation                         | Phase 1 | Should   | [EPIC-8](../06-work-items/EPIC-8-entry-flow/epic.md) | US-EP8-UX-003, US-EP8-BE-002, US-EP8-FE-003 | Planned |
-| F-009      | Reset Password                           | MVP     | Must     | [EPIC-2](../06-work-items/EPIC-2-user-authentication/epic.md) | US-EP2-BE-002, US-EP2-FE-002 | Planned |
-| F-010      | AI Credits and API Key Management        | MVP     | Must     | [EPIC-6](../06-work-items/EPIC-6-ai-monetization-config/epic.md) | US-EP6-UX-001, US-EP6-BE-001, US-EP6-BE-002, US-EP6-FE-001 | Planned |
-| F-011      | Viewer Account Management                | MVP     | Must     | [EPIC-7](../06-work-items/EPIC-7-viewer-collaboration-lifecycle/epic.md) | US-EP7-UX-001, US-EP7-BE-001, US-EP7-BE-002, US-EP7-FE-001 | Planned |
-| NFR-X01–X10| Cross-Cutting Quality Baseline           | MVP     | Must     | [EPIC-9](../06-work-items/EPIC-9-quality-baseline/epic.md) | US-EP9-BE-001 to US-EP9-BE-004, US-EP9-QA-001 to US-EP9-QA-003, US-EP9-UX-001 | Planned |
-| —          | Production Deployment Pipeline           | MVP     | Must     | [EPIC-0](../06-work-items/EPIC-0-foundational/epic.md) | US-EP0-BE-005 | Planned |
-| —          | Monitoring & Observability               | MVP     | Should   | [EPIC-0](../06-work-items/EPIC-0-foundational/epic.md) | US-EP0-BE-006 | Planned |
-| —          | API Key Rotation & Provider Fallback     | MVP     | Must     | [EPIC-6](../06-work-items/EPIC-6-ai-monetization-config/epic.md) | US-EP6-BE-003 | Planned |
-| —          | Invitation Lifecycle Management          | MVP     | Should   | [EPIC-7](../06-work-items/EPIC-7-viewer-collaboration-lifecycle/epic.md) | US-EP7-BE-003 | Planned |
+| F-001      | Client and Project Lifecycle Management  | MVP     | Must     | EPIC-1 | US-EP1-UX-001, US-EP1-BE-001, US-EP1-BE-002, US-EP1-FE-001 | Planned |
+| F-002      | AI Refinement and Approval Workflow      | MVP     | Must     | EPIC-3 | US-EP3-UX-001, US-EP3-BE-001, US-EP3-FE-001 | Planned |
+| F-003      | Access Control and Visibility Boundaries | MVP     | Must     | EPIC-4 | US-EP4-UX-001, US-EP4-BE-001, US-EP4-FE-001 | Planned |
+| F-004      | Requirements Backlog and Markdown Export | MVP     | Must     | EPIC-5 | US-EP5-UX-001, US-EP5-BE-001, US-EP5-FE-001 | Planned |
+| F-005      | Minimal Onboarding                       | Phase 1 | Should   | EPIC-8 | US-EP8-UX-001, US-EP8-BE-001, US-EP8-FE-001 | Planned |
+| F-006      | Landing Page Experience                  | Phase 1 | Must     | EPIC-8 | US-EP8-UX-002, US-EP8-FE-002 | Planned |
+| F-007      | Admin Login                              | MVP     | Must     | EPIC-2 | US-EP2-BE-001, US-EP2-FE-001 | Planned |
+| F-008      | Account Creation                         | Phase 1 | Should   | EPIC-8 | US-EP8-UX-003, US-EP8-BE-002, US-EP8-FE-003 | Planned |
+| F-009      | Reset Password                           | MVP     | Must     | EPIC-2 | US-EP2-BE-002, US-EP2-FE-002 | Planned |
+| F-010      | AI Credits and API Key Management        | MVP     | Must     | EPIC-6 | US-EP6-UX-001, US-EP6-BE-001, US-EP6-BE-002, US-EP6-FE-001 | Planned |
+| F-011      | Viewer Account Management                | MVP     | Must     | EPIC-7 | US-EP7-UX-001, US-EP7-BE-001, US-EP7-BE-002, US-EP7-FE-001 | Planned |
+| NFR-X01–X10| Cross-Cutting Quality Baseline           | MVP     | Must     | EPIC-9 | US-EP9-BE-001 to US-EP9-BE-004, US-EP9-QA-001 to US-EP9-QA-003, US-EP9-UX-001 | Planned |
+| —          | Production Deployment Pipeline           | MVP     | Must     | EPIC-0 | US-EP0-BE-005 | Planned |
+| —          | Monitoring & Observability               | MVP     | Should   | EPIC-0 | US-EP0-BE-006 | Planned |
+| —          | API Key Rotation & Provider Fallback     | MVP     | Must     | EPIC-6 | US-EP6-BE-003 | Planned |
+| —          | Invitation Lifecycle Management          | MVP     | Should   | EPIC-7 | US-EP7-BE-003 | Planned |
 
 ---
 
