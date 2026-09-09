@@ -11,7 +11,7 @@
 **Effort Estimate**: 5
 **Status**: TODO
 **Labels**: frontend, seo, discoverability
-**Requirements**: FR-006-01, FR-006-03 (SEO requirement not yet documented)
+**Requirements**: FR-006-01, FR-006-03, NFR-X11
 
 **As a** Frontend Engineer,
 **I want to** render per-route titles, meta descriptions, social tags, and canonical URLs,
@@ -53,7 +53,7 @@
 **Effort Estimate**: 3
 **Status**: TODO
 **Labels**: frontend, seo, discoverability
-**Requirements**: n/a (SEO requirement not yet documented)
+**Requirements**: NFR-X11
 
 **As a** Frontend Engineer,
 **I want to** publish `robots.txt` and a generated `sitemap.xml` for public routes,
@@ -93,7 +93,7 @@
 **Effort Estimate**: 3
 **Status**: TODO
 **Labels**: frontend, seo, discoverability
-**Requirements**: n/a (SEO requirement not yet documented)
+**Requirements**: NFR-X11
 
 **As a** Frontend Engineer,
 **I want to** embed JSON-LD structured data describing the product and organization,
@@ -132,7 +132,7 @@
 **Effort Estimate**: 3
 **Status**: TODO
 **Labels**: frontend, seo, accessibility
-**Requirements**: NFR-006-02, NFR-X07
+**Requirements**: NFR-006-02, NFR-X07, NFR-X11
 
 **As a** Frontend Engineer,
 **I want to** give public pages a correct heading hierarchy and landmark regions,
@@ -173,7 +173,7 @@
 **Effort Estimate**: 2
 **Status**: TODO
 **Labels**: frontend, seo, design
-**Requirements**: n/a (SEO requirement not yet documented)
+**Requirements**: NFR-X11
 
 **As a** Frontend Engineer,
 **I want to** produce and wire the share preview imagery for public pages,
@@ -214,7 +214,7 @@
 **Effort Estimate**: 5
 **Status**: TODO
 **Labels**: qa, seo, performance
-**Requirements**: NFR-006-01, NFR-X05
+**Requirements**: NFR-006-01, NFR-X05, NFR-X11
 
 **As a** QA Engineer,
 **I want to** define Core Web Vitals budgets and verify them in CI and in production telemetry,

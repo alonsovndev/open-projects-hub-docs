@@ -70,7 +70,7 @@ All features (F-001 to F-011) have been validated and moved to **Clarified** sta
 | ------- | -------------------- | ----------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- | ------------- | --------- |
 | NFR-X01 | Security             | The platform adheres to OWASP Top 10 security best practices, including secure credential storage and login protection. | OWASP Top 10 checklist satisfied; login attempts are rate-limited; passwords are stored using strong one-way hashing.                                                                                           | Must     | Tech Lead     | Clarified |
 | NFR-X02 | Privacy              | The platform follows GDPR-aligned privacy practices with deletion and archival support.                                 | Deleted projects become inaccessible to Admin and Viewer roles within 24 hours; archived projects are excluded from the active-project limit.                                                                   | Must     | Tech Lead     | Clarified |
-| NFR-X03 | Testability          | MVP core logic keeps an automated test coverage threshold.                                                              | Automated tests cover at least 70% of core application logic.                                                                                                                                                   | Must     | Backend Lead  | Clarified |
+| NFR-X03 | Testability          | MVP core logic keeps an automated test coverage target with visible reporting.                                          | Automated tests cover at least 70% of core application logic. Coverage is measured and reported with a diff on every pull request; per ADR-015 it is tracked as a target, not enforced as a merge-blocking gate. | Must     | Backend Lead  | Clarified |
 | NFR-X04 | Readability          | Viewer-facing requirements remain readable to non-technical stakeholders.                                               | Viewer views present user stories in the standard template with plain-language titles.                                                                                                                          | Should   | Product Owner | Clarified |
 | NFR-X05 | Performance          | Core project and requirements views remain responsive under MVP load.                                                   | MVP load: 10 concurrent Admins + 20 Viewers, 100 requests/min peak, 3 active projects per Admin, 200 total stories. Project list and requirements views render within 2 seconds.                                | Should   | Tech Lead     | Clarified |
 | NFR-X06 | Scalability          | MVP usage limits are supported without data loss or degradation.                                                        | Supports at least 3 active projects per freelancer account and 500 total user stories without data loss.                                                                                                        | Should   | Tech Lead     | Clarified |
@@ -78,6 +78,7 @@ All features (F-001 to F-011) have been validated and moved to **Clarified** sta
 | NFR-X08 | Delivery Feasibility | MVP scope remains deliverable in planned schedule.                                                                      | MVP scope is achievable within a 1–1.5 month delivery window, assuming the defined scope and constraints.                                                                                                       | Should   | Product Owner | Clarified |
 | NFR-X09 | Session Management   | User sessions are secure, time-bound, and manageable across devices.                                                    | Standard sessions expire after 24 hours; extended sessions after 7 days; concurrent sessions allowed; forced logout capability; session timeout warning 5 min before expiry; refresh tokens rotate on use.      | Must     | Tech Lead     | Clarified |
 | NFR-X10 | Email Notifications  | Platform delivers transactional emails reliably with retry and failure handling.                                        | 95% delivered within 30 seconds; 3 retry attempts with exponential backoff; user feedback on failures; max 10 emails per account per hour; supports verification codes, password reset, and Viewer invitations. | Must     | Tech Lead     | Clarified |
+| NFR-X11 | Discoverability      | Public entry pages are discoverable by search engines and render correct link previews.                                 | Public routes expose unique titles, meta descriptions, and canonical URLs; `robots.txt` and `sitemap.xml` are published and exclude authenticated routes; shared links render a title, description, and image preview; landing page Core Web Vitals stay within agreed budgets. | Should   | Frontend Lead | Clarified |
 
 ---
 
@@ -93,7 +94,7 @@ The following infrastructure choices impact requirements scope and should guide 
 | **Session Management** | _Implementation Team Decision_ | Session requirements in NFR-X09 (24-hour standard, 7-day extended, concurrent allowed)                   | JWT or session tokens acceptable; implementation must meet timeout and refresh requirements                           |
 | **API Providers**      | Gemini, OpenAI, DeepSeek       | AI refinement workflow in F-002, F-010; user brings own keys                                             | Platform provides 5 trial credits using platform-managed keys; users configure own API keys for unlimited use         |
 
-**Note**: All infrastructure decisions should be documented in the implementation repository's ADRs (Architecture Decision Records), not in this requirements specification. Chosen technologies must satisfy the non-functional requirements (NFR-X01 to NFR-X10).
+**Note**: All infrastructure decisions should be documented in the implementation repository's ADRs (Architecture Decision Records), not in this requirements specification. Chosen technologies must satisfy the non-functional requirements (NFR-X01 to NFR-X11).
 
 **Validation Checklist for "Ready for Implementation"**:
 
@@ -103,7 +104,7 @@ Implementation team has confirmed:
 - [x] Acceptance criteria are testable and measurable
 - [x] Technical feasibility confirmed (no hidden blockers)
 - [x] Dependencies between features are understood
-- [x] Quality baselines (NFR-X01 to NFR-X10) are achievable with specified infrastructure
+- [x] Quality baselines (NFR-X01 to NFR-X11) are achievable with specified infrastructure
 - [x] Infrastructure choices are appropriate for requirements
 - [x] Scope boundaries (out-of-scope.md) are agreed upon
 - [x] No critical open questions remain

@@ -237,7 +237,7 @@ Examples:
 - `docs(adr): add code quality tooling strategy`
 - `refactor(api): extract validation logic to shared module`
 
-**Enforcement:** PR titles are validated via CI (GitHub Actions checks Conventional Commits format). No local commit hooks are enforced — this reduces developer friction during rapid iteration. CONTRIBUTING.md documents the format with examples for new contributors.
+**Enforcement:** PR titles are validated via CI (GitHub Actions checks Conventional Commits format). Commit *messages* are not validated by a local hook, so message format stays friction-free during rapid iteration. Local pre-commit hooks are still used for code quality — Ruff, ESLint, Prettier, mypy, and gitleaks secret detection per [ADR-015](../../04-decisions/adr-015-code-quality-tooling.md) — and CI re-runs those checks as the authoritative gate, so a bypassed hook cannot land non-conforming code. CONTRIBUTING.md documents the format with examples for new contributors.
 
 ---
 

@@ -33,7 +33,7 @@ Excluded scope:
 - Paid acquisition, analytics platforms, or keyword research tooling
 - Indexing of authenticated application views, which must stay excluded from crawlers
 
-Related feature and requirement IDs: F-006 (landing page surface); NFR-006-01, NFR-006-02, NFR-X05, NFR-X07. SEO-specific requirements are not yet documented in `docs/01-requirements/` - see the documentation follow-up noted in the repository work-items README.
+Related feature and requirement IDs: F-006; FR-006-01, FR-006-03; NFR-006-01, NFR-006-02, NFR-X05, NFR-X07, NFR-X11
 
 Dependencies:
 

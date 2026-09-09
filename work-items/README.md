@@ -54,10 +54,9 @@ statement, `Acceptance Criteria` as Given/When/Then checkboxes, `Deliverables`,
 ### Traceability
 
 Every functional and non-functional requirement documented in `docs/01-requirements/`
-(123 IDs: 76 `FR-*`, 37 feature-level `NFR-*`, 10 cross-cutting `NFR-X*`) is referenced by
-at least one story's `Requirements` field. Foundational, release, and SEO items that
-implement no documented requirement state that explicitly rather than leaving the field
-blank.
+(124 IDs: 76 `FR-*`, 37 feature-level `NFR-*`, 11 cross-cutting `NFR-X*`) is referenced by
+at least one story's `Requirements` field. Foundational and release items that implement no
+documented requirement state that explicitly rather than leaving the field blank.
 
 ### Release efforts
 
@@ -93,21 +92,23 @@ There is **no staging environment** (see ADR-014).
 
 **Totals**: 13 epics, 110 stories, 514 story points.
 
-## Known documentation gaps
+## Documentation reconciliation
 
-These were found while reconciling these work items against `docs/` and need correcting in
+Six defects found while reconciling these work items against `docs/` have been corrected in
 the documentation itself:
 
-1. `docs/02-planning/phased-roadmap.md` cites `NFR-011-06`, which F-011 does not define
-   (F-011 defines `NFR-011-01` to `NFR-011-05`).
-2. `docs/03-architecture/ops/ci-cd-pipeline.md` states there are no local commit hooks,
-   which contradicts ADR-015's pre-commit framework decision. These work items follow
-   ADR-015.
-3. `docs/01-requirements/README.md` `NFR-X03` reads as an enforced coverage gate, while
-   ADR-015 keeps coverage non-blocking. These work items follow ADR-015 (report, not block).
-4. `docs/05-prototype/design-direction.md` traceability cites story IDs
-   (`US-MVP-UX-001`, `US-MVP-UX-002`, `US-P1-UX-003`, `US-P1-UX-004`) that do not exist here.
-5. SEO has no requirement coverage anywhere in `docs/`, so EPIC-10 currently traces only to
-   F-006 and related NFRs. A feature doc or `NFR-X` entry is needed to make it fully traceable.
-6. The roadmap's MVP rows name only a subset of each feature's requirements, leaving roughly
-   30 `FR-*` IDs without an explicit phase assignment.
+1. `docs/02-planning/phased-roadmap.md` cited a phantom `NFR-011-06`; the row now enumerates
+   `NFR-011-01` to `NFR-011-05`.
+2. `docs/03-architecture/ops/ci-cd-pipeline.md` claimed no local hooks exist; it now reflects
+   ADR-015 (pre-commit hooks for code quality, CI as the authoritative gate) while keeping
+   commit *messages* hook-free.
+3. `docs/01-requirements/README.md` `NFR-X03` now states that coverage is measured and
+   reported per pull request as a target, not enforced as a merge-blocking gate (ADR-015).
+   `docs/04-decisions/adr-010-testing-framework.md` was corrected to match, and to cite
+   `NFR-X03` rather than the non-existent `NFR-003`.
+4. `docs/05-prototype/design-direction.md` traceability now cites real story IDs.
+5. `NFR-X11` (Discoverability) was added to the cross-cutting baseline, so EPIC-10 is fully
+   traceable.
+6. The roadmap's phase tables now enumerate each feature's full requirement set, and the
+   feature traceability matrix is regenerated from these work items, including EPIC-10,
+   EPIC-11, and EPIC-12.

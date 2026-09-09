@@ -5,7 +5,7 @@
 
 ## Context
 
-NFR-003 requires at least 70% automated coverage for core logic with maintainable testing across backend and frontend workflows.
+NFR-X03 sets a target of at least 70% automated coverage for core logic, with maintainable testing across backend and frontend workflows. Per ADR-015 the target is measured and reported on every pull request rather than enforced as a merge-blocking gate.
 
 ## Decision
 
