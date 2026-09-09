@@ -28,14 +28,14 @@ Excluded scope:
 - Paid plan, subscription, or commercial conversion workflows
 - Team onboarding and collaborator provisioning
 
-Related feature and requirement IDs: F-005, F-006, F-008; FR-005-01, FR-006-01, FR-006-02, FR-006-03, FR-008-01 to FR-008-09; NFR-005-01, NFR-005-02, NFR-006-01, NFR-006-02, NFR-008-01 to NFR-008-04
+Related feature and requirement IDs: F-005, F-006, F-008; FR-005-01, FR-005-02, FR-005-03, FR-006-01, FR-006-02, FR-006-03, FR-008-01, FR-008-02, FR-008-03, FR-008-04, FR-008-05, FR-008-06, FR-008-07, FR-008-08, FR-008-09; NFR-005-01, NFR-005-02, NFR-006-01, NFR-006-02, NFR-008-01, NFR-008-02, NFR-008-03, NFR-008-04
 
 Dependencies:
 
-- [Feature Requirements](../../01-requirements/f-005-minimal-onboarding.md)
-- [Feature Requirements](../../01-requirements/f-006-landing-page.md)
-- [Feature Requirements](../../01-requirements/f-008-create-account.md)
-- [Phased Roadmap](../../02-planning/phased-roadmap.md)
+- [Feature Requirements](../../docs/01-requirements/f-005-minimal-onboarding.md)
+- [Feature Requirements](../../docs/01-requirements/f-006-landing-page.md)
+- [Feature Requirements](../../docs/01-requirements/f-008-create-account.md)
+- [Phased Roadmap](../../docs/02-planning/phased-roadmap.md)
 
 Measurable success criteria:
 
@@ -46,10 +46,16 @@ Measurable success criteria:
 
 ## Release Checklist
 
-- [ ] Version bump in package.json / pyproject.toml
-- [ ] CHANGELOG.md updated with epic summary
-- [ ] Git tag created (e.g., v0.5.0 for MVP)
+- [ ] Release PR `dev` -> `main` opened, 2 approvals obtained, all status checks green (lint, test, type-check, docs, terraform plan)
+- [ ] Semver decision recorded and version bumped in `package.json` / `pyproject.toml`
+- [ ] `CHANGELOG.md` updated with the epic summary
+- [ ] Candidate image verified in ECR (sha-tagged, built by the release PR pipeline)
+- [ ] Alembic migrations reviewed for backward compatibility with the running version
+- [ ] Git tag `vX.Y.Z` pushed on `main` to trigger the production deployment pipeline
+- [ ] `terraform apply` completed for any pending infrastructure change
+- [ ] App Runner rolling deploy healthy and frontend published to S3 with CloudFront invalidated
+- [ ] Post-deploy smoke tests passed against production
+- [ ] Sentry release created with the commit SHA and source maps uploaded
+- [ ] Release health compared against the pre-deployment error baseline
 - [ ] GitHub release published with notes
-- [ ] Deployed to staging/production
-- [ ] Smoke test passed
-
+- [ ] Rollback path confirmed (redeploy previous ECR image; fix-forward is the default)

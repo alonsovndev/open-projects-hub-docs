@@ -6,10 +6,12 @@
 
 **Story ID**: US-EP9-BE-001
 **Epic Link**: EPIC-9
+**Issue Type**: Story
 **Priority**: Must Have
 **Effort Estimate**: 5
 **Status**: TODO
-**Labels**: backend, quality, nfr, security, performance
+**Labels**: backend, quality, nfr, email
+**Requirements**: NFR-X10
 
 **As a** Backend Engineer,
 **I want to** implement transactional email delivery with retry and rate limiting,
@@ -29,8 +31,8 @@
 
 **Dependencies**:
 
-- [API Contract](../../03-architecture/api/api-contract.md).
-- [Threat Model](../../03-architecture/security/threat-model.md).
+- [API Contract](../../docs/03-architecture/api/api-contract.md).
+- [Threat Model](../../docs/03-architecture/security/threat-model.md).
 
 **Success Metrics**:
 
@@ -43,10 +45,12 @@
 
 **Story ID**: US-EP9-BE-002
 **Epic Link**: EPIC-9
+**Issue Type**: Story
 **Priority**: Must Have
 **Effort Estimate**: 5
 **Status**: TODO
-**Labels**: backend, quality, nfr, security, performance
+**Labels**: backend, quality, nfr, security, session
+**Requirements**: NFR-X09, NFR-003-04
 
 **As a** Backend Engineer,
 **I want to** enforce session expiry, refresh rotation, and forced logout,
@@ -66,8 +70,8 @@
 
 **Dependencies**:
 
-- [ADR-005: Authentication](../../04-decisions/adr-005-authentication.md).
-- [API Contract](../../03-architecture/api/api-contract.md).
+- [ADR-005: Authentication](../../docs/04-decisions/adr-005-authentication.md).
+- [API Contract](../../docs/03-architecture/api/api-contract.md).
 
 **Success Metrics**:
 
@@ -80,10 +84,12 @@
 
 **Story ID**: US-EP9-BE-003
 **Epic Link**: EPIC-9
+**Issue Type**: Story
 **Priority**: Must Have
 **Effort Estimate**: 5
 **Status**: TODO
-**Labels**: backend, quality, nfr, security, performance
+**Labels**: backend, quality, nfr, security
+**Requirements**: NFR-X01
 
 **As a** Backend Engineer,
 **I want to** apply OWASP Top 10 security controls across all endpoints,
@@ -103,8 +109,8 @@
 
 **Dependencies**:
 
-- [Security Architecture](../../03-architecture/security/security-architecture.md).
-- [Threat Model](../../03-architecture/security/threat-model.md).
+- [Security Architecture](../../docs/03-architecture/security/security-architecture.md).
+- [Threat Model](../../docs/03-architecture/security/threat-model.md).
 
 **Success Metrics**:
 
@@ -117,10 +123,12 @@
 
 **Story ID**: US-EP9-BE-004
 **Epic Link**: EPIC-9
+**Issue Type**: Story
 **Priority**: Must Have
 **Effort Estimate**: 3
 **Status**: TODO
-**Labels**: backend, quality, nfr, security, performance
+**Labels**: backend, quality, nfr, privacy
+**Requirements**: NFR-X02, NFR-001-01
 
 **As a** Backend Engineer,
 **I want to** enforce GDPR-aligned deletion and archival,
@@ -139,8 +147,8 @@
 
 **Dependencies**:
 
-- [Database Design](../../03-architecture/database/database-design.md).
-- [API Contract](../../03-architecture/api/api-contract.md).
+- [Database Design](../../docs/03-architecture/database/database-design.md).
+- [API Contract](../../docs/03-architecture/api/api-contract.md).
 
 **Success Metrics**:
 
@@ -151,39 +159,44 @@
 
 ## QA / Test Ownership
 
-### US-EP9-QA-001: Test Coverage Gate
+### US-EP9-QA-001: Test Coverage Visibility
 
 **Story ID**: US-EP9-QA-001
 **Epic Link**: EPIC-9
+**Issue Type**: Story
 **Priority**: Must Have
 **Effort Estimate**: 3
 **Status**: TODO
-**Labels**: qa, testing, quality, nfr, security, performance
+**Labels**: qa, testing, quality, nfr
+**Requirements**: NFR-X03
 
 **As a** QA Engineer,
-**I want to** enforce a ≥ 70% test coverage gate on core application logic,
-**So that** the MVP ships with a measurable quality baseline.
+**I want to** report test coverage of core application logic against the 70% target on every pull request,
+**So that** the team can see coverage trends and act on regressions without blocking fast MVP iteration.
 
 **Acceptance Criteria**:
 
-- [ ] Given CI/CD pipeline, when tests run, then coverage threshold (≥ 70%) is enforced and blocks merge if not met.
+- [ ] Given a pull request, when tests run in CI, then the coverage percentage and its diff versus the base branch are posted as a PR comment.
+- [ ] Given the 70% target for core application logic, when coverage falls below it, then the report flags it visibly but does not block the merge.
 - [ ] Given core business logic (refinement, access control, export), when reviewed, then each function has test coverage.
 - [ ] Given negative-case scenarios, when executed, then tests cover failure paths and edge cases.
 
 **Deliverables**:
 
-- Coverage configuration (backend + frontend) integrated into CI/CD.
-- Coverage report and documentation of any uncovered critical paths.
+- Coverage configuration (pytest-cov backend, vitest coverage frontend) integrated into CI.
+- PR comment reporting coverage percentage and diff.
+- Documentation of any uncovered critical paths for manual review during PR.
 
 **Dependencies**:
 
-- [ADR-010: Testing Framework](../../04-decisions/adr-010-testing-framework.md).
-- CI/CD pipeline configuration.
+- [ADR-010: Testing Framework](../../docs/04-decisions/adr-010-testing-framework.md).
+- [ADR-015: Code Quality Tooling](../../docs/04-decisions/adr-015-code-quality-tooling.md).
+- [CI/CD Pipeline Scaffolding](../EPIC-0-foundational/stories.md#us-ep0-be-003-cicd-pipeline-scaffolding-and-testing-framework).
 
 **Success Metrics**:
 
-- Core application logic coverage ≥ 70%.
-- CI/CD pipeline blocks merges below threshold.
+- Core application logic coverage trends at or above 70%.
+- Every PR shows a coverage delta, making regressions visible at review time.
 
 ---
 
@@ -191,10 +204,12 @@
 
 **Story ID**: US-EP9-QA-002
 **Epic Link**: EPIC-9
+**Issue Type**: Story
 **Priority**: Must Have
 **Effort Estimate**: 3
 **Status**: TODO
-**Labels**: qa, testing, quality, nfr, security, performance
+**Labels**: qa, testing, quality, nfr
+**Requirements**: NFR-X05, NFR-X06
 
 **As a** QA Engineer,
 **I want to** validate performance under MVP load assumptions,
@@ -213,8 +228,8 @@
 
 **Dependencies**:
 
-- [Monitoring & Observability](../../03-architecture/ops/monitoring-observability.md).
-- [Phased Roadmap](../../02-planning/phased-roadmap.md).
+- [Monitoring & Observability](../../docs/03-architecture/ops/monitoring-observability.md).
+- [Phased Roadmap](../../docs/02-planning/phased-roadmap.md).
 
 **Success Metrics**:
 
@@ -223,52 +238,16 @@
 
 ---
 
-## UI/UX Designer
-
-### US-EP9-UX-001: Accessibility & Readability Validation
-
-**Story ID**: US-EP9-UX-001
-**Epic Link**: EPIC-9
-**Priority**: Must Have
-**Effort Estimate**: 3
-**Status**: TODO
-**Labels**: design, ux, quality, nfr, security, performance
-
-**As a** UI/UX Designer,
-**I want to** validate accessibility and readability across all Viewer-facing views,
-**So that** non-technical stakeholders can consume approved requirements without barriers.
-
-**Acceptance Criteria**:
-
-- [ ] Given Viewer-facing views, when audited, then they meet WCAG 2.1 AA for contrast, keyboard navigation, and screen reader labels.
-- [ ] Given approved backlog views, when reviewed by a non-technical user, then user stories are presented in the standard template with plain-language titles.
-- [ ] Given primary CTAs, when navigated by keyboard, then focus order and labels are accessible.
-
-**Deliverables**:
-
-- Accessibility audit report with pass/fail per WCAG 2.1 AA criterion.
-- Readability validation notes with remediation list for any non-compliant views.
-
-**Dependencies**:
-
-- [Security Architecture](../../03-architecture/security/security-architecture.md).
-- [Monitoring & Observability](../../03-architecture/ops/monitoring-observability.md).
-
-**Success Metrics**:
-
-- All Viewer-facing views pass WCAG 2.1 AA audit.
-- Non-technical stakeholders confirm readability of exported and viewed requirements.
-
----
-
 ### US-EP9-QA-003: End-to-End Integration Test Suite
 
 **Story ID**: US-EP9-QA-003
 **Epic Link**: EPIC-9
+**Issue Type**: Story
 **Priority**: Must Have
 **Effort Estimate**: 8
 **Status**: TODO
 **Labels**: qa, testing, quality, e2e, integration
+**Requirements**: NFR-X03
 
 **As a** QA Engineer,
 **I want to** implement end-to-end integration tests covering complete user journeys across frontend and backend,
@@ -290,12 +269,95 @@
 
 **Dependencies**:
 
-- All MVP feature epics (EPIC-1 through EPIC-7) implemented.
-- [Testing Framework ADR](../../04-decisions/adr-010-testing-framework.md).
-- [Phased Roadmap](../../02-planning/phased-roadmap.md).
+- [Foundational Setup](../EPIC-0-foundational/epic.md) and all MVP feature epics (EPIC-1 through EPIC-7) implemented.
+- [ADR-010: Testing Framework](../../docs/04-decisions/adr-010-testing-framework.md).
+- [Phased Roadmap](../../docs/02-planning/phased-roadmap.md).
 
 **Success Metrics**:
 
 - At least 5 critical user journeys covered by automated E2E tests.
 - E2E suite completes in under 15 minutes in CI.
 - No false-positive failures across 10 consecutive CI runs.
+
+---
+
+## UI/UX Designer
+
+### US-EP9-UX-001: Accessibility & Readability Validation
+
+**Story ID**: US-EP9-UX-001
+**Epic Link**: EPIC-9
+**Issue Type**: Story
+**Priority**: Must Have
+**Effort Estimate**: 3
+**Status**: TODO
+**Labels**: design, ux, quality, nfr, accessibility
+**Requirements**: NFR-X04, NFR-X07
+
+**As a** UI/UX Designer,
+**I want to** validate accessibility and readability across all Viewer-facing views,
+**So that** non-technical stakeholders can consume approved requirements without barriers.
+
+**Acceptance Criteria**:
+
+- [ ] Given Viewer-facing views, when audited, then they meet WCAG 2.1 AA for contrast, keyboard navigation, and screen reader labels.
+- [ ] Given approved backlog views, when reviewed by a non-technical user, then user stories are presented in the standard template with plain-language titles.
+- [ ] Given primary CTAs, when navigated by keyboard, then focus order and labels are accessible.
+
+**Deliverables**:
+
+- Accessibility audit report with pass/fail per WCAG 2.1 AA criterion.
+- Readability validation notes with remediation list for any non-compliant views.
+
+**Dependencies**:
+
+- [Security Architecture](../../docs/03-architecture/security/security-architecture.md).
+- [Monitoring & Observability](../../docs/03-architecture/ops/monitoring-observability.md).
+
+**Success Metrics**:
+
+- All Viewer-facing views pass WCAG 2.1 AA audit.
+- Non-technical stakeholders confirm readability of exported and viewed requirements.
+
+---
+
+## Product Owner
+
+### US-EP9-PO-001: MVP Scope and Delivery Feasibility Governance
+
+**Story ID**: US-EP9-PO-001
+**Epic Link**: EPIC-9
+**Issue Type**: Story
+**Priority**: Must Have
+**Effort Estimate**: 3
+**Status**: TODO
+**Labels**: product, governance, quality, nfr
+**Requirements**: NFR-X08
+
+**As a** Product Owner,
+**I want to** govern MVP scope against the delivery window and keep requirement traceability current,
+**So that** the MVP stays deliverable in the planned window and every requirement keeps a documented owner.
+
+**Acceptance Criteria**:
+
+- [ ] Given the MVP backlog, when scope is reviewed, then every Must requirement is mapped to an epic, a story, and an owner.
+- [ ] Given a proposed scope addition, when it is assessed, then its impact on the 1 to 1.5 month window is recorded before acceptance.
+- [ ] Given a requirement is deferred, when the decision is made, then the deferral and its target phase are documented in the roadmap.
+- [ ] Given the traceability matrix, when a story is added or removed, then the matrix is updated in the same change.
+
+**Deliverables**:
+
+- Scope review checkpoint covering Must requirement coverage and ownership.
+- Impact assessment record for accepted or rejected scope changes.
+- Updated feature traceability matrix reflecting current stories.
+
+**Dependencies**:
+
+- [Phased Roadmap](../../docs/02-planning/phased-roadmap.md).
+- [Role Mapping](../../docs/02-planning/role-mapping.md).
+- [Requirements Baseline](../../docs/01-requirements/README.md#cross-cutting-quality-baseline).
+
+**Success Metrics**:
+
+- MVP scope remains achievable within the documented delivery window.
+- Zero Must requirements without an epic, story, and owner.

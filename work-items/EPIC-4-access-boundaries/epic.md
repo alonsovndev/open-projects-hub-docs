@@ -31,11 +31,11 @@ Related feature and requirement IDs: F-003; FR-003-01, FR-003-02, FR-003-03; NFR
 
 Dependencies:
 
-- [Feature Requirements](../../01-requirements/f-003-access-control-and-visibility-boundaries.md)
-- [Role Mapping](../../02-planning/role-mapping.md)
-- [Phased Roadmap](../../02-planning/phased-roadmap.md)
-- [Security Architecture](../../03-architecture/security/security-architecture.md)
-- [Sequence Diagrams](../../03-architecture/diagrams/sequence-diagrams.md)
+- [Feature Requirements](../../docs/01-requirements/f-003-access-control-and-visibility-boundaries.md)
+- [Role Mapping](../../docs/02-planning/role-mapping.md)
+- [Phased Roadmap](../../docs/02-planning/phased-roadmap.md)
+- [Security Architecture](../../docs/03-architecture/security/security-architecture.md)
+- [Sequence Diagrams](../../docs/03-architecture/diagrams/sequence-diagrams.md)
 
 Measurable success criteria:
 
@@ -44,10 +44,16 @@ Measurable success criteria:
 
 ## Release Checklist
 
-- [ ] Version bump in package.json / pyproject.toml
-- [ ] CHANGELOG.md updated with epic summary
-- [ ] Git tag created (e.g., v0.5.0 for MVP)
+- [ ] Release PR `dev` -> `main` opened, 2 approvals obtained, all status checks green (lint, test, type-check, docs, terraform plan)
+- [ ] Semver decision recorded and version bumped in `package.json` / `pyproject.toml`
+- [ ] `CHANGELOG.md` updated with the epic summary
+- [ ] Candidate image verified in ECR (sha-tagged, built by the release PR pipeline)
+- [ ] Alembic migrations reviewed for backward compatibility with the running version
+- [ ] Git tag `vX.Y.Z` pushed on `main` to trigger the production deployment pipeline
+- [ ] `terraform apply` completed for any pending infrastructure change
+- [ ] App Runner rolling deploy healthy and frontend published to S3 with CloudFront invalidated
+- [ ] Post-deploy smoke tests passed against production
+- [ ] Sentry release created with the commit SHA and source maps uploaded
+- [ ] Release health compared against the pre-deployment error baseline
 - [ ] GitHub release published with notes
-- [ ] Deployed to staging/production
-- [ ] Smoke test passed
-
+- [ ] Rollback path confirmed (redeploy previous ECR image; fix-forward is the default)

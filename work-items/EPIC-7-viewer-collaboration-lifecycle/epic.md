@@ -28,12 +28,12 @@ Excluded scope:
 - Real-time notifications for viewers.
 - Viewer comments or feedback mechanisms.
 
-Related feature and requirement IDs: F-011
+Related feature and requirement IDs: F-011; FR-011-01, FR-011-02, FR-011-03, FR-011-04, FR-011-05, FR-011-06, FR-011-07, FR-011-08, FR-011-09, FR-011-10, FR-011-11, FR-011-12; NFR-011-01, NFR-011-02, NFR-011-03, NFR-011-04, NFR-011-05
 
 Dependencies:
 
-- [Feature Requirements](../../01-requirements/f-011-viewer-account-management.md)
-- [API Contract](../../03-architecture/api/api-contract.md)
+- [Feature Requirements](../../docs/01-requirements/f-011-viewer-account-management.md)
+- [API Contract](../../docs/03-architecture/api/api-contract.md)
 
 Measurable success criteria:
 
@@ -44,10 +44,16 @@ Measurable success criteria:
 
 ## Release Checklist
 
-- [ ] Version bump in package.json / pyproject.toml
-- [ ] CHANGELOG.md updated with epic summary
-- [ ] Git tag created (e.g., v0.5.0 for MVP)
+- [ ] Release PR `dev` -> `main` opened, 2 approvals obtained, all status checks green (lint, test, type-check, docs, terraform plan)
+- [ ] Semver decision recorded and version bumped in `package.json` / `pyproject.toml`
+- [ ] `CHANGELOG.md` updated with the epic summary
+- [ ] Candidate image verified in ECR (sha-tagged, built by the release PR pipeline)
+- [ ] Alembic migrations reviewed for backward compatibility with the running version
+- [ ] Git tag `vX.Y.Z` pushed on `main` to trigger the production deployment pipeline
+- [ ] `terraform apply` completed for any pending infrastructure change
+- [ ] App Runner rolling deploy healthy and frontend published to S3 with CloudFront invalidated
+- [ ] Post-deploy smoke tests passed against production
+- [ ] Sentry release created with the commit SHA and source maps uploaded
+- [ ] Release health compared against the pre-deployment error baseline
 - [ ] GitHub release published with notes
-- [ ] Deployed to staging/production
-- [ ] Smoke test passed
-
+- [ ] Rollback path confirmed (redeploy previous ECR image; fix-forward is the default)

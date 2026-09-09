@@ -2,14 +2,16 @@
 
 ## Spike Stories
 
-### SPIKE-1: Backend Framework Selection
+### US-EP0-SP-001: Backend Framework Selection
 
-**Story ID**: SPIKE-1
+**Story ID**: US-EP0-SP-001
 **Epic Link**: EPIC-0
-**Priority**: Spike
+**Issue Type**: Spike
+**Priority**: Must Have
 **Effort Estimate**: 3
 **Status**: TODO
 **Labels**: spike, foundational, setup, ci-cd
+**Requirements**: n/a (foundational spike)
 
 **As a** Tech Lead,
 **I want to** analyze and select a primary backend framework for the Python modular monolith,
@@ -29,7 +31,7 @@
 
 **Dependencies**:
 
-- [Technology Stack](../../03-architecture/core/technology-stack.md).
+- [Technology Stack](../../docs/03-architecture/core/technology-stack.md).
 
 **Success Metrics**:
 
@@ -38,14 +40,16 @@
 
 ---
 
-### SPIKE-2: Database Technology Selection
+### US-EP0-SP-002: Database Technology Selection
 
-**Story ID**: SPIKE-2
+**Story ID**: US-EP0-SP-002
 **Epic Link**: EPIC-0
-**Priority**: Spike
+**Issue Type**: Spike
+**Priority**: Must Have
 **Effort Estimate**: 3
 **Status**: TODO
 **Labels**: spike, foundational, setup, ci-cd
+**Requirements**: n/a (foundational spike)
 
 **As a** Tech Lead,
 **I want to** choose a primary database technology and hosting strategy,
@@ -65,7 +69,7 @@
 
 **Dependencies**:
 
-- [Technology Stack](../../03-architecture/core/technology-stack.md).
+- [Technology Stack](../../docs/03-architecture/core/technology-stack.md).
 
 **Success Metrics**:
 
@@ -74,14 +78,16 @@
 
 ---
 
-### SPIKE-3: Frontend Framework Selection
+### US-EP0-SP-003: Frontend Framework Selection
 
-**Story ID**: SPIKE-3
+**Story ID**: US-EP0-SP-003
 **Epic Link**: EPIC-0
-**Priority**: Spike
+**Issue Type**: Spike
+**Priority**: Must Have
 **Effort Estimate**: 3
 **Status**: TODO
 **Labels**: spike, foundational, setup, ci-cd
+**Requirements**: n/a (foundational spike)
 
 **As a** Tech Lead,
 **I want to** select a primary frontend framework and build tool,
@@ -101,7 +107,7 @@
 
 **Dependencies**:
 
-- [Technology Stack](../../03-architecture/core/technology-stack.md).
+- [Technology Stack](../../docs/03-architecture/core/technology-stack.md).
 
 **Success Metrics**:
 
@@ -110,23 +116,25 @@
 
 ---
 
-### SPIKE-4: Deployment Platform Selection
+### US-EP0-SP-004: Deployment Platform Selection
 
-**Story ID**: SPIKE-4
+**Story ID**: US-EP0-SP-004
 **Epic Link**: EPIC-0
-**Priority**: Spike
+**Issue Type**: Spike
+**Priority**: Must Have
 **Effort Estimate**: 5
 **Status**: TODO
 **Labels**: spike, foundational, setup, ci-cd
+**Requirements**: n/a (foundational spike)
 
 **As a** Tech Lead,
 **I want to** decide on a target platform for deploying backend and frontend applications,
-**So that** we have a clear, cost-effective, and operationally simple deployment path for MVP and future staging/production environments.
+**So that** we have a clear, cost-effective, and operationally simple deployment path for the local and production environments.
 
 **Acceptance Criteria**:
 
 - [ ] Given candidate platforms (Heroku, Vercel, Docker on AWS/GCP), when comparing, then cost, scalability, and operational tradeoffs are documented.
-- [ ] Given environment needs, when evaluating secrets and staging/production separation, then recommended strategy is provided.
+- [ ] Given environment needs, when evaluating secrets handling and local/production separation, then a recommended strategy is provided.
 - [ ] Given selection, when ADR is created, then deployment pipeline recommendations are included.
 
 **Deliverables**:
@@ -136,7 +144,7 @@
 
 **Dependencies**:
 
-- [Technology Stack](../../03-architecture/core/technology-stack.md).
+- [Technology Stack](../../docs/03-architecture/core/technology-stack.md).
 
 **Success Metrics**:
 
@@ -150,10 +158,12 @@
 
 **Story ID**: US-EP0-BE-001
 **Epic Link**: EPIC-0
+**Issue Type**: Story
 **Priority**: Must Have
 **Effort Estimate**: 8
 **Status**: TODO
 **Labels**: backend, foundational, setup, ci-cd
+**Requirements**: n/a (foundational)
 
 **As a** Backend Engineer,
 **I want to** establish a backend modular monolith repository structure with clear module boundaries and configuration patterns,
@@ -171,13 +181,13 @@
 - Backend repository root with modules/, shared/, config/, and tests/ directories.
 - Backend service template with boilerplate models, services, and handlers.
 - Setup script (setup.sh or equivalent) for fast local environment configuration.
-- Configuration management foundation (.env, settings module) for dev/test/staging/prod.
+- Configuration management foundation (.env, settings module) for local/test/production.
 - README with folder structure documentation.
 
 **Dependencies**:
 
-- [Architecture Solution Design](../../03-architecture/core/architecture-solution-design.md).
-- [Technology Stack](../../03-architecture/core/technology-stack.md).
+- [Architecture Solution Design](../../docs/03-architecture/core/architecture-solution-design.md).
+- [Technology Stack](../../docs/03-architecture/core/technology-stack.md).
 
 **Success Metrics**:
 
@@ -191,10 +201,12 @@
 
 **Story ID**: US-EP0-BE-002
 **Epic Link**: EPIC-0
+**Issue Type**: Story
 **Priority**: Must Have
 **Effort Estimate**: 8
 **Status**: TODO
 **Labels**: backend, foundational, setup, ci-cd
+**Requirements**: NFR-X06
 
 **As a** Backend Engineer,
 **I want to** implement database schema with migration tooling and seed data generation,
@@ -209,7 +221,7 @@
 
 **Deliverables**:
 
-- Database schema SQL or ORM migration definitions (based on [Database Design](../../03-architecture/database/database-design.md)).
+- Database schema SQL or ORM migration definitions (based on [Database Design](../../docs/03-architecture/database/database-design.md)).
 - Migration tooling configuration (Alembic, Flyway, or equivalent).
 - Seed data script with realistic MVP test fixtures.
 - Migration documentation and rollback procedures.
@@ -217,8 +229,8 @@
 
 **Dependencies**:
 
-- [Database Design](../../03-architecture/database/database-design.md).
-- [ADR-007: ORM Choice](../../04-decisions/adr-007-orm-choice.md).
+- [Database Design](../../docs/03-architecture/database/database-design.md).
+- [ADR-007: ORM Choice](../../docs/04-decisions/adr-007-orm-choice.md).
 
 **Success Metrics**:
 
@@ -232,10 +244,12 @@
 
 **Story ID**: US-EP0-BE-003
 **Epic Link**: EPIC-0
+**Issue Type**: Story
 **Priority**: Must Have
 **Effort Estimate**: 8
 **Status**: TODO
 **Labels**: backend, foundational, setup, ci-cd
+**Requirements**: NFR-X03
 
 **As a** Backend Engineer,
 **I want to** set up automated testing framework, linting, and CI/CD pipeline that runs on every commit,
@@ -244,7 +258,7 @@
 **Acceptance Criteria**:
 
 - [ ] Given code is committed and pushed, when CI pipeline runs, then unit tests are executed and results are reported.
-- [ ] Given test coverage falls below 70%, when CI runs, then build fails with coverage report.
+- [ ] Given test coverage falls below the 70% target, when CI runs, then the coverage report flags it in a PR comment without blocking the merge (per ADR-015).
 - [ ] Given code style violations exist, when linting is run, then issues are reported and block merge.
 - [ ] Given dependencies have known vulnerabilities, when security scan runs, then alerts are triggered.
 - [ ] Given all checks pass, when merge approval is granted, then green status is shown on PR.
@@ -260,14 +274,14 @@
 
 **Dependencies**:
 
-- [Technology Stack](../../03-architecture/core/technology-stack.md).
-- [ADR-009: Testing Framework](../../04-decisions/adr-010-testing-framework.md).
+- [Technology Stack](../../docs/03-architecture/core/technology-stack.md).
+- [ADR-010: Testing Framework](../../docs/04-decisions/adr-010-testing-framework.md).
 
 **Success Metrics**:
 
 - CI pipeline runs in under 5 minutes.
-- Test coverage baseline established and enforced (70%+).
-- Linting, security, and coverage checks block non-conforming PRs.
+- Test coverage baseline established and reported against the 70% target.
+- Linting, type-check, and security checks block non-conforming PRs; coverage is reported, not blocking.
 
 ---
 
@@ -275,10 +289,12 @@
 
 **Story ID**: US-EP0-BE-004
 **Epic Link**: EPIC-0
+**Issue Type**: Story
 **Priority**: Must Have
 **Effort Estimate**: 5
 **Status**: TODO
 **Labels**: backend, foundational, setup, ci-cd
+**Requirements**: n/a (foundational)
 
 **As a** Backend Engineer,
 **I want to** establish API documentation structure (OpenAPI/Swagger) and baseline endpoint contracts,
@@ -294,14 +310,14 @@
 
 - OpenAPI/Swagger specification file (openapi.yml or json).
 - API documentation generation setup (Swagger UI, ReDoc, or equivalent).
-- Baseline endpoint contracts linking to [API Contract](../../03-architecture/api/api-contract.md).
+- Baseline endpoint contracts linking to [API Contract](../../docs/03-architecture/api/api-contract.md).
 - Documentation generation in CI/CD pipeline.
 - README section on accessing and updating API documentation.
 
 **Dependencies**:
 
-- [API Contract](../../03-architecture/api/api-contract.md).
-- [Technology Stack](../../03-architecture/core/technology-stack.md).
+- [API Contract](../../docs/03-architecture/api/api-contract.md).
+- [Technology Stack](../../docs/03-architecture/core/technology-stack.md).
 
 **Success Metrics**:
 
@@ -310,84 +326,47 @@
 
 ---
 
-## Frontend Engineer
-
-### US-EP0-FE-001: React App Scaffolding and Development Environment
-
-**Story ID**: US-EP0-FE-001
-**Epic Link**: EPIC-0
-**Priority**: Must Have
-**Effort Estimate**: 5
-**Status**: TODO
-**Labels**: frontend, foundational, setup, ci-cd
-
-**As a** Frontend Engineer,
-**I want to** scaffold a React application with build tooling, development server, and project structure,
-**So that** frontend development can begin with a consistent, fast-rebuild development environment.
-
-**Acceptance Criteria**:
-
-- [ ] Given the frontend repository is cloned, when the dev server starts, then the app loads at localhost:3000 within 5 seconds.
-- [ ] Given a file is modified, when the browser tab is refreshed, then hot-reload shows changes immediately (within 2 seconds).
-- [ ] Given TypeScript or JSX is used, then linting and type-checking provide real-time feedback in the editor.
-- [ ] Given the app is built, when production build completes, then output is optimized and under code-split warnings.
-
-**Deliverables**:
-
-- React app scaffolding with Create React App, Vite (per [Technology Stack](../../03-architecture/core/technology-stack.md)).
-- Development server configuration with fast rebuild and hot reload.
-- Directory structure: src/components/, src/pages/, src/services/, src/styles/, public/.
-- TypeScript configuration with strict mode enabled.
-- ESLint and Prettier configuration integrated.
-
-**Dependencies**:
-
-- [Technology Stack](../../03-architecture/core/technology-stack.md).
-- [ADR-002: Frontend Framework](../../04-decisions/adr-003-frontend-framework.md).
-
-**Success Metrics**:
-
-- Frontend development environment starts reliably and supports rapid iteration.
-- Linting and type-check checks are integrated into local and CI workflows.
-
----
-
 ### US-EP0-BE-005: Production Deployment Pipeline
 
 **Story ID**: US-EP0-BE-005
 **Epic Link**: EPIC-0
+**Issue Type**: Story
 **Priority**: Must Have
 **Effort Estimate**: 5
 **Status**: TODO
 **Labels**: backend, foundational, setup, ci-cd, deployment
+**Requirements**: n/a (foundational)
 
 **As a** Backend Engineer,
-**I want to** automate staging and production deployments through CI/CD,
-**So that** releases are repeatable, consistent, and require zero manual steps.
+**I want to** automate the tag-triggered production deployment pipeline,
+**So that** releases are repeatable, consistent, and require zero manual infrastructure steps.
 
 **Acceptance Criteria**:
 
-- [ ] Given a merged PR to `main`, when the CI/CD pipeline runs, then the backend and frontend are deployed to staging automatically.
-- [ ] Given a git tag (e.g., `v0.5.0`), when the pipeline executes, then the application is deployed to production after manual approval gate.
-- [ ] Given a deployment failure, when the pipeline detects it, then the build is marked failed and a notification is sent.
-- [ ] Given environment variables and secrets, when deploying, then they are sourced from the platform's secure secret store (not committed to repo).
+- [ ] Given a release PR is merged to `main`, when the release pipeline runs, then a sha-tagged production image is built and pushed to ECR without deploying it.
+- [ ] Given a `vX.Y.Z` tag is pushed on `main`, when the deployment pipeline executes, then it promotes the existing candidate image without rebuilding.
+- [ ] Given pending infrastructure changes, when the deployment pipeline runs, then `terraform apply` completes before the application is deployed.
+- [ ] Given Alembic migrations are pending, when a migration fails, then the deployment pipeline fails and does not deploy the application against a mismatched schema.
+- [ ] Given the image is deployed, when App Runner performs the rolling replacement, then `/health` validates new instances before traffic shifts and the frontend is published to S3 with CloudFront invalidated.
+- [ ] Given a deployment failure, when the pipeline detects it, then the build is marked failed and an alert is raised.
+- [ ] Given environment variables and secrets, when deploying, then they are sourced from GitHub Actions encrypted secrets scoped to the `main` environment (never committed to the repo).
 
 **Deliverables**:
 
-- CI/CD workflow for automated staging deployment on merge to `main`.
-- Production deployment workflow with manual approval gate (tagged releases).
-- Environment-specific configuration (dev, staging, production) with secret management.
-- Deployment documentation covering rollback procedures and manual intervention steps.
+- Release PR workflow that builds and pushes a sha-tagged candidate image to ECR.
+- Tag-triggered production deployment workflow (promote image, `terraform apply`, migrations, App Runner deploy, S3 + CloudFront publish).
+- Environment configuration for local and production only (there is no staging environment per ADR-014).
+- Deployment documentation covering the rollback path (redeploy previous ECR image; fix-forward default).
 
 **Dependencies**:
 
-- [ADR-006: Deployment Platform](../../04-decisions/adr-006-deployment-platform.md).
+- [ADR-006: Deployment Platform](../../docs/04-decisions/adr-006-deployment-platform.md).
 - [CI/CD Pipeline Scaffolding](./stories.md#us-ep0-be-003-cicd-pipeline-scaffolding-and-testing-framework).
 
 **Success Metrics**:
 
-- Staging deployment completes within 10 minutes of merge to `main`.
-- Production deployment is triggered by tag and requires explicit approval.
+- Candidate image is available in ECR within 10 minutes of merge to `main`.
+- Production deployment is triggered solely by pushing a `vX.Y.Z` tag.
 - Zero manual steps required for standard deployments.
 
 ---
@@ -396,10 +375,12 @@
 
 **Story ID**: US-EP0-BE-006
 **Epic Link**: EPIC-0
+**Issue Type**: Story
 **Priority**: Should Have
 **Effort Estimate**: 5
 **Status**: TODO
 **Labels**: backend, foundational, setup, observability, monitoring
+**Requirements**: NFR-X05
 
 **As a** Backend Engineer,
 **I want to** integrate structured logging and error tracking into the application,
@@ -421,11 +402,55 @@
 
 **Dependencies**:
 
-- [ADR-006: Deployment Platform](../../04-decisions/adr-006-deployment-platform.md).
-- [Monitoring & Observability](../../03-architecture/ops/monitoring-observability.md).
+- [ADR-006: Deployment Platform](../../docs/04-decisions/adr-006-deployment-platform.md).
+- [Monitoring & Observability](../../docs/03-architecture/ops/monitoring-observability.md).
 
 **Success Metrics**:
 
 - All unhandled exceptions are captured with actionable context.
 - Log entries are queryable and filterable by severity, service, and request ID.
 - Health endpoints return accurate readiness status for load balancers and CI/CD gates.
+
+---
+
+## Frontend Engineer
+
+### US-EP0-FE-001: React App Scaffolding and Development Environment
+
+**Story ID**: US-EP0-FE-001
+**Epic Link**: EPIC-0
+**Issue Type**: Story
+**Priority**: Must Have
+**Effort Estimate**: 5
+**Status**: TODO
+**Labels**: frontend, foundational, setup, ci-cd
+**Requirements**: n/a (foundational)
+
+**As a** Frontend Engineer,
+**I want to** scaffold a React application with build tooling, development server, and project structure,
+**So that** frontend development can begin with a consistent, fast-rebuild development environment.
+
+**Acceptance Criteria**:
+
+- [ ] Given the frontend repository is cloned, when the dev server starts, then the app loads at localhost:3000 within 5 seconds.
+- [ ] Given a file is modified, when the browser tab is refreshed, then hot-reload shows changes immediately (within 2 seconds).
+- [ ] Given TypeScript or JSX is used, then linting and type-checking provide real-time feedback in the editor.
+- [ ] Given the app is built, when production build completes, then output is optimized and under code-split warnings.
+
+**Deliverables**:
+
+- React app scaffolding with Create React App, Vite (per [Technology Stack](../../docs/03-architecture/core/technology-stack.md)).
+- Development server configuration with fast rebuild and hot reload.
+- Directory structure: src/components/, src/pages/, src/services/, src/styles/, public/.
+- TypeScript configuration with strict mode enabled.
+- ESLint and Prettier configuration integrated.
+
+**Dependencies**:
+
+- [Technology Stack](../../docs/03-architecture/core/technology-stack.md).
+- [ADR-003: Frontend Framework](../../docs/04-decisions/adr-003-frontend-framework.md).
+
+**Success Metrics**:
+
+- Frontend development environment starts reliably and supports rapid iteration.
+- Linting and type-check checks are integrated into local and CI workflows.

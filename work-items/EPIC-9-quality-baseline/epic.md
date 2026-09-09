@@ -33,15 +33,15 @@ Excluded scope:
 - Advanced monitoring, alerting, or multi-region strategies
 - Post-MVP scale preparation (Phase 2)
 
-Related feature and requirement IDs: NFR-X01 to NFR-X10
+Related feature and requirement IDs: F-001 to F-011 (cross-cutting); NFR-X01, NFR-X02, NFR-X03, NFR-X04, NFR-X05, NFR-X06, NFR-X07, NFR-X08, NFR-X09, NFR-X10; NFR-001-01, NFR-003-04
 
 Dependencies:
 
-- [Security Architecture](../../03-architecture/security/security-architecture.md)
-- [Threat Model](../../03-architecture/security/threat-model.md)
-- [API Contract](../../03-architecture/api/api-contract.md)
-- [Monitoring & Observability](../../03-architecture/ops/monitoring-observability.md)
-- [Testing Framework ADR](../../04-decisions/adr-010-testing-framework.md)
+- [Security Architecture](../../docs/03-architecture/security/security-architecture.md)
+- [Threat Model](../../docs/03-architecture/security/threat-model.md)
+- [API Contract](../../docs/03-architecture/api/api-contract.md)
+- [Monitoring & Observability](../../docs/03-architecture/ops/monitoring-observability.md)
+- [ADR-010: Testing Framework](../../docs/04-decisions/adr-010-testing-framework.md)
 
 Measurable success criteria:
 
@@ -56,10 +56,16 @@ Measurable success criteria:
 
 ## Release Checklist
 
-- [ ] Version bump in package.json / pyproject.toml
-- [ ] CHANGELOG.md updated with epic summary
-- [ ] Git tag created (e.g., v0.5.0 for MVP)
+- [ ] Release PR `dev` -> `main` opened, 2 approvals obtained, all status checks green (lint, test, type-check, docs, terraform plan)
+- [ ] Semver decision recorded and version bumped in `package.json` / `pyproject.toml`
+- [ ] `CHANGELOG.md` updated with the epic summary
+- [ ] Candidate image verified in ECR (sha-tagged, built by the release PR pipeline)
+- [ ] Alembic migrations reviewed for backward compatibility with the running version
+- [ ] Git tag `vX.Y.Z` pushed on `main` to trigger the production deployment pipeline
+- [ ] `terraform apply` completed for any pending infrastructure change
+- [ ] App Runner rolling deploy healthy and frontend published to S3 with CloudFront invalidated
+- [ ] Post-deploy smoke tests passed against production
+- [ ] Sentry release created with the commit SHA and source maps uploaded
+- [ ] Release health compared against the pre-deployment error baseline
 - [ ] GitHub release published with notes
-- [ ] Deployed to staging/production
-- [ ] Smoke test passed
-
+- [ ] Rollback path confirmed (redeploy previous ECR image; fix-forward is the default)
