@@ -285,11 +285,55 @@
 - [Prototype Brief](../../docs/05-prototype/prototype-brief.md).
 - [Project Search and Filtering](./stories.md#us-ep1-be-004-project-search-and-filtering).
 - [Client and Project Archival and Deletion Guards](./stories.md#us-ep1-be-003-client-and-project-archival-and-deletion-guards).
+- [Client Management UI](./stories.md#us-ep1-fe-003-client-management-ui) — the client-deletion acceptance criterion above is satisfied by that story's delete flow, not by this one.
 
 **Success Metrics**:
 
 - Admins complete filtering, archival, and deletion without guidance.
 - Project list renders within 2 seconds under documented MVP load.
+
+---
+
+### US-EP1-FE-003: Client Management UI
+
+**Story ID**: US-EP1-FE-003
+**Epic Link**: EPIC-1
+**Issue Type**: Story
+**Priority**: Must Have
+**Effort Estimate**: 3
+**Status**: TODO
+**Fix Version**: MVP-1
+**Labels**: frontend, lifecycle, governance
+**Requirements**: FR-001-01, FR-001-04, NFR-001-01
+
+**As a** Frontend Engineer,
+**I want to** build a client list, creation, edit, and delete UI,
+**So that** an Admin can manage client records end to end, as required by FR-001-01, instead of only selecting an existing client from the project form.
+
+**Acceptance Criteria**:
+
+- [ ] Given the client list view, when an Admin opens it, then all clients are visible with name, company, email, and phone.
+- [ ] Given the "New Client" action, when submitted with valid data, then the client is created and appears in the list.
+- [ ] Given an existing client, when an Admin edits and saves it, then the updated details are persisted and reflected in the list.
+- [ ] Given a client with active projects, when an Admin attempts to delete it, then the rejection reason is displayed inline, not as a generic error.
+- [ ] Given a client with no active projects, when an Admin confirms deletion, then the client is removed from the list.
+
+**Deliverables**:
+
+- Client list page with create, edit, and delete actions.
+- Create/edit client form (name required; email, phone, company, address, notes optional).
+- Delete flow with confirmation and inline rejection-reason handling.
+
+**Dependencies**:
+
+- [Feature Requirements](../../docs/01-requirements/f-001-client-and-project-lifecycle-management.md).
+- [Client and Project CRUD Operations](./stories.md#us-ep1-be-001-client-and-project-crud-operations) — backend client CRUD endpoints already exist; this story is FE-only.
+- [Client and Project Archival and Deletion Guards](./stories.md#us-ep1-be-003-client-and-project-archival-and-deletion-guards).
+
+**Success Metrics**:
+
+- Admin can complete the full client lifecycle (create, update, delete) without leaving the workspace.
+- Deletion of a client with active projects is blocked with a clear, specific reason in the UI.
 
 ---
 
