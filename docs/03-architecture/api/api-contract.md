@@ -26,7 +26,7 @@ sidebar_position: 2
 - **Base URL:** `/api/v1`
 - **Format:** `application/json; charset=utf-8`
 - **Authentication:** `Authorization: Bearer <jwt>` on protected endpoints (custom FastAPI JWT auth — see ADR-005).
-- **Token expiry:** access tokens expire after 1 hour (configurable via `JWT_EXPIRE_MINUTES`). Refresh tokens deferred to Phase 2.
+- **Token expiry:** access tokens expire after 15 minutes (configurable via `JWT_EXPIRE_MINUTES`). Refresh tokens are single-use with rotation; sessions slide 24h (standard) or 7d (remember-me) from the last refresh — see ADR-005.
 - **Field naming:** `camelCase`
 - **Datetime format:** ISO 8601 UTC (`YYYY-MM-DDTHH:MM:SSZ`)
 - **Roles:**
@@ -38,8 +38,9 @@ sidebar_position: 2
 | Domain       | Method | Endpoint                                                        | Purpose                                      | Roles            |
 | ------------ | ------ | --------------------------------------------------------------- | -------------------------------------------- | ---------------- |
 | Auth         | POST   | `/auth/register`                                                | Register new admin account                   | Public           |
-| Auth         | POST   | `/auth/login`                                                   | Login, return JWT access token               | Public           |
-| Auth         | POST   | `/auth/logout`                                                  | Logout (client discards token)               | Admin, Viewer    |
+| Auth         | POST   | `/auth/login`                                                   | Login, return JWT access + refresh tokens    | Public           |
+| Auth         | POST   | `/auth/refresh`                                                 | Rotate a refresh token for a new token pair  | Public           |
+| Auth         | POST   | `/auth/logout`                                                  | Revoke the session's refresh token server-side | Admin, Viewer  |
 | Auth         | POST   | `/auth/verify-email`                                            | Submit email verification code               | Public           |
 | Auth         | POST   | `/auth/resend-verification`                                     | Resend verification code                     | Public           |
 | Auth         | POST   | `/auth/forgot-password`                                         | Request password reset code                  | Public           |
@@ -629,7 +630,9 @@ Status codes: `200`, `400`, `401`, `403`, `404`, `500`
 ### 11) Auth — Login
 
 - **Method/URL:** `POST /api/v1/auth/login`
-- **Description:** Authenticate with email and password. Returns JWT access token. Account locked after 5 failed attempts in 15 minutes.
+- **Description:** Authenticate with email and password. Returns a JWT access token plus a
+  refresh token. `rememberMe` selects a 24h (default) or 7d sliding session — see ADR-005.
+  Account locked after 5 failed attempts in 15 minutes.
 
 Request schema:
 
@@ -660,7 +663,8 @@ Success response example (`200`):
 ```json
 {
   "accessToken": "eyJhbGciOiJIUzI1NiIs...",
-  "expiresIn": 3600,
+  "refreshToken": "eyJhbGciOiJIUzI1NiIs...",
+  "sessionExpiresAt": "2026-09-20T02:00:00Z",
   "user": {
     "id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
     "email": "admin@example.com",
@@ -671,6 +675,37 @@ Success response example (`200`):
 ```
 
 Status codes: `200`, `400`, `401`, `422`, `429`, `500`
+
+### 11a) Auth — Refresh
+
+- **Method/URL:** `POST /api/v1/auth/refresh`
+- **Description:** Exchanges a refresh token for a new access/refresh pair (single-use rotation —
+  the presented refresh token is rejected on any subsequent use). Carries the original session's
+  `rememberMe` duration forward, sliding the session window from "now" per ADR-005.
+
+Request schema:
+
+```json
+{
+  "type": "object",
+  "required": ["refreshToken"],
+  "properties": {
+    "refreshToken": { "type": "string" }
+  }
+}
+```
+
+Success response example (`200`):
+
+```json
+{
+  "accessToken": "eyJhbGciOiJIUzI1NiIs...",
+  "refreshToken": "eyJhbGciOiJIUzI1NiIs...",
+  "sessionExpiresAt": "2026-09-20T02:00:00Z"
+}
+```
+
+Status codes: `200`, `401`, `429`, `500`
 
 ### 12) Auth — Register
 
@@ -688,7 +723,7 @@ Request schema:
     "password": {
       "type": "string",
       "minLength": 8,
-      "pattern": "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$"
+      "pattern": "^(?=.*[A-Za-z])(?=.*\\d).{8,}$"
     }
   }
 }
@@ -784,7 +819,7 @@ Reset password request schema:
     "newPassword": {
       "type": "string",
       "minLength": 8,
-      "pattern": "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$"
+      "pattern": "^(?=.*[A-Za-z])(?=.*\\d).{8,}$"
     }
   }
 }
@@ -804,11 +839,32 @@ Status codes (reset): `200`, `400`, `404`, `410`, `422`, `429`, `500`
 ### 15) Auth — Logout
 
 - **Method/URL:** `POST /api/v1/auth/logout`
-- **Description:** Client discards the JWT token. Stateless — no server-side session invalidation.
+- **Description:** Requires a valid access token (`Authorization: Bearer`). Revokes the session's
+  refresh token server-side so it cannot be replayed to mint further access tokens; idempotent for
+  an already-expired/invalid refresh token. The access token itself remains valid until its own
+  short natural expiry, per the token-lifecycle mitigation in the Security Architecture doc.
 
-Success response: `204 No Content`
+Request schema:
 
-Status codes: `204`, `401`, `500`
+```json
+{
+  "type": "object",
+  "required": ["refreshToken"],
+  "properties": {
+    "refreshToken": { "type": "string" }
+  }
+}
+```
+
+Success response example (`200`):
+
+```json
+{
+  "message": "Logged out successfully."
+}
+```
+
+Status codes: `200`, `401`, `403`, `500`
 
 ### 16) User Profile
 
@@ -1065,7 +1121,7 @@ Accept invitation request schema:
     "password": {
       "type": "string",
       "minLength": 8,
-      "pattern": "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$"
+      "pattern": "^(?=.*[A-Za-z])(?=.*\\d).{8,}$"
     },
     "displayName": { "type": "string", "maxLength": 100 }
   }
@@ -1143,7 +1199,7 @@ Change password request schema:
     "newPassword": {
       "type": "string",
       "minLength": 8,
-      "pattern": "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$"
+      "pattern": "^(?=.*[A-Za-z])(?=.*\\d).{8,}$"
     }
   }
 }
@@ -1227,7 +1283,7 @@ Status codes (password): `200`, `400`, `401`, `403`, `422`, `500`
 {
   "error": {
     "code": "VALIDATION_ERROR",
-    "message": "Password must be at least 8 characters with uppercase, lowercase, and a digit.",
+    "message": "Password must be at least 8 characters and include a letter and a digit.",
     "details": [{ "field": "password", "issue": "policy_violation" }],
     "requestId": "req_01JEXAMPLE422"
   }
