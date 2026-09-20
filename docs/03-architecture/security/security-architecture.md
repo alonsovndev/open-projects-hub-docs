@@ -139,26 +139,37 @@ flowchart TB
 ### Selected Model (MVP)
 
 - **Primary:** Custom JWT-based authentication module within FastAPI backend (see ADR-005)
-- **Token Type:** JWT access tokens (1-hour expiration, configurable)
-- **Password Hashing:** bcrypt via `passlib` library (cost factor 12)
+- **Token Type:** JWT access tokens (15-minute expiration, configurable)
+- **Password Hashing:** bcrypt (cost factor 12, direct `bcrypt` library)
 - **Token Algorithm:** HS256 with secret key stored in environment variable
-- **Session Management:** Stateless JWT tokens (no server-side session storage required)
-- **Refresh Tokens:** Deferred to Phase 2 (MVP uses only access tokens)
+- **Session Management:** JWT access tokens remain stateless. Refresh-token state (single-use
+  rotation, revocation, account lockout) is persisted server-side in PostgreSQL so it survives
+  restarts and works across multiple App Runner instances — see ADR-005's Session Management notes.
+- **Refresh Tokens:** Implemented (EPIC-2). Single-use rotation with reuse rejection; standard
+  sessions last 24h of inactivity, "remember me" extends to 7 days; forced logout across devices
+  via a `token_version` bump (used after password reset).
 
 ### Authentication Endpoints
 
 - `POST /api/v1/auth/register` — User registration with email + password
-- `POST /api/v1/auth/login` — Login returning JWT access token
-- `POST /api/v1/auth/password-reset` — Initiate password reset flow
-- `POST /api/v1/auth/password-reset-confirm` — Complete password reset
+- `POST /api/v1/auth/login` — Login returning JWT access + refresh tokens (accepts `rememberMe`)
+- `POST /api/v1/auth/refresh` — Rotate a refresh token for a new access/refresh pair
+- `POST /api/v1/auth/logout` — Revoke the session's refresh token server-side
+- `POST /api/v1/auth/forgot-password` — Request a password reset code (privacy-preserving response)
+- `POST /api/v1/auth/resend-reset-code` — Resend a reset code (rate-limited)
+- `POST /api/v1/auth/reset-password` — Complete a password reset with a valid code
 
 ### Authentication Controls
 
-- **Password Policy:** Minimum 8 characters, must include uppercase, lowercase, digit (enforced at validation layer per F-008)
+- **Password Policy:** Minimum 8 characters, must include a letter and a digit (the API-enforced
+  minimum, applied at the validation layer per F-008). The web UI asks for a stricter superset when
+  a password is being *set* — 8 characters with upper- and lowercase letters, a digit, and a symbol —
+  so anything it accepts the API accepts. Sign-in deliberately applies no policy check client-side,
+  so accounts predating the current policy are never locked out of the login form.
 - **Password Storage:** bcrypt hashing with automatic salt generation (never plaintext)
-- **Token Lifecycle:** Short-lived access tokens (1 hour default, configurable via `JWT_EXPIRE_MINUTES`)
+- **Token Lifecycle:** Short-lived access tokens (15 minutes default, configurable via `JWT_EXPIRE_MINUTES`); refresh tokens single-use with rotation (see Authentication Strategy above)
 - **Token Validation:** JWT signature verification + expiration check on every protected route
-- **Rate Limiting:** Login endpoint throttled (5 failed attempts trigger temporary account lockout per F-007)
+- **Rate Limiting:** Login endpoint throttled (5 failed attempts trigger temporary account lockout per F-007); password reset code requests/validation rate-limited per F-009
 - **Multi-Factor Authentication (MFA):** Deferred to post-MVP hardening (TOTP-based)
 - **OAuth 2.0 / OIDC:** Deferred to Phase 2 (Google, GitHub social providers)
 

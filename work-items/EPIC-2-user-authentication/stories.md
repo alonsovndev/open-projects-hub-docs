@@ -60,14 +60,14 @@
 
 **Acceptance Criteria**:
 
-- [ ] Given a user requests a password reset, when they provide their email, then a reset link is sent to their email.
-- [ ] Given a user clicks the reset link, when they provide a new password, then their password is updated securely.
-- [ ] Given a user attempts to use an expired reset link, when they click it, then they are informed that the link is invalid.
+- [ ] Given a user requests a password reset, when they provide their email, then a 6-digit reset code is emailed to them and the response does not disclose whether the account exists.
+- [ ] Given a user submits a valid reset code, when they provide a new password, then their password is updated securely and existing sessions are revoked.
+- [ ] Given a user submits an expired or already-used code, when they attempt the reset, then they are informed the code is invalid.
 
 **Deliverables**:
 
 - Password reset and recovery endpoints.
-- Secure token generation and validation for reset links.
+- Secure generation, hashed storage, and validation of reset codes.
 - Unit tests for password reset scenarios.
 
 **Dependencies**:
@@ -79,7 +79,7 @@
 
 - Password reset flow is secure and follows best practices.
 - Automated tests cover at least 70% of core authentication and reset logic.
-- Reset links expire after a configurable time period.
+- Reset codes expire after a configurable time period.
 
 ---
 
@@ -273,8 +273,8 @@
 
 **Acceptance Criteria**:
 
-- [ ] Given the password reset page, when a user enters their email, then a reset link is sent to their email.
-- [ ] Given the reset link, when a user clicks it, then they are redirected to a page to set a new password.
+- [ ] Given the forgot-password page, when a user enters their email, then a 6-digit reset code is emailed and they continue to the reset step.
+- [ ] Given the reset page, when a user enters the code from their email, then they can set a new password and request a resend if the code never arrived.
 - [ ] Given the reset page, when a user enters a new password, then it is validated and updated securely.
 
 **Deliverables**:
