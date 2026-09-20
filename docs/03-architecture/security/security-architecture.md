@@ -161,7 +161,11 @@ flowchart TB
 
 ### Authentication Controls
 
-- **Password Policy:** Minimum 8 characters, must include a letter and a digit (enforced at validation layer per F-008)
+- **Password Policy:** Minimum 8 characters, must include a letter and a digit (the API-enforced
+  minimum, applied at the validation layer per F-008). The web UI asks for a stricter superset when
+  a password is being *set* — 8 characters with upper- and lowercase letters, a digit, and a symbol —
+  so anything it accepts the API accepts. Sign-in deliberately applies no policy check client-side,
+  so accounts predating the current policy are never locked out of the login form.
 - **Password Storage:** bcrypt hashing with automatic salt generation (never plaintext)
 - **Token Lifecycle:** Short-lived access tokens (15 minutes default, configurable via `JWT_EXPIRE_MINUTES`); refresh tokens single-use with rotation (see Authentication Strategy above)
 - **Token Validation:** JWT signature verification + expiration check on every protected route
