@@ -180,10 +180,16 @@ flowchart TB
   "sub": "user-uuid",
   "email": "admin@example.com",
   "role": "admin",
+  "wid": "workspace-uuid",
   "exp": 1234567890,
   "iat": 1234567800
 }
 ```
+
+`wid` is the caller's workspace (the tenant boundary owning clients and projects; see
+database-design.md). Every workspace-scoped route resolves it from this claim, never from
+the request path or body. A token issued before workspaces existed carries no `wid` and is
+rejected with 401, which the client's normal refresh flow resolves.
 
 > **Note:** The diagram below visualizes the custom JWT flow: client requesting a token from `/login`, then using it in the `Authorization` header for subsequent requests.
 
@@ -234,15 +240,16 @@ sequenceDiagram
 
 ### RBAC + Resource Attributes
 
-- **RBAC baseline:** `admin` and `viewer` roles mapped to F-003 access requirements
+- **RBAC baseline:** `admin`, `member`, and `viewer` roles mapped to F-003 access requirements, each scoped to the caller's workspace
 - **ABAC constraints:** Resource ownership, project membership, and data visibility flags
 - **Permission model:** Backend authorizes action-level permissions before executing use cases
 - **Data-level enforcement:** PostgreSQL Row Level Security (RLS) policies as last-mile protection
 
 ### Least-Privilege Rules
 
-- **Viewer role:** Read-only access, excluded from admin operations
-- **Admin role:** Full CRUD scope limited to authorized project boundaries (no cross-project access)
+- **Viewer role:** Read-only access, excluded from admin/member operations, scoped to the workspace
+- **Member role:** Full CRUD on clients, projects, stories, and refinement within the workspace; excluded from team management (adding or removing users)
+- **Admin role:** Everything a Member can do, plus adding Members/Viewers to their own workspace; a workspace's data is never visible to another workspace — a record from another workspace answers 404 for every role, never 403
 - **Service credentials:** Split by environment (dev/prod) and duty (app runtime, migrations, CI/CD)
 - **Database access:** RDS accessible only from App Runner via VPC connector (no public internet access)
 - **IAM roles:** AWS IAM policies follow principle of least privilege (App Runner, RDS, S3, ECR)
@@ -477,7 +484,9 @@ All AI-generated content is draft-only until Admin approval (FR-002-03):
 - **Authentication:** JWT signing key (`JWT_SECRET_KEY`)
 - **Database:** RDS connection string (`DATABASE_URL` with credentials)
 - **External Services:** Sentry DSN, AWS access keys for CI/CD
-- **Encryption:** Future encryption keys for sensitive fields (deferred post-MVP)
+- **Encryption:** `API_KEY_ENCRYPTION_KEY` — master key for AES-256-GCM encryption of
+  user-supplied AI provider keys (F-010, [ADR-018](../../04-decisions/adr-018-user-api-key-encryption.md)).
+  Required in dev/container/prod; rotation runbook in that ADR.
 
 **Secret Access Controls:**
 

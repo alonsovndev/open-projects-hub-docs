@@ -3,25 +3,41 @@
 | Attribute        | Value                       |
 | ---------------- | --------------------------- |
 | **Project**      | Open Projects Hub |
-| **Version**      | 1.3                         |
+| **Version**      | 1.4                         |
 | **Status**       | Accepted                    |
 | **Readiness**    | Ready for Implementation    |
 | **Owner**        | Product Owner               |
 
 ## Context
 
-- **Problem**: MVP requires strict role boundaries between Admin and Viewer roles.
-- **Primary Persona**: Admin and Viewer
-- **In Scope**: Admin/Viewer RBAC, collaborator restriction, viewer read-only access.
-- **Out of Scope**: Multi-tenant collaboration and additional custom roles.
+- **Problem**: MVP requires strict role boundaries between Admin, Member, and Viewer roles, scoped to one workspace per team.
+- **Primary Persona**: Admin, Member, and Viewer
+- **In Scope**: Admin/Member/Viewer RBAC within a workspace, workspace data isolation, viewer read-only access.
+- **Out of Scope**: Cross-workspace collaboration, custom/configurable roles, and changing or revoking a role once granted (see EP4 in Out of Scope).
 
 ## Functional Requirements
 
 | ID        | Requirement                                                                                  | Source                        | Priority | Owner (DRI)   | Decision Traceability (Q-ID) | Acceptance Criteria                                                                                        | Status    |
 | --------- | -------------------------------------------------------------------------------------------- | ----------------------------- | -------- | ------------- | ---------------------------- | ---------------------------------------------------------------------------------------------------------- | --------- |
-| FR-003-01 | The system enforces role-based access control with Admin (full CRUD) and Viewer (read-only). | Open Questions Q-010, Q-011   | Must     | Product Owner | Q-010, Q-011                 | Viewer accounts can view project and requirement content but cannot create, edit, comment, or delete data. | Clarified |
-| FR-003-02 | The MVP does not allow inviting external collaborators beyond Admin and Viewer roles.        | Open Questions Q-012          | Must     | Product Owner | Q-012                        | There is no invitation flow for collaborators beyond the single Admin and the client Viewer.               | Clarified |
-| FR-003-03 | Viewer users can access readable, structured requirements and project status updates.        | User Personas (Client/Viewer) | Should   | Product Owner | —                            | Viewer can access read-only requirements and see the current project phase (discovery or planning).        | Clarified |
+| FR-003-01 | The system enforces role-based access control with Admin (full CRUD plus team management), Member (full CRUD, no team management), and Viewer (read-only). | Open Questions Q-010, Q-011   | Must     | Product Owner | Q-010, Q-011                 | Viewer accounts can view project and requirement content but cannot create, edit, comment, or delete data; Member accounts can, but cannot add, remove, or change another user's role. | Clarified |
+| FR-003-02 | Every account belongs to exactly one workspace; a workspace's data is never visible to another workspace's users. Only an Admin can add Members or Viewers, and only to their own workspace, and never as a second Admin. | Open Questions Q-012          | Must     | Product Owner | Q-012                        | A record belonging to another workspace answers 404 for every role, never 403; `POST /users` with `role: admin` is rejected. | Clarified |
+| FR-003-03 | Viewer users can access readable, structured requirements and project status updates.        | User Personas (Client/Viewer) | Should   | Product Owner | —                            | Viewer can access read-only requirements and see the current project phase (discovery or planning), scoped to their workspace.        | Clarified |
+| FR-003-04 | The system enforces a role and workspace permission matrix across all resource types. | EP4 implementation | Must | Tech Lead | Q-012 | See permission matrix below; verified by an automated route-access-policy test enumerating every registered route. | Clarified |
+
+## Permission Matrix
+
+| Capability                                   | Admin | Member | Viewer |
+| --------------------------------------------- | :---: | :----: | :----: |
+| Clients: list / get / create / update / delete | ✅ | ✅ | ❌ |
+| Projects: list / get                          | ✅ | ✅ | ✅ |
+| Projects: create / update / archive / reactivate / delete | ✅ | ✅ | ❌ |
+| Stories, backlog: read                        | ✅ | ✅ | ✅ |
+| Stories, backlog: create / update / delete / assign / export | ✅ | ✅ | ❌ |
+| Refinement (AI drafts): read, generate, approve | ✅ | ✅ | ❌ |
+| Dashboard                                     | ✅ | ✅ | ✅ |
+| Own AI provider keys and credits              | ✅ | ✅ | ❌ |
+| Team: list workspace users                    | ✅ | ✅ | ❌ (self only) |
+| Team: add a Member or Viewer                  | ✅ | ❌ | ❌ |
 
 ## Feature-Scoped Non-Functional Requirements
 
@@ -46,4 +62,4 @@
 
 ---
 
-**Last Updated**: 2026-07-30
+**Last Updated**: 2026-09-29

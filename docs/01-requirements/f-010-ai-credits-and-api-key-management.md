@@ -39,7 +39,7 @@
 | NFR-010-01 | API keys are encrypted at rest using AES-256 or equivalent strong encryption.       | Keys stored encrypted in database using AES-256; decryption only at runtime per request; encryption secret managed in secure environment store (not in code or config files); encryption key rotation procedure documented.    | Must     | Tech Lead   | —                            | Clarified |
 | NFR-010-02 | API keys are never logged, exposed in error payloads, or returned in API responses. | Code review + automated checks enforce no plaintext key exposure; masked format (last 4 chars only) in all UI/API responses; audit logging redacts keys from all log entries; integration tests verify no key leakage in error responses. | Must     | Tech Lead   | —                            | Clarified |
 | NFR-010-03 | API key validation requests are rate-limited to prevent abuse.                      | Max 5 validation attempts per user per hour; lockout message shown after limit: "Validation limit reached. Try again in [time]."; rate limits logged for security monitoring; per-user tracking prevents enumeration attacks.            | Must     | Tech Lead   | —                            | Clarified |
-| NFR-010-04 | API key management satisfies OWASP secret handling best practices.                  | Aligns with ADR-012 Secrets Management; keys stored in dedicated table with row-level security; no keys in application logs or error traces; transmission over HTTPS only; secure deletion (not soft delete) when user removes key.        | Must     | Tech Lead   | —                            | Clarified |
+| NFR-010-04 | API key management satisfies OWASP secret handling best practices.                  | Aligns with ADR-011 Secrets Management; keys stored in dedicated table with row-level security; no keys in application logs or error traces; transmission over HTTPS only; secure deletion (not soft delete) when user removes key.        | Must     | Tech Lead   | —                            | Clarified |
 | NFR-010-05 | Credit balance and API key settings load within 500ms.                              | Credit counter and key status render without blocking main navigation; lazy-loaded if needed; satisfies NFR-X05 performance baseline; loading states shown for >200ms delays.                                        | Should   | Tech Lead   | —                            | Clarified |
 | NFR-010-06 | API key management UI meets WCAG 2.1 AA accessibility standards.                    | Form inputs, masked key display, validation feedback, error messages, and action buttons are keyboard-navigable; screen-reader compatible with proper ARIA labels; focus indicators visible; error messages announced to assistive tech.        | Should   | UI/UX Lead  | —                            | Clarified |
 
@@ -48,7 +48,7 @@
 - **Dependencies**:
   - **F-008 Account Creation** (integration point) - credit initialization triggered after email verification per F-008 FR-008-06
   - **F-002 AI Refinement workflow** (consumer) - F-002 calls credit consumption API and uses provider selection data; F-010 provides credit system contract
-  - Security Architecture and ADR-012 Secrets Management for encryption strategy
+  - Security Architecture and ADR-011 Secrets Management for encryption strategy
   - Email delivery service for account verification (prevents multi-account credit farming)
   - Provider SDK integration for Gemini, OpenAI, and DeepSeek APIs
   - Environment secret store for master encryption key and platform API keys
@@ -64,7 +64,7 @@
 ## Traceability
 
 - **Related Open Questions**: Q-004, Q-005, Q-006, Q-007, Q-008 (AI refinement workflow context)
-- **Related Architecture/ADR**: [Security Architecture](../03-architecture/security/security-architecture.md), [ADR-012: Secrets Management Strategy](../04-decisions/adr-011-secrets-management.md)
+- **Related Architecture/ADR**: [Security Architecture](../03-architecture/security/security-architecture.md), [ADR-011: Secrets Management Strategy](../04-decisions/adr-011-secrets-management.md), [ADR-018: User API Key Encryption at Rest](../04-decisions/adr-018-user-api-key-encryption.md)
 - **Related Features**: [F-002: AI Refinement and Approval Workflow](./f-002-ai-refinement-and-approval-workflow.md), [F-008: Account Creation](./f-008-create-account.md)
 - **Related Prototype**: [Stitch Prompt](../05-prototype/README.md)
 

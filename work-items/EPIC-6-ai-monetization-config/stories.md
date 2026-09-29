@@ -124,7 +124,7 @@
 
 ---
 
-### US-EP6-BE-003: API Key Rotation and Provider Fallback
+### US-EP6-BE-003: API Key Rotation and Provider Failure Handling
 
 **Story ID**: US-EP6-BE-003
 **Epic Link**: EPIC-6
@@ -137,22 +137,29 @@
 **Requirements**: FR-010-11, NFR-010-02, NFR-010-04
 
 **As a** Backend Engineer,
-**I want to** implement API key rotation support and provider fallback behavior,
-**So that** users can rotate compromised keys and refinement remains available when a provider is unreachable.
+**I want to** implement API key rotation support and clear provider failure handling,
+**So that** users can rotate compromised keys and understand what to do when a provider is unreachable.
+
+> **Amended 2026-09-20.** This story originally called for an automatic provider fallback
+> chain (OpenAI → Gemini → DeepSeek). That contradicts F-010, which lists "automatic
+> provider fallback" as out of scope, and FR-010-06, under which the user selects a
+> provider explicitly per refinement. Silently spending a different provider's quota is
+> also not a decision to make on the user's behalf. The fallback AC and deliverable are
+> removed; FR-010-09 and FR-010-11 cover the user-driven switch instead.
 
 **Acceptance Criteria**:
 
 - [ ] Given a user replaces their API key, when the new key is saved, then the old key is invalidated and cannot be used for subsequent requests.
-- [ ] Given a user's configured provider (e.g., OpenAI) returns an error or rate limit, when refinement is requested, then the system attempts fallback to the next available provider (Gemini, DeepSeek) if configured.
+- [ ] Given a user's configured provider returns an error or rate limit, when refinement is requested, then the failure is reported with its specific cause and the user can switch provider or fix the key — no other provider is used without being selected.
 - [ ] Given no provider is reachable and no credits remain, when refinement is attempted, then a clear error indicates the specific failure (provider down, rate limited, or no credits).
 - [ ] Given an API key is stored, when inspected in logs or error reports, then it is never exposed in plaintext (masked or redacted).
 
 **Deliverables**:
 
 - Key rotation logic with old-key invalidation on replacement.
-- Provider fallback chain (OpenAI → Gemini → DeepSeek) with configurable priority.
+- Provider error classification mapped to actionable, user-facing guidance.
 - Key masking in logs, error messages, and API responses.
-- Unit tests for rotation, fallback, and key-exposure prevention.
+- Unit tests for rotation, error classification, and key-exposure prevention.
 
 **Dependencies**:
 
@@ -163,7 +170,7 @@
 **Success Metrics**:
 
 - Old API keys are rejected immediately after rotation.
-- Fallback provider serves refinement requests when primary is unavailable.
+- Every provider failure class reaches the user with a specific, actionable message.
 - Zero plaintext API key exposures in logs or responses.
 
 ---

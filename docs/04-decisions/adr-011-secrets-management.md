@@ -51,6 +51,12 @@ Adopt a layered, zero-cost secrets management strategy using platform-native cap
 - **Required**: `.gitignore` entries for all secret files, pre-commit hooks to scan for leaked secrets
 - **Rotation**: Documented procedures for credential rotation without downtime
 
+**Scope note:** this ADR covers platform secrets — credentials the application itself
+holds, and how they reach the runtime. It does not cover encrypting sensitive *application
+data* at rest. Field-level encryption of user-supplied AI provider keys is decided in
+[ADR-018: User API Key Encryption at Rest](./adr-018-user-api-key-encryption.md), which
+works within the $0-cost constraint set here.
+
 ## Consequences
 
 **Positive:**

@@ -171,7 +171,7 @@
 **Issue Type**: Story
 **Priority**: Should Have
 **Effort Estimate**: 5
-**Status**: TODO
+**Status**: IN PROGRESS
 **Fix Version**: Phase 1
 **Labels**: backend, onboarding, entry-flow
 **Requirements**: FR-008-01, FR-008-02, FR-008-08, FR-008-09, NFR-008-01
@@ -182,9 +182,15 @@
 
 **Acceptance Criteria**:
 
-- [ ] Given valid registration input, when an account is created, then the API returns a success response with next-step routing metadata.
-- [ ] Given invalid or weak credentials, when registration is attempted, then the API rejects the request with safe, actionable errors.
-- [ ] Given duplicate account input, when registration is attempted, then the API responds with non-sensitive guidance and does not expose internal state.
+- [x] Given valid registration input, when an account is created, then the API returns a success response with next-step routing metadata.
+- [x] Given invalid or weak credentials, when registration is attempted, then the API rejects the request with safe, actionable errors.
+- [x] Given duplicate account input, when registration is attempted, then the API responds with non-sensitive guidance and does not expose internal state.
+
+**Implementation Notes** (branches `feature/ep8-self-signup-email-verification` and `feature/ep4-workspace-tenancy`, not yet merged):
+
+- `POST /v1/auth/register` returns 201 `{email (masked), verificationRequired, nextStep: "verify-email", codeExpiresAt}` and no tokens.
+- Registration is now **open**: each sign-up creates a new workspace (the tenant boundary that owns clients and projects) and makes the account its Admin. This was unblocked by EP4 (workspace tenancy — see `docs/03-architecture/database/database-design.md` and F-003), which isolates every client, project, story and draft by `workspace_id`, so a stranger's sign-up can no longer see or edit another Admin's data.
+- The API password rule stays at 8+ characters with a letter and a digit (the two-tier policy); the web form enforces FR-008-09.
 
 **Deliverables**:
 
@@ -212,7 +218,7 @@
 **Issue Type**: Story
 **Priority**: Should Have
 **Effort Estimate**: 5
-**Status**: TODO
+**Status**: IN PROGRESS
 **Fix Version**: Phase 1
 **Labels**: backend, onboarding, entry-flow, security
 **Requirements**: FR-008-03, FR-008-04, FR-008-05, FR-008-06, NFR-008-02, NFR-008-03
@@ -223,12 +229,18 @@
 
 **Acceptance Criteria**:
 
-- [ ] Given a registration is submitted, when it succeeds, then a 6-digit alphanumeric code is generated and emailed.
-- [ ] Given a verification code is generated, when 5 minutes elapse, then it is rejected as expired.
-- [ ] Given a user requests a resend, when 3 requests have occurred within 15 minutes, then further requests are rate-limited.
-- [ ] Given 5 failed validation attempts, when another is made, then validation is rate-limited.
-- [ ] Given a correct code is submitted in time, when validation succeeds, then the account is activated and the code is invalidated.
-- [ ] Given a stored verification code, when the datastore is inspected, then only a hashed representation is present.
+- [x] Given a registration is submitted, when it succeeds, then a 6-digit alphanumeric code is generated and emailed.
+- [x] Given a verification code is generated, when 5 minutes elapse, then it is rejected as expired.
+- [x] Given a user requests a resend, when 3 requests have occurred within 15 minutes, then further requests are rate-limited.
+- [x] Given 5 failed validation attempts, when another is made, then validation is rate-limited.
+- [x] Given a correct code is submitted in time, when validation succeeds, then the account is activated and the code is invalidated.
+- [x] Given a stored verification code, when the datastore is inspected, then only a hashed representation is present.
+
+**Implementation Notes** (branch `feature/ep8-self-signup-email-verification`, not yet merged):
+
+- Codes use `23456789ABCDEFGHJKLMNPQRSTUVWXYZ` (6 characters), are bcrypt-hashed in `email_verification_codes`, and expire after 5 minutes. They are sent over SMTP through Resend.
+- Resend allows 4 codes per 15 minutes (the registration code plus 3 resends). 5 wrong attempts lock the code until a new one is requested. Lockout duration: TBD.
+- Success sets `users.email_verified_at` and grants the 5 AI credits (F-010 FR-010-01). Login returns 403 `EMAIL_NOT_VERIFIED` until then.
 
 **Deliverables**:
 
@@ -340,7 +352,7 @@
 **Issue Type**: Story
 **Priority**: Should Have
 **Effort Estimate**: 5
-**Status**: TODO
+**Status**: IN PROGRESS
 **Fix Version**: Phase 1
 **Labels**: frontend, onboarding, entry-flow
 **Requirements**: FR-008-01, FR-008-07, NFR-008-04
@@ -351,9 +363,13 @@
 
 **Acceptance Criteria**:
 
-- [ ] Given required registration fields, when valid input is submitted, then account creation succeeds and the user is routed to the defined next step.
-- [ ] Given invalid input, when the form is submitted, then inline validation feedback is shown with clear remediation.
-- [ ] Given backend registration errors, when returned, then the UI shows non-sensitive, actionable error messaging.
+- [x] Given required registration fields, when valid input is submitted, then account creation succeeds and the user is routed to the defined next step.
+- [x] Given invalid input, when the form is submitted, then inline validation feedback is shown with clear remediation.
+- [x] Given backend registration errors, when returned, then the UI shows non-sensitive, actionable error messaging.
+
+**Implementation Notes** (branch `feature/ep8-self-signup-email-verification`, not yet merged):
+
+- A successful registration routes to `/verify-email` with the email and code expiry in router state.
 
 **Deliverables**:
 
@@ -381,7 +397,7 @@
 **Issue Type**: Story
 **Priority**: Should Have
 **Effort Estimate**: 3
-**Status**: TODO
+**Status**: IN PROGRESS
 **Fix Version**: Phase 1
 **Labels**: frontend, onboarding, entry-flow
 **Requirements**: FR-008-03, FR-008-05, FR-008-06, FR-008-07, NFR-008-04
@@ -392,12 +408,19 @@
 
 **Acceptance Criteria**:
 
-- [ ] Given registration completes, when the verification screen renders, then it states that a code was emailed and when it expires.
-- [ ] Given an incorrect code, when it is submitted, then an inline error appears without clearing the rest of the form.
+- [x] Given registration completes, when the verification screen renders, then it states that a code was emailed and when it expires.
+- [x] Given an incorrect code, when it is submitted, then an inline error appears without clearing the rest of the form.
 - [ ] Given an expired code, when it is submitted, then the user is told it expired and offered a resend.
-- [ ] Given the resend limit is reached, when another resend is attempted, then the limit and retry timing are explained.
-- [ ] Given successful verification, when it completes, then the user is routed to login or onboarding.
+- [x] Given the resend limit is reached, when another resend is attempted, then the limit and retry timing are explained.
+- [x] Given successful verification, when it completes, then the user is routed to login or onboarding.
 - [ ] Given the screen, when navigated by keyboard and screen reader, then it meets WCAG 2.1 AA expectations.
+
+**Implementation Notes** (branch `feature/ep8-self-signup-email-verification`, not yet merged):
+
+- `/verify-email` shows the code expiry time, inline `role="alert"` errors, and a resend control with the 3-per-15-minutes limit explained. Success routes to `/login` with a confirmation message.
+- An expired code gets the same "Invalid or expired verification code" message as a wrong one, so the API reveals nothing more; the resend control is always shown.
+- WCAG 2.1 AA has not been audited: TBD.
+- Sign-in with an unverified email shows a "Verify your email" link to this screen.
 
 **Deliverables**:
 

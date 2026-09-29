@@ -15,6 +15,18 @@
 - **In Scope**: Email-based Viewer invitation, secure invitation token workflow, Viewer password setup, project access grant/revoke, Viewer account listing, invitation expiry and resend.
 - **Out of Scope**: Viewer self-registration, Viewer-to-Viewer invitation, team-wide access grants, role-based permission customization beyond read-only, Viewer account deletion by Viewer, Admin notification on Viewer acceptance, Viewer-initiated access requests.
 
+## Implementation Note (2026-09-29)
+
+EP4 (workspace tenancy) resolved **Q-001**: a "workspace" is the tenant boundary that owns
+clients and projects, created per sign-up. It also shipped a simpler interim mechanism for
+adding people to a workspace — `POST /users` (Admin only), which creates the account
+directly with a temporary password the Admin shares out-of-band, verified by the same
+email-confirmation code flow as self-registration (see F-008). This covers adding a
+**Viewer** or a **Member** to the whole workspace, but is **not** the invitation-token flow
+(FR-011-01–FR-011-10) or the **per-project** access grants (FR-011-04/05/12) described
+below — those remain unimplemented. A Viewer added this way currently sees every project in
+the workspace, not a granted subset.
+
 ## Functional Requirements
 
 | ID        | Requirement                                                                                                | Source                  | Priority | Owner (DRI)   | Decision Traceability (Q-ID) | Acceptance Criteria                                                                                                                               | Status |
@@ -60,7 +72,7 @@
 
 ## Traceability
 
-- **Related Open Questions**: Q-001 (workspace definition), Q-008 (access control scope)
+- **Related Open Questions**: Q-001 (workspace definition — resolved by EP4, see Implementation Note), Q-008 (access control scope)
 - **Related Architecture/ADR**: [Security Architecture](../03-architecture/security/security-architecture.md), [ADR-005: Authentication and Authorization Strategy](../04-decisions/adr-005-authentication.md)
 - **Related Features**: [F-003: Access Control and Visibility Boundaries](./f-003-access-control-and-visibility-boundaries.md), [F-008: Account Creation](./f-008-create-account.md)
 - **Related Prototype**: [Design Direction](../05-prototype/design-direction.md)
