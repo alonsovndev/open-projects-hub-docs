@@ -29,15 +29,17 @@ sidebar_position: 2
 - **Token expiry:** access tokens expire after 15 minutes (configurable via `JWT_EXPIRE_MINUTES`). Refresh tokens are single-use with rotation; sessions slide 24h (standard) or 7d (remember-me) from the last refresh — see ADR-005.
 - **Field naming:** `camelCase`
 - **Datetime format:** ISO 8601 UTC (`YYYY-MM-DDTHH:MM:SSZ`)
+- **Workspaces:** every account belongs to one workspace (the tenant boundary owning clients and projects). Self sign-up creates a new workspace and its Admin; the Admin adds teammates and viewers to it.
 - **Roles:**
-  - `Admin`: full CRUD
-  - `Viewer`: read-only project/requirements visibility
+  - `Admin`: full CRUD, plus adding members and viewers to the workspace
+  - `Member`: full CRUD on clients, projects, stories and refinement; no team management
+  - `Viewer`: read-only project/requirements visibility, scoped to the workspace
 
 ## Endpoint Catalog
 
 | Domain       | Method | Endpoint                                                        | Purpose                                      | Roles            |
 | ------------ | ------ | --------------------------------------------------------------- | -------------------------------------------- | ---------------- |
-| Auth         | POST   | `/auth/register`                                                | Register new admin account                   | Public           |
+| Auth         | POST   | `/auth/register`                                                | Self sign-up: creates a new workspace + Admin | Public           |
 | Auth         | POST   | `/auth/login`                                                   | Login, return JWT access + refresh tokens    | Public           |
 | Auth         | POST   | `/auth/refresh`                                                 | Rotate a refresh token for a new token pair  | Public           |
 | Auth         | POST   | `/auth/logout`                                                  | Revoke the session's refresh token server-side | Admin, Viewer  |
@@ -48,6 +50,9 @@ sidebar_position: 2
 | Auth         | POST   | `/auth/resend-reset-code`                                       | Resend password reset code                   | Public           |
 | User         | GET    | `/users/me/profile`                                             | Get current user profile                     | Admin, Viewer    |
 | User         | PATCH  | `/users/me/profile`                                             | Update profile (display name, preferences)   | Admin, Viewer    |
+| Team         | POST   | `/users`                                                        | Add a member or viewer to the workspace      | Admin            |
+| Team         | GET    | `/users`                                                        | List the workspace's users                   | Admin, Member    |
+| Team         | GET    | `/users/{userId}`                                               | Get a user (Viewer: self only)               | Admin, Member, Viewer |
 | Credits      | GET    | `/users/me/credits`                                             | Get AI credit balance                        | Admin            |
 | API Keys     | GET    | `/users/me/api-keys`                                            | List configured AI provider keys (masked)    | Admin            |
 | API Keys     | POST   | `/users/me/api-keys`                                            | Add or replace API key for a provider        | Admin            |
@@ -65,6 +70,7 @@ sidebar_position: 2
 | Projects     | DELETE | `/projects/{projectId}`                                         | Archive project                              | Admin            |
 | Refinement   | GET    | `/projects/{projectId}/refinement-sessions`                     | List refinement sessions                     | Admin            |
 | Refinement   | POST   | `/projects/{projectId}/refinement-sessions`                     | Create draft from raw notes (AI refinement)  | Admin            |
+| Refinement   | POST   | `/refinement/generate-stories`                                  | Create drafts from raw notes (as implemented) | Admin           |
 | Refinement   | GET    | `/projects/{projectId}/refinement-sessions/{sessionId}`         | Get session details + draft stories          | Admin            |
 | Refinement   | PUT    | `/projects/{projectId}/refinement-sessions/{sessionId}`         | Update draft and ambiguities                 | Admin            |
 | Refinement   | DELETE | `/projects/{projectId}/refinement-sessions/{sessionId}`         | Delete draft session                         | Admin            |
@@ -298,6 +304,19 @@ Status codes: `200`, `400`, `401`, `403`, `500`
 
 - **Method/URL:** `POST /api/v1/projects/{projectId}/refinement-sessions`
 - **Description:** Accepts raw notes/bullets and returns structured draft plus ambiguity highlights. Consumes 1 AI credit if using platform credits (not user-provided API key).
+
+> **As implemented (EPIC-3 / EPIC-6).** The shipped endpoint is
+> `POST /api/v1/refinement/generate-stories`, which takes `projectId` in the body rather
+> than the path and returns generated drafts directly; the session resource below has not
+> been built. EPIC-6 extends the shipped endpoint rather than migrating it, since moving
+> the path is out of F-010's scope and would break the existing frontend. The shipped
+> request adds an optional `provider` (`platform` | `gemini` | `openai` | `deepseek`,
+> defaulting to `platform`), and the response adds `provider` plus `creditsRemaining` —
+> `null` when a user's own key served the run and no platform credit was spent
+> (FR-010-08). Credit exhaustion returns `402` with code `INSUFFICIENT_CREDITS`; a
+> provider refusing the user's key returns `422` with code `API_KEY_INVALID` and a
+> `promptsKeyUpdate` flag distinguishing a key the user must replace (FR-010-11) from a
+> spent quota or an outage, which replacing would not fix.
 
 Request schema:
 
@@ -710,31 +729,16 @@ Status codes: `200`, `401`, `429`, `500`
 ### 12) Auth — Register
 
 - **Method/URL:** `POST /api/v1/auth/register`
-- **Description:** Register new admin account. Triggers email verification code. Accounts created as Admin role.
-
-Request schema:
-
-```json
-{
-  "type": "object",
-  "required": ["email", "password"],
-  "properties": {
-    "email": { "type": "string", "format": "email" },
-    "password": {
-      "type": "string",
-      "minLength": 8,
-      "pattern": "^(?=.*[A-Za-z])(?=.*\\d).{8,}$"
-    }
-  }
-}
-```
+- **Description:** Open self sign-up. Each registration creates a new **workspace** (the tenant boundary that owns clients and projects) and makes the account its **Admin**; a `role` field in the body is rejected with `422`. The account is created **unverified** with no AI credits and is emailed a verification code. No tokens are returned: the account signs in only after verifying its email. An optional `workspaceName` (max 100 chars) names the workspace; it defaults to `"{displayName}'s workspace"`. Registering with an email that only has an **unverified** account (an abandoned sign-up, or someone added to a workspace who never confirmed) replaces that pending account rather than returning `409` — an unverified account never proved it owns the address. Teammates (`member`) and clients (`viewer`) are added to a workspace by its Admin via `POST /users`.
 
 Request example:
 
 ```json
 {
+  "displayName": "Jane Doe",
   "email": "admin@example.com",
-  "password": "SecureP4ssword"
+  "password": "SecureP4ssword",
+  "workspaceName": "Jane's Studio"
 }
 ```
 
@@ -742,31 +746,29 @@ Success response example (`201`):
 
 ```json
 {
-  "id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
-  "email": "admin@example.com",
-  "role": "admin",
-  "emailVerified": false
+  "email": "ad***@example.com",
+  "verificationRequired": true,
+  "nextStep": "verify-email",
+  "codeExpiresAt": "2026-09-28T20:35:00+00:00"
 }
 ```
 
-Status codes: `201`, `400`, `409`, `422`, `429`, `500`
+Status codes: `201`, `409` (email already registered to a verified account), `422`, `429`, `500`
 
 ### 13) Auth — Email Verification
 
 - **Method/URL:** `POST /api/v1/auth/verify-email`
-- **Description:** Submit 6-digit verification code sent to email. Account cannot login until verified. Code expires after 5 minutes.
-- **Resend:** `POST /api/v1/auth/resend-verification` — resends code (max 3 per 15-minute window).
+- **Description:** Submit the 6-character code emailed at registration. The code uses `23456789ABCDEFGHJKLMNPQRSTUVWXYZ`, is case-insensitive, is stored only as a hash, and expires after 5 minutes. Success verifies the account and grants its free AI credits (F-010 FR-010-01).
+- **Errors:** one generic `400` "Invalid or expired verification code" covers a wrong, expired or superseded code, an unknown email, and an already-verified account. After 5 wrong attempts the code is locked (`429`) until a new one is requested.
+- **Resend:** `POST /api/v1/auth/resend-verification` with `{ "email" }`. It invalidates the previous code and emails a new one. It always returns `200` with a generic message (no email is sent for unknown or verified addresses). It returns `429` once 4 codes (the registration code plus 3 resends) have been issued within 15 minutes.
+- **Login before verification:** `POST /auth/login` returns `403` with `{ "detail": "Please verify your email before signing in.", "code": "EMAIL_NOT_VERIFIED" }`, only after the password has matched.
 
-Request schema:
+Request example:
 
 ```json
 {
-  "type": "object",
-  "required": ["email", "code"],
-  "properties": {
-    "email": { "type": "string", "format": "email" },
-    "code": { "type": "string", "minLength": 6, "maxLength": 6 }
-  }
+  "email": "admin@example.com",
+  "code": "ABC234"
 }
 ```
 
@@ -774,12 +776,11 @@ Success response example (`200`):
 
 ```json
 {
-  "email": "admin@example.com",
   "verified": true
 }
 ```
 
-Status codes: `200`, `400`, `404`, `410`, `422`, `429`, `500`
+Status codes: `200`, `400`, `422`, `429`, `500`
 
 ### 14) Auth — Password Reset
 
@@ -866,7 +867,42 @@ Success response example (`200`):
 
 Status codes: `200`, `401`, `403`, `500`
 
-### 16) User Profile
+### 16) Team Management (Workspace Users)
+
+- **Method/URL:** `POST /api/v1/users`
+- **Description:** Adds a **member** or **viewer** to the caller's workspace. Requires the **Admin** role. `role` accepts `member` (default) or `viewer`; `admin` is rejected with `422` — there is no way yet to demote or remove a second Admin, so a workspace cannot end up with one it did not choose. The account is created **unverified** with **no AI credits** and is emailed a verification code, exactly like self-registration: an Admin's word does not prove the address belongs to that person.
+
+Request example:
+
+```json
+{
+  "displayName": "Alex Doe",
+  "email": "alex@example.com",
+  "password": "TempP4ssword",
+  "role": "member"
+}
+```
+
+Success response example (`201`):
+
+```json
+{
+  "id": "5b1f...",
+  "email": "alex@example.com",
+  "displayName": "Alex Doe",
+  "role": "member"
+}
+```
+
+Status codes: `201`, `403` (not an Admin), `409` (email already registered), `422`, `500`
+
+- **Method/URL:** `GET /api/v1/users`
+- **Description:** Lists the caller's workspace users. Requires **Admin or Member**.
+
+- **Method/URL:** `GET /api/v1/users/{userId}`
+- **Description:** Looks up one user by id, scoped to the caller's workspace. A user of another workspace, or an id that does not exist, both answer `404` — never `403`, so the response cannot confirm the id exists elsewhere. A **Viewer** may only look up their own id.
+
+### 17) User Profile
 
 - **Method/URL:** `GET /api/v1/users/me/profile`, `PATCH /api/v1/users/me/profile`
 - **Description:** Get or update current user's profile (display name, preferences, onboarding state).
@@ -899,7 +935,7 @@ PUT request schema:
 
 Status codes: `200`, `400`, `401`, `422`, `500`
 
-### 17) AI Credits
+### 18) AI Credits
 
 - **Method/URL:** `GET /api/v1/users/me/credits`
 - **Description:** Returns current AI credit balance. Credits are granted (5) after email verification.
@@ -915,7 +951,7 @@ Response example (`200`):
 
 Status codes: `200`, `401`, `500`
 
-### 18) API Key Management
+### 19) API Key Management
 
 - **List keys:** `GET /api/v1/users/me/api-keys` — returns configured providers with masked keys.
 - **Add/replace key:** `POST /api/v1/users/me/api-keys` — upsert an API key for a provider. Validates against provider on save.
@@ -964,9 +1000,24 @@ Validation success response (`200`):
 ```json
 {
   "provider": "openai",
-  "valid": true
+  "valid": true,
+  "quotaWarning": false
 }
 ```
+
+`quotaWarning` is `true` when the provider reports quota at or above 80% consumed
+(FR-010-12). It is best-effort: providers that expose no usage headers always report
+`false`.
+
+List entries also carry `lastValidatedAt` (nullable), the last time the provider accepted
+the key. There is no field anywhere in this section that returns key material — `maskedKey`
+is the only representation the API exposes, and no plaintext retrieval endpoint exists
+(FR-010-07).
+
+A rejected key returns `422` with `code: "API_KEY_INVALID"`, the `provider`, a `reason`
+(`invalid_format` | `auth_failed` | `quota_exhausted` | `rate_limited` | `network`), and
+`promptsKeyUpdate`. Exceeding the validation budget returns `429` with a `Retry-After`
+header (NFR-010-03).
 
 Validation error response (`422`):
 
@@ -986,7 +1037,7 @@ Status codes (add): `201`, `400`, `401`, `422`, `429`, `500`
 Status codes (delete): `204`, `401`, `404`, `500`
 Status codes (validate): `200`, `400`, `401`, `422`, `429`, `500`
 
-### 19) Refinement — List and Delete Sessions
+### 20) Refinement — List and Delete Sessions
 
 - **List sessions:** `GET /api/v1/projects/{projectId}/refinement-sessions?status=draft` — returns sessions, optionally filtered by status.
 - **Get session:** `GET /api/v1/projects/{projectId}/refinement-sessions/{sessionId}` — get full session details with draft stories and ambiguities.
@@ -1017,7 +1068,7 @@ Status codes (list): `200`, `400`, `401`, `403`, `404`, `500`
 Status codes (get): `200`, `401`, `403`, `404`, `500`
 Status codes (delete): `204`, `401`, `403`, `404`, `409`, `500`
 
-### 20) Requirements — Reorder
+### 21) Requirements — Reorder
 
 - **Method/URL:** `PATCH /api/v1/projects/{projectId}/requirements/reorder`
 - **Description:** Bulk update sort order for requirements (drag-and-drop reorder in UI).
@@ -1060,7 +1111,7 @@ Success response: `204 No Content`
 
 Status codes: `204`, `400`, `401`, `403`, `404`, `422`, `500`
 
-### 21) Viewer — Invitations
+### 22) Viewer — Invitations
 
 - **Send invitation:** `POST /api/v1/viewers/invitations` — Admin sends invitation by email + project selection. Token expires after 7 days.
 - **Validate token:** `GET /api/v1/viewers/invitations/{token}` — returns project info, expiry status (public, no auth required).
@@ -1145,7 +1196,7 @@ Status codes (accept): `201`, `400`, `404`, `410`, `422`, `500`
 Status codes (resend): `200`, `401`, `403`, `404`, `410`, `429`, `500`
 Status codes (revoke): `204`, `401`, `403`, `404`, `500`
 
-### 22) Viewer — Access Management
+### 23) Viewer — Access Management
 
 - **List viewers:** `GET /api/v1/viewers` — Admin lists all viewers with access and invitation status.
 - **Grant access:** `POST /api/v1/viewers/{viewerId}/projects` — grant viewer access to additional projects.

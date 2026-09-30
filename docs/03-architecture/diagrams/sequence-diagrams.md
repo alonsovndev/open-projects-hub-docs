@@ -413,7 +413,7 @@ sequenceDiagram
     Note over User,DB: ── API key management ──
     User->>FE: Settings → API Keys → select provider (Gemini / OpenAI / DeepSeek)
     FE->>FE: API key input form
-    FE->>BE: POST /api/v1/settings/api-keys {provider, apiKey}
+    FE->>BE: POST /api/v1/users/me/api-keys {provider, apiKey}
     BE->>AI: Validate key via provider test endpoint
     alt Key valid
         AI-->>BE: 200 OK

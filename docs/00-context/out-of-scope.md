@@ -26,7 +26,7 @@ This document explicitly lists features, capabilities, and enhancements that are
 | Audit logs and activity history                    | Complexity vs. MVP value; monitoring can use infrastructure logs     | Q-013        |
 | Viewer comments or feedback on requirements        | Simplifies MVP; Viewer role is strictly read-only                    | Q-011        |
 | Real-time collaboration or live editing            | Not critical for discovery/planning phase; async workflow sufficient | —            |
-| Team-wide access grants or role customization      | Single Admin + Viewers sufficient for freelancer use case            | Q-012        |
+| Role changes, demotion, or removing a workspace member | An Admin can add Members/Viewers, but not yet change or revoke a role once granted (EP4) | Q-012        |
 | Subcontractor or external collaborator invitations | Out of scope; focus on Admin ↔ Client relationship                   | Q-012        |
 
 ### Requirements Management

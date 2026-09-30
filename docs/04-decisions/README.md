@@ -23,6 +23,7 @@ This folder contains the Architectural Decision Records (ADRs) for the Open Proj
 | [ADR-015](./adr-015-code-quality-tooling.md) | Code Quality Tooling Strategy |
 | [ADR-016](./adr-016-git-workflow-strategy.md) | Git Workflow and Branch Strategy |
 | [ADR-017](./adr-017-database-migration-strategy.md) | Database Migration Strategy (Alembic) |
+| [ADR-018](./adr-018-user-api-key-encryption.md) | User API Key Encryption at Rest |
 
 ## Creating a New ADR
 
