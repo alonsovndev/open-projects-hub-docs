@@ -350,7 +350,7 @@ flowchart LR
 
     B -->|Rejected| R1[Error: invalid input]
     E -->|Blocked| R2[Error: output filtered]
-    F -->|Rejected| R3[Draft discarded]
+    F -->|Rejected| R3[Refined story discarded<br/>never stored]
 
     style B fill:#fff3e0,stroke:#e65100
     style C fill:#e3f2fd,stroke:#1565c0
@@ -407,12 +407,12 @@ Before displaying AI-generated content to the user:
 
 ### 4. Human-in-the-Loop Approval Gate
 
-All AI-generated content is draft-only until Admin approval (FR-002-03):
+All AI-generated content is unapproved until Admin approval (FR-002-03):
 
-- Generated stories are marked as **Draft** and excluded from exports, viewer access, and downstream workflows.
+- Generated stories are returned to the Admin's browser and are **not stored server-side**, so they cannot reach exports, viewer access, or downstream workflows (ADR-019).
 - The Admin must explicitly review, edit, and approve before content becomes an official project artifact.
 - This creates a final safety net — even if injection bypasses earlier layers, the Admin sees and can discard malicious output before it reaches production data.
-- Draft stories can be deleted without affecting approved content.
+- Discarding a refined story is a client-side action; approved content is unaffected. On approval the server re-validates the submitted content and workspace ownership of the project before saving.
 
 ### 5. Monitoring and Rate Limiting
 

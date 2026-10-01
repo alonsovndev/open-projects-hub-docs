@@ -70,7 +70,9 @@ sidebar_position: 2
 | Projects     | DELETE | `/projects/{projectId}`                                         | Archive project                              | Admin            |
 | Refinement   | GET    | `/projects/{projectId}/refinement-sessions`                     | List refinement sessions                     | Admin            |
 | Refinement   | POST   | `/projects/{projectId}/refinement-sessions`                     | Create draft from raw notes (AI refinement)  | Admin            |
-| Refinement   | POST   | `/refinement/generate-stories`                                  | Create drafts from raw notes (as implemented) | Admin           |
+| Refinement   | POST   | `/refinement/generate-stories`                                  | Generate refined stories from raw notes; not stored (as implemented) | Admin |
+| Refinement   | POST   | `/refinement/approve-story`                                     | Approve one refined story; saved to backlog (as implemented) | Admin |
+| Refinement   | POST   | `/refinement/approve-stories`                                   | Approve several refined stories; saved to backlog (as implemented) | Admin |
 | Refinement   | GET    | `/projects/{projectId}/refinement-sessions/{sessionId}`         | Get session details + draft stories          | Admin            |
 | Refinement   | PUT    | `/projects/{projectId}/refinement-sessions/{sessionId}`         | Update draft and ambiguities                 | Admin            |
 | Refinement   | DELETE | `/projects/{projectId}/refinement-sessions/{sessionId}`         | Delete draft session                         | Admin            |
@@ -307,8 +309,9 @@ Status codes: `200`, `400`, `401`, `403`, `500`
 
 > **As implemented (EPIC-3 / EPIC-6).** The shipped endpoint is
 > `POST /api/v1/refinement/generate-stories`, which takes `projectId` in the body rather
-> than the path and returns generated drafts directly; the session resource below has not
-> been built. EPIC-6 extends the shipped endpoint rather than migrating it, since moving
+> than the path and returns the refined stories directly without storing them; the session
+> resource below has not been built and is superseded by ADR-019 (refined stories are held
+> client-side and saved only on approval via `POST /refinement/approve-story[ies]`). EPIC-6 extends the shipped endpoint rather than migrating it, since moving
 > the path is out of F-010's scope and would break the existing frontend. The shipped
 > request adds an optional `provider` (`platform` | `gemini` | `openai` | `deepseek`,
 > defaulting to `platform`), and the response adds `provider` plus `creditsRemaining` —
@@ -418,6 +421,8 @@ Status codes: `201`, `400`, `401`, `402`, `403`, `404`, `422`, `500`
 
 - **Method/URL:** `POST /api/v1/projects/{projectId}/refinement-sessions/{sessionId}/approve`
 - **Description:** Converts draft stories into official requirements.
+
+> **Superseded (ADR-019).** Not built. The shipped approval is `POST /api/v1/refinement/approve-story` (one) and `POST /api/v1/refinement/approve-stories` (several); the request carries the story content (`projectId`, `title`, `description`, `acceptanceCriteria`) because refined stories are not stored before approval.
 
 Request schema:
 
@@ -1038,6 +1043,8 @@ Status codes (delete): `204`, `401`, `404`, `500`
 Status codes (validate): `200`, `400`, `401`, `422`, `429`, `500`
 
 ### 20) Refinement — List and Delete Sessions
+
+> **Superseded (ADR-019).** Not built and no longer planned: refined stories are not persisted, so there are no sessions to list, fetch or delete.
 
 - **List sessions:** `GET /api/v1/projects/{projectId}/refinement-sessions?status=draft` — returns sessions, optionally filtered by status.
 - **Get session:** `GET /api/v1/projects/{projectId}/refinement-sessions/{sessionId}` — get full session details with draft stories and ambiguities.
