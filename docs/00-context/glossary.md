@@ -75,7 +75,7 @@ Unit of platform AI usage; 1 credit consumed per successful refinement using pla
 Secure single-use token for Viewer account creation; valid for 7 days. Sent via email; invalidated after first use or expiry.
 
 **Verification Code**  
-6-digit alphanumeric code (0-9, A-Z, excluding O/0/I/1) for email verification during account creation or password reset. Expires after 5 minutes.
+6-digit alphanumeric code (0-9, A-Z, excluding O/0/I/1) for email verification during account creation or password reset. Expires after 5 minutes for sign-up verification, 24 hours for Admin-added accounts, and 30 minutes for password reset.
 
 **Session**  
 Authenticated user connection; standard sessions expire after 24 hours, extended sessions after 7 days per NFR-X09. Managed via JWT access tokens and refresh tokens.

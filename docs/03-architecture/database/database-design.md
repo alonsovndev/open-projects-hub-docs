@@ -286,7 +286,7 @@ erDiagram
 - **Purpose:** Backs sign-up email verification (F-008 FR-008-03 to FR-008-05, NFR-008-02/03).
 - **Primary key:** `id` (UUID).
 - **Foreign keys:** `user_id -> users.id` with `ON DELETE CASCADE`.
-- **Columns:** `code_hash` (bcrypt; the plaintext code is never stored), `expires_at` (5 minutes after issue), `used_at` (set on success or when superseded by a newer code), `attempt_count` (5 wrong guesses lock the code), `created_at`.
+- **Columns:** `code_hash` (bcrypt; the plaintext code is never stored), `expires_at` (5 minutes after issue for sign-up, 24 hours for Admin-added accounts; 30 minutes for password reset codes), `used_at` (set on success or when superseded by a newer code), `attempt_count` (5 wrong guesses lock the code), `created_at`.
 - **Indexes:** `user_id`, `created_at` (the resend limit counts codes issued per user in the last 15 minutes).
 - **Design note:** Mirrors `password_reset_codes` but is a separate table because the two lifecycles differ: a verification code activates an account and grants credits, a reset code changes a credential and revokes sessions.
 
