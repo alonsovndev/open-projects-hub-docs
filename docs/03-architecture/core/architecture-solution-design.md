@@ -95,7 +95,7 @@ sequenceDiagram
     BE->>BE: Validate JWT & extract role
     BE->>AI: Request refinement (raw notes, not persisted)
     AI-->>BE: Structured user story + acceptance criteria
-    BE-->>FE: Structured user stories (draft)
+    BE-->>FE: Structured user stories (unapproved, not stored)
     User->>FE: Approve stories
     FE->>BE: Approve request (JWT)
     BE->>BE: Validate auth + role check

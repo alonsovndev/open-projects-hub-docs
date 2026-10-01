@@ -3,7 +3,7 @@
 | Attribute        | Value                       |
 | ---------------- | --------------------------- |
 | **Project**      | Open Projects Hub |
-| **Version**      | 1.3                         |
+| **Version**      | 1.4                         |
 | **Status**       | Accepted                    |
 | **Readiness**    | Ready for Implementation    |
 | **Owner**        | Product Owner               |
@@ -21,9 +21,9 @@
 | --------- | ---------------------------------------------------------------------------------------------------------- | --------------------------- | -------- | ------------- | ---------------------------- | ----------------------------------------------------------------------------------------------------------------- | --------- |
 | FR-002-01 | AI refinement accepts raw notes and bullet lists as input.                                                 | Open Questions Q-005        | Must     | Product Owner | Q-005                        | AI input field accepts plain text without markdown, HTML, or file upload requirements.                            | Clarified |
 | FR-002-02 | AI output generates user stories using title, standard user story format, and acceptance criteria.         | Open Questions Q-004, Q-007 | Must     | Product Owner | Q-004, Q-007                 | Each generated story includes a title, the standard user story sentence, and at least one acceptance criterion.   | Clarified |
-| FR-002-03 | Admin can edit AI-generated content and explicitly approve before it becomes an official project artifact. | Open Questions Q-006        | Must     | Product Owner | Q-006                        | Generated stories remain draft until Admin approval; unapproved content is excluded from exports.                 | Clarified |
-| FR-002-04 | When AI service fails or times out, system displays error, preserves draft input, and allows retry.        | Reliability                 | Must     | Product Owner | —                            | AI failures show actionable error message (timeout: "Request timed out after 30 seconds", network: "Connection failed", provider error: specific message); user input preserved in draft; retry button available; draft can be saved for later. | Clarified     |
-| FR-002-05 | Admin can save, edit, and delete draft (unapproved) stories.                                               | Workflow flexibility        | Must     | Product Owner | —                            | Draft stories persist in project with "Draft" badge; Admin can resume editing from project view; delete removes draft without affecting approved stories; confirmation prompt shown before delete. | Clarified     |
+| FR-002-03 | Admin can edit AI-generated content and explicitly approve before it becomes an official project artifact. | Open Questions Q-006        | Must     | Product Owner | Q-006                        | Generated stories remain unapproved until Admin approval and are stored only on approval; unapproved content never reaches the backlog or exports.                 | Clarified |
+| FR-002-04 | When AI service fails or times out, system displays error, preserves draft input, and allows retry.        | Reliability                 | Must     | Product Owner | —                            | AI failures show actionable error message (timeout: "Request timed out after 30 seconds", network: "Connection failed", provider error: specific message); raw notes preserved in the input field; retry button available. | Clarified     |
+| FR-002-05 | Admin can edit and discard refined (unapproved) stories before approving them.                             | Workflow flexibility        | Must     | Product Owner | —                            | Refined stories are held in the Admin's browser session only and are **not stored server-side** until approved (ADR-019); edits and discards are local and never touch approved stories; unapproved stories are lost when the page is refreshed or left; confirmation prompt shown before discard. | Clarified     |
 | FR-002-06 | AI input is limited to 5000 characters and sanitized for script injection.                                 | Security and constraints    | Must     | Product Owner | —                            | Input field enforces 5000 char limit with live counter (e.g., "2341/5000"); input sanitized server-side before processing; script tags, HTML, and SQL injection patterns rejected with error "Input contains invalid characters".       | Clarified     |
 | FR-002-07 | Each successful AI refinement consumes 1 credit from F-010 credit system when using platform provider.                   | Credit integration          | Must     | Product Owner | —                            | Platform provider refinements call F-010 credit consumption API; credit counter decrements per F-010 FR-010-02; user-provided API keys bypass credit system per F-010 FR-010-08.  | Clarified     |
 | FR-002-08 | Admin can select AI provider (Platform/Gemini/OpenAI/DeepSeek) before initiating refinement.               | Provider flexibility        | Must     | Product Owner | —                            | Provider selector shows available options per F-010 FR-010-06 (platform if credits > 0, configured user providers); selection persisted for session; defaults to platform if credits available, otherwise first configured provider. | Clarified     |
@@ -41,17 +41,18 @@
 - **Dependencies**: 
   - **F-010 AI Credits and API Key Management** - provides credit system (FR-010-01, FR-010-02), provider selection (FR-010-06), and API key validation; F-002 consumes credit consumption API and provider availability data
   - Prompt design consistency for reliable AI output quality
-  - Approval state persistence in database
+  - Approved stories persisted to the backlog on approval (no storage before approval, see ADR-019)
   
 - **Risks**: 
   - Ambiguity highlights can be noisy and reduce trust; **mitigation**: manual override capability and tunable sensitivity threshold
   - AI service unavailability disrupts workflow; **mitigation**: error handling per FR-002-04 (preserve input, allow retry), fallback provider options per FR-002-08
+  - Refined stories exist only in the browser until approved, so a refresh or closed tab loses unapproved output (and the credit spent on it); **mitigation**: accepted trade-off (ADR-019); the raw notes can be resubmitted
   - Credit system dependency creates hard coupling; **mitigation**: F-010 defines stable credit consumption API contract (decrement on success, no charge on failure)
 
 ## Traceability
 
 - **Related Open Questions**: Q-004, Q-005, Q-006, Q-007, Q-008
-- **Related Architecture/ADR**: [API Contract](../03-architecture/api/api-contract.md)
+- **Related Architecture/ADR**: [API Contract](../03-architecture/api/api-contract.md), [ADR-019](../04-decisions/adr-019-no-persisted-draft-stories.md)
 - **Related Features**: [F-010: AI Credits and API Key Management](./f-010-ai-credits-and-api-key-management.md)
 - **Related Prototype**: [Stitch Prompt](../05-prototype/README.md)
 
@@ -59,4 +60,4 @@
 
 ---
 
-**Last Updated**: 2026-07-30
+**Last Updated**: 2026-09-30

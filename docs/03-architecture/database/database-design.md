@@ -50,7 +50,7 @@ sidebar_position: 1
 | `projects`            | Project metadata, phase, and status                      | Project Lifecycle   | `active`, `archived` |
 | `epics`               | Grouping container for related user stories per project  | Project Lifecycle   | `open`, `in_progress`, `done` |
 | `project_memberships` | Per-project role assignment (admin or viewer)            | Identity and Access | active by record     |
-| `user_stories`        | AI-generated user stories produced from refinement input | Refinement Workflow | `draft`, `approved`  |
+| `user_stories`        | Approved user stories (AI-refined stories are not stored before approval, ADR-019) | Refinement Workflow | `approved` |
 | `user_api_keys`       | Per-user AI provider credentials, encrypted at rest      | AI Monetization     | active by record     |
 | `api_key_validation_attempts` | Per-user counter behind the key-validation rate limit | AI Monetization | active by record  |
 | `email_verification_codes` | Hashed, short-lived codes that confirm a registered email | Identity and Access | active, used, expired |
@@ -259,7 +259,7 @@ erDiagram
   - `story_id` unique across all projects.
   - `priority` check (`must_have`, `should_have`, `could_have`, `wont_have`).
   - `story_points` nullable integer, check (`>= 1`) when present.
-  - `status` check (`draft`, `approved`).
+  - `status` check (`approved`); unapproved refinement output is never persisted (ADR-019).
   - `sort_order >= 1`.
   - unique `(project_id, sort_order)` for deterministic ordering within a project.
   - `approved_by_user_id` and `approved_at` are `NULL` until explicit approval; a `CHECK` constraint requires both when `status = 'approved'`.
@@ -323,7 +323,7 @@ erDiagram
 ## Risks and Open Questions
 
 - **Risk:** Max-3-active-project rule lives in the service layer; concurrent requests could bypass it. **Mitigation:** single-transaction check with `SELECT FOR UPDATE` or equivalent.
-- **Risk:** draft stories could be exposed to Viewer users if approval filtering is inconsistent across API responses and RLS policies. **Mitigation:** enforce `status = 'approved'` visibility for Viewer paths and add role-based test coverage.
+- **Note:** unapproved stories are never stored (ADR-019), so Viewer paths cannot expose them; role-based tests still cover the approved-only read path.
 - **Open question:** Should `user_stories` support individual archival or only project-level lifecycle transitions?
 
 ## Traceability to Requirements

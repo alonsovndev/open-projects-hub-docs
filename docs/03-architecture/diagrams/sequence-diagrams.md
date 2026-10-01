@@ -70,12 +70,11 @@ sequenceDiagram
     participant AI as AI Refinement Adapter
 
     Admin->>FE: Enter raw notes and submit
-    FE->>BE: POST /projects/{id}/refinement-sessions (draft)
+    FE->>BE: POST /refinement/generate-stories
     BE->>AI: Request refinement and ambiguity analysis
     AI-->>BE: Structured stories + ambiguity markers
-    BE->>DB: Save generated draft stories
-    BE-->>FE: Return draft stories and highlights
-    FE-->>Admin: Display editable draft output
+    BE-->>FE: Return refined stories (nothing stored)
+    FE-->>Admin: Display editable output held in the browser
 ```
 
 ## 3) Explicit Approval and Viewer Visibility
@@ -89,10 +88,10 @@ sequenceDiagram
     participant Viewer
 
     Admin->>FE: Approve selected stories
-    FE->>BE: POST /projects/{id}/refinement-sessions/{sid}/approve
-    BE->>DB: Validate ownership/role + convert draft → approved
-    DB-->>BE: Approval persisted
-    BE-->>FE: 200 {status: "approved", approvedRequirementCount, approvedAt}
+    FE->>BE: POST /refinement/approve-stories {stories: [content]}
+    BE->>DB: Validate project ownership/role + insert approved stories
+    DB-->>BE: Stories persisted
+    BE-->>FE: 200 {approvedCount, stories}
     Viewer->>FE: Open project requirements page
     FE->>BE: GET /projects/{id}/requirements
     BE->>DB: Fetch approved stories only (RLS-enforced)
@@ -398,13 +397,13 @@ sequenceDiagram
 
     Note over User,DB: ── Free credits lifecycle ──
     User->>FE: Submit raw notes for AI refinement
-    FE->>BE: POST /projects/{id}/refinement-sessions
+    FE->>BE: POST /refinement/generate-stories
     BE->>DB: Check credit balance
     alt Credits > 0
         BE->>AI: Request refinement (platform provider key)
         AI-->>BE: Structured stories
-        BE->>DB: Decrement credit counter, persist draft stories
-        BE-->>FE: 201 {draftStories, remainingCredits}
+        BE->>DB: Decrement credit counter
+        BE-->>FE: 200 {stories, creditsRemaining} (stories not stored)
     else Credits = 0
         BE-->>FE: 402 "No credits remaining. Add your own API key to continue."
         FE-->>User: Modal with "Add API Key" CTA → Settings
@@ -430,13 +429,12 @@ sequenceDiagram
 
     Note over User,AI: ── Refinement with custom API key ──
     User->>FE: Initiate refinement, select custom provider
-    FE->>BE: POST /projects/{id}/refinement-sessions {provider: "openai"}
+    FE->>BE: POST /refinement/generate-stories {provider: "openai"}
     BE->>DB: Retrieve decrypted API key
     BE->>AI: Request refinement (user's API key)
     alt Success
         AI-->>BE: Structured stories
-        BE->>DB: Persist draft stories (platform credits NOT consumed)
-        BE-->>FE: 201 {draftStories}
+        BE-->>FE: 200 {stories} (not stored; platform credits NOT consumed)
     else Provider error
         AI-->>BE: Quota exceeded / auth failed / network / rate limit
         BE-->>FE: 400 {error, actionableMessage, links: [settings, switchProvider]}
@@ -486,19 +484,18 @@ sequenceDiagram
             Validate-->>FE: 422 "AI output filtered — please try different input"
             FE-->>User: Error message
         else Output valid
-            Validate->>DB: Save as draft (status: "draft")
-            Validate-->>FE: Draft stories returned
+            Validate-->>FE: Refined stories returned (not stored)
 
-            Note over Approve: Human-in-the-loop — ALL AI output is draft until Admin approves
-            FE-->>User: Display editable draft output
+            Note over Approve: Human-in-the-loop — ALL AI output is unapproved and unstored until Admin approves
+            FE-->>User: Display editable output held in the browser
             User->>FE: Review, edit, and approve OR reject
             alt Admin rejects
-                User->>FE: Reject draft
-                FE->>DB: Delete draft session (no effect on approved content)
+                User->>FE: Discard refined story
+                FE->>FE: Remove from browser state (no server call)
             else Admin approves
                 User->>FE: Approve selected stories
-                FE->>Approve: POST /projects/{id}/refinement-sessions/{sid}/approve
-                Approve->>DB: Convert draft stories → approved requirements
+                FE->>Approve: POST /refinement/approve-stories {stories: [content]}
+                Approve->>DB: Insert approved stories
                 Approve-->>FE: 200 approval success
                 FE-->>User: Confirmation
             end
@@ -506,7 +503,7 @@ sequenceDiagram
     end
 ```
 
-> **Defense layers**: 5 independent stages — no single stage is responsible for all security. Draft content is excluded from exports, viewer access, and downstream workflows until explicitly approved by a human Admin. Rate limiting and the 5-credit trial act as additional throttling against automated abuse.
+> **Defense layers**: 5 independent stages — no single stage is responsible for all security. Unapproved content is never stored, so it cannot reach exports, viewer access, or downstream workflows until explicitly approved by a human Admin. Rate limiting and the 5-credit trial act as additional throttling against automated abuse.
 
 ---
 
