@@ -31,7 +31,7 @@ Soft-deleted project; inaccessible to Admin and Viewer within 24 hours per NFR-X
 Approved requirement in standard format: title + "As a [persona], I want [capability], so that [benefit]" + acceptance criteria. Visible to Viewer if approved.
 
 **Draft Story**  
-Unapproved AI-refined story pending Admin review. Held only in the Admin's browser session and never stored server-side, so it cannot appear in exports or to a Viewer. Can be edited, approved (which saves it as a User Story), or discarded by Admin.
+Unapproved AI-refined story pending Admin review. Held only in the Admin's browser tab (session storage) and never stored server-side, so it cannot appear in exports or to a Viewer. Can be edited, approved (which saves it as a User Story), or discarded by Admin.
 
 ## Epics & Backlog
 

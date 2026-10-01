@@ -15,8 +15,10 @@ throwaway until an Admin approves it, and only approved stories belong in the da
 - `POST /v1/refinement/generate-stories` returns the refined stories (`title`,
   `description`, `acceptanceCriteria`) and stores nothing. The platform credit is still
   charged after a successful run.
-- The web app holds the refined stories in client state. Editing and discarding are
-  local operations with no API call.
+- The web app holds the refined stories in client state and mirrors them to the browser
+  tab's `sessionStorage` (keyed by account), so a reload restores them. The browser asks
+  for confirmation (`beforeunload`) while unapproved stories exist. Editing and discarding
+  are local operations with no API call.
 - Approval sends the story content: `POST /v1/refinement/approve-story` (one) and
   `POST /v1/refinement/approve-stories` (several). The server checks that the project is
   in the caller's workspace, validates the content, and saves a `stories` row with the
@@ -35,8 +37,9 @@ throwaway until an Admin approves it, and only approved stories belong in the da
 
 ### Negative
 
-- Unapproved stories are lost on refresh or when leaving the page, and the credit spent
-  on that run is not refunded. The raw notes can be resubmitted.
+- Unapproved stories survive a reload and in-app navigation, but are lost when the tab is
+  closed (or storage is blocked), and the credit spent on that run is not refunded. The raw
+  notes can be resubmitted.
 - The server cannot detect a repeated approval of the same content (previously a `409`),
   so the client must prevent double submits.
 - Approval requests are larger and carry content the client could alter; the server
@@ -49,8 +52,9 @@ throwaway until an Admin approves it, and only approved stories belong in the da
 - Survives refresh and supports resuming from another device.
 - Rejected: the product owner does not want draft storage.
 
-**2. Persist drafts in browser storage**
+**2. Keep refined stories only in memory**
 
-- Would survive a refresh without server storage.
-- Not selected: not requested, and it adds client persistence and cleanup rules; it can be
-  added later without changing the API.
+- Simplest client; no storage rules.
+- Not selected: a reload loses the output of a paid run. Replaced by `sessionStorage`
+  persistence, deliberately not `localStorage`, so unapproved AI output does not outlive
+  the tab or cross tabs.
