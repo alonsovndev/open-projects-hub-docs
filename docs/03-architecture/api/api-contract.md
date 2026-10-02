@@ -53,7 +53,7 @@ sidebar_position: 2
 | Team         | POST   | `/users`                                                        | Add a member or viewer to the workspace      | Admin            |
 | Team         | GET    | `/users`                                                        | List the workspace's users                   | Admin, Member    |
 | Team         | GET    | `/users/{userId}`                                               | Get a user (Viewer: self only)               | Admin, Member, Viewer |
-| Credits      | GET    | `/users/me/credits`                                             | Get AI credit balance                        | Admin            |
+| Credits      | GET    | `/users/me/credits`                                             | Get AI credit balance                        | Admin, Member    |
 | API Keys     | GET    | `/users/me/api-keys`                                            | List configured AI provider keys (masked)    | Admin            |
 | API Keys     | POST   | `/users/me/api-keys`                                            | Add or replace API key for a provider        | Admin            |
 | API Keys     | DELETE | `/users/me/api-keys/{provider}`                                 | Delete API key for a provider                | Admin            |
@@ -875,7 +875,7 @@ Status codes: `200`, `401`, `403`, `500`
 ### 16) Team Management (Workspace Users)
 
 - **Method/URL:** `POST /api/v1/users`
-- **Description:** Adds a **member** or **viewer** to the caller's workspace. Requires the **Admin** role. `role` accepts `member` (default) or `viewer`; `admin` is rejected with `422` — there is no way yet to demote or remove a second Admin, so a workspace cannot end up with one it did not choose. The account is created **unverified** with **no AI credits** and is emailed a verification code, exactly like self-registration: an Admin's word does not prove the address belongs to that person.
+- **Description:** Adds a **member** or **viewer** to the caller's workspace. Requires the **Admin** role. `role` accepts `member` (default) or `viewer`; `admin` is rejected with `422` — there is no way yet to demote or remove a second Admin, so a workspace cannot end up with one it did not choose. The account is created **unverified** and is emailed a verification code, exactly like self-registration: an Admin's word does not prove the address belongs to that person. AI credits are granted on verification (members only; viewers get none, subject to the workspace's 25-credit lifetime ceiling). A workspace holds at most **5 users** (all roles, including inactive and unverified); adding a sixth answers `409`.
 
 Request example:
 
@@ -943,7 +943,7 @@ Status codes: `200`, `400`, `401`, `422`, `500`
 ### 18) AI Credits
 
 - **Method/URL:** `GET /api/v1/users/me/credits`
-- **Description:** Returns current AI credit balance. Credits are granted (5) after email verification.
+- **Description:** Returns current AI credit balance. Admins and Members are granted 5 credits on email verification (Viewers none), up to 25 per workspace in its lifetime.
 
 Response example (`200`):
 

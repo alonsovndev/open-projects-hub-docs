@@ -58,7 +58,7 @@ Enum: `active` (counts toward limit), `archived` (excluded from limit), `deleted
 ## AI & Credits
 
 **Platform Provider**  
-AI service using the platform's API keys; consumes user's free credits (5 per account). Limited to 5 refinements unless user adds own API key.
+AI service using the platform's API keys; consumes the user's free credits (5 per Admin or Member; Viewers get none). Limited to those refinements unless the user adds their own API key.
 
 **User Provider**  
 AI service using user's own API key (Gemini, OpenAI, or DeepSeek). Unlimited refinements; does not consume platform credits.
@@ -67,7 +67,7 @@ AI service using user's own API key (Gemini, OpenAI, or DeepSeek). Unlimited ref
 Process of submitting raw notes to AI service and generating structured user story with title, standard format, and acceptance criteria.
 
 **AI Credit**  
-Unit of platform AI usage; 1 credit consumed per successful refinement using platform provider. New accounts receive 5 free credits (one-time).
+Unit of platform AI usage; 1 credit consumed per successful refinement using platform provider. Admins and Members receive 5 free credits each on email verification (one-time); a workspace grants at most 25 in its lifetime.
 
 ## Authentication & Sessions
 
@@ -83,7 +83,7 @@ Authenticated user connection; standard sessions expire after 24 hours, extended
 ## Technical Terms
 
 **MVP Load**  
-Expected system capacity for minimum viable product: 10 concurrent Admins + 20 Viewers, 100 requests/min peak, 3 active projects per Admin, 200 total user stories (per NFR-X05).
+Expected system capacity for minimum viable product: 10 concurrent Admins with up to 5 users per workspace, 100 requests/min peak, 3 active projects per Admin, 200 total user stories (per NFR-X05).
 
 **RLS (Row Level Security)**  
 Database-layer access control enforcing that users can only query data they have permission to access. Used to restrict Viewer access to granted projects only.

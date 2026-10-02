@@ -61,6 +61,7 @@ sidebar_position: 1
 - `projects` belongs to a `client` and has `epics`, `project_memberships`, and `user_stories`.
 - `epics` group user stories within a project; each epic contains one or more `user_stories`.
 - `user_stories` are approved individually and linked to both their parent epic and project.
+- `workspaces.ai_credits_granted_total` counts every free credit the workspace has ever handed out (ceiling 25) and never decreases, so deleting and re-adding members cannot mint more.
 - `users` holds its own AI credit balance and owns at most one `user_api_keys` row per provider.
 
 ## Entity-Relationship Diagram (ERD)
@@ -207,7 +208,7 @@ erDiagram
 - **Indexes:** unique index on `email`.
 - **Design note:** Password hashing via bcrypt/passlib per ADR-005. JWT tokens, session state, and password-reset flows are managed by the custom auth bounded context.
 - **Email verification (F-008):** `email_verified_at` is `NULL` until a self-registered account confirms its email, and login is refused while it is `NULL`. Accounts created by an Admin or the seed script are verified on creation, and the migration that added the column backfilled `created_at` so existing accounts kept signing in.
-- **AI credits (F-010):** `ai_credits_remaining` and `ai_credits_granted` both default to 5. Accounts created by an Admin or the seed script get them when the row is created; a self-registered account starts at 0 and is granted them when its email is verified. `granted` is kept alongside `remaining` so the UI can render "3 of 5" without hardcoding the grant, and so changing the grant later does not rewrite what existing accounts received. A credit is spent with a single conditional `UPDATE ... WHERE ai_credits_remaining > 0`; a read-modify-write would let two concurrent refinements share one credit and would roll back any password change made while the provider was working.
+- **AI credits (F-010):** `ai_credits_remaining` and `ai_credits_granted` both default to 5. Accounts created by an Admin or the seed script get them when the row is created; every account starts at 0 and Admins and Members are granted 5 when their email is verified, reserved atomically from the workspace's `ai_credits_granted_total` (ceiling 25); Viewers get none. `granted` is kept alongside `remaining` so the UI can render "3 of 5" without hardcoding the grant, and so changing the grant later does not rewrite what existing accounts received. A credit is spent with a single conditional `UPDATE ... WHERE ai_credits_remaining > 0`; a read-modify-write would let two concurrent refinements share one credit and would roll back any password change made while the provider was working.
 
 ### 3. `clients`
 
@@ -342,7 +343,7 @@ erDiagram
 | FR-004-01   | `epics` and `user_stories` with `acceptance_criteria`, `priority`, `status`, and `epic_id` FK support structured backlog views grouped by epic, priority, and status.                          |
 | FR-007-01   | `users` stores identity projection and `password_hash`; custom auth bounded context owns credential lifecycle. |
 | FR-009-01   | Password-reset flow managed by custom auth module per ADR-005; not stored in this schema.                     |
-| FR-010-01   | `users.ai_credits_remaining` and `users.ai_credits_granted` default to 5; a self-registered account is granted them when `email_verified_at` is set. |
+| FR-010-01   | Admins and Members are granted 5 credits when `email_verified_at` is set, reserved from `workspaces.ai_credits_granted_total` (ceiling 25). |
 | FR-010-02   | Conditional `UPDATE ... WHERE ai_credits_remaining > 0` spends exactly one credit, only after a successful refinement. |
 | FR-010-04   | `user_api_keys` with `UNIQUE (user_id, provider)` gives one replaceable key per provider per user.       |
 | FR-010-07   | `masked_key` is the only display form; no column or read path exposes plaintext.                        |
