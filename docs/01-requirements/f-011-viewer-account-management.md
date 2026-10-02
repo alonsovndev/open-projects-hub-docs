@@ -20,8 +20,9 @@
 EP4 (workspace tenancy) resolved **Q-001**: a "workspace" is the tenant boundary that owns
 clients and projects, created per sign-up. It also shipped a simpler interim mechanism for
 adding people to a workspace — `POST /users` (Admin only), which creates the account
-directly with a temporary password the Admin shares out-of-band, verified by the same
-email-confirmation code flow as self-registration (see F-008). This covers adding a
+directly, with no password from the Admin. The person gets an email with a verification
+code and a link (valid 24 hours); they set their own password while verifying their address
+(see F-008). This covers adding a
 **Viewer** or a **Member** to the whole workspace, but is **not** the invitation-token flow
 (FR-011-01–FR-011-10) or the **per-project** access grants (FR-011-04/05/12) described
 below — those remain unimplemented. A Viewer added this way currently sees every project in

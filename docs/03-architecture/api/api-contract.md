@@ -763,7 +763,7 @@ Status codes: `201`, `409` (email already registered to a verified account), `42
 ### 13) Auth — Email Verification
 
 - **Method/URL:** `POST /api/v1/auth/verify-email`
-- **Description:** Submit the 6-character code emailed at registration. The code uses `23456789ABCDEFGHJKLMNPQRSTUVWXYZ`, is case-insensitive, is stored only as a hash, and expires after 5 minutes. Success verifies the account and grants its free AI credits (F-010 FR-010-01).
+- **Description:** Submit the 6-character code emailed at registration. The code uses `23456789ABCDEFGHJKLMNPQRSTUVWXYZ`, is case-insensitive, is stored only as a hash, and expires after 5 minutes (24 hours for accounts an Admin adds). The email also links to the web verification page with the code pre-filled. Accounts an Admin adds send an optional `password` to choose their own. Success verifies the account and grants its free AI credits (F-010 FR-010-01).
 - **Errors:** one generic `400` "Invalid or expired verification code" covers a wrong, expired or superseded code, an unknown email, and an already-verified account. After 5 wrong attempts the code is locked (`429`) until a new one is requested.
 - **Resend:** `POST /api/v1/auth/resend-verification` with `{ "email" }`. It invalidates the previous code and emails a new one. It always returns `200` with a generic message (no email is sent for unknown or verified addresses). It returns `429` once 4 codes (the registration code plus 3 resends) have been issued within 15 minutes.
 - **Login before verification:** `POST /auth/login` returns `403` with `{ "detail": "Please verify your email before signing in.", "code": "EMAIL_NOT_VERIFIED" }`, only after the password has matched.
@@ -790,7 +790,7 @@ Status codes: `200`, `400`, `422`, `429`, `500`
 ### 14) Auth — Password Reset
 
 - **Forgot password:** `POST /api/v1/auth/forgot-password` — privacy-preserving response (always returns 200 even if email not found). Sends 6-digit reset code.
-- **Reset password:** `POST /api/v1/auth/reset-password` — submits reset code + new password. Code expires after 5 minutes, single-use.
+- **Reset password:** `POST /api/v1/auth/reset-password` — submits reset code + new password. Code expires after 30 minutes, single-use; the email links to the reset page with the code pre-filled.
 - **Resend code:** `POST /api/v1/auth/resend-reset-code` — max 3 per 15-minute window.
 
 Forgot password request schema:
