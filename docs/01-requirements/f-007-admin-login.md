@@ -42,7 +42,7 @@
   - F-009 (Reset Password) - handles password recovery flow
   - F-008 (Account Creation) - creates admin accounts that login authenticates
   - Identity service implementation (authentication provider/library selection)
-  - Role policy mapping for admin vs viewer access control
+  - Role policy mapping for admin vs member access control
 - **Risks**: 
   - Authentication errors can leak sensitive information; **mitigation**: generic auth failure messaging ("Invalid email or password") and centralized logging without exposing user enumeration
   - Account lockout can be abused for denial-of-service; **mitigation**: 15-minute lockout window is short enough to minimize disruption while preventing brute force attacks

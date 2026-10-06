@@ -1,5 +1,7 @@
 # Stories for Epic: Viewer Collaboration Lifecycle
 
+> **Superseded (2026-10-02).** The Viewer role, invitations, and per-project access grants described here were replaced by account-free Client Review through a project access code. See [ADR-020](../../docs/04-decisions/adr-020-client-review-by-access-code.md) and [F-011: Client Review Access](../../docs/01-requirements/f-011-client-review-access.md). The stories below are kept as history and are not planned.
+
 ## UI/UX Designer
 
 ### US-EP7-UX-001: Viewer Invitation Flow Design
@@ -9,7 +11,7 @@
 **Issue Type**: Story
 **Priority**: Must Have
 **Effort Estimate**: 3
-**Status**: TODO
+**Status**: SUPERSEDED
 **Fix Version**: MVP-1
 **Labels**: design, ux, collaboration, access-control
 **Requirements**: FR-011-01, FR-011-06, NFR-011-04
@@ -32,7 +34,7 @@
 
 **Dependencies**:
 
-- [Feature Requirements: F-011](../../docs/01-requirements/f-011-viewer-account-management.md).
+- [Feature Requirements: F-011](../../docs/01-requirements/f-011-client-review-access.md).
 - [Prototype Brief](../../docs/05-prototype/prototype-brief.md).
 
 **Success Metrics**:
@@ -199,7 +201,7 @@
 
 **Dependencies**:
 
-- [Feature Requirements](../../docs/01-requirements/f-011-viewer-account-management.md).
+- [Feature Requirements](../../docs/01-requirements/f-011-client-review-access.md).
 - [Viewer Invitation Service](./stories.md#us-ep7-be-001-viewer-invitation-service).
 - [ADR-005: Authentication](../../docs/04-decisions/adr-005-authentication.md).
 
@@ -241,7 +243,7 @@
 
 **Dependencies**:
 
-- [Feature Requirements](../../docs/01-requirements/f-011-viewer-account-management.md).
+- [Feature Requirements](../../docs/01-requirements/f-011-client-review-access.md).
 - [Viewer Project Access Control](./stories.md#us-ep7-be-002-viewer-project-access-control).
 - [Client and Project Archival and Deletion Guards](../EPIC-1-lifecycle-governance/stories.md#us-ep1-be-003-client-and-project-archival-and-deletion-guards).
 
@@ -328,7 +330,7 @@
 
 - [Viewer Registration and Invitation Acceptance](./stories.md#us-ep7-be-004-viewer-registration-and-invitation-acceptance).
 - [Design Direction](../../docs/05-prototype/design-direction.md).
-- [Feature Requirements](../../docs/01-requirements/f-011-viewer-account-management.md).
+- [Feature Requirements](../../docs/01-requirements/f-011-client-review-access.md).
 
 **Success Metrics**:
 
@@ -339,7 +341,7 @@
 
 ## Release
 
-### US-EP7-REL-001: Release F-011: Viewer Account Management
+### US-EP7-REL-001: Release F-011: Client Review Access
 
 **Story ID**: US-EP7-REL-001
 **Epic Link**: EPIC-7

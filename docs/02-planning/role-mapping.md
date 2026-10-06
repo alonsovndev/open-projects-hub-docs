@@ -13,7 +13,7 @@
 | ----------------- | -------------------------------------------------------------------------------------------------- |
 | Tech Lead         | Scope governance, requirement traceability, quality-gate ownership, cross-role alignment           |
 | Backend Engineer  | Domain and workflow constraints, data/access rule planning, export and auth flow feasibility       |
-| Frontend Engineer | Entry-flow behavior, requirements interaction planning, viewer/admin UX implementation feasibility |
+| Frontend Engineer | Entry-flow behavior, requirements interaction planning, client review and freelancer UX implementation feasibility |
 | UI/UX Designer    | Usability, information architecture, accessibility, onboarding and entry-flow clarity              |
 | Product Owner     | Requirements analysis, prioritization, phase scoping, stakeholder alignment, acceptance sign-off   |
 

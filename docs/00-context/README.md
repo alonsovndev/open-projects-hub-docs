@@ -15,7 +15,7 @@ This folder contains foundational project context documents that define the prob
 | Document                                 | Description                                                          |
 | ---------------------------------------- | -------------------------------------------------------------------- |
 | [overview.md](./overview.md)             | Project vision, problem statement, key features, and target audience |
-| [user-personas.md](./user-personas.md)   | Detailed persona profiles for Admin, Viewer, and Client stakeholders |
+| [user-personas.md](./user-personas.md)   | Detailed persona profiles for Admin, Client Stakeholder, and contributors |
 | [glossary.md](./glossary.md)             | Ubiquitous language and terminology reference                        |
 | [out-of-scope.md](./out-of-scope.md)     | Explicitly excluded features and future-phase items                  |
 

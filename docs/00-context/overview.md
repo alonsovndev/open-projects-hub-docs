@@ -33,7 +33,7 @@ The Open Projects Hub addresses these challenges by offering:
 
 - **AI-Assisted Requirements Refinement**: An integrated AI engine that detects ambiguities and automatically generates structured user stories from raw input.
 - **Centralized Management**: A single platform to manage clients and up to three concurrent projects (MVP constraint) efficiently.
-- **Role-Based Access Control**: Secure, structured access levels (Admin, Viewer) to ensure safe collaboration.
+- **Role-Based Access Control**: Secure, structured access levels (Admin, Member) for the freelancer's team, plus account-free, read-only client review through a project access code.
 
 ---
 
@@ -50,7 +50,7 @@ The Open Projects Hub addresses these challenges by offering:
   - Benefit from a real-world, modern tech stack (React, FastAPI, Clean Architecture) project that serves as an academic reference and allows for community contributions.
 - **Freelancer Operators**
   - Benefit from a tool that helps manage projects and clients more efficiently, with AI support to refine requirements and generate user stories.
-- **Clients of Freelancers (Viewers)**
+- **Clients of Freelancers (Stakeholders)**
   - Benefit from having a transparent, read-only view of their project's actionable tasks.
 
 ---

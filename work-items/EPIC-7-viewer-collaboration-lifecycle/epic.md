@@ -1,5 +1,7 @@
 # Epic: Viewer Collaboration Lifecycle
 
+> **Superseded (2026-10-02).** The Viewer role, invitations, and per-project access grants described here were replaced by account-free Client Review through a project access code. See [ADR-020](../../docs/04-decisions/adr-020-client-review-by-access-code.md) and [F-011: Client Review Access](../../docs/01-requirements/f-011-client-review-access.md). The stories below are kept as history and are not planned.
+
 **Epic Title**: Viewer Collaboration Lifecycle
 **Epic Key**: EPIC-7
 **Summary**: Implement the workflow for inviting, creating, and managing Viewer accounts.
@@ -7,7 +9,7 @@
 **Priority**: Must Have
 **Components**: Backend, Frontend
 **Fix Version**: MVP-1, Phase 1
-**Status**: TODO
+**Status**: SUPERSEDED
 
 ---
 
@@ -32,7 +34,7 @@ Related feature and requirement IDs: F-011; FR-011-01, FR-011-02, FR-011-03, FR-
 
 Dependencies:
 
-- [Feature Requirements](../../docs/01-requirements/f-011-viewer-account-management.md)
+- [Feature Requirements](../../docs/01-requirements/f-011-client-review-access.md)
 - [API Contract](../../docs/03-architecture/api/api-contract.md)
 
 Measurable success criteria:

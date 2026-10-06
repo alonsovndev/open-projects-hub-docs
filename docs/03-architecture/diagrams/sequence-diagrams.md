@@ -16,14 +16,14 @@ sidebar_position: 1
   - [Table of Contents](#table-of-contents)
   - [1) Authentication and Session Validation](#1-authentication-and-session-validation)
   - [2) AI-Assisted Requirements Refinement](#2-ai-assisted-requirements-refinement)
-  - [3) Explicit Approval and Viewer Visibility](#3-explicit-approval-and-viewer-visibility)
+  - [3) Explicit Approval and Client Review Visibility](#3-explicit-approval-and-client-review-visibility)
   - [4) Markdown Export Workflow](#4-markdown-export-workflow)
   - [5) Error Handling and Observability Path](#5-error-handling-and-observability-path)
   - [6) User Registration and Email Verification](#6-user-registration-and-email-verification)
   - [7) Password Reset](#7-password-reset)
   - [8) Login with Rate Limiting and Lockout](#8-login-with-rate-limiting-and-lockout)
   - [9) Authorization 3-Layer Defense](#9-authorization-3-layer-defense)
-  - [10) Viewer Invitation Lifecycle](#10-viewer-invitation-lifecycle)
+  - [10) Client Review by Access Code](#10-client-review-by-access-code)
   - [11) AI Credits Consumption and API Key Management](#11-ai-credits-consumption-and-api-key-management)
   - [12) AI Refinement 5-Stage Security Pipeline](#12-ai-refinement-5-stage-security-pipeline)
   - [13) CI/CD Pipeline](#13-cicd-pipeline)
@@ -38,7 +38,7 @@ This document captures key user and system interaction flows for the Open Projec
 
 ```mermaid
 sequenceDiagram
-    participant User as Admin/Viewer
+    participant User as Admin/Member
     participant FE as Frontend (S3 + CloudFront)
     participant BE as Backend (App Runner)
     participant DB as RDS PostgreSQL
@@ -77,7 +77,7 @@ sequenceDiagram
     FE-->>Admin: Display editable output held in the browser
 ```
 
-## 3) Explicit Approval and Viewer Visibility
+## 3) Explicit Approval and Client Review Visibility
 
 ```mermaid
 sequenceDiagram
@@ -85,18 +85,18 @@ sequenceDiagram
     participant FE as Frontend
     participant BE as Backend API
     participant DB as RDS PostgreSQL
-    participant Viewer
+    participant Stakeholder as Client Stakeholder
 
     Admin->>FE: Approve selected stories
     FE->>BE: POST /refinement/approve-stories {stories: [content]}
     BE->>DB: Validate project ownership/role + insert approved stories
     DB-->>BE: Stories persisted
     BE-->>FE: 200 {approvedCount, stories}
-    Viewer->>FE: Open project requirements page
-    FE->>BE: GET /projects/{id}/requirements
-    BE->>DB: Fetch approved stories only (RLS-enforced)
-    BE-->>FE: Read-only requirements payload (admin-only fields excluded)
-    FE-->>Viewer: Render approved backlog
+    Stakeholder->>FE: Open /viewer/{accessCode}
+    FE->>BE: GET /viewer/{accessCode} (no token)
+    BE->>DB: Resolve project by access code, fetch its approved stories only
+    BE-->>FE: Read-only payload (no workspace, client or user identifiers)
+    FE-->>Stakeholder: Render approved backlog
 ```
 
 ## 4) Markdown Export Workflow
@@ -291,7 +291,7 @@ sequenceDiagram
         Note over RBAC: Layer 2 — RBAC Permission Layer
         alt Route requires admin role
             RBAC->>RBAC: Check role = "admin"
-            opt Role is viewer
+            opt Role is member
                 RBAC-->>Client: 403 Forbidden
             end
         end
@@ -315,73 +315,52 @@ sequenceDiagram
     end
 ```
 
-> **Defense-in-depth**: Each layer acts as an independent gate. JWT validates identity, RBAC enforces role/ownership, and RLS provides data-level last-mile protection. Viewers never see admin-only fields or cross-project data.
+> **Defense-in-depth**: Each layer acts as an independent gate. JWT validates identity, RBAC enforces role/ownership, and RLS provides data-level last-mile protection. The public Client Review route sees one project's approved stories and nothing else.
 
 ---
 
-## 10) Viewer Invitation Lifecycle
+## 10) Client Review by Access Code
 
 ```mermaid
 sequenceDiagram
-    participant Admin
+    participant Freelancer as Admin / Member
     participant FE as Frontend
     participant BE as Backend API
     participant DB as RDS PostgreSQL
-    participant Email as Email Service
-    participant Viewer
+    participant Stakeholder as Client Stakeholder
 
-    Note over Admin,Email: ── Admin invites viewer ──
-    Admin->>FE: Project Settings → Viewers → "Invite Viewer"
-    FE->>FE: Enter email + select project(s)
-    FE->>BE: POST /api/v1/projects/{id}/viewers/invite
-    BE->>DB: Check for existing invitation
-    alt Duplicate pending invitation
-        BE-->>FE: 409 "Invitation already sent. Resend?"
-    else New invitation
-        BE->>BE: Generate cryptographically secure single-use token (32+ bytes)
-        BE->>DB: Store hashed token + expiry + project grants
-        BE->>Email: Send invitation email (within 30s)
-        BE-->>FE: 201 confirmation + pending viewer list
+    Note over Freelancer,DB: ── Freelancer shares a project ──
+    Freelancer->>FE: Open project → copy client link
+    FE->>BE: GET /projects/{id} (JWT)
+    BE-->>FE: Project incl. accessCode
+    Freelancer-->>Stakeholder: Send link or code (outside the product)
+
+    Note over Stakeholder,DB: ── Stakeholder reviews, no account ──
+    Stakeholder->>FE: Open /viewer/{accessCode} (or type the code)
+    FE->>BE: GET /viewer/{accessCode} (no token)
+    BE->>BE: Rate limit (30/min per IP), normalize and format-check the code
+    BE->>DB: Find project by access_code (unique instance-wide)
+    alt Unknown or malformed code
+        BE-->>FE: 404 "Project not found" (identical for both)
+        FE-->>Stakeholder: "We couldn't find a project with that access code."
+    else Valid code
+        BE->>DB: Approved stories of that project, in the project's own workspace
+        DB-->>BE: Stories
+        BE-->>FE: 200 {projectName, phase, total, stories} (no user, client or workspace ids)
+        FE-->>Stakeholder: Read-only approved stories
     end
 
-    Note over Viewer,BE: ── Viewer accepts invitation ──
-    Email-->>Viewer: "You've been invited to review [Project Name]"
-    Viewer->>FE: Click invitation link (/invite/accept?token=<token>)
-    FE->>BE: Validate invitation token
-    BE->>DB: Look up token (check expiry, single-use)
-    alt Token expired or invalid
-        BE-->>FE: 400 "Contact project admin for a new invitation"
-    else Token valid
-        BE-->>FE: 200 welcome + project list
-        FE-->>Viewer: Account setup page
-        Viewer->>FE: Enter name + password (per F-008 rules)
-        Viewer->>FE: Click "Complete Setup"
-        FE->>BE: POST /api/v1/auth/viewer-setup {token, name, password}
-        BE->>DB: Create Viewer account, invalidate token, grant project access
-        BE-->>FE: 201 "Account created! Please log in."
-        FE-->>Viewer: Redirect to login
-    end
-
-    Note over Viewer,BE: ── Viewer accesses granted projects ──
-    Viewer->>FE: Log in (via F-007 login flow)
-    FE->>BE: GET /api/v1/projects (authenticated request)
-    BE->>DB: Query projects via RLS (Viewer scope only)
-    DB-->>BE: Granted projects (read-only, admin-only fields excluded)
-    BE-->>FE: Viewer dashboard with project list
-    FE-->>Viewer: Read-only project views
-
-    Note over Admin,DB: ── Admin manages access ──
-    opt Grant additional projects
-        Admin->>BE: POST grant project access to Viewer
-        BE->>DB: Add project grant → takes effect on next Viewer request
-    end
-    opt Revoke access
-        Admin->>BE: POST revoke project access
-        BE->>DB: Remove grant → Viewer sees change on next page load
+    Note over Freelancer,DB: ── Freelancer revokes ──
+    opt Code shared too widely
+        Freelancer->>FE: "Generate new code" (confirm)
+        FE->>BE: POST /projects/{id}/access-code/regenerate (JWT)
+        BE->>DB: Replace access_code
+        BE-->>FE: Project with the new accessCode
+        Note over Stakeholder,BE: The old code and link now answer 404
     end
 ```
 
-> **Token security**: Single-use, 32+ bytes entropy, cryptographically random, stored hashed. Rate-limited to 3 resends per hour per invitation (FR-011-07). Project deletion cascades to revoke all Viewer grants (FR-011-12).
+> **Code security**: `PRJ-` plus 8 characters from a 32-symbol alphabet (about 10^12 values), cryptographically random, unique across workspaces, and independent of the freelancer-chosen project code. The route is read-only, rate limited, and answers every miss identically (FR-011-04, FR-011-07, NFR-011-01, NFR-011-02; ADR-020).
 
 ---
 
@@ -503,7 +482,7 @@ sequenceDiagram
     end
 ```
 
-> **Defense layers**: 5 independent stages — no single stage is responsible for all security. Unapproved content is never stored, so it cannot reach exports, viewer access, or downstream workflows until explicitly approved by a human Admin. Rate limiting and the 5-credit trial act as additional throttling against automated abuse.
+> **Defense layers**: 5 independent stages — no single stage is responsible for all security. Unapproved content is never stored, so it cannot reach exports, the Client Review Portal, or downstream workflows until explicitly approved by a human Admin. Rate limiting and the 5-credit trial act as additional throttling against automated abuse.
 
 ---
 
@@ -574,14 +553,14 @@ sequenceDiagram
 | -------------------------------------------- | ---------------------------------------------------- |
 | 1 — Authentication & Session Validation      | F-007 (login), security-architecture.md              |
 | 2 — AI-Assisted Requirements Refinement      | F-002 (AI refinement), F-004 (backlog)               |
-| 3 — Explicit Approval & Viewer Visibility    | F-002 (approval), F-003 (access control)             |
+| 3 — Explicit Approval & Client Review Visibility | F-002 (approval), F-003 (access control)             |
 | 4 — Markdown Export                          | F-004 (export)                                       |
 | 5 — Error Handling & Observability           | NFR-X01 through NFR-X06, monitoring-observability.md |
 | 6 — User Registration & Email Verification   | F-008 (account creation), F-005 (onboarding trigger) |
 | 7 — Password Reset                           | F-009 (password reset)                               |
 | 8 — Login with Rate Limiting & Lockout       | F-007 (admin login)                                  |
 | 9 — Authorization 3-Layer Defense            | F-003 (access control), security-architecture.md     |
-| 10 — Viewer Invitation Lifecycle             | F-011 (viewer account management)                    |
+| 10 — Client Review by Access Code            | F-011 (client review access)                         |
 | 11 — AI Credits & API Key Management         | F-010 (AI credits), ADR-012 (secrets management)     |
 | 12 — AI Refinement 5-Stage Security Pipeline | F-002 (AI refinement), security-architecture.md      |
 | 13 — CI/CD Pipeline                          | ci-cd-pipeline.md, deployment-architecture.md        |
@@ -597,7 +576,7 @@ sequenceDiagram
 - [F-008: Account Creation](../../01-requirements/f-008-create-account.md)
 - [F-009: Reset Password](../../01-requirements/f-009-reset-password.md)
 - [F-010: AI Credits and API Key Management](../../01-requirements/f-010-ai-credits-and-api-key-management.md)
-- [F-011: Viewer Account Management](../../01-requirements/f-011-viewer-account-management.md)
+- [F-011: Client Review Access](../../01-requirements/f-011-client-review-access.md)
 
 ---
 
