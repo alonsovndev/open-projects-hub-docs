@@ -1,34 +1,48 @@
+---
+sidebar_position: 2
+---
+
 # CI/CD Pipeline Architecture
 
-| Attribute        | Value                       |
-| ---------------- | --------------------------- |
-| **Project**      | Open Projects Hub |
-| **Version**      | 3.0                         |
-| **Status**       | Accepted                    |
+| Attribute   | Value             |
+| ----------- | ----------------- |
+| **Project** | Open Projects Hub |
+| **Version** | 3.0               |
+| **Status**  | Accepted          |
 
 ## Table of Contents
 
-- [Source References](#source-references)
-- [1. Branching Strategy](#1-branching-strategy)
-- [2. Fork Setup & Sync](#2-fork-setup--sync)
-- [3. Branch Naming Conventions](#3-branch-naming-conventions)
-- [4. PR Conventions](#4-pr-conventions)
-- [5. CI/CD Tool Selection](#5-cicd-tool-selection)
-- [6. Pipeline Stages](#6-pipeline-stages)
-- [7. Build and Verification Responsibilities](#7-build-and-verification-responsibilities)
-- [8. Hotfix Process](#8-hotfix-process)
-- [9. Deployment Environment Strategy](#9-deployment-environment-strategy)
-- [10. Database Migration Strategy](#10-database-migration-strategy)
-- [11. Rollback Strategy](#11-rollback-strategy)
-- [12. Environment Variables and Secrets Management](#12-environment-variables-and-secrets-management)
-- [13. Zero-Downtime Deployment Approach](#13-zero-downtime-deployment-approach)
-- [14. Deployment Impact Summary](#14-deployment-impact-summary)
+- CI/CD Pipeline Architecture
+  - [Table of Contents](#table-of-contents)
+  - [1. Branching Strategy](#1-branching-strategy)
+    - [Branch Protection Rules](#branch-protection-rules)
+  - [2. Fork Setup \& Sync](#2-fork-setup--sync)
+    - [One-time Fork Setup](#one-time-fork-setup)
+    - [Keeping Your Fork in Sync](#keeping-your-fork-in-sync)
+  - [3. Branch Naming Conventions](#3-branch-naming-conventions)
+  - [4. PR Conventions](#4-pr-conventions)
+    - [Feature PR Flow (target: `dev`)](#feature-pr-flow-target-dev)
+    - [Release PR Flow (dev → main)](#release-pr-flow-dev--main)
+    - [Releasing to Production](#releasing-to-production)
+    - [Release Versioning](#release-versioning)
+    - [Commit Conventions](#commit-conventions)
+  - [5. CI/CD Tool Selection](#5-cicd-tool-selection)
+  - [6. Pipeline Stages](#6-pipeline-stages)
+  - [7. Build and Verification Responsibilities](#7-build-and-verification-responsibilities)
+  - [8. Hotfix Process](#8-hotfix-process)
+  - [9. Deployment Environment Strategy](#9-deployment-environment-strategy)
+  - [10. Database Migration Strategy](#10-database-migration-strategy)
+  - [11. Rollback Strategy](#11-rollback-strategy)
+  - [12. Environment Variables and Secrets Management](#12-environment-variables-and-secrets-management)
+  - [13. Zero-Downtime Deployment Approach](#13-zero-downtime-deployment-approach)
+  - [14. Deployment Impact Summary](#14-deployment-impact-summary)
+  - [Source References](#source-references)
 
 ## 1. Branching Strategy
 
 The project uses a **two-branch model** (`dev` + `main`) with fork-based contributions. All contributors — core team and external — work from forks and submit pull requests to the upstream repository.
 
-```
+```text
 feature/<desc>  fix/<desc>  docs/<desc>    ← created from dev in your fork
          │
          ▼
@@ -46,6 +60,8 @@ feature/<desc>  fix/<desc>  docs/<desc>    ← created from dev in your fork
     Production ─────────────────────────── tag triggers deploy pipeline
 ```
 
+![Branching Strategy Diagram](./images/branching-strategy.png)
+
 **Permanent branches in the upstream org repo:** `dev`, `main`
 
 - **`dev`**: Integration branch. All feature, fix, docs, refactor, test, and chore PRs target `dev`. This is where changes converge and are tested together before promotion to production.
@@ -53,7 +69,7 @@ feature/<desc>  fix/<desc>  docs/<desc>    ← created from dev in your fork
 
 No direct commits to `dev` or `main`. All changes arrive via pull request from a contributor's fork.
 
-**Relationship to ADR-016:** The branching model, commit conventions, and merge strategy are defined in [ADR-016](../adrs/adr-016-git-workflow-strategy.md). This document defines the CI/CD pipeline that enforces these conventions.
+**Relationship to ADR-016:** The branching model, commit conventions, and merge strategy are defined in [ADR-016](../../04-decisions/adr-016-git-workflow-strategy.md). This document defines the CI/CD pipeline that enforces these conventions.
 
 ### Branch Protection Rules
 
@@ -105,29 +121,6 @@ git checkout feature/add-pipeline-audit
 git rebase upstream/dev
 git push origin feature/add-pipeline-audit --force-with-lease
 ```
-
-### Optional Git Aliases
-
-These user-level aliases simplify fork workflow. Add them to `~/.gitconfig`:
-
-```bash
-git config --global --edit
-```
-
-```ini
-[alias]
-   sync = !git fetch upstream && git merge upstream/$(git branch --show-current) && git push origin HEAD
-   resync = !git fetch upstream && git reset --hard upstream/$(git branch --show-current) && git push origin HEAD --force-with-lease
-   feat = "!f() { test -n \"$1\" || { echo \"usage: git feature <branch-name>\"; return 1; }; git checkout dev && git resync && git checkout -b \"$1\"; }; f"
-```
-
-| Alias             | What it does                                                                                                                                                                                                     |
-| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `git sync`        | Fetches `upstream`, merges `upstream/<current-branch>` into your current branch, then pushes the result to the same branch on your fork (`origin`). Use to bring a local branch up to date without rewriting it. |
-| `git resync`      | Fetches `upstream`, resets your current branch to exactly match `upstream/<current-branch>`, then force-pushes with `--force-with-lease`. Use to make your fork's `dev` or `main` match upstream exactly.        |
-| `git feat <name>` | Checks out `dev`, runs `git resync` so local and fork `dev` match `upstream/dev`, then creates the named feature branch from the refreshed `dev`. Example: `git feat feature/ai-refinement-ui`.                  |
-
-**Important:** Use `git resync` only on disposable local copies of shared branches (`dev` or `main`). Do not run it on a feature branch that contains unmerged work.
 
 ---
 
@@ -244,7 +237,7 @@ Examples:
 - `docs(adr): add code quality tooling strategy`
 - `refactor(api): extract validation logic to shared module`
 
-**Enforcement:** PR titles are validated via CI (GitHub Actions checks Conventional Commits format). No local commit hooks are enforced — this reduces developer friction during rapid iteration. CONTRIBUTING.md documents the format with examples for new contributors.
+**Enforcement:** PR titles are validated via CI (GitHub Actions checks Conventional Commits format). Commit *messages* are not validated by a local hook, so message format stays friction-free during rapid iteration. Local pre-commit hooks are still used for code quality — Ruff, ESLint, Prettier, mypy, and gitleaks secret detection per [ADR-015](../../04-decisions/adr-015-code-quality-tooling.md) — and CI re-runs those checks as the authoritative gate, so a bypassed hook cannot land non-conforming code. CONTRIBUTING.md documents the format with examples for new contributors.
 
 ---
 
@@ -382,11 +375,11 @@ There is no persistent `staging` or `dev` environment. The `dev` branch provides
 
 - [Deployment Architecture](./deployment-architecture.md)
 - [Requirements Home](../../01-requirements/README.md)
-- [ADR-006: Deployment Platform (AWS)](../adrs/adr-006-deployment-platform.md)
-- [ADR-011: Secrets Management Strategy](../adrs/adr-011-secrets-management.md)
-- [ADR-013: Infrastructure as Code Strategy](../adrs/adr-013-infrastructure-as-code.md)
-- [ADR-016: Git Workflow and Branch Strategy](../adrs/adr-016-git-workflow-strategy.md)
-- [ADR-017: Database Migration Strategy](../adrs/adr-017-database-migration-strategy.md)
+- [ADR-006: Deployment Platform (AWS)](../../04-decisions/adr-006-deployment-platform.md)
+- [ADR-011: Secrets Management Strategy](../../04-decisions/adr-011-secrets-management.md)
+- [ADR-013: Infrastructure as Code Strategy](../../04-decisions/adr-013-infrastructure-as-code.md)
+- [ADR-016: Git Workflow and Branch Strategy](../../04-decisions/adr-016-git-workflow-strategy.md)
+- [ADR-017: Database Migration Strategy](../../04-decisions/adr-017-database-migration-strategy.md)
 
 ---
 

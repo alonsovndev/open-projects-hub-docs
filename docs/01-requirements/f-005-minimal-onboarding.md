@@ -28,7 +28,7 @@
 | ID         | Requirement                                                     | Metric / Target                                                                                                        | Priority | Owner (DRI)   | Decision Traceability (Q-ID) | Status |
 | ---------- | --------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- | -------- | ------------- | ---------------------------- | ------ |
 | NFR-005-01 | Onboarding guidance meets baseline accessibility expectations.  | Requirements views and primary workflows meet WCAG 2.1 AA for contrast, keyboard navigation, and screen reader labels. | Should   | UI/UX Lead    | —                            | Clarified |
-| NFR-005-02 | Onboarding scope remains consistent with MVP delivery timeline. | MVP scope remains achievable within 1–1.5 month delivery window, assuming defined scope and constraints.               | Should   | Product Owner | —                            | Clarified |
+| NFR-005-02 | Onboarding scope remains consistent with MVP delivery timeline. | Onboarding scope stays within the Phase 1 allocation of the delivery window defined by NFR-X08.               | Should   | Product Owner | —                            | Clarified |
 
 ## Dependencies and Risks
 
@@ -38,8 +38,7 @@
 ## Traceability
 
 - **Related Open Questions**: Q-021
-- **Related User Stories**: [UI/UX Designer Stories](../06-user-stories/ui-ux-designer-stories.md)
-- **Related Architecture/ADR**: [Architecture Solution Design](../03-architecture/architecture-solution-design.md)
+- **Related Architecture/ADR**: [Architecture Solution Design](../03-architecture/core/architecture-solution-design.md)
 - **Related Prototype**: [Design Direction](../05-prototype/design-direction.md)
 
 ---

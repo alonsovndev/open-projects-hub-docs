@@ -1,3 +1,7 @@
+---
+sidebar_position: 2
+---
+
 # Threat Model
 
 | Attribute   | Value             |
@@ -8,7 +12,7 @@
 
 ## Table of Contents
 
-- [Threat Model](#threat-model)
+- Threat Model
   - [Table of Contents](#table-of-contents)
   - [Scope and Method](#scope-and-method)
   - [Assets to Protect](#assets-to-protect)
@@ -25,7 +29,7 @@
 
 ## Scope and Method
 
-- **Scope:** MVP workflows for Admin and Viewer roles across **AWS infrastructure** (S3, CloudFront, App Runner, RDS), custom JWT authentication, and CI/CD integrations.
+- **Scope:** MVP workflows for Admin and Member roles, plus the public Client Review route, across **AWS infrastructure** (S3, CloudFront, App Runner, RDS), custom JWT authentication, and CI/CD integrations.
 - **Method:** STRIDE-style threat enumeration focused on high-value assets and practical mitigations.
 
 ## Assets to Protect
@@ -44,7 +48,8 @@
 | Account takeover              | Credential stuffing, password reuse, JWT token theft                                                        | Unauthorized data access/modification                                                         | bcrypt password hashing, JWT short TTL (1h), rate limiting on login, future MFA                                                                                                                       |
 | JWT token compromise          | Token leaked in logs, XSS, insecure storage in browser                                                      | Session hijacking, unauthorized API access                                                    | Secure `HttpOnly` cookies for token storage, PII scrubbing in logs, short token expiration                                                                                                            |
 | Weak password hashing         | Rainbow table attacks if bcrypt misconfigured                                                               | Bulk credential compromise                                                                    | bcrypt cost factor 12, password policy enforcement (8+ chars, mixed case, digits)                                                                                                                     |
-| Broken authorization          | Missing role check, weak RLS policy, privilege escalation                                                   | Viewer access to admin-only data                                                              | Backend RBAC checks, deny-by-default RLS, authorization test coverage                                                                                                                                 |
+| Broken authorization          | Missing role check, weak RLS policy, privilege escalation                                                   | Member access to Admin-only controls                                                          | Backend RBAC checks, deny-by-default RLS, authorization test coverage                                                                                                                                 |
+| Access-code enumeration       | Guessing or brute-forcing project access codes against the public Client Review route                      | Disclosure of a project's approved stories to someone it was not shared with                  | ~10^12-value random codes, uniform 404 for unknown and malformed codes, 30 requests/minute per IP, regenerable codes (ADR-020); known gap: in-memory per-IP limiter not shared across workers                    |
 | Injection/XSS                 | Unsanitized input rendered or queried unsafely                                                              | Data leak, account/session compromise                                                         | Pydantic typed validation, SQLAlchemy ORM parameterization, output encoding, CSP headers                                                                                                              |
 | Secrets exposure              | Secrets in git commits, logs, CloudWatch, or Terraform state                                                | Full system compromise, database access                                                       | .gitignore enforcement, pre-commit hooks (gitleaks), Terraform state encryption (S3 backend)                                                                                                          |
 | RDS credential compromise     | Hardcoded credentials, exposed environment variables                                                        | Direct database access, data exfiltration                                                     | Secrets in App Runner env vars or AWS Secrets Manager, no plaintext credentials in source                                                                                                             |
@@ -183,10 +188,10 @@
 - [F-007: Admin Login](../../01-requirements/f-007-admin-login.md)
 - [F-008: Account Creation](../../01-requirements/f-008-create-account.md)
 - [F-009: Reset Password](../../01-requirements/f-009-reset-password.md)
-- [ADR-005: Authentication Strategy (Custom JWT Auth)](../adrs/adr-005-authentication.md)
-- [ADR-006: Deployment Platform (AWS)](../adrs/adr-006-deployment-platform.md)
-- [ADR-011: Secrets Management Strategy](../adrs/adr-011-secrets-management.md)
-- [ADR-013: Infrastructure as Code Strategy](../adrs/adr-013-infrastructure-as-code.md)
+- [ADR-005: Authentication Strategy (Custom JWT Auth)](../../04-decisions/adr-005-authentication.md)
+- [ADR-006: Deployment Platform (AWS)](../../04-decisions/adr-006-deployment-platform.md)
+- [ADR-011: Secrets Management Strategy](../../04-decisions/adr-011-secrets-management.md)
+- [ADR-013: Infrastructure as Code Strategy](../../04-decisions/adr-013-infrastructure-as-code.md)
 
 ---
 

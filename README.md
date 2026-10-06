@@ -14,7 +14,7 @@ Our vision is to create an accessible tool that empowers freelancers to deliver 
 
 - 🤖 **AI-Assisted Requirements Refinement**: An integrated AI engine that detects ambiguities and automatically generates structured user stories from raw input.
 - 🗂️ **Centralized Management**: A single platform to manage clients and projects efficiently.
-- 🔒 **Role-Based Access Control**: Secure, structured access levels (e.g., Admin, Viewer) to ensure safe collaboration.
+- 🔒 **Role-Based Access Control**: Secure, structured access levels (Admin, Member) plus account-free client review through a project access code.
 - 🎓 **Academically-Focused**: Built with modern best practices (Clean Architecture, DDD, TDD) to serve as a real-world reference project.
 - 📖 **Open Source**: A community-driven project open to contributions and learning.
 
@@ -42,7 +42,6 @@ This repository contains extensive documentation covering every aspect of the pr
 | [🏛️ Software Architecture](./docs/03-architecture/)   | High-level architecture, design patterns, and technology stack.     |
 | [📐 Decisions (ADRs)](./docs/04-decisions/)           | Key architectural decisions and their justifications.               |
 | [✨ Prototype & UX](./docs/05-prototype/)             | Mockups and prototypes exploring the user experience.               |
-| [📋 Work Items & Epics](./docs/06-work-items/)        | A breakdown of the development work into epics and user stories.    |
 
 ## How to Contribute
 

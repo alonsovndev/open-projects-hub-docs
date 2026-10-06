@@ -1,29 +1,40 @@
-# Open Projects Hub — Architecture Solution Design
+---
+sidebar_position: 1
+---
 
-| Attribute        | Value                       |
-| ---------------- | --------------------------- |
-| **Project**      | Open Projects Hub |
-| **Version**      | 1.0                         |
-| **Status**       | Accepted                    |
+# Architecture Solution Design
+
+| Attribute   | Value             |
+| ----------- | ----------------- |
+| **Project** | Open Projects Hub |
+| **Version** | 1.0               |
+| **Status**  | Accepted          |
 
 ## Table of Contents
 
-- [Source References](#source-references)
-- [System Context](#system-context)
-- [Architectural Approach](#architectural-approach)
-- [Component Design](#component-design)
-- [Data Flow](#data-flow)
-- [Integration Points](#integration-points)
-- [Observability (Hybrid: Sentry + CloudWatch)](#observability-hybrid-sentry--cloudwatch)
-- [Deployment Impact (GitHub Actions + AWS)](#deployment-impact-github-actions--aws)
-- [Security Considerations](#security-considerations)
-- [Scalability Considerations](#scalability-considerations)
-- [Trade-offs and Alternatives](#trade-offs-and-alternatives)
-- [ADR Reference](#adr-reference)
+- Architecture Solution Design
+  - [Table of Contents](#table-of-contents)
+  - [System Context](#system-context)
+  - [Architectural Approach](#architectural-approach)
+    - [Key Design Principles](#key-design-principles)
+  - [Component Design](#component-design)
+  - [Data Flow](#data-flow)
+  - [Integration Points](#integration-points)
+  - [Observability (Hybrid: Sentry + CloudWatch)](#observability-hybrid-sentry--cloudwatch)
+    - [Sentry (Free Developer Plan)](#sentry-free-developer-plan)
+    - [CloudWatch (Free Tier)](#cloudwatch-free-tier)
+    - [Key Signals to Monitor](#key-signals-to-monitor)
+    - [Alerting Configuration](#alerting-configuration)
+  - [Deployment Impact (GitHub Actions + AWS)](#deployment-impact-github-actions--aws)
+  - [Security Considerations](#security-considerations)
+  - [Scalability Considerations](#scalability-considerations)
+  - [Trade-offs and Alternatives](#trade-offs-and-alternatives)
+  - [ADR Reference](#adr-reference)
+  - [Source References](#source-references)
 
 ## System Context
 
-The Open Projects Hub must support AI-assisted requirement refinement, role-based collaboration (Admin/Viewer), and secure project management for freelancers within MVP limits. Based on functional and non-functional requirements, the architecture must prioritize:
+The Open Projects Hub must support AI-assisted requirement refinement, role-based collaboration (Admin/Member) with account-free client review, and secure project management for freelancers within MVP limits. Based on functional and non-functional requirements, the architecture must prioritize:
 
 - rapid MVP delivery for a small team,
 - strong maintainability through clear boundaries,
@@ -43,7 +54,7 @@ The architecture prioritizes:
 - **Clean Architecture principles** keeping domain/application layers framework-agnostic
 - **Evolutionary design** enabling future service extraction when scale demands it
 
-For detailed rationale and alternatives considered, see [ADR-001: High-Level Architecture Pattern](../adrs/adr-001-high-level-architecture.md).
+For detailed rationale and alternatives considered, see [ADR-001: High-Level Architecture Pattern](../../04-decisions/adr-001-high-level-architecture.md).
 
 ### Key Design Principles
 
@@ -57,7 +68,7 @@ For detailed rationale and alternatives considered, see [ADR-001: High-Level Arc
 
 ```mermaid
 flowchart LR
-    U[Admin / Viewer] --> FE[S3 + CloudFront<br/>Frontend Project]
+    U[Admin / Member / Client Stakeholder] --> FE[S3 + CloudFront<br/>Frontend Project]
     FE -->|JWT Bearer Token| BE[App Runner<br/>Backend Project<br/>includes Auth Module]
     BE --> DB[(RDS PostgreSQL)]
     FE --> SEN[Sentry Frontend<br/>Monitoring]
@@ -65,7 +76,7 @@ flowchart LR
     BE --> CW[CloudWatch<br/>Infrastructure Metrics]
 ```
 
-- **Frontend Project (S3 + CloudFront):** UI workflows for project management, AI refinement interaction, and read-only viewer access; global edge delivery via CDN.
+- **Frontend Project (S3 + CloudFront):** UI workflows for project management, AI refinement interaction, and read-only client review access; global edge delivery via CDN.
 - **Backend Project (App Runner):** modular monolith organized by bounded contexts (clients, projects, requirements, auth, access control, exports); containerized FastAPI application with integrated auth module.
 - **Data Layer (RDS PostgreSQL):** transactional persistence with policy-based protection via PostgreSQL RLS.
 
@@ -76,14 +87,15 @@ sequenceDiagram
     participant User as Admin
     participant FE as Frontend (S3+CloudFront)
     participant BE as Backend (App Runner)<br/>Auth Module
+    participant AI as AI Refinement Adapter
     participant DB as RDS PostgreSQL
 
     User->>FE: Submit requirements notes
     FE->>BE: Request with JWT token
     BE->>BE: Validate JWT & extract role
-    BE->>DB: Persist draft + audit metadata
-    DB-->>BE: Stored draft
-    BE-->>FE: Structured user stories (draft)
+    BE->>AI: Request refinement (raw notes, not persisted)
+    AI-->>BE: Structured user story + acceptance criteria
+    BE-->>FE: Structured user stories (unapproved, not stored)
     User->>FE: Approve stories
     FE->>BE: Approve request (JWT)
     BE->>BE: Validate auth + role check
@@ -156,7 +168,7 @@ sequenceDiagram
 
 ## Security Considerations
 
-- Enforce role-based authorization for Admin and Viewer capabilities.
+- Enforce role-based authorization for Admin and Member capabilities, and confine the public Client Review route to one project's approved stories.
 - Apply least-privilege access across frontend, backend, and database policies.
 - Use HTTPS-only communication across all service boundaries.
 - Protect sensitive data with managed encryption at rest and in transit.
@@ -181,11 +193,11 @@ sequenceDiagram
 
 ## ADR Reference
 
-- [ADR-001: High-Level Architecture](../adrs/adr-001-high-level-architecture.md)
-- [ADR-004: Database (Amazon RDS PostgreSQL)](../adrs/adr-004-database.md)
-- [ADR-005: Authentication (Custom FastAPI Auth + JWT)](../adrs/adr-005-authentication.md)
-- [ADR-006: Deployment Platform (AWS)](../adrs/adr-006-deployment-platform.md)
-- [ADR-009: Monitoring and Observability (Sentry + CloudWatch)](../adrs/adr-009-monitoring-observability.md)
+- [ADR-001: High-Level Architecture](../../04-decisions/adr-001-high-level-architecture.md)
+- [ADR-004: Database (Amazon RDS PostgreSQL)](../../04-decisions/adr-004-database.md)
+- [ADR-005: Authentication (Custom FastAPI Auth + JWT)](../../04-decisions/adr-005-authentication.md)
+- [ADR-006: Deployment Platform (AWS)](../../04-decisions/adr-006-deployment-platform.md)
+- [ADR-009: Monitoring and Observability (Sentry + CloudWatch)](../../04-decisions/adr-009-monitoring-observability.md)
 
 ## Source References
 
@@ -195,4 +207,4 @@ sequenceDiagram
 
 ---
 
-**Last Updated**: 2026-08-04
+**Last Updated**: 2026-09-08

@@ -44,3 +44,20 @@ This file contains repository-specific rules and preferences.
 ### Relationship to Implementation
 
 Requirements in this repository must be implementation-agnostic where possible, but may specify infrastructure choices that constrain implementation (e.g., Supabase for database, Render for hosting) when those decisions impact scope, timelines, or feature feasibility.
+
+## Docusaurus Site
+
+This repo is also the source for its own documentation *site* (Docusaurus, `docs/` as
+content root). This is distinct from the product CI/CD documented under
+`docs/03-architecture/ops/` — `.github/workflows/deploy.yml` builds and publishes this
+docs site itself, not the Open Projects Hub product.
+
+- Follow the existing numbered top-level structure (`00-context` … `05-prototype`) and
+  each folder's `_category_.json` / `README.md` conventions when adding new pages. Note:
+  `work-items/` lives at the repo root, outside `docs/` — it is not part of the published
+  site.
+- `npm run build` must pass with zero broken-link/anchor errors before considering a
+  docs change complete (`onBrokenLinks`/`onBrokenAnchors: "throw"` in
+  `docusaurus.config.ts`).
+- Use the `technical-writer`, `markdown-author`, and `mermaid-author` skills for
+  drafting/reviewing content — see also root `CLAUDE.md`.

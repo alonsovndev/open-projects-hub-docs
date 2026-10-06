@@ -19,7 +19,7 @@
 
 | ID        | Requirement                                                                                                            | Source               | Priority | Owner (DRI)   | Decision Traceability (Q-ID) | Acceptance Criteria                                                                                                                              | Status    |
 | --------- | ---------------------------------------------------------------------------------------------------------------------- | -------------------- | -------- | ------------- | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | --------- |
-| FR-010-01 | New Admin accounts receive 5 free AI refinement credits granted after email verification completion (F-008 FR-008-06). | MVP scope            | Must     | Product Owner | —                            | User sees credit balance (5/5) in UI header/navigation; credits persist across sessions; initialized automatically via post-verification hook from F-008; credit counter visible before first refinement attempt. | Clarified |
+| FR-010-01 | Admin and Member accounts receive 5 free AI refinement credits each, granted when their email is verified (F-008 FR-008-06). A workspace can grant at most 25 credits in its lifetime, so a Member verified after the ceiling is reached gets the remainder (possibly 0) and must add their own API key. | MVP scope            | Must     | Product Owner | —                            | User sees credit balance (5/5) in UI header/navigation; credits persist across sessions; initialized automatically via post-verification hook from F-008; credit counter visible before first refinement attempt. | Clarified |
 | FR-010-02 | Each successful AI refinement consumes 1 credit; failed refinements do not consume credits.                            | Fair usage policy    | Must     | Product Owner | —                            | Credit counter decrements by 1 only after successful AI response returned; counter visible before and after action with visual feedback (e.g., "4/5 remaining"); failed requests (timeout, error, cancellation) leave balance unchanged; counter updates immediately without page refresh. | Clarified |
 | FR-010-03 | When credits reach 0, AI refinement action is blocked with clear prompt to add API key.                                | Conversion flow      | Must     | Product Owner | —                            | Refinement button disabled when credits = 0 and no user API keys configured; modal or banner displays "No credits remaining. Add your own API key to continue unlimited refinements." with "Add API Key" CTA linking to settings page; user can dismiss prompt and navigate to settings manually. | Clarified |
 | FR-010-04 | Admin can add, update, and delete API key for each supported provider (Gemini, OpenAI, DeepSeek) via settings page.    | Provider flexibility | Must     | Product Owner | —                            | Settings page has dedicated "AI Providers" section with three provider forms (Gemini, OpenAI, DeepSeek); one active key per provider allowed; keys persist securely in database; users can replace existing key with new one (overwrite) or delete key entirely; delete action requires confirmation prompt. | Clarified |
@@ -39,7 +39,7 @@
 | NFR-010-01 | API keys are encrypted at rest using AES-256 or equivalent strong encryption.       | Keys stored encrypted in database using AES-256; decryption only at runtime per request; encryption secret managed in secure environment store (not in code or config files); encryption key rotation procedure documented.    | Must     | Tech Lead   | —                            | Clarified |
 | NFR-010-02 | API keys are never logged, exposed in error payloads, or returned in API responses. | Code review + automated checks enforce no plaintext key exposure; masked format (last 4 chars only) in all UI/API responses; audit logging redacts keys from all log entries; integration tests verify no key leakage in error responses. | Must     | Tech Lead   | —                            | Clarified |
 | NFR-010-03 | API key validation requests are rate-limited to prevent abuse.                      | Max 5 validation attempts per user per hour; lockout message shown after limit: "Validation limit reached. Try again in [time]."; rate limits logged for security monitoring; per-user tracking prevents enumeration attacks.            | Must     | Tech Lead   | —                            | Clarified |
-| NFR-010-04 | API key management satisfies OWASP secret handling best practices.                  | Aligns with ADR-012 Secrets Management; keys stored in dedicated table with row-level security; no keys in application logs or error traces; transmission over HTTPS only; secure deletion (not soft delete) when user removes key.        | Must     | Tech Lead   | —                            | Clarified |
+| NFR-010-04 | API key management satisfies OWASP secret handling best practices.                  | Aligns with ADR-011 Secrets Management; keys stored in dedicated table with row-level security; no keys in application logs or error traces; transmission over HTTPS only; secure deletion (not soft delete) when user removes key.        | Must     | Tech Lead   | —                            | Clarified |
 | NFR-010-05 | Credit balance and API key settings load within 500ms.                              | Credit counter and key status render without blocking main navigation; lazy-loaded if needed; satisfies NFR-X05 performance baseline; loading states shown for >200ms delays.                                        | Should   | Tech Lead   | —                            | Clarified |
 | NFR-010-06 | API key management UI meets WCAG 2.1 AA accessibility standards.                    | Form inputs, masked key display, validation feedback, error messages, and action buttons are keyboard-navigable; screen-reader compatible with proper ARIA labels; focus indicators visible; error messages announced to assistive tech.        | Should   | UI/UX Lead  | —                            | Clarified |
 
@@ -48,7 +48,7 @@
 - **Dependencies**:
   - **F-008 Account Creation** (integration point) - credit initialization triggered after email verification per F-008 FR-008-06
   - **F-002 AI Refinement workflow** (consumer) - F-002 calls credit consumption API and uses provider selection data; F-010 provides credit system contract
-  - Security Architecture and ADR-012 Secrets Management for encryption strategy
+  - Security Architecture and ADR-011 Secrets Management for encryption strategy
   - Email delivery service for account verification (prevents multi-account credit farming)
   - Provider SDK integration for Gemini, OpenAI, and DeepSeek APIs
   - Environment secret store for master encryption key and platform API keys
@@ -56,7 +56,7 @@
 - **Risks**:
   - **Master encryption key leaked**: All user API keys compromised; **mitigation**: secure secret management, access auditing, and key rotation runbook
   - **Provider API validation costs**: Validation requests consume platform quota; **mitigation**: rate limiting (5/hr per user) and minimal test requests
-  - **Credit fraud via multiple accounts**: Platform quota abuse; **mitigation**: email verification requirement, IP-based rate limiting, and usage monitoring
+  - **Credit fraud via multiple accounts**: Platform quota abuse; **mitigation**: email verification requirement, a 5-user cap per workspace, a 25-credit lifetime grant ceiling per workspace (removing and re-adding members does not mint more), IP-based rate limiting, and usage monitoring
   - **User API key becomes invalid after saving**: Refinements fail unexpectedly; **mitigation**: clear provider-specific error messages per FR-010-10/FR-010-11 and easy key replacement flow
   - **Encryption key rotation needed**: Potential downtime if not planned; **mitigation**: pre-launch re-encryption script, staging testing, and documented runbook
   - **Provider SDK version incompatibility**: Refinements fail after provider updates; **mitigation**: pinned SDK versions, provider changelog monitoring, and integration tests
@@ -64,10 +64,9 @@
 ## Traceability
 
 - **Related Open Questions**: Q-004, Q-005, Q-006, Q-007, Q-008 (AI refinement workflow context)
-- **Related User Stories**: [Backend Engineer Stories](../06-user-stories/backend-engineer-stories.md), [Frontend Engineer Stories](../06-user-stories/frontend-engineer-stories.md)
-- **Related Architecture/ADR**: [Security Architecture](../03-architecture/security/security-architecture.md), [ADR-012: Secrets Management Strategy](../04-decisions/adr-012-secrets-management.md)
+- **Related Architecture/ADR**: [Security Architecture](../03-architecture/security/security-architecture.md), [ADR-011: Secrets Management Strategy](../04-decisions/adr-011-secrets-management.md), [ADR-018: User API Key Encryption at Rest](../04-decisions/adr-018-user-api-key-encryption.md)
 - **Related Features**: [F-002: AI Refinement and Approval Workflow](./f-002-ai-refinement-and-approval-workflow.md), [F-008: Account Creation](./f-008-create-account.md)
-- **Related Prototype**: [Stitch Prompt](../05-prototype/stitch-prompt.md)
+- **Related Prototype**: [Stitch Prompt](../05-prototype/README.md)
 
 ---
 

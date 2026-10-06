@@ -1,3 +1,7 @@
+---
+sidebar_position: 2
+---
+
 # API Contract
 
 | Attribute        | Value                       |
@@ -22,63 +26,65 @@
 - **Base URL:** `/api/v1`
 - **Format:** `application/json; charset=utf-8`
 - **Authentication:** `Authorization: Bearer <jwt>` on protected endpoints (custom FastAPI JWT auth — see ADR-005).
-- **Token expiry:** access tokens expire after 1 hour (configurable via `JWT_EXPIRE_MINUTES`). Refresh tokens deferred to Phase 2.
+- **Token expiry:** access tokens expire after 15 minutes (configurable via `JWT_EXPIRE_MINUTES`). Refresh tokens are single-use with rotation; sessions slide 24h (standard) or 7d (remember-me) from the last refresh — see ADR-005.
 - **Field naming:** `camelCase`
 - **Datetime format:** ISO 8601 UTC (`YYYY-MM-DDTHH:MM:SSZ`)
+- **Workspaces:** every account belongs to one workspace (the tenant boundary owning clients and projects). Self sign-up creates a new workspace and its Admin; the Admin adds teammates to it. Clients have no account (see "Client Review" below).
 - **Roles:**
-  - `Admin`: full CRUD
-  - `Viewer`: read-only project/requirements visibility
+  - `Admin`: full CRUD, plus adding members to the workspace
+  - `Member`: full CRUD on clients, projects, stories and refinement; no team management
+  - `Public` (no token): the Client Review route only. A client stakeholder holds a project access code and can read that one project's approved stories; see ADR-020.
 
 ## Endpoint Catalog
 
 | Domain       | Method | Endpoint                                                        | Purpose                                      | Roles            |
 | ------------ | ------ | --------------------------------------------------------------- | -------------------------------------------- | ---------------- |
-| Auth         | POST   | `/auth/register`                                                | Register new admin account                   | Public           |
-| Auth         | POST   | `/auth/login`                                                   | Login, return JWT access token               | Public           |
-| Auth         | POST   | `/auth/logout`                                                  | Logout (client discards token)               | Admin, Viewer    |
+| Auth         | POST   | `/auth/register`                                                | Self sign-up: creates a new workspace + Admin | Public           |
+| Auth         | POST   | `/auth/login`                                                   | Login, return JWT access + refresh tokens    | Public           |
+| Auth         | POST   | `/auth/refresh`                                                 | Rotate a refresh token for a new token pair  | Public           |
+| Auth         | POST   | `/auth/logout`                                                  | Revoke the session's refresh token server-side | Admin, Member  |
 | Auth         | POST   | `/auth/verify-email`                                            | Submit email verification code               | Public           |
 | Auth         | POST   | `/auth/resend-verification`                                     | Resend verification code                     | Public           |
 | Auth         | POST   | `/auth/forgot-password`                                         | Request password reset code                  | Public           |
 | Auth         | POST   | `/auth/reset-password`                                          | Submit reset code + new password             | Public           |
 | Auth         | POST   | `/auth/resend-reset-code`                                       | Resend password reset code                   | Public           |
-| User         | GET    | `/user/profile`                                                 | Get current user profile                     | Admin, Viewer    |
-| User         | PUT    | `/user/profile`                                                 | Update profile (display name, preferences)   | Admin, Viewer    |
-| Credits      | GET    | `/user/credits`                                                 | Get AI credit balance                        | Admin            |
-| API Keys     | GET    | `/user/api-keys`                                                | List configured AI provider keys (masked)    | Admin            |
-| API Keys     | POST   | `/user/api-keys`                                                | Add or replace API key for a provider        | Admin            |
-| API Keys     | DELETE | `/user/api-keys/{provider}`                                     | Delete API key for a provider                | Admin            |
-| API Keys     | POST   | `/user/api-keys/{provider}/validate`                            | Validate an API key against provider         | Admin            |
+| User         | GET    | `/users/me/profile`                                             | Get current user profile                     | Admin, Member    |
+| User         | PATCH  | `/users/me/profile`                                             | Update profile (display name, preferences)   | Admin, Member    |
+| Team         | POST   | `/users`                                                        | Add a member to the workspace                | Admin            |
+| Team         | GET    | `/users`                                                        | List the workspace's users                   | Admin, Member    |
+| Team         | GET    | `/users/{userId}`                                               | Get a user of the workspace                  | Admin, Member |
+| Credits      | GET    | `/users/me/credits`                                             | Get AI credit balance                        | Admin, Member    |
+| API Keys     | GET    | `/users/me/api-keys`                                            | List configured AI provider keys (masked)    | Admin            |
+| API Keys     | POST   | `/users/me/api-keys`                                            | Add or replace API key for a provider        | Admin            |
+| API Keys     | DELETE | `/users/me/api-keys/{provider}`                                 | Delete API key for a provider                | Admin            |
+| API Keys     | POST   | `/users/me/api-keys/{provider}/validate`                        | Validate an API key against provider         | Admin            |
 | Clients      | GET    | `/clients`                                                      | List clients                                 | Admin            |
 | Clients      | POST   | `/clients`                                                      | Create client                                | Admin            |
 | Clients      | GET    | `/clients/{clientId}`                                           | Get client details                           | Admin            |
-| Clients      | PUT    | `/clients/{clientId}`                                           | Update client                                | Admin            |
+| Clients      | PATCH  | `/clients/{clientId}`                                           | Update client                                | Admin            |
 | Clients      | DELETE | `/clients/{clientId}`                                           | Archive client (soft-delete)                 | Admin            |
-| Projects     | GET    | `/projects`                                                     | List projects (with search/filter params)    | Admin, Viewer    |
+| Projects     | GET    | `/projects`                                                     | List projects (with search/filter params)    | Admin, Member    |
 | Projects     | POST   | `/projects`                                                     | Create project (max 3 active)                | Admin            |
-| Projects     | GET    | `/projects/{projectId}`                                         | Get project details                          | Admin, Viewer    |
-| Projects     | PUT    | `/projects/{projectId}`                                         | Update project metadata (incl. reactivate)   | Admin            |
+| Projects     | GET    | `/projects/{projectId}`                                         | Get project details                          | Admin, Member    |
+| Projects     | PATCH  | `/projects/{projectId}`                                         | Update project metadata (incl. reactivate)   | Admin            |
 | Projects     | DELETE | `/projects/{projectId}`                                         | Archive project                              | Admin            |
 | Refinement   | GET    | `/projects/{projectId}/refinement-sessions`                     | List refinement sessions                     | Admin            |
 | Refinement   | POST   | `/projects/{projectId}/refinement-sessions`                     | Create draft from raw notes (AI refinement)  | Admin            |
+| Refinement   | POST   | `/refinement/generate-stories`                                  | Generate refined stories from raw notes; not stored (as implemented) | Admin |
+| Refinement   | POST   | `/refinement/approve-story`                                     | Approve one refined story; saved to backlog (as implemented) | Admin |
+| Refinement   | POST   | `/refinement/approve-stories`                                   | Approve several refined stories; saved to backlog (as implemented) | Admin |
 | Refinement   | GET    | `/projects/{projectId}/refinement-sessions/{sessionId}`         | Get session details + draft stories          | Admin            |
 | Refinement   | PUT    | `/projects/{projectId}/refinement-sessions/{sessionId}`         | Update draft and ambiguities                 | Admin            |
 | Refinement   | DELETE | `/projects/{projectId}/refinement-sessions/{sessionId}`         | Delete draft session                         | Admin            |
 | Refinement   | POST   | `/projects/{projectId}/refinement-sessions/{sessionId}/approve` | Approve draft as official requirements       | Admin            |
-| Requirements | GET    | `/projects/{projectId}/requirements`                            | List approved requirements                   | Admin, Viewer    |
+| Requirements | GET    | `/projects/{projectId}/requirements`                            | List approved requirements                   | Admin, Member    |
 | Requirements | PUT    | `/projects/{projectId}/requirements/{requirementId}`            | Edit requirement                             | Admin            |
 | Requirements | DELETE | `/projects/{projectId}/requirements/{requirementId}`            | Archive requirement                          | Admin            |
-| Requirements | PUT    | `/projects/{projectId}/requirements/reorder`                    | Reorder requirements (bulk sort-order)       | Admin            |
+| Requirements | PATCH  | `/projects/{projectId}/requirements/reorder`                    | Reorder requirements (bulk sort-order)       | Admin            |
 | Exports      | POST   | `/projects/{projectId}/exports/markdown`                        | Generate markdown export                     | Admin            |
 | Exports      | GET    | `/projects/{projectId}/exports/{exportId}`                      | Retrieve export metadata/download URL        | Admin            |
-| Viewers      | GET    | `/viewers`                                                      | List all viewers with access                 | Admin            |
-| Viewers      | POST   | `/viewers/invitations`                                          | Send viewer invitation                       | Admin            |
-| Viewers      | GET    | `/viewers/invitations/{token}`                                  | Validate invitation token                    | Public           |
-| Viewers      | POST   | `/viewers/invitations/{token}/accept`                           | Accept invitation + set password            | Public           |
-| Viewers      | POST   | `/viewers/invitations/{invitationId}/resend`                    | Resend invitation                            | Admin            |
-| Viewers      | DELETE | `/viewers/invitations/{invitationId}`                           | Revoke invitation                            | Admin            |
-| Viewers      | POST   | `/viewers/{viewerId}/projects`                                  | Grant project access to viewer               | Admin            |
-| Viewers      | DELETE | `/viewers/{viewerId}/projects/{projectId}`                      | Revoke project access from viewer            | Admin            |
-| Viewers      | PUT    | `/viewers/me/password`                                          | Viewer changes own password                  | Viewer           |
+| Projects     | POST   | `/projects/{projectId}/access-code/regenerate`                  | Replace the project's client access code     | Admin, Member    |
+| Client Review | GET   | `/viewer/{accessCode}`                                          | Approved stories of one project, by access code | Public        |
 
 ## Shared JSON Schemas
 
@@ -164,11 +170,12 @@ Example:
 | `204` | No Content            | Successful archive/delete           |
 | `400` | Bad Request           | Invalid payload/query               |
 | `401` | Unauthorized          | Missing/invalid JWT                 |
+| `402` | Payment Required      | AI credits exhausted (platform provider) |
 | `403` | Forbidden             | Role not allowed                    |
 | `404` | Not Found             | Missing resource                    |
 | `409` | Conflict              | Project state/rule conflict         |
 | `422` | Unprocessable Entity  | Validation/domain rule issue        |
-| `429` | Too Many Requests     | Rate limit exceeded                 |
+| `429` | Too Many Requests     | Rate limit exceeded (including the public Client Review route) |
 | `500` | Internal Server Error | Unhandled server failure            |
 
 ## Detailed Endpoint Contracts
@@ -188,8 +195,7 @@ Request schema:
     "clientId": { "type": "string", "format": "uuid" },
     "name": { "type": "string", "minLength": 1, "maxLength": 120 },
     "description": { "type": "string", "maxLength": 5000 },
-    "phase": { "type": "string", "enum": ["discovery", "planning"] },
-
+    "phase": { "type": "string", "enum": ["discovery", "planning"] }
   }
 }
 ```
@@ -201,8 +207,7 @@ Request example:
   "clientId": "11111111-1111-1111-1111-111111111111",
   "name": "Freelancer Portal MVP",
   "description": "Discovery and planning for marketplace workflow",
-  "phase": "discovery",
-
+  "phase": "discovery"
 }
 ```
 
@@ -294,6 +299,20 @@ Status codes: `200`, `400`, `401`, `403`, `500`
 
 - **Method/URL:** `POST /api/v1/projects/{projectId}/refinement-sessions`
 - **Description:** Accepts raw notes/bullets and returns structured draft plus ambiguity highlights. Consumes 1 AI credit if using platform credits (not user-provided API key).
+
+> **As implemented (EPIC-3 / EPIC-6).** The shipped endpoint is
+> `POST /api/v1/refinement/generate-stories`, which takes `projectId` in the body rather
+> than the path and returns the refined stories directly without storing them; the session
+> resource below has not been built and is superseded by ADR-019 (refined stories are held
+> client-side and saved only on approval via `POST /refinement/approve-story[ies]`). EPIC-6 extends the shipped endpoint rather than migrating it, since moving
+> the path is out of F-010's scope and would break the existing frontend. The shipped
+> request adds an optional `provider` (`platform` | `gemini` | `openai` | `deepseek`,
+> defaulting to `platform`), and the response adds `provider` plus `creditsRemaining` —
+> `null` when a user's own key served the run and no platform credit was spent
+> (FR-010-08). Credit exhaustion returns `402` with code `INSUFFICIENT_CREDITS`; a
+> provider refusing the user's key returns `422` with code `API_KEY_INVALID` and a
+> `promptsKeyUpdate` flag distinguishing a key the user must replace (FR-010-11) from a
+> spent quota or an outage, which replacing would not fix.
 
 Request schema:
 
@@ -389,12 +408,14 @@ Success response example:
 }
 ```
 
-Status codes: `201`, `400`, `401`, `403`, `404`, `422`, `500`
+Status codes: `201`, `400`, `401`, `402`, `403`, `404`, `422`, `500`
 
 ### 4) Approve Refinement Session
 
 - **Method/URL:** `POST /api/v1/projects/{projectId}/refinement-sessions/{sessionId}/approve`
 - **Description:** Converts draft stories into official requirements.
+
+> **Superseded (ADR-019).** Not built. The shipped approval is `POST /api/v1/refinement/approve-story` (one) and `POST /api/v1/refinement/approve-stories` (several); the request carries the story content (`projectId`, `title`, `description`, `acceptanceCriteria`) because refined stories are not stored before approval.
 
 Request schema:
 
@@ -426,7 +447,7 @@ Status codes: `200`, `400`, `401`, `403`, `404`, `409`, `500`
 ### 5) List Requirements (Paginated)
 
 - **Method/URL:** `GET /api/v1/projects/{projectId}/requirements?page=1&pageSize=20`
-- **Description:** Returns approved requirement backlog for Admin/Viewer.
+- **Description:** Returns approved requirement backlog for Admin/Member.
 
 Response example (`200`):
 
@@ -473,8 +494,7 @@ Request schema:
       "type": "array",
       "minItems": 1,
       "items": { "type": "string", "minLength": 1, "maxLength": 500 }
-    },
-
+    }
   }
 }
 ```
@@ -557,7 +577,7 @@ Status codes: `204`, `400`, `401`, `403`, `404`, `409`, `500`
 
 ### 9) Update Project
 
-- **Method/URL:** `PUT /api/v1/projects/{projectId}`
+- **Method/URL:** `PATCH /api/v1/projects/{projectId}`
 - **Description:** Update project metadata, including status change (reactivate archived → active). 409 if reactivating would exceed 3-active limit.
 
 Request schema:
@@ -569,8 +589,7 @@ Request schema:
     "name": { "type": "string", "minLength": 1, "maxLength": 120 },
     "description": { "type": "string", "maxLength": 5000 },
     "phase": { "type": "string", "enum": ["discovery", "planning"] },
-    "status": { "type": "string", "enum": ["active", "archived"] },
-
+    "status": { "type": "string", "enum": ["active", "archived"] }
   }
 }
 ```
@@ -595,7 +614,7 @@ Status codes: `200`, `400`, `401`, `403`, `404`, `409`, `422`, `500`
 
 ### 10) Update Client
 
-- **Method/URL:** `PUT /api/v1/clients/{clientId}`
+- **Method/URL:** `PATCH /api/v1/clients/{clientId}`
 - **Description:** Update client metadata.
 
 Request schema:
@@ -628,7 +647,9 @@ Status codes: `200`, `400`, `401`, `403`, `404`, `500`
 ### 11) Auth — Login
 
 - **Method/URL:** `POST /api/v1/auth/login`
-- **Description:** Authenticate with email and password. Returns JWT access token. Account locked after 5 failed attempts in 15 minutes.
+- **Description:** Authenticate with email and password. Returns a JWT access token plus a
+  refresh token. `rememberMe` selects a 24h (default) or 7d sliding session — see ADR-005.
+  Account locked after 5 failed attempts in 15 minutes.
 
 Request schema:
 
@@ -659,7 +680,8 @@ Success response example (`200`):
 ```json
 {
   "accessToken": "eyJhbGciOiJIUzI1NiIs...",
-  "expiresIn": 3600,
+  "refreshToken": "eyJhbGciOiJIUzI1NiIs...",
+  "sessionExpiresAt": "2026-09-20T02:00:00Z",
   "user": {
     "id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
     "email": "admin@example.com",
@@ -671,65 +693,21 @@ Success response example (`200`):
 
 Status codes: `200`, `400`, `401`, `422`, `429`, `500`
 
-### 12) Auth — Register
+### 11a) Auth — Refresh
 
-- **Method/URL:** `POST /api/v1/auth/register`
-- **Description:** Register new admin account. Triggers email verification code. Accounts created as Admin role.
-
-Request schema:
-
-```json
-{
-  "type": "object",
-  "required": ["email", "password"],
-  "properties": {
-    "email": { "type": "string", "format": "email" },
-    "password": {
-      "type": "string",
-      "minLength": 8,
-      "pattern": "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$"
-    }
-  }
-}
-```
-
-Request example:
-
-```json
-{
-  "email": "admin@example.com",
-  "password": "SecureP4ssword"
-}
-```
-
-Success response example (`201`):
-
-```json
-{
-  "id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
-  "email": "admin@example.com",
-  "role": "admin",
-  "emailVerified": false
-}
-```
-
-Status codes: `201`, `400`, `409`, `422`, `429`, `500`
-
-### 13) Auth — Email Verification
-
-- **Method/URL:** `POST /api/v1/auth/verify-email`
-- **Description:** Submit 6-digit verification code sent to email. Account cannot login until verified. Code expires after 5 minutes.
-- **Resend:** `POST /api/v1/auth/resend-verification` — resends code (max 3 per 15-minute window).
+- **Method/URL:** `POST /api/v1/auth/refresh`
+- **Description:** Exchanges a refresh token for a new access/refresh pair (single-use rotation —
+  the presented refresh token is rejected on any subsequent use). Carries the original session's
+  `rememberMe` duration forward, sliding the session window from "now" per ADR-005.
 
 Request schema:
 
 ```json
 {
   "type": "object",
-  "required": ["email", "code"],
+  "required": ["refreshToken"],
   "properties": {
-    "email": { "type": "string", "format": "email" },
-    "code": { "type": "string", "minLength": 6, "maxLength": 6 }
+    "refreshToken": { "type": "string" }
   }
 }
 ```
@@ -738,17 +716,74 @@ Success response example (`200`):
 
 ```json
 {
+  "accessToken": "eyJhbGciOiJIUzI1NiIs...",
+  "refreshToken": "eyJhbGciOiJIUzI1NiIs...",
+  "sessionExpiresAt": "2026-09-20T02:00:00Z"
+}
+```
+
+Status codes: `200`, `401`, `429`, `500`
+
+### 12) Auth — Register
+
+- **Method/URL:** `POST /api/v1/auth/register`
+- **Description:** Open self sign-up. Each registration creates a new **workspace** (the tenant boundary that owns clients and projects) and makes the account its **Admin**; a `role` field in the body is rejected with `422`. The account is created **unverified** with no AI credits and is emailed a verification code. No tokens are returned: the account signs in only after verifying its email. An optional `workspaceName` (max 100 chars) names the workspace; it defaults to `"{displayName}'s workspace"`. Registering with an email that only has an **unverified** account (an abandoned sign-up, or someone added to a workspace who never confirmed) replaces that pending account rather than returning `409` — an unverified account never proved it owns the address. Teammates (`member`) are added to a workspace by its Admin via `POST /users`. Clients have no account.
+
+Request example:
+
+```json
+{
+  "displayName": "Jane Doe",
   "email": "admin@example.com",
+  "password": "SecureP4ssword",
+  "workspaceName": "Jane's Studio"
+}
+```
+
+Success response example (`201`):
+
+```json
+{
+  "email": "ad***@example.com",
+  "verificationRequired": true,
+  "nextStep": "verify-email",
+  "codeExpiresAt": "2026-09-28T20:35:00+00:00"
+}
+```
+
+Status codes: `201`, `409` (email already registered to a verified account), `422`, `429`, `500`
+
+### 13) Auth — Email Verification
+
+- **Method/URL:** `POST /api/v1/auth/verify-email`
+- **Description:** Submit the 6-character code emailed at registration. The code uses `23456789ABCDEFGHJKLMNPQRSTUVWXYZ`, is case-insensitive, is stored only as a hash, and expires after 5 minutes (24 hours for accounts an Admin adds). The email also links to the web verification page with the code pre-filled. Accounts an Admin adds send an optional `password` to choose their own. Success verifies the account and grants its free AI credits (F-010 FR-010-01).
+- **Errors:** one generic `400` "Invalid or expired verification code" covers a wrong, expired or superseded code, an unknown email, and an already-verified account. After 5 wrong attempts the code is locked (`429`) until a new one is requested.
+- **Resend:** `POST /api/v1/auth/resend-verification` with `{ "email" }`. It invalidates the previous code and emails a new one. It always returns `200` with a generic message (no email is sent for unknown or verified addresses). It returns `429` once 4 codes (the registration code plus 3 resends) have been issued within 15 minutes.
+- **Login before verification:** `POST /auth/login` returns `403` with `{ "detail": "Please verify your email before signing in.", "code": "EMAIL_NOT_VERIFIED" }`, only after the password has matched.
+
+Request example:
+
+```json
+{
+  "email": "admin@example.com",
+  "code": "ABC234"
+}
+```
+
+Success response example (`200`):
+
+```json
+{
   "verified": true
 }
 ```
 
-Status codes: `200`, `400`, `404`, `410`, `422`, `429`, `500`
+Status codes: `200`, `400`, `422`, `429`, `500`
 
 ### 14) Auth — Password Reset
 
 - **Forgot password:** `POST /api/v1/auth/forgot-password` — privacy-preserving response (always returns 200 even if email not found). Sends 6-digit reset code.
-- **Reset password:** `POST /api/v1/auth/reset-password` — submits reset code + new password. Code expires after 5 minutes, single-use.
+- **Reset password:** `POST /api/v1/auth/reset-password` — submits reset code + new password. Code expires after 30 minutes, single-use; the email links to the reset page with the code pre-filled.
 - **Resend code:** `POST /api/v1/auth/resend-reset-code` — max 3 per 15-minute window.
 
 Forgot password request schema:
@@ -783,7 +818,7 @@ Reset password request schema:
     "newPassword": {
       "type": "string",
       "minLength": 8,
-      "pattern": "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$"
+      "pattern": "^(?=.*[A-Za-z])(?=.*\\d).{8,}$"
     }
   }
 }
@@ -803,15 +838,71 @@ Status codes (reset): `200`, `400`, `404`, `410`, `422`, `429`, `500`
 ### 15) Auth — Logout
 
 - **Method/URL:** `POST /api/v1/auth/logout`
-- **Description:** Client discards the JWT token. Stateless — no server-side session invalidation.
+- **Description:** Requires a valid access token (`Authorization: Bearer`). Revokes the session's
+  refresh token server-side so it cannot be replayed to mint further access tokens; idempotent for
+  an already-expired/invalid refresh token. The access token itself remains valid until its own
+  short natural expiry, per the token-lifecycle mitigation in the Security Architecture doc.
 
-Success response: `204 No Content`
+Request schema:
 
-Status codes: `204`, `401`, `500`
+```json
+{
+  "type": "object",
+  "required": ["refreshToken"],
+  "properties": {
+    "refreshToken": { "type": "string" }
+  }
+}
+```
 
-### 16) User Profile
+Success response example (`200`):
 
-- **Method/URL:** `GET /api/v1/user/profile`, `PUT /api/v1/user/profile`
+```json
+{
+  "message": "Logged out successfully."
+}
+```
+
+Status codes: `200`, `401`, `403`, `500`
+
+### 16) Team Management (Workspace Users)
+
+- **Method/URL:** `POST /api/v1/users`
+- **Description:** Adds a **member** to the caller's workspace. Requires the **Admin** role. `role` accepts only `member` (the default); `admin` and any other value are rejected with `422` — there is no way yet to demote or remove a second Admin, so a workspace cannot end up with one it did not choose. The account is created **unverified** and is emailed a verification code, exactly like self-registration: an Admin's word does not prove the address belongs to that person. AI credits are granted on verification (subject to the workspace's 25-credit lifetime ceiling). A workspace holds at most **5 users** (including inactive and unverified); adding a sixth answers `409`.
+
+Request example:
+
+```json
+{
+  "displayName": "Alex Doe",
+  "email": "alex@example.com",
+  "password": "TempP4ssword",
+  "role": "member"
+}
+```
+
+Success response example (`201`):
+
+```json
+{
+  "id": "5b1f...",
+  "email": "alex@example.com",
+  "displayName": "Alex Doe",
+  "role": "member"
+}
+```
+
+Status codes: `201`, `403` (not an Admin), `409` (email already registered), `422`, `500`
+
+- **Method/URL:** `GET /api/v1/users`
+- **Description:** Lists the caller's workspace users. Requires **Admin or Member**.
+
+- **Method/URL:** `GET /api/v1/users/{userId}`
+- **Description:** Looks up one user by id, scoped to the caller's workspace. A user of another workspace, or an id that does not exist, both answer `404` — never `403`, so the response cannot confirm the id exists elsewhere.
+
+### 17) User Profile
+
+- **Method/URL:** `GET /api/v1/users/me/profile`, `PATCH /api/v1/users/me/profile`
 - **Description:** Get or update current user's profile (display name, preferences, onboarding state).
 
 Response example (`200`):
@@ -842,10 +933,10 @@ PUT request schema:
 
 Status codes: `200`, `400`, `401`, `422`, `500`
 
-### 17) AI Credits
+### 18) AI Credits
 
-- **Method/URL:** `GET /api/v1/user/credits`
-- **Description:** Returns current AI credit balance. Credits are granted (5) after email verification.
+- **Method/URL:** `GET /api/v1/users/me/credits`
+- **Description:** Returns current AI credit balance. Admins and Members are granted 5 credits on email verification up to 25 per workspace in its lifetime.
 
 Response example (`200`):
 
@@ -858,12 +949,12 @@ Response example (`200`):
 
 Status codes: `200`, `401`, `500`
 
-### 18) API Key Management
+### 19) API Key Management
 
-- **List keys:** `GET /api/v1/user/api-keys` — returns configured providers with masked keys.
-- **Add/replace key:** `POST /api/v1/user/api-keys` — upsert an API key for a provider. Validates against provider on save.
-- **Delete key:** `DELETE /api/v1/user/api-keys/{provider}` — remove key for a provider.
-- **Validate key:** `POST /api/v1/user/api-keys/{provider}/validate` — tests key against provider's endpoint.
+- **List keys:** `GET /api/v1/users/me/api-keys` — returns configured providers with masked keys.
+- **Add/replace key:** `POST /api/v1/users/me/api-keys` — upsert an API key for a provider. Validates against provider on save.
+- **Delete key:** `DELETE /api/v1/users/me/api-keys/{provider}` — remove key for a provider.
+- **Validate key:** `POST /api/v1/users/me/api-keys/{provider}/validate` — tests key against provider's endpoint.
 
 List response example (`200`):
 
@@ -907,9 +998,24 @@ Validation success response (`200`):
 ```json
 {
   "provider": "openai",
-  "valid": true
+  "valid": true,
+  "quotaWarning": false
 }
 ```
+
+`quotaWarning` is `true` when the provider reports quota at or above 80% consumed
+(FR-010-12). It is best-effort: providers that expose no usage headers always report
+`false`.
+
+List entries also carry `lastValidatedAt` (nullable), the last time the provider accepted
+the key. There is no field anywhere in this section that returns key material — `maskedKey`
+is the only representation the API exposes, and no plaintext retrieval endpoint exists
+(FR-010-07).
+
+A rejected key returns `422` with `code: "API_KEY_INVALID"`, the `provider`, a `reason`
+(`invalid_format` | `auth_failed` | `quota_exhausted` | `rate_limited` | `network`), and
+`promptsKeyUpdate`. Exceeding the validation budget returns `429` with a `Retry-After`
+header (NFR-010-03).
 
 Validation error response (`422`):
 
@@ -929,7 +1035,9 @@ Status codes (add): `201`, `400`, `401`, `422`, `429`, `500`
 Status codes (delete): `204`, `401`, `404`, `500`
 Status codes (validate): `200`, `400`, `401`, `422`, `429`, `500`
 
-### 19) Refinement — List and Delete Sessions
+### 20) Refinement — List and Delete Sessions
+
+> **Superseded (ADR-019).** Not built and no longer planned: refined stories are not persisted, so there are no sessions to list, fetch or delete.
 
 - **List sessions:** `GET /api/v1/projects/{projectId}/refinement-sessions?status=draft` — returns sessions, optionally filtered by status.
 - **Get session:** `GET /api/v1/projects/{projectId}/refinement-sessions/{sessionId}` — get full session details with draft stories and ambiguities.
@@ -960,9 +1068,9 @@ Status codes (list): `200`, `400`, `401`, `403`, `404`, `500`
 Status codes (get): `200`, `401`, `403`, `404`, `500`
 Status codes (delete): `204`, `401`, `403`, `404`, `409`, `500`
 
-### 20) Requirements — Reorder
+### 21) Requirements — Reorder
 
-- **Method/URL:** `PUT /api/v1/projects/{projectId}/requirements/reorder`
+- **Method/URL:** `PATCH /api/v1/projects/{projectId}/requirements/reorder`
 - **Description:** Bulk update sort order for requirements (drag-and-drop reorder in UI).
 
 Request schema:
@@ -1003,155 +1111,49 @@ Success response: `204 No Content`
 
 Status codes: `204`, `400`, `401`, `403`, `404`, `422`, `500`
 
-### 21) Viewer — Invitations
+### 22) Client Review — Public Read
 
-- **Send invitation:** `POST /api/v1/viewers/invitations` — Admin sends invitation by email + project selection. Token expires after 7 days.
-- **Validate token:** `GET /api/v1/viewers/invitations/{token}` — returns project info, expiry status (public, no auth required).
-- **Accept invitation:** `POST /api/v1/viewers/invitations/{token}/accept` — Viewer sets password, creates account.
-- **Resend invitation:** `POST /api/v1/viewers/invitations/{invitationId}/resend` — rate-limited to 3 per hour.
-- **Revoke invitation:** `DELETE /api/v1/viewers/invitations/{invitationId}` — Admin cancels pending invitation.
+`GET /api/v1/viewer/{accessCode}` — no authentication. Returns one project's approved stories for a client stakeholder who holds the project's access code (`PRJ-` plus 8 characters, generated by the server, unique across workspaces; not the freelancer-chosen project `code`).
 
-Send invitation request schema:
+Query parameters: `limit` (default 100, max 100), `offset` (default 0).
+
+Success response (`200`):
 
 ```json
 {
-  "type": "object",
-  "required": ["email", "projectIds"],
-  "properties": {
-    "email": { "type": "string", "format": "email" },
-    "projectIds": {
-      "type": "array",
-      "minItems": 1,
-      "items": { "type": "string", "format": "uuid" }
-    }
-  }
-}
-```
-
-Send invitation response (`201`):
-
-```json
-{
-  "invitationId": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb",
-  "email": "viewer@client.com",
-  "projectIds": ["22222222-2222-2222-2222-222222222222"],
-  "status": "pending",
-  "sentAt": "2026-08-11T10:00:00Z",
-  "expiresAt": "2026-08-18T10:00:00Z"
-}
-```
-
-Validate token response (`200`):
-
-```json
-{
-  "email": "viewer@client.com",
-  "projects": [
-    { "id": "22222222-2222-2222-2222-222222222222", "name": "Freelancer Portal MVP" }
-  ],
-  "status": "pending",
-  "expiresAt": "2026-08-18T10:00:00Z"
-}
-```
-
-Accept invitation request schema:
-
-```json
-{
-  "type": "object",
-  "required": ["password", "displayName"],
-  "properties": {
-    "password": {
-      "type": "string",
-      "minLength": 8,
-      "pattern": "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$"
-    },
-    "displayName": { "type": "string", "maxLength": 100 }
-  }
-}
-```
-
-Accept invitation response (`201`):
-
-```json
-{
-  "id": "cccccccc-cccc-cccc-cccc-cccccccccccc",
-  "email": "viewer@client.com",
-  "displayName": "Viewer User",
-  "role": "viewer"
-}
-```
-
-Status codes (send): `201`, `400`, `401`, `403`, `422`, `429`, `500`
-Status codes (validate): `200`, `404`, `410`, `500`
-Status codes (accept): `201`, `400`, `404`, `410`, `422`, `500`
-Status codes (resend): `200`, `401`, `403`, `404`, `410`, `429`, `500`
-Status codes (revoke): `204`, `401`, `403`, `404`, `500`
-
-### 22) Viewer — Access Management
-
-- **List viewers:** `GET /api/v1/viewers` — Admin lists all viewers with access and invitation status.
-- **Grant access:** `POST /api/v1/viewers/{viewerId}/projects` — grant viewer access to additional projects.
-- **Revoke access:** `DELETE /api/v1/viewers/{viewerId}/projects/{projectId}` — revoke project access.
-- **Change password:** `PUT /api/v1/viewers/me/password` — Viewer changes own password.
-
-List viewers response example (`200`):
-
-```json
-{
-  "data": [
+  "projectName": "Clinic Management System",
+  "phase": "discovery",
+  "total": 1,
+  "stories": [
     {
-      "viewerId": "cccccccc-cccc-cccc-cccc-cccccccccccc",
-      "email": "viewer@client.com",
-      "displayName": "Viewer User",
-      "invitationStatus": "accepted",
-      "projectsGranted": [
-        { "id": "22222222-2222-2222-2222-222222222222", "name": "Freelancer Portal MVP" }
-      ],
-      "invitedAt": "2026-08-11T10:00:00Z"
+      "id": "dddddddd-dddd-dddd-dddd-dddddddddddd",
+      "title": "Appointment scheduling",
+      "description": "As a clinic patient, I want to book an appointment online, so that I do not need to call.",
+      "acceptanceCriteria": ["A patient can pick a doctor and a free time slot"],
+      "status": "todo",
+      "priority": "high",
+      "points": 3,
+      "createdAt": "2026-05-09T12:00:00Z",
+      "updatedAt": "2026-05-09T12:00:00Z"
     }
-  ],
-  "pagination": { "page": 1, "pageSize": 20, "total": 1, "totalPages": 1 }
+  ]
 }
 ```
 
-Grant access request schema:
+The response names no workspace, client record, project id or code, and no user. Stories are approved stories only, highest priority first, then oldest first.
+
+Not found (`404`) is identical for an unknown and a malformed code:
 
 ```json
-{
-  "type": "object",
-  "required": ["projectIds"],
-  "properties": {
-    "projectIds": {
-      "type": "array",
-      "minItems": 1,
-      "items": { "type": "string", "format": "uuid" }
-    }
-  }
-}
+{ "detail": "Project not found" }
 ```
 
-Change password request schema:
+The route is limited to 30 requests per minute per IP (`429`). Because the code is the only credential, a freelancer can replace it:
 
-```json
-{
-  "type": "object",
-  "required": ["currentPassword", "newPassword"],
-  "properties": {
-    "currentPassword": { "type": "string" },
-    "newPassword": {
-      "type": "string",
-      "minLength": 8,
-      "pattern": "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$"
-    }
-  }
-}
-```
+`POST /api/v1/projects/{projectId}/access-code/regenerate` — Admin or Member. Returns the project with a new `accessCode`; the previous code and any link built from it stop working immediately.
 
-Status codes (list): `200`, `401`, `403`, `500`
-Status codes (grant): `201`, `400`, `401`, `403`, `404`, `500`
-Status codes (revoke): `204`, `401`, `403`, `404`, `500`
-Status codes (password): `200`, `400`, `401`, `403`, `422`, `500`
+Status codes (read): `200`, `404`, `422`, `429`
+Status codes (regenerate): `200`, `401`, `404`
 
 ## Standard Error Examples by Status
 
@@ -1226,7 +1228,7 @@ Status codes (password): `200`, `400`, `401`, `403`, `422`, `500`
 {
   "error": {
     "code": "VALIDATION_ERROR",
-    "message": "Password must be at least 8 characters with uppercase, lowercase, and a digit.",
+    "message": "Password must be at least 8 characters and include a letter and a digit.",
     "details": [{ "field": "password", "issue": "policy_violation" }],
     "requestId": "req_01JEXAMPLE422"
   }
@@ -1259,7 +1261,7 @@ Status codes (password): `200`, `400`, `401`, `403`, `422`, `500`
 }
 ```
 
-### Insufficient Credits (402 or 422)
+### Insufficient Credits (402)
 
 ```json
 {
@@ -1306,8 +1308,8 @@ Status codes (password): `200`, `400`, `401`, `403`, `422`, `500`
 - [API Design Standards](./api-design-standards.md)
 - [Feature Requirements](../../01-requirements/README.md)
 - [Security Architecture](../security/security-architecture.md)
-- [ADR-005: Authentication Strategy](../adrs/adr-005-authentication.md)
+- [ADR-005: Authentication Strategy](../../04-decisions/adr-005-authentication.md)
 
 ---
 
-**Last Updated**: 2026-08-11
+**Last Updated**: 2026-09-08

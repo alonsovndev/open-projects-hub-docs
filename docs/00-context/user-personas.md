@@ -1,3 +1,7 @@
+---
+sidebar_position: 2
+---
+
 # User Personas
 
 **Purpose:** Define core user personas aligned to the Open Projects Hub overview to ensure requirements and workflows serve the target audiences.
@@ -26,7 +30,7 @@
 
 - AI-assisted clarity and structured user stories.
 - Consistent templates and documentation structure.
-- Simple access control for clients.
+- Simple, account-free access for clients (a shareable project access code).
 
 ### Success Indicators
 
@@ -40,11 +44,12 @@
 
 ---
 
-## Persona 2: Client / Viewer (Secondary)
+## Persona 2: Client Stakeholder (Secondary)
 
 **Name:** Jordan Lee  
-**Role:** Non-technical client stakeholder  
-**Experience:** Works with freelancers intermittently
+**Role:** Non-technical stakeholder at the freelancer's client  
+**Experience:** Works with freelancers intermittently  
+**Access:** No account. Opens the Client Review Portal with the project access code the freelancer shared.
 
 ### Primary Goals
 

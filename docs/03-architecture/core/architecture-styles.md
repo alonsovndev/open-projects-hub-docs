@@ -1,4 +1,8 @@
-# Architecture Styles Decision
+---
+sidebar_position: 2
+---
+
+# Architecture Styles
 
 | Attribute   | Value             |
 | ----------- | ----------------- |
@@ -29,12 +33,12 @@ The architecture style selection balances MVP velocity, maintainability, and fut
 
 **Why Modular Monolith wins:**
 
-- **Delivery speed:** Single deployment artifact accelerates MVP timeline (1-1.5 months)
+- **Delivery speed:** Single deployment artifact accelerates the MVP timeline (see NFR-X08)
 - **Operational simplicity:** One Docker container, one database, one CI/CD pipeline for small team
 - **Clean Architecture fit:** Module boundaries enforce domain isolation without distributed system overhead
 - **Evolution path:** Bounded contexts can be extracted to services when growth triggers justify it
 
-For detailed alternatives analysis, see [ADR-001: High-Level Architecture Pattern](../adrs/adr-001-high-level-architecture.md).
+For detailed alternatives analysis, see [ADR-001: High-Level Architecture Pattern](../../04-decisions/adr-001-high-level-architecture.md).
 
 ## Bounded Context Alignment
 
@@ -44,7 +48,7 @@ The modular monolith maps bounded contexts to internal modules:
 - **Client Management**: client records and lifecycle
 - **Project Management**: project creation, status (discovery/planning), constraints
 - **Requirements Refinement**: AI-assisted drafting, approvals, story artifact lifecycle
-- **Access Control**: Admin/Viewer authorization and visibility rules
+- **Access Control**: Admin/Member authorization and Client Review visibility rules
 - **Export & Reporting**: Markdown export and delivery artifacts
 
 Each module owns:
@@ -56,7 +60,7 @@ Each module owns:
 **Cross-module dependencies:**
 
 - **Auth** → provides JWT validation middleware consumed by all protected endpoints
-- **Access Control** → uses Auth user context to enforce Admin/Viewer rules
+- **Access Control** → uses Auth user context to enforce Admin/Member rules
 - **All modules** → use Access Control to check permissions before operations
 
 ## Rationale and Trade-offs
@@ -146,7 +150,7 @@ Extract a module into a service only when at least one trigger is sustained:
 ## Source References
 
 - [Architecture Solution Design](./architecture-solution-design.md)
-- [ADR-001: High-Level Architecture](../adrs/adr-001-high-level-architecture.md)
+- [ADR-001: High-Level Architecture](../../04-decisions/adr-001-high-level-architecture.md)
 
 ---
 

@@ -1,0 +1,16 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Halo ring around hub -->
+  <circle cx="100" cy="100" r="42" fill="none" stroke="#4899c5" stroke-width="3" opacity="0.35" />
+  <!-- Spokes -->
+  <line x1="100" y1="100" x2="100" y2="38" stroke="#144365" stroke-width="5" stroke-linecap="round" />
+  <line x1="100" y1="100" x2="46.3" y2="131" stroke="#144365" stroke-width="5" stroke-linecap="round" />
+  <line x1="100" y1="100" x2="153.7" y2="131" stroke="#144365" stroke-width="5" stroke-linecap="round" />
+  <!-- Satellite nodes -->
+  <circle cx="100" cy="38" r="22" fill="#2771a0" opacity="0.95" />
+  <circle cx="46.3" cy="131" r="22" fill="#2771a0" opacity="0.85" />
+  <circle cx="153.7" cy="131" r="22" fill="#2771a0" opacity="0.85" />
+  <!-- Hub node -->
+  <circle cx="100" cy="100" r="34" fill="#1e6091" />
+  <!-- Hub core accent -->
+  <circle cx="100" cy="100" r="9" fill="#4899c5" opacity="0.6" />
+</svg>

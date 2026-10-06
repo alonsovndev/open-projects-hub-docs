@@ -1,3 +1,7 @@
+---
+sidebar_position: 1
+---
+
 # Security Architecture
 
 | Attribute   | Value             |
@@ -8,7 +12,7 @@
 
 ## Table of Contents
 
-- [Security Architecture](#security-architecture)
+- Security Architecture
   - [Table of Contents](#table-of-contents)
   - [Security Objectives and Scope](#security-objectives-and-scope)
   - [Security Architecture Overview](#security-architecture-overview)
@@ -80,8 +84,8 @@ The platform uses a layered defense-in-depth model across **AWS infrastructure**
 ```mermaid
 flowchart TB
     subgraph Users["Users"]
-        Admin["Admin (Browser)"]
-        Viewer["Viewer (Browser)"]
+        Admin["Admin / Member (Browser)"]
+        Stakeholder["Client Stakeholder (Browser, no account)"]
     end
 
     subgraph Edge["Edge Layer"]
@@ -110,7 +114,7 @@ flowchart TB
     end
 
     Admin -->|"HTTPS"| CF
-    Viewer -->|"HTTPS"| CF
+    Stakeholder -->|"HTTPS"| CF
     CF -->|"Static Assets"| S3F
     CF -->|"API Requests<br/>Bearer JWT"| AR
     AR -->|"VPC Connector<br/>TLS"| RDS
@@ -135,26 +139,37 @@ flowchart TB
 ### Selected Model (MVP)
 
 - **Primary:** Custom JWT-based authentication module within FastAPI backend (see ADR-005)
-- **Token Type:** JWT access tokens (1-hour expiration, configurable)
-- **Password Hashing:** bcrypt via `passlib` library (cost factor 12)
+- **Token Type:** JWT access tokens (15-minute expiration, configurable)
+- **Password Hashing:** bcrypt (cost factor 12, direct `bcrypt` library)
 - **Token Algorithm:** HS256 with secret key stored in environment variable
-- **Session Management:** Stateless JWT tokens (no server-side session storage required)
-- **Refresh Tokens:** Deferred to Phase 2 (MVP uses only access tokens)
+- **Session Management:** JWT access tokens remain stateless. Refresh-token state (single-use
+  rotation, revocation, account lockout) is persisted server-side in PostgreSQL so it survives
+  restarts and works across multiple App Runner instances — see ADR-005's Session Management notes.
+- **Refresh Tokens:** Implemented (EPIC-2). Single-use rotation with reuse rejection; standard
+  sessions last 24h of inactivity, "remember me" extends to 7 days; forced logout across devices
+  via a `token_version` bump (used after password reset).
 
 ### Authentication Endpoints
 
 - `POST /api/v1/auth/register` — User registration with email + password
-- `POST /api/v1/auth/login` — Login returning JWT access token
-- `POST /api/v1/auth/password-reset` — Initiate password reset flow
-- `POST /api/v1/auth/password-reset-confirm` — Complete password reset
+- `POST /api/v1/auth/login` — Login returning JWT access + refresh tokens (accepts `rememberMe`)
+- `POST /api/v1/auth/refresh` — Rotate a refresh token for a new access/refresh pair
+- `POST /api/v1/auth/logout` — Revoke the session's refresh token server-side
+- `POST /api/v1/auth/forgot-password` — Request a password reset code (privacy-preserving response)
+- `POST /api/v1/auth/resend-reset-code` — Resend a reset code (rate-limited)
+- `POST /api/v1/auth/reset-password` — Complete a password reset with a valid code
 
 ### Authentication Controls
 
-- **Password Policy:** Minimum 8 characters, must include uppercase, lowercase, digit (enforced at validation layer per F-008)
+- **Password Policy:** Minimum 8 characters, must include a letter and a digit (the API-enforced
+  minimum, applied at the validation layer per F-008). The web UI asks for a stricter superset when
+  a password is being *set* — 8 characters with upper- and lowercase letters, a digit, and a symbol —
+  so anything it accepts the API accepts. Sign-in deliberately applies no policy check client-side,
+  so accounts predating the current policy are never locked out of the login form.
 - **Password Storage:** bcrypt hashing with automatic salt generation (never plaintext)
-- **Token Lifecycle:** Short-lived access tokens (1 hour default, configurable via `JWT_EXPIRE_MINUTES`)
+- **Token Lifecycle:** Short-lived access tokens (15 minutes default, configurable via `JWT_EXPIRE_MINUTES`); refresh tokens single-use with rotation (see Authentication Strategy above)
 - **Token Validation:** JWT signature verification + expiration check on every protected route
-- **Rate Limiting:** Login endpoint throttled (5 failed attempts trigger temporary account lockout per F-007)
+- **Rate Limiting:** Login endpoint throttled (5 failed attempts trigger temporary account lockout per F-007); password reset code requests/validation rate-limited per F-009
 - **Multi-Factor Authentication (MFA):** Deferred to post-MVP hardening (TOTP-based)
 - **OAuth 2.0 / OIDC:** Deferred to Phase 2 (Google, GitHub social providers)
 
@@ -165,10 +180,16 @@ flowchart TB
   "sub": "user-uuid",
   "email": "admin@example.com",
   "role": "admin",
+  "wid": "workspace-uuid",
   "exp": 1234567890,
   "iat": 1234567800
 }
 ```
+
+`wid` is the caller's workspace (the tenant boundary owning clients and projects; see
+database-design.md). Every workspace-scoped route resolves it from this claim, never from
+the request path or body. A token issued before workspaces existed carries no `wid` and is
+rejected with 401, which the client's normal refresh flow resolves.
 
 > **Note:** The diagram below visualizes the custom JWT flow: client requesting a token from `/login`, then using it in the `Authorization` header for subsequent requests.
 
@@ -219,18 +240,29 @@ sequenceDiagram
 
 ### RBAC + Resource Attributes
 
-- **RBAC baseline:** `admin` and `viewer` roles mapped to F-003 access requirements
+- **RBAC baseline:** `admin` and `member` roles mapped to F-003 access requirements, each scoped to the caller's workspace; plus one anonymous read-only route (Client Review) gated by a project access code
 - **ABAC constraints:** Resource ownership, project membership, and data visibility flags
 - **Permission model:** Backend authorizes action-level permissions before executing use cases
 - **Data-level enforcement:** PostgreSQL Row Level Security (RLS) policies as last-mile protection
 
 ### Least-Privilege Rules
 
-- **Viewer role:** Read-only access, excluded from admin operations
-- **Admin role:** Full CRUD scope limited to authorized project boundaries (no cross-project access)
+- **Client Review (anonymous):** read-only, approved stories of exactly one project, selected by an unguessable access code; discloses no workspace, client or user identifiers (see "Public Client Review Route" below)
+- **Member role:** Full CRUD on clients, projects, stories, and refinement within the workspace; excluded from team management (adding or removing users)
+- **Admin role:** Everything a Member can do, plus adding Members to their own workspace; a workspace's data is never visible to another workspace — a record from another workspace answers 404 for every role, never 403
 - **Service credentials:** Split by environment (dev/prod) and duty (app runtime, migrations, CI/CD)
 - **Database access:** RDS accessible only from App Runner via VPC connector (no public internet access)
 - **IAM roles:** AWS IAM policies follow principle of least privilege (App Runner, RDS, S3, ECR)
+
+### Public Client Review Route
+
+`GET /v1/viewer/{accessCode}` is the only anonymous route that returns workspace data (ADR-020). Its controls:
+
+- **Credential:** the project's `access_code`, `PRJ-` plus 8 characters from a 32-symbol alphabet (about 10^12 values), generated with a cryptographically secure source and unique across all workspaces. It is independent of the freelancer-chosen project code.
+- **Scope:** the workspace is derived from the project the code resolves to, never from the request; the response contains approved stories, project name and phase only.
+- **Enumeration resistance:** 30 requests per minute per IP, and an unknown and a malformed code both answer an identical `404`. The limiter is in memory and per IP, so it is not shared across workers and may see only a proxy's address; code entropy is the primary defence.
+- **Revocation:** an Admin or Member can regenerate the code, which invalidates the old one immediately.
+- **Verification:** the route-access-policy test lists every public route and fails if one is added without a decision.
 
 ### Authorization Flow
 
@@ -260,7 +292,7 @@ flowchart LR
     subgraph Permission["2. Permission Layer RBAC"]
         F{Route Requires<br/>Admin Role?}
         F -->|Yes, is Admin| G[Pass]
-        F -->|Yes, is Viewer| R403A[403 Forbidden]
+        F -->|Yes, is Member| R403A[403 Forbidden]
         F -->|No| H{Resource<br/>Ownership?}
         H -->|Owner| G
         H -->|Not Owner| R403B[403 Forbidden]
@@ -328,7 +360,7 @@ flowchart LR
 
     B -->|Rejected| R1[Error: invalid input]
     E -->|Blocked| R2[Error: output filtered]
-    F -->|Rejected| R3[Draft discarded]
+    F -->|Rejected| R3[Refined story discarded<br/>never stored]
 
     style B fill:#fff3e0,stroke:#e65100
     style C fill:#e3f2fd,stroke:#1565c0
@@ -385,12 +417,12 @@ Before displaying AI-generated content to the user:
 
 ### 4. Human-in-the-Loop Approval Gate
 
-All AI-generated content is draft-only until Admin approval (FR-002-03):
+All AI-generated content is unapproved until Admin approval (FR-002-03):
 
-- Generated stories are marked as **Draft** and excluded from exports, viewer access, and downstream workflows.
+- Generated stories are returned to the Admin's browser and are **not stored server-side**, so they cannot reach exports, the Client Review Portal, or downstream workflows (ADR-019).
 - The Admin must explicitly review, edit, and approve before content becomes an official project artifact.
 - This creates a final safety net — even if injection bypasses earlier layers, the Admin sees and can discard malicious output before it reaches production data.
-- Draft stories can be deleted without affecting approved content.
+- Discarding a refined story is a client-side action; approved content is unaffected. On approval the server re-validates the submitted content and workspace ownership of the project before saving.
 
 ### 5. Monitoring and Rate Limiting
 
@@ -462,7 +494,9 @@ All AI-generated content is draft-only until Admin approval (FR-002-03):
 - **Authentication:** JWT signing key (`JWT_SECRET_KEY`)
 - **Database:** RDS connection string (`DATABASE_URL` with credentials)
 - **External Services:** Sentry DSN, AWS access keys for CI/CD
-- **Encryption:** Future encryption keys for sensitive fields (deferred post-MVP)
+- **Encryption:** `API_KEY_ENCRYPTION_KEY` — master key for AES-256-GCM encryption of
+  user-supplied AI provider keys (F-010, [ADR-018](../../04-decisions/adr-018-user-api-key-encryption.md)).
+  Required in dev/container/prod; rotation runbook in that ADR.
 
 **Secret Access Controls:**
 
@@ -579,12 +613,12 @@ Additional controls:
 
 ## ADR and Diagram References
 
-- [ADR-004: Database (Amazon RDS PostgreSQL)](../adrs/adr-004-database.md)
-- [ADR-005: Authentication and Authorization Strategy (Custom JWT Auth)](../adrs/adr-005-authentication.md)
-- [ADR-006: Deployment Platform (AWS)](../adrs/adr-006-deployment-platform.md)
-- [ADR-011: Secrets Management Strategy](../adrs/adr-011-secrets-management.md)
-- [ADR-012: Containerization Strategy](../adrs/adr-012-containerization.md)
-- [ADR-013: Infrastructure as Code Strategy (Terraform)](../adrs/adr-013-infrastructure-as-code.md)
+- [ADR-004: Database (Amazon RDS PostgreSQL)](../../04-decisions/adr-004-database.md)
+- [ADR-005: Authentication and Authorization Strategy (Custom JWT Auth)](../../04-decisions/adr-005-authentication.md)
+- [ADR-006: Deployment Platform (AWS)](../../04-decisions/adr-006-deployment-platform.md)
+- [ADR-011: Secrets Management Strategy](../../04-decisions/adr-011-secrets-management.md)
+- [ADR-012: Containerization Strategy](../../04-decisions/adr-012-containerization.md)
+- [ADR-013: Infrastructure as Code Strategy (Terraform)](../../04-decisions/adr-013-infrastructure-as-code.md)
 
 ## Source References
 
@@ -594,12 +628,12 @@ Additional controls:
 - [F-008: Account Creation](../../01-requirements/f-008-create-account.md)
 - [F-009: Reset Password](../../01-requirements/f-009-reset-password.md)
 - [F-010: AI Credits and API Key Management](../../01-requirements/f-010-ai-credits-and-api-key-management.md)
-- [F-011: Viewer Account Management](../../01-requirements/f-011-viewer-account-management.md)
-- [ADR-004: Database (Amazon RDS PostgreSQL)](../adrs/adr-004-database.md)
-- [ADR-005: Authentication and Authorization Strategy](../adrs/adr-005-authentication.md)
-- [ADR-006: Deployment Platform (AWS)](../adrs/adr-006-deployment-platform.md)
-- [ADR-011: Secrets Management Strategy](../adrs/adr-011-secrets-management.md)
-- [ADR-012: Containerization Strategy](../adrs/adr-012-containerization.md)
+- [F-011: Client Review Access](../../01-requirements/f-011-client-review-access.md)
+- [ADR-004: Database (Amazon RDS PostgreSQL)](../../04-decisions/adr-004-database.md)
+- [ADR-005: Authentication and Authorization Strategy](../../04-decisions/adr-005-authentication.md)
+- [ADR-006: Deployment Platform (AWS)](../../04-decisions/adr-006-deployment-platform.md)
+- [ADR-011: Secrets Management Strategy](../../04-decisions/adr-011-secrets-management.md)
+- [ADR-012: Containerization Strategy](../../04-decisions/adr-012-containerization.md)
 
 ---
 

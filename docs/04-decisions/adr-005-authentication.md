@@ -3,6 +3,7 @@
 - **Status**: Accepted
 - **Date**: 2026-02-28
 - **Updated**: 2026-08-03
+- **Amended by**: [ADR-020](./adr-020-client-review-by-access-code.md) (2026-10-02): the `viewer` role is removed; roles are `admin` and `member`, and clients review through a project access code.
 
 ## Context
 
@@ -28,7 +29,7 @@ The auth module is a bounded context within the modular monolith, not a separate
    - User registration endpoint (`POST /api/v1/auth/register`)
    - Login endpoint (`POST /api/v1/auth/login`) — returns JWT access token
    - Token validation middleware (validates JWT on protected routes across all modules)
-   - Password hashing with `bcrypt` via `passlib`
+   - Password hashing with `bcrypt` (direct library, no `passlib` dependency)
    - JWT generation/verification using `python-jose` or `PyJWT`
 
 2. **JWT Token Structure**
@@ -44,24 +45,36 @@ The auth module is a bounded context within the modular monolith, not a separate
    ```
 
 3. **Token Configuration**
-   - **Access Token Expiration**: 1 hour (configurable via `JWT_EXPIRE_MINUTES`)
+   - **Access Token Expiration**: short-lived (15 minutes in deployed environments, configurable via `JWT_EXPIRE_MINUTES`)
    - **Algorithm**: HS256
    - **Secret Key**: Stored in environment variable (`JWT_SECRET_KEY`)
-   - **Refresh Tokens**: Deferred to Phase 2 (MVP uses only access tokens)
+   - **Refresh Tokens**: Implemented (EPIC-2). Single-use, rotated on every refresh. Standard
+     sessions last 24 hours of inactivity; an opt-in "remember me" extends this to 7 days. The
+     window slides forward on each successful refresh rather than being a fixed expiry from login.
 
 4. **Session Management**
-   - Stateless JWT tokens (stored in frontend localStorage or secure httpOnly cookies)
-   - No server-side session storage required
+   - JWT access tokens remain stateless and are not persisted server-side.
+   - Refresh-token state **is** persisted server-side (PostgreSQL: `revoked_refresh_tokens`,
+     `account_lockouts`) so logout, single-use rotation, and account lockout survive restarts and
+     work across multiple App Runner instances — this was not possible under a purely stateless
+     design and required walking back the original "no server-side session storage" decision.
+   - Forced logout across every device is supported via a `token_version` counter on the `users`
+     row: bumping it invalidates every refresh token issued before that point (used after a
+     password reset). No per-token ledger is needed for this.
 
 5. **Database Integration**
    - `users` table stores user credentials and roles
 
 ### Decision Details
 
-- Short-lived access tokens (1 hour default).
-- Password requirements: minimum 8 characters, must include uppercase, lowercase, digit (enforced in validation layer).
-- Account lockout after 5 failed login attempts (future enhancement).
-- Session-based backend auth is not selected because APIs are deployed as stateless services.
+- Short-lived access tokens (15 minutes in deployed environments).
+- Password requirements: minimum 8 characters, must include a letter and a digit (enforced in validation layer).
+- Account lockout after 5 failed login attempts within 15 minutes, with progressive backoff for
+  repeated offenses (implemented, EPIC-2 persists this to Postgres).
+- Password reset via a 6-digit emailed code, single-use, 5-minute expiry, rate-limited (implemented, EPIC-2 / F-009).
+- Session-based backend auth is not selected because APIs are deployed as stateless services; the
+  session/lockout persistence added in EPIC-2 is scoped to auth-specific revocation state, not a
+  general server-side session store for request handling.
 - OAuth 2.0/OIDC providers (Google, GitHub) deferred to Phase 2.
 - MFA support deferred to post-MVP hardening phase.
 
@@ -85,7 +98,10 @@ The auth module is a bounded context within the modular monolith, not a separate
 - **Security responsibility**: Team owns security implementation (password hashing, JWT secret management, token validation).
 - **Maintenance burden**: Must handle password reset, email verification, account recovery flows manually.
 - **No built-in OAuth**: Social login providers require manual integration (future work).
-- **Token refresh complexity**: Refresh token rotation logic deferred to Phase 2.
+- **Persistence footprint**: revocation/lockout state now lives in three small Postgres tables
+  (`account_lockouts`, `revoked_refresh_tokens`, `password_reset_codes`) plus a `token_version`
+  column on `users` — a deliberate, minimal departure from the original fully-stateless design,
+  scoped to what logout/lockout/forced-logout actually require.
 - **Module coupling risk**: Auth module must maintain clean boundaries with other backend modules to prevent tight coupling.
 
 ## Alternatives Considered

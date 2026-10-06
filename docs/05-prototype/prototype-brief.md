@@ -61,6 +61,8 @@ The Open Projects Hub is an open-source web platform that helps freelancers turn
 - Admin AI refinement workspace with epic and user story generation
 - Admin backlog view with approved epics, user stories, and Markdown export action
 - Admin dashboard with project stats and quick actions
+- Project list with search and status/client/date filters, plus a project create form
+- Client list with create flow, and the blocked states for the 3-active-project limit and client deletion
 - Admin settings with profile, password, and API key management
 - Viewer backlog view with read-only access
 - Optional Phase 1 onboarding overlay for first-time Admin guidance
@@ -241,22 +243,29 @@ Every Must requirement should appear in at least one row before prototype sign-o
 
 | Screen / Flow                   | Covers FR(s)                               | Covers NFR(s)                      | Story (US-\*) | Milestone |
 | ------------------------------- | ------------------------------------------ | ---------------------------------- | ------------- | --------- |
-| Landing / Home Page             | FR-006-01, FR-006-02, FR-006-03            | NFR-006-01, NFR-006-02            | US-P1-UX-004  | MVP       |
-| Entry and Role Selection        | FR-006-01, FR-006-02                       | NFR-006-02                         | US-P1-UX-004  | MVP       |
-| Admin Sign Up                   | FR-008-01, FR-008-02                       | NFR-008-01, NFR-008-02             | US-P1-UX-004  | MVP       |
-| Admin Sign In + Recovery        | FR-007-01, FR-007-02, FR-009-01, FR-009-02 | NFR-007-01, NFR-009-02             | US-P1-UX-004  | MVP       |
-| Admin AI Refinement Workspace   | FR-002-01, FR-002-02, FR-002-03            | NFR-002-03                         | US-MVP-UX-001 | MVP       |
-| Admin Backlog + Markdown Export | FR-004-01, FR-004-02                       | NFR-004-02                         | US-MVP-UX-002 | MVP       |
-| Admin Dashboard                 | FR-001-01, FR-010-01                       | NFR-006-02                         | US-MVP-UX-001 | MVP       |
-| Admin Settings                  | FR-010-02, FR-010-03                       | NFR-010-01                         | US-MVP-UX-001 | MVP       |
-| Viewer Backlog Read-only        | FR-003-01, FR-003-03                       | NFR-003-02, NFR-003-03, NFR-004-01 | US-MVP-UX-002 | MVP       |
-| Optional Onboarding Overlay     | FR-005-01                                  | NFR-005-01                         | US-P1-UX-003  | Phase 1   |
+| Landing / Home Page | FR-006-01, FR-006-02, FR-006-03 | NFR-006-01, NFR-006-02 | US-EP8-UX-002 | MVP |
+| Entry and Role Selection | FR-006-01, FR-006-02 | NFR-006-02 | US-EP4-UX-001 | MVP |
+| Admin Sign Up | FR-008-01, FR-008-02 | NFR-008-01, NFR-008-02 | US-EP8-UX-003 | MVP |
+| Admin Sign In + Recovery | FR-007-01, FR-007-02, FR-009-01, FR-009-02 | NFR-007-01, NFR-009-02 | US-EP2-FE-001 | MVP |
+| Admin AI Refinement Workspace | FR-002-01, FR-002-02, FR-002-03 | NFR-002-03 | US-EP3-UX-001 | MVP |
+| Admin Backlog + Markdown Export | FR-004-01, FR-004-02 | NFR-004-02 | US-EP5-UX-001 | MVP |
+| Admin Dashboard | FR-010-01 | NFR-006-02 | US-EP1-UX-001 | MVP |
+| Projects List | FR-001-02, FR-001-05, FR-001-06 | NFR-001-02, NFR-001-03 | US-EP1-UX-001 | MVP |
+| New Project | FR-001-01, FR-001-03, FR-001-06 | — | US-EP1-UX-001 | MVP |
+| Clients | FR-001-01, FR-001-04 | NFR-001-01 | US-EP1-UX-001 | MVP |
+| Modal: Project Limit Reached | FR-001-02, FR-001-07 | — | US-EP1-UX-001 | MVP |
+| Modal: Client Delete Blocked | FR-001-04 | NFR-001-01 | US-EP1-BE-003 | MVP |
+| Modal: New Client | FR-001-01 | — | US-EP1-UX-001 | MVP |
+| Projects — Empty | FR-001-05 | — | US-EP11-FE-005 | MVP |
+| New Project — Validation Error | FR-001-06 | — | US-EP11-FE-005 | MVP |
+| Admin Settings | FR-010-02, FR-010-03 | NFR-010-01 | US-EP6-UX-001 | MVP |
+| Viewer Backlog Read-only | FR-003-01, FR-003-03 | NFR-003-02, NFR-003-03, NFR-004-01 | US-EP4-UX-001 | MVP |
+| Optional Onboarding Overlay | FR-005-01 | NFR-005-01 | US-EP8-UX-001 | Phase 1 |
 
 ## Source References
 
 - [Project Overview](../00-context/overview.md)
 - [User Personas](../00-context/user-personas.md)
-- [Open Questions](../00-context/open-questions.md)
 - [Project Requirements by Feature](../01-requirements/README.md)
 - [F-002 AI Refinement and Approval Workflow](../01-requirements/f-002-ai-refinement-and-approval-workflow.md)
 - [F-003 Access Control and Visibility Boundaries](../01-requirements/f-003-access-control-and-visibility-boundaries.md)
@@ -268,9 +277,7 @@ Every Must requirement should appear in at least one row before prototype sign-o
 - [F-009 Reset Password](../01-requirements/f-009-reset-password.md)
 - [Phased Roadmap](../02-planning/phased-roadmap.md)
 - [Role Mapping](../02-planning/role-mapping.md)
-- [Architecture Solution Design](../03-architecture/architecture-solution-design.md)
-- [UI/UX Designer User Stories](../06-user-stories/ui-ux-designer-stories.md)
-- [Product Epics](../06-user-stories/epics.md)
+- [Architecture Solution Design](../03-architecture/core/architecture-solution-design.md)
 
 ---
 
