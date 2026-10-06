@@ -1,12 +1,9 @@
 name: Deploy to GitHub Pages
 
-# Manual-trigger only for now. Once GitHub Pages is enabled in repo settings
-# (Settings -> Pages -> Source -> GitHub Actions) and auto-deploy-on-merge is
-# wanted, add back:
-#   push:
-#     branches:
-#       - main
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
 
 permissions:
