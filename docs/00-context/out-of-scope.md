@@ -24,9 +24,9 @@ This document explicitly lists features, capabilities, and enhancements that are
 | Item                                               | Rationale                                                            | Traceability |
 | -------------------------------------------------- | -------------------------------------------------------------------- | ------------ |
 | Audit logs and activity history                    | Complexity vs. MVP value; monitoring can use infrastructure logs     | Q-013        |
-| Viewer comments or feedback on requirements        | Simplifies MVP; Viewer role is strictly read-only                    | Q-011        |
+| Client comments or feedback on requirements        | Simplifies MVP; the Client Review Portal is strictly read-only       | Q-011        |
 | Real-time collaboration or live editing            | Not critical for discovery/planning phase; async workflow sufficient | —            |
-| Role changes, demotion, or removing a workspace member | An Admin can add Members/Viewers, but not yet change or revoke a role once granted (EP4) | Q-012        |
+| Promoting or demoting a workspace member           | An Admin can add and remove Members, but there is only one assignable role | Q-012        |
 | Subcontractor or external collaborator invitations | Out of scope; focus on Admin ↔ Client relationship                   | Q-012        |
 
 ### Requirements Management
@@ -52,11 +52,9 @@ This document explicitly lists features, capabilities, and enhancements that are
 
 | Item                                                 | Rationale                                               | Traceability       |
 | ---------------------------------------------------- | ------------------------------------------------------- | ------------------ |
-| Viewer self-registration                             | Invitation-only model enforces Admin control            | F-011 Out of Scope |
-| Viewer-to-Viewer invitation                          | Only Admin can invite Viewers                           | F-011 Out of Scope |
-| Admin notification when Viewer accepts invitation    | Out of scope; Admin can check status manually           | Q-036              |
-| Viewer-initiated access requests                     | Only Admin grants access proactively                    | Q-037              |
-| Viewer limit per project                             | No hard limit for MVP; performance target in NFR-011-05 | Q-038              |
+| Client accounts or per-stakeholder logins            | Clients review through a shared project access code (ADR-020) | F-011 Out of Scope |
+| Per-stakeholder revocation or audit of client views  | Revoking means regenerating the project's access code   | ADR-020            |
+| Expiring or signed client-review links               | A regenerable access code covers revocation for MVP     | ADR-020            |
 | Support staff ability to grant additional AI credits | No support credit grants for MVP                        | Q-034              |
 
 ### AI Credits & API Keys

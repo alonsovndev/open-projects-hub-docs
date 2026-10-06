@@ -14,7 +14,7 @@ Our vision is to create an accessible tool that empowers freelancers to deliver 
 
 - 🤖 **AI-Assisted Requirements Refinement**: An integrated AI engine that detects ambiguities and automatically generates structured user stories from raw input.
 - 🗂️ **Centralized Management**: A single platform to manage clients and projects efficiently.
-- 🔒 **Role-Based Access Control**: Secure, structured access levels (e.g., Admin, Viewer) to ensure safe collaboration.
+- 🔒 **Role-Based Access Control**: Secure, structured access levels (Admin, Member) plus account-free client review through a project access code.
 - 🎓 **Academically-Focused**: Built with modern best practices (Clean Architecture, DDD, TDD) to serve as a real-world reference project.
 - 📖 **Open Source**: A community-driven project open to contributions and learning.
 

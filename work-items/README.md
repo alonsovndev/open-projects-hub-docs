@@ -91,10 +91,10 @@ Points are split by the `Fix Version` on each story: an epic can contribute to b
 | [EPIC-1](./EPIC-1-lifecycle-governance/epic.md) | Client and project lifecycle governance. | 8 | 37 | — |
 | [EPIC-2](./EPIC-2-user-authentication/epic.md) | Authentication: login, password reset, sessions. | 10 | 48 | — |
 | [EPIC-3](./EPIC-3-ai-refinement/epic.md) | Controlled refinement workflow from notes to approved stories. | 9 | 37 | 5 |
-| [EPIC-4](./EPIC-4-access-boundaries/epic.md) | Admin and Viewer boundary enforcement. | 4 | 18 | — |
+| [EPIC-4](./EPIC-4-access-boundaries/epic.md) | Admin and Member boundary enforcement (the Viewer role was removed by ADR-020). | 4 | 18 | — |
 | [EPIC-5](./EPIC-5-backlog-export/epic.md) | Structured backlog viewing and Markdown export. | 7 | 24 | 3 |
 | [EPIC-6](./EPIC-6-ai-monetization-config/epic.md) | AI credit tracking and user-managed API keys. | 9 | — | 45 |
-| [EPIC-7](./EPIC-7-viewer-collaboration-lifecycle/epic.md) | Viewer invitation, registration, and project access. | 9 | 42 | 5 |
+| [EPIC-7](./EPIC-7-viewer-collaboration-lifecycle/epic.md) | **Superseded by ADR-020.** Viewer invitation, registration, and project access, replaced by account-free Client Review via a project access code. | 9 | 42 | 5 |
 | [EPIC-8](./EPIC-8-entry-flow/epic.md) | Onboarding, landing page, and account creation flows. | 13 | — | 45 |
 | [EPIC-9](./EPIC-9-quality-baseline/epic.md) | Cross-cutting quality baseline and validation. | 10 | 27 | 21 |
 | [EPIC-10](./EPIC-10-seo-discoverability/epic.md) | Discoverability of the public entry pages. | 6 | — | 20 |

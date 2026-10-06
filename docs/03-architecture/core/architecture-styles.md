@@ -48,7 +48,7 @@ The modular monolith maps bounded contexts to internal modules:
 - **Client Management**: client records and lifecycle
 - **Project Management**: project creation, status (discovery/planning), constraints
 - **Requirements Refinement**: AI-assisted drafting, approvals, story artifact lifecycle
-- **Access Control**: Admin/Viewer authorization and visibility rules
+- **Access Control**: Admin/Member authorization and Client Review visibility rules
 - **Export & Reporting**: Markdown export and delivery artifacts
 
 Each module owns:
@@ -60,7 +60,7 @@ Each module owns:
 **Cross-module dependencies:**
 
 - **Auth** → provides JWT validation middleware consumed by all protected endpoints
-- **Access Control** → uses Auth user context to enforce Admin/Viewer rules
+- **Access Control** → uses Auth user context to enforce Admin/Member rules
 - **All modules** → use Access Control to check permissions before operations
 
 ## Rationale and Trade-offs

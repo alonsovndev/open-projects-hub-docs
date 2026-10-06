@@ -84,8 +84,8 @@ The platform uses a layered defense-in-depth model across **AWS infrastructure**
 ```mermaid
 flowchart TB
     subgraph Users["Users"]
-        Admin["Admin (Browser)"]
-        Viewer["Viewer (Browser)"]
+        Admin["Admin / Member (Browser)"]
+        Stakeholder["Client Stakeholder (Browser, no account)"]
     end
 
     subgraph Edge["Edge Layer"]
@@ -114,7 +114,7 @@ flowchart TB
     end
 
     Admin -->|"HTTPS"| CF
-    Viewer -->|"HTTPS"| CF
+    Stakeholder -->|"HTTPS"| CF
     CF -->|"Static Assets"| S3F
     CF -->|"API Requests<br/>Bearer JWT"| AR
     AR -->|"VPC Connector<br/>TLS"| RDS
@@ -240,19 +240,29 @@ sequenceDiagram
 
 ### RBAC + Resource Attributes
 
-- **RBAC baseline:** `admin`, `member`, and `viewer` roles mapped to F-003 access requirements, each scoped to the caller's workspace
+- **RBAC baseline:** `admin` and `member` roles mapped to F-003 access requirements, each scoped to the caller's workspace; plus one anonymous read-only route (Client Review) gated by a project access code
 - **ABAC constraints:** Resource ownership, project membership, and data visibility flags
 - **Permission model:** Backend authorizes action-level permissions before executing use cases
 - **Data-level enforcement:** PostgreSQL Row Level Security (RLS) policies as last-mile protection
 
 ### Least-Privilege Rules
 
-- **Viewer role:** Read-only access, excluded from admin/member operations, scoped to the workspace
+- **Client Review (anonymous):** read-only, approved stories of exactly one project, selected by an unguessable access code; discloses no workspace, client or user identifiers (see "Public Client Review Route" below)
 - **Member role:** Full CRUD on clients, projects, stories, and refinement within the workspace; excluded from team management (adding or removing users)
-- **Admin role:** Everything a Member can do, plus adding Members/Viewers to their own workspace; a workspace's data is never visible to another workspace — a record from another workspace answers 404 for every role, never 403
+- **Admin role:** Everything a Member can do, plus adding Members to their own workspace; a workspace's data is never visible to another workspace — a record from another workspace answers 404 for every role, never 403
 - **Service credentials:** Split by environment (dev/prod) and duty (app runtime, migrations, CI/CD)
 - **Database access:** RDS accessible only from App Runner via VPC connector (no public internet access)
 - **IAM roles:** AWS IAM policies follow principle of least privilege (App Runner, RDS, S3, ECR)
+
+### Public Client Review Route
+
+`GET /v1/viewer/{accessCode}` is the only anonymous route that returns workspace data (ADR-020). Its controls:
+
+- **Credential:** the project's `access_code`, `PRJ-` plus 8 characters from a 32-symbol alphabet (about 10^12 values), generated with a cryptographically secure source and unique across all workspaces. It is independent of the freelancer-chosen project code.
+- **Scope:** the workspace is derived from the project the code resolves to, never from the request; the response contains approved stories, project name and phase only.
+- **Enumeration resistance:** 30 requests per minute per IP, and an unknown and a malformed code both answer an identical `404`. The limiter is in memory and per IP, so it is not shared across workers and may see only a proxy's address; code entropy is the primary defence.
+- **Revocation:** an Admin or Member can regenerate the code, which invalidates the old one immediately.
+- **Verification:** the route-access-policy test lists every public route and fails if one is added without a decision.
 
 ### Authorization Flow
 
@@ -282,7 +292,7 @@ flowchart LR
     subgraph Permission["2. Permission Layer RBAC"]
         F{Route Requires<br/>Admin Role?}
         F -->|Yes, is Admin| G[Pass]
-        F -->|Yes, is Viewer| R403A[403 Forbidden]
+        F -->|Yes, is Member| R403A[403 Forbidden]
         F -->|No| H{Resource<br/>Ownership?}
         H -->|Owner| G
         H -->|Not Owner| R403B[403 Forbidden]
@@ -409,7 +419,7 @@ Before displaying AI-generated content to the user:
 
 All AI-generated content is unapproved until Admin approval (FR-002-03):
 
-- Generated stories are returned to the Admin's browser and are **not stored server-side**, so they cannot reach exports, viewer access, or downstream workflows (ADR-019).
+- Generated stories are returned to the Admin's browser and are **not stored server-side**, so they cannot reach exports, the Client Review Portal, or downstream workflows (ADR-019).
 - The Admin must explicitly review, edit, and approve before content becomes an official project artifact.
 - This creates a final safety net — even if injection bypasses earlier layers, the Admin sees and can discard malicious output before it reaches production data.
 - Discarding a refined story is a client-side action; approved content is unaffected. On approval the server re-validates the submitted content and workspace ownership of the project before saving.
@@ -618,7 +628,7 @@ Additional controls:
 - [F-008: Account Creation](../../01-requirements/f-008-create-account.md)
 - [F-009: Reset Password](../../01-requirements/f-009-reset-password.md)
 - [F-010: AI Credits and API Key Management](../../01-requirements/f-010-ai-credits-and-api-key-management.md)
-- [F-011: Viewer Account Management](../../01-requirements/f-011-viewer-account-management.md)
+- [F-011: Client Review Access](../../01-requirements/f-011-client-review-access.md)
 - [ADR-004: Database (Amazon RDS PostgreSQL)](../../04-decisions/adr-004-database.md)
 - [ADR-005: Authentication and Authorization Strategy](../../04-decisions/adr-005-authentication.md)
 - [ADR-006: Deployment Platform (AWS)](../../04-decisions/adr-006-deployment-platform.md)

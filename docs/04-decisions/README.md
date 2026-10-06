@@ -25,6 +25,7 @@ This folder contains the Architectural Decision Records (ADRs) for the Open Proj
 | [ADR-017](./adr-017-database-migration-strategy.md) | Database Migration Strategy (Alembic) |
 | [ADR-018](./adr-018-user-api-key-encryption.md) | User API Key Encryption at Rest |
 | [ADR-019](./adr-019-no-persisted-draft-stories.md) | Do Not Persist Draft Stories |
+| [ADR-020](./adr-020-client-review-by-access-code.md) | Client Review by Project Access Code (No Viewer Accounts) |
 
 ## Creating a New ADR
 
@@ -37,4 +38,4 @@ Use the [ADR Template](./adr-template.md) for all new decisions.
 
 ---
 
-**Last Updated**: 2026-08-13
+**Last Updated**: 2026-10-02

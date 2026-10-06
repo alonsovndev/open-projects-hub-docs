@@ -27,7 +27,7 @@ sidebar_position: 1
 - **Primary style:** REST JSON APIs for all core business workflows.
 - **GraphQL stance:** Not adopted for MVP to reduce operational and governance complexity.
 - **Resource naming:** plural, kebab-case nouns in paths (e.g., `/api/v1/projects`, `/api/v1/requirements`).
-- **Self/current-user resources:** the authenticated caller's own data is addressed as `/{plural-resource}/me/...` (e.g., `/api/v1/users/me/profile`, `/api/v1/viewers/me/password`) — never a singular resource root.
+- **Self/current-user resources:** the authenticated caller's own data is addressed as `/{plural-resource}/me/...` (e.g., `/api/v1/users/me/profile`, `/api/v1/users/me/password`) — never a singular resource root.
 - **Relationship access:** nested routes only when ownership is explicit (e.g., `/api/v1/projects/{projectId}/requirements`).
 - **Action endpoints:** avoid verbs in URLs; non-CRUD actions use sub-resources (e.g., `/approve`, `/archive`) only when domain-specific behavior is required.
 - **HTTP methods:** `GET` (read), `POST` (create), `PUT` (full resource replace — all fields required in the request), `PATCH` (partial update — fields optional), `DELETE` (soft-archive/remove).
@@ -89,7 +89,7 @@ sidebar_position: 1
 
 - **Authentication:** FastAPI custom auth module issues JWTs; APIs require `Authorization: Bearer <token>` for protected routes (see ADR-005).
 - **Authorization model:** hybrid RBAC + data-level policies.
-  - API layer enforces role permissions (Admin/Viewer capabilities).
+  - API layer enforces role permissions (Admin/Member capabilities; the public Client Review route is the only anonymous exception).
   - PostgreSQL Row Level Security (RLS) enforces least-privilege data access.
 - **Token requirements:** short-lived access tokens (1-hour default, configurable via `JWT_EXPIRE_MINUTES`). Refresh tokens deferred to Phase 2.
 - **Service trust boundary:** backend validates JWT signature, expiration, and required claims on every protected request.

@@ -19,7 +19,7 @@ This document defines the technology choices for the Open Projects Hub, organize
 | Component              | Selected Technology                  | Description                                                                                |
 | ---------------------- | ------------------------------------ | ------------------------------------------------------------------------------------------ |
 | **Frontend**           |                                      |                                                                                            |
-| Framework              | React + TypeScript                   | Component-based UI framework with type safety for Admin/Viewer workflows                   |
+| Framework              | React + TypeScript                   | Component-based UI framework with type safety for freelancer and client-review workflows                   |
 | UI Library             | Ant Design                           | Accessible, production-ready component library for rapid MVP delivery                      |
 | State Management       | Redux Toolkit                        | Predictable state container for multi-step refinement and approval flows                   |
 | Build Tool             | Vite                                 | Fast development server and optimized production builds                                    |

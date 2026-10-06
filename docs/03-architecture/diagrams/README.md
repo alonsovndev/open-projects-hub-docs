@@ -6,7 +6,7 @@ This directory contains architecture visualizations for the Open Projects Hub. D
 
 Detailed workflow explanations with 13 sequence diagrams covering the full system lifecycle:
 
-- [Sequence Diagrams](./sequence-diagrams.md) — Authentication, AI refinement, approval/visibility, markdown export, error handling, user registration, password reset, login+lockout, authorization layers, viewer invitation lifecycle, AI credits/API key management, AI security pipeline, and CI/CD deployment
+- [Sequence Diagrams](./sequence-diagrams.md) — Authentication, AI refinement, approval/visibility, markdown export, error handling, user registration, password reset, login+lockout, authorization layers, client review by access code, AI credits/API key management, AI security pipeline, and CI/CD deployment
 
 ## Related Documents
 

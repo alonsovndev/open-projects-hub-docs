@@ -74,10 +74,10 @@
   - Client and project management (F-001)
   - AI refinement workspace with provider selection (F-002)
   - Requirements backlog - Admin view with edit/approve controls (F-004)
-  - Requirements backlog - Viewer view (read-only) (F-003, F-004)
+  - Requirements backlog - Client Review view (read-only) (F-003, F-004)
   - Markdown export flow and confirmation (F-004)
   - AI credits management and API key configuration (F-010)
-  - Viewer invitation and access grant flow (F-011)
+  - Client Review by project access code (F-011, ADR-020; replaces the Viewer invitation flow)
   - Minimal onboarding overlay for first-time Admin (F-005)
 
 - **Visual design system documentation:**
@@ -353,7 +353,7 @@ MVP without a shippable end-to-end workflow. Re-derive these numbers if team siz
 | F-008 | Account Creation | Phase 1 | Should | EPIC-8 | US-EP8-BE-002 (P1), US-EP8-BE-003 (P1), US-EP8-FE-003 (P1), US-EP8-FE-004 (P1), US-EP8-REL-003 (P1), US-EP8-UX-003 (P1) | Planned |
 | F-009 | Reset Password | MVP-1 | Must | EPIC-2 | US-EP2-BE-002 (M), US-EP2-BE-005 (M), US-EP2-FE-002 (M), US-EP2-REL-002 (M) | Planned |
 | F-010 | AI Credits and API Key Management | Phase 1 | Must | EPIC-6 | US-EP6-BE-001 (P1), US-EP6-BE-002 (P1), US-EP6-BE-003 (P1), US-EP6-BE-004 (P1), US-EP6-BE-005 (P1), US-EP6-FE-001 (P1), US-EP6-FE-002 (P1), US-EP6-REL-001 (P1), US-EP6-UX-001 (P1) | Planned |
-| F-011 | Viewer Account Management | MVP-1 + Phase 1 | Must | EPIC-7 | US-EP7-BE-001 (M), US-EP7-BE-002 (M), US-EP7-BE-003 (P1), US-EP7-BE-004 (M), US-EP7-BE-005 (M), US-EP7-FE-001 (M), US-EP7-FE-002 (M), US-EP7-REL-001 (M), US-EP7-UX-001 (M) | Planned |
+| F-011 | Client Review Access (superseded Viewer Account Management, ADR-020) | MVP-1 + Phase 1 | Must | EPIC-7 (superseded) | US-EP7-BE-001 (M), US-EP7-BE-002 (M), US-EP7-BE-003 (P1), US-EP7-BE-004 (M), US-EP7-BE-005 (M), US-EP7-FE-001 (M), US-EP7-FE-002 (M), US-EP7-REL-001 (M), US-EP7-UX-001 (M) | Planned |
 | NFR-X01–X11 | Cross-Cutting Quality Baseline | MVP-1 + Phase 1 | Must | EPIC-9 | US-EP9-BE-001 (M), US-EP9-BE-002 (M), US-EP9-BE-003 (M), US-EP9-BE-004 (M), US-EP9-PO-001 (M), US-EP9-QA-001 (M), US-EP9-QA-002 (P1), US-EP9-QA-003 (P1), US-EP9-QA-004 (P1), US-EP9-UX-001 (P1) | Planned |
 | — | Foundational Setup and Deployment | MVP-1 | Must | EPIC-0 | US-EP0-BE-001 (M), US-EP0-BE-002 (M), US-EP0-BE-003 (M), US-EP0-BE-004 (M), US-EP0-BE-005 (M), US-EP0-BE-006 (M), US-EP0-FE-001 (M), US-EP0-SP-001 (M), US-EP0-SP-002 (M), US-EP0-SP-003 (M), US-EP0-SP-004 (M) | Planned |
 | NFR-X11 | SEO and Discoverability | Phase 1 | Should | EPIC-10 | US-EP10-FE-001 (P1), US-EP10-FE-002 (P1), US-EP10-FE-003 (P1), US-EP10-FE-004 (P1), US-EP10-FE-005 (P1), US-EP10-QA-001 (P1) | Planned |
@@ -381,3 +381,5 @@ MVP without a shippable end-to-end workflow. Re-derive these numbers if team siz
 ---
 
 **Last Updated**: 2026-07-30
+
+> **Note (2026-10-02):** Rows and phases above that mention Viewer invitation, acceptance, or project-level access grants describe the original F-011. ADR-020 replaced them with account-free Client Review through a project access code, so EPIC-7 is no longer planned.

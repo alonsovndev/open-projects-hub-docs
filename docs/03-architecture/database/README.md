@@ -21,7 +21,7 @@ Database architecture documentation defining the core schema, entity relationshi
 
 This domain covers:
 
-- Database schema design and entity relationships (6-entity model: users, clients, projects, epics, project_memberships, user_stories)
+- Database schema design and entity relationships (users, clients, projects, epics, user_stories)
 - Migration strategy and version control (Alembic per ADR-017)
 - Row-Level Security (RLS) policies
 - Indexing strategy and query optimization
@@ -38,8 +38,8 @@ This domain covers:
 | FR-002-01   | Raw input acceptance handled at application layer; refined output stored in `user_stories`                                                     |
 | FR-002-02   | `user_stories` with `story_id`, `title`, `description`, `acceptance_criteria`, `priority`, `story_points`, `labels`, and approval audit fields |
 | FR-002-03   | `user_stories.status`, `approved_by_user_id`, and `approved_at` for explicit approval gate                                                     |
-| FR-003-01   | `project_memberships.role` and `users.status` for authorization                                                                                |
-| FR-003-02   | Partial unique membership indexes (one Admin, one Viewer per project)                                                                          |
+| FR-003-01   | `users.role` and `users.status` for authorization                                                                                              |
+| FR-003-02   | `users.workspace_id` confines every account to one workspace                                                                                   |
 | FR-003-03   | Approved stories and phase visibility model                                                                                                    |
 | FR-004-01   | `epics` and `user_stories` with `acceptance_criteria`, `priority`, `status`, and `epic_id` FK for backlog views grouped by epic                |
 | FR-007-01   | `users` identity projection and `password_hash`; custom auth bounded context owns credential lifecycle                                         |
@@ -66,13 +66,13 @@ This schema follows PostgreSQL best practices across the following categories.
 ### Indexing Strategy
 
 - Composite indexes matched to access patterns: `(owner_admin_user_id, status, created_at DESC)` for dashboard lists
-- Partial unique indexes for membership constraints (one Admin, one Viewer per project)
+- Unique `projects.access_code` for the public Client Review lookup
 - Covering design avoids full table scans on dashboard, project detail, and refinement review queries
 - All JOIN and WHERE columns indexed per PostgreSQL best practices
 
 ### Security & Access Control
 
-- Row-Level Security (RLS) enforced with least-privilege defaults for Admin and Viewer boundaries
+- Row-Level Security (RLS) enforced with least-privilege defaults for Admin and Member boundaries
 - Authentication via custom JWT auth bounded context (bcrypt/passlib per ADR-005)
 - Sensitive fields (`email`, `contact_email`, `password_hash`) governed by auth boundary
 - Lifecycle auditability via `created_at`, `updated_at`, `approved_at`, and `archived_at` columns

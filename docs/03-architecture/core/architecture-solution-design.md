@@ -34,7 +34,7 @@ sidebar_position: 1
 
 ## System Context
 
-The Open Projects Hub must support AI-assisted requirement refinement, role-based collaboration (Admin/Viewer), and secure project management for freelancers within MVP limits. Based on functional and non-functional requirements, the architecture must prioritize:
+The Open Projects Hub must support AI-assisted requirement refinement, role-based collaboration (Admin/Member) with account-free client review, and secure project management for freelancers within MVP limits. Based on functional and non-functional requirements, the architecture must prioritize:
 
 - rapid MVP delivery for a small team,
 - strong maintainability through clear boundaries,
@@ -68,7 +68,7 @@ For detailed rationale and alternatives considered, see [ADR-001: High-Level Arc
 
 ```mermaid
 flowchart LR
-    U[Admin / Viewer] --> FE[S3 + CloudFront<br/>Frontend Project]
+    U[Admin / Member / Client Stakeholder] --> FE[S3 + CloudFront<br/>Frontend Project]
     FE -->|JWT Bearer Token| BE[App Runner<br/>Backend Project<br/>includes Auth Module]
     BE --> DB[(RDS PostgreSQL)]
     FE --> SEN[Sentry Frontend<br/>Monitoring]
@@ -76,7 +76,7 @@ flowchart LR
     BE --> CW[CloudWatch<br/>Infrastructure Metrics]
 ```
 
-- **Frontend Project (S3 + CloudFront):** UI workflows for project management, AI refinement interaction, and read-only viewer access; global edge delivery via CDN.
+- **Frontend Project (S3 + CloudFront):** UI workflows for project management, AI refinement interaction, and read-only client review access; global edge delivery via CDN.
 - **Backend Project (App Runner):** modular monolith organized by bounded contexts (clients, projects, requirements, auth, access control, exports); containerized FastAPI application with integrated auth module.
 - **Data Layer (RDS PostgreSQL):** transactional persistence with policy-based protection via PostgreSQL RLS.
 
@@ -168,7 +168,7 @@ sequenceDiagram
 
 ## Security Considerations
 
-- Enforce role-based authorization for Admin and Viewer capabilities.
+- Enforce role-based authorization for Admin and Member capabilities, and confine the public Client Review route to one project's approved stories.
 - Apply least-privilege access across frontend, backend, and database policies.
 - Use HTTPS-only communication across all service boundaries.
 - Protect sensitive data with managed encryption at rest and in transit.

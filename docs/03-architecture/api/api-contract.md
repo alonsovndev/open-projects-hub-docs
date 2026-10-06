@@ -29,11 +29,11 @@ sidebar_position: 2
 - **Token expiry:** access tokens expire after 15 minutes (configurable via `JWT_EXPIRE_MINUTES`). Refresh tokens are single-use with rotation; sessions slide 24h (standard) or 7d (remember-me) from the last refresh — see ADR-005.
 - **Field naming:** `camelCase`
 - **Datetime format:** ISO 8601 UTC (`YYYY-MM-DDTHH:MM:SSZ`)
-- **Workspaces:** every account belongs to one workspace (the tenant boundary owning clients and projects). Self sign-up creates a new workspace and its Admin; the Admin adds teammates and viewers to it.
+- **Workspaces:** every account belongs to one workspace (the tenant boundary owning clients and projects). Self sign-up creates a new workspace and its Admin; the Admin adds teammates to it. Clients have no account (see "Client Review" below).
 - **Roles:**
-  - `Admin`: full CRUD, plus adding members and viewers to the workspace
+  - `Admin`: full CRUD, plus adding members to the workspace
   - `Member`: full CRUD on clients, projects, stories and refinement; no team management
-  - `Viewer`: read-only project/requirements visibility, scoped to the workspace
+  - `Public` (no token): the Client Review route only. A client stakeholder holds a project access code and can read that one project's approved stories; see ADR-020.
 
 ## Endpoint Catalog
 
@@ -42,17 +42,17 @@ sidebar_position: 2
 | Auth         | POST   | `/auth/register`                                                | Self sign-up: creates a new workspace + Admin | Public           |
 | Auth         | POST   | `/auth/login`                                                   | Login, return JWT access + refresh tokens    | Public           |
 | Auth         | POST   | `/auth/refresh`                                                 | Rotate a refresh token for a new token pair  | Public           |
-| Auth         | POST   | `/auth/logout`                                                  | Revoke the session's refresh token server-side | Admin, Viewer  |
+| Auth         | POST   | `/auth/logout`                                                  | Revoke the session's refresh token server-side | Admin, Member  |
 | Auth         | POST   | `/auth/verify-email`                                            | Submit email verification code               | Public           |
 | Auth         | POST   | `/auth/resend-verification`                                     | Resend verification code                     | Public           |
 | Auth         | POST   | `/auth/forgot-password`                                         | Request password reset code                  | Public           |
 | Auth         | POST   | `/auth/reset-password`                                          | Submit reset code + new password             | Public           |
 | Auth         | POST   | `/auth/resend-reset-code`                                       | Resend password reset code                   | Public           |
-| User         | GET    | `/users/me/profile`                                             | Get current user profile                     | Admin, Viewer    |
-| User         | PATCH  | `/users/me/profile`                                             | Update profile (display name, preferences)   | Admin, Viewer    |
-| Team         | POST   | `/users`                                                        | Add a member or viewer to the workspace      | Admin            |
+| User         | GET    | `/users/me/profile`                                             | Get current user profile                     | Admin, Member    |
+| User         | PATCH  | `/users/me/profile`                                             | Update profile (display name, preferences)   | Admin, Member    |
+| Team         | POST   | `/users`                                                        | Add a member to the workspace                | Admin            |
 | Team         | GET    | `/users`                                                        | List the workspace's users                   | Admin, Member    |
-| Team         | GET    | `/users/{userId}`                                               | Get a user (Viewer: self only)               | Admin, Member, Viewer |
+| Team         | GET    | `/users/{userId}`                                               | Get a user of the workspace                  | Admin, Member |
 | Credits      | GET    | `/users/me/credits`                                             | Get AI credit balance                        | Admin, Member    |
 | API Keys     | GET    | `/users/me/api-keys`                                            | List configured AI provider keys (masked)    | Admin            |
 | API Keys     | POST   | `/users/me/api-keys`                                            | Add or replace API key for a provider        | Admin            |
@@ -63,9 +63,9 @@ sidebar_position: 2
 | Clients      | GET    | `/clients/{clientId}`                                           | Get client details                           | Admin            |
 | Clients      | PATCH  | `/clients/{clientId}`                                           | Update client                                | Admin            |
 | Clients      | DELETE | `/clients/{clientId}`                                           | Archive client (soft-delete)                 | Admin            |
-| Projects     | GET    | `/projects`                                                     | List projects (with search/filter params)    | Admin, Viewer    |
+| Projects     | GET    | `/projects`                                                     | List projects (with search/filter params)    | Admin, Member    |
 | Projects     | POST   | `/projects`                                                     | Create project (max 3 active)                | Admin            |
-| Projects     | GET    | `/projects/{projectId}`                                         | Get project details                          | Admin, Viewer    |
+| Projects     | GET    | `/projects/{projectId}`                                         | Get project details                          | Admin, Member    |
 | Projects     | PATCH  | `/projects/{projectId}`                                         | Update project metadata (incl. reactivate)   | Admin            |
 | Projects     | DELETE | `/projects/{projectId}`                                         | Archive project                              | Admin            |
 | Refinement   | GET    | `/projects/{projectId}/refinement-sessions`                     | List refinement sessions                     | Admin            |
@@ -77,21 +77,14 @@ sidebar_position: 2
 | Refinement   | PUT    | `/projects/{projectId}/refinement-sessions/{sessionId}`         | Update draft and ambiguities                 | Admin            |
 | Refinement   | DELETE | `/projects/{projectId}/refinement-sessions/{sessionId}`         | Delete draft session                         | Admin            |
 | Refinement   | POST   | `/projects/{projectId}/refinement-sessions/{sessionId}/approve` | Approve draft as official requirements       | Admin            |
-| Requirements | GET    | `/projects/{projectId}/requirements`                            | List approved requirements                   | Admin, Viewer    |
+| Requirements | GET    | `/projects/{projectId}/requirements`                            | List approved requirements                   | Admin, Member    |
 | Requirements | PUT    | `/projects/{projectId}/requirements/{requirementId}`            | Edit requirement                             | Admin            |
 | Requirements | DELETE | `/projects/{projectId}/requirements/{requirementId}`            | Archive requirement                          | Admin            |
 | Requirements | PATCH  | `/projects/{projectId}/requirements/reorder`                    | Reorder requirements (bulk sort-order)       | Admin            |
 | Exports      | POST   | `/projects/{projectId}/exports/markdown`                        | Generate markdown export                     | Admin            |
 | Exports      | GET    | `/projects/{projectId}/exports/{exportId}`                      | Retrieve export metadata/download URL        | Admin            |
-| Viewers      | GET    | `/viewers`                                                      | List all viewers with access                 | Admin            |
-| Viewers      | POST   | `/viewers/invitations`                                          | Send viewer invitation                       | Admin            |
-| Viewers      | GET    | `/viewers/invitations/{token}`                                  | Validate invitation token                    | Public           |
-| Viewers      | POST   | `/viewers/invitations/{token}/accept`                           | Accept invitation + set password            | Public           |
-| Viewers      | POST   | `/viewers/invitations/{invitationId}/resend`                    | Resend invitation                            | Admin            |
-| Viewers      | DELETE | `/viewers/invitations/{invitationId}`                           | Revoke invitation                            | Admin            |
-| Viewers      | POST   | `/viewers/{viewerId}/projects`                                  | Grant project access to viewer               | Admin            |
-| Viewers      | DELETE | `/viewers/{viewerId}/projects/{projectId}`                      | Revoke project access from viewer            | Admin            |
-| Viewers      | PUT    | `/viewers/me/password`                                          | Viewer changes own password                  | Viewer           |
+| Projects     | POST   | `/projects/{projectId}/access-code/regenerate`                  | Replace the project's client access code     | Admin, Member    |
+| Client Review | GET   | `/viewer/{accessCode}`                                          | Approved stories of one project, by access code | Public        |
 
 ## Shared JSON Schemas
 
@@ -182,7 +175,7 @@ Example:
 | `404` | Not Found             | Missing resource                    |
 | `409` | Conflict              | Project state/rule conflict         |
 | `422` | Unprocessable Entity  | Validation/domain rule issue        |
-| `429` | Too Many Requests     | Rate limit exceeded                 |
+| `429` | Too Many Requests     | Rate limit exceeded (including the public Client Review route) |
 | `500` | Internal Server Error | Unhandled server failure            |
 
 ## Detailed Endpoint Contracts
@@ -454,7 +447,7 @@ Status codes: `200`, `400`, `401`, `403`, `404`, `409`, `500`
 ### 5) List Requirements (Paginated)
 
 - **Method/URL:** `GET /api/v1/projects/{projectId}/requirements?page=1&pageSize=20`
-- **Description:** Returns approved requirement backlog for Admin/Viewer.
+- **Description:** Returns approved requirement backlog for Admin/Member.
 
 Response example (`200`):
 
@@ -734,7 +727,7 @@ Status codes: `200`, `401`, `429`, `500`
 ### 12) Auth — Register
 
 - **Method/URL:** `POST /api/v1/auth/register`
-- **Description:** Open self sign-up. Each registration creates a new **workspace** (the tenant boundary that owns clients and projects) and makes the account its **Admin**; a `role` field in the body is rejected with `422`. The account is created **unverified** with no AI credits and is emailed a verification code. No tokens are returned: the account signs in only after verifying its email. An optional `workspaceName` (max 100 chars) names the workspace; it defaults to `"{displayName}'s workspace"`. Registering with an email that only has an **unverified** account (an abandoned sign-up, or someone added to a workspace who never confirmed) replaces that pending account rather than returning `409` — an unverified account never proved it owns the address. Teammates (`member`) and clients (`viewer`) are added to a workspace by its Admin via `POST /users`.
+- **Description:** Open self sign-up. Each registration creates a new **workspace** (the tenant boundary that owns clients and projects) and makes the account its **Admin**; a `role` field in the body is rejected with `422`. The account is created **unverified** with no AI credits and is emailed a verification code. No tokens are returned: the account signs in only after verifying its email. An optional `workspaceName` (max 100 chars) names the workspace; it defaults to `"{displayName}'s workspace"`. Registering with an email that only has an **unverified** account (an abandoned sign-up, or someone added to a workspace who never confirmed) replaces that pending account rather than returning `409` — an unverified account never proved it owns the address. Teammates (`member`) are added to a workspace by its Admin via `POST /users`. Clients have no account.
 
 Request example:
 
@@ -875,7 +868,7 @@ Status codes: `200`, `401`, `403`, `500`
 ### 16) Team Management (Workspace Users)
 
 - **Method/URL:** `POST /api/v1/users`
-- **Description:** Adds a **member** or **viewer** to the caller's workspace. Requires the **Admin** role. `role` accepts `member` (default) or `viewer`; `admin` is rejected with `422` — there is no way yet to demote or remove a second Admin, so a workspace cannot end up with one it did not choose. The account is created **unverified** and is emailed a verification code, exactly like self-registration: an Admin's word does not prove the address belongs to that person. AI credits are granted on verification (members only; viewers get none, subject to the workspace's 25-credit lifetime ceiling). A workspace holds at most **5 users** (all roles, including inactive and unverified); adding a sixth answers `409`.
+- **Description:** Adds a **member** to the caller's workspace. Requires the **Admin** role. `role` accepts only `member` (the default); `admin` and any other value are rejected with `422` — there is no way yet to demote or remove a second Admin, so a workspace cannot end up with one it did not choose. The account is created **unverified** and is emailed a verification code, exactly like self-registration: an Admin's word does not prove the address belongs to that person. AI credits are granted on verification (subject to the workspace's 25-credit lifetime ceiling). A workspace holds at most **5 users** (including inactive and unverified); adding a sixth answers `409`.
 
 Request example:
 
@@ -905,7 +898,7 @@ Status codes: `201`, `403` (not an Admin), `409` (email already registered), `42
 - **Description:** Lists the caller's workspace users. Requires **Admin or Member**.
 
 - **Method/URL:** `GET /api/v1/users/{userId}`
-- **Description:** Looks up one user by id, scoped to the caller's workspace. A user of another workspace, or an id that does not exist, both answer `404` — never `403`, so the response cannot confirm the id exists elsewhere. A **Viewer** may only look up their own id.
+- **Description:** Looks up one user by id, scoped to the caller's workspace. A user of another workspace, or an id that does not exist, both answer `404` — never `403`, so the response cannot confirm the id exists elsewhere.
 
 ### 17) User Profile
 
@@ -943,7 +936,7 @@ Status codes: `200`, `400`, `401`, `422`, `500`
 ### 18) AI Credits
 
 - **Method/URL:** `GET /api/v1/users/me/credits`
-- **Description:** Returns current AI credit balance. Admins and Members are granted 5 credits on email verification (Viewers none), up to 25 per workspace in its lifetime.
+- **Description:** Returns current AI credit balance. Admins and Members are granted 5 credits on email verification up to 25 per workspace in its lifetime.
 
 Response example (`200`):
 
@@ -1118,155 +1111,49 @@ Success response: `204 No Content`
 
 Status codes: `204`, `400`, `401`, `403`, `404`, `422`, `500`
 
-### 22) Viewer — Invitations
+### 22) Client Review — Public Read
 
-- **Send invitation:** `POST /api/v1/viewers/invitations` — Admin sends invitation by email + project selection. Token expires after 7 days.
-- **Validate token:** `GET /api/v1/viewers/invitations/{token}` — returns project info, expiry status (public, no auth required).
-- **Accept invitation:** `POST /api/v1/viewers/invitations/{token}/accept` — Viewer sets password, creates account.
-- **Resend invitation:** `POST /api/v1/viewers/invitations/{invitationId}/resend` — rate-limited to 3 per hour.
-- **Revoke invitation:** `DELETE /api/v1/viewers/invitations/{invitationId}` — Admin cancels pending invitation.
+`GET /api/v1/viewer/{accessCode}` — no authentication. Returns one project's approved stories for a client stakeholder who holds the project's access code (`PRJ-` plus 8 characters, generated by the server, unique across workspaces; not the freelancer-chosen project `code`).
 
-Send invitation request schema:
+Query parameters: `limit` (default 100, max 100), `offset` (default 0).
+
+Success response (`200`):
 
 ```json
 {
-  "type": "object",
-  "required": ["email", "projectIds"],
-  "properties": {
-    "email": { "type": "string", "format": "email" },
-    "projectIds": {
-      "type": "array",
-      "minItems": 1,
-      "items": { "type": "string", "format": "uuid" }
-    }
-  }
-}
-```
-
-Send invitation response (`201`):
-
-```json
-{
-  "invitationId": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb",
-  "email": "viewer@client.com",
-  "projectIds": ["22222222-2222-2222-2222-222222222222"],
-  "status": "pending",
-  "sentAt": "2026-08-11T10:00:00Z",
-  "expiresAt": "2026-08-18T10:00:00Z"
-}
-```
-
-Validate token response (`200`):
-
-```json
-{
-  "email": "viewer@client.com",
-  "projects": [
-    { "id": "22222222-2222-2222-2222-222222222222", "name": "Freelancer Portal MVP" }
-  ],
-  "status": "pending",
-  "expiresAt": "2026-08-18T10:00:00Z"
-}
-```
-
-Accept invitation request schema:
-
-```json
-{
-  "type": "object",
-  "required": ["password", "displayName"],
-  "properties": {
-    "password": {
-      "type": "string",
-      "minLength": 8,
-      "pattern": "^(?=.*[A-Za-z])(?=.*\\d).{8,}$"
-    },
-    "displayName": { "type": "string", "maxLength": 100 }
-  }
-}
-```
-
-Accept invitation response (`201`):
-
-```json
-{
-  "id": "cccccccc-cccc-cccc-cccc-cccccccccccc",
-  "email": "viewer@client.com",
-  "displayName": "Viewer User",
-  "role": "viewer"
-}
-```
-
-Status codes (send): `201`, `400`, `401`, `403`, `422`, `429`, `500`
-Status codes (validate): `200`, `404`, `410`, `500`
-Status codes (accept): `201`, `400`, `404`, `410`, `422`, `500`
-Status codes (resend): `200`, `401`, `403`, `404`, `410`, `429`, `500`
-Status codes (revoke): `204`, `401`, `403`, `404`, `500`
-
-### 23) Viewer — Access Management
-
-- **List viewers:** `GET /api/v1/viewers` — Admin lists all viewers with access and invitation status.
-- **Grant access:** `POST /api/v1/viewers/{viewerId}/projects` — grant viewer access to additional projects.
-- **Revoke access:** `DELETE /api/v1/viewers/{viewerId}/projects/{projectId}` — revoke project access.
-- **Change password:** `PUT /api/v1/viewers/me/password` — Viewer changes own password.
-
-List viewers response example (`200`):
-
-```json
-{
-  "data": [
+  "projectName": "Clinic Management System",
+  "phase": "discovery",
+  "total": 1,
+  "stories": [
     {
-      "viewerId": "cccccccc-cccc-cccc-cccc-cccccccccccc",
-      "email": "viewer@client.com",
-      "displayName": "Viewer User",
-      "invitationStatus": "accepted",
-      "projectsGranted": [
-        { "id": "22222222-2222-2222-2222-222222222222", "name": "Freelancer Portal MVP" }
-      ],
-      "invitedAt": "2026-08-11T10:00:00Z"
+      "id": "dddddddd-dddd-dddd-dddd-dddddddddddd",
+      "title": "Appointment scheduling",
+      "description": "As a clinic patient, I want to book an appointment online, so that I do not need to call.",
+      "acceptanceCriteria": ["A patient can pick a doctor and a free time slot"],
+      "status": "todo",
+      "priority": "high",
+      "points": 3,
+      "createdAt": "2026-05-09T12:00:00Z",
+      "updatedAt": "2026-05-09T12:00:00Z"
     }
-  ],
-  "pagination": { "page": 1, "pageSize": 20, "total": 1, "totalPages": 1 }
+  ]
 }
 ```
 
-Grant access request schema:
+The response names no workspace, client record, project id or code, and no user. Stories are approved stories only, highest priority first, then oldest first.
+
+Not found (`404`) is identical for an unknown and a malformed code:
 
 ```json
-{
-  "type": "object",
-  "required": ["projectIds"],
-  "properties": {
-    "projectIds": {
-      "type": "array",
-      "minItems": 1,
-      "items": { "type": "string", "format": "uuid" }
-    }
-  }
-}
+{ "detail": "Project not found" }
 ```
 
-Change password request schema:
+The route is limited to 30 requests per minute per IP (`429`). Because the code is the only credential, a freelancer can replace it:
 
-```json
-{
-  "type": "object",
-  "required": ["currentPassword", "newPassword"],
-  "properties": {
-    "currentPassword": { "type": "string" },
-    "newPassword": {
-      "type": "string",
-      "minLength": 8,
-      "pattern": "^(?=.*[A-Za-z])(?=.*\\d).{8,}$"
-    }
-  }
-}
-```
+`POST /api/v1/projects/{projectId}/access-code/regenerate` — Admin or Member. Returns the project with a new `accessCode`; the previous code and any link built from it stop working immediately.
 
-Status codes (list): `200`, `401`, `403`, `500`
-Status codes (grant): `201`, `400`, `401`, `403`, `404`, `500`
-Status codes (revoke): `204`, `401`, `403`, `404`, `500`
-Status codes (password): `200`, `400`, `401`, `403`, `422`, `500`
+Status codes (read): `200`, `404`, `422`, `429`
+Status codes (regenerate): `200`, `401`, `404`
 
 ## Standard Error Examples by Status
 
