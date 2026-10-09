@@ -9,7 +9,7 @@
 **Issue Type**: Story
 **Priority**: Must Have
 **Effort Estimate**: 8
-**Status**: TODO
+**Status**: DONE
 **Fix Version**: MVP-1
 **Labels**: backend, quality, nfr, email
 **Requirements**: NFR-X10
@@ -49,7 +49,7 @@
 **Issue Type**: Story
 **Priority**: Must Have
 **Effort Estimate**: 5
-**Status**: TODO
+**Status**: DONE
 **Fix Version**: MVP-1
 **Labels**: backend, quality, nfr, security, session
 **Requirements**: NFR-X09, NFR-003-04
@@ -89,7 +89,7 @@
 **Issue Type**: Story
 **Priority**: Must Have
 **Effort Estimate**: 5
-**Status**: TODO
+**Status**: DONE
 **Fix Version**: MVP-1
 **Labels**: backend, quality, nfr, security
 **Requirements**: NFR-X01
@@ -170,7 +170,7 @@
 **Issue Type**: Story
 **Priority**: Must Have
 **Effort Estimate**: 3
-**Status**: TODO
+**Status**: DONE
 **Fix Version**: MVP-1
 **Labels**: qa, testing, quality, nfr
 **Requirements**: NFR-X03
@@ -251,7 +251,7 @@
 **Issue Type**: Story
 **Priority**: Must Have
 **Effort Estimate**: 8
-**Status**: TODO
+**Status**: IN PROGRESS
 **Fix Version**: Phase 1
 **Labels**: qa, testing, quality, e2e, integration
 **Requirements**: NFR-X03
@@ -317,7 +317,7 @@
 **Dependencies**:
 
 - [Viewer Project Access Control](../EPIC-7-viewer-collaboration-lifecycle/stories.md#us-ep7-be-002-viewer-project-access-control).
-- [API Key Rotation and Provider Fallback](../EPIC-6-ai-monetization-config/stories.md#us-ep6-be-003-api-key-rotation-and-provider-fallback).
+- [API Key Rotation and Provider Failure Handling](../EPIC-6-ai-monetization-config/stories.md#us-ep6-be-003-api-key-rotation-and-provider-failure-handling).
 - [ADR-010: Testing Framework](../../docs/04-decisions/adr-010-testing-framework.md).
 
 **Success Metrics**:

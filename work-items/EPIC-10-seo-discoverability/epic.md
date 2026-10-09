@@ -7,7 +7,7 @@
 **Priority**: Should Have
 **Components**: Frontend
 **Fix Version**: Phase 1
-**Status**: TODO
+**Status**: IN PROGRESS
 
 ---
 

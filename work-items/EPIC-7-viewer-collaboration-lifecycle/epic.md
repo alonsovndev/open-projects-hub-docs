@@ -1,6 +1,8 @@
 # Epic: Viewer Collaboration Lifecycle
 
 > **Superseded (2026-10-02).** The Viewer role, invitations, and per-project access grants described here were replaced by account-free Client Review through a project access code. See [ADR-020](../../docs/04-decisions/adr-020-client-review-by-access-code.md) and [F-011: Client Review Access](../../docs/01-requirements/f-011-client-review-access.md). The stories below are kept as history and are not planned.
+>
+> **As built (2026-10-07):** Client Review is implemented: `GET /v1/viewer/{accessCode}` (public, rate-limited), `POST /v1/projects/{id}/access-code/regenerate`, and the web route `/viewer/:accessCode`. Only its release story (US-EP7-REL-001) remains open.
 
 **Epic Title**: Viewer Collaboration Lifecycle
 **Epic Key**: EPIC-7

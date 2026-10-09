@@ -9,7 +9,7 @@
 **Issue Type**: Story
 **Priority**: Should Have
 **Effort Estimate**: 5
-**Status**: TODO
+**Status**: IN PROGRESS
 **Fix Version**: Phase 1
 **Labels**: frontend, seo, discoverability
 **Requirements**: FR-006-01, FR-006-03, NFR-X11
@@ -133,7 +133,7 @@
 **Issue Type**: Story
 **Priority**: Should Have
 **Effort Estimate**: 3
-**Status**: TODO
+**Status**: DONE
 **Fix Version**: Phase 1
 **Labels**: frontend, seo, accessibility
 **Requirements**: NFR-006-02, NFR-X07, NFR-X11

@@ -9,7 +9,7 @@
 **Issue Type**: Story
 **Priority**: Must Have
 **Effort Estimate**: 3
-**Status**: TODO
+**Status**: DONE
 **Fix Version**: MVP-1
 **Labels**: backend, code-quality, tooling
 **Requirements**: NFR-X03
@@ -50,7 +50,7 @@
 **Issue Type**: Story
 **Priority**: Must Have
 **Effort Estimate**: 3
-**Status**: TODO
+**Status**: IN PROGRESS
 **Fix Version**: MVP-1
 **Labels**: backend, code-quality, tooling, security
 **Requirements**: NFR-X01
@@ -94,7 +94,7 @@
 **Issue Type**: Story
 **Priority**: Must Have
 **Effort Estimate**: 5
-**Status**: TODO
+**Status**: DONE
 **Fix Version**: MVP-1
 **Labels**: backend, code-quality, ci
 **Requirements**: NFR-X03
@@ -220,7 +220,7 @@
 **Issue Type**: Story
 **Priority**: Must Have
 **Effort Estimate**: 3
-**Status**: TODO
+**Status**: DONE
 **Fix Version**: MVP-1
 **Labels**: frontend, code-quality, tooling
 **Requirements**: NFR-X03
@@ -263,7 +263,7 @@
 **Issue Type**: Story
 **Priority**: Must Have
 **Effort Estimate**: 3
-**Status**: TODO
+**Status**: DONE
 **Fix Version**: MVP-1
 **Labels**: qa, code-quality, testing
 **Requirements**: NFR-X03

@@ -9,7 +9,7 @@
 **Issue Type**: Story
 **Priority**: Must Have
 **Effort Estimate**: 2
-**Status**: TODO
+**Status**: DONE
 **Fix Version**: MVP-1
 **Labels**: design, ux, backlog, export
 **Requirements**: FR-004-01, FR-004-02, NFR-004-01
@@ -51,7 +51,7 @@
 **Issue Type**: Story
 **Priority**: Must Have
 **Effort Estimate**: 5
-**Status**: TODO
+**Status**: DONE
 **Fix Version**: MVP-1
 **Labels**: backend, backlog, export
 **Requirements**: FR-004-02, FR-004-05
@@ -90,7 +90,7 @@
 **Issue Type**: Story
 **Priority**: Must Have
 **Effort Estimate**: 5
-**Status**: TODO
+**Status**: DONE
 **Fix Version**: MVP-1
 **Labels**: backend, backlog, export
 **Requirements**: FR-004-01, NFR-004-02
@@ -132,7 +132,7 @@
 **Issue Type**: Story
 **Priority**: Should Have
 **Effort Estimate**: 3
-**Status**: TODO
+**Status**: DONE
 **Fix Version**: Phase 1
 **Labels**: backend, backlog, export
 **Requirements**: FR-004-04, FR-004-06
@@ -176,7 +176,7 @@
 **Issue Type**: Story
 **Priority**: Must Have
 **Effort Estimate**: 2
-**Status**: TODO
+**Status**: DONE
 **Fix Version**: MVP-1
 **Labels**: frontend, backlog, export
 **Requirements**: FR-004-02, FR-004-06
@@ -216,7 +216,7 @@
 **Issue Type**: Story
 **Priority**: Should Have
 **Effort Estimate**: 8
-**Status**: TODO
+**Status**: IN PROGRESS
 **Fix Version**: MVP-1
 **Labels**: frontend, backlog, export
 **Requirements**: FR-004-01, FR-004-03, NFR-004-01
