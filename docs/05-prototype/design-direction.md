@@ -1,5 +1,7 @@
 # Design Direction Snapshot: Prototype (Pencil)
 
+> **Historical prototype (pre-ADR-020).** These screens and notes use the original **Viewer** role. Viewer accounts were later replaced by account-free Client Review through a project access code ([ADR-020](../04-decisions/adr-020-client-review-by-access-code.md)), and the shipped roles are Admin and Member. Read "Viewer" here as "client reviewing by access code".
+
 ## Design Intent
 
 Create a prototype direction that feels **professional**, **clear**, **structured**, **accessible**, and **trustworthy** while staying lightweight enough for rapid iteration.

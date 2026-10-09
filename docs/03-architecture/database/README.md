@@ -2,13 +2,15 @@
 
 ## Overview
 
-Database architecture documentation defining the core schema, entity relationships, indexing strategy, Row-Level Security (RLS) policies, and data governance rules for the Open Projects Hub MVP.
+Database documentation for Open Projects Hub: the schema as implemented, entity relationships,
+indexes, and data governance rules. The source of truth is the SQLAlchemy models and Alembic
+migrations in `open-projects-hub-api`.
 
 ## Documents
 
-| Document                                   | Description                                                                                                                             |
-| ------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------- |
-| [database-design.md](./database-design.md) | Full schema design: 6-entity ERD, table definitions, constraints, indexes, RLS policies, access patterns, and requirements traceability |
+| Document | Description |
+| --- | --- |
+| [database-design.md](./database-design.md) | Schema design: ERD, the 11 tables and their constraints and indexes, access patterns, and requirements traceability |
 
 ## Related Architecture Decision Records
 
@@ -21,79 +23,62 @@ Database architecture documentation defining the core schema, entity relationshi
 
 This domain covers:
 
-- Database schema design and entity relationships (users, clients, projects, epics, user_stories)
-- Migration strategy and version control (Alembic per ADR-017)
-- Row-Level Security (RLS) policies
-- Indexing strategy and query optimization
-- Backup and disaster recovery procedures
-- Data retention and archival policies
+- Schema design and entity relationships (workspaces, users, clients, projects, stories, AI keys and credits, auth state)
+- Migration strategy and version control (Alembic, ADR-017)
+- Indexing strategy for the main access patterns
+- Data retention rules (hard deletes for keys, cascades for stories and codes)
 
 ## Requirements Coverage
 
-| Requirement | Database Coverage                                                                                                                              |
-| ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| FR-001-01   | `clients` and `projects` with `client_id` FK                                                                                                   |
-| FR-001-02   | `projects.status` and owner index for max-3-active-project validation                                                                          |
-| FR-001-03   | `projects.phase` constrained to `discovery` and `planning`                                                                                     |
-| FR-002-01   | Raw input acceptance handled at application layer; refined output stored in `user_stories`                                                     |
-| FR-002-02   | `user_stories` with `story_id`, `title`, `description`, `acceptance_criteria`, `priority`, `story_points`, `labels`, and approval audit fields |
-| FR-002-03   | `user_stories.status`, `approved_by_user_id`, and `approved_at` for explicit approval gate                                                     |
-| FR-003-01   | `users.role` and `users.status` for authorization                                                                                              |
-| FR-003-02   | `users.workspace_id` confines every account to one workspace                                                                                   |
-| FR-003-03   | Approved stories and phase visibility model                                                                                                    |
-| FR-004-01   | `epics` and `user_stories` with `acceptance_criteria`, `priority`, `status`, and `epic_id` FK for backlog views grouped by epic                |
-| FR-007-01   | `users` identity projection and `password_hash`; custom auth bounded context owns credential lifecycle                                         |
-| NFR-001-01  | Soft archive fields on `clients` and `projects`                                                                                                |
-| NFR-003-01  | Membership-driven RBAC and RLS-compatible ownership fields                                                                                     |
-| NFR-X01     | Auth-provider boundary and sensitive-field handling                                                                                            |
-| NFR-X06     | UUID keys and targeted indexes for MVP growth                                                                                                  |
+| Requirement | Database Coverage |
+| --- | --- |
+| FR-001-01 | `clients` and `projects` with the `client_id` FK |
+| FR-001-02 | `projects.status` and the `(workspace_id, status, created_at)` index for the max-3-active-projects check |
+| FR-001-03 | `projects.phase` limited to `discovery` and `planning` |
+| FR-002-02 | `stories` with `title`, `description`, `acceptance_criteria`, `priority`, and `points` |
+| FR-002-03 | Only approved stories are stored (ADR-019) |
+| FR-003-01 | `users.role` (`admin`, `member`) |
+| FR-003-02 | `workspace_id` on users, clients, and projects confines every record to one workspace |
+| FR-003-03 | Unique `projects.access_code` gives clients read-only access to one project's stories |
+| FR-004-01 | `stories` with `acceptance_criteria`, `priority`, and `status` for the backlog view and export |
+| FR-007-01 | `users.password_hash`, `account_lockouts`, and `revoked_refresh_tokens` |
+| NFR-003-01 | Workspace-scoped foreign keys and repository filters |
+| NFR-X01 | Hashed passwords, codes, and refresh tokens; encrypted provider keys |
+| NFR-X06 | UUID keys and targeted indexes |
 
-## Postgres Best Practices Applied
-
-This schema follows PostgreSQL best practices across the following categories.
+## PostgreSQL Practices Applied
 
 ### Schema Design
 
-- **UUID primary keys** for distributed-friendly identity generation
-- **`timestamptz`** for all timestamp columns (timezone-aware)
-- **`text`** for variable-length string fields (no `varchar(n)` limits)
-- **Lowercase snake_case** identifiers throughout
-- **Foreign key indexes** on all FK columns for join performance
-- **Check constraints** for lifecycle enums on status, phase, and priority fields
-- **JSONB `acceptance_criteria`** with GIN index for flexible checklist storage
-- **`story_id`** unique human-readable identifier (e.g., `US-EP0-BE-001`) for API, exports, and backlog views
+- UUID primary keys on entity tables
+- `timestamptz` for every timestamp column
+- Lowercase snake_case identifiers
+- Postgres enums for roles, providers, and lifecycle fields
+- `TEXT[]` for story acceptance criteria
 
-### Indexing Strategy
+### Indexing
 
-- Composite indexes matched to access patterns: `(owner_admin_user_id, status, created_at DESC)` for dashboard lists
+- Composite indexes matched to access patterns, such as `(workspace_id, status, created_at)` for project lists and `(project_id, created_at)` for backlogs
 - Unique `projects.access_code` for the public Client Review lookup
-- Covering design avoids full table scans on dashboard, project detail, and refinement review queries
-- All JOIN and WHERE columns indexed per PostgreSQL best practices
+- Partial unique index on `(workspace_id, email)` for clients that have an email
 
-### Security & Access Control
+### Security and Access Control
 
-- Row-Level Security (RLS) enforced with least-privilege defaults for Admin and Member boundaries
-- Authentication via custom JWT auth bounded context (bcrypt/passlib per ADR-005)
-- Sensitive fields (`email`, `contact_email`, `password_hash`) governed by auth boundary
-- Lifecycle auditability via `created_at`, `updated_at`, `approved_at`, and `archived_at` columns
-- Least-privilege role design with separate read/write access patterns
+- Authorization is enforced in the application layer: every repository call is scoped by the caller's `workspace_id`. Row-Level Security is not used.
+- Passwords and one-time codes are bcrypt hashes; refresh tokens are stored as SHA-256 hashes; provider keys are AES-256-GCM ciphertext.
 
 ### Data Integrity
 
-- Atomic upsert via `INSERT ... ON CONFLICT DO UPDATE` to eliminate race conditions
-- Single-transaction business rule enforcement (max 3 active projects per Admin) with row-level locking
-- Keyset/cursor-based pagination for API list endpoints (avoids OFFSET performance degradation)
-- Batch inserts for bulk data operations over individual `INSERT` statements
-- Foreign key constraints prevent orphaned child records across all entity relationships
+- Atomic upserts (`INSERT ... ON CONFLICT DO UPDATE`) for the key-validation rate limit
+- Conditional `UPDATE ... WHERE ai_credits_remaining > 0` for credit spending
+- Primary-key conflicts make refresh-token rotation single-use under concurrent requests
+- Foreign keys prevent orphaned rows; `workspace_id` references are `ON DELETE RESTRICT`
 
 ### Connection Management
 
-- Connection pooling (PgBouncer, transaction mode) for efficient server resource utilization
-- Prepared statements configured for pooling compatibility (unnamed or session mode where needed)
-- Idle timeout configuration to reclaim unused connections
+- SQLAlchemy async engine with a connection pool (`pool_size`, `max_overflow`, `pool_pre_ping` set per environment in `config_<env>.yml`)
 
 ## Source References
 
 - [PostgreSQL Documentation](https://www.postgresql.org/docs/current/)
 - [Amazon RDS for PostgreSQL](https://aws.amazon.com/rds/postgresql/)
-- [PostgreSQL Performance Optimization](https://wiki.postgresql.org/wiki/Performance_Optimization)

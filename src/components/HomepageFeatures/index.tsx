@@ -31,8 +31,8 @@ const FeatureList: FeatureItem[] = [
     title: "Role-Based Access Control",
     description: (
       <>
-        Secure, structured access levels (Admin, Viewer) so clients and
-        freelancers can collaborate safely on the same project.
+        Admins and Members work inside their own workspace, and clients
+        review approved stories with a project access code, no account needed.
       </>
     ),
   },

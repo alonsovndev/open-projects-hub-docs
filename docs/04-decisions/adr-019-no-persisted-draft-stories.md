@@ -3,6 +3,8 @@
 **Status**: Accepted  
 **Date**: 2026-09-30
 
+> **Amended by [ADR-020](./adr-020-client-review-by-access-code.md) (2026-10-02):** the `viewer` role mentioned here was removed; roles are `admin` and `member`, and clients review a project through its access code.
+
 ## Context
 
 The first implementation of F-002 saved every AI-refined story to a `story_drafts` table

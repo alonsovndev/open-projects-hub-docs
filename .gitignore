@@ -6,3 +6,6 @@ node_modules/
 .docusaurus/
 build/
 
+
+# Local AI-agent tooling settings (machine-specific absolute paths)
+settings.yml

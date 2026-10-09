@@ -53,7 +53,7 @@
 **Issue Type**: Story
 **Priority**: Must Have
 **Effort Estimate**: 8
-**Status**: TODO
+**Status**: SUPERSEDED
 **Fix Version**: MVP-1
 **Labels**: backend, collaboration, access-control
 **Requirements**: FR-011-01, FR-011-02, NFR-011-01, NFR-011-03
@@ -93,7 +93,7 @@
 **Issue Type**: Story
 **Priority**: Must Have
 **Effort Estimate**: 8
-**Status**: TODO
+**Status**: SUPERSEDED
 **Fix Version**: MVP-1
 **Labels**: backend, collaboration, access-control
 **Requirements**: FR-011-04, FR-011-05, NFR-011-02, NFR-011-05
@@ -133,7 +133,7 @@
 **Issue Type**: Story
 **Priority**: Should Have
 **Effort Estimate**: 5
-**Status**: TODO
+**Status**: SUPERSEDED
 **Fix Version**: Phase 1
 **Labels**: backend, collaboration, access-control
 **Requirements**: FR-011-07, FR-011-08, FR-011-10
@@ -175,7 +175,7 @@
 **Issue Type**: Story
 **Priority**: Must Have
 **Effort Estimate**: 5
-**Status**: TODO
+**Status**: SUPERSEDED
 **Fix Version**: MVP-1
 **Labels**: backend, collaboration, access-control
 **Requirements**: FR-011-03, FR-011-09, NFR-011-01
@@ -219,7 +219,7 @@
 **Issue Type**: Story
 **Priority**: Must Have
 **Effort Estimate**: 3
-**Status**: TODO
+**Status**: SUPERSEDED
 **Fix Version**: MVP-1
 **Labels**: backend, collaboration, access-control, security
 **Requirements**: FR-011-11, FR-011-12
@@ -263,7 +263,7 @@
 **Issue Type**: Story
 **Priority**: Must Have
 **Effort Estimate**: 8
-**Status**: TODO
+**Status**: SUPERSEDED
 **Fix Version**: MVP-1
 **Labels**: frontend, collaboration, access-control
 **Requirements**: FR-011-01, FR-011-06, NFR-011-04
@@ -303,7 +303,7 @@
 **Issue Type**: Story
 **Priority**: Must Have
 **Effort Estimate**: 5
-**Status**: TODO
+**Status**: SUPERSEDED
 **Fix Version**: MVP-1
 **Labels**: frontend, collaboration, access-control
 **Requirements**: FR-011-03, FR-011-09, NFR-011-04

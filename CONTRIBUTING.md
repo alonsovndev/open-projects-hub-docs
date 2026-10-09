@@ -75,7 +75,7 @@ Look for issues labeled:
 # Fork the repository on GitHub, then:
 git clone https://github.com/<your-username>/open-projects-hub-docs.git
 cd open-projects-hub-docs
-git remote add upstream https://github.com/<original-owner>/open-projects-hub-docs.git
+git remote add upstream https://github.com/alonsovndev/open-projects-hub-docs.git
 ```
 
 ### 2. Create a Branch

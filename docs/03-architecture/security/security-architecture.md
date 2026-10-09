@@ -73,7 +73,7 @@ The platform uses a layered defense-in-depth model across **AWS infrastructure**
 **Architecture Layers:**
 
 - **Identity:** Custom JWT-based authentication module within FastAPI backend (ADR-005)
-- **Access Control:** Backend RBAC checks + PostgreSQL Row Level Security (RLS) policies
+- **Access Control:** Backend role checks + workspace-scoped repository queries (PostgreSQL RLS is not used)
 - **Data Protection:** TLS in transit, AWS-managed encryption at rest (RDS, S3)
 - **Network Security:** VPC isolation, security groups, private subnet for RDS
 - **Secrets Management:** AWS environment variables or Secrets Manager (ADR-011)
@@ -99,7 +99,7 @@ flowchart TB
     end
 
     subgraph Data["Data Layer"]
-        RDS[("RDS PostgreSQL<br/>Private Subnet<br/>TLS Connections<br/>RLS Policies<br/>Encrypted at Rest")]
+        RDS[("RDS PostgreSQL<br/>Private Subnet<br/>TLS Connections<br/>Encrypted at Rest")]
         S3D["S3 Data<br/>File Storage<br/>SSE-S3 Encrypted"]
     end
 
@@ -243,7 +243,7 @@ sequenceDiagram
 - **RBAC baseline:** `admin` and `member` roles mapped to F-003 access requirements, each scoped to the caller's workspace; plus one anonymous read-only route (Client Review) gated by a project access code
 - **ABAC constraints:** Resource ownership, project membership, and data visibility flags
 - **Permission model:** Backend authorizes action-level permissions before executing use cases
-- **Data-level enforcement:** PostgreSQL Row Level Security (RLS) policies as last-mile protection
+- **Data-level enforcement:** every repository method takes the caller's `workspace_id` and filters by it
 
 ### Least-Privilege Rules
 
@@ -270,10 +270,10 @@ sequenceDiagram
 2. Backend JWT middleware validates token signature and expiration
 3. Backend extracts user ID and role from JWT claims
 4. Backend permission layer checks role-based and resource-level authorization
-5. PostgreSQL RLS policies enforce additional data-level access control
+5. Repositories filter every query by the caller's workspace (`wid` claim); records in another workspace return 404
 6. Request proceeds or returns 401 (unauthenticated) / 403 (unauthorized)
 
-> **Note:** The diagram below depicts how a request is checked at the middleware, permission, and RLS layers.
+> **Note:** The diagram below depicts how a request is checked at the middleware, permission, and workspace-scoping layers.
 
 ```mermaid
 flowchart LR
@@ -293,29 +293,26 @@ flowchart LR
         F{Route Requires<br/>Admin Role?}
         F -->|Yes, is Admin| G[Pass]
         F -->|Yes, is Member| R403A[403 Forbidden]
-        F -->|No| H{Resource<br/>Ownership?}
-        H -->|Owner| G
-        H -->|Not Owner| R403B[403 Forbidden]
+        F -->|No| G
     end
 
     G --> I
 
-    subgraph RLS["3. RLS PostgreSQL"]
-        I[Query with<br/>user_id context] --> J{RLS Policy<br/>Match?}
-        J -->|Allowed| K[Return Data]
-        J -->|Denied| L[Empty Result<br/>or Error]
+    subgraph Scope["3. Workspace-scoped Repository"]
+        I[Query with<br/>workspace_id filter] --> J{Row in caller's<br/>workspace?}
+        J -->|Yes| K[Return Data]
+        J -->|No| L[Not Found]
     end
 
     K --> M[200 Response]
-    L --> N[200/403<br/>Filtered Response]
+    L --> N[404 Not Found]
 
     style R401A fill:#ffcdd2,stroke:#b71c1c
     style R401B fill:#ffcdd2,stroke:#b71c1c
     style R403A fill:#ffcdd2,stroke:#b71c1c
-    style R403B fill:#ffcdd2,stroke:#b71c1c
     style Middleware fill:#e3f2fd,stroke:#1565c0
     style Permission fill:#fff3e0,stroke:#e65100
-    style RLS fill:#fce4ec,stroke:#880e4f
+    style Scope fill:#fce4ec,stroke:#880e4f
 ```
 
 ## Data Protection
@@ -443,7 +440,7 @@ All AI-generated content is unapproved until Admin approval (FR-002-03):
 
 | OWASP Risk Area                            | Primary Mitigations in Architecture                                                                                         |
 | ------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------- |
-| Broken Access Control                      | RBAC checks in backend + RLS at data layer + least privilege defaults                                                       |
+| Broken Access Control                      | RBAC checks in backend + workspace-scoped queries + least privilege defaults                                                       |
 | Cryptographic Failures                     | TLS everywhere, managed encryption at rest, secret rotation policy                                                          |
 | Injection                                  | Parameterized queries via ORM, strict input validation, output encoding                                                     |
 | Insecure Design                            | Threat modeling, ADR-driven design decisions, deny-by-default access                                                        |
@@ -541,7 +538,7 @@ Additional controls:
 - **Rate limiting:** per-IP and per-user thresholds on auth and mutation endpoints.
 - **CORS:** strict origin allowlist for trusted frontend domains only.
 - **CSRF:** token/cookie protections where cookie-backed auth is used.
-- **AuthN/AuthZ:** JWT verification, claim checks, role checks, and RLS enforcement.
+- **AuthN/AuthZ:** JWT verification, claim checks, role checks, and workspace scoping.
 - **Auditability:** request IDs and auth context captured for traceability.
 
 ## Security Monitoring and Incident Response
@@ -562,7 +559,7 @@ Additional controls:
 **Security-Relevant Monitoring:**
 
 - **Authentication failures:** Track failed login attempts, invalid JWT tokens, expired tokens
-- **Authorization denials:** Monitor 403 Forbidden responses, RLS policy violations
+- **Authorization denials:** Monitor 401/403 responses and cross-workspace 404s
 - **Anomalous behavior:** Detect request spikes to auth endpoints, brute-force patterns
 - **Privileged operations:** Log admin actions (user role changes, project deletions, configuration updates)
 - **Infrastructure security:** CloudWatch alarms for RDS connectivity failures, unusual database query patterns

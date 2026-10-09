@@ -1,5 +1,7 @@
 # Prototype — Open Projects Hub
 
+> **Historical prototype (pre-ADR-020).** These screens and notes use the original **Viewer** role. Viewer accounts were later replaced by account-free Client Review through a project access code ([ADR-020](../04-decisions/adr-020-client-review-by-access-code.md)), and the shipped roles are Admin and Member. Read "Viewer" here as "client reviewing by access code".
+
 UI/UX prototype for the MVP planning experience, built in **Pencil** (`.pen` file) with reusable components and design tokens.
 
 ## Files

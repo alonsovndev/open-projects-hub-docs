@@ -7,7 +7,7 @@
 **Priority**: Must Have
 **Components**: Backend, Frontend
 **Fix Version**: MVP-1
-**Status**: TODO
+**Status**: IN PROGRESS
 
 ---
 

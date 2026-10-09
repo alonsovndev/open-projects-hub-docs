@@ -1,50 +1,42 @@
-# Open Projects Hub
+# Open Projects Hub Docs
 
-**Tagline**: _"Empowering Freelancers with AI-Assisted Project Management and Structured Delivery."_
+> Requirements, architecture, and decision records for [Open Projects Hub](https://github.com/alonsovndev/open-projects-hub), an AI-assisted open-source platform that transforms raw software requirements into structured, reviewable user stories and project backlogs.
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-## Overview
+Part of [alonsovndev](https://github.com/alonsovndev), the open-source engineering lab by [Alonso Villanueva](https://alonsovndev.com).
 
-The **Open Projects Hub** is an open-source web platform designed to streamline and professionalize the project management experience for freelancers. It provides a centralized hub to manage clients, structure project requirements, and utilize an AI engine to refine ambiguous ideas into clear, actionable technical specifications.
+## Who it is for
 
-Our vision is to create an accessible tool that empowers freelancers to deliver higher-quality software by bridging the gap between raw client requirements and structured engineering practices.
+- **Software freelancers and small teams** who need to turn ambiguous client input into delivery-ready requirements
+- **Their clients**, who get a transparent, read-only view of approved stories through a project access code
+- **Contributors** looking for a reference implementation of Clean Architecture, DDD, and security-by-design
 
-## Key Features
+## Navigating the documentation
 
-- 🤖 **AI-Assisted Requirements Refinement**: An integrated AI engine that detects ambiguities and automatically generates structured user stories from raw input.
-- 🗂️ **Centralized Management**: A single platform to manage clients and projects efficiently.
-- 🔒 **Role-Based Access Control**: Secure, structured access levels (Admin, Member) plus account-free client review through a project access code.
-- 🎓 **Academically-Focused**: Built with modern best practices (Clean Architecture, DDD, TDD) to serve as a real-world reference project.
-- 📖 **Open Source**: A community-driven project open to contributions and learning.
+| Section | Description |
+| --- | --- |
+| [Project context](./docs/00-context/) | Overview, personas, glossary, scope |
+| [Functional requirements](./docs/01-requirements/) | Feature-level requirements (F-001 to F-011) |
+| [Planning](./docs/02-planning/) | Phased roadmap and role mapping |
+| [Architecture](./docs/03-architecture/) | System design, API, database, security, operations |
+| [Decisions (ADRs)](./docs/04-decisions/) | 20 architecture decision records |
+| [Prototype and UX](./docs/05-prototype/) | Design direction and screens |
 
-## Who is this for?
+## Related repositories
 
-- **Software Freelancers**: To reduce administrative overhead and improve the quality of project deliverables.
-- **Open-Source Contributors & Students**: To gain experience with a modern, real-world tech stack and contribute to a growing community project.
-- **Clients of Freelancers**: To gain a transparent, read-only view of their project's progress.
+[open-projects-hub](https://github.com/alonsovndev/open-projects-hub) (overview) · [open-projects-hub-api](https://github.com/alonsovndev/open-projects-hub-api) · [open-projects-hub-web](https://github.com/alonsovndev/open-projects-hub-web)
 
-## Project Status
+## Run the docs site locally
 
-**Current Phase: Design & Planning**
+Requires Node.js 20+.
 
-This project is currently in the detailed planning and architecture phase. The core requirements, architecture, and technology stack have been defined. We are now moving towards prototyping and initial development.
+```bash
+npm install
+npm start        # http://localhost:3000
+npm run build    # broken links fail the build
+```
 
-## Navigating the Documentation
+## Contributing
 
-This repository contains extensive documentation covering every aspect of the project. Here’s a guide to help you find what you're looking for:
-
-| Section                                               | Description                                                         |
-| ----------------------------------------------------- | ------------------------------------------------------------------- |
-| [📋 Project Context](./docs/00-context/)              | Overview, personas, glossary, and scope.                            |
-| [✅ Functional Requirements](./docs/01-requirements/) | Detailed breakdown of all functional requirements for the platform. |
-| [📅 Project Planning](./docs/02-planning/)            | Roadmap, role mapping, and delivery timeline.                       |
-| [🏛️ Software Architecture](./docs/03-architecture/)   | High-level architecture, design patterns, and technology stack.     |
-| [📐 Decisions (ADRs)](./docs/04-decisions/)           | Key architectural decisions and their justifications.               |
-| [✨ Prototype & UX](./docs/05-prototype/)             | Mockups and prototypes exploring the user experience.               |
-
-## How to Contribute
-
-We welcome contributions from everyone! This project is a great opportunity to get involved in a modern, full-stack application.
-
-Please see our `CONTRIBUTING.md` file for details on how to get started. _(Note: This file will be created in a subsequent step)._
+See the [contribution guide](./CONTRIBUTING.md).
