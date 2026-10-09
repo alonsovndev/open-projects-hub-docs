@@ -110,8 +110,8 @@ const config: Config = {
               to: "/docs/intro",
             },
             {
-              label: "Getting Started",
-              to: "/docs/intro",
+              label: "Project Overview",
+              to: "/docs/00-context/overview",
             },
           ],
         },
