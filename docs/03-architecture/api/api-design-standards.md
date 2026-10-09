@@ -90,7 +90,7 @@ sidebar_position: 1
 - **Authentication:** FastAPI custom auth module issues JWTs; APIs require `Authorization: Bearer <token>` for protected routes (see ADR-005).
 - **Authorization model:** hybrid RBAC + data-level policies.
   - API layer enforces role permissions (Admin/Member capabilities; the public Client Review route is the only anonymous exception).
-  - PostgreSQL Row Level Security (RLS) enforces least-privilege data access.
+  - Repositories filter every query by the caller's workspace; another workspace's records return 404.
 - **Token requirements:** short-lived access tokens (1-hour default, configurable via `JWT_EXPIRE_MINUTES`). Refresh tokens deferred to Phase 2.
 - **Service trust boundary:** backend validates JWT signature, expiration, and required claims on every protected request.
 

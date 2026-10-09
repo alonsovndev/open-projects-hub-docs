@@ -272,7 +272,7 @@ For the MVP, the environment strategy is simplified to focus on local developmen
 
 - Custom JWT-based authentication module in FastAPI backend (see ADR-005)
 - Backend validates JWT tokens and enforces role-based access control (RBAC)
-- PostgreSQL Row Level Security (RLS) policies for data-level authorization
+- Workspace-scoped repository queries for data-level authorization
 - Stateless token design enables horizontal scaling
 
 **Network Security:**

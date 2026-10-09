@@ -18,6 +18,7 @@ This folder contains foundational project context documents that define the prob
 | [user-personas.md](./user-personas.md)   | Detailed persona profiles for Admin, Client Stakeholder, and contributors |
 | [glossary.md](./glossary.md)             | Ubiquitous language and terminology reference                        |
 | [out-of-scope.md](./out-of-scope.md)     | Explicitly excluded features and future-phase items                  |
+| [resolved-questions.md](./resolved-questions.md) | Scoping questions (`Q-001` to `Q-023`) and their answers |
 
 ## Related Documents
 
@@ -27,4 +28,4 @@ This folder contains foundational project context documents that define the prob
 
 ---
 
-**Last Updated**: 2026-09-08
+**Last Updated**: 2026-10-07
