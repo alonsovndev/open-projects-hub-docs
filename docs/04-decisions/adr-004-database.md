@@ -3,6 +3,7 @@
 - **Status**: Accepted
 - **Date**: 2026-02-28
 - **Updated**: 2026-08-03
+- **Note (2026-10-10)**: the deployed database runs as a PostgreSQL container on the application host, not on Amazon RDS. See [ADR-021](./adr-021-low-cost-single-host-deployment.md). PostgreSQL itself is unchanged.
 
 ## Context
 

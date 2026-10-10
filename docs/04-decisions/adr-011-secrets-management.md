@@ -1,7 +1,8 @@
 # ADR-011: Secrets Management Strategy
 
 **Status**: Accepted  
-**Date**: 2026-02-28
+**Date**: 2026-02-28  
+**Note (2026-10-10)**: deployed secrets are stored in AWS Systems Manager Parameter Store (SecureString) and read by the deploy script; see [ADR-021](./adr-021-low-cost-single-host-deployment.md).
 
 ## Context
 
