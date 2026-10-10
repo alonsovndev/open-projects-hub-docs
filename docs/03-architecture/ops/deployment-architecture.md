@@ -23,6 +23,7 @@ sidebar_position: 1
 - [8. Security Architecture Considerations](#8-security-architecture-considerations)
 - [9. Deployment Impact Summary (GitHub Actions)](#9-deployment-impact-summary-github-actions)
 - [10. Related ADRs](#10-related-adrs)
+- [11. Implementation Status and Next Steps](#11-implementation-status-and-next-steps)
 
 ---
 
@@ -282,6 +283,42 @@ See [Security Architecture](../security/security-architecture.md) for detailed s
 - [ADR-014: Environment Strategy](../../04-decisions/adr-014-environment-strategy.md)
 - [ADR-017: Database Migration Strategy](../../04-decisions/adr-017-database-migration-strategy.md)
 - [ADR-021: Low-Cost Single-Host Deployment](../../04-decisions/adr-021-low-cost-single-host-deployment.md)
+
+## 11. Implementation Status and Next Steps
+
+Status as of 2026-10-10. The design above is implemented in code and open for review, but **not live**.
+
+**Done**
+
+- AWS account created; the Terraform state bucket is applied (the only resource in AWS so far).
+- Terraform for the production stack is written, validated and planned (40 resources); `terraform apply` for `envs/prod` has not been run. Pull request in `open-projects-hub-infra`.
+- API: production Compose stack, Caddyfile, deploy script, CI and tag-driven deploy workflows. Pull request in `open-projects-hub-api`.
+- Web: CI and tag-driven deploy workflows. Pull request in `open-projects-hub-web`.
+- This documentation and ADR-021. Pull request in `open-projects-hub-docs`.
+- Verified locally: lint, security scan, unit tests and `npm run verify` on clean copies; the Docker stack with migrations, the Caddy origin-header gate, viewer-address forwarding and `.env` handling; the docs build; `terraform validate` and `plan`.
+
+**Not done or not verified**
+
+- Nothing in `envs/prod` exists in AWS. Creating the CloudFront distribution on the new account and the host's first-boot script are untested.
+- The deploy workflows have never run and no release tag exists.
+- No email provider is configured, so self-registration cannot complete (new users must verify by email).
+- Other pages still describe App Runner and RDS (see below).
+
+**Next steps, in order**
+
+1. Review the pull requests, check their CI results and merge them into `dev`.
+2. Apply `envs/prod` after reviewing a fresh plan, then check the host's first boot over SSM Session Manager.
+3. Follow the "First release checklist" in the `open-projects-hub-infra` README: repository variables, tag protection for `v*`, SSM placeholders, and the GHCR package set to Public after the first image push.
+4. Promote `dev` to `main` in each repository and push a `vX.Y.Z` tag: API first, then web.
+5. Seed the admin user and smoke test: log in as the admin and create a project.
+6. Record the AWS account creation date and the end of the six-month Free Plan window (TBD), and watch credit use against the two budgets.
+
+**Follow-ups and open decisions**
+
+- GitHub CI had been removed from the API and web repositories on 2026-10-08 (commit "chore: remove Github CI/CD", reason not recorded). The pull requests add a smaller CI back; decide whether to keep it.
+- Decide on a sending domain and email provider if reviewers need to self-register.
+- Sweep the remaining pages that mention App Runner or RDS: `core/technology-stack.md`, `core/architecture-solution-design.md`, the security and database docs, and `api/*`.
+- Remove the now-unreferenced `images/deployment-arch-aws.png` and `images/git-ci-cd-pipeline.png` once the Mermaid diagrams are accepted.
 
 ## Source References
 
