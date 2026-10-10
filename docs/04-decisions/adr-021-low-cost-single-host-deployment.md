@@ -9,7 +9,7 @@
 
 The production deployment exists to show the project at the master's review, with a handful of users and almost no traffic. The hosting budget is effectively zero.
 
-A new AWS account (created after 2025-07-15) gets the **Free Plan**: about $200 in credits that end after six months or when they run out, after which the account closes unless upgraded. The 12-month service allowances ADR-006 relied on (750 RDS hours, App Runner free storage) do not apply to such accounts.
+The AWS account is on the **Free Plan**: $100 in credits (183 days remaining on 2026-10-10, so the plan ends around 2027-04-11) that end when the time or the credits run out, after which the account closes unless upgraded. The 12-month service allowances ADR-006 relied on (750 RDS hours, App Runner free storage) do not apply to Free Plan accounts.
 
 The design in ADR-006 does not fit this budget:
 
@@ -59,7 +59,7 @@ Because the web app and the API share the CloudFront origin, no CORS configurati
 - **No backups.** If the instance or the account is lost, the data is lost. The instance has termination protection and `prevent_destroy`, but that guards only against accidents. A manual `pg_dump` over SSM is the escape hatch.
 - **Single point of failure.** One host, one AZ, no failover. A deploy briefly restarts the API.
 - **Plain HTTP between CloudFront and EC2.** Without a domain there is no certificate for the origin. Requests are protected by a security group that admits only CloudFront's origin-facing addresses and by a secret `X-Origin-Verify` header that Caddy requires, but the traffic is not encrypted on that leg. Moving to a custom domain would allow HTTPS to the origin.
-- **Fixed lifetime.** The Free Plan ends after six months or when credits run out. After that the account must be upgraded or the system rehosted.
+- **Fixed lifetime.** The Free Plan ends after its 183 days or when the $100 in credits runs out; at about $12.85/month the credits cover roughly seven months. After that the account must be upgraded or the system rehosted.
 - **Email.** Without a verified sending domain, the transactional email provider cannot deliver verification and reset emails to arbitrary users.
 - **Capacity.** 1 GB of RAM (plus swap) and a 30-connection Postgres limit are sized for a handful of users.
 - **CloudFront limits.** The origin response timeout is 60 seconds, so very slow synchronous AI calls return 504.
