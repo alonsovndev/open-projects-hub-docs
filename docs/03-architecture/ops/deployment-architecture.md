@@ -40,13 +40,13 @@ This document defines the production deployment architecture for the master's-re
 **Rationale:**
 
 - One provider for billing, IAM and monitoring.
-- A new AWS account gets the **Free Plan**: about $200 in credits that end after six months or when they run out. The design costs about $12-13/month, which fits the credits comfortably for the review period.
+- The AWS account is on the **Free Plan**: $100 in credits, with 183 days remaining on 2026-10-10 (the plan ends around 2027-04-11 or when the credits run out). The design costs about $12-13/month: about $52 for the four months until the review and about $77 for the whole window.
 - Infrastructure as Code (Terraform) makes the deployment repeatable and reviewable.
 
 **Trade-offs Accepted:**
 
 - No high availability, no managed database and no backups (see section 4).
-- The Free Plan has a fixed lifetime; afterwards the account must be upgraded or the system rehosted.
+- The Free Plan has a fixed lifetime and a $100 credit cap; afterwards, or if the credits run out first, the account must be upgraded or the system rehosted.
 - No custom domain, so the origin leg is plain HTTP (see section 8).
 
 ### 2.2 Selected Platform Architecture
@@ -159,7 +159,7 @@ See also: [ADR-021: Low-Cost Single-Host Deployment](../../04-decisions/adr-021-
 | **Local**      | Developer workstations | `APP_ENV=local`, API run directly, local PostgreSQL | $0          |
 | **Test**       | Automated tests        | `APP_ENV=test`                                      | $0          |
 | **Container**  | Docker Compose run, same image that is deployed | `APP_ENV=container`        | $0          |
-| **Production** | Master's-review release | EC2 + CloudFront, `APP_ENV=prod`                   | about $12-13/month from Free Plan credits |
+| **Production** | Master's-review release | EC2 + CloudFront, `APP_ENV=prod`                   | about $12-13/month from the $100 Free Plan credits |
 
 **Environment Isolation:**
 
@@ -179,7 +179,7 @@ See also: [ADR-021: Low-Cost Single-Host Deployment](../../04-decisions/adr-021-
 | Public IPv4 address (Elastic IP) | $3.65 |
 | 20 GB gp3 volume | $1.60 |
 | CloudFront, S3, SSM, CloudFront Function, IAM | $0 (within always-free allowances) |
-| **Total** | **about $12.85, paid from Free Plan credits** |
+| **Total** | **about $12.85, paid from the $100 Free Plan credits** |
 
 **Cost Management Actions:**
 
@@ -188,7 +188,7 @@ See also: [ADR-021: Low-Cost Single-Host Deployment](../../04-decisions/adr-021-
 - Logs rotate (10 MB x 3 files per container) so they cannot fill the disk.
 - The instance can be stopped between review sessions to save about $7.60/month; the data survives a stop.
 
-**After the Free Plan ends:** the account must be upgraded (about $13/month for this design) or the system moved elsewhere.
+**After the Free Plan ends:** the account must be upgraded (about $13/month for this design) or the system moved elsewhere. The plan can also end earlier if the $100 runs out.
 
 ## 7. Infrastructure as Code (IaC) Approach
 
@@ -286,36 +286,35 @@ See [Security Architecture](../security/security-architecture.md) for detailed s
 
 ## 11. Implementation Status and Next Steps
 
-Status as of 2026-10-10. The design above is implemented in code and open for review, but **not live**.
+Status as of 2026-10-10. The design above is implemented in code and merged into `dev` in each repository, but **not live**.
 
 **Done**
 
 - AWS account created; the Terraform state bucket is applied (the only resource in AWS so far).
-- Terraform for the production stack is written, validated and planned (40 resources); `terraform apply` for `envs/prod` has not been run. Pull request in `open-projects-hub-infra`.
-- API: production Compose stack, Caddyfile, deploy script, CI and tag-driven deploy workflows. Pull request in `open-projects-hub-api`.
-- Web: CI and tag-driven deploy workflows. Pull request in `open-projects-hub-web`.
-- This documentation and ADR-021. Pull request in `open-projects-hub-docs`.
+- Terraform for the production stack is written, validated and planned (40 resources); `terraform apply` for `envs/prod` has not been run. Merged into `dev` in `open-projects-hub-infra`.
+- API: production Compose stack, Caddyfile, deploy script, CI and tag-driven deploy workflows. Merged into `dev` in `open-projects-hub-api`.
+- Web: CI and tag-driven deploy workflows. Merged into `dev` in `open-projects-hub-web`.
+- This documentation and ADR-021. Merged into `dev` in `open-projects-hub-docs`.
 - Verified locally: lint, security scan, unit tests and `npm run verify` on clean copies; the Docker stack with migrations, the Caddy origin-header gate, viewer-address forwarding and `.env` handling; the docs build; `terraform validate` and `plan`.
 
 **Not done or not verified**
 
-- Nothing in `envs/prod` exists in AWS. Creating the CloudFront distribution on the new account and the host's first-boot script are untested.
+- Nothing in `envs/prod` exists in AWS. Creating the CloudFront distribution on this account and the host's first-boot script are untested.
 - The deploy workflows have never run and no release tag exists.
 - No email provider is configured, so self-registration cannot complete (new users must verify by email).
 - Other pages still describe App Runner and RDS (see below).
 
 **Next steps, in order**
 
-1. Review the pull requests, check their CI results and merge them into `dev`.
-2. Apply `envs/prod` after reviewing a fresh plan, then check the host's first boot over SSM Session Manager.
-3. Follow the "First release checklist" in the `open-projects-hub-infra` README: repository variables, tag protection for `v*`, SSM placeholders, and the GHCR package set to Public after the first image push.
-4. Promote `dev` to `main` in each repository and push a `vX.Y.Z` tag: API first, then web.
-5. Seed the admin user and smoke test: log in as the admin and create a project.
-6. Record the AWS account creation date and the end of the six-month Free Plan window (TBD), and watch credit use against the two budgets.
+1. Apply `envs/prod` after reviewing a fresh plan (the 2026-10-10 plan was 40 to add, 0 to change, 0 to destroy), then check the host's first boot over SSM Session Manager.
+2. Follow the "First release checklist" in the `open-projects-hub-infra` README: repository variables, tag protection for `v*`, SSM placeholders, and the GHCR package set to Public after the first image push.
+3. Promote `dev` to `main` in each repository and push a `vX.Y.Z` tag: API first, then web.
+4. Seed the admin user and smoke test: log in as the admin and create a project.
+5. Watch credit use against the two budgets; the $100 credit balance and the plan end (about 2027-04-11) are the limits.
 
 **Follow-ups and open decisions**
 
-- GitHub CI had been removed from the API and web repositories on 2026-10-08 (commit "chore: remove Github CI/CD", reason not recorded). The pull requests add a smaller CI back; decide whether to keep it.
+- GitHub CI had been removed from the API and web repositories on 2026-10-08 (commit "chore: remove Github CI/CD", reason not recorded). A smaller CI was added back and the owner decided to keep it (2026-10-10).
 - Decide on a sending domain and email provider if reviewers need to self-register.
 - Sweep the remaining pages that mention App Runner or RDS: `core/technology-stack.md`, `core/architecture-solution-design.md`, the security and database docs, and `api/*`.
 - Remove the now-unreferenced `images/deployment-arch-aws.png` and `images/git-ci-cd-pipeline.png` once the Mermaid diagrams are accepted.
