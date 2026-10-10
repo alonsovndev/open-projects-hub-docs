@@ -11,7 +11,7 @@ This folder contains the Architectural Decision Records (ADRs) for the Open Proj
 | [ADR-003](./adr-003-frontend-framework.md) | Frontend Framework (React + TypeScript) |
 | [ADR-004](./adr-004-database.md) | Database (Amazon RDS PostgreSQL) |
 | [ADR-005](./adr-005-authentication.md) | Authentication and Authorization Strategy (Custom Auth + JWT) |
-| [ADR-006](./adr-006-deployment-platform.md) | Deployment Platform (AWS) |
+| [ADR-006](./adr-006-deployment-platform.md) | Deployment Platform (AWS), superseded in part by ADR-021 |
 | [ADR-007](./adr-007-orm-choice.md) | ORM Choice (SQLAlchemy) |
 | [ADR-008](./adr-008-build-tool.md) | Build Tooling (Vite + Docker) |
 | [ADR-009](./adr-009-monitoring-observability.md) | Monitoring and Observability (Sentry + CloudWatch) |
@@ -26,6 +26,7 @@ This folder contains the Architectural Decision Records (ADRs) for the Open Proj
 | [ADR-018](./adr-018-user-api-key-encryption.md) | User API Key Encryption at Rest |
 | [ADR-019](./adr-019-no-persisted-draft-stories.md) | Do Not Persist Draft Stories |
 | [ADR-020](./adr-020-client-review-by-access-code.md) | Client Review by Project Access Code (No Viewer Accounts) |
+| [ADR-021](./adr-021-low-cost-single-host-deployment.md) | Low-Cost Single-Host Deployment (CloudFront + EC2) |
 
 ## Creating a New ADR
 
@@ -38,4 +39,4 @@ Use the [ADR Template](./adr-template.md) for all new decisions.
 
 ---
 
-**Last Updated**: 2026-10-02
+**Last Updated**: 2026-10-10
