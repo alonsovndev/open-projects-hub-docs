@@ -146,7 +146,7 @@ See also: [ADR-021: Low-Cost Single-Host Deployment](../../04-decisions/adr-021-
 
 **Protection against accidents:**
 
-- The instance has termination protection and Terraform `prevent_destroy`.
+- The instance has termination protection and Terraform `prevent_destroy`; only the guarded teardown workflow lifts them.
 - `API_KEY_ENCRYPTION_KEY` must never be rotated; stored user API keys become undecryptable.
 - A manual `pg_dump` can be taken over SSM Session Manager if a copy is ever needed.
 
@@ -199,7 +199,7 @@ See also: [ADR-021: Low-Cost Single-Host Deployment](../../04-decisions/adr-021-
 - **Compute:** EC2 instance, Elastic IP, security group, instance role and profile, first-boot script (Docker, Compose plugin, swap).
 - **CDN and storage:** S3 web bucket, CloudFront distribution, origin access control, CloudFront Function, response-headers policy attachment.
 - **Secrets:** generated secrets and placeholders in SSM Parameter Store.
-- **Delivery access:** GitHub OIDC provider, deploy roles, and the restricted SSM deploy document.
+- **Delivery access:** deploy roles and the restricted SSM deploy document (the GitHub OIDC provider is created with the state bucket, in `bootstrap/`).
 - **Cost control:** AWS Budgets.
 
 **Terraform Configuration:**
