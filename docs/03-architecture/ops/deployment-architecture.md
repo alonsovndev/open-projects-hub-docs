@@ -47,16 +47,17 @@ This document defines the production deployment architecture for the master's-re
 
 - No high availability, no managed database and no backups (see section 4).
 - The Free Plan has a fixed lifetime and a $100 credit cap; afterwards, or if the credits run out first, the account must be upgraded or the system rehosted.
-- No custom domain, so the origin leg is plain HTTP (see section 8).
+- Cloudflare's free plan sits in front of the API host. Its connection to the origin is encrypted but the origin certificate is not validated (see section 8).
+- The web app and the API are different origins (`oph.alonsovndev.com` and `api-oph.alonsovndev.com`), so the browser calls the API cross-origin and the API must allow credentialed CORS.
 
 ### 2.2 Selected Platform Architecture
 
 **AWS Service Mapping:**
 
-- **Frontend Hosting:** private Amazon S3 bucket behind CloudFront (origin access control)
+- **Frontend Hosting:** not on AWS. The React build is a Cloudflare Workers static-assets deployment at `https://oph.alonsovndev.com`, built and deployed by Cloudflare from the web repository on GitHub
 - **Backend Compute:** one Amazon EC2 `t3.micro` running Docker Compose (Caddy, the FastAPI API, PostgreSQL)
 - **Database:** PostgreSQL 15 container on the same host, data on the instance's EBS volume
-- **Entry point:** a single CloudFront distribution that serves the web app and proxies `/v1/*` to the API
+- **Entry point:** a proxied Cloudflare DNS record `api-oph.alonsovndev.com` to the host's Elastic IP; Caddy proxies `/v1/*` to the API and answers 404 for anything else
 - **Container Registry:** public GitHub Container Registry (no ECR)
 - **Secrets and configuration:** AWS Systems Manager Parameter Store (Standard tier)
 - **Authentication:** Custom JWT-based auth module in the FastAPI backend (see ADR-005)
@@ -68,16 +69,15 @@ This document defines the production deployment architecture for the master's-re
 
 ```mermaid
 flowchart LR
-    Browser -->|HTTPS| CloudFront
-    CloudFront -->|"/* (OAC)"| S3[(S3 web bucket)]
-    CloudFront -->|"/v1/* HTTP :80 + X-Origin-Verify"| Caddy
+    Browser -->|"HTTPS oph.alonsovndev.com"| Workers[Cloudflare Workers static web app]
+    Browser -->|"HTTPS api-oph.alonsovndev.com (CORS + cookie)"| Cloudflare
+    Cloudflare -->|"HTTPS :443 (Full)"| Caddy
     subgraph EC2["EC2 t3.micro (default VPC, public subnet)"]
-        Caddy --> API[API container]
+        Caddy -->|"/v1/*"| API[API container]
         API --> Postgres[(Postgres container + EBS)]
     end
-    GitHub[GitHub Actions] -->|OIDC| IAM[AWS IAM deploy roles]
+    GitHub[GitHub Actions] -->|OIDC| IAM[AWS IAM deploy role]
     IAM -->|SSM Run Command| EC2
-    IAM -->|s3 sync + invalidation| S3
 ```
 
 See also: [ADR-021: Low-Cost Single-Host Deployment](../../04-decisions/adr-021-low-cost-single-host-deployment.md).
@@ -85,15 +85,15 @@ See also: [ADR-021: Low-Cost Single-Host Deployment](../../04-decisions/adr-021-
 ### 3.1 Compute Resources
 
 - **Backend API:** one EC2 `t3.micro` (1 GB RAM, 2 GB swap) in the default VPC's public subnet, with an Elastic IP.
-  - Docker Compose runs three containers: Caddy (port 80), the API (Gunicorn, one worker) and PostgreSQL.
-  - Caddy rejects any request that lacks the `X-Origin-Verify` header CloudFront adds.
-  - Health checks: `/health/live` (container health) and `/health/ready` (database check, used by the deploy script). These routes live at the root, not under `/v1`, and are reached from the host, not through CloudFront.
+  - Docker Compose runs three containers: Caddy (port 443), the API (Gunicorn, one worker) and PostgreSQL.
+  - Caddy answers only on port 443, with its own local-CA certificate (`tls internal`), and takes the viewer address from `CF-Connecting-IP`.
+  - Health checks: `/health/live` (container health) and `/health/ready` (database check, used by the deploy script). These routes live at the root, not under `/v1`, and are reached from the host, not through Cloudflare.
   - Database migrations run when the API container starts (`alembic upgrade head`); one instance means no migration race.
   - CPU credits run in `standard` mode so the instance throttles instead of billing surplus CPU.
-- **Frontend:** static React build in a private S3 bucket, served only through CloudFront.
-  - Deep links are rewritten to `/index.html` by a CloudFront Function attached to the web behavior only, so API 404s are never turned into HTML.
-  - Hashed assets are cached for a year; `index.html` is never cached by browsers.
-  - A managed response-headers policy adds HSTS, `X-Content-Type-Options`, `X-Frame-Options` and `Referrer-Policy`.
+- **Frontend:** a static React build on Cloudflare Workers, outside AWS.
+  - Cloudflare builds it from the web repository (`npm run build`, then `wrangler deploy`); `wrangler.jsonc` serves `dist` with SPA routing.
+  - The production build sets `VITE_API_BASE_URL=https://api-oph.alonsovndev.com`; the CSP `connect-src` is derived from it.
+  - Caddy on the host serves no web files: it proxies `/v1/*` and answers 404 elsewhere. The API itself sets HSTS, `X-Content-Type-Options`, `X-Frame-Options` and the CSP.
 - **Serverless functions:** not used.
 
 ### 3.2 Database and Storage
@@ -109,27 +109,29 @@ See also: [ADR-021: Low-Cost Single-Host Deployment](../../04-decisions/adr-021-
 
 **Public Ingress (HTTPS to the viewer):**
 
-- CloudFront default domain (`*.cloudfront.net`) with the CloudFront certificate; HTTP is redirected to HTTPS.
-- `/v1/*` is forwarded to the EC2 host over HTTP on port 80 with caching disabled. The behavior uses the managed `AllViewerAndCloudFrontHeaders` origin request policy, so cookies, the `Authorization` header, the `Origin` header and `CloudFront-Viewer-Address` reach the host.
+- A proxied Cloudflare DNS record (an A record to the host's Elastic IP) for `api-oph.alonsovndev.com`. The name has one label under the zone so Cloudflare's free Universal certificate covers it. SSL/TLS mode is Full and Always Use HTTPS is on.
+- The web hostname `oph.alonsovndev.com` is a Workers custom domain managed in Cloudflare, separate from this record.
+- The API sends the CORS headers (`CORS_ORIGINS` and `CORS_ALLOW_CREDENTIALS=true` in SSM, `X-Session-Mode` allowed) and the refresh cookie itself. `SameSite=Lax` is enough because both hostnames share the registrable domain `alonsovndev.com`.
+- Cloudflare forwards cookies and headers unchanged and does not cache `/v1/*` (JSON responses are not cached by default, and auth responses carry `Cache-Control: no-store`). The proxy's timeout for a response from the origin is 100 seconds on the free plan.
 
 **Host exposure:**
 
-- The security group admits TCP 80 only from CloudFront's managed origin-facing prefix list. There is no SSH; operators use SSM Session Manager.
+- The security group admits TCP 443 only from a managed prefix list of Cloudflare's IPv4 ranges (read from Cloudflare by Terraform). There is no SSH; operators use SSM Session Manager.
 - Outbound traffic is open (image pulls, SSM, SMTP, AI providers).
 - No NAT Gateway or load balancer is used, which keeps the cost near the instance price.
 
-**DNS:** CloudFront default domain only. A custom domain is a possible later step and would also allow HTTPS to the origin.
+**DNS:** the zone `alonsovndev.com` lives in Cloudflare. Terraform creates one proxied A record for the API hostname; the one-time Cloudflare setup (API token, SSL mode) is in the `open-projects-hub-infra` README, section "Cloudflare setup".
 
 ### 3.4 Scaling Strategy
 
 - Single instance, no autoscaling. The expected load is a handful of users.
 - Vertical scaling is the only lever: a larger instance type, then a higher Gunicorn worker count and connection limits.
-- CloudFront serves the web app from the edge, so static traffic does not reach the host.
+- Static assets are served by Cloudflare Workers, so the host handles only API traffic.
 
 ### 3.5 High Availability and Failover
 
 - None for the API and database: one host, one availability zone. A host failure means downtime until it is replaced.
-- S3 and CloudFront are managed services with their own durability and availability.
+- Cloudflare (Workers and proxy) and S3 (Terraform state) are managed services with their own durability and availability.
 - A deploy restarts the API container; expect a short interruption.
 
 ## 4. Backup and Disaster Recovery
@@ -139,7 +141,7 @@ See also: [ADR-021: Low-Cost Single-Host Deployment](../../04-decisions/adr-021-
 | Data/Service                | Backup Approach                                    | Recovery |
 | --------------------------- | -------------------------------------------------- | -------- |
 | PostgreSQL (application data) | None                                             | Data is lost if the instance volume or account is lost |
-| Web assets (S3)             | Rebuilt from the tagged Git commit by CI/CD        | Re-run the web deploy workflow |
+| Web assets (Cloudflare Workers) | Rebuilt from the Git branch by Cloudflare Builds | Redeploy from the Cloudflare dashboard |
 | API image                   | Rebuilt from the tagged Git commit by CI/CD        | Re-run the API deploy workflow |
 | Infrastructure              | Terraform code in Git, state in a private versioned S3 bucket | `terraform apply` |
 | Configuration and secrets   | SSM Parameter Store                                | Re-create manually if the account is lost |
@@ -159,7 +161,7 @@ See also: [ADR-021: Low-Cost Single-Host Deployment](../../04-decisions/adr-021-
 | **Local**      | Developer workstations | `APP_ENV=local`, API run directly, local PostgreSQL | $0          |
 | **Test**       | Automated tests        | `APP_ENV=test`                                      | $0          |
 | **Container**  | Docker Compose run, same image that is deployed | `APP_ENV=container`        | $0          |
-| **Production** | Master's-review release | EC2 + CloudFront, `APP_ENV=prod`                   | about $12-13/month from the $100 Free Plan credits |
+| **Production** | Master's-review release | EC2 + Cloudflare, `APP_ENV=prod`                   | about $12-13/month from the $100 Free Plan credits |
 
 **Environment Isolation:**
 
@@ -178,7 +180,7 @@ See also: [ADR-021: Low-Cost Single-Host Deployment](../../04-decisions/adr-021-
 | EC2 `t3.micro` | $7.60 |
 | Public IPv4 address (Elastic IP) | $3.65 |
 | 20 GB gp3 volume | $1.60 |
-| CloudFront, S3, SSM, CloudFront Function, IAM | $0 (within always-free allowances) |
+| Cloudflare (free plan), S3, SSM, IAM | $0 (the domain is already owned; its yearly renewal is paid at the registrar) |
 | **Total** | **about $12.85, paid from the $100 Free Plan credits** |
 
 **Cost Management Actions:**
@@ -197,15 +199,15 @@ See also: [ADR-021: Low-Cost Single-Host Deployment](../../04-decisions/adr-021-
 **Managed Resources:**
 
 - **Compute:** EC2 instance, Elastic IP, security group, instance role and profile, first-boot script (Docker, Compose plugin, swap).
-- **CDN and storage:** S3 web bucket, CloudFront distribution, origin access control, CloudFront Function, response-headers policy attachment.
+- **Edge and storage:** the Cloudflare DNS record (Terraform Cloudflare provider, token from the environment) and the managed prefix list of Cloudflare ranges. The web app is deployed by Cloudflare and is not in Terraform.
 - **Secrets:** generated secrets and placeholders in SSM Parameter Store.
-- **Delivery access:** deploy roles and the restricted SSM deploy document (the GitHub OIDC provider is created with the state bucket, in `bootstrap/`).
+- **Delivery access:** the API deploy role and the restricted SSM deploy document (the GitHub OIDC provider is created with the state bucket, in `bootstrap/`).
 - **Cost control:** AWS Budgets.
 
 **Terraform Configuration:**
 
 - **State Management:** private, versioned, encrypted S3 bucket with native state locking (no DynamoDB table).
-- **Layout:** `bootstrap/` (state bucket, applied once), `envs/prod/`, and three modules: `compute`, `frontend`, `github-oidc`.
+- **Layout:** `bootstrap/` (state bucket, applied once), `envs/prod/`, and two modules: `compute`, `github-oidc`.
 - **Secrets Handling:** secrets are generated in Terraform and stored in SSM; the state bucket is private because state contains them.
 
 **Governance:**
@@ -217,9 +219,9 @@ See also: [ADR-021: Low-Cost Single-Host Deployment](../../04-decisions/adr-021-
 
 **Transport Security:**
 
-- Viewers always use HTTPS (CloudFront certificate, HTTP redirected, HSTS header).
-- **Accepted risk:** the CloudFront-to-EC2 leg is plain HTTP, because there is no custom domain to issue an origin certificate for. Bearer tokens and login requests cross this leg in cleartext over the public internet. A custom domain would allow HTTPS to the origin.
-- The refresh-token cookie is `HttpOnly`, `SameSite=Lax` and `Secure`, scoped to `/v1/auth`.
+- Viewers always use HTTPS (Cloudflare edge certificate, HTTP redirected, HSTS header).
+- The Cloudflare-to-EC2 leg is HTTPS, but Caddy's certificate comes from its own local CA, which Cloudflare accepts in SSL mode Full without validating it. **Accepted risk:** a party able to intercept traffic between Cloudflare and AWS could impersonate the origin. The upgrade is a Cloudflare Origin CA certificate on Caddy with SSL mode Full (strict).
+- The refresh-token cookie is `HttpOnly`, `SameSite=Lax` and `Secure`, scoped to `/v1/auth`. The API accepts cookie sessions only from the exact web origin in `CORS_ORIGINS`/`FRONTEND_BASE_URL`; preview deployments on other origins are rejected.
 
 **Authentication & Authorization:**
 
@@ -227,7 +229,7 @@ See also: [ADR-021: Low-Cost Single-Host Deployment](../../04-decisions/adr-021-
 
 **Network Security:**
 
-- Only CloudFront can reach port 80 (security group prefix list). Because that prefix list is shared by all CloudFront customers, Caddy also requires a secret `X-Origin-Verify` header. Caddy replaces `X-Forwarded-For` with the viewer address that CloudFront supplies in `CloudFront-Viewer-Address`, so a client-supplied `X-Forwarded-For` is ignored.
+- Only Cloudflare's ranges can reach port 443 (security group prefix list). Those ranges are shared by every Cloudflare customer, so another Cloudflare account could proxy to this host if it learned the Elastic IP; there is no shared secret header. Accepted for this deployment; Authenticated Origin Pulls or a Cloudflare request-header rule would close it. Caddy replaces `X-Forwarded-For` with the viewer address in `CF-Connecting-IP`, so a client-supplied `X-Forwarded-For` is ignored.
 - No SSH; shell access is through SSM Session Manager, and instance metadata requires IMDSv2.
 - The database is not published outside the Docker network.
 
@@ -239,7 +241,7 @@ See also: [ADR-021: Low-Cost Single-Host Deployment](../../04-decisions/adr-021-
 
 **Deploy access:**
 
-- The API deploy role can only run one SSM document on one instance. The document accepts only a `vX.Y.Z` tag and fetches the deploy script from the tagged commit of the public repository. The deploy roles trust any `v*` tag on any commit, so anyone who can push a tag can deploy as root on the host. Tag protection on `v*` is required and is set up by hand (see the infra repository README).
+- The API deploy role can only run one SSM document on one instance. The document accepts only a `vX.Y.Z` tag and fetches the deploy script from the tagged commit of the public repository. The deploy role trusts any `v*` tag on any commit, so anyone who can push a tag can deploy as root on the host. Tag protection on `v*` is required and is set up by hand (see the infra repository README).
 
 **Data Protection:**
 
@@ -247,7 +249,7 @@ See also: [ADR-021: Low-Cost Single-Host Deployment](../../04-decisions/adr-021-
 
 **Input Validation & API Security:**
 
-- Pydantic validation, rate limiting (per viewer address, taken from `CloudFront-Viewer-Address`), CORS allowlist, and parameterized queries via SQLAlchemy.
+- Pydantic validation, rate limiting (per viewer address, taken from `CF-Connecting-IP`), CORS allowlist, and parameterized queries via SQLAlchemy.
 
 See [Security Architecture](../security/security-architecture.md) for detailed security controls.
 
@@ -255,9 +257,9 @@ See [Security Architecture](../security/security-architecture.md) for detailed s
 
 **CI/CD Integration:**
 
-- Each application repository has a `ci.yml` (lint, tests, build) and a `deploy.yml`.
+- Each application repository has a `ci.yml` (lint, tests, build); the API repository also has a tag-driven `deploy.yml`, and the web repository deploys through Cloudflare.
   1. **Backend:** build the Docker image, push it to GHCR, then run the `ophub-prod-deploy` SSM document, which pulls the image and restarts the stack.
-  2. **Frontend:** build the React app (same-origin API, no build-time URL), sync it to S3, invalidate CloudFront.
+  2. **Frontend:** built and deployed by Cloudflare Builds from the web repository (GitHub integration), with the API URL set in `.env.production`. No AWS access is involved.
   3. **Database:** Alembic migrations run when the API container starts.
   4. **Infrastructure:** Terraform is applied locally; CI only validates it.
 
@@ -269,7 +271,8 @@ See [Security Architecture](../security/security-architecture.md) for detailed s
 **Rollback Strategy:**
 
 - Application: re-run the deploy workflow on the previous tag. Migrations are forward-only, so a rollback across a schema change needs a forward fix.
-- Frontend: re-run the deploy workflow on the previous tag.
+- Frontend: redeploy the previous build from the Cloudflare dashboard, or revert the commit.
+- Edge: delete the `api-oph` DNS record in Cloudflare to take the API offline without touching AWS.
 - Infrastructure: revert the Terraform change and apply.
 
 ## 10. Related ADRs
@@ -283,40 +286,44 @@ See [Security Architecture](../security/security-architecture.md) for detailed s
 - [ADR-014: Environment Strategy](../../04-decisions/adr-014-environment-strategy.md)
 - [ADR-017: Database Migration Strategy](../../04-decisions/adr-017-database-migration-strategy.md)
 - [ADR-021: Low-Cost Single-Host Deployment](../../04-decisions/adr-021-low-cost-single-host-deployment.md)
+- [ADR-022: Cloudflare Edge Instead of CloudFront](../../04-decisions/adr-022-cloudflare-edge-instead-of-cloudfront.md)
 
 ## 11. Implementation Status and Next Steps
 
-Status as of 2026-10-10. The design above is implemented in code and merged into `dev` in each repository, but **not live**.
+Status as of 2026-10-15. The design above is implemented in code in each repository, but **not live**: the production stack is partly applied.
 
 **Done**
 
-- AWS account created; the Terraform state bucket is applied (the only resource in AWS so far).
-- Terraform for the production stack is written, validated and planned (40 resources); `terraform apply` for `envs/prod` has not been run. Merged into `dev` in `open-projects-hub-infra`.
-- API: production Compose stack, Caddyfile, deploy script, CI and tag-driven deploy workflows. Merged into `dev` in `open-projects-hub-api`.
-- Web: CI and tag-driven deploy workflows. Merged into `dev` in `open-projects-hub-web`.
-- This documentation and ADR-021. Merged into `dev` in `open-projects-hub-docs`.
-- Verified locally: lint, security scan, unit tests and `npm run verify` on clean copies; the Docker stack with migrations, the Caddy origin-header gate, viewer-address forwarding and `.env` handling; the docs build; `terraform validate` and `plan`.
+- AWS account created; the Terraform state bucket, the GitHub OIDC provider and the teardown role are applied (`bootstrap/`).
+- `terraform apply` for `envs/prod` created 34 resources of the first design (EC2 host, web bucket, deploy roles and document, SSM parameters, budgets); the web bucket and web role are removed by the current design. The host's first boot was checked over SSM Session Manager: `cloud-init` finished without errors and Docker, the Compose plugin and swap are in place.
+- The first design put CloudFront in front. AWS refused the distribution ("Your account must be verified before you can add new CloudFront resources"; Support case opened), so the entry point was changed to Cloudflare ([ADR-022](../../04-decisions/adr-022-cloudflare-edge-instead-of-cloudfront.md)). The web app was then deployed on Cloudflare Workers at `oph.alonsovndev.com` (web PR #23), and the API is to be served at `api-oph.alonsovndev.com`. The API-side change is written in the infra, API, web and docs repositories and is **not applied** to AWS.
+- API: production Compose stack, Caddyfile (proxies `/v1/*`), deploy script, CI and tag-driven deploy workflows.
+- Web: CI, and Cloudflare Workers hosting with Cloudflare Builds; `.env.production` points at the API origin.
+- This documentation, ADR-021 and ADR-022.
+- Verified locally: Caddyfile and Compose validate, `terraform validate` for `bootstrap/` and `envs/prod`, and a read-only `terraform plan` of `envs/prod` against the current state (dummy Cloudflare token): 7 to add, 9 to destroy (web bucket and role, CloudFront leftovers, `ORIGIN_VERIFY`, the old :80 rule), with the instance, Elastic IP, security group and API role untouched; Caddy simulated locally with a stub API.
 
 **Not done or not verified**
 
-- Nothing in `envs/prod` exists in AWS. Creating the CloudFront distribution on this account and the host's first-boot script are untested.
-- The deploy workflows have never run and no release tag exists.
-- No email provider is configured, so self-registration cannot complete (new users must verify by email).
-- Other pages still describe App Runner and RDS (see below).
+- The real `terraform plan` needs the zone ID and the Cloudflare API token; the counts above come from a plan with placeholder values and can differ slightly.
+- Caddy with `tls internal` behind Cloudflare in SSL mode Full, and the cross-origin login (CORS plus refresh cookie) from `oph.alonsovndev.com`, have not run end to end.
+- The API deploy workflow has never run and no release tag exists.
+- No email provider is configured, so self-registration cannot complete (new users must verify by email). The owned domain makes a sending domain possible later.
+- Other pages still describe App Runner, RDS and CloudFront (see below).
 
 **Next steps, in order**
 
-1. Apply `envs/prod` after reviewing a fresh plan (the 2026-10-10 plan was 40 to add, 0 to change, 0 to destroy), then check the host's first boot over SSM Session Manager.
-2. Follow the "First release checklist" in the `open-projects-hub-infra` README: repository variables, tag protection for `v*`, SSM placeholders, and the GHCR package set to Public after the first image push.
-3. Promote `dev` to `main` in each repository and push a `vX.Y.Z` tag: API first, then web.
-4. Seed the admin user and smoke test: log in as the admin and create a project.
-5. Watch credit use against the two budgets; the $100 credit balance and the plan end (about 2027-04-11) are the limits.
+1. Do the one-time Cloudflare setup (zone ID, API token, SSL mode) following the "Cloudflare setup" section of the `open-projects-hub-infra` README.
+2. Review the `terraform plan` for `envs/prod`, then apply it.
+3. Follow the "First release checklist" in the same README: API repository variables, tag protection for `v*`, SSM placeholders, and the GHCR package set to Public after the first image push.
+4. Promote `dev` to `main` and push a `vX.Y.Z` tag in the API repository. Merge the web `.env.production` change to the branch Cloudflare deploys.
+5. Seed the admin user and smoke test: log in as the admin and create a project.
+6. Watch credit use against the two budgets; the $100 credit balance and the plan end (about 2027-04-11) are the limits.
 
 **Follow-ups and open decisions**
 
 - GitHub CI had been removed from the API and web repositories on 2026-10-08 (commit "chore: remove Github CI/CD", reason not recorded). A smaller CI was added back and the owner decided to keep it (2026-10-10).
-- Decide on a sending domain and email provider if reviewers need to self-register.
-- Sweep the remaining pages that mention App Runner or RDS: `core/technology-stack.md`, `core/architecture-solution-design.md`, the security and database docs, and `api/*`.
+- Decide on an email provider now that a sending domain is available, if reviewers need to self-register.
+- Sweep the remaining pages that mention App Runner, RDS or CloudFront: `core/technology-stack.md`, `core/architecture-solution-design.md`, the security and database docs, `diagrams/sequence-diagrams.md`, `monitoring-observability.md` and `api/*`.
 - Remove the now-unreferenced `images/deployment-arch-aws.png` and `images/git-ci-cd-pipeline.png` once the Mermaid diagrams are accepted.
 
 ## Source References
