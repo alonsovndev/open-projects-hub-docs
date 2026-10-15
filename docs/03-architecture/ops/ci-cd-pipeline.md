@@ -262,7 +262,7 @@ flowchart LR
     F --> G[Merge to main: no deploy]
     G --> H[Tag vX.Y.Z on main]
     H --> I[API: build image, push to GHCR, SSM deploy on EC2]
-    H --> J[Web: build, sync to S3, invalidate CloudFront]
+    G --> J[Web: Cloudflare Builds deploys the branch to Workers]
     I --> K[Manual smoke test]
     J --> K
 ```
@@ -284,13 +284,13 @@ flowchart LR
 
 - **Production Deployment Pipeline (trigger: tag `vX.Y.Z` on `main`):**
   - **Backend repository:** builds the Docker image from the tagged commit, pushes `ghcr.io/alonsovndev/open-projects-hub-api:vX.Y.Z`, then runs the `ophub-prod-deploy` SSM document on the EC2 host. The host pulls the image and restarts the Docker Compose stack. Alembic migrations run when the API container starts. The workflow fails if the stack does not start healthy: Docker Compose waits for the API health check (about two minutes at most), then the deploy script waits up to 90 more seconds for `/health/ready`.
-  - **Frontend repository:** builds the React app from the tagged commit, syncs it to S3 and invalidates the CloudFront cache.
-  - Both workflows authenticate to AWS with short-lived OIDC credentials. They can also be run manually from a tag ref to redeploy it.
-  - Both workflows first require that the tagged commit is on `main` (tag protection limits who can tag, not what is tagged), and both end with a smoke test through the CloudFront URL (`SITE_URL`): the web check expects the app shell, the API check expects a JSON 4xx from the API, which tells it apart from the origin gate's 403 and from the SPA fallback.
+  - **Frontend repository:** has no deploy workflow. Cloudflare Builds (GitHub integration) builds the app on every push (`npm run build`) and deploys the production branch to Cloudflare Workers with `wrangler deploy`; other branches get preview deployments. `VITE_API_BASE_URL` in `.env.production` points the production build at the API origin. No AWS credentials are involved.
+  - The API workflow authenticates to AWS with short-lived OIDC credentials. It can also be run manually from a tag ref to redeploy it.
+  - The API workflow first requires that the tagged commit is on `main` (tag protection limits who can tag, not what is tagged), and ends with a smoke test through the public URL (`API_URL`, the Cloudflare API hostname): it expects a JSON 4xx from the API, which tells it apart from Caddy's 404 and from Cloudflare's own error pages.
   - The API workflow also checks that the GHCR image is pullable without credentials, because the host pulls anonymously, and fails early with the fix instead of after the deploy polling loop.
   - API CI applies every Alembic migration to an empty Postgres and rolls it back, because production runs `alembic upgrade head` at container start. The repository integration tests are not part of CI: they are stale and need repair first.
   - **Infrastructure** is not applied by the pipeline: Terraform changes are applied locally by the owner after reviewing the plan (see [Deployment Architecture](./deployment-architecture.md)). The one exception is teardown: pushing the tag `destroy-prod` in the infrastructure repository runs a workflow that destroys `envs/prod`, after a required reviewer approves it in the `destroy` GitHub Environment. It assumes a dedicated role (defined with the state bucket, outside `envs/prod`) that can read, modify and delete those resources but not create them, and only that environment can assume it. The database is deleted with the host and there are no backups.
-  - The deploy workflows end with automated smoke tests of the routing (see above). The authenticated flow is still checked by hand after a deploy: log in as the seeded admin and create a project. Self-registration cannot be smoke-tested until an email provider with a verified sending domain is configured, because new users must verify by email.
+  - The API deploy workflow ends with an automated smoke test of the routing (see above). The authenticated flow is still checked by hand after a deploy: log in as the seeded admin and create a project. Self-registration cannot be smoke-tested until an email provider with a verified sending domain is configured, because new users must verify by email.
 
 ---
 
@@ -336,7 +336,7 @@ Use hotfixes only for critical production bugs that cannot wait for the normal `
 
 Development happens in the local environments (`local`, `test` and `container`, see ADR-014). AWS hosts a single environment:
 
-- **Production:** the release shown at the master's review, a single low-cost EC2 host behind CloudFront (see ADR-021). It is deployed **only** from a `vX.Y.Z` tag cut from `main`.
+- **Production:** the release shown at the master's review, a single low-cost EC2 host behind Cloudflare (see ADR-021 and ADR-022). It is deployed **only** from a `vX.Y.Z` tag cut from `main`.
 
 There is no persistent `staging` or `dev` environment on AWS. The `dev` branch provides code-level integration; the `container` environment, which runs the same Docker image that is deployed, serves as the pre-release smoke test.
 
@@ -371,7 +371,7 @@ There is no persistent `staging` or `dev` environment on AWS. The `dev` branch p
 
 - Zero-downtime deployment is **not** provided: the single EC2 host restarts the API container on each deploy, so expect a short interruption (ADR-021).
 - Database migrations are written to be backward-compatible. A failed deploy is not rolled back automatically: the old API container has already been replaced, so the site is down until the previous tag is redeployed.
-- The frontend is deployed independently to S3 and CloudFront; uploading hashed assets before `index.html` and keeping old hashed files avoids broken pages during a deploy.
+- The frontend is deployed independently by Cloudflare, which switches versions atomically; the API and the web app are released separately, so keep API changes backward-compatible with the previously deployed web build.
 
 ---
 

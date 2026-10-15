@@ -2,7 +2,7 @@
 
 - **Status**: Superseded in part by [ADR-021](./adr-021-low-cost-single-host-deployment.md)
 - **Date**: 2026-02-28
-- **Updated**: 2026-10-10 (compute, database, secrets, registry and network decisions replaced by ADR-021; AWS and S3 + CloudFront remain)
+- **Updated**: 2026-10-10 (compute, database, secrets, registry and network decisions replaced by ADR-021; AWS remains; the S3 + CloudFront frontend is superseded by ADR-022)
 
 ## Context
 

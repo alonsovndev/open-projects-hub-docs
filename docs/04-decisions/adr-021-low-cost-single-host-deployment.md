@@ -1,8 +1,8 @@
 # ADR-021: Low-Cost Single-Host Deployment (CloudFront + EC2)
 
-- **Status**: Accepted
+- **Status**: Accepted; the CloudFront entry point is replaced by [ADR-022](./adr-022-cloudflare-edge-instead-of-cloudfront.md)
 - **Date**: 2026-10-10
-- **Supersedes**: [ADR-006](./adr-006-deployment-platform.md) (compute, database, secrets, registry and network decisions); the AWS-only and S3 + CloudFront frontend decisions of ADR-006 stand.
+- **Supersedes**: [ADR-006](./adr-006-deployment-platform.md) (compute, database, secrets, registry and network decisions); the AWS-only decision of ADR-006 stands; its S3 + CloudFront frontend is superseded by [ADR-022](./adr-022-cloudflare-edge-instead-of-cloudfront.md).
 - **Affects**: [ADR-004](./adr-004-database.md) (the database runs as a PostgreSQL container, not Amazon RDS), [ADR-011](./adr-011-secrets-management.md) (secrets live in SSM Parameter Store), [ADR-014](./adr-014-environment-strategy.md) (unchanged: one deployed environment).
 
 ## Context
@@ -63,6 +63,7 @@ Because the web app and the API share the CloudFront origin, no CORS configurati
 - **Email.** Without a verified sending domain, the transactional email provider cannot deliver verification and reset emails to arbitrary users.
 - **Capacity.** 1 GB of RAM (plus swap) and a 30-connection Postgres limit are sized for a handful of users.
 - **CloudFront limits.** The origin response timeout is 60 seconds, so very slow synchronous AI calls return 504.
+- **CloudFront needs the account verified.** On 2026-10-14 AWS refused the first distribution in this account until a Support case verifies it. ADR-022 replaces CloudFront with Cloudflare because of this.
 
 ## Architecture
 
