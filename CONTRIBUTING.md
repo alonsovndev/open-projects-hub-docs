@@ -34,9 +34,9 @@ The Open Projects Hub is a full-stack web application built to help freelancers 
 **Key characteristics:**
 
 - **Backend**: Python 3.12, FastAPI, Modular Monolith with Clean Architecture and DDD
-- **Frontend**: React 18, TypeScript 5, Ant Design, Redux Toolkit
-- **Database**: PostgreSQL (via Supabase) with Row Level Security
-- **Deployment**: Vercel (frontend) + Render (backend)
+- **Frontend**: React 19, TypeScript 5, Vite, Ant Design v6, Redux Toolkit (RTK Query)
+- **Database**: PostgreSQL 15 (container on the API host, data on an EBS volume)
+- **Deployment**: Cloudflare Workers (frontend), one AWS EC2 host with Docker Compose behind Cloudflare (backend), Terraform for the AWS side; see [Deployment architecture](./docs/03-architecture/ops/deployment-architecture.md)
 - **Testing**: Pytest (backend), Vitest + React Testing Library (frontend), Playwright (E2E)
 
 For the full picture, start with the [Project Overview](./docs/00-context/overview.md) and the [Architecture README](./docs/03-architecture/README.md).

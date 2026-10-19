@@ -34,7 +34,7 @@ Single source of truth for project planning, including the phased roadmap, role 
 
 All planning documents have been updated to **Ready for Implementation**.
 
-**Next Step**: Begin execution of Phase -1 and Phase 0 as defined in the `phased-roadmap.md`. Once complete, the MVP phase can begin.
+**Status (2026-10-19)**: Phase -1, Phase 0 and the MVP are built and the first production release is live. Remaining work is the Phase 1 items listed in the `phased-roadmap.md` (SEO and E2E coverage).
 
 **Transition Path**: Draft → Review Pending → **Ready for Implementation** ✅
 
