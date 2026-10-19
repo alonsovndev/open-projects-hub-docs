@@ -28,7 +28,7 @@ Files in `core/`:
 
 Files in `database/`:
 
-- **[Database Domain Overview](./database/README.md)**: Database architecture domain with schema design guidance, references to ADR-003, ADR-007, and planned documentation for migrations, RLS policies, and query optimization.
+- **[Database Domain Overview](./database/README.md)**: Database architecture domain with schema design guidance, references to ADR-003, ADR-007, and the schema as implemented, indexes, and data governance.
 
 ## 4. API and Communication
 
@@ -41,7 +41,7 @@ Files in `api/`:
 
 Files in `security/`:
 
-- **[Security Architecture](./security/security-architecture.md)**: Custom Auth (JWT) + RBAC + RLS model, OWASP controls, data protection, and secrets management.
+- **[Security Architecture](./security/security-architecture.md)**: Custom Auth (JWT) + RBAC + workspace scoping, OWASP controls, data protection, and secrets management.
 - **[Threat Model](./security/threat-model.md)**: STRIDE-based threat enumeration, risk matrix, and mitigation plan.
 
 ## 6. Deployment and Operations

@@ -3,6 +3,8 @@
 - **Status**: Accepted
 - **Date**: 2026-08-04
 
+> **Implementation note (2026-10-07):** PostgreSQL Row Level Security was not implemented. Tenant isolation is enforced in the application layer: every repository query is scoped by the caller's `workspace_id`, and records in another workspace return 404. See [Database Design](../03-architecture/database/database-design.md#security-and-data-governance).
+
 ## Context
 
 With Amazon RDS PostgreSQL (ADR-004) and SQLAlchemy 2.x (ADR-007) as the chosen database stack, the system needs a database migration strategy to:

@@ -5,6 +5,8 @@
 - **Updated**: 2026-08-03
 - **Note (2026-10-10)**: the deployed database runs as a PostgreSQL container on the application host, not on Amazon RDS. See [ADR-021](./adr-021-low-cost-single-host-deployment.md). PostgreSQL itself is unchanged.
 
+> **Implementation note (2026-10-07):** PostgreSQL Row Level Security was not implemented. Tenant isolation is enforced in the application layer: every repository query is scoped by the caller's `workspace_id`, and records in another workspace return 404. See [Database Design](../03-architecture/database/database-design.md#security-and-data-governance).
+
 ## Context
 
 The system needs relational consistency, secure role-based data access, and operational simplicity for a small team. With the decision to adopt AWS as the primary cloud platform, the database solution must align with AWS infrastructure while maintaining PostgreSQL capabilities.

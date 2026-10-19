@@ -33,7 +33,7 @@ Sequence numbers are assigned per epic, per role.
 | --- | --- | --- |
 | `Issue Type` | `Story`, `Spike`, `Task` | Issue Type |
 | `Priority` | `Must Have`, `Should Have`, `Could Have` | Priority |
-| `Status` | `TODO` | Status |
+| `Status` | `TODO`, `IN PROGRESS`, `DONE`, `DEFERRED`, `SUPERSEDED` | Status |
 | `Effort Estimate` | Fibonacci story points: 1, 2, 3, 5, 8 (13 must be split) | Story Points |
 | `Fix Version` | `MVP-1`, `Phase 1` | Fix Version |
 | `Components` | `Backend`, `Frontend`, `Database` | Components |
@@ -44,6 +44,18 @@ Sequence numbers are assigned per epic, per role.
 Owner is expressed by the role group heading a story sits under, since
 `docs/02-planning/role-mapping.md` defines roles rather than named assignees. Assignees are
 set at import time.
+
+Statuses reflect the code in `open-projects-hub-api` and `open-projects-hub-web` as of
+2026-10-07. Release (`REL`) stories stay `TODO`: the deployment path they describe
+(Terraform, App Runner, CloudFront) is the target design and is not built yet. An epic is
+`DONE` only when every story in it is done, so most epics read `IN PROGRESS` until their
+release story ships.
+
+**Terminology.** Stories written before 2026-10-02 refer to a **Viewer** role: an invited,
+read-only client account. [ADR-020](../docs/04-decisions/adr-020-client-review-by-access-code.md)
+replaced it with account-free Client Review through a project access code, and the shipped roles
+are Admin and Member. Where a story says "Viewer", the shipped equivalent is the public Client
+Review page (`/viewer/:accessCode`), which shows one project's approved stories and nothing else.
 
 ### Sizing anchors
 

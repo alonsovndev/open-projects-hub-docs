@@ -78,7 +78,7 @@ flowchart LR
 
 - **Frontend Project (S3 + CloudFront):** UI workflows for project management, AI refinement interaction, and read-only client review access; global edge delivery via CDN.
 - **Backend Project (App Runner):** modular monolith organized by bounded contexts (clients, projects, requirements, auth, access control, exports); containerized FastAPI application with integrated auth module.
-- **Data Layer (RDS PostgreSQL):** transactional persistence with policy-based protection via PostgreSQL RLS.
+- **Data Layer (RDS PostgreSQL):** transactional persistence; tenant isolation is enforced by workspace-scoped repository queries.
 
 ## Data Flow
 
@@ -107,7 +107,7 @@ sequenceDiagram
 ## Integration Points
 
 - **S3 + CloudFront frontend → App Runner backend:** HTTPS REST APIs with JWT bearer token authentication.
-- **Backend → RDS PostgreSQL database:** persistence through backend-owned access patterns and PostgreSQL RLS policy enforcement.
+- **Backend → RDS PostgreSQL database:** persistence through backend-owned, workspace-scoped access patterns.
 - **Authentication flow:** Backend auth module (internal bounded context) issues JWT tokens via `/auth/login` endpoint; tokens are consumed by frontend and validated by backend middleware on all protected routes.
 - **External service integrations:**
   - Sentry for centralized frontend/backend error tracking and application performance monitoring.

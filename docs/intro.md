@@ -19,5 +19,6 @@ use AI to refine ambiguous ideas into actionable technical specifications.
 | [Decisions (ADRs)](./04-decisions/)           | Key architectural decisions and their justifications.               |
 | [Prototype & UX](./05-prototype/)             | Mockups and prototypes exploring the user experience.               |
 
-See the root [README](https://github.com/alonsovndev/open-projects-hub-docs) for the
-project pitch, current status, and how to contribute.
+See the repository [README](https://github.com/alonsovndev/open-projects-hub-docs) for how to
+run this site locally, and [CONTRIBUTING](https://github.com/alonsovndev/open-projects-hub-docs/blob/main/CONTRIBUTING.md)
+for how to contribute.

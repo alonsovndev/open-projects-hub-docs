@@ -7,8 +7,11 @@ sidebar_position: 1
 | Attribute        | Value                       |
 | ---------------- | --------------------------- |
 | **Project**      | Open Projects Hub |
-| **Version**      | 1.8                         |
+| **Version**      | 2.0                         |
 | **Status**       | Accepted                    |
+
+This page describes the schema as implemented by the SQLAlchemy models and Alembic migrations in
+`open-projects-hub-api` (`src/app/features/*/infrastructure/models/`, `alembic/versions/`).
 
 ## Table of Contents
 
@@ -28,40 +31,42 @@ sidebar_position: 1
 
 ## Design Scope and Assumptions
 
-- Covers the MVP core: user identity, client basics, project lifecycle, role-based access, and AI-refined user stories.
-- Internal notes are out of scope for this simplified MVP schema and are not persisted in database entities.
-- Removed in this version: ambiguity tracking, requirements promotion workflow, and Markdown export tracking. These can be reintroduced post-MVP. Acceptance criteria stored as JSONB on `user_stories` rather than a child table.
-- The custom auth bounded context (per ADR-005) owns credential storage, JWT tokens, and user identity lifecycle. The application schema stores user profile, password hash, and authorization projection data.
-- Database engine: Amazon RDS PostgreSQL (per ADR-004). Migrations managed via Alembic (per ADR-017). Physical deployment is out of scope here.
+- Covers the MVP: workspaces and user identity, clients, the project lifecycle, approved user stories, AI credits and provider keys, and the auth state tables (verification codes, reset codes, lockouts, revoked refresh tokens).
+- AI refinement output is not stored until the Admin or Member approves it (ADR-019). Every row in `stories` is an approved story; its `status` tracks delivery work, not approval.
+- Acceptance criteria are stored as a PostgreSQL `TEXT[]` column on `stories`, not a child table or JSONB.
+- Not built: epics, story ordering (`sort_order`), ambiguity tracking, export history, and database Row-Level Security. Authorization is enforced in the application layer (see [Security and Data Governance](#security-and-data-governance)).
+- Database engine: PostgreSQL (ADR-004). Migrations are managed with Alembic (ADR-017).
 
 ## Data Domains
 
-- **Identity and Access:** User profile projection with workspace-scoped `admin` and `member` roles. Clients have no accounts; a project's `access_code` is the credential for the public Client Review route (ADR-020).
-- **Client and Project Lifecycle:** Basic client info, project metadata, phase/status, epic grouping, and archive behavior.
-- **Refinement and User Stories:** AI-generated user stories produced from refinement input, linked directly to projects with per-story approval tracking.
+- **Identity and Access:** workspaces, users with workspace-scoped `admin` and `member` roles, and auth state (verification codes, reset codes, lockouts, revoked refresh tokens). Clients have no accounts; a project's `access_code` is the credential for the public Client Review route (ADR-020).
+- **Client and Project Lifecycle:** client records and projects with status, priority, phase, and optional dates.
+- **Stories:** approved user stories linked to a project.
+- **AI Monetization:** per-user credit balances, encrypted provider keys, and the key-validation rate limit.
 
 ## Core Entities
 
-| Entity                | Purpose                                                  | Bounded Context     | Lifecycle States     |
-| --------------------- | -------------------------------------------------------- | ------------------- | -------------------- |
-| `workspaces`          | Tenant boundary owning `clients` and `projects`; created per sign-up | Identity and Access | active by record |
-| `users`               | Application-visible user profile keyed to auth identity, scoped to one workspace | Identity and Access | `active`, `disabled` |
-| `clients`             | Basic client info managed by the freelancer Admin        | Client Lifecycle    | `active`, `archived` |
-| `projects`            | Project metadata, phase, and status                      | Project Lifecycle   | `active`, `archived` |
-| `epics`               | Grouping container for related user stories per project  | Project Lifecycle   | `open`, `in_progress`, `done` |
-| `user_stories`        | Approved user stories (AI-refined stories are not stored before approval, ADR-019) | Refinement Workflow | `approved` |
-| `user_api_keys`       | Per-user AI provider credentials, encrypted at rest      | AI Monetization     | active by record     |
-| `api_key_validation_attempts` | Per-user counter behind the key-validation rate limit | AI Monetization | active by record  |
-| `email_verification_codes` | Hashed, short-lived codes that confirm a registered email | Identity and Access | active, used, expired |
+| Entity | Purpose | Bounded Context | Lifecycle |
+| --- | --- | --- | --- |
+| `workspaces` | Tenant boundary owning users, `clients`, and `projects`; one per sign-up | Identity and Access | active by record |
+| `users` | Admin or Member profile in one workspace | Identity and Access | unverified, active, deactivated (`deactivated_at`) |
+| `clients` | Client records managed inside a workspace | Client Lifecycle | active by record; hard delete |
+| `projects` | Project metadata, status, priority, phase, dates, and Client Review access code | Project Lifecycle | `active`, `completed`, `archived` |
+| `stories` | Approved user stories (unapproved AI output is never stored, ADR-019) | Stories | `todo`, `in_progress`, `blocked`, `done` |
+| `user_api_keys` | Per-user AI provider credentials, encrypted at rest | AI Monetization | active by record |
+| `api_key_validation_attempts` | Per-user counter behind the key-validation rate limit | AI Monetization | rolling window |
+| `email_verification_codes` | Hashed, short-lived codes that confirm an email or accept an invite | Identity and Access | active, used, expired |
+| `password_reset_codes` | Hashed, short-lived password reset codes | Identity and Access | active, used, expired |
+| `account_lockouts` | Failed-login counters and lockout windows, keyed by email | Identity and Access | cleared on success or expiry |
+| `revoked_refresh_tokens` | Hashes of used or logged-out refresh tokens | Identity and Access | removed after expiry |
 
 ## Relationships
 
-- `workspaces` owns `clients` and `projects`; every `user` belongs to exactly one `workspace`, and a self-registration creates a new workspace with its Admin. An Admin adds `member` users to their own workspace only.
-- `projects` belongs to a `client` and has `epics` and `user_stories`.
-- `epics` group user stories within a project; each epic contains one or more `user_stories`.
-- `user_stories` are approved individually and linked to both their parent epic and project.
+- Every `user`, `client`, and `project` belongs to exactly one `workspace`. Self-registration creates a new workspace with its Admin; an Admin adds `member` users to their own workspace only.
+- A `project` belongs to one `client` and is created by one `user` (`created_by`).
+- A `story` belongs to one `project` (`ON DELETE CASCADE`), records its creator, and can optionally be assigned to a user.
 - `workspaces.ai_credits_granted_total` counts every free credit the workspace has ever handed out (ceiling 25) and never decreases, so deleting and re-adding members cannot mint more.
-- `users` holds its own AI credit balance and owns at most one `user_api_keys` row per provider.
+- A `user` holds its own AI credit balance and owns at most one `user_api_keys` row per provider.
 
 ## Entity-Relationship Diagram (ERD)
 
@@ -70,18 +75,19 @@ erDiagram
     WORKSPACES ||--o{ USERS : has
     WORKSPACES ||--o{ CLIENTS : owns
     WORKSPACES ||--o{ PROJECTS : owns
-    USERS ||--o{ PROJECT_MEMBERSHIPS : assigned_to
-    PROJECTS ||--o{ PROJECT_MEMBERSHIPS : has
     CLIENTS ||--o{ PROJECTS : contains
-    PROJECTS ||--o{ EPICS : contains
-    EPICS ||--o{ USER_STORIES : contains
-    PROJECTS ||--o{ USER_STORIES : has
+    USERS ||--o{ PROJECTS : creates
+    PROJECTS ||--o{ STORIES : has
+    USERS ||--o{ STORIES : creates
     USERS ||--o{ USER_API_KEYS : owns
     USERS ||--o| API_KEY_VALIDATION_ATTEMPTS : throttled_by
+    USERS ||--o{ EMAIL_VERIFICATION_CODES : verifies_with
+    USERS ||--o{ PASSWORD_RESET_CODES : resets_with
 
     WORKSPACES {
         uuid id PK
         string name
+        int ai_credits_granted_total
         timestamptz created_at
         timestamptz updated_at
     }
@@ -92,11 +98,58 @@ erDiagram
         string email UK
         string display_name
         string password_hash
-        string role
-        string status
+        enum role
+        int token_version
         int ai_credits_remaining
         int ai_credits_granted
         timestamptz email_verified_at
+        timestamptz deactivated_at
+        timestamptz created_at
+        timestamptz updated_at
+    }
+
+    CLIENTS {
+        uuid id PK
+        uuid workspace_id FK
+        string name
+        string email
+        string phone
+        string company
+        text address
+        text notes
+        timestamptz created_at
+        timestamptz updated_at
+    }
+
+    PROJECTS {
+        uuid id PK
+        uuid workspace_id FK
+        uuid client_id FK
+        uuid created_by FK
+        string name
+        string code
+        string access_code UK
+        text description
+        enum status
+        enum priority
+        enum phase
+        date start_date
+        date end_date
+        timestamptz created_at
+        timestamptz updated_at
+    }
+
+    STORIES {
+        uuid id PK
+        uuid project_id FK
+        uuid created_by FK
+        uuid assigned_to FK
+        string title
+        text description
+        text_array acceptance_criteria
+        enum status
+        enum priority
+        int points
         timestamptz created_at
         timestamptz updated_at
     }
@@ -122,233 +175,185 @@ erDiagram
         timestamptz updated_at
     }
 
-    CLIENTS {
+    EMAIL_VERIFICATION_CODES {
         uuid id PK
-        uuid workspace_id FK
-        string name
-        string contact_email
-        string status
+        uuid user_id FK
+        string code_hash
+        timestamptz expires_at
+        timestamptz used_at
+        int attempt_count
         timestamptz created_at
-        timestamptz updated_at
-        timestamptz archived_at
     }
 
-    PROJECTS {
+    PASSWORD_RESET_CODES {
         uuid id PK
-        uuid workspace_id FK
-        uuid client_id FK
-        uuid owner_admin_user_id FK
-        string name
-        string description
-        string phase
-        string status
+        uuid user_id FK
+        string code_hash
+        timestamptz expires_at
+        timestamptz used_at
+        int attempt_count
         timestamptz created_at
-        timestamptz updated_at
-        timestamptz archived_at
-    }
-
-    PROJECT_MEMBERSHIPS {
-        uuid project_id PK,FK
-        uuid user_id PK,FK
-        string role
-        timestamptz created_at
-        timestamptz updated_at
-    }
-
-    EPICS {
-        uuid id PK
-        text epic_key UK
-        uuid project_id FK
-        string title
-        text summary
-        text description
-        jsonb labels
-        string priority
-        string status
-        timestamptz created_at
-        timestamptz updated_at
-    }
-
-    USER_STORIES {
-        uuid id PK
-        text story_id UK
-        uuid epic_id FK
-        uuid project_id FK
-        integer sort_order
-        string title
-        text description
-        jsonb acceptance_criteria
-        jsonb labels
-        string priority
-        integer story_points
-        string status
-        uuid approved_by_user_id FK
-        timestamptz approved_at
-        timestamptz created_at
-        timestamptz updated_at
     }
 ```
+
+`account_lockouts` and `revoked_refresh_tokens` are keyed by email and token hash rather than by
+foreign key, so they are left out of the diagram.
 
 ## Schema Documentation
 
 ### 1. `workspaces`
 
-- **Purpose:** The tenant boundary that lets many freelancers share one instance safely. Every self-registration creates one; its Admin and, later, any members it adds all belong to it.
+- **Purpose:** The tenant boundary that lets many freelancers share one instance safely. Every self-registration creates one; its Admin and any members it adds belong to it.
 - **Primary key:** `id` (UUID).
-- **Columns:** `name` (defaults to `"{displayName}'s workspace"` at sign-up, editable), audit timestamps.
-- **Design note:** `clients` and `projects` are scoped by `workspace_id` directly (denormalized rather than joined through `users`), so every list and count query filters on one column. `users.workspace_id` is `ON DELETE RESTRICT`: a workspace with any user cannot be deleted outright.
+- **Columns:** `name` (defaults to `"{displayName}'s workspace"` at sign-up, editable), `ai_credits_granted_total` (free credits ever granted in this workspace), audit timestamps.
+- **Design note:** `clients` and `projects` carry `workspace_id` directly rather than joining through `users`, so every list and count query filters on one column. Every `workspace_id` foreign key is `ON DELETE RESTRICT`: a workspace that still owns rows cannot be deleted.
 
 ### 2. `users`
 
-- **Purpose:** Represents authenticated platform users visible to the application as Admin or Member profiles.
-- **Primary key:** `id` (UUID), generated by the application or database.
+- **Purpose:** Admin and Member accounts.
+- **Primary key:** `id` (UUID).
 - **Foreign keys:** `workspace_id -> workspaces.id` (`ON DELETE RESTRICT`).
-- **Constraints:** `email` unique instance-wide (an address can only ever belong to one workspace), `status` check (`active`, `disabled`), `password_hash` NOT NULL, `role` check (`admin`, `member`).
-- **Indexes:** unique index on `email`.
-- **Design note:** Password hashing via bcrypt/passlib per ADR-005. JWT tokens, session state, and password-reset flows are managed by the custom auth bounded context.
-- **Email verification (F-008):** `email_verified_at` is `NULL` until a self-registered account confirms its email, and login is refused while it is `NULL`. Accounts created by an Admin or the seed script are verified on creation, and the migration that added the column backfilled `created_at` so existing accounts kept signing in.
-- **AI credits (F-010):** `ai_credits_remaining` and `ai_credits_granted` both default to 5. Accounts created by an Admin or the seed script get them when the row is created; every account starts at 0 and Admins and Members are granted 5 when their email is verified, reserved atomically from the workspace's `ai_credits_granted_total` (ceiling 25). `granted` is kept alongside `remaining` so the UI can render "3 of 5" without hardcoding the grant, and so changing the grant later does not rewrite what existing accounts received. A credit is spent with a single conditional `UPDATE ... WHERE ai_credits_remaining > 0`; a read-modify-write would let two concurrent refinements share one credit and would roll back any password change made while the provider was working.
+- **Constraints:** `email` unique instance-wide (an address belongs to one workspace), `password_hash` NOT NULL, `role` is the Postgres enum `userrole` (`admin`, `member`).
+- **Indexes:** unique on `email`; `workspace_id`; `created_at`.
+- **Sessions:** `token_version` is embedded in refresh tokens. Bumping it (password reset, deactivation, forced logout) invalidates every outstanding refresh token for the user.
+- **Deactivation:** `deactivated_at` blocks sign-in without deleting the row.
+- **Email verification (F-008):** `email_verified_at` is `NULL` until the account confirms its email, and login is refused while it is `NULL`. Self-registered accounts verify with a 5-minute code. Accounts an Admin adds verify through a 24-hour invite code and set their own password at the same time. Accounts created by the seed script are verified on creation.
+- **AI credits (F-010):** `ai_credits_remaining` and `ai_credits_granted` start at 0 for self-registered and invited accounts. When the email is verified the account is granted 5 credits, reserved atomically from the workspace's `ai_credits_granted_total` (ceiling 25). `granted` is kept alongside `remaining` so the UI can render "3 of 5" without hardcoding the grant. A credit is spent with a single conditional `UPDATE ... WHERE ai_credits_remaining > 0`, so two concurrent refinements cannot share one credit.
 
 ### 3. `clients`
 
-- **Purpose:** Basic client records owned by an Admin.
+- **Purpose:** Client records managed inside a workspace.
 - **Primary key:** `id` (UUID).
-- **Foreign keys:** `workspace_id -> workspaces.id`.
-- **Constraints:** `status` check (`active`, `archived`), nullable `archived_at` for soft archive. CHECK constraint: `status != 'archived' OR archived_at IS NOT NULL`.
-- **Indexes:** `(workspace_id, status)`. Partial unique index on `(workspace_id, email)` where `email IS NOT NULL` — an email can repeat across workspaces but not within one.
+- **Foreign keys:** `workspace_id -> workspaces.id` (`ON DELETE RESTRICT`).
+- **Columns:** `name` (required), optional `email`, `phone`, `company`, `address`, `notes`, audit timestamps.
+- **Indexes:** `(workspace_id, name)`; `name`, `email`, `company`, `created_at`; partial unique index `uq_clients_workspace_id_email` on `(workspace_id, email)` where `email IS NOT NULL`. An email can repeat across workspaces but not within one.
+- **Lifecycle:** clients have no archive state. A client with active projects cannot be deleted; deleting a client first deletes its archived projects (the application does this, since `projects.client_id` has no cascade).
 
 ### 4. `projects`
 
-- **Purpose:** Project metadata, lifecycle phase, and status.
+- **Purpose:** Project metadata, lifecycle status, priority, phase, and optional dates.
 - **Primary key:** `id` (UUID).
-- **Foreign keys:** `workspace_id -> workspaces.id`, `client_id -> clients.id`, `owner_admin_user_id -> users.id`.
-- **Constraints:**
-  - `phase` check (`discovery`, `planning`).
-  - `status` check (`active`, `archived`), nullable `archived_at` for soft archive. CHECK constraint: `status != 'archived' OR archived_at IS NOT NULL`.
-- **Indexes:** `(workspace_id, status, created_at DESC)`, `(client_id, status)`. Unique on `(workspace_id, code)` — a project code is unique within a workspace, not instance-wide, so two freelancers can both use `WEB`.
-- **Client Review key:** `access_code` (VARCHAR(20), NOT NULL), unique instance-wide (`uq_projects_access_code`). Server-generated as `PRJ-` plus 8 characters from `A-Z`/`2-9` without `O`/`I` (about 10^12 values); regenerated on demand to revoke. It is the only column the public Client Review route looks a project up by, which is why it is globally unique while `code` is not (ADR-020).
-- **Business rule:** max 3 active projects per workspace, enforced at the service layer within a single transaction.
+- **Foreign keys:** `workspace_id -> workspaces.id` (`ON DELETE RESTRICT`), `client_id -> clients.id`, `created_by -> users.id`.
+- **Enums:** `status` (`active`, `completed`, `archived`), `priority` (`low`, `medium`, `high`), `phase` (`discovery`, `planning`).
+- **Dates:** `start_date` and `end_date` are optional `DATE` columns.
+- **Indexes:** `(workspace_id, status, created_at)`, `(status, created_at)`, `created_by`, `priority`, `code`, `client_id`, `created_at`.
+- **Uniqueness:** `(workspace_id, code)` (`uq_projects_workspace_id_code`): a project code is unique within a workspace, so two freelancers can both use `WEB`.
+- **Client Review key:** `access_code` (`VARCHAR(20)`, NOT NULL), unique instance-wide (`uq_projects_access_code`). Server-generated as `PRJ-` plus 8 characters from `A-Z`/`2-9` without `O`/`I` (about 10^12 values) and regenerated on demand to revoke access. It is the only column the public Client Review route looks a project up by, which is why it is globally unique while `code` is not (ADR-020).
+- **Business rule:** at most 3 active projects per workspace (`project_limits.max_active_per_admin`), checked when a project is created or reactivated.
 
-### 5. `epics`
+### 5. `stories`
 
-- **Purpose:** Grouping container for related user stories within a project. Maps to Jira epics for future integration.
+- **Purpose:** Approved user stories for a project. AI refinement output is held in the browser until approved and is never stored before that (ADR-019).
 - **Primary key:** `id` (UUID).
-- **Human-readable key:** `epic_key` (TEXT, unique per project) following the convention `EPIC-{n}` (e.g., `EPIC-0`).
-- **Foreign keys:** `project_id -> projects.id`.
-- **Constraints:**
-  - `epic_key` unique per project (unique constraint on `(project_id, epic_key)`).
-  - `priority` check (`must_have`, `should_have`, `could_have`, `wont_have`).
-  - `status` check (`open`, `in_progress`, `done`).
-- **Indexes:** unique on `(project_id, epic_key)`, `(project_id, status)`, GIN on `(labels)`.
+- **Foreign keys:** `project_id -> projects.id` (`ON DELETE CASCADE`), `created_by -> users.id`, `assigned_to -> users.id` (nullable).
+- **Columns:** `title` (`VARCHAR(255)`), `description`, `acceptance_criteria` (`TEXT[]`, default empty), `points` (nullable integer), audit timestamps.
+- **Enums:** `status` (`todo`, `in_progress`, `blocked`, `done`), `priority` (`low`, `medium`, `high`).
+- **Indexes:** `(project_id, created_at)`, `(assigned_to, status)`, `(status, priority)`, `created_by`, `created_at`.
+- **Ordering:** stories are listed by `created_at`. There is no manual ordering column.
 
-### 6. `project_memberships` (removed)
-
-Per-project Admin and Viewer assignment was never needed once clients stopped having accounts (ADR-020). A project belongs to one workspace, and every Admin and Member of that workspace can work on it. The section number is kept so references to later sections stay valid.
-
-### 7. `user_stories`
-
-- **Purpose:** AI-generated user stories linked to an epic within a project; individually approvable with acceptance criteria, priority, and estimation.
-- **Primary key:** `id` (UUID).
-- **Human-readable key:** `story_id` (TEXT, unique) following the convention `US-EP{epic}-{team}-{seq}` (e.g., `US-EP0-BE-001`).
-- **Foreign keys:** `epic_id -> epics.id` (NOT NULL), `project_id -> projects.id`, `approved_by_user_id -> users.id`.
-- **Constraints:**
-  - `story_id` unique across all projects.
-  - `priority` check (`must_have`, `should_have`, `could_have`, `wont_have`).
-  - `story_points` nullable integer, check (`>= 1`) when present.
-  - `status` check (`approved`); unapproved refinement output is never persisted (ADR-019).
-  - `sort_order >= 1`.
-  - unique `(project_id, sort_order)` for deterministic ordering within a project.
-  - `approved_by_user_id` and `approved_at` are `NULL` until explicit approval; a `CHECK` constraint requires both when `status = 'approved'`.
-- **Indexes:** unique on `(story_id)`, `(epic_id, sort_order)`, `(project_id, status, created_at DESC)`, `(approved_by_user_id)`, GIN on `(acceptance_criteria)`, GIN on `(labels)`.
-
-### 8. `user_api_keys`
+### 6. `user_api_keys`
 
 - **Purpose:** Stores a user's own AI provider credentials so refinement can run on their quota instead of platform credits (F-010 FR-010-04).
 - **Primary key:** `id` (UUID).
 - **Foreign keys:** `user_id -> users.id` with `ON DELETE CASCADE`.
-- **Constraints:** `UNIQUE (user_id, provider)` — one active key per provider per user. `provider` is the Postgres enum `aiprovider` (`gemini`, `openai`, `deepseek`).
-- **Indexes:** `user_id`, plus the audit-column indexes used across this schema.
-- **Design note:** The table holds ciphertext only — there is no plaintext column and no read path that returns one (NFR-010-01, NFR-010-02). `encrypted_key` and `encryption_nonce` are AES-256-GCM output with the owning `user_id` bound as associated data, so a row copied onto another user fails authentication rather than decrypting. `key_version` records which master key produced the ciphertext, which is what makes rotation tractable (see ADR-018). `masked_key` is the only display form. Rotation overwrites the row rather than inserting a second one, so no superseded secret remains recoverable; deletion is a hard `DELETE`, never a soft flag (NFR-010-04).
+- **Constraints:** `UNIQUE (user_id, provider)`: one key per provider per user. `provider` is the Postgres enum `aiprovider` (`gemini`, `openai`, `deepseek`).
+- **Indexes:** `user_id`, `created_at`.
+- **Design note:** The table holds ciphertext only. There is no plaintext column and no read path that returns one (NFR-010-01, NFR-010-02). `encrypted_key` and `encryption_nonce` are AES-256-GCM output with the owning `user_id` bound as associated data, so a row copied onto another user fails authentication rather than decrypting. `key_version` records which master key produced the ciphertext, which makes rotation possible (ADR-018). `masked_key` is the only display form. Rotation overwrites the row, and deletion is a hard `DELETE` (NFR-010-04).
 
-### 9. `api_key_validation_attempts`
+### 7. `api_key_validation_attempts`
 
 - **Purpose:** Backs the per-user limit of 5 key-validation attempts per hour (NFR-010-03).
-- **Primary key:** `id` (UUID) — the user, since the budget is per account and exactly one window is open at a time.
+- **Primary key:** `id` (UUID), which is the user's id: the budget is per account and one window is open at a time.
 - **Foreign keys:** `id -> users.id` with `ON DELETE CASCADE`.
-- **Design note:** Validation calls reach third-party providers on the platform's quota, so an unmetered endpoint would let one account probe provider APIs through us. The limit is per user rather than per IP: an IP limit would neither stop a single account from probing nor spare users behind a shared address, which is why `slowapi` is not used here. The window is fixed — it opens on the first attempt and rolls after an hour — and a charge is a single `INSERT ... ON CONFLICT DO UPDATE ... RETURNING`, so concurrent requests cannot all read the same count and collapse into one charge. Storage is SQL-backed rather than in-process so the budget survives a restart and cannot be reset by landing on another instance.
+- **Design note:** Validation calls reach third-party providers, so an unmetered endpoint would let one account probe provider APIs through the platform. The limit is per user rather than per IP. The window opens on the first attempt and rolls after an hour, and a charge is a single `INSERT ... ON CONFLICT DO UPDATE ... RETURNING`, so concurrent requests cannot collapse into one charge. Storage is in the database so the budget survives a restart.
 
-### 10. `email_verification_codes`
+### 8. `email_verification_codes`
 
-- **Purpose:** Backs sign-up email verification (F-008 FR-008-03 to FR-008-05, NFR-008-02/03).
+- **Purpose:** Backs sign-up email verification and invite acceptance (F-008 FR-008-03 to FR-008-05, NFR-008-02/03).
 - **Primary key:** `id` (UUID).
 - **Foreign keys:** `user_id -> users.id` with `ON DELETE CASCADE`.
-- **Columns:** `code_hash` (bcrypt; the plaintext code is never stored), `expires_at` (5 minutes after issue for sign-up, 24 hours for Admin-added accounts; 30 minutes for password reset codes), `used_at` (set on success or when superseded by a newer code), `attempt_count` (5 wrong guesses lock the code), `created_at`.
+- **Columns:** `code_hash` (bcrypt; the plaintext code is never stored), `expires_at` (5 minutes for sign-up, 24 hours for invited accounts), `used_at` (set on success or when superseded by a newer code), `attempt_count` (5 wrong guesses lock the code), `created_at`.
 - **Indexes:** `user_id`, `created_at` (the resend limit counts codes issued per user in the last 15 minutes).
-- **Design note:** Mirrors `password_reset_codes` but is a separate table because the two lifecycles differ: a verification code activates an account and grants credits, a reset code changes a credential and revokes sessions.
+
+### 9. `password_reset_codes`
+
+- **Purpose:** Backs password reset (F-009).
+- **Columns and keys:** same shape as `email_verification_codes`; codes expire after 30 minutes.
+- **Design note:** kept separate from verification codes because the lifecycles differ: a verification code activates an account and grants credits, a reset code changes a credential and revokes sessions (`users.token_version`).
+
+### 10. `account_lockouts`
+
+- **Purpose:** Progressive login lockout after repeated failures (F-007).
+- **Primary key:** `email`.
+- **Columns:** `failed_attempts`, `locked_until` (nullable), `last_attempt_at`.
+- **Design note:** keyed by email rather than user id so attempts against unknown addresses are throttled the same way. Stored in the database so lockouts survive restarts and apply across instances.
+
+### 11. `revoked_refresh_tokens`
+
+- **Purpose:** Makes refresh tokens single-use and lets logout revoke a session.
+- **Primary key:** `token_hash` (SHA-256 of the token; raw tokens are never stored).
+- **Columns:** `expires_at`; rows past it can be removed.
+- **Design note:** the primary key also settles concurrent refreshes with the same token: only the request whose insert succeeds receives new tokens.
 
 ## Constraints and Integrity Rules
 
-- **Primary keys:** UUIDs on all root entities; root entities have no composite keys.
-- **Foreign keys:** all child records reference their parent entities to prevent orphaned stories and epics. `users.workspace_id` is `ON DELETE RESTRICT` so a workspace with users cannot be dropped.
-- **Uniqueness:** `users.email` (instance-wide — an address belongs to one workspace), `projects.code` per workspace, `clients.email` per workspace, `user_stories.story_id`, `epics.epic_key` per project, `projects.access_code` instance-wide, ordered stories within each project.
-- **Check constraints:** lifecycle enums on all status fields, `epics.priority`, `user_stories.priority`, `projects.phase`, approval metadata pairing on `user_stories`.
-- **Soft archive:** `clients` and `projects` use `status + archived_at` with CHECK constraints ensuring archival consistency.
+- **Primary keys:** UUIDs on all entity tables; `account_lockouts` and `revoked_refresh_tokens` use natural keys (email, token hash).
+- **Foreign keys:** `workspace_id` references are `ON DELETE RESTRICT`. Stories, API keys, codes, and validation attempts cascade with their parent.
+- **Uniqueness:** `users.email` (instance-wide), `projects.code` per workspace, `projects.access_code` instance-wide, `clients.email` per workspace (when present), `user_api_keys (user_id, provider)`.
+- **Enums:** `userrole`, `aiprovider`, project `status`/`priority`/`phase`, story `status`/`priority`.
 
 ## Access Patterns and Indexing Notes
 
-- **Dashboard list:** active projects by owner -> `(owner_admin_user_id, status, created_at DESC)` on `projects`.
-- **Epic board:** epics by project and status -> `(project_id, status)` on `epics`.
-- **Project detail:** stories by project and status -> `(project_id, status, created_at DESC)` on `user_stories`.
-- **Backlog view:** stories by epic, filtered by priority and status -> `(epic_id, sort_order)` + `story_id` for ordering.
-- **Story rendering:** ordered stories within a project -> `(project_id, sort_order)` on `user_stories`.
+- **Dashboard and project list:** projects by workspace and status, newest first: `(workspace_id, status, created_at)`.
+- **Active-project limit:** count of a workspace's active projects: `(workspace_id, status, created_at)`.
+- **Project backlog and export:** stories by project in creation order: `(project_id, created_at)`.
+- **Client Review:** one project by access code: unique `access_code`, then the project's stories.
+- **Client list and duplicate check:** `(workspace_id, name)` and the partial unique `(workspace_id, email)`.
 
 ## Migration and Evolution Considerations
 
-- **Migration tooling:** Alembic for version-controlled, additive-first migrations per ADR-017. Manual review required on all auto-generated migrations.
-- **Additive-first policy:** new columns and tables before destructive changes for MVP iterations.
-- **Post-MVP additions:** requirements promotion, Markdown export tracking, and ambiguity logging can all be appended without changing this core schema.
-- **Auth evolution:** extend the `users` projection and membership model for invites or onboarding without duplicating credential storage.
+- **Tooling:** Alembic, with auto-generated migrations reviewed by hand (ADR-017). The migration chain is linear with a single head.
+- **Additive first:** new columns and tables come before destructive changes. Data migrations backfill new non-null columns (for example `email_verified_at` for accounts that existed before verification, and `access_code` for existing projects).
+- **Possible additions:** epics, manual story ordering, export history, and story archival can be added without changing the existing tables.
 
 ## Security and Data Governance
 
-- **Sensitive fields:** user email and client contact email.
-- **Access controls:** backend authorization and native PostgreSQL Row-Level Security (RLS) enforce Admin and Member boundaries with least-privilege defaults. The public Client Review route resolves a single project from its access code and reads that project's approved stories only.
-- **Auditability:** `created_at`, `updated_at`, `approved_at`, and `archived_at` provide lifecycle traceability.
-- **Auth boundary:** credentials, password hashes, and JWT tokens are managed by the custom auth bounded context per ADR-005.
+- **Sensitive fields:** user email, client contact details, password hashes, encrypted provider keys.
+- **Access control:** enforced in the application layer. Every repository method takes the caller's `workspace_id` and filters by it, so a record from another workspace is reported as not found. Row-Level Security is not used. The public Client Review route resolves a single project from its access code and reads that project's stories only.
+- **Secrets at rest:** passwords and one-time codes are bcrypt hashes, refresh tokens are stored as SHA-256 hashes, provider keys are AES-256-GCM ciphertext.
+- **Auditability:** `created_at` and `updated_at` on every entity table, plus `email_verified_at`, `deactivated_at`, and `used_at` on the codes.
 
 ## Risks and Open Questions
 
-- **Risk:** Max-3-active-project rule lives in the service layer; concurrent requests could bypass it. **Mitigation:** single-transaction check with `SELECT FOR UPDATE` or equivalent.
-- **Note:** unapproved stories are never stored (ADR-019), so the Client Review route cannot expose them; tests still cover the approved-only read path.
-- **Open question:** Should `user_stories` support individual archival or only project-level lifecycle transitions?
+- **Risk:** the active-project limit is checked in the application layer; two concurrent creates could both pass the count. The window is small for a single-freelancer workspace.
+- **Open question:** should individual stories be archivable, or only follow their project's lifecycle?
 
 ## Traceability to Requirements
 
-| Requirement | Database Coverage                                                                                       |
-| ----------- | ------------------------------------------------------------------------------------------------------- |
-| FR-001-01   | `clients` and `projects` with `client_id` FK model the Admin-managed client and project relationship.   |
-| FR-001-02   | `projects.status` and owner index support the max-3-active-project validation path.                     |
-| FR-001-03   | `projects.phase` constrained to `discovery` and `planning`.                                             |
-| FR-002-01   | Raw input acceptance handled at application layer; refined output stored in `user_stories`.             |
-| FR-002-02   | `user_stories` stores generated stories with `story_id`, `title`, `description`, `acceptance_criteria`, `priority`, `story_points`, `labels`, ordering, `epic_id`, and approval audit fields. |
-| FR-002-03   | `user_stories.status` plus `approved_by_user_id` and `approved_at` preserve the explicit approval gate.                                                                                        |
-| FR-003-01   | `users.role` (`admin`, `member`) and `users.status` support Admin and Member authorization.                                                                                                    |
-| FR-003-02   | `users.workspace_id` confines every account to one workspace; a workspace has one Admin.                                                                                                       |
-| FR-003-03   | Approved `user_stories`, `projects.phase`, and the unique `projects.access_code` provide the client-safe story and phase visibility model.                                                     |
-| FR-004-01   | `epics` and `user_stories` with `acceptance_criteria`, `priority`, `status`, and `epic_id` FK support structured backlog views grouped by epic, priority, and status.                          |
-| FR-007-01   | `users` stores identity projection and `password_hash`; custom auth bounded context owns credential lifecycle. |
-| FR-009-01   | Password-reset flow managed by custom auth module per ADR-005; not stored in this schema.                     |
-| FR-010-01   | Admins and Members are granted 5 credits when `email_verified_at` is set, reserved from `workspaces.ai_credits_granted_total` (ceiling 25). |
-| FR-010-02   | Conditional `UPDATE ... WHERE ai_credits_remaining > 0` spends exactly one credit, only after a successful refinement. |
-| FR-010-04   | `user_api_keys` with `UNIQUE (user_id, provider)` gives one replaceable key per provider per user.       |
-| FR-010-07   | `masked_key` is the only display form; no column or read path exposes plaintext.                        |
-| NFR-010-01  | `encrypted_key`/`encryption_nonce` hold AES-256-GCM ciphertext; `key_version` supports rotation (ADR-018). |
-| NFR-010-03  | `api_key_validation_attempts` enforces 5 validations per user per hour via an atomic upsert.             |
-| NFR-010-04  | Key removal is a hard `DELETE`; `ON DELETE CASCADE` clears keys with the owning account.                 |
-| NFR-001-01  | Soft archive fields on `clients` and `projects` support privacy-aligned archival.                       |
-| NFR-003-01  | Membership-driven RBAC and RLS-compatible ownership fields support least-privilege access.              |
-| NFR-X01     | Auth-provider boundary and sensitive-field handling support secure credential design.                   |
-| NFR-X06     | UUID keys and targeted indexes support MVP growth without logical schema changes.                       |
+| Requirement | Database Coverage |
+| ----------- | ----------------- |
+| FR-001-01 | `clients` and `projects` with the `client_id` FK model the client and project relationship. |
+| FR-001-02 | `projects.status` and `(workspace_id, status, created_at)` support the max-3-active-projects check. |
+| FR-001-03 | `projects.phase` limited to `discovery` and `planning`. |
+| FR-002-01 | Refinement input is handled in the application layer; approved output is stored in `stories`. |
+| FR-002-02 | `stories` stores `title`, `description`, `acceptance_criteria`, `priority`, and `points`. |
+| FR-002-03 | Only approved stories are written (ADR-019), which preserves the approval gate. |
+| FR-003-01 | `users.role` (`admin`, `member`) supports Admin and Member authorization. |
+| FR-003-02 | `workspace_id` on users, clients, and projects confines every record to one workspace. |
+| FR-003-03 | `stories`, `projects.phase`, and the unique `projects.access_code` give clients read-only visibility of one project. |
+| FR-004-01 | `stories` with `acceptance_criteria`, `priority`, and `status` support the backlog view and Markdown export. |
+| FR-007-01 | `users.password_hash`, `account_lockouts`, and `revoked_refresh_tokens` back login, lockout, and session rotation. |
+| FR-009-01 | `password_reset_codes` backs the reset flow; `users.token_version` revokes sessions after a reset. |
+| FR-010-01 | Accounts are granted 5 credits when `email_verified_at` is set, reserved from `workspaces.ai_credits_granted_total` (ceiling 25). |
+| FR-010-02 | Conditional `UPDATE ... WHERE ai_credits_remaining > 0` spends exactly one credit, only after a successful refinement. |
+| FR-010-04 | `user_api_keys` with `UNIQUE (user_id, provider)` gives one replaceable key per provider per user. |
+| FR-010-07 | `masked_key` is the only display form; no column or read path exposes plaintext. |
+| NFR-010-01 | `encrypted_key`/`encryption_nonce` hold AES-256-GCM ciphertext; `key_version` supports rotation (ADR-018). |
+| NFR-010-03 | `api_key_validation_attempts` enforces 5 validations per user per hour via an atomic upsert. |
+| NFR-010-04 | Key removal is a hard `DELETE`; `ON DELETE CASCADE` clears keys with the owning account. |
+| NFR-003-01 | Workspace-scoped foreign keys and repository filters support least-privilege access. |
+| NFR-X01 | Hashed passwords, codes, and refresh tokens, plus encrypted provider keys, support secure credential handling. |
+| NFR-X06 | UUID keys and targeted indexes support MVP growth without logical schema changes. |
 
 ## Source References
 
@@ -361,4 +366,4 @@ Per-project Admin and Viewer assignment was never needed once clients stopped ha
 
 ---
 
-**Last Updated**: 2026-08-11
+**Last Updated**: 2026-10-07

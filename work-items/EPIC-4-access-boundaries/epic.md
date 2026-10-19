@@ -1,13 +1,15 @@
 # Epic: Access Control and Visibility Boundaries
 
+> **As built (2026-10-07).** Access control shipped as **workspace tenancy** rather than the Admin/Viewer model below: every sign-up creates a workspace, the Admin adds Members (max 5 users), every repository query is scoped by `workspace_id`, and roles are Admin and Member. Clients have no account; they review a project's approved stories through its access code (F-011, [ADR-020](../../docs/04-decisions/adr-020-client-review-by-access-code.md)). Workspace limits (5 users, 25 lifetime free AI credits) are part of F-010. The stories below keep their original wording; their statuses reflect the shipped equivalent.
+
 **Epic Title**: Access Control and Visibility Boundaries
 **Epic Key**: EPIC-4
-**Summary**: Enforce Admin and Viewer boundaries for safe collaboration.
+**Summary**: Enforce workspace and role boundaries (Admin, Member, access-code Client Review) for safe collaboration.
 **Labels**: access-control, visibility
 **Priority**: Must Have
 **Components**: Backend, Frontend
 **Fix Version**: MVP-1
-**Status**: TODO
+**Status**: IN PROGRESS
 
 ---
 
