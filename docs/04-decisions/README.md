@@ -28,6 +28,7 @@ This folder contains the Architectural Decision Records (ADRs) for the Open Proj
 | [ADR-020](./adr-020-client-review-by-access-code.md) | Client Review by Project Access Code (No Viewer Accounts) |
 | [ADR-021](./adr-021-low-cost-single-host-deployment.md) | Low-Cost Single-Host Deployment (CloudFront + EC2), entry point replaced by ADR-022 |
 | [ADR-022](./adr-022-cloudflare-edge-instead-of-cloudfront.md) | Cloudflare Edge Instead of CloudFront |
+| [ADR-023](./adr-023-credits-account-us-east-2-manual-deploy.md) | Credits Account in us-east-2 and Manual Deploys (No GitHub OIDC) |
 
 ## Creating a New ADR
 

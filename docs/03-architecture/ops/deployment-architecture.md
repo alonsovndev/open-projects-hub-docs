@@ -40,7 +40,7 @@ This document defines the production deployment architecture for the master's-re
 **Rationale:**
 
 - One provider for billing, IAM and monitoring.
-- The AWS account is on the **Free Plan**: $100 in credits, with 183 days remaining on 2026-10-10 (the plan ends around 2027-04-11 or when the credits run out). The design costs about $12-13/month: about $52 for the four months until the review and about $77 for the whole window.
+- The AWS account (the one holding the credits, `us-east-2`, see [ADR-023](../../04-decisions/adr-023-credits-account-us-east-2-manual-deploy.md)) is on the **Free Plan**: $100 in credits, with 183 days remaining on 2026-10-10 (the plan ends around 2027-04-11 or when the credits run out). The exact balance and expiry are TBD. The design costs about $12-13/month: about $52 for the four months until the review and about $77 for the whole window.
 - Infrastructure as Code (Terraform) makes the deployment repeatable and reviewable.
 
 **Trade-offs Accepted:**
@@ -63,7 +63,7 @@ This document defines the production deployment architecture for the master's-re
 - **Authentication:** Custom JWT-based auth module in the FastAPI backend (see ADR-005)
 - **Infrastructure as Code:** Terraform in the `open-projects-hub-infra` repository
 - **Observability:** Sentry (optional, off until a DSN is set) and container logs on the host
-- **CI/CD:** GitHub Actions in each application repository, authenticated to AWS through OIDC
+- **CI/CD:** GitHub Actions builds and publishes the API image; the deploy is started by hand with `scripts/deploy-release.sh` using the operator's AWS credentials (GitHub OIDC is blocked in the account, see ADR-023)
 
 ## 3. Deployment Architecture
 
@@ -76,8 +76,9 @@ flowchart LR
         Caddy -->|"/v1/*"| API[API container]
         API --> Postgres[(Postgres container + EBS)]
     end
-    GitHub[GitHub Actions] -->|OIDC| IAM[AWS IAM deploy role]
-    IAM -->|SSM Run Command| EC2
+    GitHub[GitHub Actions] -->|push image| GHCR[GHCR]
+    Operator[Operator workstation] -->|"SSM Run Command (own AWS credentials)"| EC2
+    EC2 -->|pull image| GHCR
 ```
 
 See also: [ADR-021: Low-Cost Single-Host Deployment](../../04-decisions/adr-021-low-cost-single-host-deployment.md).
@@ -173,7 +174,7 @@ See also: [ADR-021: Low-Cost Single-Host Deployment](../../04-decisions/adr-021-
 
 ## 6. Cost Optimization Strategy
 
-**Expected monthly cost (us-east-1 list prices, always on):**
+**Expected monthly cost (us-east-1 list prices; `us-east-2` not checked, TBD; always on):**
 
 | Item | Approx. cost |
 | --- | --- |
@@ -201,13 +202,13 @@ See also: [ADR-021: Low-Cost Single-Host Deployment](../../04-decisions/adr-021-
 - **Compute:** EC2 instance, Elastic IP, security group, instance role and profile, first-boot script (Docker, Compose plugin, swap).
 - **Edge and storage:** the Cloudflare DNS record (Terraform Cloudflare provider, token from the environment) and the managed prefix list of Cloudflare ranges. The web app is deployed by Cloudflare and is not in Terraform.
 - **Secrets:** generated secrets and placeholders in SSM Parameter Store.
-- **Delivery access:** the API deploy role and the restricted SSM deploy document (the GitHub OIDC provider is created with the state bucket, in `bootstrap/`).
+- **Delivery access:** the restricted SSM deploy document, run by the operator (no GitHub OIDC provider or deploy role, see ADR-023).
 - **Cost control:** AWS Budgets.
 
 **Terraform Configuration:**
 
 - **State Management:** private, versioned, encrypted S3 bucket with native state locking (no DynamoDB table).
-- **Layout:** `bootstrap/` (state bucket, applied once), `envs/prod/`, and two modules: `compute`, `github-oidc`.
+- **Layout:** `bootstrap/` (state bucket, applied once), `envs/prod/`, and two modules: `compute`, `deploy`.
 - **Secrets Handling:** secrets are generated in Terraform and stored in SSM; the state bucket is private because state contains them.
 
 **Governance:**
@@ -237,11 +238,11 @@ See also: [ADR-021: Low-Cost Single-Host Deployment](../../04-decisions/adr-021-
 
 - Secrets live in SSM Parameter Store (SecureString) and are written to a root-only `.env` on the host by the deploy script (see ADR-011, ADR-021).
 - Placeholder values (`N/A`) are not written to `.env`, so the variable stays unset.
-- GitHub Actions use short-lived OIDC credentials; no long-lived AWS keys are stored in GitHub.
+- GitHub Actions never reach AWS; no AWS keys of any kind are stored in GitHub.
 
 **Deploy access:**
 
-- The API deploy role can only run one SSM document on one instance. The document accepts only a `vX.Y.Z` tag and fetches the deploy script from the tagged commit of the public repository. The deploy role trusts any `v*` tag on any commit, so anyone who can push a tag can deploy as root on the host. Tag protection on `v*` is required and is set up by hand (see the infra repository README).
+- Deploys run the SSM document `ophub-prod-deploy` with the operator's AWS credentials. The document accepts only a `vX.Y.Z` tag and fetches the deploy script from the tagged commit of the public repository, so tag protection on `v*` still matters (it decides what the host runs) and is set up by hand (see the infra repository README).
 
 **Data Protection:**
 
@@ -257,8 +258,8 @@ See [Security Architecture](../security/security-architecture.md) for detailed s
 
 **CI/CD Integration:**
 
-- Each application repository has a `ci.yml` (lint, tests, build); the API repository also has a tag-driven `deploy.yml`, and the web repository deploys through Cloudflare.
-  1. **Backend:** build the Docker image, push it to GHCR, then run the `ophub-prod-deploy` SSM document, which pulls the image and restarts the stack.
+- Each application repository has a `ci.yml` (lint, tests, build); the API repository also has a tag-driven `deploy.yml` that builds the image, and the web repository deploys through Cloudflare.
+  1. **Backend:** the workflow builds the Docker image and pushes it to GHCR; the operator then runs `scripts/deploy-release.sh <tag>`, which runs the `ophub-prod-deploy` SSM document so the host pulls the image and restarts the stack.
   2. **Frontend:** built and deployed by Cloudflare Builds from the web repository (GitHub integration), with the API URL set in `.env.production`. No AWS access is involved.
   3. **Database:** Alembic migrations run when the API container starts.
   4. **Infrastructure:** Terraform is applied locally; CI only validates it.
@@ -287,42 +288,40 @@ See [Security Architecture](../security/security-architecture.md) for detailed s
 - [ADR-017: Database Migration Strategy](../../04-decisions/adr-017-database-migration-strategy.md)
 - [ADR-021: Low-Cost Single-Host Deployment](../../04-decisions/adr-021-low-cost-single-host-deployment.md)
 - [ADR-022: Cloudflare Edge Instead of CloudFront](../../04-decisions/adr-022-cloudflare-edge-instead-of-cloudfront.md)
+- [ADR-023: Credits Account in us-east-2 and Manual Deploys](../../04-decisions/adr-023-credits-account-us-east-2-manual-deploy.md)
 
 ## 11. Implementation Status and Next Steps
 
-Status as of 2026-10-15. The design above is implemented in code in each repository, but **not live**: the production stack is partly applied.
+Status as of 2026-10-19. The stack is **live** at `https://api-oph.alonsovndev.com` and the web app at `https://oph.alonsovndev.com` calls it; the end-to-end sign-up has not been verified yet.
 
 **Done**
 
-- AWS account created; the Terraform state bucket, the GitHub OIDC provider and the teardown role are applied (`bootstrap/`).
-- `terraform apply` for `envs/prod` created 34 resources of the first design (EC2 host, web bucket, deploy roles and document, SSM parameters, budgets); the web bucket and web role are removed by the current design. The host's first boot was checked over SSM Session Manager: `cloud-init` finished without errors and Docker, the Compose plugin and swap are in place.
-- The first design put CloudFront in front. AWS refused the distribution ("Your account must be verified before you can add new CloudFront resources"; Support case opened), so the entry point was changed to Cloudflare ([ADR-022](../../04-decisions/adr-022-cloudflare-edge-instead-of-cloudfront.md)). The web app was then deployed on Cloudflare Workers at `oph.alonsovndev.com` (web PR #23), and the API is to be served at `api-oph.alonsovndev.com`. The API-side change is written in the infra, API, web and docs repositories and is **not applied** to AWS.
-- API: production Compose stack, Caddyfile (proxies `/v1/*`), deploy script, CI and tag-driven deploy workflows.
-- Web: CI, and Cloudflare Workers hosting with Cloudflare Builds; `.env.production` points at the API origin.
-- This documentation, ADR-021 and ADR-022.
-- Verified locally: Caddyfile and Compose validate, `terraform validate` for `bootstrap/` and `envs/prod`, and a read-only `terraform plan` of `envs/prod` against the current state (dummy Cloudflare token): 7 to add, 9 to destroy (web bucket and role, CloudFront leftovers, `ORIGIN_VERIFY`, the old :80 rule), with the instance, Elastic IP, security group and API role untouched; Caddy simulated locally with a stub API.
+- The first stack was applied in an older AWS account without credits and destroyed on 2026-10-16 (32 resources). The credits account sits under an organization whose SCPs allow EC2 only in `us-east-2` and block the GitHub OIDC provider, so the stack moved there without OIDC ([ADR-023](../../04-decisions/adr-023-credits-account-us-east-2-manual-deploy.md)).
+- In the credits account: `bootstrap/` (state bucket, 6 resources) and `envs/prod` (30 resources: EC2 host, Elastic IP, security group with Cloudflare ranges, SSM parameters and deploy document, budgets, Cloudflare DNS record) are applied. The host's first boot finished (`cloud-init: done`, Docker 25, Compose v2.29).
+- API `v0.1.0`: the image is public in GHCR and was deployed with `scripts/deploy-release.sh v0.1.0` (SSM command `Success`).
+- Verified from outside: an unauthenticated `GET /v1/users/me/profile` returns a JSON 401 through Cloudflare; the CORS preflight from `https://oph.alonsovndev.com` returns 200 with `allow-credentials: true`; a foreign origin gets 400; the Elastic IP refuses direct connections; non-`/v1` paths return 404; the production web bundle contains the API URL.
+- SMTP parameters (Resend, sending domain `send.alonsovndev.com`, verified) are set in SSM and were read by the deploy.
+- The Cloudflare edge decision is in [ADR-022](../../04-decisions/adr-022-cloudflare-edge-instead-of-cloudfront.md).
 
 **Not done or not verified**
 
-- The real `terraform plan` needs the zone ID and the Cloudflare API token; the counts above come from a plan with placeholder values and can differ slightly.
-- Caddy with `tls internal` behind Cloudflare in SSL mode Full, and the cross-origin login (CORS plus refresh cookie) from `oph.alonsovndev.com`, have not run end to end.
-- The API deploy workflow has never run and no release tag exists.
-- No email provider is configured, so self-registration cannot complete (new users must verify by email). The owned domain makes a sending domain possible later.
+- Self-registration end to end (verification email, code, login, refresh cookie on the API host, reload, logout): to be tested in the browser.
+- The admin user is not seeded.
+- The credit balance and expiry of the account are TBD.
+- The `deploy.yml` change (build only) has not run, because it needs a new tag.
 - Other pages still describe App Runner, RDS and CloudFront (see below).
 
 **Next steps, in order**
 
-1. Do the one-time Cloudflare setup (zone ID, API token, SSL mode) following the "Cloudflare setup" section of the `open-projects-hub-infra` README.
-2. Review the `terraform plan` for `envs/prod`, then apply it.
-3. Follow the "First release checklist" in the same README: API repository variables, tag protection for `v*`, SSM placeholders, and the GHCR package set to Public after the first image push.
-4. Promote `dev` to `main` and push a `vX.Y.Z` tag in the API repository. Merge the web `.env.production` change to the branch Cloudflare deploys.
-5. Seed the admin user and smoke test: log in as the admin and create a project.
-6. Watch credit use against the two budgets; the $100 credit balance and the plan end (about 2027-04-11) are the limits.
+1. Test sign-up and login in the browser at `https://oph.alonsovndev.com`.
+2. Optionally seed the admin user (one-off over SSM, with the password given outside any chat).
+3. Read the credit balance and expiry in Billing and update this page and the infra README.
+4. Watch credit use against the two budgets.
 
 **Follow-ups and open decisions**
 
 - GitHub CI had been removed from the API and web repositories on 2026-10-08 (commit "chore: remove Github CI/CD", reason not recorded). A smaller CI was added back and the owner decided to keep it (2026-10-10).
-- Decide on an email provider now that a sending domain is available, if reviewers need to self-register.
+- Email: Resend with the verified sending domain `send.alonsovndev.com` is configured (sender `no-reply@send.alonsovndev.com`); delivery from production is still to be confirmed by a real sign-up.
 - Sweep the remaining pages that mention App Runner, RDS or CloudFront: `core/technology-stack.md`, `core/architecture-solution-design.md`, the security and database docs, `diagrams/sequence-diagrams.md`, `monitoring-observability.md` and `api/*`.
 - Remove the now-unreferenced `images/deployment-arch-aws.png` and `images/git-ci-cd-pipeline.png` once the Mermaid diagrams are accepted.
 
