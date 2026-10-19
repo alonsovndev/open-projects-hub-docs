@@ -2,7 +2,7 @@
 
 - **Status**: Accepted
 - **Date**: 2026-10-14, revised 2026-10-15
-- **Supersedes**: the CloudFront entry point, the S3-behind-CloudFront frontend hosting and the plain-HTTP origin leg of [ADR-021](./adr-021-low-cost-single-host-deployment.md). Everything else in ADR-021 stands.
+- **Supersedes**: the CloudFront entry point, the S3-behind-CloudFront frontend hosting and the plain-HTTP origin leg of [ADR-021](./adr-021-low-cost-single-host-deployment.md). Everything else in ADR-021 stands, except the account, region and deploy method replaced by [ADR-023](./adr-023-credits-account-us-east-2-manual-deploy.md).
 
 ## Context
 
