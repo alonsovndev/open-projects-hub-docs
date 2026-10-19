@@ -5,6 +5,7 @@
 node_modules/
 .docusaurus/
 build/
+.wrangler/
 
 
 # Local AI-agent tooling settings (machine-specific absolute paths)
