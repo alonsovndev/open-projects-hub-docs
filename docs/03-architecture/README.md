@@ -15,7 +15,7 @@ Files in `core/`:
 
 - **[Architecture Solution Design](./core/architecture-solution-design.md)**: System context, selected pattern, component design, data flow, and high-level trade-offs.
 - **[Architecture Styles](./core/architecture-styles.md)**: Modular Monolith rationale, bounded context map, and evolution strategy toward selective microservices.
-- **[Technology Stack](./core/technology-stack.md)**: Component-level technology choices (FastAPI, React, AWS RDS PostgreSQL, Sentry + CloudWatch, S3 + CloudFront, App Runner) with rationale and trade-offs.
+- **[Technology Stack](./core/technology-stack.md)**: Component-level technology choices (FastAPI, React, PostgreSQL, Cloudflare Workers, one EC2 host, Resend, Sentry) as deployed with rationale and trade-offs.
 
 ## 2. Diagrams
 
@@ -48,9 +48,9 @@ Files in `security/`:
 
 Files in `ops/`:
 
-- **[Deployment Architecture](./ops/deployment-architecture.md)**: AWS platform model (S3 + CloudFront, App Runner, RDS), compute, networking, scaling, and disaster recovery.
+- **[Deployment Architecture](./ops/deployment-architecture.md)**: The deployed model (Cloudflare Workers and proxy, one EC2 host with Docker Compose, Terraform, SSM), cost, security, and known limits.
 - **[CI/CD Pipeline](./ops/ci-cd-pipeline.md)**: GitHub Actions pipeline stages, migration strategy, rollback, and secrets handling.
-- **[Monitoring and Observability](./ops/monitoring-observability.md)**: Sentry-based SLIs, dashboards, alerting rules, and release health checks.
+- **[Monitoring and Observability](./ops/monitoring-observability.md)**: What is monitored on the single host (health checks, logs, optional Sentry, budgets) and what is not deployed.
 
 ## Decision Records
 

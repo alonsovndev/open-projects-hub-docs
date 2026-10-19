@@ -10,6 +10,8 @@ sidebar_position: 1
 | **Version** | 2.2               |
 | **Status**  | Accepted          |
 
+> **Note (2026-10-19):** this page was written for the original AWS design (App Runner, RDS, S3 + CloudFront, CloudWatch). The deployed system is a Cloudflare Workers frontend and one EC2 host (Caddy, API and PostgreSQL containers) behind the Cloudflare proxy, with secrets in SSM Parameter Store; see [ADR-021](../../04-decisions/adr-021-low-cost-single-host-deployment.md), [ADR-022](../../04-decisions/adr-022-cloudflare-edge-instead-of-cloudfront.md), [ADR-023](../../04-decisions/adr-023-credits-account-us-east-2-manual-deploy.md) and the [Deployment Architecture](../ops/deployment-architecture.md). Where a control below names an AWS managed service, read it as the equivalent on that host; controls on the application (authentication, authorization, rate limiting, encryption of user keys, security headers) are implemented as described.
+
 ## Table of Contents
 
 - Security Architecture
@@ -151,13 +153,13 @@ flowchart TB
 
 ### Authentication Endpoints
 
-- `POST /api/v1/auth/register` — User registration with email + password
-- `POST /api/v1/auth/login` — Login returning JWT access + refresh tokens (accepts `rememberMe`)
-- `POST /api/v1/auth/refresh` — Rotate a refresh token for a new access/refresh pair
-- `POST /api/v1/auth/logout` — Revoke the session's refresh token server-side
-- `POST /api/v1/auth/forgot-password` — Request a password reset code (privacy-preserving response)
-- `POST /api/v1/auth/resend-reset-code` — Resend a reset code (rate-limited)
-- `POST /api/v1/auth/reset-password` — Complete a password reset with a valid code
+- `POST /v1/auth/register` — User registration with email + password
+- `POST /v1/auth/login` — Login returning JWT access + refresh tokens (accepts `rememberMe`)
+- `POST /v1/auth/refresh` — Rotate a refresh token for a new access/refresh pair
+- `POST /v1/auth/logout` — Revoke the session's refresh token server-side
+- `POST /v1/auth/forgot-password` — Request a password reset code (privacy-preserving response)
+- `POST /v1/auth/resend-reset-code` — Resend a reset code (rate-limited)
+- `POST /v1/auth/reset-password` — Complete a password reset with a valid code
 
 ### Authentication Controls
 
@@ -201,14 +203,14 @@ sequenceDiagram
     participant JWT as JWT Module
 
     Note over Client,JWT: === Registration Flow ===
-    Client->>API: POST /api/v1/auth/register<br/>{email, password}
+    Client->>API: POST /v1/auth/register<br/>{email, password}
     API->>API: Validate password policy<br/>(8+ chars, upper, lower, digit)
     API->>DB: INSERT INTO users<br/>(email, bcrypt(password, cost=12))
     DB-->>API: User created
     API-->>Client: 201 Created<br/>{user_id, email, role}
 
     Note over Client,JWT: === Login Flow ===
-    Client->>API: POST /api/v1/auth/login<br/>{email, password}
+    Client->>API: POST /v1/auth/login<br/>{email, password}
     API->>DB: SELECT * FROM users WHERE email = ?
     DB-->>API: User record (hashed password)
     API->>API: bcrypt.verify(password, hash)
@@ -219,11 +221,11 @@ sequenceDiagram
     else Valid credentials
         API->>JWT: Sign token<br/>{sub, email, role, exp, iat}
         JWT-->>API: JWT access token (HS256)
-        API-->>Client: 200 OK<br/>{access_token, expires_in: 3600}
+        API-->>Client: 200 OK<br/>{accessToken (15 min), ...} + HttpOnly refresh cookie
     end
 
     Note over Client,JWT: === Authenticated Request ===
-    Client->>API: GET /api/v1/projects<br/>Authorization: Bearer <token>
+    Client->>API: GET /v1/projects<br/>Authorization: Bearer <token>
     API->>JWT: Verify signature + expiration
     alt Token invalid/expired
         API-->>Client: 401 Unauthorized
@@ -337,7 +339,7 @@ flowchart LR
 - **No plaintext secrets:** JWT signing keys, database credentials, API keys stored in environment variables or AWS Secrets Manager
 - **PII protection:** User emails masked/redacted in logs and error payloads (Sentry `beforeSend` hook)
 - **Password security:** Passwords hashed with bcrypt (cost factor 12), never logged or transmitted in plaintext
-- **Token security:** JWT tokens should be stored in secure, `HttpOnly` cookies. Short expiration times are enforced.
+- **Token security:** the access token is short-lived (15 minutes) and sent as a bearer header; the refresh token is an `HttpOnly; Secure; SameSite=Lax` cookie scoped to `/v1/auth`, single-use with rotation.
 - **Data retention:** Soft delete for projects/clients with `archived_at` timestamp (aligns with GDPR requirements)
 
 ## AI Security and Prompt Injection Defenses

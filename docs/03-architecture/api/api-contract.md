@@ -18,7 +18,7 @@ sidebar_position: 2
 - [Shared JSON Schemas](#shared-json-schemas)
 - [Detailed Endpoint Contracts](#detailed-endpoint-contracts)
 - [Standard Error Examples by Status](#standard-error-examples-by-status)
-- [Observability (Sentry + CloudWatch)](#observability-sentry--cloudwatch)
+- [Observability](#observability)
 - [Deployment Impact (GitHub Actions)](#deployment-impact-github-actions)
 
 ## API Scope and Conventions
@@ -1146,24 +1146,11 @@ Status codes (regenerate): `200`, `401`, `404`
 
 Messages are illustrative; clients should branch on the status code and `code`, not on `detail` text.
 
-## Observability (Sentry + CloudWatch)
+## Observability
 
-- Attach `requestId`, endpoint, role, and `projectId` (when applicable) to Sentry event context.
-- Sentry Performance tracks API contract health metrics by route:
-  - 4xx validation rate,
-  - 5xx error rate,
-  - p95 latency,
-  - refinement approval failure rate,
-  - auth failure rate (failed logins, token validation).
-- CloudWatch monitors infrastructure-level API health:
-  - App Runner service metrics (CPU, memory, request count),
-  - RDS connection pool and query performance,
-  - 429 rate-limit events by endpoint.
-- Trigger alerts for:
-  - `5xx` rate > 2% for 5 minutes,
-  - p95 latency > 2 seconds on `GET /projects` and `GET /projects/{projectId}/requirements`,
-  - repeated `403` spikes indicating permission-policy drift,
-  - auth failure rate > baseline for 10 minutes (potential credential attack).
+- Every response carries an `X-Request-ID` header, and the API logs structured JSON with the same `request_id`.
+- Sentry captures backend exceptions only when `SENTRY_DSN` is set.
+- No alert thresholds are deployed; see [Monitoring and Observability](../ops/monitoring-observability.md) for what exists and the known gaps.
 
 ## Deployment Impact (GitHub Actions)
 
@@ -1171,7 +1158,7 @@ Messages are illustrative; clients should branch on the status code and `code`, 
 - Add/maintain contract drift checks between implemented API and this contract before production deploy.
 - Require CI pass for contract-related updates before merge to `dev` or `main`.
 - Enforce deployment flow: PR preview → integration on `dev` → PR to `main` → production release.
-- Rollback by redeploying previous stable backend release from ECR.
+- Roll back by redeploying the previous `vX.Y.Z` tag with `scripts/deploy-release.sh` (image from GHCR; [ADR-023](../../04-decisions/adr-023-credits-account-us-east-2-manual-deploy.md)).
 - Keep environment variables for auth (`JWT_SECRET_KEY`), Sentry DSN, and database credentials consistent across environments.
 
 ## Source References

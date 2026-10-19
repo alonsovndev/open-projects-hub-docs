@@ -56,16 +56,16 @@ Measurable success criteria:
 
 ## Release Checklist
 
-- [ ] Release PR `dev` -> `main` opened, 2 approvals obtained, all status checks green (lint, test, type-check, docs, terraform plan)
+- [ ] Release PR `dev` -> `main` opened, all required status checks green (lint, test, type-check, build), merged with a real merge commit
 - [ ] Semver decision recorded and version bumped in `package.json` / `pyproject.toml`
 - [ ] `CHANGELOG.md` updated with the epic summary
-- [ ] Candidate image verified in ECR (sha-tagged, built by the release PR pipeline)
+- [ ] API image `ghcr.io/alonsovndev/open-projects-hub-api:vX.Y.Z` built and pushed by the tag workflow (API releases only)
 - [ ] Alembic migrations reviewed for backward compatibility with the running version
 - [ ] Git tag `vX.Y.Z` pushed on `main` to trigger the production deployment pipeline
 - [ ] `terraform apply` completed for any pending infrastructure change
-- [ ] App Runner rolling deploy healthy and frontend published to S3 with CloudFront invalidated
+- [ ] API deployed with `scripts/deploy-release.sh` (SSM command `Success`) and the frontend published by Cloudflare Builds
 - [ ] Post-deploy smoke tests passed against production
-- [ ] Sentry release created with the commit SHA and source maps uploaded
+- [ ] Sentry release created (only if a Sentry DSN is configured; none is required for the review)
 - [ ] Release health compared against the pre-deployment error baseline
 - [ ] GitHub release published with notes
-- [ ] Rollback path confirmed (redeploy previous ECR image; fix-forward is the default)
+- [ ] Rollback path confirmed (redeploy the previous tag with `scripts/deploy-release.sh`; fix-forward is the default)

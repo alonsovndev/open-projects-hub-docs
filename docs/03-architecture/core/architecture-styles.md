@@ -83,7 +83,7 @@ Each module owns:
 ```mermaid
 graph TB
     subgraph "Phase 1: MVP - Modular Monolith"
-        MM[Backend Monolith<br/>App Runner Container]
+        MM[Backend Monolith<br/>Docker container on EC2]
         MM --> AUTH[Auth Module]
         MM --> CLIENT[Client Management]
         MM --> PROJECT[Project Management]
@@ -91,7 +91,7 @@ graph TB
         MM --> AC[Access Control]
         MM --> EXPORT[Export & Reporting]
 
-        MM --> DB[(RDS PostgreSQL)]
+        MM --> DB[(PostgreSQL container)]
     end
 
     subgraph "Phase 2: Selective Extraction (Future)"
@@ -101,9 +101,9 @@ graph TB
         REQ_SVC[Requirements Service<br/>Independently Scalable]
         EXPORT_SVC[Export Service<br/>Async Processing]
 
-        CORE --> DB2[(Shared RDS)]
+        CORE --> DB2[(Shared PostgreSQL)]
         REQ_SVC --> DB2
-        EXPORT_SVC --> S3[(S3 Storage)]
+        EXPORT_SVC --> OBJ[(Object storage)]
 
         FE2[Frontend] -->|REST| CORE
         FE2 -->|REST| REQ_SVC
@@ -143,7 +143,7 @@ Extract a module into a service only when at least one trigger is sustained:
 
 ## Scalability Alignment
 
-- MVP and Phase 1 targets (NFR-005/NFR-006) are achievable with stateless backend scaling on AWS App Runner.
+- MVP and Phase 1 targets (NFR-005/NFR-006) are achievable on the single deployed host; the stateless backend leaves room to scale out later.
 - Modular boundaries reduce refactor risk while enabling selective horizontal scaling later.
 - Additional distributed patterns are deferred to future scope reviews.
 

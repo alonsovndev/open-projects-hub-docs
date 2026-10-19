@@ -1,15 +1,17 @@
-# ADR-021: Low-Cost Single-Host Deployment (CloudFront + EC2)
+# ADR-021: Low-Cost Single-Host Deployment (EC2)
 
 - **Status**: Accepted; the CloudFront entry point is replaced by [ADR-022](./adr-022-cloudflare-edge-instead-of-cloudfront.md), and the AWS account, region and OIDC deploy by [ADR-023](./adr-023-credits-account-us-east-2-manual-deploy.md)
 - **Date**: 2026-10-10
 - **Supersedes**: [ADR-006](./adr-006-deployment-platform.md) (compute, database, secrets, registry and network decisions); the AWS-only decision of ADR-006 stands; its S3 + CloudFront frontend is superseded by [ADR-022](./adr-022-cloudflare-edge-instead-of-cloudfront.md).
 - **Affects**: [ADR-004](./adr-004-database.md) (the database runs as a PostgreSQL container, not Amazon RDS), [ADR-011](./adr-011-secrets-management.md) (secrets live in SSM Parameter Store), [ADR-014](./adr-014-environment-strategy.md) (unchanged: one deployed environment).
 
+> **Note (2026-10-19):** the credit figures below were those of the first account. For the current account see [ADR-023](./adr-023-credits-account-us-east-2-manual-deploy.md).
+
 ## Context
 
 The production deployment exists to show the project at the master's review, with a handful of users and almost no traffic. The hosting budget is effectively zero.
 
-The AWS account is on the **Free Plan**: $100 in credits (183 days remaining on 2026-10-10, so the plan ends around 2027-04-11) that end when the time or the credits run out, after which the account closes unless upgraded. The 12-month service allowances ADR-006 relied on (750 RDS hours, App Runner free storage) do not apply to Free Plan accounts.
+The AWS account is on the **Free Plan**: $100 in credits and a fixed period (about six months) that end when the time or the credits run out, after which the account closes unless upgraded. The 12-month service allowances ADR-006 relied on (750 RDS hours, App Runner free storage) do not apply to Free Plan accounts.
 
 The design in ADR-006 does not fit this budget:
 
@@ -59,7 +61,7 @@ Because the web app and the API share the CloudFront origin, no CORS configurati
 - **No backups.** If the instance or the account is lost, the data is lost. The instance has termination protection and `prevent_destroy`, but that guards only against accidents. A manual `pg_dump` over SSM is the escape hatch.
 - **Single point of failure.** One host, one AZ, no failover. A deploy briefly restarts the API.
 - **Plain HTTP between CloudFront and EC2.** Without a domain there is no certificate for the origin. Requests are protected by a security group that admits only CloudFront's origin-facing addresses and by a secret `X-Origin-Verify` header that Caddy requires, but the traffic is not encrypted on that leg. Moving to a custom domain would allow HTTPS to the origin.
-- **Fixed lifetime.** The Free Plan ends after its 183 days or when the $100 in credits runs out; at about $12.85/month the credits cover roughly seven months. After that the account must be upgraded or the system rehosted.
+- **Fixed lifetime.** The Free Plan ends after its fixed period or when the $100 in credits runs out; at about $12.85/month the credits cover roughly seven months. After that the account must be upgraded or the system rehosted.
 - **Email.** Without a verified sending domain, the transactional email provider cannot deliver verification and reset emails to arbitrary users.
 - **Capacity.** 1 GB of RAM (plus swap) and a 30-connection Postgres limit are sized for a handful of users.
 - **CloudFront limits.** The origin response timeout is 60 seconds, so very slow synchronous AI calls return 504.

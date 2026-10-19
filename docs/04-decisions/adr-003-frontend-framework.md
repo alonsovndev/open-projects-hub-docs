@@ -5,6 +5,8 @@
 
 > **Amended by [ADR-020](./adr-020-client-review-by-access-code.md) (2026-10-02):** the `viewer` role mentioned here was removed; roles are `admin` and `member`, and clients review a project through its access code.
 
+> **Note (2026-10-19):** The implemented frontend uses React 19, Vite and Ant Design v6; the decision to use React and TypeScript stands.
+
 ## Context
 
 The frontend must provide responsive Admin and Viewer workflows with maintainable components and strong developer velocity.

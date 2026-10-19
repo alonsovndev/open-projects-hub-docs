@@ -4,6 +4,8 @@
 **Date**: 2026-02-28  
 **Updated**: 2026-08-03 (AWS migration)
 
+> **Note (2026-10-19):** Docker stays, but the target changed: the image is built by GitHub Actions and pushed to GHCR (`ghcr.io/alonsovndev/open-projects-hub-api:<tag>`), then run by Docker Compose on one EC2 host. App Runner and ECR are not used. See [ADR-021](./adr-021-low-cost-single-host-deployment.md) and [ADR-023](./adr-023-credits-account-us-east-2-manual-deploy.md).
+
 ## Context
 
 The backend must run reliably across development, staging, and production with minimal environment drift. The platform is deployed to AWS App Runner, which requires Docker-based workloads with auto-scaling and health check capabilities.

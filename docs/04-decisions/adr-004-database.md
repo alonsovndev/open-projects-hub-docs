@@ -1,4 +1,4 @@
-# ADR-004: Database (Amazon RDS PostgreSQL)
+# ADR-004: Database (PostgreSQL)
 
 - **Status**: Accepted
 - **Date**: 2026-02-28

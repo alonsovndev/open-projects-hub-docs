@@ -46,8 +46,9 @@ Owner is expressed by the role group heading a story sits under, since
 set at import time.
 
 Statuses reflect the code in `open-projects-hub-api` and `open-projects-hub-web` as of
-2026-10-07. Release (`REL`) stories stay `TODO`: the deployment path they describe
-(Terraform, App Runner, CloudFront) is the target design and is not built yet. An epic is
+2026-10-07; the release (`REL`) and deployment items were updated on 2026-10-19. Release (`REL`) stories stay `TODO` until each epic is released. The deployment
+path they describe is the real one (tag, GHCR image, `scripts/deploy-release.sh` over SSM;
+web and docs published by Cloudflare Builds); the API `v0.1.0` has been deployed that way. An epic is
 `DONE` only when every story in it is done, so most epics read `IN PROGRESS` until their
 release story ships.
 
@@ -88,9 +89,9 @@ documented requirement state that explicitly rather than leaving the field blank
 
 Each feature (F-001 to F-011) has its own `REL` story inside that feature's epic, covering
 the real deployment path documented in `docs/03-architecture/ops/`: release PR `dev` to
-`main` with two approvals, sha-tagged candidate image, migration compatibility review,
-semver tag, `terraform apply`, App Runner rolling deploy, CloudFront invalidation,
-production smoke test, Sentry release, release-health watch, and a documented rollback.
+`main` with required checks, migration compatibility review,
+semver tag, GHCR image, manual deploy with `scripts/deploy-release.sh`, Cloudflare publish
+for the web, production smoke test, optional Sentry release, and a documented rollback.
 There is **no staging environment** (see ADR-014).
 
 ## Epic Index
@@ -100,7 +101,7 @@ Points are split by the `Fix Version` on each story: an epic can contribute to b
 | Epic | Summary | Stories | MVP-1 pts | Phase 1 pts |
 | --- | --- | --- | --- | --- |
 | [EPIC-0](./EPIC-0-foundational/epic.md) | Foundational project structure, local environment, and deployment baseline. | 11 | 64 | — |
-| [EPIC-1](./EPIC-1-lifecycle-governance/epic.md) | Client and project lifecycle governance. | 8 | 37 | — |
+| [EPIC-1](./EPIC-1-lifecycle-governance/epic.md) | Client and project lifecycle governance. | 9 | 40 | — |
 | [EPIC-2](./EPIC-2-user-authentication/epic.md) | Authentication: login, password reset, sessions. | 10 | 48 | — |
 | [EPIC-3](./EPIC-3-ai-refinement/epic.md) | Controlled refinement workflow from notes to approved stories. | 9 | 37 | 5 |
 | [EPIC-4](./EPIC-4-access-boundaries/epic.md) | Admin and Member boundary enforcement (the Viewer role was removed by ADR-020). | 4 | 18 | — |
@@ -113,13 +114,13 @@ Points are split by the `Fix Version` on each story: an epic can contribute to b
 | [EPIC-11](./EPIC-11-ui-craft/epic.md) | Interface craft above component-library defaults. | 8 | — | 36 |
 | [EPIC-12](./EPIC-12-code-quality/epic.md) | Automated code quality baseline across both stacks. | 7 | 17 | 6 |
 
-**Totals**: 13 epics, 111 stories, 500 story points — **314 in MVP-1** (66 stories) and
+**Totals**: 13 epics, 112 stories, 503 story points — **317 in MVP-1** (67 stories) and
 **186 in Phase 1** (45 stories).
 
 ## Delivery capacity
 
 EPIC-0's 64 points are already delivered (Phase -1 and Phase 0 are complete in the roadmap),
-leaving **250 points of remaining MVP work**. At the roadmap's stated basis of 2 developers
+leaving **253 points of remaining MVP work** at the time of writing (317 − 64). At the roadmap's stated basis of 2 developers
 and ~12 points each per week, that is roughly **10-11 weeks**, which is why `NFR-X08` was
 revised from 1–1.5 months to 2.5 months rather than left as a target the plan would miss.
 

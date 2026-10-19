@@ -4,6 +4,8 @@
 **Date**: 2026-02-28  
 **Updated**: 2026-08-03 (AWS-focused strategy)
 
+> **Note (2026-10-19):** Terraform is used, but the managed resources differ from the list below: one EC2 host, Elastic IP, security group, SSM parameters and deploy document, AWS Budgets, and the Cloudflare DNS record, with state in S3 (native lockfile, no DynamoDB). There is no VPC module, RDS, App Runner, ECR or CloudFront. See [ADR-021](./adr-021-low-cost-single-host-deployment.md), [ADR-022](./adr-022-cloudflare-edge-instead-of-cloudfront.md) and [ADR-023](./adr-023-credits-account-us-east-2-manual-deploy.md).
+
 ## Context
 
 The platform infrastructure spans multiple AWS services (VPC, RDS, App Runner, S3, CloudFront, ECR, IAM) across development and production environments. Manual configuration via AWS Console introduces significant risks:

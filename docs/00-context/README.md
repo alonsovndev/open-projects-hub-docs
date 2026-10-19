@@ -19,6 +19,7 @@ This folder contains foundational project context documents that define the prob
 | [glossary.md](./glossary.md)             | Ubiquitous language and terminology reference                        |
 | [out-of-scope.md](./out-of-scope.md)     | Explicitly excluded features and future-phase items                  |
 | [resolved-questions.md](./resolved-questions.md) | Scoping questions (`Q-001` to `Q-023`) and their answers |
+| [run-the-system.md](./run-the-system.md) | Live URLs, how to run the API and web app locally, shared configuration |
 
 ## Related Documents
 

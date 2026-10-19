@@ -285,12 +285,12 @@ flowchart LR
 - **Production Deployment Pipeline (trigger: tag `vX.Y.Z` on `main`):**
   - **Backend repository:** the workflow verifies the tag and builds and pushes `ghcr.io/alonsovndev/open-projects-hub-api:vX.Y.Z`. It does not touch AWS. A person then runs `scripts/deploy-release.sh vX.Y.Z` from a workstation, which runs the `ophub-prod-deploy` SSM document on the EC2 host with their own AWS credentials. The host pulls the image and restarts the Docker Compose stack. Alembic migrations run when the API container starts. The script fails if the stack does not start healthy: Docker Compose waits for the API health check (about two minutes at most), then the deploy script waits up to 90 more seconds for `/health/ready`.
   - **Frontend repository:** has no deploy workflow. Cloudflare Builds (GitHub integration) builds the app on every push (`npm run build`) and deploys the production branch to Cloudflare Workers with `wrangler deploy`; other branches get preview deployments. `VITE_API_BASE_URL` in `.env.production` points the production build at the API origin. No AWS credentials are involved.
-  - The workflow cannot reach AWS: the production account's service control policies block the GitHub OIDC provider (see [ADR-023](../../04-decisions/adr-023-credits-account-us-east-2-manual-deploy.md)). It can be run manually from a tag ref to rebuild the image; rolling back means running the script with the previous tag.
+  - The workflow cannot reach AWS: the production account's organization policies do not allow the GitHub OIDC login (see [ADR-023](../../04-decisions/adr-023-credits-account-us-east-2-manual-deploy.md)). It can be run manually from a tag ref to rebuild the image; rolling back means running the script with the previous tag.
   - The API workflow requires that the tagged commit is on `main` (tag protection limits who can tag, not what is tagged). The deploy script ends with a smoke test through the public URL (`API_URL`, the Cloudflare API hostname): it expects a JSON 4xx from the API, which tells it apart from Caddy's 404 and from Cloudflare's own error pages.
   - The GHCR package must be Public, because the host pulls anonymously; a private package makes the deploy fail when the host pulls the image.
   - API CI applies every Alembic migration to an empty Postgres and rolls it back, because production runs `alembic upgrade head` at container start. The repository integration tests are not part of CI: they are stale and need repair first.
   - **Infrastructure** is not applied by the pipeline: Terraform changes are applied locally by the owner after reviewing the plan (see [Deployment Architecture](./deployment-architecture.md)). Teardown is also done by hand with `terraform destroy` from a workstation (steps in the infrastructure README); there is no destroy workflow. The database is deleted with the host and there are no backups.
-  - The deploy script ends with an automated smoke test of the routing (see above). The authenticated flow is still checked by hand after a deploy: log in as the seeded admin and create a project. Self-registration cannot be smoke-tested until an email provider with a verified sending domain is configured, because new users must verify by email.
+  - The deploy script ends with an automated smoke test of the routing (see above). The authenticated flow is still checked by hand after a deploy: register a new account (verification code by email, [ADR-024](../../04-decisions/adr-024-email-delivery-with-resend.md)), log in and create a project. The admin user is not seeded in production, and self-registration cannot be part of the automated smoke test because it needs the emailed code.
 
 ---
 
@@ -396,4 +396,4 @@ There is no persistent `staging` or `dev` environment on AWS. The `dev` branch p
 
 ---
 
-**Last Updated**: 2026-10-10
+**Last Updated**: 2026-10-19

@@ -6,7 +6,7 @@ sidebar_position: 1
 
 **Tagline**: _"Empowering Freelancers with AI-Assisted Project Management and Structured Delivery."_
 
-## 2. Core Concept
+## 1. Core Concept
 
 The Open Projects Hub is an open-source web platform designed to streamline and professionalize the project management experience for freelancers. It provides a centralized hub to manage clients, structure project requirements, and utilize an AI engine to refine ambiguous ideas into clear, actionable technical specifications.
 
@@ -16,7 +16,7 @@ To create an accessible, open-source tool that empowers freelancers to deliver h
 
 ---
 
-## 3. Problem Statement
+## 2. Problem Statement
 
 ### The Challenge
 
@@ -37,7 +37,7 @@ The Open Projects Hub addresses these challenges by offering:
 
 ---
 
-## 4. Target Audience
+## 3. Target Audience
 
 ### Primary Audience
 
@@ -55,7 +55,7 @@ The Open Projects Hub addresses these challenges by offering:
 
 ---
 
-## 5. High-Level Goals
+## 4. High-Level Goals
 
 ### Professional Impact Goals
 
@@ -64,7 +64,7 @@ The Open Projects Hub addresses these challenges by offering:
 
 ### Technical Goals
 
-- Build a full-stack web application with a React (TypeScript) frontend and a Python/FastAPI backend, structured as two separate projects within a monorepo.
+- Build a full-stack web application with a React (TypeScript) frontend and a Python/FastAPI backend, structured as separate repositories (API, web, infrastructure and documentation).
 - Implement a Modular Monolith backend using Python, FastAPI, and PostgreSQL following Clean Architecture and DDD principles.
 - Ensure high code quality with a mandatory Test-Driven Development (TDD) approach, targeting a minimum of 70% test coverage.
 - Establish a secure foundation adhering to OWASP Top 10 guidelines and Security by Design principles.
@@ -75,7 +75,7 @@ The Open Projects Hub addresses these challenges by offering:
 
 ---
 
-## 6. Key Differentiators
+## 5. Key Differentiators
 
 ### What Makes This Project Stand Out
 
@@ -85,7 +85,7 @@ The Open Projects Hub addresses these challenges by offering:
 
 ---
 
-## 7. Success Metrics
+## 6. Success Metrics
 
 ### How Success Is Measured
 

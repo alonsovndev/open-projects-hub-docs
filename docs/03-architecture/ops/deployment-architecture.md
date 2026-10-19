@@ -40,7 +40,7 @@ This document defines the production deployment architecture for the master's-re
 **Rationale:**
 
 - One provider for billing, IAM and monitoring.
-- The AWS account (the one holding the credits, `us-east-2`, see [ADR-023](../../04-decisions/adr-023-credits-account-us-east-2-manual-deploy.md)) is on the **Free Plan**: on 2026-10-19 the console showed $119.99 in credits remaining and 174 days left (ends 2027-04-09; consistent with $100 of sign-up credit plus $20 earned from Explore AWS activities). The plan ends at that date or when the credits run out, whichever comes first. The design costs about $12-13/month: about $52 for the four months until the review and about $77 for the whole window.
+- The AWS account (the one holding the credits, `us-east-2`, see [ADR-023](../../04-decisions/adr-023-credits-account-us-east-2-manual-deploy.md)) is on the **Free Plan**: it has a fixed period and a credit allowance (current balance and dates are tracked in the AWS console, not here). The plan ends when the period ends or the credits run out, whichever comes first. The design costs about $12-13/month: about $52 for the four months until the review and about $77 for the whole window.
 - Infrastructure as Code (Terraform) makes the deployment repeatable and reviewable.
 
 **Trade-offs Accepted:**
@@ -186,7 +186,7 @@ See also: [ADR-021: Low-Cost Single-Host Deployment](../../04-decisions/adr-021-
 
 **Cost Management Actions:**
 
-- A $1 budget alerts on any real (post-credit) charge; a second budget alerts when gross usage passes $16 in a month so credit burn is visible.
+- One budget alerts on any real (post-credit) charge; a second alerts on gross usage so credit burn is visible.
 - No NAT Gateway, load balancer, RDS, ECR, Route 53 zone or snapshots.
 - Logs rotate (10 MB x 3 files per container) so they cannot fill the disk.
 - The instance can be stopped between review sessions to save about $7.60/month; the data survives a stop.
@@ -292,35 +292,34 @@ See [Security Architecture](../security/security-architecture.md) for detailed s
 
 ## 11. Implementation Status and Next Steps
 
-Status as of 2026-10-19. The stack is **live** at `https://api-oph.alonsovndev.com` and the web app at `https://oph.alonsovndev.com` calls it; the end-to-end sign-up has not been verified yet.
+Status as of 2026-10-19. The stack is **live** at `https://api-oph.alonsovndev.com` and the web app at `https://oph.alonsovndev.com` calls it; self-registration was confirmed end to end in the browser (verification email, code, login).
 
 **Done**
 
-- The first stack was applied in an older AWS account without credits and destroyed on 2026-10-16 (32 resources). The credits account sits under an organization whose SCPs allow EC2 only in `us-east-2` and block the GitHub OIDC provider, so the stack moved there without OIDC ([ADR-023](../../04-decisions/adr-023-credits-account-us-east-2-manual-deploy.md)).
-- In the credits account: `bootstrap/` (state bucket, 6 resources) and `envs/prod` (30 resources: EC2 host, Elastic IP, security group with Cloudflare ranges, SSM parameters and deploy document, budgets, Cloudflare DNS record) are applied. The host's first boot finished (`cloud-init: done`, Docker 25, Compose v2.29).
+- The first stack was applied in an AWS account without credits and destroyed. The credits account's organization policies allow EC2 only in `us-east-2` and do not allow GitHub OIDC, so the stack moved there without OIDC ([ADR-023](../../04-decisions/adr-023-credits-account-us-east-2-manual-deploy.md)).
+- In the credits account: `bootstrap/` (state bucket) and `envs/prod` (EC2 host, Elastic IP, security group with Cloudflare ranges, SSM parameters and deploy document, budgets, Cloudflare DNS record) are applied. The host's first boot finished (`cloud-init: done`, Docker 25, Compose v2.29).
 - API `v0.1.0`: the image is public in GHCR and was deployed with `scripts/deploy-release.sh v0.1.0` (SSM command `Success`).
 - Verified from outside: an unauthenticated `GET /v1/users/me/profile` returns a JSON 401 through Cloudflare; the CORS preflight from `https://oph.alonsovndev.com` returns 200 with `allow-credentials: true`; a foreign origin gets 400; the Elastic IP refuses direct connections; non-`/v1` paths return 404; the production web bundle contains the API URL.
 - SMTP parameters (Resend, sending domain `send.alonsovndev.com`, verified) are set in SSM and were read by the deploy.
+- This documentation site is a separate Cloudflare Worker (`open-projects-hub-docs`) at `https://oph-docs.alonsovndev.com`; it does not touch the API stack.
 - The Cloudflare edge decision is in [ADR-022](../../04-decisions/adr-022-cloudflare-edge-instead-of-cloudfront.md).
 
 **Not done or not verified**
 
-- Self-registration end to end (verification email, code, login, refresh cookie on the API host, reload, logout): to be tested in the browser.
-- The admin user is not seeded.
+- The admin user is intentionally not seeded: an account is created through registration, which also creates its workspace.
+- A detailed browser check of the refresh cookie on the API host (reload and logout) is not recorded here.
 - The `deploy.yml` change (build only) has not run, because it needs a new tag.
-- Other pages still describe App Runner, RDS and CloudFront (see below).
+- The security and threat-model pages still name AWS managed services in their controls; they carry a note pointing here.
 
 **Next steps, in order**
 
-1. Test sign-up and login in the browser at `https://oph.alonsovndev.com`.
-2. Optionally seed the admin user (one-off over SSM, with the password given outside any chat).
-3. Watch credit use against the two budgets; at about $12.85/month the 174 days cost roughly $73, so the date, not the balance, is the limit.
+1. Watch credit use against the two budgets; at about $12.85/month the plan period, not the balance, is the likely limit.
 
 **Follow-ups and open decisions**
 
 - GitHub CI had been removed from the API and web repositories on 2026-10-08 (commit "chore: remove Github CI/CD", reason not recorded). A smaller CI was added back and the owner decided to keep it (2026-10-10).
-- Email: Resend with the verified sending domain `send.alonsovndev.com` is configured (sender `no-reply@send.alonsovndev.com`); delivery from production is still to be confirmed by a real sign-up.
-- Sweep the remaining pages that mention App Runner, RDS or CloudFront: `core/technology-stack.md`, `core/architecture-solution-design.md`, the security and database docs, `diagrams/sequence-diagrams.md`, `monitoring-observability.md` and `api/*`.
+- Email: Resend with the verified sending domain `send.alonsovndev.com` is configured (sender `no-reply@send.alonsovndev.com`); delivery from production was confirmed by a real sign-up on 2026-10-19 ([ADR-024](../../04-decisions/adr-024-email-delivery-with-resend.md)).
+- The architecture pages that describe the original design carry a note pointing to ADR-021, ADR-022 and ADR-023; the stack, solution-design, monitoring and sequence pages were rewritten to the deployed system.
 - Remove the now-unreferenced `images/deployment-arch-aws.png` and `images/git-ci-cd-pipeline.png` once the Mermaid diagrams are accepted.
 
 ## Source References
@@ -332,4 +331,4 @@ Status as of 2026-10-19. The stack is **live** at `https://api-oph.alonsovndev.c
 
 ---
 
-**Last Updated**: 2026-10-10
+**Last Updated**: 2026-10-19

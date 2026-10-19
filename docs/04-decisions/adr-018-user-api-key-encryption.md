@@ -3,6 +3,8 @@
 **Status**: Accepted  
 **Date**: 2026-09-20
 
+> **Note (2026-10-19):** The deployed database is a PostgreSQL container on an EBS volume, not Amazon RDS, so the RDS storage-encryption comparison below does not apply. The application-level AES encryption decided here is unchanged (see [ADR-021](./adr-021-low-cost-single-host-deployment.md)).
+
 ## Context
 
 F-010 lets a user store their own AI provider credentials (Gemini, OpenAI, DeepSeek) so
