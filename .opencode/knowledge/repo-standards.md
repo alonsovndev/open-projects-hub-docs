@@ -17,10 +17,16 @@ Add concise, repository-specific standards here.
 
 ## Documentation Site Build
 
-- Node >= 20, npm (see `package.json` `engines`).
+- Node >= 22, npm (see `package.json` `engines`); CI and Cloudflare Builds use Node 22.
 - `npm start` — local dev server with hot reload, http://localhost:3000.
 - `npm run typecheck` — TypeScript check (`tsconfig.json` extends `@docusaurus/tsconfig`).
 - `npm run build` — production build into `build/`; fails on any broken internal link
   or anchor. Treat this as the required pre-PR check for any `docs/` change.
-- `.github/workflows/deploy.yml` is manual-trigger only (`workflow_dispatch`) — GitHub
-  Pages auto-deploy on push to `main` is intentionally not wired up yet.
+- `.github/workflows/build.yml` typechecks and builds PRs to `main`/`dev`, pushes to
+  those branches, and manual runs. It never deploys.
+- Once configured per `README.md`, Cloudflare Builds publishes `main` to a separate
+  docs Worker at `https://oph-docs.alonsovndev.com`, with static assets and a Custom
+  Domain declared in `wrangler.jsonc`. Do not modify the product frontend or
+  apex-domain bindings.
+- `npm run deploy` uploads the existing `build/`; build first. Deployment and DNS
+  changes require explicit authorization. See `README.md` for setup and cutover.
