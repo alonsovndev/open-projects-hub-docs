@@ -78,7 +78,7 @@ No direct commits to `dev` or `main`. All changes arrive via pull request from a
 | Direct pushes           | ❌ Blocked                                  | ❌ Blocked                                                  |
 | PR required             | ✅ All changes via PR                       | ✅ All changes via PR from `dev` or hotfix                  |
 | Required approvals      | 1 (when team > 1)                           | 2                                                           |
-| Status checks           | ✅ Must pass (lint, test, type-check, docs) | ✅ Must pass (lint, test, type-check, docs, terraform plan) |
+| Status checks           | ✅ Must pass (lint, test, type-check, docs) | ✅ Must pass (lint, test, type-check, docs) |
 | Up-to-date before merge | ✅ Required                                 | ✅ Required                                                 |
 | Conversation resolution | ✅ Required                                 | ✅ Required                                                 |
 | Stale reviews           | ✅ Dismissed on new commits                 | ✅ Dismissed on new commits                                 |
@@ -252,7 +252,20 @@ Examples:
 
 The CI/CD pipeline is designed around the two-branch strategy to ensure code quality and a safe path to production.
 
-![CI/CD Pipeline Diagram](./images/git-ci-cd-pipeline.png)
+```mermaid
+flowchart LR
+    A[Feature branch on fork] --> B[PR to upstream dev]
+    B --> C[CI: lint, test, build]
+    C --> D[1 approval, merge to dev]
+    D --> E[PR dev to main]
+    E --> F[CI re-run, 2 approvals]
+    F --> G[Merge to main: no deploy]
+    G --> H[Tag vX.Y.Z on main]
+    H --> I[API: build image, push to GHCR, SSM deploy on EC2]
+    G --> J[Web: Cloudflare Builds deploys the branch to Workers]
+    I --> K[Manual smoke test]
+    J --> K
+```
 
 ---
 
@@ -260,24 +273,24 @@ The CI/CD pipeline is designed around the two-branch strategy to ensure code qua
 
 - **Feature PR Pipeline (target: `dev`):** Triggered on every PR from a fork targeting upstream `dev`.
   - Runs all documentation checks, code quality scans, and unit/integration tests.
-  - Builds the Docker image and frontend artifacts to ensure validity.
-  - Runs `terraform plan` to preview infrastructure changes.
+  - Runs the repository's lint, format, security and unit-test checks, and builds the frontend artifacts to ensure validity.
+  - In the infrastructure repository it runs `terraform fmt -check` and `terraform validate`.
   - **No deployment occurs from this pipeline.**
 
 - **Release PR Pipeline (target: `main`):** Triggered on a PR from upstream `dev` to upstream `main`.
-  - This is a governance step. It re-runs critical tests and builds the production Docker image (sha-tagged).
+  - This is a governance step. It re-runs the same checks as the feature PR pipeline.
   - Requires 2 approvals before merging.
-  - Runs `terraform plan` to confirm infrastructure changes.
-  - **Merge builds and freezes a candidate — does NOT deploy.**
+  - **Merge freezes a candidate — does NOT deploy.**
 
 - **Production Deployment Pipeline (trigger: tag `vX.Y.Z` on `main`):**
-  - The tag promotes the already-built candidate image to production — no rebuild.
-  - Applies any pending infrastructure changes via `terraform apply`.
-  - Runs database migrations via Alembic.
-  - Deploys the candidate Docker image to AWS App Runner.
-  - Deploys the frontend build to S3 and invalidates the CloudFront cache.
-  - Runs automated smoke tests against the live production environment.
-  - Tags the new release in Sentry for error monitoring.
+  - **Backend repository:** the workflow verifies the tag and builds and pushes `ghcr.io/alonsovndev/open-projects-hub-api:vX.Y.Z`. It does not touch AWS. A person then runs `scripts/deploy-release.sh vX.Y.Z` from a workstation, which runs the `ophub-prod-deploy` SSM document on the EC2 host with their own AWS credentials. The host pulls the image and restarts the Docker Compose stack. Alembic migrations run when the API container starts. The script fails if the stack does not start healthy: Docker Compose waits for the API health check (about two minutes at most), then the deploy script waits up to 90 more seconds for `/health/ready`.
+  - **Frontend repository:** has no deploy workflow. Cloudflare Builds (GitHub integration) builds the app on every push (`npm run build`) and deploys the production branch to Cloudflare Workers with `wrangler deploy`; other branches get preview deployments. `VITE_API_BASE_URL` in `.env.production` points the production build at the API origin. No AWS credentials are involved.
+  - The workflow cannot reach AWS: the production account's service control policies block the GitHub OIDC provider (see [ADR-023](../../04-decisions/adr-023-credits-account-us-east-2-manual-deploy.md)). It can be run manually from a tag ref to rebuild the image; rolling back means running the script with the previous tag.
+  - The API workflow requires that the tagged commit is on `main` (tag protection limits who can tag, not what is tagged). The deploy script ends with a smoke test through the public URL (`API_URL`, the Cloudflare API hostname): it expects a JSON 4xx from the API, which tells it apart from Caddy's 404 and from Cloudflare's own error pages.
+  - The GHCR package must be Public, because the host pulls anonymously; a private package makes the deploy fail when the host pulls the image.
+  - API CI applies every Alembic migration to an empty Postgres and rolls it back, because production runs `alembic upgrade head` at container start. The repository integration tests are not part of CI: they are stale and need repair first.
+  - **Infrastructure** is not applied by the pipeline: Terraform changes are applied locally by the owner after reviewing the plan (see [Deployment Architecture](./deployment-architecture.md)). Teardown is also done by hand with `terraform destroy` from a workstation (steps in the infrastructure README); there is no destroy workflow. The database is deleted with the host and there are no backups.
+  - The deploy script ends with an automated smoke test of the routing (see above). The authenticated flow is still checked by hand after a deploy: log in as the seeded admin and create a project. Self-registration cannot be smoke-tested until an email provider with a verified sending domain is configured, because new users must verify by email.
 
 ---
 
@@ -315,50 +328,50 @@ Use hotfixes only for critical production bugs that cannot wait for the normal `
    git push upstream dev
    ```
 
-**Recovery:** The default is fix-forward — land another hotfix. Redeploying a prior good image is possible (images are sha-tagged in ECR), but fix-forward is the norm.
+**Recovery:** The default is fix-forward — land another hotfix. Redeploying a prior good version is possible by running the deploy workflow on the earlier tag, but fix-forward is the norm.
 
 ---
 
 ## 9. Deployment Environment Strategy
 
-For the MVP, the strategy is streamlined to two environments:
+Development happens in the local environments (`local`, `test` and `container`, see ADR-014). AWS hosts a single environment:
 
-- **Local:** Developer workstations running `docker-compose`. This is where all development and initial testing occurs.
-- **Production:** The live user-facing environment running on AWS. It is deployed **only** from the `main` branch.
+- **Production:** the release shown at the master's review, a single low-cost EC2 host behind Cloudflare (see ADR-021 and ADR-022). It is deployed **only** from a `vX.Y.Z` tag cut from `main`.
 
-There is no persistent `staging` or `dev` environment. The `dev` branch provides code-level integration; deployed environments are local (per developer) and production only.
+There is no persistent `staging` or `dev` environment on AWS. The `dev` branch provides code-level integration; the `container` environment, which runs the same Docker image that is deployed, serves as the pre-release smoke test.
 
 ---
 
 ## 10. Database Migration Strategy
 
 - Migrations are managed via **Alembic** (see ADR-017) and are versioned and backward-compatible.
-- In the production pipeline (triggered by tag `vX.Y.Z` on `main`), migrations are executed via an **AWS App Runner init container** or a pre-deployment step.
-- A failed migration will fail the deployment pipeline, preventing the application from deploying against an incorrect schema version.
+- In the production pipeline (triggered by tag `vX.Y.Z` on `main`), migrations run when the API container starts (`alembic upgrade head` in `scripts/start-api.sh`). With a single instance there is no migration race.
+- A failed migration keeps the API from becoming ready, so the deploy script times out and the workflow fails instead of reporting success against an incorrect schema version.
 
 ---
 
 ## 11. Rollback Strategy
 
-- **Application Rollback:** Redeploy the previously successful Docker image from ECR to App Runner. For the frontend, redeploy the previous build artifacts.
-- **Database Rollback:** Prefer forward-fix migrations. For emergencies, Amazon RDS point-in-time recovery (PITR) will be used.
-- **Infrastructure Rollback:** Revert the change in Terraform code in the `main` branch and trigger a new deployment.
+- **Application Rollback:** Re-run the deploy workflow on the previous tag. For the frontend, re-run its deploy workflow on the previous tag.
+- **Database Rollback:** Prefer forward-fix migrations. There are no database backups (ADR-021), so a destructive migration cannot be undone by restoring data.
+- **Infrastructure Rollback:** Revert the change in the Terraform code and apply it locally.
 
 ---
 
 ## 12. Environment Variables and Secrets Management
 
-- Secrets for the production environment are stored in **GitHub Actions encrypted secrets** scoped to the `main` branch environment.
-- These secrets are injected into the **AWS App Runner environment configuration** during the production deployment.
+- Runtime secrets for production are generated by Terraform (or set by hand) in **AWS Systems Manager Parameter Store** under `/ophub/prod/`.
+- The deploy script on the host reads them with the instance role and writes a root-only `.env` for Docker Compose. Parameters still set to the placeholder `N/A` are skipped, so the variable stays unset.
+- GitHub holds no AWS keys and no AWS repository variables: workflows do not reach AWS. Deploys use the operator's own AWS credentials from a workstation.
 - No plaintext secrets are ever stored in the repository.
 
 ---
 
 ## 13. Zero-Downtime Deployment Approach
 
-- The backend service is stateless, allowing AWS App Runner to perform rolling replacements of container instances. Health checks validate new instances before they receive traffic.
-- Database migrations are backward-compatible to ensure the running application remains compatible while the new version is deploying.
-- The frontend is deployed independently to S3 and CloudFront.
+- Zero-downtime deployment is **not** provided: the single EC2 host restarts the API container on each deploy, so expect a short interruption (ADR-021).
+- Database migrations are written to be backward-compatible. A failed deploy is not rolled back automatically: the old API container has already been replaced, so the site is down until the previous tag is redeployed.
+- The frontend is deployed independently by Cloudflare, which switches versions atomically; the API and the web app are released separately, so keep API changes backward-compatible with the previously deployed web build.
 
 ---
 
@@ -366,8 +379,7 @@ There is no persistent `staging` or `dev` environment. The `dev` branch provides
 
 - The architecture supports a controlled release promotion: `dev` → `main` (candidate) → tag `vX.Y.Z` (deploy).
 - Fork-based contributions ensure consistent workflow for all contributors and clean upstream history.
-- Sentry release tracking provides immediate visibility into the impact of a production deployment.
-- CloudWatch metrics and alarms monitor the health of the production environment.
+- Sentry can be enabled by setting its DSN; there is no CloudWatch alarm setup. Cost is watched through AWS Budgets alerts.
 - The pipeline design separates development integration (`dev`) from production releases (`main`), ensuring stability.
 - Hotfixes bypass `dev` and go directly to `main`, then back-merge to keep branches synchronized.
 
@@ -375,7 +387,8 @@ There is no persistent `staging` or `dev` environment. The `dev` branch provides
 
 - [Deployment Architecture](./deployment-architecture.md)
 - [Requirements Home](../../01-requirements/README.md)
-- [ADR-006: Deployment Platform (AWS)](../../04-decisions/adr-006-deployment-platform.md)
+- [ADR-006: Deployment Platform (AWS)](../../04-decisions/adr-006-deployment-platform.md) (superseded in part)
+- [ADR-021: Low-Cost Single-Host Deployment](../../04-decisions/adr-021-low-cost-single-host-deployment.md)
 - [ADR-011: Secrets Management Strategy](../../04-decisions/adr-011-secrets-management.md)
 - [ADR-013: Infrastructure as Code Strategy](../../04-decisions/adr-013-infrastructure-as-code.md)
 - [ADR-016: Git Workflow and Branch Strategy](../../04-decisions/adr-016-git-workflow-strategy.md)
@@ -383,4 +396,4 @@ There is no persistent `staging` or `dev` environment. The `dev` branch provides
 
 ---
 
-**Last Updated**: 2026-08-07
+**Last Updated**: 2026-10-10
