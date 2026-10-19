@@ -28,8 +28,8 @@ The auth module is a bounded context within the modular monolith, not a separate
 
 1. **Authentication Module (Internal Bounded Context)**
    - **Location**: Part of the backend monolith (e.g., `src/modules/auth/` or `src/auth/`)
-   - User registration endpoint (`POST /api/v1/auth/register`)
-   - Login endpoint (`POST /api/v1/auth/login`) — returns JWT access token
+   - User registration endpoint (`POST /v1/auth/register`)
+   - Login endpoint (`POST /v1/auth/login`) — returns JWT access token
    - Token validation middleware (validates JWT on protected routes across all modules)
    - Password hashing with `bcrypt` (direct library, no `passlib` dependency)
    - JWT generation/verification using `python-jose` or `PyJWT`
@@ -58,7 +58,7 @@ The auth module is a bounded context within the modular monolith, not a separate
    - JWT access tokens remain stateless and are not persisted server-side.
    - Refresh-token state **is** persisted server-side (PostgreSQL: `revoked_refresh_tokens`,
      `account_lockouts`) so logout, single-use rotation, and account lockout survive restarts and
-     work across multiple App Runner instances — this was not possible under a purely stateless
+     work across multiple API instances — this was not possible under a purely stateless
      design and required walking back the original "no server-side session storage" decision.
    - Forced logout across every device is supported via a `token_version` counter on the `users`
      row: bumping it invalidates every refresh token issued before that point (used after a

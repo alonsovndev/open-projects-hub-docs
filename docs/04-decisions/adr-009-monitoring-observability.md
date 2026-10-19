@@ -4,6 +4,8 @@
 - **Date**: 2026-02-28
 - **Updated**: 2026-08-04 (Zero-cost strategy with Sentry Free Developer + CloudWatch Free Tier)
 
+> **Note (2026-10-19):** CloudWatch alarms and the App Runner, RDS and CloudFront metrics described here do not exist in the deployed system. The host runs one Docker Compose stack; health is checked through `/health/live` and `/health/ready`, logs are container logs, and Sentry is used only when a DSN is configured. See [ADR-021](./adr-021-low-cost-single-host-deployment.md) and [Monitoring and Observability](../03-architecture/ops/monitoring-observability.md).
+
 ## Context
 
 The project requires unified visibility into frontend/backend failures, performance regressions, and infrastructure health during MVP development and operations. Key constraints and requirements include:
