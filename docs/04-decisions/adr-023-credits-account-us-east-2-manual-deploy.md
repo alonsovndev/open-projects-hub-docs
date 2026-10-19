@@ -29,7 +29,7 @@ Whether upgrading the account from the Free Plan lifts these limits was not test
 
 ## Consequences
 
-- The credits pay for the host. Balance and expiry of the credits are TBD (to be read from Billing).
+- The credits pay for the host. On 2026-10-19 the account had $119.99 in credits and 174 days left (ends 2027-04-09); at about $12.85/month the date, not the balance, is the limit.
 - A release needs two steps: push the tag (image) and run the script (deploy). Nothing deploys without a person holding AWS credentials, which also removes the risk that anyone able to push a tag deploys as root on the host.
 - The cost figures in ADR-021 are `us-east-1` list prices; whether `us-east-2` differs is TBD (not checked). The gross-usage budget makes any difference visible.
 - Other SCP limits may appear later; they surface as "explicit deny in a service control policy" errors.

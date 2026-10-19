@@ -40,7 +40,7 @@ This document defines the production deployment architecture for the master's-re
 **Rationale:**
 
 - One provider for billing, IAM and monitoring.
-- The AWS account (the one holding the credits, `us-east-2`, see [ADR-023](../../04-decisions/adr-023-credits-account-us-east-2-manual-deploy.md)) is on the **Free Plan**: $100 in credits, with 183 days remaining on 2026-10-10 (the plan ends around 2027-04-11 or when the credits run out). The exact balance and expiry are TBD. The design costs about $12-13/month: about $52 for the four months until the review and about $77 for the whole window.
+- The AWS account (the one holding the credits, `us-east-2`, see [ADR-023](../../04-decisions/adr-023-credits-account-us-east-2-manual-deploy.md)) is on the **Free Plan**: on 2026-10-19 the console showed $119.99 in credits remaining and 174 days left (ends 2027-04-09; consistent with $100 of sign-up credit plus $20 earned from Explore AWS activities). The plan ends at that date or when the credits run out, whichever comes first. The design costs about $12-13/month: about $52 for the four months until the review and about $77 for the whole window.
 - Infrastructure as Code (Terraform) makes the deployment repeatable and reviewable.
 
 **Trade-offs Accepted:**
@@ -307,7 +307,6 @@ Status as of 2026-10-19. The stack is **live** at `https://api-oph.alonsovndev.c
 
 - Self-registration end to end (verification email, code, login, refresh cookie on the API host, reload, logout): to be tested in the browser.
 - The admin user is not seeded.
-- The credit balance and expiry of the account are TBD.
 - The `deploy.yml` change (build only) has not run, because it needs a new tag.
 - Other pages still describe App Runner, RDS and CloudFront (see below).
 
@@ -315,8 +314,7 @@ Status as of 2026-10-19. The stack is **live** at `https://api-oph.alonsovndev.c
 
 1. Test sign-up and login in the browser at `https://oph.alonsovndev.com`.
 2. Optionally seed the admin user (one-off over SSM, with the password given outside any chat).
-3. Read the credit balance and expiry in Billing and update this page and the infra README.
-4. Watch credit use against the two budgets.
+3. Watch credit use against the two budgets; at about $12.85/month the 174 days cost roughly $73, so the date, not the balance, is the limit.
 
 **Follow-ups and open decisions**
 
