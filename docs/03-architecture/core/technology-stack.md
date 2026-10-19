@@ -35,7 +35,7 @@ This document defines the technology choices for the Open Projects Hub, organize
 | Auth Module            | Custom FastAPI + JWT                 | Internal bounded context handling user identity, login, and token issuance                 |
 | Password Hashing       | bcrypt (via passlib)                 | Secure password storage with industry-standard hashing                                     |
 | Token Management       | PyJWT / python-jose                  | JWT generation and validation for stateless authentication                                 |
-| Authorization          | Backend role checks + PostgreSQL RLS | Defense-in-depth: API-layer role validation + database-layer policy enforcement            |
+| Authorization          | Backend role checks + workspace-scoped queries | API-layer role validation; every repository query is filtered by the caller's workspace |
 | **Data & Storage**     |                                      |                                                                                            |
 | Database               | Amazon RDS PostgreSQL                | Managed relational database with ACID guarantees and Free Tier eligibility (12 months)     |
 | File Storage           | Amazon S3                            | Object storage for exports and file attachments                                            |
@@ -72,7 +72,7 @@ This document defines the technology choices for the Open Projects Hub, organize
 2. Auth module validates credentials and issues JWT token
 3. Frontend stores token and includes in Authorization header
 4. Backend middleware validates JWT on protected routes
-5. PostgreSQL RLS policies enforce data-level authorization
+5. Repositories filter every query by the caller's workspace
 
 ### Observability Strategy
 

@@ -70,7 +70,7 @@ Structured view of user stories organized by epic, priority, and status. Support
 ## Projects & Clients
 
 **Project**  
-Container for user stories; associated with one Client. Supports discovery and planning phases in MVP; limited to 3 active projects per Admin.
+Container for user stories; associated with one Client. Supports discovery and planning phases in MVP; limited to 3 active projects per workspace.
 
 **Project Code**  
 Short identifier the Freelancer chooses for a project (for example `WEB`), unique within a workspace only. Used by the Freelancer's own team. Not what a Stakeholder types; see Project Access Code.

@@ -9,7 +9,7 @@
 **Issue Type**: Spike
 **Priority**: Must Have
 **Effort Estimate**: 3
-**Status**: TODO
+**Status**: DONE
 **Fix Version**: MVP-1
 **Labels**: spike, foundational, setup, ci-cd
 **Requirements**: n/a (foundational spike)
@@ -48,7 +48,7 @@
 **Issue Type**: Spike
 **Priority**: Must Have
 **Effort Estimate**: 3
-**Status**: TODO
+**Status**: DONE
 **Fix Version**: MVP-1
 **Labels**: spike, foundational, setup, ci-cd
 **Requirements**: n/a (foundational spike)
@@ -87,7 +87,7 @@
 **Issue Type**: Spike
 **Priority**: Must Have
 **Effort Estimate**: 3
-**Status**: TODO
+**Status**: DONE
 **Fix Version**: MVP-1
 **Labels**: spike, foundational, setup, ci-cd
 **Requirements**: n/a (foundational spike)
@@ -126,7 +126,7 @@
 **Issue Type**: Spike
 **Priority**: Must Have
 **Effort Estimate**: 5
-**Status**: TODO
+**Status**: DONE
 **Fix Version**: MVP-1
 **Labels**: spike, foundational, setup, ci-cd
 **Requirements**: n/a (foundational spike)
@@ -165,7 +165,7 @@
 **Issue Type**: Story
 **Priority**: Must Have
 **Effort Estimate**: 8
-**Status**: TODO
+**Status**: DONE
 **Fix Version**: MVP-1
 **Labels**: backend, foundational, setup, ci-cd
 **Requirements**: n/a (foundational)
@@ -209,7 +209,7 @@
 **Issue Type**: Story
 **Priority**: Must Have
 **Effort Estimate**: 8
-**Status**: TODO
+**Status**: DONE
 **Fix Version**: MVP-1
 **Labels**: backend, foundational, setup, ci-cd
 **Requirements**: NFR-X06
@@ -253,7 +253,7 @@
 **Issue Type**: Story
 **Priority**: Must Have
 **Effort Estimate**: 8
-**Status**: TODO
+**Status**: DONE
 **Fix Version**: MVP-1
 **Labels**: backend, foundational, setup, ci-cd
 **Requirements**: NFR-X03
@@ -299,7 +299,7 @@
 **Issue Type**: Story
 **Priority**: Must Have
 **Effort Estimate**: 5
-**Status**: TODO
+**Status**: DONE
 **Fix Version**: MVP-1
 **Labels**: backend, foundational, setup, ci-cd
 **Requirements**: n/a (foundational)
@@ -387,7 +387,7 @@
 **Issue Type**: Story
 **Priority**: Should Have
 **Effort Estimate**: 8
-**Status**: TODO
+**Status**: DONE
 **Fix Version**: MVP-1
 **Labels**: backend, foundational, setup, observability, monitoring
 **Requirements**: NFR-X05
@@ -432,7 +432,7 @@
 **Issue Type**: Story
 **Priority**: Must Have
 **Effort Estimate**: 5
-**Status**: TODO
+**Status**: DONE
 **Fix Version**: MVP-1
 **Labels**: frontend, foundational, setup, ci-cd
 **Requirements**: n/a (foundational)

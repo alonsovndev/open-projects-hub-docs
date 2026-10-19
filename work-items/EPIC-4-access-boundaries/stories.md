@@ -9,7 +9,7 @@
 **Issue Type**: Story
 **Priority**: Must Have
 **Effort Estimate**: 3
-**Status**: TODO
+**Status**: DONE
 **Fix Version**: MVP-1
 **Labels**: design, ux, access-control, visibility
 **Requirements**: FR-003-01, FR-003-03, NFR-003-02
@@ -51,7 +51,7 @@
 **Issue Type**: Story
 **Priority**: Must Have
 **Effort Estimate**: 8
-**Status**: TODO
+**Status**: DONE
 **Fix Version**: MVP-1
 **Labels**: backend, access-control, visibility
 **Requirements**: FR-003-01, FR-003-02, NFR-003-01
@@ -93,7 +93,7 @@
 **Issue Type**: Story
 **Priority**: Must Have
 **Effort Estimate**: 5
-**Status**: TODO
+**Status**: DONE
 **Fix Version**: MVP-1
 **Labels**: frontend, access-control, visibility
 **Requirements**: FR-003-01, FR-003-03, NFR-003-03

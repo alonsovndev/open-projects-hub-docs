@@ -29,14 +29,16 @@
 
 ---
 
+> **Status (2026-10-07):** Phase -1, Phase 0, and the MVP feature work are built; production release and the Phase 1 SEO and E2E items remain. Story-level status lives in `work-items/`. Viewer accounts (original F-011) were replaced by account-free Client Review (ADR-020).
+
 ## Phase Overview
 
 | Phase    | Name                               | Objective                                                              | Status  | Target Window      | Execution Mode |
 | -------- | ---------------------------------- | ---------------------------------------------------------------------- | ------- | ------------------ | -------------- |
-| Phase -1 | UI/UX Prototyping & Validation     | Validate UI designs and obtain stakeholder approval before development | Planned | Week 0 (parallel)  | Parallel with Phase 0 |
-| Phase 0  | Foundation & Engineering Readiness | Establish development infrastructure and standards before feature work | Planned | Week 0 (parallel)  | Parallel with Phase -1 |
-| MVP      | Core Planning Backbone             | Deliver core planning value with secure access and exports            | Planned | Weeks 1-11         | Sequential |
-| Phase 1  | UX and Entry-Flow Hardening        | Improve onboarding, entry flow, monetization config, and UI craft     | Planned | Weeks 12-19        | Sequential |
+| Phase -1 | UI/UX Prototyping & Validation     | Validate UI designs and obtain stakeholder approval before development | Done | Week 0 (parallel)  | Parallel with Phase 0 |
+| Phase 0  | Foundation & Engineering Readiness | Establish development infrastructure and standards before feature work | Done (production deploy pipeline pending) | Week 0 (parallel)  | Parallel with Phase -1 |
+| MVP      | Core Planning Backbone             | Deliver core planning value with secure access and exports            | Built; release pending | Weeks 1-11         | Sequential |
+| Phase 1  | UX and Entry-Flow Hardening        | Improve onboarding, entry flow, monetization config, and UI craft     | Mostly built (SEO and E2E coverage open) | Weeks 12-19        | Sequential |
 | Phase 2  | Governance and Scale Preparation   | Prepare post-MVP governance, traceability depth, and scale plan       | Planned | TBD                | Sequential |
 
 ---
@@ -207,7 +209,7 @@
 
 1. Deliver the core planning workflow with feature coverage for `F-001` to `F-004`.
 2. Validate secure access and essential auth entry flows (`F-007`, `F-009`).
-3. Support the Viewer access slice of `F-011` — invite, accept, and read granted projects.
+3. Support Client Review (`F-011`): a client opens one project's approved stories with its access code (ADR-020).
 4. Ensure Must-priority quality baselines are mapped and owned.
 5. Run AI refinement on a platform-provided provider key; credit accounting and user-managed
    keys (`F-010`) are deferred to Phase 1.
@@ -241,7 +243,7 @@ MVP without a shippable end-to-end workflow. Re-derive these numbers if team siz
 | Must     | Access boundary and role enforcement (EPIC-4)       | F-003             | FR-003-01, FR-003-02, FR-003-03; NFR-003-01, NFR-003-02, NFR-003-03 | Tech Lead        |
 | Must     | Backlog and export deliverable (EPIC-5)             | F-004             | FR-004-01, FR-004-02, FR-004-03, FR-004-05; NFR-004-01, NFR-004-02 | Backend Engineer |
 | Must     | Admin authentication and recovery baseline (EPIC-2) | F-007, F-009      | FR-007-01, FR-007-02, FR-007-03, FR-007-04, FR-007-05, FR-007-06, FR-007-07; FR-009-01, FR-009-02, FR-009-03, FR-009-04, FR-009-05, FR-009-06; NFR-007-01, NFR-007-02, NFR-007-03; NFR-009-01, NFR-009-02, NFR-009-03; NFR-003-04 | Tech Lead        |
-| Must     | Viewer access slice (EPIC-7)                        | F-011             | FR-011-01, FR-011-02, FR-011-03, FR-011-04, FR-011-05, FR-011-06, FR-011-09, FR-011-11, FR-011-12; NFR-011-01, NFR-011-02, NFR-011-03, NFR-011-04, NFR-011-05 | Tech Lead        |
+| Must     | Client Review by access code (replaces EPIC-7, ADR-020) | F-011             | FR-011-01, FR-011-02, FR-011-03, FR-011-04, FR-011-05, FR-011-06, FR-011-09, FR-011-11, FR-011-12; NFR-011-01, NFR-011-02, NFR-011-03, NFR-011-04, NFR-011-05 | Tech Lead        |
 | Must     | Cross-cut quality baseline (EPIC-9)                 | F-001 to F-011    | NFR-X01, NFR-X02, NFR-X03, NFR-X08, NFR-X09, NFR-X10 | Tech Lead        |
 | Must     | Code quality tooling baseline (EPIC-12)             | F-001 to F-011    | NFR-X01, NFR-X03 | Tech Lead        |
 
@@ -250,7 +252,7 @@ MVP without a shippable end-to-end workflow. Re-derive these numbers if team siz
 - MVP scope baseline linked to feature-level requirements (F-001 to F-004, F-007, F-009, and
   the F-011 access slice).
 - Role-safe, approvable requirements backlog and Markdown export definition.
-- Viewer invitation, acceptance, and project-level access controls.
+- Client Review by project access code (no client accounts).
 - AI refinement running on a platform-provided provider key (credit accounting and
   user-managed keys deferred to Phase 1).
 - Security and privacy checklist for Must-priority workflows.
@@ -293,7 +295,7 @@ MVP without a shippable end-to-end workflow. Re-derive these numbers if team siz
 | Must     | AI credits and API key management (EPIC-6) | F-010            | FR-010-01, FR-010-02, FR-010-03, FR-010-04, FR-010-05, FR-010-06, FR-010-07, FR-010-08, FR-010-09, FR-010-10, FR-010-11, FR-010-12; NFR-010-01, NFR-010-02, NFR-010-03, NFR-010-04, NFR-010-05, NFR-010-06 | Tech Lead         |
 | Must     | Provider selection and credit consumption (EPIC-3) | F-002    | FR-002-07, FR-002-08 | Backend Engineer  |
 | Should   | Export scoping and empty-export guard (EPIC-5) | F-004        | FR-004-04, FR-004-06 | Backend Engineer  |
-| Should   | Viewer invitation management tail (EPIC-7) | F-011            | FR-011-07, FR-011-08, FR-011-10 | Backend Engineer  |
+| Should   | ~~Viewer invitation management tail (EPIC-7)~~ superseded by ADR-020 | F-011            | FR-011-07, FR-011-08, FR-011-10 | Backend Engineer  |
 | Should   | Validation testing and accessibility audit (EPIC-9) | F-001 to F-011 | NFR-X03, NFR-X04, NFR-X05, NFR-X06, NFR-X07 | Tech Lead         |
 | Should   | Architecture guards and dependency review (EPIC-12) | F-001 to F-011 | NFR-X01, NFR-X03 | Tech Lead         |
 
@@ -306,7 +308,7 @@ MVP without a shippable end-to-end workflow. Re-derive these numbers if team siz
 ### Acceptance Criteria
 
 - [ ] All `Should` requirements in Phase 1 have explicit quality targets and owners.
-- [ ] Viewer-facing outputs remain readable, non-technical, and read-only.
+- [ ] Client-facing outputs remain readable, non-technical, and read-only.
 
 ---
 
@@ -380,6 +382,6 @@ MVP without a shippable end-to-end workflow. Re-derive these numbers if team siz
 
 ---
 
-**Last Updated**: 2026-07-30
+**Last Updated**: 2026-10-07
 
 > **Note (2026-10-02):** Rows and phases above that mention Viewer invitation, acceptance, or project-level access grants describe the original F-011. ADR-020 replaced them with account-free Client Review through a project access code, so EPIC-7 is no longer planned.

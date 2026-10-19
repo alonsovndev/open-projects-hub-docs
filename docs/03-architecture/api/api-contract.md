@@ -23,143 +23,132 @@ sidebar_position: 2
 
 ## API Scope and Conventions
 
-- **Base URL:** `/api/v1`
-- **Format:** `application/json; charset=utf-8`
-- **Authentication:** `Authorization: Bearer <jwt>` on protected endpoints (custom FastAPI JWT auth — see ADR-005).
-- **Token expiry:** access tokens expire after 15 minutes (configurable via `JWT_EXPIRE_MINUTES`). Refresh tokens are single-use with rotation; sessions slide 24h (standard) or 7d (remember-me) from the last refresh — see ADR-005.
-- **Field naming:** `camelCase`
-- **Datetime format:** ISO 8601 UTC (`YYYY-MM-DDTHH:MM:SSZ`)
-- **Workspaces:** every account belongs to one workspace (the tenant boundary owning clients and projects). Self sign-up creates a new workspace and its Admin; the Admin adds teammates to it. Clients have no account (see "Client Review" below).
+> **Source of truth.** The OpenAPI schema generated from the code (`open-projects-hub-api/docs/api/openapi.json`, regenerated with `make export-openapi`) is authoritative. This page explains the contract; where an example below differs from the OpenAPI schema, the schema wins.
+
+- **Base URL:** `/v1` (for example `https://api.example.com/v1/projects`). Health checks live outside it: `/health`, `/health/live`, `/health/ready`.
+- **Format:** `application/json; charset=utf-8`, except the Markdown export, which returns `text/markdown`.
+- **Authentication:** `Authorization: Bearer <jwt>` on protected endpoints (custom FastAPI JWT auth, ADR-005). Access tokens carry the user id, role, and workspace id (`wid`); refresh tokens are rejected as bearer tokens.
+- **Token expiry:** access tokens expire after 15 minutes. Refresh tokens are single-use with rotation; sessions slide 24h (standard) or 7d (remember-me) from the last refresh (ADR-005).
+- **Field naming:** `camelCase` in request and response bodies.
+- **Datetime format:** ISO 8601 UTC (`YYYY-MM-DDTHH:MM:SSZ`); project dates are `YYYY-MM-DD`.
+- **Errors:** `{"detail": "<message>"}`, sometimes with a machine-readable `code` (see [Error Response Schema](#error-response-schema)).
+- **Pagination:** `offset` and `limit` query parameters; responses are `{ items, total, page, per_page }` (see [Pagination Schema](#pagination-schema-collection-responses)).
+- **Workspaces:** every account belongs to one workspace (the tenant boundary owning clients and projects). Self sign-up creates a new workspace and its Admin; the Admin adds teammates to it. A record in another workspace answers `404`, never `403`. Clients have no account (see "Client Review" below).
 - **Roles:**
-  - `Admin`: full CRUD, plus adding members to the workspace
-  - `Member`: full CRUD on clients, projects, stories and refinement; no team management
-  - `Public` (no token): the Client Review route only. A client stakeholder holds a project access code and can read that one project's approved stories; see ADR-020.
+  - `Admin`: everything a Member can do, plus team management (add, deactivate, remove members) and renaming the workspace.
+  - `Member`: full CRUD on clients, projects, stories, refinement, and their own AI provider keys.
+  - `Public` (no token): auth endpoints and the Client Review route. A client stakeholder holds a project access code and can read that one project's approved stories (ADR-020).
 
 ## Endpoint Catalog
 
-| Domain       | Method | Endpoint                                                        | Purpose                                      | Roles            |
-| ------------ | ------ | --------------------------------------------------------------- | -------------------------------------------- | ---------------- |
-| Auth         | POST   | `/auth/register`                                                | Self sign-up: creates a new workspace + Admin | Public           |
-| Auth         | POST   | `/auth/login`                                                   | Login, return JWT access + refresh tokens    | Public           |
-| Auth         | POST   | `/auth/refresh`                                                 | Rotate a refresh token for a new token pair  | Public           |
-| Auth         | POST   | `/auth/logout`                                                  | Revoke the session's refresh token server-side | Admin, Member  |
-| Auth         | POST   | `/auth/verify-email`                                            | Submit email verification code               | Public           |
-| Auth         | POST   | `/auth/resend-verification`                                     | Resend verification code                     | Public           |
-| Auth         | POST   | `/auth/forgot-password`                                         | Request password reset code                  | Public           |
-| Auth         | POST   | `/auth/reset-password`                                          | Submit reset code + new password             | Public           |
-| Auth         | POST   | `/auth/resend-reset-code`                                       | Resend password reset code                   | Public           |
-| User         | GET    | `/users/me/profile`                                             | Get current user profile                     | Admin, Member    |
-| User         | PATCH  | `/users/me/profile`                                             | Update profile (display name, preferences)   | Admin, Member    |
-| Team         | POST   | `/users`                                                        | Add a member to the workspace                | Admin            |
-| Team         | GET    | `/users`                                                        | List the workspace's users                   | Admin, Member    |
-| Team         | GET    | `/users/{userId}`                                               | Get a user of the workspace                  | Admin, Member |
-| Credits      | GET    | `/users/me/credits`                                             | Get AI credit balance                        | Admin, Member    |
-| API Keys     | GET    | `/users/me/api-keys`                                            | List configured AI provider keys (masked)    | Admin            |
-| API Keys     | POST   | `/users/me/api-keys`                                            | Add or replace API key for a provider        | Admin            |
-| API Keys     | DELETE | `/users/me/api-keys/{provider}`                                 | Delete API key for a provider                | Admin            |
-| API Keys     | POST   | `/users/me/api-keys/{provider}/validate`                        | Validate an API key against provider         | Admin            |
-| Clients      | GET    | `/clients`                                                      | List clients                                 | Admin            |
-| Clients      | POST   | `/clients`                                                      | Create client                                | Admin            |
-| Clients      | GET    | `/clients/{clientId}`                                           | Get client details                           | Admin            |
-| Clients      | PATCH  | `/clients/{clientId}`                                           | Update client                                | Admin            |
-| Clients      | DELETE | `/clients/{clientId}`                                           | Archive client (soft-delete)                 | Admin            |
-| Projects     | GET    | `/projects`                                                     | List projects (with search/filter params)    | Admin, Member    |
-| Projects     | POST   | `/projects`                                                     | Create project (max 3 active)                | Admin            |
-| Projects     | GET    | `/projects/{projectId}`                                         | Get project details                          | Admin, Member    |
-| Projects     | PATCH  | `/projects/{projectId}`                                         | Update project metadata (incl. reactivate)   | Admin            |
-| Projects     | DELETE | `/projects/{projectId}`                                         | Archive project                              | Admin            |
-| Refinement   | GET    | `/projects/{projectId}/refinement-sessions`                     | List refinement sessions                     | Admin            |
-| Refinement   | POST   | `/projects/{projectId}/refinement-sessions`                     | Create draft from raw notes (AI refinement)  | Admin            |
-| Refinement   | POST   | `/refinement/generate-stories`                                  | Generate refined stories from raw notes; not stored (as implemented) | Admin |
-| Refinement   | POST   | `/refinement/approve-story`                                     | Approve one refined story; saved to backlog (as implemented) | Admin |
-| Refinement   | POST   | `/refinement/approve-stories`                                   | Approve several refined stories; saved to backlog (as implemented) | Admin |
-| Refinement   | GET    | `/projects/{projectId}/refinement-sessions/{sessionId}`         | Get session details + draft stories          | Admin            |
-| Refinement   | PUT    | `/projects/{projectId}/refinement-sessions/{sessionId}`         | Update draft and ambiguities                 | Admin            |
-| Refinement   | DELETE | `/projects/{projectId}/refinement-sessions/{sessionId}`         | Delete draft session                         | Admin            |
-| Refinement   | POST   | `/projects/{projectId}/refinement-sessions/{sessionId}/approve` | Approve draft as official requirements       | Admin            |
-| Requirements | GET    | `/projects/{projectId}/requirements`                            | List approved requirements                   | Admin, Member    |
-| Requirements | PUT    | `/projects/{projectId}/requirements/{requirementId}`            | Edit requirement                             | Admin            |
-| Requirements | DELETE | `/projects/{projectId}/requirements/{requirementId}`            | Archive requirement                          | Admin            |
-| Requirements | PATCH  | `/projects/{projectId}/requirements/reorder`                    | Reorder requirements (bulk sort-order)       | Admin            |
-| Exports      | POST   | `/projects/{projectId}/exports/markdown`                        | Generate markdown export                     | Admin            |
-| Exports      | GET    | `/projects/{projectId}/exports/{exportId}`                      | Retrieve export metadata/download URL        | Admin            |
-| Projects     | POST   | `/projects/{projectId}/access-code/regenerate`                  | Replace the project's client access code     | Admin, Member    |
-| Client Review | GET   | `/viewer/{accessCode}`                                          | Approved stories of one project, by access code | Public        |
+All paths are relative to `/v1`.
+
+| Domain | Method | Endpoint | Purpose | Roles |
+| --- | --- | --- | --- | --- |
+| Auth | POST | `/auth/register` | Self sign-up: creates a new workspace and its Admin (unverified) | Public |
+| Auth | POST | `/auth/verify-email` | Submit an email verification or invite code; invitees also set their password | Public |
+| Auth | POST | `/auth/resend-verification` | Resend the verification code | Public |
+| Auth | POST | `/auth/login` | Log in; returns access and refresh tokens | Public |
+| Auth | POST | `/auth/refresh` | Rotate a refresh token for a new token pair | Public |
+| Auth | POST | `/auth/logout` | Revoke the session's refresh token | Admin, Member |
+| Auth | POST | `/auth/forgot-password` | Request a password reset code | Public |
+| Auth | POST | `/auth/resend-reset-code` | Resend the reset code | Public |
+| Auth | POST | `/auth/reset-password` | Submit the reset code and a new password | Public |
+| User | GET | `/users/me/profile` | Current user's profile | Admin, Member |
+| User | PATCH | `/users/me/profile` | Update display name | Admin, Member |
+| User | POST | `/users/me/password` | Change password (requires the current one) | Admin, Member |
+| Team | GET | `/users` | List the workspace's users | Admin, Member |
+| Team | GET | `/users/{userId}` | One user of the workspace | Admin, Member |
+| Team | POST | `/users` | Invite a member to the workspace | Admin |
+| Team | PATCH | `/users/{userId}/status` | Activate or deactivate a member | Admin |
+| Team | DELETE | `/users/{userId}` | Remove a member | Admin |
+| Workspace | PATCH | `/workspaces/me` | Rename the workspace | Admin |
+| Credits | GET | `/users/me/credits` | AI credit balance | Admin, Member |
+| API Keys | GET | `/users/me/api-keys` | List the caller's provider keys (masked) | Admin, Member |
+| API Keys | POST | `/users/me/api-keys` | Add or replace a provider key | Admin, Member |
+| API Keys | DELETE | `/users/me/api-keys/{provider}` | Delete a provider key | Admin, Member |
+| API Keys | POST | `/users/me/api-keys/{provider}/validate` | Validate a key against the provider (5 per hour) | Admin, Member |
+| Clients | GET | `/clients` | List clients | Admin, Member |
+| Clients | POST | `/clients` | Create a client | Admin, Member |
+| Clients | GET | `/clients/{clientId}` | Client details | Admin, Member |
+| Clients | PATCH | `/clients/{clientId}` | Update a client | Admin, Member |
+| Clients | DELETE | `/clients/{clientId}` | Delete a client (`409` while it has active projects) | Admin, Member |
+| Projects | GET | `/projects` | List projects (`status`, `clientId`, `search`, `createdFrom`, `createdTo`) | Admin, Member |
+| Projects | POST | `/projects` | Create a project (max 3 active per workspace) | Admin, Member |
+| Projects | GET | `/projects/{projectId}` | Project details | Admin, Member |
+| Projects | PATCH | `/projects/{projectId}` | Update project metadata | Admin, Member |
+| Projects | DELETE | `/projects/{projectId}` | Delete a project and its stories | Admin, Member |
+| Projects | POST | `/projects/{projectId}/archive` | Archive a project | Admin, Member |
+| Projects | POST | `/projects/{projectId}/reactivate` | Reactivate an archived project (subject to the active limit) | Admin, Member |
+| Projects | POST | `/projects/{projectId}/access-code/regenerate` | Replace the project's client access code | Admin, Member |
+| Backlog | GET | `/projects/{projectId}/backlog` | The project's stories with acceptance criteria | Admin, Member |
+| Backlog | POST | `/projects/{projectId}/exports/markdown` | Download the backlog as Markdown | Admin, Member |
+| Stories | GET | `/stories` | List stories (`project_id`, `priority`) | Admin, Member |
+| Stories | POST | `/stories` | Create a story | Admin, Member |
+| Stories | GET | `/stories/by-project/{projectId}` | Stories of one project | Admin, Member |
+| Stories | GET | `/stories/{storyId}` | Story details | Admin, Member |
+| Stories | PATCH | `/stories/{storyId}` | Update a story | Admin, Member |
+| Stories | DELETE | `/stories/{storyId}` | Delete a story | Admin, Member |
+| Stories | POST | `/stories/{storyId}/assign` | Assign a story to a workspace user | Admin, Member |
+| Refinement | POST | `/refinement/generate-stories` | Generate refined stories from raw notes; not stored | Admin, Member |
+| Refinement | POST | `/refinement/approve-story` | Approve one refined story into the backlog | Admin, Member |
+| Refinement | POST | `/refinement/approve-stories` | Approve several refined stories | Admin, Member |
+| Dashboard | GET | `/dashboard/stats` | Project and story counts for the workspace | Admin, Member |
+| Client Review | GET | `/viewer/{accessCode}` | Approved stories of one project, by access code (30 requests/min per IP) | Public |
+
+Not built (superseded by ADR-019 or descoped): refinement sessions, requirement editing and reordering, and stored export records. Their detailed sections below are kept as history and marked.
 
 ## Shared JSON Schemas
 
 ### Error Response Schema
 
+Errors use FastAPI's `detail` field. Some carry a machine-readable `code` or extra fields the client acts on.
+
 ```json
 {
   "type": "object",
-  "required": ["error"],
+  "required": ["detail"],
   "properties": {
-    "error": {
-      "type": "object",
-      "required": ["code", "message", "requestId"],
-      "properties": {
-        "code": { "type": "string" },
-        "message": { "type": "string" },
-        "details": {
-          "type": "array",
-          "items": { "type": "object" }
-        },
-        "requestId": { "type": "string" }
-      }
-    }
+    "detail": { "type": "string" },
+    "code": { "type": "string" }
   }
 }
 ```
 
-Example:
+Examples:
 
 ```json
-{
-  "error": {
-    "code": "PROJECT_LIMIT_REACHED",
-    "message": "Maximum of 3 active projects reached.",
-    "details": [{ "field": "status", "issue": "archive an existing project first" }],
-    "requestId": "req_01JEXAMPLE9Y3"
-  }
-}
+{ "detail": "Project not found" }
 ```
+
+```json
+{ "detail": "Validation failed for field 'body -> name': Field required" }
+```
+
+```json
+{ "detail": "No AI credits remaining. Add your own API key to continue unlimited refinements.", "code": "INSUFFICIENT_CREDITS" }
+```
+
+Provider-key errors (`422`) add `provider`, `reason`, and `promptsKeyUpdate`. Rate-limited requests (`429`) return slowapi's body: `{ "error": "Rate limit exceeded: 5 per 1 minute" }`.
 
 ### Pagination Schema (Collection Responses)
 
+List endpoints take `offset` (default 0) and `limit` (default 20, max 100).
+
 ```json
 {
   "type": "object",
-  "required": ["data", "pagination"],
+  "required": ["items", "total", "page", "per_page"],
   "properties": {
-    "data": { "type": "array", "items": { "type": "object" } },
-    "pagination": {
-      "type": "object",
-      "required": ["page", "pageSize", "total", "totalPages"],
-      "properties": {
-        "page": { "type": "integer", "minimum": 1 },
-        "pageSize": { "type": "integer", "minimum": 1, "maximum": 100 },
-        "total": { "type": "integer", "minimum": 0 },
-        "totalPages": { "type": "integer", "minimum": 0 }
-      }
-    }
+    "items": { "type": "array", "items": { "type": "object" } },
+    "total": { "type": "integer", "minimum": 0 },
+    "page": { "type": "integer", "minimum": 1 },
+    "per_page": { "type": "integer", "minimum": 1, "maximum": 100 }
   }
 }
 ```
 
-Example:
-
-```json
-{
-  "data": [],
-  "pagination": {
-    "page": 1,
-    "pageSize": 20,
-    "total": 100,
-    "totalPages": 5
-  }
-}
-```
+`GET /clients` returns the same envelope with `perPage` instead of `per_page`.
 
 ### Status Code Matrix
 
@@ -182,7 +171,7 @@ Example:
 
 ### 1) Create Project
 
-- **Method/URL:** `POST /api/v1/projects`
+- **Method/URL:** `POST /v1/projects`
 - **Description:** Creates a project linked to a client. Rejects if freelancer already has 3 active projects.
 
 Request schema:
@@ -251,7 +240,7 @@ Status codes: `201`, `400`, `401`, `403`, `409`, `422`, `500`
 
 ### 2) List Projects (Paginated)
 
-- **Method/URL:** `GET /api/v1/projects?page=1&pageSize=20&phase=discovery&status=active&clientId=...&search=portal&dateFrom=2026-01-01&dateTo=2026-12-31`
+- **Method/URL:** `GET /v1/projects?page=1&pageSize=20&phase=discovery&status=active&clientId=...&search=portal&dateFrom=2026-01-01&dateTo=2026-12-31`
 **Description:** Returns projects visible to caller role. Supports optional filters.
 
 Query parameters:
@@ -297,11 +286,11 @@ Status codes: `200`, `400`, `401`, `403`, `500`
 
 ### 3) Create Refinement Session
 
-- **Method/URL:** `POST /api/v1/projects/{projectId}/refinement-sessions`
+- **Method/URL:** `POST /v1/projects/{projectId}/refinement-sessions`
 - **Description:** Accepts raw notes/bullets and returns structured draft plus ambiguity highlights. Consumes 1 AI credit if using platform credits (not user-provided API key).
 
 > **As implemented (EPIC-3 / EPIC-6).** The shipped endpoint is
-> `POST /api/v1/refinement/generate-stories`, which takes `projectId` in the body rather
+> `POST /v1/refinement/generate-stories`, which takes `projectId` in the body rather
 > than the path and returns the refined stories directly without storing them; the session
 > resource below has not been built and is superseded by ADR-019 (refined stories are held
 > client-side and saved only on approval via `POST /refinement/approve-story[ies]`). EPIC-6 extends the shipped endpoint rather than migrating it, since moving
@@ -412,10 +401,10 @@ Status codes: `201`, `400`, `401`, `402`, `403`, `404`, `422`, `500`
 
 ### 4) Approve Refinement Session
 
-- **Method/URL:** `POST /api/v1/projects/{projectId}/refinement-sessions/{sessionId}/approve`
+- **Method/URL:** `POST /v1/projects/{projectId}/refinement-sessions/{sessionId}/approve`
 - **Description:** Converts draft stories into official requirements.
 
-> **Superseded (ADR-019).** Not built. The shipped approval is `POST /api/v1/refinement/approve-story` (one) and `POST /api/v1/refinement/approve-stories` (several); the request carries the story content (`projectId`, `title`, `description`, `acceptanceCriteria`) because refined stories are not stored before approval.
+> **Superseded (ADR-019).** Not built. The shipped approval is `POST /v1/refinement/approve-story` (one) and `POST /v1/refinement/approve-stories` (several); the request carries the story content (`projectId`, `title`, `description`, `acceptanceCriteria`) because refined stories are not stored before approval.
 
 Request schema:
 
@@ -446,7 +435,9 @@ Status codes: `200`, `400`, `401`, `403`, `404`, `409`, `500`
 
 ### 5) List Requirements (Paginated)
 
-- **Method/URL:** `GET /api/v1/projects/{projectId}/requirements?page=1&pageSize=20`
+> **Superseded (ADR-019).** Not built. The backlog is read with `GET /v1/projects/{projectId}/backlog`.
+
+- **Method/URL:** `GET /v1/projects/{projectId}/requirements?page=1&pageSize=20`
 - **Description:** Returns approved requirement backlog for Admin/Member.
 
 Response example (`200`):
@@ -478,7 +469,9 @@ Status codes: `200`, `400`, `401`, `403`, `404`, `500`
 
 ### 6) Update Requirement
 
-- **Method/URL:** `PUT /api/v1/projects/{projectId}/requirements/{requirementId}`
+> **Superseded.** Not built. Stories are edited with `PATCH /v1/stories/{storyId}`.
+
+- **Method/URL:** `PUT /v1/projects/{projectId}/requirements/{requirementId}`
 - **Description:** Admin updates title/story/acceptance criteria.
 
 Request schema:
@@ -517,67 +510,48 @@ Status codes: `200`, `400`, `401`, `403`, `404`, `422`, `500`
 
 ### 7) Create Markdown Export
 
-- **Method/URL:** `POST /api/v1/projects/{projectId}/exports/markdown`
-- **Description:** Generates markdown artifact from approved requirements.
+- **Method/URL:** `POST /v1/projects/{projectId}/exports/markdown`
+- **Description:** Returns the project's backlog as a Markdown file in the response body. Nothing is stored server-side.
 
-Request schema:
+Request body (optional; an empty body exports the whole backlog):
 
 ```json
 {
   "type": "object",
-
   "properties": {
-
-    "status": { "type": "string", "enum": ["approved", "draft", "all"] },
+    "status": { "type": "string", "enum": ["todo", "in_progress", "blocked", "done"] },
     "dateFrom": { "type": "string", "format": "date" },
     "dateTo": { "type": "string", "format": "date" }
   }
 }
 ```
 
-Success response example (`201`):
+Success response (`200`): `Content-Type: text/markdown`, with these headers:
 
-```json
-{
-  "exportId": "55555555-5555-5555-5555-555555555555",
-  "projectId": "22222222-2222-2222-2222-222222222222",
-  "format": "markdown",
-  "status": "ready",
-  "downloadUrl": "https://storage.example.com/exports/55555555-5555-5555-5555-555555555555.md",
-  "createdAt": "2026-02-28T17:22:00Z"
-}
-```
+- `Content-Disposition: attachment; filename="<project>-backlog-<date>.md"`
+- `X-Export-Story-Count`: number of stories in the file
+- `X-Export-Warning` (optional): set when the export is empty or truncated
 
-Status codes: `201`, `400`, `401`, `403`, `404`, `409`, `500`
+Status codes: `200`, `401`, `404`, `422` (invalid scope), `500`
 
-### 8) Archive Resources
+### 8) Archive and Delete Resources
 
 - **Methods/URLs:**
-  - `DELETE /api/v1/clients/{clientId}`
-  - `DELETE /api/v1/projects/{projectId}`
-  - `DELETE /api/v1/projects/{projectId}/requirements/{requirementId}`
-- **Description:** Soft-archive resources; data remains auditable. Client archive blocked (409) if client has active projects.
+  - `POST /v1/projects/{projectId}/archive` and `POST /v1/projects/{projectId}/reactivate`: move a project between `active` and `archived`. Reactivation is refused (`409`) when the workspace already has 3 active projects.
+  - `DELETE /v1/projects/{projectId}`: permanently deletes the project and its stories.
+  - `DELETE /v1/clients/{clientId}`: permanently deletes the client and its archived projects. Refused with `409` while the client has active projects.
 
-Success response: `204 No Content`
+Success response: `200` (archive, reactivate) or `204 No Content` (delete)
 
-Status codes: `204`, `400`, `401`, `403`, `404`, `409`, `500`
-
-### Client archive blocked (409):
+### Client delete blocked (409):
 
 ```json
-{
-  "error": {
-    "code": "CLIENT_HAS_ACTIVE_PROJECTS",
-    "message": "Archive or reassign active projects before archiving this client.",
-    "details": [{ "field": "clientId", "issue": "has_active_projects" }],
-    "requestId": "req_01JEXAMPLE409C"
-  }
-}
+{ "detail": "Client 11111111-1111-1111-1111-111111111111 has active projects and cannot be deleted" }
 ```
 
 ### 9) Update Project
 
-- **Method/URL:** `PATCH /api/v1/projects/{projectId}`
+- **Method/URL:** `PATCH /v1/projects/{projectId}`
 - **Description:** Update project metadata, including status change (reactivate archived → active). 409 if reactivating would exceed 3-active limit.
 
 Request schema:
@@ -614,7 +588,7 @@ Status codes: `200`, `400`, `401`, `403`, `404`, `409`, `422`, `500`
 
 ### 10) Update Client
 
-- **Method/URL:** `PATCH /api/v1/clients/{clientId}`
+- **Method/URL:** `PATCH /v1/clients/{clientId}`
 - **Description:** Update client metadata.
 
 Request schema:
@@ -635,7 +609,7 @@ Success response example (`200`):
 {
   "id": "11111111-1111-1111-1111-111111111111",
   "name": "Acme Corp",
-  "contactEmail": "pm@acmecorp.com",
+  "contactEmail": "pm@example.com",
   "status": "active",
   "createdAt": "2026-02-28T17:00:00Z",
   "updatedAt": "2026-08-11T10:30:00Z"
@@ -646,7 +620,7 @@ Status codes: `200`, `400`, `401`, `403`, `404`, `500`
 
 ### 11) Auth — Login
 
-- **Method/URL:** `POST /api/v1/auth/login`
+- **Method/URL:** `POST /v1/auth/login`
 - **Description:** Authenticate with email and password. Returns a JWT access token plus a
   refresh token. `rememberMe` selects a 24h (default) or 7d sliding session — see ADR-005.
   Account locked after 5 failed attempts in 15 minutes.
@@ -695,7 +669,7 @@ Status codes: `200`, `400`, `401`, `422`, `429`, `500`
 
 ### 11a) Auth — Refresh
 
-- **Method/URL:** `POST /api/v1/auth/refresh`
+- **Method/URL:** `POST /v1/auth/refresh`
 - **Description:** Exchanges a refresh token for a new access/refresh pair (single-use rotation —
   the presented refresh token is rejected on any subsequent use). Carries the original session's
   `rememberMe` duration forward, sliding the session window from "now" per ADR-005.
@@ -726,7 +700,7 @@ Status codes: `200`, `401`, `429`, `500`
 
 ### 12) Auth — Register
 
-- **Method/URL:** `POST /api/v1/auth/register`
+- **Method/URL:** `POST /v1/auth/register`
 - **Description:** Open self sign-up. Each registration creates a new **workspace** (the tenant boundary that owns clients and projects) and makes the account its **Admin**; a `role` field in the body is rejected with `422`. The account is created **unverified** with no AI credits and is emailed a verification code. No tokens are returned: the account signs in only after verifying its email. An optional `workspaceName` (max 100 chars) names the workspace; it defaults to `"{displayName}'s workspace"`. Registering with an email that only has an **unverified** account (an abandoned sign-up, or someone added to a workspace who never confirmed) replaces that pending account rather than returning `409` — an unverified account never proved it owns the address. Teammates (`member`) are added to a workspace by its Admin via `POST /users`. Clients have no account.
 
 Request example:
@@ -755,10 +729,10 @@ Status codes: `201`, `409` (email already registered to a verified account), `42
 
 ### 13) Auth — Email Verification
 
-- **Method/URL:** `POST /api/v1/auth/verify-email`
+- **Method/URL:** `POST /v1/auth/verify-email`
 - **Description:** Submit the 6-character code emailed at registration. The code uses `23456789ABCDEFGHJKLMNPQRSTUVWXYZ`, is case-insensitive, is stored only as a hash, and expires after 5 minutes (24 hours for accounts an Admin adds). The email also links to the web verification page with the code pre-filled. Accounts an Admin adds send an optional `password` to choose their own. Success verifies the account and grants its free AI credits (F-010 FR-010-01).
 - **Errors:** one generic `400` "Invalid or expired verification code" covers a wrong, expired or superseded code, an unknown email, and an already-verified account. After 5 wrong attempts the code is locked (`429`) until a new one is requested.
-- **Resend:** `POST /api/v1/auth/resend-verification` with `{ "email" }`. It invalidates the previous code and emails a new one. It always returns `200` with a generic message (no email is sent for unknown or verified addresses). It returns `429` once 4 codes (the registration code plus 3 resends) have been issued within 15 minutes.
+- **Resend:** `POST /v1/auth/resend-verification` with `{ "email" }`. It invalidates the previous code and emails a new one. It always returns `200` with a generic message (no email is sent for unknown or verified addresses). It returns `429` once 4 codes (the registration code plus 3 resends) have been issued within 15 minutes.
 - **Login before verification:** `POST /auth/login` returns `403` with `{ "detail": "Please verify your email before signing in.", "code": "EMAIL_NOT_VERIFIED" }`, only after the password has matched.
 
 Request example:
@@ -782,9 +756,9 @@ Status codes: `200`, `400`, `422`, `429`, `500`
 
 ### 14) Auth — Password Reset
 
-- **Forgot password:** `POST /api/v1/auth/forgot-password` — privacy-preserving response (always returns 200 even if email not found). Sends 6-digit reset code.
-- **Reset password:** `POST /api/v1/auth/reset-password` — submits reset code + new password. Code expires after 30 minutes, single-use; the email links to the reset page with the code pre-filled.
-- **Resend code:** `POST /api/v1/auth/resend-reset-code` — max 3 per 15-minute window.
+- **Forgot password:** `POST /v1/auth/forgot-password` — privacy-preserving response (always returns 200 even if email not found). Sends 6-digit reset code.
+- **Reset password:** `POST /v1/auth/reset-password` — submits reset code + new password. Code expires after 30 minutes, single-use; the email links to the reset page with the code pre-filled.
+- **Resend code:** `POST /v1/auth/resend-reset-code` — max 3 per 15-minute window.
 
 Forgot password request schema:
 
@@ -837,7 +811,7 @@ Status codes (reset): `200`, `400`, `404`, `410`, `422`, `429`, `500`
 
 ### 15) Auth — Logout
 
-- **Method/URL:** `POST /api/v1/auth/logout`
+- **Method/URL:** `POST /v1/auth/logout`
 - **Description:** Requires a valid access token (`Authorization: Bearer`). Revokes the session's
   refresh token server-side so it cannot be replayed to mint further access tokens; idempotent for
   an already-expired/invalid refresh token. The access token itself remains valid until its own
@@ -867,8 +841,8 @@ Status codes: `200`, `401`, `403`, `500`
 
 ### 16) Team Management (Workspace Users)
 
-- **Method/URL:** `POST /api/v1/users`
-- **Description:** Adds a **member** to the caller's workspace. Requires the **Admin** role. `role` accepts only `member` (the default); `admin` and any other value are rejected with `422` — there is no way yet to demote or remove a second Admin, so a workspace cannot end up with one it did not choose. The account is created **unverified** and is emailed a verification code, exactly like self-registration: an Admin's word does not prove the address belongs to that person. AI credits are granted on verification (subject to the workspace's 25-credit lifetime ceiling). A workspace holds at most **5 users** (including inactive and unverified); adding a sixth answers `409`.
+- **Method/URL:** `POST /v1/users`
+- **Description:** Adds a **member** to the caller's workspace. Requires the **Admin** role. `role` accepts only `member` (the default); `admin` and any other value are rejected with `422` — there is no way yet to demote or remove a second Admin, so a workspace cannot end up with one it did not choose. The account is created **unverified** with no usable password. The invitee is emailed a 24-hour code and a link, and sets their own password when they submit it to `POST /v1/auth/verify-email`: an Admin's word does not prove the address belongs to that person. AI credits are granted on verification (subject to the workspace's 25-credit lifetime ceiling). A workspace holds at most **5 users** (including inactive and unverified); adding a sixth answers `409`.
 
 Request example:
 
@@ -876,7 +850,6 @@ Request example:
 {
   "displayName": "Alex Doe",
   "email": "alex@example.com",
-  "password": "TempP4ssword",
   "role": "member"
 }
 ```
@@ -894,15 +867,15 @@ Success response example (`201`):
 
 Status codes: `201`, `403` (not an Admin), `409` (email already registered), `422`, `500`
 
-- **Method/URL:** `GET /api/v1/users`
+- **Method/URL:** `GET /v1/users`
 - **Description:** Lists the caller's workspace users. Requires **Admin or Member**.
 
-- **Method/URL:** `GET /api/v1/users/{userId}`
+- **Method/URL:** `GET /v1/users/{userId}`
 - **Description:** Looks up one user by id, scoped to the caller's workspace. A user of another workspace, or an id that does not exist, both answer `404` — never `403`, so the response cannot confirm the id exists elsewhere.
 
 ### 17) User Profile
 
-- **Method/URL:** `GET /api/v1/users/me/profile`, `PATCH /api/v1/users/me/profile`
+- **Method/URL:** `GET /v1/users/me/profile`, `PATCH /v1/users/me/profile`
 - **Description:** Get or update current user's profile (display name, preferences, onboarding state).
 
 Response example (`200`):
@@ -935,7 +908,7 @@ Status codes: `200`, `400`, `401`, `422`, `500`
 
 ### 18) AI Credits
 
-- **Method/URL:** `GET /api/v1/users/me/credits`
+- **Method/URL:** `GET /v1/users/me/credits`
 - **Description:** Returns current AI credit balance. Admins and Members are granted 5 credits on email verification up to 25 per workspace in its lifetime.
 
 Response example (`200`):
@@ -951,10 +924,10 @@ Status codes: `200`, `401`, `500`
 
 ### 19) API Key Management
 
-- **List keys:** `GET /api/v1/users/me/api-keys` — returns configured providers with masked keys.
-- **Add/replace key:** `POST /api/v1/users/me/api-keys` — upsert an API key for a provider. Validates against provider on save.
-- **Delete key:** `DELETE /api/v1/users/me/api-keys/{provider}` — remove key for a provider.
-- **Validate key:** `POST /api/v1/users/me/api-keys/{provider}/validate` — tests key against provider's endpoint.
+- **List keys:** `GET /v1/users/me/api-keys` — returns configured providers with masked keys.
+- **Add/replace key:** `POST /v1/users/me/api-keys` — upsert an API key for a provider. Validates against provider on save.
+- **Delete key:** `DELETE /v1/users/me/api-keys/{provider}` — remove key for a provider.
+- **Validate key:** `POST /v1/users/me/api-keys/{provider}/validate` — tests key against provider's endpoint.
 
 List response example (`200`):
 
@@ -1021,12 +994,10 @@ Validation error response (`422`):
 
 ```json
 {
-  "error": {
-    "code": "API_KEY_INVALID",
-    "message": "Provider rejected the key. Check your API key and try again.",
-    "details": [],
-    "requestId": "req_01JEXAMPLE422K"
-  }
+  "detail": "Provider rejected the key. Check your API key and try again.",
+  "provider": "openai",
+  "reason": "auth_failed",
+  "promptsKeyUpdate": true
 }
 ```
 
@@ -1039,9 +1010,9 @@ Status codes (validate): `200`, `400`, `401`, `422`, `429`, `500`
 
 > **Superseded (ADR-019).** Not built and no longer planned: refined stories are not persisted, so there are no sessions to list, fetch or delete.
 
-- **List sessions:** `GET /api/v1/projects/{projectId}/refinement-sessions?status=draft` — returns sessions, optionally filtered by status.
-- **Get session:** `GET /api/v1/projects/{projectId}/refinement-sessions/{sessionId}` — get full session details with draft stories and ambiguities.
-- **Delete session:** `DELETE /api/v1/projects/{projectId}/refinement-sessions/{sessionId}` — delete a draft session (approved sessions cannot be deleted).
+- **List sessions:** `GET /v1/projects/{projectId}/refinement-sessions?status=draft` — returns sessions, optionally filtered by status.
+- **Get session:** `GET /v1/projects/{projectId}/refinement-sessions/{sessionId}` — get full session details with draft stories and ambiguities.
+- **Delete session:** `DELETE /v1/projects/{projectId}/refinement-sessions/{sessionId}` — delete a draft session (approved sessions cannot be deleted).
 
 List response example (`200`):
 
@@ -1070,7 +1041,9 @@ Status codes (delete): `204`, `401`, `403`, `404`, `409`, `500`
 
 ### 21) Requirements — Reorder
 
-- **Method/URL:** `PATCH /api/v1/projects/{projectId}/requirements/reorder`
+> **Not built (deferred).** Stories are listed in creation order; manual reordering (FR-004-03) is not implemented.
+
+- **Method/URL:** `PATCH /v1/projects/{projectId}/requirements/reorder`
 - **Description:** Bulk update sort order for requirements (drag-and-drop reorder in UI).
 
 Request schema:
@@ -1113,7 +1086,7 @@ Status codes: `204`, `400`, `401`, `403`, `404`, `422`, `500`
 
 ### 22) Client Review — Public Read
 
-`GET /api/v1/viewer/{accessCode}` — no authentication. Returns one project's approved stories for a client stakeholder who holds the project's access code (`PRJ-` plus 8 characters, generated by the server, unique across workspaces; not the freelancer-chosen project `code`).
+`GET /v1/viewer/{accessCode}` — no authentication. Returns one project's approved stories for a client stakeholder who holds the project's access code (`PRJ-` plus 8 characters, generated by the server, unique across workspaces; not the freelancer-chosen project `code`).
 
 Query parameters: `limit` (default 100, max 100), `offset` (default 0).
 
@@ -1150,129 +1123,28 @@ Not found (`404`) is identical for an unknown and a malformed code:
 
 The route is limited to 30 requests per minute per IP (`429`). Because the code is the only credential, a freelancer can replace it:
 
-`POST /api/v1/projects/{projectId}/access-code/regenerate` — Admin or Member. Returns the project with a new `accessCode`; the previous code and any link built from it stop working immediately.
+`POST /v1/projects/{projectId}/access-code/regenerate` — Admin or Member. Returns the project with a new `accessCode`; the previous code and any link built from it stop working immediately.
 
 Status codes (read): `200`, `404`, `422`, `429`
 Status codes (regenerate): `200`, `401`, `404`
 
 ## Standard Error Examples by Status
 
-### 400 Bad Request
+| Status | Example body |
+| --- | --- |
+| `400` | `{ "detail": "Current password is incorrect" }` |
+| `401` | `{ "detail": "Invalid credentials" }` |
+| `403` (unverified login) | `{ "detail": "...", "code": "EMAIL_NOT_VERIFIED" }` |
+| `402` | `{ "detail": "No AI credits remaining. Add your own API key to continue unlimited refinements.", "code": "INSUFFICIENT_CREDITS" }` |
+| `403` | `{ "detail": "Insufficient permissions" }` |
+| `404` | `{ "detail": "Project not found" }` |
+| `409` | `{ "detail": "Active project limit reached" }` |
+| `422` | `{ "detail": "Validation failed for field 'body -> name': Field required" }` |
+| `422` (provider key) | `{ "detail": "...", "provider": "openai", "reason": "auth_failed", "promptsKeyUpdate": true }` |
+| `429` | `{ "error": "Rate limit exceeded: 5 per 1 minute" }` |
+| `500` | `{ "detail": "An unexpected error occurred. Please try again later." }` (production) |
 
-```json
-{
-  "error": {
-    "code": "INVALID_QUERY_PARAM",
-    "message": "pageSize must be between 1 and 100.",
-    "details": [{ "field": "pageSize", "issue": "out_of_range" }],
-    "requestId": "req_01JEXAMPLE400"
-  }
-}
-```
-
-### 404 Not Found
-
-```json
-{
-  "error": {
-    "code": "PROJECT_NOT_FOUND",
-    "message": "Project was not found.",
-    "details": [],
-    "requestId": "req_01JEXAMPLE404"
-  }
-}
-```
-
-### 500 Internal Server Error
-
-```json
-{
-  "error": {
-    "code": "INTERNAL_SERVER_ERROR",
-    "message": "An unexpected error occurred.",
-    "details": [],
-    "requestId": "req_01JEXAMPLE500"
-  }
-}
-```
-
-### 401 Unauthorized
-
-```json
-{
-  "error": {
-    "code": "INVALID_CREDENTIALS",
-    "message": "Invalid email or password.",
-    "details": [],
-    "requestId": "req_01JEXAMPLE401"
-  }
-}
-```
-
-### 409 Conflict
-
-```json
-{
-  "error": {
-    "code": "PROJECT_LIMIT_REACHED",
-    "message": "Cannot reactivate project. Maximum of 3 active projects reached.",
-    "details": [{ "field": "status", "issue": "archive an existing project first" }],
-    "requestId": "req_01JEXAMPLE409P"
-  }
-}
-```
-
-### 422 Unprocessable Entity
-
-```json
-{
-  "error": {
-    "code": "VALIDATION_ERROR",
-    "message": "Password must be at least 8 characters and include a letter and a digit.",
-    "details": [{ "field": "password", "issue": "policy_violation" }],
-    "requestId": "req_01JEXAMPLE422"
-  }
-}
-```
-
-### 429 Too Many Requests
-
-```json
-{
-  "error": {
-    "code": "RATE_LIMIT_EXCEEDED",
-    "message": "Too many attempts. Please try again later.",
-    "details": [{ "field": "login", "issue": "account_locked" }],
-    "requestId": "req_01JEXAMPLE429"
-  }
-}
-```
-
-### AI Provider Errors (422)
-
-```json
-{
-  "error": {
-    "code": "AI_PROVIDER_ERROR",
-    "message": "OpenAI API request timed out after 30 seconds.",
-    "details": [{ "provider": "openai", "issue": "timeout" }],
-    "requestId": "req_01JEXAMPLEAI"
-  }
-}
-```
-
-### Insufficient Credits (402)
-
-```json
-{
-  "error": {
-    "code": "INSUFFICIENT_CREDITS",
-    "message": "No AI credits remaining. Add an API key or contact support.",
-    "details": [{ "creditsRemaining": 0 }],
-    "requestId": "req_01JEXAMPLECRD"
-  }
-}
-```
+Messages are illustrative; clients should branch on the status code and `code`, not on `detail` text.
 
 ## Observability (Sentry + CloudWatch)
 
@@ -1312,4 +1184,4 @@ Status codes (regenerate): `200`, `401`, `404`
 
 ---
 
-**Last Updated**: 2026-09-08
+**Last Updated**: 2026-10-07

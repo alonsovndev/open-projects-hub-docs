@@ -5,6 +5,8 @@
 - **Updated**: 2026-08-03
 - **Amended by**: [ADR-020](./adr-020-client-review-by-access-code.md) (2026-10-02): the `viewer` role is removed; roles are `admin` and `member`, and clients review through a project access code.
 
+> **Implementation note (2026-10-07):** PostgreSQL Row Level Security was not implemented. Tenant isolation is enforced in the application layer: every repository query is scoped by the caller's `workspace_id`, and records in another workspace return 404. See [Database Design](../03-architecture/database/database-design.md#security-and-data-governance).
+
 ## Context
 
 The platform must enforce strict Admin/Viewer access controls and secure session handling aligned with OWASP and MVP delivery constraints. The solution must support stateless scaling and integrate with AWS infrastructure while maintaining full control over authentication logic.

@@ -273,7 +273,7 @@ sequenceDiagram
     participant Client
     participant JWT as JWT Middleware
     participant RBAC as RBAC Permission Layer
-    participant RLS as PostgreSQL RLS
+    participant Repo as Workspace-scoped Repository
     participant DB as RDS PostgreSQL
 
     Client->>JWT: API request with Authorization: Bearer <JWT>
@@ -285,7 +285,7 @@ sequenceDiagram
     else Token expired
         JWT-->>Client: 401 Unauthorized
     else Token valid
-        JWT->>JWT: Decode claims {sub, email, role}
+        JWT->>JWT: Decode claims {sub, email, role, wid}
         JWT->>RBAC: Forward request + user context
 
         Note over RBAC: Layer 2 — RBAC Permission Layer
@@ -295,27 +295,21 @@ sequenceDiagram
                 RBAC-->>Client: 403 Forbidden
             end
         end
-        alt Route requires resource ownership
-            RBAC->>RBAC: Check owner = user_id
-            opt Not owner
-                RBAC-->>Client: 403 Forbidden
-            end
-        end
-        RBAC->>RLS: Forward request with user_id context
+        RBAC->>Repo: Forward request with workspace_id context
 
-        Note over RLS: Layer 3 — Row-Level Security
-        RLS->>DB: SELECT ... WHERE (RLS policy match)
-        alt Allowed
-            DB-->>RLS: Matching rows
-            RLS-->>Client: 200 OK (filtered data)
-        else Denied
-            DB-->>RLS: Empty result set
-            RLS-->>Client: 200/403 Filtered Response
+        Note over Repo: Layer 3 — Workspace scoping
+        Repo->>DB: SELECT ... WHERE workspace_id = :wid
+        alt Record in caller's workspace
+            DB-->>Repo: Matching rows
+            Repo-->>Client: 200 OK
+        else Record missing or in another workspace
+            DB-->>Repo: Empty result set
+            Repo-->>Client: 404 Not Found
         end
     end
 ```
 
-> **Defense-in-depth**: Each layer acts as an independent gate. JWT validates identity, RBAC enforces role/ownership, and RLS provides data-level last-mile protection. The public Client Review route sees one project's approved stories and nothing else.
+> **Defense-in-depth**: Each layer acts as an independent gate. JWT validates identity, RBAC enforces the role, and every repository query is filtered by the caller's workspace, so another workspace's records read as not found. The public Client Review route sees one project's approved stories and nothing else.
 
 ---
 
