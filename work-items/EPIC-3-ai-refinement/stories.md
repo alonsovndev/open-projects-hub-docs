@@ -358,21 +358,21 @@
 
 **Acceptance Criteria**:
 
-- [ ] Given every F-002 story in this epic is complete on `dev`, when the release PR to `main` is opened, then lint, test, type-check, docs, and `terraform plan` checks pass and 2 approvals are obtained.
-- [ ] Given the release PR is merged, when the release pipeline completes, then a sha-tagged candidate image exists in ECR and no deployment has yet occurred.
+- [ ] Given every F-002 story in this epic is complete on `dev`, when the release PR to `main` is opened, then the required status checks (lint, test, type-check, build) pass and the PR is merged with a real merge commit.
+- [ ] Given the release PR is merged, when the release pipeline completes, then `main` holds the release candidate and nothing is deployed yet.
 - [ ] Given pending Alembic migrations for F-002, when they are reviewed, then they are confirmed backward-compatible with the currently running version.
 - [ ] Given the semver impact is assessed, when the version is decided, then `package.json` / `pyproject.toml` are bumped (MINOR for a new feature) and `CHANGELOG.md` records the change.
-- [ ] Given a `vX.Y.Z` tag is pushed on `main`, when the deployment pipeline runs, then `terraform apply` completes, the candidate image is promoted to App Runner, and the frontend is published to S3 with CloudFront invalidated.
+- [ ] Given a `vX.Y.Z` tag is pushed on `main`, when the release workflow runs, then the API image is built and pushed to GHCR, an operator deploys it with `scripts/deploy-release.sh`, and the frontend is published by Cloudflare Builds from `main`.
 - [ ] Given the deployment completes, when the post-deploy smoke test runs against production, then an Admin can submit notes, receive refined output, edit it, and approve it into the backlog succeeds.
 - [ ] Given the release is live, when Sentry is checked, then a release exists for the commit SHA, source maps are uploaded, and release health is compared against the pre-deployment error baseline.
-- [ ] Given a regression is detected after release, when rollback is required, then the documented path is followed (redeploy the previous ECR image; fix-forward is the default).
+- [ ] Given a regression is detected after release, when rollback is required, then the documented path is followed (redeploy the previous tag with `scripts/deploy-release.sh`; fix-forward is the default).
 
 **Deliverables**:
 
-- Release PR `dev` -> `main` covering F-002 with green checks and 2 approvals.
+- Release PR `dev` -> `main` covering F-002 with green required checks, merged with a real merge commit.
 - Version bump, `CHANGELOG.md` entry, and `vX.Y.Z` tag pushed on `main`.
 - Production smoke test covering an Admin can submit notes, receive refined output, edit it, and approve it into the backlog.
-- Sentry release created with the commit SHA and source maps uploaded.
+- Sentry release created when a Sentry DSN is configured (optional).
 - GitHub release notes published describing the F-002 change.
 
 **Dependencies**:

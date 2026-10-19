@@ -29,15 +29,15 @@
 
 ---
 
-> **Status (2026-10-07):** Phase -1, Phase 0, and the MVP feature work are built; production release and the Phase 1 SEO and E2E items remain. Story-level status lives in `work-items/`. Viewer accounts (original F-011) were replaced by account-free Client Review (ADR-020).
+> **Status (2026-10-19):** Phase -1, Phase 0, and the MVP feature work are built and the first production release is live (API `v0.1.0` at `https://api-oph.alonsovndev.com`, web at `https://oph.alonsovndev.com`); the Phase 1 SEO and E2E items remain. Story-level status lives in `work-items/`. Viewer accounts (original F-011) were replaced by account-free Client Review (ADR-020).
 
 ## Phase Overview
 
 | Phase    | Name                               | Objective                                                              | Status  | Target Window      | Execution Mode |
 | -------- | ---------------------------------- | ---------------------------------------------------------------------- | ------- | ------------------ | -------------- |
 | Phase -1 | UI/UX Prototyping & Validation     | Validate UI designs and obtain stakeholder approval before development | Done | Week 0 (parallel)  | Parallel with Phase 0 |
-| Phase 0  | Foundation & Engineering Readiness | Establish development infrastructure and standards before feature work | Done (production deploy pipeline pending) | Week 0 (parallel)  | Parallel with Phase -1 |
-| MVP      | Core Planning Backbone             | Deliver core planning value with secure access and exports            | Built; release pending | Weeks 1-11         | Sequential |
+| Phase 0  | Foundation & Engineering Readiness | Establish development infrastructure and standards before feature work | Done (deploy is a manual script, ADR-023) | Week 0 (parallel)  | Parallel with Phase -1 |
+| MVP      | Core Planning Backbone             | Deliver core planning value with secure access and exports            | Built; first release live | Weeks 1-11         | Sequential |
 | Phase 1  | UX and Entry-Flow Hardening        | Improve onboarding, entry flow, monetization config, and UI craft     | Mostly built (SEO and E2E coverage open) | Weeks 12-19        | Sequential |
 | Phase 2  | Governance and Scale Preparation   | Prepare post-MVP governance, traceability depth, and scale plan       | Planned | TBD                | Sequential |
 
@@ -151,7 +151,7 @@
 
 | Priority | Task                                    | Owner            | Estimate | Deliverable                                      |
 | -------- | --------------------------------------- | ---------------- | -------- | ------------------------------------------------ |
-| Must     | Repository structure & tooling config   | Tech Lead        | 1 day    | Monorepo structure, linter configs, pre-commit hooks |
+| Must     | Repository structure & tooling config   | Tech Lead        | 1 day    | Repository structure, linter configs, pre-commit hooks |
 | Must     | Development environment setup guide     | Tech Lead        | 2 days   | `docs/development/SETUP.md`                      |
 | Must     | Project structure standards             | Tech Lead        | 1 day    | `docs/development/PROJECT_STRUCTURE.md`          |
 | Must     | CI/CD pipeline implementation           | Backend Engineer | 2-3 days | GitHub Actions workflows for backend + frontend  |
@@ -163,11 +163,11 @@
 
 ### Key Deliverables
 
-- **Monorepo structure:** Backend and frontend folders with Clean Architecture and feature-based organization.
+- **Repository structure:** Separate API and web repositories (plus infrastructure and docs) with Clean Architecture and feature-based organization.
 - **Development environment guide:** Complete setup documentation enabling < 30 minute onboarding.
 - **CI/CD pipelines:** Automated quality gates (lint, type-check, test) for backend and frontend.
 - **Database foundation:** PostgreSQL schema, migration framework (Alembic), and seed data for local development.
-- **API baseline:** FastAPI application with versioning (`/api/v1/`), JWT authentication, CORS, error handling, and health checks.
+- **API baseline:** FastAPI application with versioning (`/v1/`), JWT authentication, CORS, error handling, and health checks.
 - **Engineering standards:** Essential coding standards, testing patterns, and code review guidelines.
 - **Tooling configuration:** Black, Ruff, mypy (backend); ESLint, Prettier, TypeScript strict (frontend).
 
@@ -177,7 +177,7 @@
 - [x] Backend CI pipeline operational and passing (lint, type-check, test).
 - [x] Frontend CI pipeline operational and passing (lint, type-check, test).
 - [x] Database migrations execute successfully; seed data loads without errors.
-- [x] Health check endpoints (`/health`, `/ready`) respond with 200 status.
+- [x] Health check endpoints (`/health/live`, `/health/ready`) respond with 200 status.
 - [x] OpenAPI documentation endpoint (`/docs`) accessible and functional.
 - [x] All Phase 0 documentation reviewed and approved by engineering team.
 - [x] Branch protection rules active on `main` branch (require CI pass + 1 approval).
@@ -189,10 +189,10 @@
 - All MVP phase features (F-001 through F-011) - cannot start feature implementation without foundation.
 
 **Requires:**
-- Supabase project created and configured.
+- An AWS account and a Cloudflare account for hosting (see ADR-021, ADR-022).
 - GitHub repository initialized with appropriate permissions.
 - GitHub Actions enabled for CI/CD workflows.
-- Team access to development tools (Python 3.12+, Node.js 18+, Docker).
+- Team access to development tools (Python 3.12+, Node.js 22+, Docker).
 
 **Can Run in Parallel With:**
 - Phase -1 UI/UX Prototyping & Validation (no dependencies between backend setup and UI design)

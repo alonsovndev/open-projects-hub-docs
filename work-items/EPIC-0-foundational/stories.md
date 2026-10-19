@@ -334,49 +334,48 @@
 
 ---
 
-### US-EP0-BE-005: Production Deployment Pipeline
+### US-EP0-BE-005: Production Release Pipeline
 
 **Story ID**: US-EP0-BE-005
 **Epic Link**: EPIC-0
 **Issue Type**: Story
 **Priority**: Must Have
 **Effort Estimate**: 8
-**Status**: TODO
+**Status**: IN PROGRESS
 **Fix Version**: MVP-1
 **Labels**: backend, foundational, setup, ci-cd, deployment
 **Requirements**: n/a (foundational)
 
 **As a** Backend Engineer,
-**I want to** automate the tag-triggered production deployment pipeline,
-**So that** releases are repeatable, consistent, and require zero manual infrastructure steps.
+**I want to** build the release image from a version tag and deploy it with one documented command,
+**So that** releases are repeatable and the deploy path is reviewable.
+
+The original design promoted a candidate image through GitHub Actions to App Runner. The AWS account's service control policies forbid GitHub OIDC, so the image build stays in CI and the deploy is a manual script ([ADR-023](../../docs/04-decisions/adr-023-credits-account-us-east-2-manual-deploy.md)).
 
 **Acceptance Criteria**:
 
-- [ ] Given a release PR is merged to `main`, when the release pipeline runs, then a sha-tagged production image is built and pushed to ECR without deploying it.
-- [ ] Given a `vX.Y.Z` tag is pushed on `main`, when the deployment pipeline executes, then it promotes the existing candidate image without rebuilding.
-- [ ] Given pending infrastructure changes, when the deployment pipeline runs, then `terraform apply` completes before the application is deployed.
-- [ ] Given Alembic migrations are pending, when a migration fails, then the deployment pipeline fails and does not deploy the application against a mismatched schema.
-- [ ] Given the image is deployed, when App Runner performs the rolling replacement, then `/health` validates new instances before traffic shifts and the frontend is published to S3 with CloudFront invalidated.
-- [ ] Given a deployment failure, when the pipeline detects it, then the build is marked failed and an alert is raised.
-- [ ] Given environment variables and secrets, when deploying, then they are sourced from GitHub Actions encrypted secrets scoped to the `main` environment (never committed to the repo).
+- [x] Given a `vX.Y.Z` tag is pushed, when the release workflow runs, then it verifies the tag format and that the commit is on `main`, then builds and pushes `ghcr.io/alonsovndev/open-projects-hub-api:<tag>`. (The workflow in its current build-only form has not yet run on a new tag.)
+- [x] Given an image exists for a tag, when an operator runs `scripts/deploy-release.sh <tag>`, then the restricted `ophub-prod-deploy` SSM document pulls the image and restarts the stack, and the script smoke-tests the public path through Cloudflare. (Done for `v0.1.0`.)
+- [x] Given Alembic migrations are pending, when the API container starts, then they are applied before the application serves requests.
+- [x] Given a deployment fails, when the SSM command does not report `Success`, then the script exits with an error and prints the command output.
+- [x] Given environment variables and secrets, when deploying, then they come from SSM Parameter Store and are never committed to the repository.
+- [ ] Given a regression is detected, when rollback is required, then redeploying the previous tag with the same script restores it. (Documented; not yet exercised.)
 
 **Deliverables**:
 
-- Release PR workflow that builds and pushes a sha-tagged candidate image to ECR.
-- Tag-triggered production deployment workflow (promote image, `terraform apply`, migrations, App Runner deploy, S3 + CloudFront publish).
+- `.github/workflows/deploy.yml` (verify tag, build and push image) and `scripts/deploy-release.sh` in the API repository.
 - Environment configuration for local and production only (there is no staging environment per ADR-014).
-- Deployment documentation covering the rollback path (redeploy previous ECR image; fix-forward default).
+- Deployment documentation covering the rollback path (`docs/DEPLOYMENT.md`; fix-forward is the default).
 
 **Dependencies**:
 
-- [ADR-006: Deployment Platform](../../docs/04-decisions/adr-006-deployment-platform.md).
+- [ADR-021](../../docs/04-decisions/adr-021-low-cost-single-host-deployment.md), [ADR-023](../../docs/04-decisions/adr-023-credits-account-us-east-2-manual-deploy.md).
 - [CI/CD Pipeline Scaffolding](./stories.md#us-ep0-be-003-cicd-pipeline-scaffolding-and-testing-framework).
 
 **Success Metrics**:
 
-- Candidate image is available in ECR within 10 minutes of merge to `main`.
-- Production deployment is triggered solely by pushing a `vX.Y.Z` tag.
-- Zero manual steps required for standard deployments.
+- Production image is available in GHCR minutes after the tag is pushed.
+- Production deployment happens only when an operator runs the deploy script for a tag.
 
 ---
 
@@ -443,7 +442,7 @@
 
 **Acceptance Criteria**:
 
-- [ ] Given the frontend repository is cloned, when the dev server starts, then the app loads at localhost:3000 within 5 seconds.
+- [ ] Given the frontend repository is cloned, when the dev server starts, then the app loads at localhost:5173 within 5 seconds.
 - [ ] Given a file is modified, when the browser tab is refreshed, then hot-reload shows changes immediately (within 2 seconds).
 - [ ] Given TypeScript or JSX is used, then linting and type-checking provide real-time feedback in the editor.
 - [ ] Given the app is built, when production build completes, then output is optimized and under code-split warnings.

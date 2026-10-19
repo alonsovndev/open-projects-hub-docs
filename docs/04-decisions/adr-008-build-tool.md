@@ -16,7 +16,7 @@ Use **Vite** for frontend build/dev workflows and **Docker multi-stage builds** 
 ### Positive
 
 - Faster frontend feedback loop and optimized bundles.
-- Consistent backend runtime across development and Render deployments.
+- Consistent backend runtime across development and production deployments.
 - Improves deployment predictability via immutable images.
 
 ### Negative
@@ -31,4 +31,4 @@ Use **Vite** for frontend build/dev workflows and **Docker multi-stage builds** 
    - Not selected because Vite offers faster default developer experience.
 2. **No containerization for backend**
    - Considered for simpler initial setup.
-   - Not selected because Render deployment model and environment parity favor Docker.
+   - Not selected because environment parity between development and the deployed host favors Docker.

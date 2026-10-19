@@ -32,24 +32,24 @@ sidebar_position: 1
 
 ---
 
-This document captures key user and system interaction flows for the Open Projects Hub. All diagrams reflect the current AWS-based architecture: **FastAPI backend on App Runner**, **custom JWT auth**, **RDS PostgreSQL**, **S3 + CloudFront frontend**, and **S3 file storage**.
+This document captures key user and system interaction flows for the Open Projects Hub. All diagrams reflect the deployed architecture: **FastAPI backend in Docker on one EC2 host behind Cloudflare**, **custom JWT auth**, **PostgreSQL in a container**, and a **React frontend on Cloudflare Workers**. Participant labels in the older diagrams say "RDS PostgreSQL" for the database; read them as the PostgreSQL container ([ADR-021](../../04-decisions/adr-021-low-cost-single-host-deployment.md)).
 
 ## 1) Authentication and Session Validation
 
 ```mermaid
 sequenceDiagram
     participant User as Admin/Member
-    participant FE as Frontend (S3 + CloudFront)
-    participant BE as Backend (App Runner)
-    participant DB as RDS PostgreSQL
+    participant FE as Frontend (Cloudflare Workers)
+    participant BE as Backend (EC2, FastAPI)
+    participant DB as PostgreSQL
 
     User->>FE: Submit credentials (email + password)
-    FE->>BE: POST /api/v1/auth/login
+    FE->>BE: POST /v1/auth/login (X-Session-Mode: cookie)
     BE->>DB: SELECT user + bcrypt.verify
     DB-->>BE: User record (hashed password)
-    BE->>BE: Sign JWT (HS256, 1-hour expiry)
-    BE-->>FE: 200 {access_token, expires_in: 3600}
-    FE->>FE: Store token (memory / HttpOnly cookie)
+    BE->>BE: Sign access JWT (15-minute expiry) and refresh JWT
+    BE-->>FE: 200 {accessToken, ...} + Set-Cookie oph_refresh_token (HttpOnly; Secure; SameSite=Lax; Path=/v1/auth)
+    FE->>FE: Keep access token in application state (not localStorage)
     Note over User,BE: ── Subsequent authenticated requests ──
     FE->>BE: API request with Authorization: Bearer <JWT>
     BE->>BE: Verify signature + expiration
@@ -57,7 +57,7 @@ sequenceDiagram
     BE-->>FE: Authorized response
 ```
 
-> **Key details**: bcrypt cost factor 12; JWT signed with HS256 using env-var secret; 1-hour default expiry (configurable via `JWT_EXPIRE_MINUTES`). Token validation runs on every protected route.
+> **Key details**: bcrypt cost factor 12; JWT signed with HS256 using a secret from SSM; 15-minute access tokens. In a browser session (`X-Session-Mode: cookie` from a trusted origin) the refresh token travels only in the HttpOnly cookie; other clients exchange it in the request body. Token validation runs on every protected route.
 
 ## 2) AI-Assisted Requirements Refinement
 
@@ -66,7 +66,7 @@ sequenceDiagram
     participant Admin
     participant FE as Frontend
     participant BE as Backend API
-    participant DB as RDS PostgreSQL
+    participant DB as PostgreSQL
     participant AI as AI Refinement Adapter
 
     Admin->>FE: Enter raw notes and submit
@@ -84,7 +84,7 @@ sequenceDiagram
     participant Admin
     participant FE as Frontend
     participant BE as Backend API
-    participant DB as RDS PostgreSQL
+    participant DB as PostgreSQL
     participant Stakeholder as Client Stakeholder
 
     Admin->>FE: Approve selected stories
@@ -106,17 +106,14 @@ sequenceDiagram
     participant Admin
     participant FE as Frontend
     participant BE as Backend API
-    participant DB as RDS PostgreSQL
-    participant Storage as S3 Bucket
+    participant DB as PostgreSQL
 
     Admin->>FE: Request markdown export
-    FE->>BE: POST /projects/{id}/exports/markdown
+    FE->>BE: POST /v1/projects/{id}/exports/markdown
     BE->>DB: Retrieve approved requirements
     DB-->>BE: Approved user stories
-    BE->>BE: Generate markdown document
-    BE->>Storage: Store export artifact (SSE-S3 encrypted)
-    Storage-->>BE: Object key + metadata
-    BE-->>FE: 201 {exportId, format: "markdown", downloadUrl, createdAt}
+    BE->>BE: Generate markdown document in memory
+    BE-->>FE: 200 markdown document (nothing is stored)
     FE-->>Admin: Download export file
 ```
 
@@ -127,17 +124,17 @@ sequenceDiagram
     participant User
     participant FE as Frontend (React SPA)
     participant BE as Backend API (FastAPI)
-    participant Sentry
+    participant Sentry as Sentry (optional)
 
     User->>FE: Trigger action with invalid payload
     FE->>BE: API request
-    BE-->>FE: 400/422 validation error (canonical error format)
-    FE->>Sentry: Capture client context + error breadcrumb
-    BE->>Sentry: Capture exception + request metadata (requestId, endpoint, role, projectId)
+    BE-->>FE: 400/422 validation error (canonical error format, X-Request-ID header)
+    BE->>BE: Log structured JSON with request_id
+    BE-->>Sentry: Capture unexpected exceptions only when SENTRY_DSN is set
     FE-->>User: Show actionable error message
 ```
 
-> **Observability stack**: Sentry Free Developer Plan (app errors, React failures, Web Vitals, route performance, release tagging) + CloudWatch Free Tier (infrastructure metrics: App Runner CPU/memory, RDS connections/storage, 5xx alarms).
+> **Observability stack**: structured JSON logs read from the container, optional backend Sentry, and host health checks. See [Monitoring and Observability](../ops/monitoring-observability.md); the frontend has no error-tracking SDK.
 
 ---
 
@@ -148,12 +145,12 @@ sequenceDiagram
     participant User
     participant FE as Frontend
     participant BE as Backend API
-    participant DB as RDS PostgreSQL
+    participant DB as PostgreSQL
     participant Email as Email Service
 
     User->>FE: Fill registration form (email + password)
     FE->>FE: Client-side validation (8+ chars, uppercase, digit, special)
-    FE->>BE: POST /api/v1/auth/register {email, password}
+    FE->>BE: POST /v1/auth/register {email, password}
     BE->>BE: Validate password policy
     BE->>DB: Check duplicate email
     alt Email already registered
@@ -167,7 +164,7 @@ sequenceDiagram
         BE-->>FE: 201 {masked email confirmation}
         FE-->>User: "Check your email for verification code"
         User->>FE: Enter 6-digit code
-        FE->>BE: POST /api/v1/auth/verify-email {code}
+        FE->>BE: POST /v1/auth/verify-email {code}
         BE->>DB: Validate code (not expired, matches hash)
         alt Code invalid or expired
             BE-->>FE: 400 error (allow resend up to 3x per 15 min)
@@ -192,11 +189,11 @@ sequenceDiagram
     participant User
     participant FE as Frontend
     participant BE as Backend API
-    participant DB as RDS PostgreSQL
+    participant DB as PostgreSQL
     participant Email as Email Service
 
     User->>FE: Click "Forgot Password" → enter email
-    FE->>BE: POST /api/v1/auth/password-reset {email}
+    FE->>BE: POST /v1/auth/forgot-password {email}
     BE->>DB: Check if email exists
     Note over BE: Privacy-preserving response — no account-existence disclosure
     alt Account exists
@@ -206,15 +203,12 @@ sequenceDiagram
     end
     BE-->>FE: 200 "If account exists, email sent"
     FE-->>User: Masked email confirmation
-    User->>FE: Enter received code
-    FE->>BE: POST /api/v1/auth/password-reset-confirm {code}
+    User->>FE: Enter received code + new password
+    FE->>BE: POST /v1/auth/reset-password {email, code, newPassword}
     BE->>DB: Validate code (not expired, not used, matches hash)
     alt Invalid / expired code
-        BE-->>FE: 400 error (allow resend up to 3x per 15 min)
+        BE-->>FE: 400 error (resend with POST /v1/auth/resend-reset-code)
     else Code valid
-        BE-->>FE: 200 prompt for new password
-        User->>FE: Enter + confirm new password
-        FE->>BE: POST /api/v1/auth/password-reset-confirm {newPassword}
         BE->>DB: Update password (bcrypt, cost 12), invalidate code
         BE-->>FE: 200 "Password changed successfully"
         FE-->>User: Redirect to login
@@ -230,11 +224,11 @@ sequenceDiagram
     participant User
     participant FE as Frontend
     participant BE as Backend API
-    participant DB as RDS PostgreSQL
+    participant DB as PostgreSQL
 
     User->>FE: Enter email + password (optionally check "Remember Me")
     FE->>FE: Client-side validation (email format, min-length)
-    FE->>BE: POST /api/v1/auth/login {email, password, rememberMe}
+    FE->>BE: POST /v1/auth/login {email, password, rememberMe}
     BE->>DB: SELECT user + attempt counter + lockout state
     DB-->>BE: User record + failure metadata
     alt Account locked (5 failures / 15 min window)
@@ -242,12 +236,13 @@ sequenceDiagram
         FE-->>User: Display lockout message + countdown
     else Credentials valid
         BE->>BE: Reset failure counter
-        BE->>BE: Sign JWT (HS256) — standard expiry: 1h, "remember me": 7d
+        BE->>BE: Sign 15-minute access JWT (HS256) and refresh JWT — sliding session: 24h standard, 7d "remember me"
         BE->>DB: Store session metadata
-        BE-->>FE: 200 {access_token, expires_in}
+        BE-->>FE: 200 {accessToken, ...} + refresh cookie
         Note over User,BE: ── Session lifetime ──
-        FE->>FE: 5 min before expiry → show "Extend session?" warning
-        opt Session expired
+        FE->>BE: On a 401, POST /v1/auth/refresh (single-use rotation) and retry the request
+        FE->>FE: 5 min before the session's sessionExpiresAt → show "Extend session?" warning
+        opt Refresh rejected or session expired
             FE-->>User: Redirect to login ("Session expired.")
         end
     else Invalid credentials
@@ -256,7 +251,7 @@ sequenceDiagram
     end
     opt User clicks logout
         User->>FE: Click logout
-        FE->>BE: POST /api/v1/auth/logout
+        FE->>BE: POST /v1/auth/logout
         BE->>DB: Invalidate session token
         FE-->>User: Redirect to landing page
     end
@@ -274,7 +269,7 @@ sequenceDiagram
     participant JWT as JWT Middleware
     participant RBAC as RBAC Permission Layer
     participant Repo as Workspace-scoped Repository
-    participant DB as RDS PostgreSQL
+    participant DB as PostgreSQL
 
     Client->>JWT: API request with Authorization: Bearer <JWT>
 
@@ -320,7 +315,7 @@ sequenceDiagram
     participant Freelancer as Admin / Member
     participant FE as Frontend
     participant BE as Backend API
-    participant DB as RDS PostgreSQL
+    participant DB as PostgreSQL
     participant Stakeholder as Client Stakeholder
 
     Note over Freelancer,DB: ── Freelancer shares a project ──
@@ -365,7 +360,7 @@ sequenceDiagram
     participant User
     participant FE as Frontend
     participant BE as Backend API
-    participant DB as RDS PostgreSQL
+    participant DB as PostgreSQL
     participant AI as AI Provider
 
     Note over User,DB: ── Free credits lifecycle ──
@@ -385,7 +380,7 @@ sequenceDiagram
     Note over User,DB: ── API key management ──
     User->>FE: Settings → API Keys → select provider (Gemini / OpenAI / DeepSeek)
     FE->>FE: API key input form
-    FE->>BE: POST /api/v1/users/me/api-keys {provider, apiKey}
+    FE->>BE: POST /v1/users/me/api-keys {provider, apiKey}
     BE->>AI: Validate key via provider test endpoint
     alt Key valid
         AI-->>BE: 200 OK
@@ -415,7 +410,7 @@ sequenceDiagram
     end
 ```
 
-> **Key storage**: AES-256 encrypted at rest in RDS. Decrypted only at runtime during refinement. Plaintext never retrievable. No "Copy" button in UI. Post-verification hook (F-008 → F-010) grants 5 free credits on account activation.
+> **Key storage**: AES-256 encrypted at rest in PostgreSQL. Decrypted only at runtime during refinement. Plaintext never retrievable. No "Copy" button in UI. Post-verification hook (F-008 → F-010) grants 5 free credits on account activation.
 
 ---
 
@@ -430,7 +425,7 @@ sequenceDiagram
     participant Provider as Stage 3: AI Provider
     participant Validate as Stage 4: Output Validation
     participant Approve as Stage 5: Approval Gate
-    participant DB as RDS PostgreSQL
+    participant DB as PostgreSQL
 
     User->>FE: Submit raw requirements notes
     FE->>Sanitize: Raw input (max 5,000 chars)
@@ -485,59 +480,40 @@ sequenceDiagram
 ```mermaid
 sequenceDiagram
     actor Dev as Developer
-    participant Fork as GitHub Fork
-    participant CI as GitHub Actions CI
-    participant DevBranch as upstream/dev
-    participant Main as upstream/main
-    participant ECR as Amazon ECR
-    participant AppRunner as AWS App Runner
-    participant S3 as S3 + CloudFront
-    participant RDS as RDS PostgreSQL
-    participant Sentry
+    participant CI as GitHub Actions
+    participant DevBranch as origin/dev
+    participant Main as origin/main
+    participant GHCR as GitHub Container Registry
+    participant CF as Cloudflare (web + docs)
+    participant SSM as AWS SSM (ophub-prod-deploy)
+    participant Host as EC2 host (Docker Compose)
 
-    Note over Dev,DevBranch: ── Feature PR Pipeline (fork → dev) ──
-    Dev->>Fork: git push feature branch
-    Dev->>Fork: Open PR → upstream/dev
-    CI->>CI: Run checks: lint, test, type-check, docs
-    CI->>CI: Docker build verification
-    CI->>CI: terraform plan (preview)
-    Note over CI: All status checks must pass
-    DevBranch->>DevBranch: 1 approval → merge (standard merge commit)
+    Note over Dev,DevBranch: ── Feature PR (feature/* → dev) ──
+    Dev->>CI: Open PR into dev
+    CI->>CI: lint, type-check, unit tests, build (per repository)
+    DevBranch->>DevBranch: Required checks pass → merge
 
-    Note over DevBranch,Main: ── Release PR Pipeline (dev → main) ──
-    Dev->>Main: Open PR: dev → main
-    CI->>CI: Re-run critical tests
-    CI->>ECR: Build + push production Docker image (git-sha tagged)
-    CI->>CI: terraform plan
-    Note over Main: 2 approvals required
-    Main->>Main: Merge → freezes production candidate (no deploy yet)
+    Note over DevBranch,Main: ── Release PR (dev → main) ──
+    Dev->>Main: Open PR dev → main, merge with a real merge commit
+    Dev->>DevBranch: Fast-forward dev to main (sync-dev)
+    CF->>CF: Cloudflare Builds publishes web / docs from main
 
-    Note over Main,Sentry: ── Production Deployment (tag vX.Y.Z) ──
-    Dev->>Main: git tag vX.Y.Z && git push upstream vX.Y.Z
-    CI->>CI: Terraform apply (infrastructure changes)
-    CI->>RDS: Alembic migrations (init container)
-    CI->>AppRunner: Deploy Docker image (rolling, zero-downtime)
-    CI->>S3: Deploy frontend build + invalidate CloudFront cache
-    CI->>CI: Smoke tests (auth, core CRUD workflows)
-    CI->>Sentry: Tag release for error correlation
-    Note over AppRunner,Sentry: CloudWatch monitors deployment health (5xx rate, latency, CPU)
+    Note over Main,Host: ── API release (tag vX.Y.Z) ──
+    Dev->>Main: git tag vX.Y.Z && git push origin vX.Y.Z
+    CI->>CI: Verify tag format and that the commit is on main
+    CI->>GHCR: Build and push ghcr.io/…/open-projects-hub-api:vX.Y.Z
+    Dev->>SSM: scripts/deploy-release.sh vX.Y.Z (operator AWS credentials)
+    SSM->>Host: Run deploy.sh for the tag (pull image, compose up)
+    Host->>Host: Alembic migrations run when the API container starts
+    Dev->>Host: Smoke test through Cloudflare (JSON 401 on /v1/users/me/profile)
 
-    Note over Dev,Main: ── Hotfix path ──
-    opt Critical production bug
-        Dev->>Main: Create hotfix branch from main → PR to main (2 approvals)
-        Main->>Main: Merge → tag vX.Y.PATCH → deploy
-        Dev->>DevBranch: Back-merge hotfix into dev
-    end
-
-    Note over ECR,AppRunner: ── Rollback ──
-    opt Deployment failure
-        CI->>AppRunner: Redeploy previous Docker image from ECR
-        CI->>S3: Redeploy previous frontend artifacts
-        CI->>RDS: Forward-fix migration (preferred) or PITR restore (emergency)
+    Note over Dev,Host: ── Rollback ──
+    opt Release misbehaves
+        Dev->>SSM: scripts/deploy-release.sh <previous tag>
     end
 ```
 
-> **Branch model**: Two permanent branches (`dev` + `main`), fork-based contributions, tag-triggered production deploys. Merge to `main` = candidate freeze; tag `vX.Y.Z` = deploy to production. See the [CI/CD Pipeline](../ops/ci-cd-pipeline.md) for full details on branching strategy, fork setup, and commit conventions.
+> **Branch model**: Two permanent branches (`dev` + `main`), direct-repository feature branches, and tag-triggered image builds. GitHub OIDC is not available in the AWS account, so the deploy step is run by a person ([ADR-023](../../04-decisions/adr-023-credits-account-us-east-2-manual-deploy.md)). See the [CI/CD Pipeline](../ops/ci-cd-pipeline.md) for branching, deploy and rollback details.
 
 ---
 

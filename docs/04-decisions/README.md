@@ -4,31 +4,32 @@ This folder contains the Architectural Decision Records (ADRs) for the Open Proj
 
 ## Decision Log
 
-| ADR ID | Title |
-|--------|-------|
-| [ADR-001](./adr-001-high-level-architecture.md) | High-Level Architecture Pattern (Modular Monolith) |
-| [ADR-002](./adr-002-backend-framework.md) | Backend Framework (FastAPI) |
-| [ADR-003](./adr-003-frontend-framework.md) | Frontend Framework (React + TypeScript) |
-| [ADR-004](./adr-004-database.md) | Database (Amazon RDS PostgreSQL) |
-| [ADR-005](./adr-005-authentication.md) | Authentication and Authorization Strategy (Custom Auth + JWT) |
-| [ADR-006](./adr-006-deployment-platform.md) | Deployment Platform (AWS), superseded in part by ADR-021 |
-| [ADR-007](./adr-007-orm-choice.md) | ORM Choice (SQLAlchemy) |
-| [ADR-008](./adr-008-build-tool.md) | Build Tooling (Vite + Docker) |
-| [ADR-009](./adr-009-monitoring-observability.md) | Monitoring and Observability (Sentry + CloudWatch) |
-| [ADR-010](./adr-010-testing-framework.md) | Testing Framework Strategy (Pytest, Vitest, Playwright) |
-| [ADR-011](./adr-011-secrets-management.md) | Secrets Management Strategy |
-| [ADR-012](./adr-012-containerization.md) | Containerization Strategy (Docker) |
-| [ADR-013](./adr-013-infrastructure-as-code.md) | Infrastructure as Code Strategy (Terraform) |
-| [ADR-014](./adr-014-environment-strategy.md) | Environment Strategy (Local / Container / Dev) |
-| [ADR-015](./adr-015-code-quality-tooling.md) | Code Quality Tooling Strategy |
-| [ADR-016](./adr-016-git-workflow-strategy.md) | Git Workflow and Branch Strategy |
-| [ADR-017](./adr-017-database-migration-strategy.md) | Database Migration Strategy (Alembic) |
-| [ADR-018](./adr-018-user-api-key-encryption.md) | User API Key Encryption at Rest |
-| [ADR-019](./adr-019-no-persisted-draft-stories.md) | Do Not Persist Draft Stories |
-| [ADR-020](./adr-020-client-review-by-access-code.md) | Client Review by Project Access Code (No Viewer Accounts) |
-| [ADR-021](./adr-021-low-cost-single-host-deployment.md) | Low-Cost Single-Host Deployment (CloudFront + EC2), entry point replaced by ADR-022 |
-| [ADR-022](./adr-022-cloudflare-edge-instead-of-cloudfront.md) | Cloudflare Edge Instead of CloudFront |
-| [ADR-023](./adr-023-credits-account-us-east-2-manual-deploy.md) | Credits Account in us-east-2 and Manual Deploys (No GitHub OIDC) |
+| ADR ID | Title | Status | Amended or superseded by |
+|--------|-------|--------|--------------------------|
+| [ADR-001](./adr-001-high-level-architecture.md) | High-Level Architecture Pattern (Modular Monolith) | Accepted | [ADR-020](./adr-020-client-review-by-access-code.md) (roles) |
+| [ADR-002](./adr-002-backend-framework.md) | Backend Framework (FastAPI) | Accepted | - |
+| [ADR-003](./adr-003-frontend-framework.md) | Frontend Framework (React + TypeScript) | Accepted | [ADR-020](./adr-020-client-review-by-access-code.md) (roles); the app now runs React 19 |
+| [ADR-004](./adr-004-database.md) | Database (PostgreSQL; RDS replaced by a container) | Accepted | [ADR-021](./adr-021-low-cost-single-host-deployment.md) (runs as a container, not RDS) |
+| [ADR-005](./adr-005-authentication.md) | Authentication and Authorization Strategy (Custom Auth + JWT) | Accepted | [ADR-020](./adr-020-client-review-by-access-code.md) (roles) |
+| [ADR-006](./adr-006-deployment-platform.md) | Deployment Platform (AWS) | Superseded in part | [ADR-021](./adr-021-low-cost-single-host-deployment.md), [ADR-022](./adr-022-cloudflare-edge-instead-of-cloudfront.md) |
+| [ADR-007](./adr-007-orm-choice.md) | ORM Choice (SQLAlchemy) | Accepted | - |
+| [ADR-008](./adr-008-build-tool.md) | Build Tooling (Vite + Docker) | Accepted | - |
+| [ADR-009](./adr-009-monitoring-observability.md) | Monitoring and Observability (Sentry + CloudWatch) | Accepted | [ADR-021](./adr-021-low-cost-single-host-deployment.md) (CloudWatch alarms not deployed) |
+| [ADR-010](./adr-010-testing-framework.md) | Testing Framework Strategy (Pytest, Vitest, Playwright) | Accepted | - |
+| [ADR-011](./adr-011-secrets-management.md) | Secrets Management Strategy | Accepted | [ADR-021](./adr-021-low-cost-single-host-deployment.md) (SSM Parameter Store) |
+| [ADR-012](./adr-012-containerization.md) | Containerization Strategy (Docker) | Accepted | [ADR-021](./adr-021-low-cost-single-host-deployment.md) (Docker Compose on EC2, not App Runner) |
+| [ADR-013](./adr-013-infrastructure-as-code.md) | Infrastructure as Code Strategy (Terraform) | Accepted | [ADR-021](./adr-021-low-cost-single-host-deployment.md), [ADR-023](./adr-023-credits-account-us-east-2-manual-deploy.md) (resources actually managed) |
+| [ADR-014](./adr-014-environment-strategy.md) | Environment Strategy (Local / Container / Dev) | Accepted | [ADR-021](./adr-021-low-cost-single-host-deployment.md) (one deployed environment) |
+| [ADR-015](./adr-015-code-quality-tooling.md) | Code Quality Tooling Strategy | Accepted | - |
+| [ADR-016](./adr-016-git-workflow-strategy.md) | Git Workflow and Branch Strategy | Accepted | - |
+| [ADR-017](./adr-017-database-migration-strategy.md) | Database Migration Strategy (Alembic) | Accepted | [ADR-021](./adr-021-low-cost-single-host-deployment.md) (database is not RDS) |
+| [ADR-018](./adr-018-user-api-key-encryption.md) | User API Key Encryption at Rest | Accepted | - |
+| [ADR-019](./adr-019-no-persisted-draft-stories.md) | Do Not Persist Draft Stories | Accepted | - |
+| [ADR-020](./adr-020-client-review-by-access-code.md) | Client Review by Project Access Code (No Viewer Accounts) | Accepted | - |
+| [ADR-021](./adr-021-low-cost-single-host-deployment.md) | Low-Cost Single-Host Deployment (EC2) | Accepted; entry point, account, region and deploy replaced | [ADR-022](./adr-022-cloudflare-edge-instead-of-cloudfront.md), [ADR-023](./adr-023-credits-account-us-east-2-manual-deploy.md) |
+| [ADR-022](./adr-022-cloudflare-edge-instead-of-cloudfront.md) | Cloudflare Edge Instead of CloudFront | Accepted | - |
+| [ADR-023](./adr-023-credits-account-us-east-2-manual-deploy.md) | Credits Account in us-east-2 and Manual Deploys (No GitHub OIDC) | Accepted | - |
+| [ADR-024](./adr-024-email-delivery-with-resend.md) | Transactional Email with Resend (SMTP Relay) | Accepted | - |
 
 ## Creating a New ADR
 
@@ -41,4 +42,4 @@ Use the [ADR Template](./adr-template.md) for all new decisions.
 
 ---
 
-**Last Updated**: 2026-10-10
+**Last Updated**: 2026-10-19

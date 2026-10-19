@@ -88,7 +88,7 @@ This document explicitly lists features, capabilities, and enhancements that are
 | ------------------------------------------ | ------------------------------------------- | ------------ |
 | Multi-region deployment                    | Single-region deployment sufficient for MVP | —            |
 | Advanced monitoring and alerting           | Basic infrastructure monitoring sufficient  | —            |
-| Automated backups beyond platform defaults | Supabase/Render defaults sufficient         | —            |
+| Automated database backups                 | Single-host deployment with no backups by design ([ADR-021](../04-decisions/adr-021-low-cost-single-host-deployment.md)) | —            |
 
 ---
 

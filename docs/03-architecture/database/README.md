@@ -14,7 +14,7 @@ migrations in `open-projects-hub-api`.
 
 ## Related Architecture Decision Records
 
-- [ADR-004: Database (Amazon RDS PostgreSQL)](../../04-decisions/adr-004-database.md)
+- [ADR-004: Database (PostgreSQL)](../../04-decisions/adr-004-database.md)
 - [ADR-005: Authentication and Authorization Strategy](../../04-decisions/adr-005-authentication.md)
 - [ADR-007: ORM Choice (SQLAlchemy)](../../04-decisions/adr-007-orm-choice.md)
 - [ADR-017: Database Migration Strategy](../../04-decisions/adr-017-database-migration-strategy.md)
@@ -81,4 +81,4 @@ This domain covers:
 ## Source References
 
 - [PostgreSQL Documentation](https://www.postgresql.org/docs/current/)
-- [Amazon RDS for PostgreSQL](https://aws.amazon.com/rds/postgresql/)
+- [PostgreSQL 15 official image](https://hub.docker.com/_/postgres)
