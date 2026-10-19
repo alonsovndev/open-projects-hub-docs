@@ -10,6 +10,8 @@ sidebar_position: 2
 | **Version** | 2.1               |
 | **Status**  | Accepted          |
 
+> **Note (2026-10-19):** this page was written for the original AWS design (App Runner, RDS, S3 + CloudFront, CloudWatch). The deployed system is a Cloudflare Workers frontend and one EC2 host (Caddy, API and PostgreSQL containers) behind the Cloudflare proxy, with secrets in SSM Parameter Store; see [ADR-021](../../04-decisions/adr-021-low-cost-single-host-deployment.md), [ADR-022](../../04-decisions/adr-022-cloudflare-edge-instead-of-cloudfront.md), [ADR-023](../../04-decisions/adr-023-credits-account-us-east-2-manual-deploy.md) and the [Deployment Architecture](../ops/deployment-architecture.md). Where a control below names an AWS managed service, read it as the equivalent on that host; controls on the application (authentication, authorization, rate limiting, encryption of user keys, security headers) are implemented as described.
+
 ## Table of Contents
 
 - Threat Model
@@ -105,7 +107,7 @@ sidebar_position: 2
 
 - Enforce strong password policy (8+ chars, mixed case, digits) and bcrypt hashing (cost factor 12).
 - Implement secure password reset flow with single-use, expiring tokens per F-009.
-- Implement JWT token security: short TTL (1h), secure transmission (Authorization header), and storage in `HttpOnly` cookies.
+- Implement JWT token security: short TTL (15 minutes), bearer header transmission, and a rotating refresh token kept in an `HttpOnly` cookie scoped to `/v1/auth`.
 - Implement secret lifecycle controls: `.gitignore` enforcement, pre-commit hooks (gitleaks), no secrets in logs.
 - Secure RDS credentials: AWS Secrets Manager or App Runner environment variables, never in source control.
 - Harden CI/CD: branch protection, required PR reviews, dependency scanning.

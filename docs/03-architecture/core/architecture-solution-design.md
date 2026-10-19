@@ -7,7 +7,7 @@ sidebar_position: 1
 | Attribute   | Value             |
 | ----------- | ----------------- |
 | **Project** | Open Projects Hub |
-| **Version** | 1.0               |
+| **Version** | 1.1               |
 | **Status**  | Accepted          |
 
 ## Table of Contents
@@ -20,11 +20,7 @@ sidebar_position: 1
   - [Component Design](#component-design)
   - [Data Flow](#data-flow)
   - [Integration Points](#integration-points)
-  - [Observability (Hybrid: Sentry + CloudWatch)](#observability-hybrid-sentry--cloudwatch)
-    - [Sentry (Free Developer Plan)](#sentry-free-developer-plan)
-    - [CloudWatch (Free Tier)](#cloudwatch-free-tier)
-    - [Key Signals to Monitor](#key-signals-to-monitor)
-    - [Alerting Configuration](#alerting-configuration)
+  - [Observability](#observability)
   - [Deployment Impact (GitHub Actions + AWS)](#deployment-impact-github-actions--aws)
   - [Security Considerations](#security-considerations)
   - [Scalability Considerations](#scalability-considerations)
@@ -68,36 +64,36 @@ For detailed rationale and alternatives considered, see [ADR-001: High-Level Arc
 
 ```mermaid
 flowchart LR
-    U[Admin / Member / Client Stakeholder] --> FE[S3 + CloudFront<br/>Frontend Project]
-    FE -->|JWT Bearer Token| BE[App Runner<br/>Backend Project<br/>includes Auth Module]
-    BE --> DB[(RDS PostgreSQL)]
-    FE --> SEN[Sentry Frontend<br/>Monitoring]
-    BE --> SEN
-    BE --> CW[CloudWatch<br/>Infrastructure Metrics]
+    U[Admin / Member / Client Stakeholder] --> FE[Cloudflare Workers<br/>Frontend Project]
+    FE -->|HTTPS, Bearer token| CF[Cloudflare proxy<br/>api-oph.alonsovndev.com]
+    CF --> BE[EC2 host: Caddy + FastAPI<br/>Backend Project<br/>includes Auth Module]
+    BE --> DB[(PostgreSQL container<br/>EBS volume)]
+    BE --> MAIL[Resend SMTP<br/>verification codes]
+    BE -.->|optional, DSN set| SEN[Sentry]
 ```
 
-- **Frontend Project (S3 + CloudFront):** UI workflows for project management, AI refinement interaction, and read-only client review access; global edge delivery via CDN.
-- **Backend Project (App Runner):** modular monolith organized by bounded contexts (clients, projects, requirements, auth, access control, exports); containerized FastAPI application with integrated auth module.
-- **Data Layer (RDS PostgreSQL):** transactional persistence; tenant isolation is enforced by workspace-scoped repository queries.
+- **Frontend Project (Cloudflare Workers):** UI workflows for project management, AI refinement interaction, and read-only client review access; static assets served from Cloudflare's edge.
+- **Backend Project (one EC2 host):** modular monolith organized by bounded contexts (clients, projects, stories, refinement, auth, workspaces, dashboard); a containerized FastAPI application with an integrated auth module, behind Caddy and the Cloudflare proxy.
+- **Data Layer (PostgreSQL container):** transactional persistence; tenant isolation is enforced by workspace-scoped repository queries.
 
 ## Data Flow
 
 ```mermaid
 sequenceDiagram
     participant User as Admin
-    participant FE as Frontend (S3+CloudFront)
-    participant BE as Backend (App Runner)<br/>Auth Module
+    participant FE as Frontend (Cloudflare Workers)
+    participant BE as Backend (EC2, Caddy + FastAPI)<br/>Auth Module
     participant AI as AI Refinement Adapter
-    participant DB as RDS PostgreSQL
+    participant DB as PostgreSQL
 
     User->>FE: Submit requirements notes
-    FE->>BE: Request with JWT token
-    BE->>BE: Validate JWT & extract role
+    FE->>BE: Request with bearer token
+    BE->>BE: Validate token & extract role
     BE->>AI: Request refinement (raw notes, not persisted)
     AI-->>BE: Structured user story + acceptance criteria
     BE-->>FE: Structured user stories (unapproved, not stored)
     User->>FE: Approve stories
-    FE->>BE: Approve request (JWT)
+    FE->>BE: Approve request (bearer token)
     BE->>BE: Validate auth + role check
     BE->>DB: Commit approved backlog artifacts
     DB-->>BE: Success
@@ -106,81 +102,51 @@ sequenceDiagram
 
 ## Integration Points
 
-- **S3 + CloudFront frontend → App Runner backend:** HTTPS REST APIs with JWT bearer token authentication.
-- **Backend → RDS PostgreSQL database:** persistence through backend-owned, workspace-scoped access patterns.
-- **Authentication flow:** Backend auth module (internal bounded context) issues JWT tokens via `/auth/login` endpoint; tokens are consumed by frontend and validated by backend middleware on all protected routes.
+- **Frontend → backend:** HTTPS REST APIs under `/v1/*` with bearer-token authentication; the browser calls `https://api-oph.alonsovndev.com` directly (cross-origin, credentials allowed for `https://oph.alonsovndev.com`).
+- **Backend → PostgreSQL:** persistence through backend-owned, workspace-scoped access patterns.
+- **Authentication flow:** the backend auth module (internal bounded context) issues a 15-minute access token on `/v1/auth/login` and a refresh token in an HttpOnly cookie scoped to `/v1/auth`; the access token is validated on all protected routes.
 - **External service integrations:**
-  - Sentry for centralized frontend/backend error tracking and application performance monitoring.
-  - CloudWatch for AWS infrastructure metrics (App Runner, RDS, S3, CloudFront).
+  - Resend SMTP relay for registration verification and password-reset codes ([ADR-024](../../04-decisions/adr-024-email-delivery-with-resend.md)).
+  - AI providers (Gemini, OpenAI, DeepSeek) for story refinement, using platform credits or a user's own encrypted key ([ADR-018](../../04-decisions/adr-018-user-api-key-encryption.md)).
+  - Sentry for backend error tracking, active only when a DSN is configured.
 
-## Observability (Hybrid: Sentry + CloudWatch)
+## Observability
 
-**Zero-cost monitoring strategy maintaining $0/month:**
+Sized for a single host and near-zero traffic; see [Monitoring and Observability](../ops/monitoring-observability.md) for the full picture.
 
-### Sentry (Free Developer Plan)
-
-- Capture frontend runtime errors, failed API interactions, and degraded user journeys.
-- Capture backend exceptions, request failures, and high-latency endpoints.
-- Performance monitoring: page loads, API latency, transaction traces.
-- Track release versions from CI/CD for regression correlation.
-- Custom dashboards (up to 10) for key application metrics.
-- Email alerts for critical errors.
-
-### CloudWatch (Free Tier)
-
-- Monitor AWS infrastructure metrics (always free):
-  - App Runner: CPU, memory, request count, latency
-  - RDS: connections, CPU, storage, read/write IOPS
-  - S3: storage size, request count
-  - CloudFront: data transfer, request count, cache hit rate
-- Application logs with structured JSON (≤5 GB/month ingestion).
-- Critical infrastructure alarms (≤10 alarms within free tier).
-- **No custom metrics** (avoid $0.30/metric/month charge).
-
-### Key Signals to Monitor
-
-- API error rate (Sentry)
-- p95 latency for core requirement workflows (Sentry + CloudWatch)
-- Authentication failure trends (Sentry)
-- Export failure rate (Sentry)
-- RDS connection pool health (CloudWatch)
-- App Runner memory/CPU utilization (CloudWatch)
-
-### Alerting Configuration
-
-- Sustained elevated error rate → Sentry email alert
-- Repeated auth failures → Sentry email alert
-- Critical path latency degradation → Sentry performance alert
-- RDS connection saturation → CloudWatch alarm
-- App Runner health check failures → CloudWatch alarm
+- **Health:** `/health/live` and `/health/ready` are checked on the host (they are not routed through Cloudflare).
+- **Logs:** structured container logs, read with `docker compose logs` over SSM.
+- **Errors:** Sentry when `SENTRY_DSN` is set.
+- **Cost:** two AWS Budgets (a real-charge alert and a gross-usage alert).
+- **Not deployed:** CloudWatch alarms, dashboards and uptime probes.
 
 ## Deployment Impact (GitHub Actions + AWS)
 
-- **Pipeline stages:** documentation checks (if configured), quality gates for app repos, and environment-based deployments to AWS.
+- **Pipeline stages:** quality gates on pull requests in each repository; on a `vX.Y.Z` tag the API workflow verifies the tag is on `main` and publishes the image to GHCR.
 - **Deployment strategy:**
-  - Frontend: Build with Vite → Deploy to S3 → Invalidate CloudFront cache.
-  - Backend: Build Docker image → Push to ECR → Deploy to App Runner (zero-downtime rolling update).
-- **Rollback:** revert deployment artifact/commit and redeploy prior stable version via GitHub Actions.
-- **Migration strategy:** versioned, backward-compatible database migrations; apply before backend rollout requiring new schema.
-- **Environment management:** separate dev/staging/prod secrets stored in GitHub Secrets and AWS environment variables.
-- **Zero-downtime approach:** stateless backend processes with App Runner health checks and rolling replacement.
-- **Pre-deploy verification:** validate auth flow, core CRUD flows, and requirements export workflow in non-production environment.
+  - Frontend: Cloudflare Workers builds and serves the Vite output.
+  - Backend: an operator runs `scripts/deploy-release.sh <tag>`, which triggers the `ophub-prod-deploy` SSM document on the host to pull the image and restart the Compose stack. GitHub OIDC is not available in the AWS account ([ADR-023](../../04-decisions/adr-023-credits-account-us-east-2-manual-deploy.md)).
+- **Rollback:** redeploy a previous tag with the same script.
+- **Migration strategy:** versioned Alembic migrations applied when the API container starts.
+- **Environment management:** one deployed environment; secrets live in SSM Parameter Store and are written to the host by the deploy script.
+- **Downtime:** the single API container restarts on each deploy, so a short interruption is expected.
+- **Post-deploy verification:** the script smoke-tests the routing through Cloudflare; the authenticated flow (register, verify, log in, create a project) is checked by hand.
 
 ## Security Considerations
 
 - Enforce role-based authorization for Admin and Member capabilities, and confine the public Client Review route to one project's approved stories.
-- Apply least-privilege access across frontend, backend, and database policies.
+- Apply least-privilege access across frontend, backend, and database access.
 - Use HTTPS-only communication across all service boundaries.
 - Protect sensitive data with managed encryption at rest and in transit.
 - Prevent abuse with request validation, rate limiting, and secure session/token lifecycle controls.
 
 ## Scalability Considerations
 
-- Maintain stateless backend components to allow horizontal scaling.
+- Keep the backend stateless apart from the database so it could be scaled out later; the deployed system is one host.
 - Keep modules isolated so hotspots can be independently optimized or extracted later.
 - Use database indexing and query discipline for requirements and project listing paths.
 - Keep workflows synchronous and optimize critical paths before introducing additional infrastructure.
-- Keep frontend independently scalable via global edge distribution.
+- The frontend scales independently through Cloudflare's edge.
 
 ## Trade-offs and Alternatives
 
@@ -194,10 +160,14 @@ sequenceDiagram
 ## ADR Reference
 
 - [ADR-001: High-Level Architecture](../../04-decisions/adr-001-high-level-architecture.md)
-- [ADR-004: Database (Amazon RDS PostgreSQL)](../../04-decisions/adr-004-database.md)
+- [ADR-004: Database (PostgreSQL)](../../04-decisions/adr-004-database.md)
 - [ADR-005: Authentication (Custom FastAPI Auth + JWT)](../../04-decisions/adr-005-authentication.md)
-- [ADR-006: Deployment Platform (AWS)](../../04-decisions/adr-006-deployment-platform.md)
-- [ADR-009: Monitoring and Observability (Sentry + CloudWatch)](../../04-decisions/adr-009-monitoring-observability.md)
+- [ADR-006: Deployment Platform (AWS)](../../04-decisions/adr-006-deployment-platform.md), superseded in part
+- [ADR-021: Low-Cost Single-Host Deployment](../../04-decisions/adr-021-low-cost-single-host-deployment.md)
+- [ADR-022: Cloudflare Edge](../../04-decisions/adr-022-cloudflare-edge-instead-of-cloudfront.md)
+- [ADR-023: Credits Account and Manual Deploys](../../04-decisions/adr-023-credits-account-us-east-2-manual-deploy.md)
+- [ADR-024: Email with Resend](../../04-decisions/adr-024-email-delivery-with-resend.md)
+- [ADR-009: Monitoring and Observability](../../04-decisions/adr-009-monitoring-observability.md), amended
 
 ## Source References
 
@@ -207,4 +177,4 @@ sequenceDiagram
 
 ---
 
-**Last Updated**: 2026-09-08
+**Last Updated**: 2026-10-19

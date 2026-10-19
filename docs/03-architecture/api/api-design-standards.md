@@ -19,22 +19,22 @@ sidebar_position: 1
 - [Response Format Conventions](#response-format-conventions)
 - [Authentication and Authorization Patterns](#authentication-and-authorization-patterns)
 - [Rate Limiting and Throttling](#rate-limiting-and-throttling)
-- [Observability (Sentry + CloudWatch)](#observability-sentry--cloudwatch)
+- [Observability](#observability)
 - [Deployment Impact (GitHub Actions)](#deployment-impact-github-actions)
 
 ## API Style
 
 - **Primary style:** REST JSON APIs for all core business workflows.
 - **GraphQL stance:** Not adopted for MVP to reduce operational and governance complexity.
-- **Resource naming:** plural, kebab-case nouns in paths (e.g., `/api/v1/projects`, `/api/v1/requirements`).
-- **Self/current-user resources:** the authenticated caller's own data is addressed as `/{plural-resource}/me/...` (e.g., `/api/v1/users/me/profile`, `/api/v1/users/me/password`) — never a singular resource root.
-- **Relationship access:** nested routes only when ownership is explicit (e.g., `/api/v1/projects/{projectId}/requirements`).
+- **Resource naming:** plural, kebab-case nouns in paths (e.g., `/v1/projects`, `/v1/requirements`).
+- **Self/current-user resources:** the authenticated caller's own data is addressed as `/{plural-resource}/me/...` (e.g., `/v1/users/me/profile`, `/v1/users/me/password`) — never a singular resource root.
+- **Relationship access:** nested routes only when ownership is explicit (e.g., `/v1/projects/{projectId}/requirements`).
 - **Action endpoints:** avoid verbs in URLs; non-CRUD actions use sub-resources (e.g., `/approve`, `/archive`) only when domain-specific behavior is required.
 - **HTTP methods:** `GET` (read), `POST` (create), `PUT` (full resource replace — all fields required in the request), `PATCH` (partial update — fields optional), `DELETE` (soft-archive/remove).
 
 ## Versioning Strategy
 
-- **Default:** URL-based semantic major versioning: `/api/v1/...`.
+- **Default:** URL-based semantic major versioning: `/v1/...`.
 - **Change policy:**
   - non-breaking changes (optional fields, new endpoints) stay in the same major version,
   - breaking contract changes require a new major version (`v2`).
@@ -91,7 +91,7 @@ sidebar_position: 1
 - **Authorization model:** hybrid RBAC + data-level policies.
   - API layer enforces role permissions (Admin/Member capabilities; the public Client Review route is the only anonymous exception).
   - Repositories filter every query by the caller's workspace; another workspace's records return 404.
-- **Token requirements:** short-lived access tokens (1-hour default, configurable via `JWT_EXPIRE_MINUTES`). Refresh tokens deferred to Phase 2.
+- **Token requirements:** short-lived access tokens (15 minutes) and single-use rotating refresh tokens, delivered as an `HttpOnly` cookie in browser sessions.
 - **Service trust boundary:** backend validates JWT signature, expiration, and required claims on every protected request.
 
 ## Rate Limiting and Throttling
@@ -103,13 +103,10 @@ sidebar_position: 1
 - **Response body for throttling:** same canonical error format with `code=RATE_LIMIT_EXCEEDED`.
 - **Implementation approach:** backend middleware with database-backed counters and endpoint-level guardrails.
 
-## Observability (Sentry + CloudWatch)
+## Observability
 
-- Attach `requestId`, endpoint, actor role, and version (`v1`) as Sentry context for API errors.
-- Track key API metrics in Sentry Performance: error rate, p95 latency, and 429 frequency by route.
-- CloudWatch monitors infrastructure-level API metrics (RDS connectivity, App Runner health).
-- Alert on sustained spikes in `5xx` and `429` responses.
-- Use release tagging from CI to correlate regressions with deployments.
+- Include the request identifier (`X-Request-ID`) in logs and error context.
+- Backend errors go to Sentry when a DSN is configured; the deployed host has no CloudWatch alarms. See [Monitoring and Observability](../ops/monitoring-observability.md).
 
 ## Deployment Impact (GitHub Actions)
 
