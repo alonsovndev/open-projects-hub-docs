@@ -49,8 +49,10 @@ Requirements in this repository must be implementation-agnostic where possible, 
 
 This repo is also the source for its own documentation *site* (Docusaurus, `docs/` as
 content root). This is distinct from the product CI/CD documented under
-`docs/03-architecture/ops/` — `.github/workflows/deploy.yml` builds and publishes this
-docs site itself, not the Open Projects Hub product.
+`docs/03-architecture/ops/` — once configured per `README.md`, Cloudflare Builds
+publishes this docs site to a separate Worker at
+`https://oph-docs.alonsovndev.com`, configured by
+`wrangler.jsonc`. `.github/workflows/build.yml` validates it without publishing.
 
 - Follow the existing numbered top-level structure (`00-context` … `05-prototype`) and
   each folder's `_category_.json` / `README.md` conventions when adding new pages. Note:

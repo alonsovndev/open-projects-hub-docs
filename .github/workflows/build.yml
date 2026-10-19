@@ -1,20 +1,25 @@
 name: Build Docs
 
-# Builds the site on PRs and dev pushes without deploying, so broken links and anchors
-# (onBrokenLinks/onBrokenAnchors: throw) fail before anything reaches main.
+# Cloudflare Builds owns publishing; GitHub Actions only validates the site.
 on:
   pull_request:
     branches: [main, dev]
   push:
-    branches: [dev]
+    branches: [main, dev]
+  workflow_dispatch:
 
 permissions:
   contents: read
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     name: Build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
     steps:
       - name: Checkout
         uses: actions/checkout@v7
@@ -22,11 +27,14 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v7
         with:
-          node-version: '20'
+          node-version: '22'
           cache: 'npm'
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Check types
+        run: npm run typecheck
 
       - name: Build website
         run: npm run build
