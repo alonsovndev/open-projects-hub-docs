@@ -9,6 +9,8 @@ Open Projects Hub is a master's final project exploring AI-assisted requirements
 
 The project demonstrates a working software design and implementation. Benefits such as time saved or better requirements quality remain evaluation goals; no measured user-study results are recorded in this repository.
 
+The project presentation is available as [slides (PowerPoint)](https://oph-docs.alonsovndev.com/tfm/open-projects-hub-tfm.pptx).
+
 ## Recommended reading path
 
 | Step | Review question | Evidence |
