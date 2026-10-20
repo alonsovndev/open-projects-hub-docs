@@ -93,7 +93,6 @@ open-projects-hub-infra/    Terraform for the production environment
 open-projects-hub-docs/     this repository (Docusaurus site)
 ├── docs/                   context, requirements, planning, architecture, ADRs, prototype
 ├── static/tfm/             master's project slides
-├── tfm/                    demo video script
 └── work-items/             epics and stories
 ```
 
