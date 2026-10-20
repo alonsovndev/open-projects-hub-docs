@@ -5,8 +5,10 @@
 | **Project**      | Open Projects Hub |
 | **Version**      | 1.3                         |
 | **Status**       | Accepted                    |
-| **Readiness**    | Ready for Implementation    |
+| **Document role** | Requirements baseline |
 | **Owner**        | Product Owner               |
+
+These requirements record the design baseline. “Clarified” describes specification status, not a passing acceptance test. See [evidence and limitations](../00-context/evidence-and-limitations.md) for implementation support and validation gaps.
 
 ## Context
 
@@ -15,16 +17,22 @@
 - **In Scope**: Client CRUD, project CRUD, 3 active project limit, discovery/planning phases only.
 - **Out of Scope**: Delivery and handoff phases, external collaboration workflows.
 
+## Implementation notes
+
+Project **phase** (discovery, planning) is separate from project **status** (active, completed, archived). The three-active-project limit is per workspace, not per user. Project deletion is a hard delete with cascading story removal; it is not a recoverable soft delete.
+
+Client archival in FR-001-01 and FR-001-04 remains an unmet baseline target: the current client model has no archive state or action. Client deletion is permanent, is blocked while active projects exist, and removes the client's archived projects and their stories. Archiving a project alone does not revoke its Client Review code; regenerate the code or delete the project to end access through the old code.
+
 ## Functional Requirements
 
 | ID        | Requirement                                                                                                              | Source               | Priority | Owner (DRI)   | Decision Traceability (Q-ID) | Acceptance Criteria                                                                                                              | Status    |
 | --------- | ------------------------------------------------------------------------------------------------------------------------ | -------------------- | -------- | ------------- | ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | --------- |
 | FR-001-01 | The system allows an Admin to create and manage client records and associate each project with a client.                 | Overview             | Must     | Product Owner | —                            | Admin can create, view, update, and archive client records and select a client when creating or editing a project.               | Clarified |
 | FR-001-02 | The system allows an Admin to create and manage projects with a maximum of three active projects per workspace (the freelancer's account and the Members they add). | Open Questions Q-001, Q-002 | Must     | Product Owner | Q-001, Q-002                 | Attempting to create a fourth active project is blocked and the Admin is prompted to archive an existing project.                | Clarified |
-| FR-001-03 | The MVP supports only discovery and planning phases for projects.                                                        | Open Questions Q-003 | Must     | Product Owner | Q-003                        | Project status options are limited to discovery and planning; no delivery or handoff features are available in MVP UI or export. | Clarified |
+| FR-001-03 | The MVP supports only discovery and planning phases for projects.                                                        | Open Questions Q-003 | Must     | Product Owner | Q-003                        | Project phase options are limited to discovery and planning; no delivery or handoff features are available in MVP UI or export. | Clarified |
 | FR-001-04 | Admin can archive or delete client; deletion is blocked if client has active projects.                                  | Data integrity       | Must     | Product Owner | —                            | Archiving client preserves data; attempting to delete client with active projects shows error "Archive or reassign projects first"; deletion allowed only after projects are archived or reassigned. | Clarified |
 | FR-001-05 | Admin can search and filter projects by status, client, or date.                                                        | Usability            | Should   | Product Owner | —                            | Project list has search input and filter dropdowns; search covers project name; filters for status (active/archived), client, date range; results update without page reload. | Clarified |
-| FR-001-06 | Project includes required metadata: created_at, updated_at, description, and status.                                    | Data model baseline  | Must     | Product Owner | —                            | All projects store created_at and updated_at timestamps automatically; description is optional text field; status field supports "active" and "archived" values. | Clarified |
+| FR-001-06 | Project includes required metadata: created_at, updated_at, description, and status.                                    | Data model baseline  | Must     | Product Owner | —                            | All projects store created_at and updated_at timestamps automatically; description is optional text field; status field supports "active", "completed", and "archived" values. | Clarified |
 | FR-001-07 | Reactivating archived project does not count toward 3-active-project limit until status is set to active.               | Lifecycle clarity    | Must     | Product Owner | Q-001                        | Archived project can be viewed and edited without blocking; explicitly changing status to "active" triggers project limit validation; clear UI feedback if limit would be exceeded. | Clarified |
 
 ## Feature-Scoped Non-Functional Requirements

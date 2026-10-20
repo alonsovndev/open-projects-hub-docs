@@ -17,6 +17,8 @@ This document explicitly lists features, capabilities, and enhancements that are
 
 ---
 
+The tables describe scope boundaries, not a release schedule. Implementation details and validation gaps are recorded in [evidence and limitations](./evidence-and-limitations.md).
+
 ## Deferred Features
 
 ### Collaboration & Communication
@@ -61,7 +63,7 @@ This document explicitly lists features, capabilities, and enhancements that are
 
 | Item                                            | Rationale                                      | Traceability |
 | ----------------------------------------------- | ---------------------------------------------- | ------------ |
-| Remember last-selected AI provider as default   | Out of scope; user selects per refinement      | Q-031        |
+| Cross-device persistence of provider preference | Provider selection is part of the browser workflow; no server-side preference is specified | Q-031 |
 | Periodic API key re-validation and notification | Validation only on save and during use         | Q-032        |
 | Team-shared API keys                            | Per-user keys only for MVP                     | Q-033        |
 | Credit purchase or paid plans                   | MVP is free tier with bring-your-own-key model | —            |
@@ -79,7 +81,7 @@ This document explicitly lists features, capabilities, and enhancements that are
 | Item                                                   | Rationale                                   | Traceability |
 | ------------------------------------------------------ | ------------------------------------------- | ------------ |
 | Advanced reporting (velocity, burndown, story metrics) | Out of scope; basic list view sufficient    | Q-023        |
-| Admin dashboard with usage analytics                   | Not required for MVP                        | —            |
+| Advanced usage analytics beyond the basic dashboard | The implemented dashboard has summary counts; deeper analytics are deferred | — |
 | AI refinement quality scoring or feedback loops        | Out of scope; manual approval workflow only | —            |
 
 ### Infrastructure & Operations
@@ -87,7 +89,7 @@ This document explicitly lists features, capabilities, and enhancements that are
 | Item                                       | Rationale                                   | Traceability |
 | ------------------------------------------ | ------------------------------------------- | ------------ |
 | Multi-region deployment                    | Single-region deployment sufficient for MVP | —            |
-| Advanced monitoring and alerting           | Basic infrastructure monitoring sufficient  | —            |
+| Advanced monitoring and alerting           | Host health checks and optional Sentry only; no external uptime probe  | —            |
 | Automated database backups                 | Single-host deployment with no backups by design ([ADR-021](../04-decisions/adr-021-low-cost-single-host-deployment.md)) | —            |
 
 ---
@@ -109,8 +111,6 @@ These out-of-scope items may be reconsidered when:
 - User feedback indicates strong demand for specific capabilities
 - Technical debt from MVP has been addressed
 - Team capacity allows for expansion beyond core workflows
-
----
 
 ---
 

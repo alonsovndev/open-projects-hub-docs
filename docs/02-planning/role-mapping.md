@@ -7,6 +7,8 @@
 | **Status**       | Accepted                    |
 | **Owner**        | Product Owner               |
 
+These roles identify responsibility areas used in planning. They do not assert a five-person project team, named staffing assignments, or completed sign-offs.
+
 ## Role Definitions
 
 | Role              | Primary Planning Focus                                                                             |

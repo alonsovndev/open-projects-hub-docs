@@ -4,125 +4,91 @@ sidebar_position: 1
 
 # API Design Standards
 
-| Attribute        | Value                       |
-| ---------------- | --------------------------- |
-| **Project**      | Open Projects Hub |
-| **Version**      | 2.0                         |
-| **Status**       | Accepted                    |
+These conventions describe the implemented REST API. The backend's generated OpenAPI schema and route/DTO definitions are the source of truth for exact field constraints; the [API Contract](./api-contract.md) provides a catalog and worked examples.
 
-## Table of Contents
+## Paths, methods, and versioning
 
-- [Source References](#source-references)
-- [API Style](#api-style)
-- [Versioning Strategy](#versioning-strategy)
-- [Error Handling Standards](#error-handling-standards)
-- [Response Format Conventions](#response-format-conventions)
-- [Authentication and Authorization Patterns](#authentication-and-authorization-patterns)
-- [Rate Limiting and Throttling](#rate-limiting-and-throttling)
-- [Observability](#observability)
-- [Deployment Impact (GitHub Actions)](#deployment-impact-github-actions)
+- Business endpoints use `/v1`; health endpoints are `/health`, `/health/live`, and `/health/ready`.
+- Resource paths use plural nouns, such as `/clients`, `/projects`, and `/stories`. Personal resources use `/users/me/...`.
+- `GET` reads, `POST` creates or performs a named action, `PATCH` updates selected fields, and `DELETE` removes a resource. Archive/reactivate are explicit project actions rather than aliases for deletion.
+- Breaking public-contract changes require a deliberate compatibility decision. No prior API major version or automated multi-version deprecation mechanism is implemented in this release.
 
-## API Style
+## Request and response formats
 
-- **Primary style:** REST JSON APIs for all core business workflows.
-- **GraphQL stance:** Not adopted for MVP to reduce operational and governance complexity.
-- **Resource naming:** plural, kebab-case nouns in paths (e.g., `/v1/projects`, `/v1/requirements`).
-- **Self/current-user resources:** the authenticated caller's own data is addressed as `/{plural-resource}/me/...` (e.g., `/v1/users/me/profile`, `/v1/users/me/password`) — never a singular resource root.
-- **Relationship access:** nested routes only when ownership is explicit (e.g., `/v1/projects/{projectId}/requirements`).
-- **Action endpoints:** avoid verbs in URLs; non-CRUD actions use sub-resources (e.g., `/approve`, `/archive`) only when domain-specific behavior is required.
-- **HTTP methods:** `GET` (read), `POST` (create), `PUT` (full resource replace — all fields required in the request), `PATCH` (partial update — fields optional), `DELETE` (soft-archive/remove).
+JSON DTOs generally expose `camelCase` properties. Query-parameter names and pagination metadata have existing exceptions; use the exact endpoint schema rather than converting names automatically. Dates use `YYYY-MM-DD`; timestamps are ISO 8601 with a UTC offset or `Z`.
 
-## Versioning Strategy
-
-- **Default:** URL-based semantic major versioning: `/v1/...`.
-- **Change policy:**
-  - non-breaking changes (optional fields, new endpoints) stay in the same major version,
-  - breaking contract changes require a new major version (`v2`).
-- **Deprecation window:** maintain previous major version for at least one release cycle with explicit deprecation notice in API documentation.
-
-## Error Handling Standards
-
-- **Transport semantics:** use standard HTTP status codes.
-- **Minimum status code set:** `200`, `201`, `204`, `400`, `401`, `402`, `403`, `404`, `409`, `422`, `429`, `500`. `402` is reserved specifically for AI-credit exhaustion on the platform provider.
-- **Canonical error payload:**
+List endpoints normally take `offset` (default 0) and `limit` (default 20, maximum 100). A representative envelope is:
 
 ```json
 {
-  "error": {
-    "code": "PROJECT_NOT_FOUND",
-    "message": "Project was not found.",
-    "details": [],
-    "requestId": "req_12345"
-  }
+  "items": [],
+  "total": 0,
+  "page": 1,
+  "per_page": 20
 }
 ```
 
-- **Rules:**
-  - `code` is stable and machine-readable,
-  - `message` is human-readable and safe for clients,
-  - `details` is optional structured validation/context data,
-  - `requestId` is required for traceability across logs and Sentry events.
+The client list uses `perPage` instead of `per_page`; the public review response uses `stories` and `total` rather than this envelope. Markdown export returns `text/markdown` with an attachment filename.
 
-## Response Format Conventions
+## Errors and status codes
 
-- **Format:** `application/json; charset=utf-8`.
-- **Field naming:** `camelCase` for request and response payload fields.
-- **Datetime format:** ISO 8601 UTC (`YYYY-MM-DDTHH:MM:SSZ`), for example `2024-01-15T14:30:00Z`.
-- **Boolean fields:** use `is/has/can` prefixes where meaningful (e.g., `isArchived`).
-- **Collection envelope and pagination (offset-based for MVP):**
+Most application errors return a string `detail`. Some handlers add machine-readable fields:
 
 ```json
 {
-  "data": [],
-  "pagination": {
-    "page": 1,
-    "pageSize": 20,
-    "total": 125,
-    "totalPages": 7
-  }
+  "detail": "No AI credits remaining. Add your own API key to continue unlimited refinements.",
+  "code": "INSUFFICIENT_CREDITS"
 }
 ```
 
-- **Pagination defaults:** `page=1`, `pageSize=20`, maximum `pageSize=100`.
+`code` is not universal, and request identifiers travel in the `X-Request-ID` response header rather than a required JSON envelope. The process-local IP limiter uses a separate body:
 
-## Authentication and Authorization Patterns
+```json
+{
+  "error": "Rate limit exceeded: 5 per 1 minute"
+}
+```
 
-- **Authentication:** FastAPI custom auth module issues JWTs; APIs require `Authorization: Bearer <token>` for protected routes (see ADR-005).
-- **Authorization model:** hybrid RBAC + data-level policies.
-  - API layer enforces role permissions (Admin/Member capabilities; the public Client Review route is the only anonymous exception).
-  - Repositories filter every query by the caller's workspace; another workspace's records return 404.
-- **Token requirements:** short-lived access tokens (15 minutes) and single-use rotating refresh tokens, delivered as an `HttpOnly` cookie in browser sessions.
-- **Service trust boundary:** backend validates JWT signature, expiration, and required claims on every protected request.
+| Status | Meaning in this API |
+| --- | --- |
+| `200`, `201`, `204` | Successful action/read, creation, or deletion. |
+| `400`, `422` | Domain/input validation; the exact handler determines the status. |
+| `401`, `403` | Missing/invalid authentication or insufficient role; login can also require email verification. |
+| `402` | Platform AI credits exhausted. |
+| `404` | Missing record, foreign-workspace record, or unknown review code. |
+| `409` | Lifecycle or workspace-limit conflict. |
+| `429` | IP throttle, account lockout, or a persisted validation/code-request limit. |
+| `500`, `502` | Unexpected application failure or refinement-provider failure. |
 
-## Rate Limiting and Throttling
+Provider-key errors include provider/reason fields and `promptsKeyUpdate`. Refinement failures preserve `rawNotes` for retry. Clients should handle these documented variants, not assume a single nested `error` object.
 
-- **Baseline policy (per authenticated user/IP):**
-  - `60 requests/minute` for standard read/write endpoints,
-  - stricter limits for auth-sensitive endpoints (5 attempts per 15 min on login, 3 verification code resends per 15 min, 3 password reset requests per 15 min).
-- **Limit response:** return `429 Too Many Requests` with `Retry-After` header.
-- **Response body for throttling:** same canonical error format with `code=RATE_LIMIT_EXCEEDED`.
-- **Implementation approach:** backend middleware with database-backed counters and endpoint-level guardrails.
+## Authentication and authorization
 
-## Observability
+Protected routes require `Authorization: Bearer <access token>`. Access JWTs last 15 minutes by default and carry the caller's workspace. An Admin manages the team; Admins and Members edit workspace clients, projects, and stories.
 
-- Include the request identifier (`X-Request-ID`) in logs and error context.
-- Backend errors go to Sentry when a DSN is configured; the deployed host has no CloudWatch alarms. See [Monitoring and Observability](../ops/monitoring-observability.md).
+The browser uses `X-Session-Mode: cookie` with a trusted `Origin`. Refresh credentials travel only in the HttpOnly cookie in that mode. Other clients send/receive refresh tokens in JSON. Refresh is single-use with rotation; see [Authentication Strategy](../security/security-architecture.md#authentication-strategy).
 
-## Deployment Impact (GitHub Actions)
+Authentication and account-recovery endpoints are public where required. The Client Review route is the anonymous route that exposes project data, limited to approved stories for the supplied access code.
 
-- Validate API design changes on every pull request.
-- Enforce backward-compatibility checks before merging breaking API changes.
-- Rollback strategy: revert to prior release and maintain previous major API version during deprecation window.
-- Manage environment variables/secrets for auth, rate-limiting configuration, and Sentry DSN per environment.
+Workspace-scoped queries use the workspace resolved from the verified token; a foreign record returns `404`. Database RLS is not enabled.
 
-## Source References
+## Rate limiting and observability
 
-- [Architecture Solution Design](../core/architecture-solution-design.md)
-- [Technology Stack](../core/technology-stack.md)
+The process-local IP limiter defaults to 100 requests per minute; endpoint overrides differ. Login also has a persisted account-failure counter, verification/reset issuance has per-account windows, and provider-key validation has a five-attempt hourly budget. These mechanisms are distinct and should not be described as one uniform per-user policy.
+
+The public Client Review route limits requests to 30 per minute per IP. In-memory IP counters reset on process restart and do not coordinate across workers. Some application limit responses carry `Retry-After`; clients should use it when supplied.
+
+Logs include a request identifier. Backend Sentry is optional; no CloudWatch alarms are deployed. See [Monitoring and Observability](../ops/monitoring-observability.md).
+
+## Contract verification
+
+The backend provides a generated OpenAPI artifact, and endpoint tests cover selected contracts and access rules. These are not a general automated proof of backward compatibility. Regenerate and compare the schema when changing a public interface, and record executed checks and results.
+
+## References
+
 - [API Contract](./api-contract.md)
-- [Feature Requirements](../../01-requirements/README.md)
 - [Security Architecture](../security/security-architecture.md)
+- [Database Design](../database/database-design.md)
+- [Feature Requirements](../../01-requirements/README.md)
 
----
-
-**Last Updated**: 2026-09-08
+**Last Updated**: 2026-10-19

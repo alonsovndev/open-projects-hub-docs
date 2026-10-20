@@ -3,6 +3,8 @@
 - **Status**: Accepted
 - **Date**: 2026-02-28
 
+> **Implementation qualification:** The chosen frameworks are present. Current CI runs the non-integration API tests and web unit tests; API integration tests and web Playwright tests are excluded from those CI jobs. Coverage comments and a 70% result are not established by the reviewed workflows. See [verification boundaries](../00-context/evidence-and-limitations.md#verification-boundaries).
+
 ## Context
 
 NFR-X03 sets a target of at least 70% automated coverage for core logic, with maintainable testing across backend and frontend workflows. Per ADR-015 the target is measured and reported on every pull request rather than enforced as a merge-blocking gate.

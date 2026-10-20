@@ -1,23 +1,354 @@
-/**
- * CSS files with the .module.css suffix will be treated as CSS modules
- * and scoped locally.
- */
-
-.heroBanner {
-  padding: 4rem 0;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
+.hero {
+  padding: clamp(3rem, 7vw, 6rem) 0;
+  background: linear-gradient(150deg, var(--oph-surface-soft), var(--ifm-background-color) 72%);
 }
 
-@media screen and (max-width: 996px) {
-  .heroBanner {
-    padding: 2rem;
-  }
+.heroLayout {
+  display: grid;
+  gap: 3rem;
+  align-items: center;
 }
 
-.buttons {
+.introduction {
+  min-width: 0;
+}
+
+.eyebrow {
+  margin-bottom: 1.25rem;
+  color: var(--ifm-color-primary);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.075em;
+  text-transform: uppercase;
+}
+
+.title {
+  max-width: 13ch;
+  margin-bottom: 1.5rem;
+  font-size: clamp(2.6rem, 5.4vw, 4.6rem);
+  font-weight: 750;
+  line-height: 1.06;
+  letter-spacing: -0.045em;
+  text-wrap: balance;
+}
+
+.title span {
+  color: var(--ifm-color-primary);
+}
+
+.description {
+  max-width: 48ch;
+  color: var(--oph-text-muted);
+  font-size: 1.125rem;
+  line-height: 1.75;
+}
+
+.actions {
   display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.75rem;
+}
+
+.primaryAction, .secondaryAction {
+  display: inline-flex;
+  min-height: 48px;
   align-items: center;
   justify-content: center;
+  gap: 0.8rem;
+  padding: 0.75rem 1.1rem;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 650;
+  line-height: 1.4;
+}
+
+.primaryAction {
+  background: var(--ifm-color-primary);
+  color: var(--oph-on-primary);
+}
+
+.primaryAction:hover {
+  background: var(--ifm-color-primary-dark);
+  color: var(--oph-on-primary);
+  text-decoration: none;
+}
+
+.secondaryAction {
+  border-color: var(--oph-border);
+  background: var(--ifm-background-color);
+  color: var(--ifm-font-color-base);
+}
+
+.secondaryAction:hover {
+  border-color: var(--ifm-color-primary);
+  color: var(--ifm-color-primary);
+  text-decoration: none;
+}
+
+.heroNote {
+  max-width: 46ch;
+  margin: 1.5rem 0 0;
+  color: var(--oph-text-muted);
+  font-size: 0.875rem;
+  line-height: 1.7;
+}
+
+.workflow {
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid var(--oph-border);
+  border-radius: 12px;
+  background: var(--ifm-background-color);
+  box-shadow: 0 20px 60px -35px rgba(16, 57, 88, 0.4);
+}
+
+.workflowHeading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 1.1rem 1.5rem;
+  border-bottom: 1px solid var(--oph-border);
+  font-size: 0.85rem;
+  font-weight: 650;
+}
+
+.exampleLabel {
+  color: var(--oph-text-muted);
+  font-size: 0.75rem;
+  font-weight: 400;
+}
+
+.workflowSteps {
+  margin: 0;
+  padding: 1.5rem;
+  list-style: none;
+}
+
+.workflowSteps li {
+  position: relative;
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr);
+  gap: 1rem;
+  padding-bottom: 1.4rem;
+}
+
+.workflowSteps li:not(:last-child)::before {
+  position: absolute;
+  top: 31px;
+  bottom: 1px;
+  left: 14px;
+  border-left: 1px solid var(--oph-border);
+  content: "";
+}
+
+.workflowSteps li:last-child {
+  padding-bottom: 0;
+}
+
+.stepMarker {
+  display: flex;
+  width: 30px;
+  height: 30px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--oph-border);
+  border-radius: 50%;
+  background: var(--oph-surface-soft);
+  color: var(--ifm-color-primary);
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.workflowSteps h2 {
+  margin: 0.2rem 0 0.35rem;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.workflowSteps p {
+  margin-bottom: 0;
+  color: var(--oph-text-muted);
+  font-size: 0.85rem;
+  line-height: 1.65;
+}
+
+.workflowSteps .note {
+  color: var(--ifm-font-color-base);
+}
+
+.question {
+  display: block;
+  margin-top: 0.6rem;
+  padding: 0.55rem 0.7rem;
+  border-left: 2px solid var(--ifm-color-primary);
+  background: var(--oph-surface-soft);
+  color: var(--oph-text-muted);
+  font-size: 0.8rem;
+  line-height: 1.6;
+}
+
+.question strong {
+  display: block;
+  margin-bottom: 0.15rem;
+  color: var(--ifm-font-color-base);
+  font-size: 0.72rem;
+}
+
+.approvedStep .stepMarker {
+  border-color: var(--ifm-color-primary);
+  background: var(--ifm-color-primary);
+  color: var(--oph-on-primary);
+}
+
+.outputs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.outputs span {
+  padding: 0.25rem 0.55rem;
+  border: 1px solid var(--oph-border);
+  border-radius: 4px;
+  color: var(--ifm-color-primary);
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.workflow figcaption {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid var(--oph-border);
+  background: var(--oph-surface-soft);
+  color: var(--oph-text-muted);
+  font-size: 0.8rem;
+}
+
+.preview {
+  padding: 0 0 clamp(3rem, 6vw, 5.5rem);
+}
+
+.previewLayout {
+  display: grid;
+  align-items: center;
+  gap: 2rem;
+}
+
+.previewIntroduction h2 {
+  max-width: 17ch;
+  font-size: clamp(1.9rem, 3.5vw, 2.6rem);
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+}
+
+.previewIntroduction > p:not(.eyebrow) {
+  max-width: 35ch;
+  color: var(--oph-text-muted);
+  line-height: 1.8;
+}
+
+.previewLink {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.9rem;
+  font-weight: 650;
+}
+
+.productFigure {
+  min-width: 0;
+  margin: 0;
+}
+
+.productFigure a {
+  display: block;
+  border: 1px solid var(--oph-border);
+  border-radius: 8px;
+}
+
+.productFigure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.productFigure figcaption {
+  margin-top: 0.75rem;
+  color: var(--oph-text-muted);
+  font-size: 0.8rem;
+  line-height: 1.7;
+}
+
+.explore {
+  padding: clamp(2.5rem, 5vw, 4.5rem) 0;
+  border-top: 1px solid var(--oph-border);
+  background: var(--oph-surface-soft);
+}
+
+.exploreLayout {
+  display: grid;
+  gap: 2rem;
+}
+
+.explore h2 {
+  max-width: 24ch;
+  margin-bottom: 0;
+  font-size: clamp(1.6rem, 3vw, 2.1rem);
+  letter-spacing: -0.025em;
+}
+
+.exploreLinks {
+  display: grid;
+  gap: 1rem;
+}
+
+.exploreLinks a {
+  display: block;
+  min-height: 44px;
+  padding: 0.4rem 0;
+  color: var(--ifm-font-color-base);
+}
+
+.exploreLinks strong {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.3rem;
+  font-size: 1rem;
+}
+
+.exploreLinks a > span {
+  color: var(--oph-text-muted);
+  font-size: 0.9rem;
+}
+
+.exploreLinks a:hover {
+  color: var(--ifm-color-primary);
+  text-decoration: none;
+}
+
+@media (min-width: 56rem) {
+  .heroLayout {
+    grid-template-columns: 1.1fr 1fr;
+    gap: clamp(2rem, 5vw, 5rem);
+  }
+
+  .exploreLayout {
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+  }
+
+  .previewLayout {
+    grid-template-columns: 0.8fr 1.4fr;
+    gap: clamp(2rem, 5vw, 5rem);
+  }
+
 }

@@ -5,8 +5,10 @@
 | **Project**      | Open Projects Hub |
 | **Version**      | 2.0                         |
 | **Status**       | Accepted                    |
-| **Readiness**    | Ready for Implementation    |
+| **Document role** | Requirements baseline |
 | **Owner**        | Product Owner               |
+
+These requirements record the design baseline. “Clarified” describes specification status, not a passing acceptance test. See [evidence and limitations](../00-context/evidence-and-limitations.md) for implementation support and validation gaps.
 
 ## Context
 

@@ -2,103 +2,65 @@
 sidebar_position: 1
 ---
 
-# Overview
+# Project overview
 
-**Tagline**: _"Empowering Freelancers with AI-Assisted Project Management and Structured Delivery."_
+Open Projects Hub is an open-source platform for freelancers preparing software requirements. It brings client records, project context, AI-generated candidate stories, human review, and Markdown export into one workflow.
 
-## 1. Core Concept
+## Problem statement
 
-The Open Projects Hub is an open-source web platform designed to streamline and professionalize the project management experience for freelancers. It provides a centralized hub to manage clients, structure project requirements, and utilize an AI engine to refine ambiguous ideas into clear, actionable technical specifications.
+A client request often starts as an email, a conversation, or a list of ideas. Before development can begin, the freelancer must identify ambiguity, agree on scope, and write requirements that both the client and developer can understand.
 
-### Vision Statement
+The project addresses three practical needs:
 
-To create an accessible, open-source tool that empowers freelancers to deliver higher quality software by bridging the gap between raw client requirements and structured engineering practices, fostering better collaboration and project success.
+- Structure informal notes as user stories with acceptance criteria.
+- Keep requirements associated with the correct client and project.
+- Share approved requirements without exposing internal workspace information.
 
----
+The intended benefit is less administrative effort and clearer agreement before implementation. These benefits are hypotheses to evaluate, not measured outcomes established by this repository.
 
-## 2. Problem Statement
+## Objectives and contribution
 
-### The Challenge
+| Objective | Delivered capability | Review material |
+| --- | --- | --- |
+| Support requirements preparation | Text-based AI refinement followed by explicit human editing and approval | [Worked example](./reviewer-guide.md#worked-example-a-clients-contact-form) |
+| Organize project context | Workspace-scoped clients, projects, stories, and a three-active-project limit | [Lifecycle requirements](../01-requirements/f-001-client-and-project-lifecycle-management.md) |
+| Share an agreed backlog | Markdown export and account-free, read-only client review | [Backlog requirements](../01-requirements/f-004-requirements-backlog-and-markdown-export.md) |
+| Demonstrate inspectable engineering | Separate web, API, infrastructure, and documentation repositories with versioned design decisions | [Architecture](../03-architecture/README.md) and [ADRs](../04-decisions/README.md) |
 
-Freelancers frequently struggle with the initial phases of a project, specifically requirements gathering and project organization. The pain points include:
+The contribution is the integration of these capabilities into an implemented planning workflow. It is not a claim to introduce a new AI model or a validated requirements-engineering method.
 
-- **Unstructured Requirements**: Client ideas are often ambiguous and lack technical detail.
-- **Documentation Overhead**: Manually converting vague requirements into actionable user stories is time-consuming.
-- **Project Disorganization**: Managing multiple clients, projects, and access permissions in a secure manner can become chaotic.
-- **Security & Access Control**: Ensuring robust security and managing access (who can edit vs. who can only view) is critical but often overlooked in lightweight tools.
+## Intended users
 
-### The Solution
+**Freelancers and small teams** create a workspace, manage clients and projects, refine notes, and approve stories. The workspace owner is its Admin; teammates are Members.
 
-The Open Projects Hub addresses these challenges by offering:
+**Client stakeholders** enter a shared project access code to read approved stories. They do not create accounts or edit the backlog.
 
-- **AI-Assisted Requirements Refinement**: An integrated AI engine that detects ambiguities and automatically generates structured user stories from raw input.
-- **Centralized Management**: A single platform to manage clients and up to three concurrent projects (MVP constraint) efficiently.
-- **Role-Based Access Control**: Secure, structured access levels (Admin, Member) for the freelancer's team, plus account-free, read-only client review through a project access code.
+**Reviewers and contributors** can inspect requirements, source code, design trade-offs, and verification artifacts. The [personas](./user-personas.md) are fictional design aids rather than interview evidence.
 
----
+## Workflow
 
-## 3. Target Audience
+1. Create a client and a project in the workspace.
+2. Submit plain-text requirements notes to an available AI provider.
+3. Review generated candidate stories; correct, discard, or approve them.
+4. Inspect the approved backlog and export its selected scope to Markdown.
+5. Share the project access code with stakeholders for read-only review.
 
-### Primary Audience
+Unapproved AI stories stay in the browser tab; approval is required before they are stored on the server or shown to the client. A provider response does not replace agreement with the client.
 
-- **Software Freelancers & Independent Developers**
-  - Benefit from automated requirements gathering, structured project organization, and reduced administrative overhead.
+## Scope and constraints
 
-### Secondary Audience
+The implemented MVP concentrates on **discovery and planning**. It does not manage sprint execution, delivery, or maintenance. Each workspace is limited to three active projects and up to five users. AI providers include Gemini, OpenAI, and DeepSeek, using platform credits or an individual user's configured key.
 
-- **Open-Source Contributors & Students**
-  - Benefit from a real-world, modern tech stack (React, FastAPI, Clean Architecture) project that serves as an academic reference and allows for community contributions.
-- **Freelancer Operators**
-  - Benefit from a tool that helps manage projects and clients more efficiently, with AI support to refine requirements and generate user stories.
-- **Clients of Freelancers (Stakeholders)**
-  - Benefit from having a transparent, read-only view of their project's actionable tasks.
+The deployment favors low operating cost for a small review audience over availability and recovery. It uses a Cloudflare-hosted frontend and a single EC2 host for the API and PostgreSQL. It has no automated database backups or failover. See [deployment architecture](../03-architecture/ops/deployment-architecture.md) for the complete limitations.
 
----
+## Engineering approach
 
-## 4. High-Level Goals
+The web app uses React and TypeScript. The FastAPI backend is a modular monolith organized around domain features and Clean Architecture layers. PostgreSQL stores approved artifacts; workspace-scoped application queries enforce tenant boundaries. PostgreSQL row-level security is not implemented.
 
-### Professional Impact Goals
+Tests and CI checks provide engineering evidence, with important gaps: backend type checking is advisory, API integration tests are excluded from CI, and frontend E2E tests are not part of the current CI job. The recorded 70% coverage and WCAG targets are goals rather than proof of achievement.
 
-- Streamline the transition from initial/raw requirements client input to actionable development tasks.
-- Serve as a robust, real-world academic project that demonstrates modern software engineering best practices.
+## Evaluation status
 
-### Technical Goals
+The project can be reviewed through source inspection, local verification, and the [demonstration checklist](./reviewer-guide.md#demonstration-checklist). A measured comparison of manual and assisted requirements preparation, a formal usability study, and a complete accessibility assessment remain TBD.
 
-- Build a full-stack web application with a React (TypeScript) frontend and a Python/FastAPI backend, structured as separate repositories (API, web, infrastructure and documentation).
-- Implement a Modular Monolith backend using Python, FastAPI, and PostgreSQL following Clean Architecture and DDD principles.
-- Ensure high code quality with a mandatory Test-Driven Development (TDD) approach, targeting a minimum of 70% test coverage.
-- Establish a secure foundation adhering to OWASP Top 10 guidelines and Security by Design principles.
-
-### Business Goals
-
-- Build an active open-source community around the tool to foster future contributions and feature expansions.
-
----
-
-## 5. Key Differentiators
-
-### What Makes This Project Stand Out
-
-- **AI-Powered Refinement**: The inclusion of an AI motor specifically tuned to refine software requirements before development begins.
-- **Open Source & Academic Focus**: Designed from the ground up to be both a practical tool for freelancers and a learning resource for the open-source community.
-- **Security First**: Strict adherence to security best practices (JWT, rate limiting, secure password hashing) from day one.
-
----
-
-## 6. Success Metrics
-
-### How Success Is Measured
-
-The MVP targets qualitative validation with individual freelancers rather than
-large-scale analytics infrastructure:
-
-- **Clarity of generated requirements**: AI-refined user stories and acceptance
-  criteria are clear and actionable enough for freelancers to hand off with
-  confidence.
-- **Reduced documentation time**: Freelancers spend measurably less time
-  translating raw client input into structured requirements compared to manual
-  documentation.
-
----
-
-**Last Updated**: 2026-09-08
+Read [evidence and limitations](./evidence-and-limitations.md) for objective-to-artifact traceability, source revisions, and the distinction between implemented behavior and unverified quality claims.

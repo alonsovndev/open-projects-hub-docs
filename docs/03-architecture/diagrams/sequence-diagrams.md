@@ -25,19 +25,20 @@ sidebar_position: 1
   - [9) Authorization 3-Layer Defense](#9-authorization-3-layer-defense)
   - [10) Client Review by Access Code](#10-client-review-by-access-code)
   - [11) AI Credits Consumption and API Key Management](#11-ai-credits-consumption-and-api-key-management)
-  - [12) AI Refinement 5-Stage Security Pipeline](#12-ai-refinement-5-stage-security-pipeline)
+  - [12) AI Refinement Security Pipeline](#12-ai-refinement-security-pipeline)
   - [13) CI/CD Pipeline](#13-cicd-pipeline)
   - [Diagram Coverage by Feature](#diagram-coverage-by-feature)
   - [Source References](#source-references)
 
 ---
 
-This document captures key user and system interaction flows for the Open Projects Hub. All diagrams reflect the deployed architecture: **FastAPI backend in Docker on one EC2 host behind Cloudflare**, **custom JWT auth**, **PostgreSQL in a container**, and a **React frontend on Cloudflare Workers**. Participant labels in the older diagrams say "RDS PostgreSQL" for the database; read them as the PostgreSQL container ([ADR-021](../../04-decisions/adr-021-low-cost-single-host-deployment.md)).
+These diagrams explain the implemented review workflows. The React frontend runs on Cloudflare Workers; API traffic reaches FastAPI and PostgreSQL containers on one EC2 host through Cloudflare and Caddy. Arrows show application interactions, not separate deployed services. Payloads are abbreviated; exact shapes are in the [API Contract](../api/api-contract.md).
 
 ## 1) Authentication and Session Validation
 
 ```mermaid
 sequenceDiagram
+    autonumber
     participant User as Admin/Member
     participant FE as Frontend (Cloudflare Workers)
     participant BE as Backend (EC2, FastAPI)
@@ -45,15 +46,16 @@ sequenceDiagram
 
     User->>FE: Submit credentials (email + password)
     FE->>BE: POST /v1/auth/login (X-Session-Mode: cookie)
-    BE->>DB: SELECT user + bcrypt.verify
+    BE->>DB: Load user and password hash
     DB-->>BE: User record (hashed password)
+    BE->>BE: Verify bcrypt hash and account state
     BE->>BE: Sign access JWT (15-minute expiry) and refresh JWT
-    BE-->>FE: 200 {accessToken, ...} + Set-Cookie oph_refresh_token (HttpOnly; Secure; SameSite=Lax; Path=/v1/auth)
+    BE-->>FE: 200 accessToken and user, HttpOnly refresh cookie
     FE->>FE: Keep access token in application state (not localStorage)
     Note over User,BE: ── Subsequent authenticated requests ──
     FE->>BE: API request with Authorization: Bearer <JWT>
     BE->>BE: Verify signature + expiration
-    BE->>BE: Extract claims (sub, email, role)
+    BE->>BE: Extract claims (sub, email, role, wid)
     BE-->>FE: Authorized response
 ```
 
@@ -61,39 +63,47 @@ sequenceDiagram
 
 ## 2) AI-Assisted Requirements Refinement
 
+Generation produces editable proposals; it does not create stored stories or ambiguity records.
+
 ```mermaid
 sequenceDiagram
-    participant Admin
+    autonumber
+    participant Editor as Admin or Member
     participant FE as Frontend
     participant BE as Backend API
     participant DB as PostgreSQL
-    participant AI as AI Refinement Adapter
+    participant AI as AI Provider
 
-    Admin->>FE: Enter raw notes and submit
-    FE->>BE: POST /refinement/generate-stories
-    BE->>AI: Request refinement and ambiguity analysis
-    AI-->>BE: Structured stories + ambiguity markers
-    BE-->>FE: Return refined stories (nothing stored)
-    FE-->>Admin: Display editable output held in the browser
+    Editor->>FE: Enter notes and select provider
+    FE->>BE: POST /v1/refinement/generate-stories
+    BE->>BE: Validate and sanitize notes
+    BE->>DB: Check project workspace and credit/key availability
+    BE->>AI: Send delimited sanitized notes
+    AI-->>BE: Generated story content
+    BE->>BE: Parse structured response
+    BE->>DB: Charge a successful platform run
+    BE-->>FE: 200 stories, rawNotes, redactionCount, provider, creditsRemaining
+    FE-->>Editor: Display editable drafts in browser state
 ```
 
 ## 3) Explicit Approval and Client Review Visibility
 
 ```mermaid
 sequenceDiagram
-    participant Admin
+    autonumber
+    participant Admin as Admin or Member
     participant FE as Frontend
     participant BE as Backend API
     participant DB as PostgreSQL
     participant Stakeholder as Client Stakeholder
 
     Admin->>FE: Approve selected stories
-    FE->>BE: POST /refinement/approve-stories {stories: [content]}
-    BE->>DB: Validate project ownership/role + insert approved stories
+    FE->>BE: POST /v1/refinement/approve-stories {stories: [content]}
+    BE->>DB: Validate workspace and content, insert approved stories
     DB-->>BE: Stories persisted
     BE-->>FE: 200 {approvedCount, stories}
     Stakeholder->>FE: Open /viewer/{accessCode}
-    FE->>BE: GET /viewer/{accessCode} (no token)
+    FE->>BE: GET /v1/viewer/{accessCode} (no token)
     BE->>DB: Resolve project by access code, fetch its approved stories only
     BE-->>FE: Read-only payload (no workspace, client or user identifiers)
     FE-->>Stakeholder: Render approved backlog
@@ -103,7 +113,8 @@ sequenceDiagram
 
 ```mermaid
 sequenceDiagram
-    participant Admin
+    autonumber
+    participant Admin as Admin or Member
     participant FE as Frontend
     participant BE as Backend API
     participant DB as PostgreSQL
@@ -119,199 +130,193 @@ sequenceDiagram
 
 ## 5) Error Handling and Observability Path
 
+Validation failures are actionable client errors. Optional exception capture is a separate path.
+
 ```mermaid
 sequenceDiagram
+    autonumber
     participant User
-    participant FE as Frontend (React SPA)
-    participant BE as Backend API (FastAPI)
-    participant Sentry as Sentry (optional)
+    participant FE as Frontend
+    participant BE as Backend API
+    participant Logs as Container Logs
+    participant Sentry as Sentry, if configured
 
-    User->>FE: Trigger action with invalid payload
+    User->>FE: Submit an action
     FE->>BE: API request
-    BE-->>FE: 400/422 validation error (canonical error format, X-Request-ID header)
-    BE->>BE: Log structured JSON with request_id
-    BE-->>Sentry: Capture unexpected exceptions only when SENTRY_DSN is set
-    FE-->>User: Show actionable error message
+    BE->>Logs: Structured request log with request_id
+    alt Invalid input
+        BE-->>FE: 400 or 422 with detail and X-Request-ID header
+        FE-->>User: Explain validation failure
+    else Unexpected exception
+        BE->>Logs: Exception context
+        opt Backend Sentry is configured
+            BE-->>Sentry: Capture exception
+        end
+        BE-->>FE: Error response with request identifier
+        FE-->>User: Explain failure and recovery action
+    end
 ```
 
-> **Observability stack**: structured JSON logs read from the container, optional backend Sentry, and host health checks. See [Monitoring and Observability](../ops/monitoring-observability.md); the frontend has no error-tracking SDK.
-
----
+See [Monitoring and Observability](../ops/monitoring-observability.md) for the current limits. The frontend includes an optional Sentry SDK, enabled only when `VITE_SENTRY_DSN` is configured at build time; backend Sentry is configured independently.
 
 ## 6) User Registration and Email Verification
 
+Registration creates a pending account; verification establishes ownership before login and credit allocation.
+
 ```mermaid
 sequenceDiagram
+    autonumber
     participant User
     participant FE as Frontend
     participant BE as Backend API
     participant DB as PostgreSQL
     participant Email as Email Service
 
-    User->>FE: Fill registration form (email + password)
-    FE->>FE: Client-side validation (8+ chars, uppercase, digit, special)
-    FE->>BE: POST /v1/auth/register {email, password}
-    BE->>BE: Validate password policy
-    BE->>DB: Check duplicate email
-    alt Email already registered
-        BE-->>FE: 409 "Account already exists with this email"
-        FE-->>User: Show login / password reset redirect
-    else New email
-        BE->>DB: INSERT pending user + hash password (bcrypt, cost 12)
-        BE->>BE: Generate 6-digit alphanumeric code (excl. O/0/I/1)
-        BE->>DB: Store hashed code with 5-min expiry
-        BE->>Email: Send verification code (within 30s)
-        BE-->>FE: 201 {masked email confirmation}
-        FE-->>User: "Check your email for verification code"
-        User->>FE: Enter 6-digit code
-        FE->>BE: POST /v1/auth/verify-email {code}
-        BE->>DB: Validate code (not expired, matches hash)
-        alt Code invalid or expired
-            BE-->>FE: 400 error (allow resend up to 3x per 15 min)
-        else Code valid
-            BE->>DB: Activate user account, invalidate code
-            BE->>DB: Set first-login flag (→ onboarding trigger)
-            BE->>DB: Grant 5 free AI credits (F-010 hook)
-            BE-->>FE: 200 "Account activated"
-            FE-->>User: Redirect to login
-        end
+    User->>FE: Enter display name, email, and password
+    FE->>BE: POST /v1/auth/register {displayName, email, password}
+    BE->>BE: Validate input and hash password
+    BE->>DB: Look up email
+    alt Existing verified account
+        BE->>Email: Notify account owner
+        BE-->>FE: 201 generic masked-email response
+    else New or unverified email
+        BE->>DB: Create workspace and pending Admin (replace pending account if present)
+        BE->>DB: Store hashed six-character code, five-minute expiry
+        BE->>Email: Send verification code and link
+        BE-->>FE: 201 masked email and codeExpiresAt
+    end
+    FE-->>User: Show verification step
+    User->>FE: Enter received code
+    FE->>BE: POST /v1/auth/verify-email {email, code}
+    BE->>DB: Check code, expiry, and attempt budget
+    alt Invalid, expired, superseded, or used code
+        BE-->>FE: 400 generic invalid-code response
+    else Valid code
+        BE->>DB: Verify account, consume code, reserve free credits
+        BE-->>FE: 200 {verified: true}
+        FE-->>User: Continue to sign-in
     end
 ```
 
-> **Shared code pattern**: 6-digit alphanumeric verification codes (excl. O/0/I/1), 5-minute expiry, and 3-resend-per-15-minute rate limit are reused across registration (F-008) and password reset (F-009).
-
----
+Verification codes use `23456789ABCDEFGHJKLMNPQRSTUVWXYZ` and are case-insensitive. Self-registration codes expire after five minutes; invited Members receive a 24-hour code and set their password during verification. Five wrong guesses lock a code; the registration code plus three resends are allowed in a 15-minute issuance window. These limits differ from password-reset issuance.
 
 ## 7) Password Reset
 
+The request response does not disclose whether the email has an account. Reset invalidates refresh sessions; existing access tokens retain their normal short expiry.
+
 ```mermaid
 sequenceDiagram
+    autonumber
     participant User
     participant FE as Frontend
     participant BE as Backend API
     participant DB as PostgreSQL
     participant Email as Email Service
 
-    User->>FE: Click "Forgot Password" → enter email
+    User->>FE: Enter email in password recovery
     FE->>BE: POST /v1/auth/forgot-password {email}
-    BE->>DB: Check if email exists
-    Note over BE: Privacy-preserving response — no account-existence disclosure
-    alt Account exists
-        BE->>BE: Generate 6-digit alphanumeric code (excl. O/0/I/1)
-        BE->>DB: Store hashed code with 5-min expiry
-        BE->>Email: Send reset code (within 30s)
+    BE->>DB: Check account and issuance budget
+    opt Eligible account exists
+        BE->>DB: Store hashed six-character code, 30-minute expiry
+        BE->>Email: Send reset code and link
     end
-    BE-->>FE: 200 "If account exists, email sent"
-    FE-->>User: Masked email confirmation
-    User->>FE: Enter received code + new password
+    BE-->>FE: 200 generic message
+    User->>FE: Enter code and new password
     FE->>BE: POST /v1/auth/reset-password {email, code, newPassword}
-    BE->>DB: Validate code (not expired, not used, matches hash)
-    alt Invalid / expired code
-        BE-->>FE: 400 error (resend with POST /v1/auth/resend-reset-code)
-    else Code valid
-        BE->>DB: Update password (bcrypt, cost 12), invalidate code
-        BE-->>FE: 200 "Password changed successfully"
-        FE-->>User: Redirect to login
+    BE->>DB: Validate code and attempt limit
+    alt Invalid or expired code
+        BE-->>FE: Error with recovery guidance
+    else Valid code
+        BE->>DB: Update password hash, consume code, increment token_version
+        BE-->>FE: 200 success message
+        FE-->>User: Continue to sign-in
     end
 ```
 
----
+The initial request and resends share a three-code limit per account per 15 minutes. `POST /v1/auth/resend-reset-code` issues a replacement subject to that budget; IP throttling is separate.
 
 ## 8) Login with Rate Limiting and Lockout
 
+Cookie-mode requests include a trusted Origin; refresh rotates the credential rather than reusing it.
+
 ```mermaid
 sequenceDiagram
+    autonumber
     participant User
     participant FE as Frontend
     participant BE as Backend API
     participant DB as PostgreSQL
 
-    User->>FE: Enter email + password (optionally check "Remember Me")
-    FE->>FE: Client-side validation (email format, min-length)
-    FE->>BE: POST /v1/auth/login {email, password, rememberMe}
-    BE->>DB: SELECT user + attempt counter + lockout state
-    DB-->>BE: User record + failure metadata
-    alt Account locked (5 failures / 15 min window)
-        BE-->>FE: 429 "Account temporarily locked. Try again in 15 minutes."
-        FE-->>User: Display lockout message + countdown
-    else Credentials valid
-        BE->>BE: Reset failure counter
-        BE->>BE: Sign 15-minute access JWT (HS256) and refresh JWT — sliding session: 24h standard, 7d "remember me"
-        BE->>DB: Store session metadata
-        BE-->>FE: 200 {accessToken, ...} + refresh cookie
-        Note over User,BE: ── Session lifetime ──
-        FE->>BE: On a 401, POST /v1/auth/refresh (single-use rotation) and retry the request
-        FE->>FE: 5 min before the session's sessionExpiresAt → show "Extend session?" warning
-        opt Refresh rejected or session expired
-            FE-->>User: Redirect to login ("Session expired.")
-        end
+    User->>FE: Enter credentials and optional remember-me choice
+    FE->>BE: POST /v1/auth/login (X-Session-Mode: cookie)
+    BE->>DB: Load user and persisted failure/lockout state
+    alt Account locked
+        BE-->>FE: 429 with lockout guidance
     else Invalid credentials
-        BE->>DB: Increment failure counter
-        BE-->>FE: 401 "Invalid email or password" (generic — no field disclosure)
+        BE->>DB: Record failed attempt
+        BE-->>FE: Generic 401
+    else Valid verified account
+        BE->>DB: Clear failed-login state
+        BE->>BE: Sign access and refresh tokens
+        BE-->>FE: 200 accessToken, user, sessionExpiresAt, refresh cookie
+        FE->>FE: Keep access token in memory
+        opt Access token expires while session is active
+            FE->>BE: POST /v1/auth/refresh (cookie mode, no body)
+            BE->>DB: Atomically revoke old refresh credential
+            BE-->>FE: New access token and rotated refresh cookie
+        end
     end
-    opt User clicks logout
-        User->>FE: Click logout
-        FE->>BE: POST /v1/auth/logout
-        BE->>DB: Invalidate session token
-        FE-->>User: Redirect to landing page
+    opt User logs out
+        FE->>BE: POST /v1/auth/logout (cookie mode)
+        BE->>DB: Revoke refresh credential if present
+        BE-->>FE: Success and cleared refresh cookie
+        FE->>FE: Clear access token and local session state
     end
 ```
 
-> **Counter logic**: 5 failed attempts within a 15-minute sliding window triggers a 15-minute lockout. Counter resets on successful login or after the lockout period expires.
-
----
+Access tokens last 15 minutes by default; refresh lifetimes slide 24 hours or seven days with remember-me. Five failed attempts in the account window trigger lockout; repeated failures can increase its duration. An unverified account is refused login after its password matches.
 
 ## 9) Authorization 3-Layer Defense
 
+Authentication, role permissions, and workspace filtering protect different boundaries. A denied request does not proceed to the next gate.
+
 ```mermaid
 sequenceDiagram
+    autonumber
     participant Client
-    participant JWT as JWT Middleware
-    participant RBAC as RBAC Permission Layer
+    participant Auth as Auth Dependencies
     participant Repo as Workspace-scoped Repository
     participant DB as PostgreSQL
 
-    Client->>JWT: API request with Authorization: Bearer <JWT>
-
-    Note over JWT: Layer 1 — JWT Middleware
-    JWT->>JWT: Validate signature + expiration
-    alt Invalid signature
-        JWT-->>Client: 401 Unauthorized
-    else Token expired
-        JWT-->>Client: 401 Unauthorized
-    else Token valid
-        JWT->>JWT: Decode claims {sub, email, role, wid}
-        JWT->>RBAC: Forward request + user context
-
-        Note over RBAC: Layer 2 — RBAC Permission Layer
-        alt Route requires admin role
-            RBAC->>RBAC: Check role = "admin"
-            opt Role is member
-                RBAC-->>Client: 403 Forbidden
+    Client->>Auth: API request with bearer access token
+    Auth->>Auth: Verify signature, expiry, token type, and required claims
+    alt Invalid identity or workspace claims
+        Auth-->>Client: 401 Unauthorized
+    else Valid claims
+        Auth->>Auth: Check route's allowed role
+        alt Role not allowed
+            Auth-->>Client: 403 Forbidden
+        else Role allowed
+            Auth->>Repo: Execute with verified workspace context
+            Repo->>DB: Query restricted to caller's workspace
+            alt Record in workspace
+                DB-->>Repo: Matching data
+                Repo-->>Client: Response
+            else Missing or foreign record
+                DB-->>Repo: No matching row
+                Repo-->>Client: 404 Not Found
             end
-        end
-        RBAC->>Repo: Forward request with workspace_id context
-
-        Note over Repo: Layer 3 — Workspace scoping
-        Repo->>DB: SELECT ... WHERE workspace_id = :wid
-        alt Record in caller's workspace
-            DB-->>Repo: Matching rows
-            Repo-->>Client: 200 OK
-        else Record missing or in another workspace
-            DB-->>Repo: Empty result set
-            Repo-->>Client: 404 Not Found
         end
     end
 ```
 
-> **Defense-in-depth**: Each layer acts as an independent gate. JWT validates identity, RBAC enforces the role, and every repository query is filtered by the caller's workspace, so another workspace's records read as not found. The public Client Review route sees one project's approved stories and nothing else.
-
----
+Workspace isolation is enforced by the application; PostgreSQL Row-Level Security is not enabled. Client Review is a separate public flow scoped by one project's access code.
 
 ## 10) Client Review by Access Code
 
 ```mermaid
 sequenceDiagram
+    autonumber
     participant Freelancer as Admin / Member
     participant FE as Frontend
     participant BE as Backend API
@@ -320,13 +325,13 @@ sequenceDiagram
 
     Note over Freelancer,DB: ── Freelancer shares a project ──
     Freelancer->>FE: Open project → copy client link
-    FE->>BE: GET /projects/{id} (JWT)
+    FE->>BE: GET /v1/projects/{id} (JWT)
     BE-->>FE: Project incl. accessCode
     Freelancer-->>Stakeholder: Send link or code (outside the product)
 
     Note over Stakeholder,DB: ── Stakeholder reviews, no account ──
     Stakeholder->>FE: Open /viewer/{accessCode} (or type the code)
-    FE->>BE: GET /viewer/{accessCode} (no token)
+    FE->>BE: GET /v1/viewer/{accessCode} (no token)
     BE->>BE: Rate limit (30/min per IP), normalize and format-check the code
     BE->>DB: Find project by access_code (unique instance-wide)
     alt Unknown or malformed code
@@ -342,7 +347,7 @@ sequenceDiagram
     Note over Freelancer,DB: ── Freelancer revokes ──
     opt Code shared too widely
         Freelancer->>FE: "Generate new code" (confirm)
-        FE->>BE: POST /projects/{id}/access-code/regenerate (JWT)
+        FE->>BE: POST /v1/projects/{id}/access-code/regenerate (JWT)
         BE->>DB: Replace access_code
         BE-->>FE: Project with the new accessCode
         Note over Stakeholder,BE: The old code and link now answer 404
@@ -355,130 +360,101 @@ sequenceDiagram
 
 ## 11) AI Credits Consumption and API Key Management
 
+Platform credits and user-owned provider quota are separate. Validation and storage never return the plaintext key.
+
 ```mermaid
 sequenceDiagram
+    autonumber
     participant User
     participant FE as Frontend
     participant BE as Backend API
     participant DB as PostgreSQL
     participant AI as AI Provider
 
-    Note over User,DB: ── Free credits lifecycle ──
-    User->>FE: Submit raw notes for AI refinement
-    FE->>BE: POST /refinement/generate-stories
-    BE->>DB: Check credit balance
-    alt Credits > 0
-        BE->>AI: Request refinement (platform provider key)
-        AI-->>BE: Structured stories
-        BE->>DB: Decrement credit counter
-        BE-->>FE: 200 {stories, creditsRemaining} (stories not stored)
-    else Credits = 0
-        BE-->>FE: 402 "No credits remaining. Add your own API key to continue."
-        FE-->>User: Modal with "Add API Key" CTA → Settings
+    User->>FE: Select platform and generate stories
+    FE->>BE: POST /v1/refinement/generate-stories
+    BE->>DB: Check workspace and credit balance
+    alt No platform credits
+        BE-->>FE: 402 with INSUFFICIENT_CREDITS
+        FE-->>User: Offer provider-key settings
+    else Credits available
+        BE->>AI: Generate using platform Gemini key
+        AI-->>BE: Generated stories
+        BE->>DB: Conditional credit decrement after success
+        BE-->>FE: 200 stories and creditsRemaining
     end
 
-    Note over User,DB: ── API key management ──
-    User->>FE: Settings → API Keys → select provider (Gemini / OpenAI / DeepSeek)
-    FE->>FE: API key input form
+    User->>FE: Add provider key in settings
     FE->>BE: POST /v1/users/me/api-keys {provider, apiKey}
-    BE->>AI: Validate key via provider test endpoint
-    alt Key valid
-        AI-->>BE: 200 OK
-        BE->>DB: Encrypt key (AES-256) + store
-        BE-->>FE: 200 "API key saved"
-        FE-->>User: Confirmation toast, provider available in selector
-    else Key invalid or rate-limited
-        AI-->>BE: 401/403/429
-        BE-->>FE: 400 {error: "Invalid key", detail} (key NOT saved)
-        Note over BE: Max 5 validation attempts per user per hour
+    BE->>BE: Check format
+    BE->>DB: Charge per-user validation budget
+    BE->>AI: Validate key with provider
+    alt Provider accepts key
+        BE->>DB: Store AES-256-GCM ciphertext and display mask
+        BE-->>FE: 201 masked key metadata
+    else Provider rejects key
+        BE-->>FE: 422 with reason and promptsKeyUpdate
     end
-    User->>FE: View masked key (e.g., sk-proj-***...abc)
-    User->>FE: Replace or delete key (delete last key + credits=0 → refinement blocked)
 
-    Note over User,AI: ── Refinement with custom API key ──
-    User->>FE: Initiate refinement, select custom provider
-    FE->>BE: POST /refinement/generate-stories {provider: "openai"}
-    BE->>DB: Retrieve decrypted API key
-    BE->>AI: Request refinement (user's API key)
-    alt Success
-        AI-->>BE: Structured stories
-        BE-->>FE: 200 {stories} (not stored; platform credits NOT consumed)
-    else Provider error
-        AI-->>BE: Quota exceeded / auth failed / network / rate limit
-        BE-->>FE: 400 {error, actionableMessage, links: [settings, switchProvider]}
-        FE-->>User: Specific error modal with resolution paths
+    User->>FE: Select own-key provider and generate
+    FE->>BE: POST /v1/refinement/generate-stories
+    BE->>DB: Load and decrypt caller's provider key
+    BE->>AI: Generate using caller's quota
+    alt Generation succeeds
+        AI-->>BE: Stories
+        BE-->>FE: 200 stories, creditsRemaining is null
+    else Provider call fails
+        BE-->>FE: 502 with failureClass and preserved rawNotes
+        FE-->>User: Retry or choose another provider
     end
 ```
 
-> **Key storage**: AES-256 encrypted at rest in PostgreSQL. Decrypted only at runtime during refinement. Plaintext never retrievable. No "Copy" button in UI. Post-verification hook (F-008 → F-010) grants 5 free credits on account activation.
+Saving and explicit revalidation share five provider-validation attempts per user per hour. A failed platform generation does not consume a credit. Five free credits are granted on verification subject to the workspace's 25-credit lifetime ceiling; no purchase/payment flow is implemented.
 
----
+## 12) AI Refinement Security Pipeline
 
-## 12) AI Refinement 5-Stage Security Pipeline
+This sequence shows implemented controls. Pattern-based sanitization and structured parsing do not establish that generated content is safe or correct.
 
 ```mermaid
 sequenceDiagram
-    participant User
+    autonumber
+    participant Editor as Admin or Member
     participant FE as Frontend
-    participant Sanitize as Stage 1: Input Sanitization
-    participant Assemble as Stage 2: Prompt Assembly
-    participant Provider as Stage 3: AI Provider
-    participant Validate as Stage 4: Output Validation
-    participant Approve as Stage 5: Approval Gate
+    participant BE as Backend API
+    participant AI as Selected AI Provider
     participant DB as PostgreSQL
 
-    User->>FE: Submit raw requirements notes
-    FE->>Sanitize: Raw input (max 5,000 chars)
-
-    Note over Sanitize: Strip HTML/script/SQL patterns, injection markers, null bytes
-    Sanitize->>Sanitize: Scan for: "ignore previous instructions", "you are now", "system prompt:", "DAN mode", zero-width chars, Unicode control chars
-    alt Injection detected
-        Sanitize-->>FE: 400 "Input contains invalid characters"
-        FE-->>User: User-friendly error message
-    else Input clean
-        Sanitize->>Assemble: Sanitized input
-
-        Note over Assemble: Wrap in <user_input>...</user_input> XML delimiters, hardened system prompt
-        Assemble->>Assemble: System prompt enforces: only process text between <user_input> tags, never reveal system prompt, refuse harmful content, use fallback if override detected
-        Assemble->>Provider: Hardened prompt (provider-selected via backend config, not user input)
-
-        Note over Provider: Gemini / OpenAI / DeepSeek — per-provider safety filters applied
-        Provider->>Provider: Provider safety: Gemini HARM_CATEGORY thresholds, OpenAI Moderation API, DeepSeek content filtering
-        Provider-->>Validate: AI response
-
-        Note over Validate: Content filtering, structure validation, length caps, system prompt leakage check
-        Validate->>Validate: Check: harmful language, injection artifacts, expected format (title + story + criteria)
-        alt Output blocked
-            Validate-->>FE: 422 "AI output filtered — please try different input"
-            FE-->>User: Error message
-        else Output valid
-            Validate-->>FE: Refined stories returned (not stored)
-
-            Note over Approve: Human-in-the-loop — ALL AI output is unapproved and unstored until Admin approves
-            FE-->>User: Display editable output held in the browser
-            User->>FE: Review, edit, and approve OR reject
-            alt Admin rejects
-                User->>FE: Discard refined story
-                FE->>FE: Remove from browser state (no server call)
-            else Admin approves
-                User->>FE: Approve selected stories
-                FE->>Approve: POST /refinement/approve-stories {stories: [content]}
-                Approve->>DB: Insert approved stories
-                Approve-->>FE: 200 approval success
-                FE-->>User: Confirmation
-            end
+    Editor->>FE: Submit discovery notes
+    FE->>BE: Notes and selected provider
+    BE->>BE: Validate 20–5,000 characters
+    BE->>BE: Redact known instruction patterns and strip markup
+    alt Fewer than 20 usable characters remain
+        BE-->>FE: 400 validation error
+    else Usable sanitized notes remain
+        BE->>DB: Validate project workspace and provider/credit eligibility
+        BE->>AI: Prompt with delimited sanitized notes
+        AI-->>BE: Generated content
+        BE->>BE: Parse structured story response
+        BE-->>FE: Drafts, original rawNotes, and redactionCount
+        FE-->>Editor: Editable drafts held in browser state
+        alt Editor discards draft
+            FE->>FE: Remove draft locally
+        else Editor approves draft
+            FE->>BE: POST /v1/refinement/approve-stories
+            BE->>BE: Validate submitted content
+            BE->>DB: Save stories in caller's workspace
+            BE-->>FE: 200 approvedCount and story references
         end
     end
 ```
 
-> **Defense layers**: 5 independent stages — no single stage is responsible for all security. Unapproved content is never stored, so it cannot reach exports, the Client Review Portal, or downstream workflows until explicitly approved by a human Admin. Rate limiting and the 5-credit trial act as additional throttling against automated abuse.
-
----
+There is no dedicated moderation call, toxicity filter, or system-prompt-leak detector in this flow. Unapproved drafts do not reach the stored backlog, export, or Client Review route. See [AI Refinement Controls](../security/security-architecture.md#ai-refinement-controls).
 
 ## 13) CI/CD Pipeline
 
 ```mermaid
 sequenceDiagram
+    autonumber
     actor Dev as Developer
     participant CI as GitHub Actions
     participant DevBranch as origin/dev
@@ -531,8 +507,8 @@ sequenceDiagram
 | 8 — Login with Rate Limiting & Lockout       | F-007 (admin login)                                  |
 | 9 — Authorization 3-Layer Defense            | F-003 (access control), security-architecture.md     |
 | 10 — Client Review by Access Code            | F-011 (client review access)                         |
-| 11 — AI Credits & API Key Management         | F-010 (AI credits), ADR-012 (secrets management)     |
-| 12 — AI Refinement 5-Stage Security Pipeline | F-002 (AI refinement), security-architecture.md      |
+| 11 — AI Credits & API Key Management         | F-010 (AI credits), ADR-018 (key encryption)     |
+| 12 — AI Refinement Security Pipeline | F-002 (AI refinement), security-architecture.md      |
 | 13 — CI/CD Pipeline                          | ci-cd-pipeline.md, deployment-architecture.md        |
 
 ## Source References
@@ -550,4 +526,4 @@ sequenceDiagram
 
 ---
 
-**Last Updated**: 2026-08-11
+**Last Updated**: 2026-10-19

@@ -1,48 +1,25 @@
-# Project Planning
+# Project planning
 
-| Attribute        | Value                       |
-| ---------------- | --------------------------- |
-| **Project**      | Open Projects Hub |
-| **Version**      | 1.4                         |
-| **Status**       | Accepted                    |
-| **Owner**        | Product Owner               |
+The planning documents record how the project was divided into phases and responsibilities. They are design and delivery artifacts, not evidence that every planned activity or acceptance criterion has been completed.
 
-## Purpose
+## Planning documents
 
-Single source of truth for project planning, including the phased roadmap, role definitions, and workstream ownership.
+| Document | Purpose |
+| --- | --- |
+| [Phased roadmap](./phased-roadmap.md) | Original phase structure, implementation progress, planning assumptions, and outstanding validation |
+| [Role mapping](./role-mapping.md) | Responsibility areas used in requirements and work items |
 
----
+## Reading status correctly
 
-## Planning Documents
+- **Requirements baseline:** intended behavior and quality targets.
+- **Implementation present:** corresponding source code or design artifact exists.
+- **Verified:** a named check was run with a recorded result and environment.
+- **TBD — evidence not recorded:** a completion or outcome claim has no supporting artifact in the reviewed sources.
 
-| Document       | Description                                                                               | Status                   | Owner         | Details                                  |
-| -------------- | ----------------------------------------------------------------------------------------- | ------------------------ | ------------- | ---------------------------------------- |
-| Phased Roadmap | Defines project phases, goals, deliverables, and timelines from pre-MVP to future phases. | Ready for Implementation | Product Owner | [phased-roadmap.md](./phased-roadmap.md) |
-| Role Mapping   | Maps roles and responsibilities (RACI) to workstreams, phases, and specific requirements. | Ready for Implementation | Product Owner | [role-mapping.md](./role-mapping.md)     |
+The MVP workflow has an implementation and a documented first deployment. That does not establish completion of all quality, user-validation, or governance work. The [evidence and limitations](../00-context/evidence-and-limitations.md) page identifies the reviewed source baseline and verification gaps.
 
----
+## Related documents
 
-## Status Definitions
-
-| Status                       | Meaning                                                                                 | Criteria                                                                                                        |
-| ---------------------------- | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
-| **Draft**                    | Planning documents are being created but are not yet complete.                          | Initial ideas are captured; structure may be incomplete.                                                        |
-| **Review Pending**           | Documents are complete and ready for stakeholder validation.                            | All sections are filled; data is consistent across documents; pending final review before handoff.              |
-| **Ready for Implementation** | All planning documents are reviewed, approved, and serve as the baseline for execution. | All documents have been approved; no open questions remain; implementation team can proceed based on this plan. |
-
-### Current Planning Status
-
-All planning documents have been updated to **Ready for Implementation**.
-
-**Status (2026-10-19)**: Phase -1, Phase 0 and the MVP are built and the first production release is live. Remaining work is the Phase 1 items listed in the `phased-roadmap.md` (SEO and E2E coverage).
-
-**Transition Path**: Draft → Review Pending → **Ready for Implementation** ✅
-
-## Source References
-
-- [Project Overview](../00-context/overview.md)
-- [Project Requirements](../01-requirements/README.md)
-
----
-
-**Last Updated**: 2026-07-30
+- [Project overview](../00-context/overview.md)
+- [Feature requirements](../01-requirements/README.md)
+- [Reviewer guide](../00-context/reviewer-guide.md)

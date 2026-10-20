@@ -10,19 +10,6 @@ sidebar_position: 3
 | **Version**      | 2.0                         |
 | **Status**       | Accepted                    |
 
-## Table of Contents
-
-- [1. Monitoring Strategy](#1-monitoring-strategy)
-- [2. What Is Monitored Today](#2-what-is-monitored-today)
-- [3. Logs](#3-logs)
-- [4. Health Checks and Alerting](#4-health-checks-and-alerting)
-- [5. Data Privacy in Observability](#5-data-privacy-in-observability)
-- [6. Cost](#6-cost)
-- [7. Gaps and Future Work](#7-gaps-and-future-work)
-- [Source References](#source-references)
-
----
-
 ## 1. Monitoring Strategy
 
 The deployed system is one EC2 host running Caddy, the API and PostgreSQL, with Cloudflare in front ([Deployment Architecture](./deployment-architecture.md)). It serves a handful of users for a master's-project review, so the monitoring is deliberately small and costs nothing beyond the host.
@@ -66,7 +53,7 @@ Useful log events when debugging sign-up: `email.send_failed` (a bad `SMTP_*` va
 
 ## 6. Cost
 
-The host and its volume are the only recurring cost (about $12.85/month at the list prices recorded in the [Deployment Architecture](./deployment-architecture.md), paid from the Free Plan credits). Monitoring adds nothing: Sentry's free plan is the only optional extra, CloudWatch is limited to the free default EC2 metrics, and the budgets are free.
+The [deployment architecture](./deployment-architecture.md) retains the original cost estimate for compute, volume, and public IPv4. The design uses optional Sentry and AWS Budgets without dedicated monitoring infrastructure. Current pricing, account allowances, and actual billed usage were not verified during this review.
 
 ## 7. Gaps and Future Work
 

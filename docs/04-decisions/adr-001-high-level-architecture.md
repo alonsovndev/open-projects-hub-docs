@@ -5,6 +5,8 @@
 
 > **Amended by [ADR-020](./adr-020-client-review-by-access-code.md) (2026-10-02):** the `viewer` role mentioned here was removed; roles are `admin` and `member`, and clients review a project through its access code.
 
+> **Implementation qualification:** The modular-monolith choice stands. The early 1–1.5-month schedule was a planning assumption later revised in the [roadmap](../02-planning/phased-roadmap.md), not a measured delivery result.
+
 ## Context
 
 The project requires an architecture that supports:

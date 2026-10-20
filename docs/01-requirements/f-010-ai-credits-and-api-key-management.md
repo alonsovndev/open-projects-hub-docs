@@ -5,8 +5,10 @@
 | **Project**      | Open Projects Hub |
 | **Version**      | 1.4                         |
 | **Status**       | Accepted                    |
-| **Readiness**    | Ready for Implementation    |
+| **Document role** | Requirements baseline |
 | **Owner**        | Product Owner               |
+
+These requirements record the design baseline. “Clarified” describes specification status, not a passing acceptance test. See [evidence and limitations](../00-context/evidence-and-limitations.md) for implementation support and validation gaps.
 
 ## Context
 
@@ -66,7 +68,7 @@
 - **Related Open Questions**: Q-004, Q-005, Q-006, Q-007, Q-008 (AI refinement workflow context)
 - **Related Architecture/ADR**: [Security Architecture](../03-architecture/security/security-architecture.md), [ADR-011: Secrets Management Strategy](../04-decisions/adr-011-secrets-management.md), [ADR-018: User API Key Encryption at Rest](../04-decisions/adr-018-user-api-key-encryption.md)
 - **Related Features**: [F-002: AI Refinement and Approval Workflow](./f-002-ai-refinement-and-approval-workflow.md), [F-008: Account Creation](./f-008-create-account.md)
-- **Related Prototype**: [Stitch Prompt](../05-prototype/README.md)
+- **Related Prototype**: [Historical prototype](../05-prototype/README.md)
 
 ---
 

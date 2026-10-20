@@ -4,6 +4,8 @@
 - **Date**: 2026-08-04
 - **Updated**: 2026-08-07
 
+> **Implementation qualification:** The branching rationale is retained. The current API tag workflow publishes an image; the operator deploys separately through SSM ([ADR-023](./adr-023-credits-account-us-east-2-manual-deploy.md)). Web and docs publish through Cloudflare Builds. Approval counts and hosted protection rules below are policy intentions, not settings verified in this review.
+
 ## Context
 
 The project requires clear git conventions to support collaboration between a small core team (1-3 developers) and potential external contributors, while maintaining code quality and traceability. Key constraints: GitHub free tier, $0 tooling cost, and low friction for rapid iteration.

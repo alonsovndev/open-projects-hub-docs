@@ -1,74 +1,32 @@
-# Architecture Overview — Open Projects Hub
+# Architecture overview
 
-## How to Use
+The system combines a separately deployed React frontend with a FastAPI modular monolith and PostgreSQL. Start with the solution design, then inspect the contracts, access boundaries, and deployment trade-offs.
 
-- Every section links to a document that contains the authoritative decision or design for that concern.
-- Every significant decision must link to at least one ADR.
-- Keep this README as the single navigation entry point for the architecture folder.
-- Add new sections only when a domain concern is not yet covered.
+## Architecture reading map
 
----
+| Concern | Documents | Review question |
+| --- | --- | --- |
+| System structure | [Solution design](./core/architecture-solution-design.md), [architecture styles](./core/architecture-styles.md), [technology stack](./core/technology-stack.md) | How do responsibilities and dependencies fit together? |
+| Interactions | [Sequence diagrams](./diagrams/sequence-diagrams.md) | What happens during authentication, refinement, approval, and review? |
+| Persistence | [Database design](./database/database-design.md) | What is stored, and how is workspace scope enforced? |
+| API | [Contract](./api/api-contract.md), [design standards](./api/api-design-standards.md) | What requests, responses, and errors are implemented? |
+| Security | [Security architecture](./security/security-architecture.md), [threat model](./security/threat-model.md) | Which controls exist, and what risks remain? |
+| Operations | [Deployment](./ops/deployment-architecture.md), [CI/CD](./ops/ci-cd-pipeline.md), [observability](./ops/monitoring-observability.md) | How is the system released and operated? |
 
-## 1. Core Architecture
+## Requirements and decision traceability
 
-Files in `core/`:
+| Architecture concern | Feature or quality baseline | Relevant decisions |
+| --- | --- | --- |
+| Workspace and project lifecycle | F-001, F-003; NFR-X02 | ADR-001, ADR-004, ADR-020 |
+| Refinement, approval, and backlog | F-002, F-004, F-010 | ADR-018, ADR-019 |
+| Authentication and client visibility | F-003, F-007, F-008, F-009, F-011; NFR-X01, NFR-X09 | ADR-005, ADR-020, ADR-024 |
+| Testability and maintainability | NFR-X03 | ADR-010, ADR-015 |
+| Deployment and operational limits | NFR-X05, NFR-X06, NFR-X10 | ADR-021, ADR-022, ADR-023, ADR-024 |
 
-- **[Architecture Solution Design](./core/architecture-solution-design.md)**: System context, selected pattern, component design, data flow, and high-level trade-offs.
-- **[Architecture Styles](./core/architecture-styles.md)**: Modular Monolith rationale, bounded context map, and evolution strategy toward selective microservices.
-- **[Technology Stack](./core/technology-stack.md)**: Component-level technology choices (FastAPI, React, PostgreSQL, Cloudflare Workers, one EC2 host, Resend, Sentry) as deployed with rationale and trade-offs.
+These associations show where the design addresses a requirement; they do not certify that every acceptance criterion or quality target has passed. See [evidence and limitations](../00-context/evidence-and-limitations.md) for verification boundaries.
 
-## 2. Diagrams
+## Current design and history
 
-- **[Diagrams](./diagrams/)**: Architecture diagrams — C4 models, flows, deployment, security.
-  - Complex diagrams maintained in Drawio files: `c4-models.drawio`, `flows.drawio`, `deployment-security.drawio`
-  - See [Diagrams README](./diagrams/README.md) for full diagram index
-  - [Sequence Diagrams](./diagrams/sequence-diagrams.md): Key interaction flows with detailed explanations
+Current architecture pages describe the reviewed implementation. The [ADR log](../04-decisions/README.md) retains earlier choices and their amendments. In particular, App Runner/RDS/CloudFront were replaced by a single EC2 host and Cloudflare, Viewer accounts were replaced by shared project access codes, and generated drafts remain in browser storage until approval.
 
-## 3. Database
-
-Files in `database/`:
-
-- **[Database Domain Overview](./database/README.md)**: Database architecture domain with schema design guidance, references to ADR-003, ADR-007, and the schema as implemented, indexes, and data governance.
-
-## 4. API and Communication
-
-Files in `api/`:
-
-- **[API Design Standards](./api/api-design-standards.md)**: REST conventions, versioning, error handling, and naming rules.
-- **[API Contract](./api/api-contract.md)**: Endpoint catalog and shared JSON schemas.
-
-## 5. Security
-
-Files in `security/`:
-
-- **[Security Architecture](./security/security-architecture.md)**: Custom Auth (JWT) + RBAC + workspace scoping, OWASP controls, data protection, and secrets management.
-- **[Threat Model](./security/threat-model.md)**: STRIDE-based threat enumeration, risk matrix, and mitigation plan.
-
-## 6. Deployment and Operations
-
-Files in `ops/`:
-
-- **[Deployment Architecture](./ops/deployment-architecture.md)**: The deployed model (Cloudflare Workers and proxy, one EC2 host with Docker Compose, Terraform, SSM), cost, security, and known limits.
-- **[CI/CD Pipeline](./ops/ci-cd-pipeline.md)**: GitHub Actions pipeline stages, migration strategy, rollback, and secrets handling.
-- **[Monitoring and Observability](./ops/monitoring-observability.md)**: What is monitored on the single host (health checks, logs, optional Sentry, budgets) and what is not deployed.
-
-## Decision Records
-
-- **[ADRs](../04-decisions/)**: Architecture Decision Records with context, decision, and trade-offs.
-  - Start with [ADR Template](../04-decisions/adr-template.md) for all new decisions.
-
----
-
-## 7. Architecture Domain → Requirements Coverage
-
-This matrix confirms every Must-priority requirement is addressed by at least one architecture domain. Update whenever ADRs or requirements change.
-
-| Architecture Domain       | Must FR(s) Covered                             | Must NFR(s) Covered       | Key ADR(s)                         |
-| -------------------------- | ---------------------------------------------- | -------------------------- | ----------------------------------- |
-| Core Architecture         | FR-001, FR-002, FR-003, FR-004                 | NFR-003, NFR-004          | ADR-001, ADR-009                   |
-| Database                  | FR-001, FR-003, FR-004, FR-006                 | NFR-001, NFR-005, NFR-006 | ADR-003, ADR-007                   |
-| API and Communication     | FR-001, FR-002, FR-003, FR-004, FR-005, FR-006 | NFR-001, NFR-005          | ADR-005, ADR-009                   |
-| Security                  | FR-008, FR-009, FR-010                         | NFR-001, NFR-002          | ADR-005, ADR-012                   |
-| Deployment and Operations | —                                              | NFR-005, NFR-006          | ADR-006, ADR-008, ADR-013, ADR-014 |
-
-> **Rule:** Any Must FR or NFR with no domain coverage is an architecture gap — create an ADR before phase sign-off.
+Diagrams are embedded Mermaid blocks in the owning pages. No Draw.io source files are supplied by this repository.

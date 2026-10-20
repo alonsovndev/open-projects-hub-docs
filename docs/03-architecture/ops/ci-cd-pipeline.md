@@ -2,398 +2,91 @@
 sidebar_position: 2
 ---
 
-# CI/CD Pipeline Architecture
+# CI/CD and release architecture
 
-| Attribute   | Value             |
-| ----------- | ----------------- |
-| **Project** | Open Projects Hub |
-| **Version** | 3.0               |
-| **Status**  | Accepted          |
+This page describes the workflows committed in the reviewed repositories. GitHub Actions validates changes and publishes API images; API deployment is an operator action. Web and documentation publishing are handled separately by Cloudflare Builds.
 
-## Table of Contents
+## Branch and review model
 
-- CI/CD Pipeline Architecture
-  - [Table of Contents](#table-of-contents)
-  - [1. Branching Strategy](#1-branching-strategy)
-    - [Branch Protection Rules](#branch-protection-rules)
-  - [2. Fork Setup \& Sync](#2-fork-setup--sync)
-    - [One-time Fork Setup](#one-time-fork-setup)
-    - [Keeping Your Fork in Sync](#keeping-your-fork-in-sync)
-  - [3. Branch Naming Conventions](#3-branch-naming-conventions)
-  - [4. PR Conventions](#4-pr-conventions)
-    - [Feature PR Flow (target: `dev`)](#feature-pr-flow-target-dev)
-    - [Release PR Flow (dev → main)](#release-pr-flow-dev--main)
-    - [Releasing to Production](#releasing-to-production)
-    - [Release Versioning](#release-versioning)
-    - [Commit Conventions](#commit-conventions)
-  - [5. CI/CD Tool Selection](#5-cicd-tool-selection)
-  - [6. Pipeline Stages](#6-pipeline-stages)
-  - [7. Build and Verification Responsibilities](#7-build-and-verification-responsibilities)
-  - [8. Hotfix Process](#8-hotfix-process)
-  - [9. Deployment Environment Strategy](#9-deployment-environment-strategy)
-  - [10. Database Migration Strategy](#10-database-migration-strategy)
-  - [11. Rollback Strategy](#11-rollback-strategy)
-  - [12. Environment Variables and Secrets Management](#12-environment-variables-and-secrets-management)
-  - [13. Zero-Downtime Deployment Approach](#13-zero-downtime-deployment-approach)
-  - [14. Deployment Impact Summary](#14-deployment-impact-summary)
-  - [Source References](#source-references)
+The intended repository flow uses named working branches, pull requests into integration branch `dev`, and release pull requests from `dev` into `main`. Conventional Commits describe changes. The original rationale is retained in [ADR-016](../../04-decisions/adr-016-git-workflow-strategy.md).
 
-## 1. Branching Strategy
+Required approvals, branch rules, tag protection, and repository permissions are hosted settings. Their current values were not queried in this review; earlier tables describing one or two mandatory approvals should be read as policy intentions rather than verified enforcement.
 
-The project uses a **two-branch model** (`dev` + `main`) with fork-based contributions. All contributors — core team and external — work from forks and submit pull requests to the upstream repository.
+## Validation by repository
 
-```text
-feature/<desc>  fix/<desc>  docs/<desc>    ← created from dev in your fork
-         │
-         ▼
-        dev  ───────────────────────────── integration branch (upstream)
-         │                                 PR from fork to upstream dev
-         │                                 1 approval + CI pass required
-         │
-         ▼  (PR dev → main)
-        main ───────────────────────────── production branch (upstream)
-         │                                 PR from upstream dev to main
-         │                                 2 approvals + CI pass required
-         │                                 merge builds candidate (no deploy)
-         │
-         ▼  (tag vX.Y.Z on main)
-    Production ─────────────────────────── tag triggers deploy pipeline
-```
+| Repository | Committed checks | Important boundary |
+| --- | --- | --- |
+| API | Ruff lint and formatting, Bandit, non-integration pytest, Alembic upgrade/downgrade against a temporary PostgreSQL database | Mypy uses `continue-on-error`; repository integration tests are excluded and the workflow records that they need repair |
+| Web | `npm run verify`: ESLint, unit tests, TypeScript, Vite build | Playwright E2E tests are not run by this CI job |
+| Documentation | TypeScript check and Docusaurus build | Broken links and anchors fail the build; no dedicated lint or test script |
+| Infrastructure | Terraform formatting and validation | No automatic apply or destroy |
 
-![Branching Strategy Diagram](./images/branching-strategy.png)
+A migration upgrade/downgrade check proves that migrations can run in its test environment; it is not a replacement for repository integration tests or a production recovery exercise.
 
-**Permanent branches in the upstream org repo:** `dev`, `main`
-
-- **`dev`**: Integration branch. All feature, fix, docs, refactor, test, and chore PRs target `dev`. This is where changes converge and are tested together before promotion to production.
-- **`main`**: Production branch. Only receives merges from `dev` (via release PR) or `hotfix/*` branches. A merge to `main` builds and freezes a production candidate but does **not** deploy. Deployment is triggered by tagging a semantic version (`vX.Y.Z`) on `main`.
-
-No direct commits to `dev` or `main`. All changes arrive via pull request from a contributor's fork.
-
-**Relationship to ADR-016:** The branching model, commit conventions, and merge strategy are defined in [ADR-016](../../04-decisions/adr-016-git-workflow-strategy.md). This document defines the CI/CD pipeline that enforces these conventions.
-
-### Branch Protection Rules
-
-| Rule                    | `dev`                                       | `main`                                                      |
-| ----------------------- | ------------------------------------------- | ----------------------------------------------------------- |
-| Direct pushes           | ❌ Blocked                                  | ❌ Blocked                                                  |
-| PR required             | ✅ All changes via PR                       | ✅ All changes via PR from `dev` or hotfix                  |
-| Required approvals      | 1 (when team > 1)                           | 2                                                           |
-| Status checks           | ✅ Must pass (lint, test, type-check, docs) | ✅ Must pass (lint, test, type-check, docs) |
-| Up-to-date before merge | ✅ Required                                 | ✅ Required                                                 |
-| Conversation resolution | ✅ Required                                 | ✅ Required                                                 |
-| Stale reviews           | ✅ Dismissed on new commits                 | ✅ Dismissed on new commits                                 |
-| Force pushes            | ❌ Blocked                                  | ❌ Blocked                                                  |
-
----
-
-## 2. Fork Setup & Sync
-
-### One-time Fork Setup
-
-Fork the upstream repository on GitHub, then:
-
-```bash
-git clone git@github.com:<your-handle>/open-projects-hub.git
-cd open-projects-hub
-git remote add upstream git@github.com:<org>/open-projects-hub.git
-git remote -v
-# origin    git@github.com:<your-handle>/open-projects-hub.git (fetch/push)
-# upstream  git@github.com:<org>/open-projects-hub.git (fetch/push)
-```
-
-`origin` is your fork. `upstream` is the org repo. You push to `origin` and open PRs targeting `upstream`.
-
-### Keeping Your Fork in Sync
-
-Sync your fork's `dev` with upstream before starting any new branch:
-
-```bash
-git fetch upstream
-git checkout dev
-git rebase upstream/dev
-git push origin dev
-```
-
-If your feature branch diverges from `dev` while in progress:
-
-```bash
-git checkout feature/add-pipeline-audit
-git rebase upstream/dev
-git push origin feature/add-pipeline-audit --force-with-lease
-```
-
----
-
-## 3. Branch Naming Conventions
-
-All work branches are created from `dev` (except hotfixes, which branch from `main`):
-
-| Branch type   | Pattern                       | Example                       | Targets |
-| ------------- | ----------------------------- | ----------------------------- | ------- |
-| Feature       | `feature/<short-description>` | `feature/ai-refinement-ui`    | `dev`   |
-| Bug fix       | `fix/<issue-description>`     | `fix/login-redirect-loop`     | `dev`   |
-| Documentation | `docs/<topic>`                | `docs/update-readme`          | `dev`   |
-| Refactoring   | `refactor/<component>`        | `refactor/auth-service`       | `dev`   |
-| Tests         | `test/<scope>`                | `test/auth-endpoints`         | `dev`   |
-| Chores        | `chore/<task>`                | `chore/update-dependencies`   | `dev`   |
-| Hotfix        | `hotfix/<description>`        | `hotfix/fix-login-regression` | `main`  |
-
----
-
-## 4. PR Conventions
-
-All pull requests follow these conventions:
-
-| Field              | Rule                                                                           |
-| ------------------ | ------------------------------------------------------------------------------ |
-| Title              | Short description in imperative mood (e.g., `add pipeline audit endpoint`)     |
-| Target branch      | `dev` for features, fixes, docs, refactors, tests, chores; `main` for hotfixes |
-| Merge strategy     | Standard merge commit — preserves full feature branch history (see ADR-016)    |
-| Required approvals | 1 for PRs targeting `dev`; 2 for PRs targeting `main`                          |
-| Self-approval      | Not allowed                                                                    |
-| CI gate            | All status checks must pass (lint, test, type-check, docs)                     |
-| Unresolved threads | Must be resolved before merge                                                  |
-| Up-to-date         | Branch must be current with target before merge                                |
-
-### Feature PR Flow (target: `dev`)
-
-```bash
-# 1. Sync your fork
-git fetch upstream
-git checkout dev
-git rebase upstream/dev
-git push origin dev
-
-# 2. Create feature branch
-git checkout -b feature/add-pipeline-audit
-
-# 3. Develop and commit using Conventional Commits
-git commit -m "feat(api): add pipeline_audit POST endpoint"
-
-# 4. Push to your fork
-git push -u origin feature/add-pipeline-audit
-
-# 5. Open PR on GitHub:
-#    From: <your-handle>/open-projects-hub:feature/add-pipeline-audit
-#    Into: <org>/open-projects-hub:dev
-```
-
-CI runs checks on the PR. After 1 approval and all checks passing, merge via standard merge commit. Delete the fork branch after merge.
-
-### Release PR Flow (dev → main)
-
-```bash
-# Open a PR from upstream dev into upstream main
-# Requires 2 approvals and all CI checks passing
-# Merge builds and freezes a production candidate — does NOT deploy
-```
-
-### Releasing to Production
-
-Once the candidate is signed off, tag the release from upstream `main`:
-
-```bash
-git fetch upstream
-git checkout main
-git rebase upstream/main
-git tag v1.0.0
-git push upstream v1.0.0
-```
-
-The tag (`vX.Y.Z`) triggers the production deployment pipeline.
-
-### Release Versioning
-
-The project uses semantic versioning (`vMAJOR.MINOR.PATCH`):
-
-| Segment | Increment when                                   |
-| ------- | ------------------------------------------------ |
-| `MAJOR` | Breaking change to a public API or data contract |
-| `MINOR` | New feature, backwards-compatible                |
-| `PATCH` | Bug fix, backwards-compatible                    |
-
-Hotfixes increment `PATCH` (e.g., `v1.0.0` → `v1.0.1`). New features shipped via the normal `dev` → `main` cycle increment `MINOR` (e.g., `v1.0.1` → `v1.1.0`).
-
-### Commit Conventions
-
-All commits follow **Conventional Commits** (`<type>(<scope>): <description>`):
-
-| Type       | When to use                                   |
-| ---------- | --------------------------------------------- |
-| `feat`     | New feature for users                         |
-| `fix`      | Bug fix                                       |
-| `docs`     | Documentation only                            |
-| `style`    | Code formatting, whitespace (no logic change) |
-| `refactor` | Code change with no functional change         |
-| `test`     | Adding or updating tests                      |
-| `chore`    | Build process, tooling, dependencies          |
-| `perf`     | Performance improvements                      |
-| `ci`       | CI/CD configuration changes                   |
-
-Examples:
-
-- `feat(auth): add JWT refresh token rotation`
-- `fix(ui): resolve modal close button alignment`
-- `docs(adr): add code quality tooling strategy`
-- `refactor(api): extract validation logic to shared module`
-
-**Enforcement:** PR titles are validated via CI (GitHub Actions checks Conventional Commits format). Commit *messages* are not validated by a local hook, so message format stays friction-free during rapid iteration. Local pre-commit hooks are still used for code quality — Ruff, ESLint, Prettier, mypy, and gitleaks secret detection per [ADR-015](../../04-decisions/adr-015-code-quality-tooling.md) — and CI re-runs those checks as the authoritative gate, so a bypassed hook cannot land non-conforming code. CONTRIBUTING.md documents the format with examples for new contributors.
-
----
-
-## 5. CI/CD Tool Selection
-
-**Selected:** GitHub Actions
-**Rationale:** Native repository integration, environment protection rules for `main` and `dev` branches, flexible workflow orchestration, Terraform automation, and release tracking with Sentry.
-
----
-
-## 6. Pipeline Stages
-
-The CI/CD pipeline is designed around the two-branch strategy to ensure code quality and a safe path to production.
+## Release flow
 
 ```mermaid
-flowchart LR
-    A[Feature branch on fork] --> B[PR to upstream dev]
-    B --> C[CI: lint, test, build]
-    C --> D[1 approval, merge to dev]
-    D --> E[PR dev to main]
-    E --> F[CI re-run, 2 approvals]
-    F --> G[Merge to main: no deploy]
-    G --> H[Tag vX.Y.Z on main]
-    H --> I[API: build image, push to GHCR, SSM deploy on EC2]
-    G --> J[Web: Cloudflare Builds deploys the branch to Workers]
-    I --> K[Manual smoke test]
-    J --> K
+flowchart TB
+    branch[Working branch] -->|Pull request and checks| dev[dev integration branch]
+    dev -->|Release pull request| main[main release branch]
+    main -->|API tag vX.Y.Z| verify[Verify tag format and ancestry]
+    verify -->|Build and publish| registry[GHCR API image]
+    registry -->|Operator runs deploy-release.sh| ssm[SSM deploy document]
+    ssm -->|Pull image and restart Compose| host[EC2 API host]
+    host -->|Container startup| migration[Alembic upgrade head]
+    migration -->|Health and public-path checks| check[Deployment result]
+    main -->|Web repository production build| web[Cloudflare Workers: web]
+    main -->|Docs repository production build| docs[Cloudflare Workers: docs]
 ```
 
----
+*The three `main` release branches belong to separate repositories. Publishing an API image does not deploy it; Cloudflare builds do not deploy the API.*
 
-## 7. Build and Verification Responsibilities
+## API image publication
 
-- **Feature PR Pipeline (target: `dev`):** Triggered on every PR from a fork targeting upstream `dev`.
-  - Runs all documentation checks, code quality scans, and unit/integration tests.
-  - Runs the repository's lint, format, security and unit-test checks, and builds the frontend artifacts to ensure validity.
-  - In the infrastructure repository it runs `terraform fmt -check` and `terraform validate`.
-  - **No deployment occurs from this pipeline.**
+The API `deploy.yml` runs for a `vX.Y.Z` tag, or a manual workflow run from a tag ref. It verifies the semantic tag format and that the tagged commit is an ancestor of `origin/main`, then builds a Linux AMD64 image and publishes it to GHCR.
 
-- **Release PR Pipeline (target: `main`):** Triggered on a PR from upstream `dev` to upstream `main`.
-  - This is a governance step. It re-runs the same checks as the feature PR pipeline.
-  - Requires 2 approvals before merging.
-  - **Merge freezes a candidate — does NOT deploy.**
+The workflow cannot assume an AWS role in the current account. It does not deploy the image or rerun the full CI suite. The branch/review process must establish release readiness before tagging.
 
-- **Production Deployment Pipeline (trigger: tag `vX.Y.Z` on `main`):**
-  - **Backend repository:** the workflow verifies the tag and builds and pushes `ghcr.io/alonsovndev/open-projects-hub-api:vX.Y.Z`. It does not touch AWS. A person then runs `scripts/deploy-release.sh vX.Y.Z` from a workstation, which runs the `ophub-prod-deploy` SSM document on the EC2 host with their own AWS credentials. The host pulls the image and restarts the Docker Compose stack. Alembic migrations run when the API container starts. The script fails if the stack does not start healthy: Docker Compose waits for the API health check (about two minutes at most), then the deploy script waits up to 90 more seconds for `/health/ready`.
-  - **Frontend repository:** has no deploy workflow. Cloudflare Builds (GitHub integration) builds the app on every push (`npm run build`) and deploys the production branch to Cloudflare Workers with `wrangler deploy`; other branches get preview deployments. `VITE_API_BASE_URL` in `.env.production` points the production build at the API origin. No AWS credentials are involved.
-  - The workflow cannot reach AWS: the production account's organization policies do not allow the GitHub OIDC login (see [ADR-023](../../04-decisions/adr-023-credits-account-us-east-2-manual-deploy.md)). It can be run manually from a tag ref to rebuild the image; rolling back means running the script with the previous tag.
-  - The API workflow requires that the tagged commit is on `main` (tag protection limits who can tag, not what is tagged). The deploy script ends with a smoke test through the public URL (`API_URL`, the Cloudflare API hostname): it expects a JSON 4xx from the API, which tells it apart from Caddy's 404 and from Cloudflare's own error pages.
-  - The GHCR package must be Public, because the host pulls anonymously; a private package makes the deploy fail when the host pulls the image.
-  - API CI applies every Alembic migration to an empty Postgres and rolls it back, because production runs `alembic upgrade head` at container start. The repository integration tests are not part of CI: they are stale and need repair first.
-  - **Infrastructure** is not applied by the pipeline: Terraform changes are applied locally by the owner after reviewing the plan (see [Deployment Architecture](./deployment-architecture.md)). Teardown is also done by hand with `terraform destroy` from a workstation (steps in the infrastructure README); there is no destroy workflow. The database is deleted with the host and there are no backups.
-  - The deploy script ends with an automated smoke test of the routing (see above). The authenticated flow is still checked by hand after a deploy: register a new account (verification code by email, [ADR-024](../../04-decisions/adr-024-email-delivery-with-resend.md)), log in and create a project. The admin user is not seeded in production, and self-registration cannot be part of the automated smoke test because it needs the emailed code.
+## API deployment
 
----
+The operator runs `scripts/deploy-release.sh vX.Y.Z` from the API repository with credentials for the intended AWS account and region. This invokes the SSM deployment document, which reads SSM parameters, writes host runtime configuration, pulls the tagged image, and starts the Compose stack.
 
-## 8. Hotfix Process
+- The database retains its data on the host volume.
+- Alembic migrations run when the API container starts.
+- Container readiness and a public-path smoke check establish the deployment script's result.
+- There is one API container, so restarting it can interrupt service.
+- Configuration changes in SSM take effect on the next deployment.
 
-Use hotfixes only for critical production bugs that cannot wait for the normal `dev` → `main` cycle. The 2-approval requirement still applies.
+This is an operational description, not authorization to trigger a release. Exact commands, permissions, and first-release prerequisites belong in the API and infrastructure runbooks linked from the [run guide](../../00-context/run-the-system.md).
 
-1. Sync your fork's `main` with upstream, then branch from it:
+## Web and documentation publishing
 
-   ```bash
-   git fetch upstream
-   git checkout main
-   git rebase upstream/main
-   git checkout -b hotfix/fix-login-regression
-   ```
+Cloudflare Builds publishes the web and documentation repositories independently from their production branches. Public frontend configuration is compiled into each build; secrets must not be embedded in browser assets.
 
-2. Fix, test, push to your fork, and open a PR into upstream `main` (2 approvals).
+The docs Worker serves `build/` at its own hostname. Its GitHub workflow only checks type correctness and the site build. It does not publish the site.
 
-3. After merge and approval, tag the hotfix release from upstream `main`:
+## Rollback and recovery
 
-   ```bash
-   git tag v1.0.1
-   git push upstream v1.0.1
-   ```
+| Area | Procedure | Limitation |
+| --- | --- | --- |
+| API application | Deploy a known-good existing image tag with the manual deployment script | Only safe when the image is compatible with the current schema |
+| Database schema | Assess compatibility and use a forward fix where needed | Migrations do not automatically reverse when an old image is deployed |
+| Web or docs | Restore a known-good Cloudflare deployment, or release a corrective commit | Browser clients may briefly use cached assets |
+| Infrastructure | Review a corrective Terraform plan before applying it | Reverting source alone does not undo external infrastructure changes |
+| Lost database volume | Recreate the host and deploy the application | There are no automated backups; lost data cannot be restored without a separately retained manual dump |
 
-   The tag triggers the production deployment pipeline.
+There is no zero-downtime rollout, automated application rollback, database restore guarantee, or separate staging deployment in the current system.
 
-4. Back-merge into upstream `dev` to keep branches in sync:
+## Secrets and supply chain
 
-   ```bash
-   git fetch upstream
-   git checkout dev
-   git rebase upstream/dev
-   git merge upstream/main
-   git push upstream dev
-   ```
+Platform runtime secrets are SSM SecureString parameters. The API image publication uses GitHub's scoped package-publishing token; AWS deploy credentials are not stored in the release workflow. Source changes and release-tag permissions still matter because the host runs scripts from the tagged API revision.
 
-**Recovery:** The default is fix-forward — land another hotfix. Redeploying a prior good version is possible by running the deploy workflow on the earlier tag, but fix-forward is the norm.
+Dependency updates, image scanning, signed artifacts, and hosted protection rules must be distinguished from controls that are actually configured. Do not infer their enforcement from the presence of a design requirement.
 
----
+## Source references
 
-## 9. Deployment Environment Strategy
-
-Development happens in the local environments (`local`, `test` and `container`, see ADR-014). AWS hosts a single environment:
-
-- **Production:** the release shown at the master's review, a single low-cost EC2 host behind Cloudflare (see ADR-021 and ADR-022). It is deployed **only** from a `vX.Y.Z` tag cut from `main`.
-
-There is no persistent `staging` or `dev` environment on AWS. The `dev` branch provides code-level integration; the `container` environment, which runs the same Docker image that is deployed, serves as the pre-release smoke test.
-
----
-
-## 10. Database Migration Strategy
-
-- Migrations are managed via **Alembic** (see ADR-017) and are versioned and backward-compatible.
-- In the production pipeline (triggered by tag `vX.Y.Z` on `main`), migrations run when the API container starts (`alembic upgrade head` in `scripts/start-api.sh`). With a single instance there is no migration race.
-- A failed migration keeps the API from becoming ready, so the deploy script times out and the workflow fails instead of reporting success against an incorrect schema version.
-
----
-
-## 11. Rollback Strategy
-
-- **Application Rollback:** Re-run the deploy workflow on the previous tag. For the frontend, re-run its deploy workflow on the previous tag.
-- **Database Rollback:** Prefer forward-fix migrations. There are no database backups (ADR-021), so a destructive migration cannot be undone by restoring data.
-- **Infrastructure Rollback:** Revert the change in the Terraform code and apply it locally.
-
----
-
-## 12. Environment Variables and Secrets Management
-
-- Runtime secrets for production are generated by Terraform (or set by hand) in **AWS Systems Manager Parameter Store** under `/ophub/prod/`.
-- The deploy script on the host reads them with the instance role and writes a root-only `.env` for Docker Compose. Parameters still set to the placeholder `N/A` are skipped, so the variable stays unset.
-- GitHub holds no AWS keys and no AWS repository variables: workflows do not reach AWS. Deploys use the operator's own AWS credentials from a workstation.
-- No plaintext secrets are ever stored in the repository.
-
----
-
-## 13. Zero-Downtime Deployment Approach
-
-- Zero-downtime deployment is **not** provided: the single EC2 host restarts the API container on each deploy, so expect a short interruption (ADR-021).
-- Database migrations are written to be backward-compatible. A failed deploy is not rolled back automatically: the old API container has already been replaced, so the site is down until the previous tag is redeployed.
-- The frontend is deployed independently by Cloudflare, which switches versions atomically; the API and the web app are released separately, so keep API changes backward-compatible with the previously deployed web build.
-
----
-
-## 14. Deployment Impact Summary
-
-- The architecture supports a controlled release promotion: `dev` → `main` (candidate) → tag `vX.Y.Z` (deploy).
-- Fork-based contributions ensure consistent workflow for all contributors and clean upstream history.
-- Sentry can be enabled by setting its DSN; there is no CloudWatch alarm setup. Cost is watched through AWS Budgets alerts.
-- The pipeline design separates development integration (`dev`) from production releases (`main`), ensuring stability.
-- Hotfixes bypass `dev` and go directly to `main`, then back-merge to keep branches synchronized.
-
-## Source References
-
-- [Deployment Architecture](./deployment-architecture.md)
-- [Requirements Home](../../01-requirements/README.md)
-- [ADR-006: Deployment Platform (AWS)](../../04-decisions/adr-006-deployment-platform.md) (superseded in part)
-- [ADR-021: Low-Cost Single-Host Deployment](../../04-decisions/adr-021-low-cost-single-host-deployment.md)
-- [ADR-011: Secrets Management Strategy](../../04-decisions/adr-011-secrets-management.md)
-- [ADR-013: Infrastructure as Code Strategy](../../04-decisions/adr-013-infrastructure-as-code.md)
-- [ADR-016: Git Workflow and Branch Strategy](../../04-decisions/adr-016-git-workflow-strategy.md)
-- [ADR-017: Database Migration Strategy](../../04-decisions/adr-017-database-migration-strategy.md)
-
----
-
-**Last Updated**: 2026-10-19
+- [API CI](https://github.com/alonsovndev/open-projects-hub-api/blob/48b1cee6113527dedb054abfc0b4170697fafec0/.github/workflows/ci.yml)
+- [API image publication](https://github.com/alonsovndev/open-projects-hub-api/blob/48b1cee6113527dedb054abfc0b4170697fafec0/.github/workflows/deploy.yml)
+- [Web CI](https://github.com/alonsovndev/open-projects-hub-web/blob/6408eca68f1415612e4275c1a7d61c97a26ba5f8/.github/workflows/ci.yml)
+- [Deployment architecture](./deployment-architecture.md)
+- [ADR-023: account, region, and manual deployment](../../04-decisions/adr-023-credits-account-us-east-2-manual-deploy.md)

@@ -7,6 +7,8 @@
 
 > **Implementation note (2026-10-07):** PostgreSQL Row Level Security was not implemented. Tenant isolation is enforced in the application layer: every repository query is scoped by the caller's `workspace_id`, and records in another workspace return 404. See [Database Design](../03-architecture/database/database-design.md#security-and-data-governance).
 
+> **Current implementation:** authorization uses workspace-scoped queries rather than RLS. The auth module lives under `src/app/features/auth`; JWT signing uses `SECRET_KEY`. Password-reset codes are six-character alphanumeric values with a 30-minute expiry. The earlier role and database-policy design below is retained as history.
+
 ## Context
 
 The platform must enforce strict Admin/Viewer access controls and secure session handling aligned with OWASP and MVP delivery constraints. The solution must support stateless scaling and integrate with AWS infrastructure while maintaining full control over authentication logic.
@@ -49,7 +51,7 @@ The auth module is a bounded context within the modular monolith, not a separate
 3. **Token Configuration**
    - **Access Token Expiration**: short-lived (15 minutes in deployed environments, configurable via `JWT_EXPIRE_MINUTES`)
    - **Algorithm**: HS256
-   - **Secret Key**: Stored in environment variable (`JWT_SECRET_KEY`)
+   - **Secret Key**: Stored in environment variable (`SECRET_KEY`)
    - **Refresh Tokens**: Implemented (EPIC-2). Single-use, rotated on every refresh. Standard
      sessions last 24 hours of inactivity; an opt-in "remember me" extends this to 7 days. The
      window slides forward on each successful refresh rather than being a fixed expiry from login.
@@ -73,7 +75,7 @@ The auth module is a bounded context within the modular monolith, not a separate
 - Password requirements: minimum 8 characters, must include a letter and a digit (enforced in validation layer).
 - Account lockout after 5 failed login attempts within 15 minutes, with progressive backoff for
   repeated offenses (implemented, EPIC-2 persists this to Postgres).
-- Password reset via a 6-digit emailed code, single-use, 5-minute expiry, rate-limited (implemented, EPIC-2 / F-009).
+- Password reset via a six-character alphanumeric emailed code, single-use, 30-minute expiry, rate-limited (implemented, EPIC-2 / F-009).
 - Session-based backend auth is not selected because APIs are deployed as stateless services; the
   session/lockout persistence added in EPIC-2 is scoped to auth-specific revocation state, not a
   general server-side session store for request handling.

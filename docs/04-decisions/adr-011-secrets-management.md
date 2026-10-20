@@ -4,6 +4,8 @@
 **Date**: 2026-02-28  
 **Note (2026-10-10)**: deployed secrets are stored in AWS Systems Manager Parameter Store (SecureString) and read by the deploy script; see [ADR-021](./adr-021-low-cost-single-host-deployment.md).
 
+> **Implementation qualification:** Production API secrets are SSM SecureString parameters read during manual deployment; there is one deployed environment. The original multi-environment GitHub secret and zero-downtime rotation policy below was not established as implemented by this review. Provider-key rotation needs the coordinated procedure in ADR-018.
+
 ## Context
 
 The platform requires secure handling of sensitive credentials across multiple services (Sentry, GitHub Actions) and deployment environments (dev/prod). Security requirements (NFR-001, NFR-002) mandate strict protection of API keys, database credentials, JWT secrets, and integration tokens.

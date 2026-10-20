@@ -10,43 +10,26 @@ sidebar_position: 1
 | **Version**      | 3.0                         |
 | **Status**       | Accepted                    |
 
-## Table of Contents
-
-- [Source References](#source-references)
-- [1. Scope and NFR Alignment](#1-scope-and-nfr-alignment)
-- [2. Cloud Platform Selection and Rationale](#2-cloud-platform-selection-and-rationale)
-- [3. Deployment Architecture](#3-deployment-architecture)
-- [4. Backup and Disaster Recovery](#4-backup-and-disaster-recovery)
-- [5. Environment Strategy](#5-environment-strategy)
-- [6. Cost Optimization Strategy](#6-cost-optimization-strategy)
-- [7. Infrastructure as Code (IaC) Approach](#7-infrastructure-as-code-iac-approach)
-- [8. Security Architecture Considerations](#8-security-architecture-considerations)
-- [9. Deployment Impact Summary (GitHub Actions)](#9-deployment-impact-summary-github-actions)
-- [10. Related ADRs](#10-related-adrs)
-- [11. Implementation Status and Next Steps](#11-implementation-status-and-next-steps)
-
----
-
 ## 1. Scope and NFR Alignment
 
 This document defines the production deployment architecture for the master's-review release. It is sized for a handful of users and near-zero traffic, so cost takes priority over availability and recovery. The decision and its trade-offs are recorded in [ADR-021](../../04-decisions/adr-021-low-cost-single-host-deployment.md), which supersedes the compute, database and network parts of ADR-006.
 
 ## 2. Cloud Platform Selection and Rationale
 
-### 2.1 Decision: AWS-First Platform
+### 2.1 Decision: AWS compute with Cloudflare edge
 
-**Selected:** **Amazon Web Services (AWS)** as the single cloud provider.
+AWS hosts the API and database. Cloudflare hosts the static web and documentation sites and proxies API traffic. This is a mixed-provider deployment.
 
 **Rationale:**
 
-- One provider for billing, IAM and monitoring.
-- The AWS account (the one holding the credits, `us-east-2`, see [ADR-023](../../04-decisions/adr-023-credits-account-us-east-2-manual-deploy.md)) is on the **Free Plan**: it has a fixed period and a credit allowance (current balance and dates are tracked in the AWS console, not here). The plan ends when the period ends or the credits run out, whichever comes first. The design costs about $12-13/month: about $52 for the four months until the review and about $77 for the whole window.
+- AWS provides compute, IAM, SSM, and cost budgets; Cloudflare provides the edge and static hosting.
+- The AWS account (the one holding the credits, `us-east-2`, see [ADR-023](../../04-decisions/adr-023-credits-account-us-east-2-manual-deploy.md)) is on the **Free Plan**: it has a fixed period and a credit allowance (current balance and dates are tracked in the AWS console, not here). The plan ends when the period ends or the credits run out, whichever comes first. The original infrastructure estimate was about $12–13/month; actual usage, current prices, credit balance, and expiry require account verification.
 - Infrastructure as Code (Terraform) makes the deployment repeatable and reviewable.
 
 **Trade-offs Accepted:**
 
 - No high availability, no managed database and no backups (see section 4).
-- The Free Plan has a fixed lifetime and a $100 credit cap; afterwards, or if the credits run out first, the account must be upgraded or the system rehosted.
+- The documented Free Plan has a fixed lifetime and credit allowance; current account entitlements and expiry are TBD in this review. Continued hosting requires an account or hosting decision before access ends.
 - Cloudflare's free plan sits in front of the API host. Its connection to the origin is encrypted but the origin certificate is not validated (see section 8).
 - The web app and the API are different origins (`oph.alonsovndev.com` and `api-oph.alonsovndev.com`), so the browser calls the API cross-origin and the API must allow credentialed CORS.
 
@@ -153,7 +136,7 @@ See also: [ADR-021: Low-Cost Single-Host Deployment](../../04-decisions/adr-021-
 - `API_KEY_ENCRYPTION_KEY` must never be rotated; stored user API keys become undecryptable.
 - A manual `pg_dump` can be taken over SSM Session Manager if a copy is ever needed.
 
-**Recovery runbook (host lost):** apply Terraform to recreate the host, run the API deploy workflow for the current tag, then seed the admin user again with the `seed-admin` Compose profile (it needs `ADMIN_EMAIL` and `ADMIN_PASSWORD`; see the infra repository README). User data is gone.
+**Recovery runbook (host lost):** apply Terraform to recreate the host, run the manual API deployment script for the current tag, then seed the admin user again with the `seed-admin` Compose profile (it needs `ADMIN_EMAIL` and `ADMIN_PASSWORD`; see the infra repository README). User data is gone.
 
 ## 5. Environment Strategy
 
@@ -174,7 +157,7 @@ See also: [ADR-021: Low-Cost Single-Host Deployment](../../04-decisions/adr-021-
 
 ## 6. Cost Optimization Strategy
 
-**Expected monthly cost (us-east-1 list prices; `us-east-2` not checked, TBD; always on):**
+**Historical planning estimate** (recorded for an always-on host using `us-east-1` list prices). Current prices, actual usage, and the `us-east-2` total were not verified; these figures are not a current quote:
 
 | Item | Approx. cost |
 | --- | --- |
@@ -266,14 +249,14 @@ See [Security Architecture](../security/security-architecture.md) for detailed s
 
 **Deployment Workflow:**
 
-- Deployments are triggered by pushing a `vX.Y.Z` tag, or manually from a tag ref.
-- The deploy script fails the workflow if the stack does not start healthy: Docker Compose waits for the API health check (about two minutes at most), then the script waits up to 90 more seconds for `/health/ready`.
+- Image publication is triggered by a `vX.Y.Z` tag or a manual workflow run from a tag ref. Deployment requires the operator to run `scripts/deploy-release.sh <tag>`.
+- The manual deploy command fails if the stack does not start healthy: Docker Compose waits for the API health check (about two minutes at most), then the script waits up to 90 more seconds for `/health/ready`.
 
 **Rollback Strategy:**
 
-- Application: re-run the deploy workflow on the previous tag. Migrations are forward-only, so a rollback across a schema change needs a forward fix.
+- Application: run the manual deployment script with a known-good, schema-compatible image tag. Migrations are forward-only, so a rollback across a schema change needs a forward fix.
 - Frontend: redeploy the previous build from the Cloudflare dashboard, or revert the commit.
-- Edge: delete the `api-oph` DNS record in Cloudflare to take the API offline without touching AWS.
+- Edge: emergency traffic isolation needs a deliberate Cloudflare change and coordination with Terraform; it is not an application rollback.
 - Infrastructure: revert the Terraform change and apply.
 
 ## 10. Related ADRs
@@ -290,37 +273,21 @@ See [Security Architecture](../security/security-architecture.md) for detailed s
 - [ADR-022: Cloudflare Edge Instead of CloudFront](../../04-decisions/adr-022-cloudflare-edge-instead-of-cloudfront.md)
 - [ADR-023: Credits Account in us-east-2 and Manual Deploys](../../04-decisions/adr-023-credits-account-us-east-2-manual-deploy.md)
 
-## 11. Implementation Status and Next Steps
+## 11. Implementation status and review limits
 
-Status as of 2026-10-19. The stack is **live** at `https://api-oph.alonsovndev.com` and the web app at `https://oph.alonsovndev.com` calls it; self-registration was confirmed end to end in the browser (verification email, code, login).
+The deployment records report the first release at `https://api-oph.alonsovndev.com` and `https://oph.alonsovndev.com` on 2026-10-19. They describe API `v0.1.0`, manual deployment through SSM, and a successful registration/email/login check. These are historical operator observations, not a fresh availability check by this documentation review.
 
-**Done**
+Current source code confirms the deployment topology and scripts; the AWS account, Cloudflare settings, live secrets, credit balance, and hosted protection rules were not queried. Sentry collection also depends on DSN configuration.
 
-- The first stack was applied in an AWS account without credits and destroyed. The credits account's organization policies allow EC2 only in `us-east-2` and do not allow GitHub OIDC, so the stack moved there without OIDC ([ADR-023](../../04-decisions/adr-023-credits-account-us-east-2-manual-deploy.md)).
-- In the credits account: `bootstrap/` (state bucket) and `envs/prod` (EC2 host, Elastic IP, security group with Cloudflare ranges, SSM parameters and deploy document, budgets, Cloudflare DNS record) are applied. The host's first boot finished (`cloud-init: done`, Docker 25, Compose v2.29).
-- API `v0.1.0`: the image is public in GHCR and was deployed with `scripts/deploy-release.sh v0.1.0` (SSM command `Success`).
-- Verified from outside: an unauthenticated `GET /v1/users/me/profile` returns a JSON 401 through Cloudflare; the CORS preflight from `https://oph.alonsovndev.com` returns 200 with `allow-credentials: true`; a foreign origin gets 400; the Elastic IP refuses direct connections; non-`/v1` paths return 404; the production web bundle contains the API URL.
-- SMTP parameters (Resend, sending domain `send.alonsovndev.com`, verified) are set in SSM and were read by the deploy.
-- This documentation site is a separate Cloudflare Worker (`open-projects-hub-docs`) at `https://oph-docs.alonsovndev.com`; it does not touch the API stack.
-- The Cloudflare edge decision is in [ADR-022](../../04-decisions/adr-022-cloudflare-edge-instead-of-cloudfront.md).
+The review deployment accepts the following limitations:
 
-**Not done or not verified**
+- No automated backups, restore guarantee, failover, or zero-downtime rollout.
+- Origin TLS encryption without origin-certificate validation.
+- One host and a shared Cloudflare source-IP boundary rather than authenticated origin pulls.
+- Manual deploys and schema-compatibility decisions during rollback.
+- Capacity, availability, and current operating cost remain unmeasured.
 
-- The admin user is intentionally not seeded: an account is created through registration, which also creates its workspace.
-- A detailed browser check of the refresh cookie on the API host (reload and logout) is not recorded here.
-- The `deploy.yml` change (build only) has not run, because it needs a new tag.
-- The security and threat-model pages still name AWS managed services in their controls; they carry a note pointing here.
-
-**Next steps, in order**
-
-1. Watch credit use against the two budgets; at about $12.85/month the plan period, not the balance, is the likely limit.
-
-**Follow-ups and open decisions**
-
-- GitHub CI had been removed from the API and web repositories on 2026-10-08 (commit "chore: remove Github CI/CD", reason not recorded). A smaller CI was added back and the owner decided to keep it (2026-10-10).
-- Email: Resend with the verified sending domain `send.alonsovndev.com` is configured (sender `no-reply@send.alonsovndev.com`); delivery from production was confirmed by a real sign-up on 2026-10-19 ([ADR-024](../../04-decisions/adr-024-email-delivery-with-resend.md)).
-- The architecture pages that describe the original design carry a note pointing to ADR-021, ADR-022 and ADR-023; the stack, solution-design, monitoring and sequence pages were rewritten to the deployed system.
-- Remove the now-unreferenced `images/deployment-arch-aws.png` and `images/git-ci-cd-pipeline.png` once the Mermaid diagrams are accepted.
+The security and threat-model pages describe these current controls and gaps. Old managed-service PNG diagrams remain historical repository assets and are not used as current architecture figures. See [evidence and limitations](../../00-context/evidence-and-limitations.md) for the reviewed source revisions.
 
 ## Source References
 
