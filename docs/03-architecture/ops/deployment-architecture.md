@@ -62,7 +62,7 @@ This document defines the production deployment architecture for the master's-re
 - **Secrets and configuration:** AWS Systems Manager Parameter Store (Standard tier)
 - **Authentication:** Custom JWT-based auth module in the FastAPI backend (see ADR-005)
 - **Infrastructure as Code:** Terraform in the `open-projects-hub-infra` repository
-- **Observability:** Sentry (optional, off until a DSN is set) and container logs on the host
+- **Observability:** Sentry for the API (`SENTRY_DSN` in SSM) and the web app (`VITE_SENTRY_DSN` at build time), each optional and off until a DSN is set, plus container logs on the host
 - **CI/CD:** GitHub Actions builds and publishes the API image; the deploy is started by hand with `scripts/deploy-release.sh` using the operator's AWS credentials (GitHub OIDC is blocked in the account, see ADR-023)
 
 ## 3. Deployment Architecture

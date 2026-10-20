@@ -40,7 +40,7 @@ The original design (a hybrid of Sentry and CloudWatch with SLO dashboards for A
 | Container state | Docker health checks (`api`, `postgres`) and `restart: unless-stopped` | `deploy/compose.prod.yml` |
 | Cost | Two AWS Budgets: one on real (post-credit) charges, one on gross usage | Terraform, `envs/prod` |
 
-The web app has no error-tracking SDK; browser errors are visible only in the browser console.
+The web app reports render errors and route-change traces to its own Sentry project (`open-projects-hub-web`). It is active only when `VITE_SENTRY_DSN` is set at build time (Cloudflare Builds environment variable); with it unset the SDK is a no-op. The trace sample rate is 0.1 and cookies, headers, request bodies and user info are not collected.
 
 ## 3. Logs
 
@@ -75,7 +75,7 @@ The host and its volume are the only recurring cost (about $12.85/month at the l
 | No external uptime probe | An outage is noticed by a user or by the next deploy | A free external HTTP monitor on `https://api-oph.alonsovndev.com/v1/...` (TBD) |
 | No log shipping or retention | Logs are lost if the volume is replaced | Ship to a free log service or CloudWatch Logs (TBD cost) |
 | Sentry DSN possibly unset (TBD) | Backend exceptions are only in the container logs | Create a Sentry project and set `SENTRY_DSN` in SSM |
-| No frontend error tracking | Browser-side failures are invisible | Add the Sentry browser SDK (not planned for the review) |
+| No source maps uploaded for the web app | Browser stack traces in Sentry are minified | Add `@sentry/vite-plugin` with an auth token in the Cloudflare build (TBD) |
 | Single host, no backups | A host or disk failure loses the data | See the limits in the [Deployment Architecture](./deployment-architecture.md) |
 
 ## Source References
