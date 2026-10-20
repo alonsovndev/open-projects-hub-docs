@@ -287,7 +287,7 @@ The review deployment accepts the following limitations:
 - Manual deploys and schema-compatibility decisions during rollback.
 - Capacity, availability, and current operating cost remain unmeasured.
 
-The security and threat-model pages describe these current controls and gaps. Old managed-service PNG diagrams remain historical repository assets and are not used as current architecture figures. See [evidence and limitations](../../00-context/evidence-and-limitations.md) for the reviewed source revisions.
+The security and threat-model pages describe these current controls and gaps. The [deployment architecture](./images/deployment-arch-aws.png) and [CI/CD pipeline](./images/git-ci-cd-pipeline.png) PNG diagrams reflect the current Cloudflare and single-host deployment, including the manual API release step. See [evidence and limitations](../../00-context/evidence-and-limitations.md) for the reviewed source revisions.
 
 ## Source References
 
