@@ -61,6 +61,7 @@ If the API runs in Docker (port 8080), set `VITE_API_BASE_URL=http://localhost:8
 | Variable | Where | Purpose |
 | --- | --- | --- |
 | `VITE_API_BASE_URL` | web `.env` / `.env.production` | API origin the browser calls (production: `https://api-oph.alonsovndev.com`) |
+| `VITE_SENTRY_DSN` | web `.env` / Cloudflare Builds | Optional Sentry DSN for browser error tracking; its ingest origin is added to the CSP `connect-src` at build time. Empty disables Sentry |
 | `FRONTEND_BASE_URL` | API | Web origin (default `http://localhost:5173`) |
 | `CORS_ORIGINS`, `CORS_ALLOW_CREDENTIALS` | API (SSM in production) | Allowed browser origins; credentials must be on for the refresh cookie |
 
