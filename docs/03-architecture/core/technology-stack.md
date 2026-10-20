@@ -48,7 +48,7 @@ This document defines the technology choices for the Open Projects Hub, organize
 | Email                  | Resend (SMTP relay)                  | Verification and password-reset codes ([ADR-024](../../04-decisions/adr-024-email-delivery-with-resend.md)) |
 | IaC                    | Terraform                            | EC2, Elastic IP, security group, SSM, budgets and the Cloudflare DNS record ([ADR-013](../../04-decisions/adr-013-infrastructure-as-code.md)) |
 | **Observability**      |                                      |                                                                                            |
-| Application Monitoring | Sentry SDK (backend, optional)       | Error tracking in the API, active only when a DSN is configured                            |
+| Application Monitoring | Sentry SDKs (API and web, optional) | Error reporting and sampled traces when the corresponding runtime/build DSN is configured |
 | Health and Logs        | `/health/live`, `/health/ready`, container logs | Host-local health checks and `docker compose logs`; no CloudWatch alarms are deployed |
 | **CI/CD**              |                                      |                                                                                            |
 | Pipeline               | GitHub Actions                       | Tests and quality gates on pull requests; on a `vX.Y.Z` tag it builds and pushes the API image |
@@ -66,7 +66,7 @@ This document defines the technology choices for the Open Projects Hub, organize
 ### Backend ↔ Database
 
 - **Access pattern:** SQLAlchemy repository implementations in infrastructure layer
-- **Connection pooling:** 5-10 connections for MVP with query timeouts
+- **Connection pooling:** SQLAlchemy pooling; effective pool settings depend on the application configuration
 - **Network security:** the database is a container reachable only on the host's Compose network; it publishes no port
 - **Migration strategy:** Alembic migrations applied at container start; the deploy briefly restarts the single API container
 
@@ -82,13 +82,13 @@ This document defines the technology choices for the Open Projects Hub, organize
 
 - **Application layer:** Sentry captures API errors when a DSN is configured
 - **Host layer:** health endpoints and container logs; two AWS Budgets alert on cost
-- **Cost target:** about $12.85/month paid from the Free Plan credits, see [Deployment Architecture](../ops/deployment-architecture.md)
+- **Cost:** the original estimate was about $12.85/month; current prices, usage, and credits are unverified. See [Deployment Architecture](../ops/deployment-architecture.md)
 
 ## Scalability & Performance Strategy
 
 - **Scaling:** one host with no autoscaling; the design is sized for a handful of users and the backend is stateless apart from the database
-- **Database optimization:** Query indexing on project/story surfaces with p95 latency monitoring
-- **MVP capacity:** Supports NFR-005/NFR-006 targets (3 projects, 30 stories per project) on the single host
+- **Database optimization:** indexes support project/story queries; no p95 latency measurement or dashboard is established by this review
+- **MVP capacity:** NFR-X05/NFR-X06 are evaluation targets; the workspace limit of three active projects is enforced, but host capacity has not been benchmarked
 - **Evolution readiness:** Module boundaries enable selective service extraction when growth demands it
 - **Performance-first:** Optimize queries and payloads before adding infrastructure complexity
 

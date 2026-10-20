@@ -7,7 +7,7 @@ import type * as Preset from "@docusaurus/preset-classic";
 const config: Config = {
   title: "Open Projects Hub",
   tagline:
-    "Empowering Freelancers with AI-Assisted Project Management and Structured Delivery.",
+    "From client ideas to approved requirements. Engineering documentation for Open Projects Hub.",
   favicon: "img/favicon.svg",
 
   future: {
@@ -71,6 +71,11 @@ const config: Config = {
     // the reader's OS preference.
     mermaid: {
       theme: { light: "neutral", dark: "dark" },
+      options: {
+        flowchart: { useMaxWidth: false },
+        sequence: { useMaxWidth: false },
+        er: { useMaxWidth: false },
+      },
     },
     navbar: {
       title: "Open Projects Hub",
@@ -101,6 +106,14 @@ const config: Config = {
             {
               label: "Introduction",
               to: "/docs/intro",
+            },
+            {
+              label: "Reviewer guide",
+              to: "/docs/00-context/reviewer-guide",
+            },
+            {
+              label: "Evidence and limitations",
+              to: "/docs/00-context/evidence-and-limitations",
             },
             {
               label: "Project Overview",

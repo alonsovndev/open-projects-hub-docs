@@ -69,7 +69,7 @@ Use **Docker multi-stage builds** with the following characteristics:
   - API Gateway + Lambda integration more complex than App Runner for HTTP APIs
   - Free Tier better for App Runner (predictable costs vs. per-request)
 
-### 2. Kubernetes on Amazon EKS\*\*
+### 2. Kubernetes on Amazon EKS
 
 - Considered for advanced orchestration, multi-service deployments, fine-grained control
 - Not selected because:

@@ -2,156 +2,67 @@
 sidebar_position: 2
 ---
 
-# Architecture Styles
+# Architecture styles
 
-| Attribute   | Value             |
-| ----------- | ----------------- |
-| **Project** | Open Projects Hub |
-| **Version** | 1.0               |
-| **Status**  | Accepted          |
+The backend uses a modular monolith with a separately deployed frontend. Feature-oriented modules keep domain and application logic close to the use cases they support, while the API remains one release artifact.
 
-## Decision Summary
+## Alternatives and rationale
 
-The project will use a **Modular Monolith** (backend) with a separately deployed frontend for MVP and near-term scaling.
+| Style | Benefit | Cost or risk | Fit for this project |
+| --- | --- | --- | --- |
+| Layered monolith | Simple startup and deployment | Feature responsibilities can spread across broad technical layers | Feasible, with discipline needed around feature ownership |
+| Modular monolith | One deployable with feature boundaries and testable use cases | Boundaries still need review; a shared process and database couple failures and releases | Selected for the requirements-planning MVP |
+| Microservices | Independent scaling and releases | Network failures, distributed data, deployment coordination, and higher operating overhead | Deferred until a demonstrated need justifies the cost |
 
-This decision aligns with:
+The selection prioritizes a small operational footprint and inspectable code over independent service deployment. The original decision is [ADR-001](../../04-decisions/adr-001-high-level-architecture.md); its early schedule estimate was later revised in the [roadmap](../../02-planning/phased-roadmap.md).
 
-- MVP timeline (1 to 1.5 months),
-- small team coordination constraints,
-- requirement scope (up to 3 active projects per account in MVP),
-- need for clear domain boundaries and future extraction path.
+## Module responsibilities
 
-## Architecture Style Evaluation
+| Responsibility | Implementation location |
+| --- | --- |
+| Identity, sessions, and verification | Auth and user features |
+| Workspace membership and boundaries | Workspace feature, request context, and scoped repositories |
+| Client and project lifecycle | Client and project features |
+| Candidate generation and provider configuration | Refinement and AI configuration features |
+| Approved requirements and Markdown output | Story and backlog features |
+| Client-facing review | Public access-code route and minimized project response |
 
-The architecture style selection balances MVP velocity, maintainability, and future scalability needs.
+These are cooperating modules inside one API process, not separate services. Access control is enforced across route policies and workspace-scoped use cases/repositories rather than by a separately deployed authorization service.
 
-| Style                           | Benefits                                                                    | Drawbacks                                                                   | Fit for Current Context                                    |
-| ------------------------------- | --------------------------------------------------------------------------- | --------------------------------------------------------------------------- | ---------------------------------------------------------- |
-| Monolithic (layered)            | Fast setup, simple deploy pipeline                                          | Boundary erosion risk, harder long-term decomposition                       | Acceptable for very short-lived MVPs, but weaker long-term |
-| Microservices                   | Independent scaling/deployments, isolation                                  | High operational complexity, distributed transactions, higher DevOps burden | Premature for current team size and MVP scope              |
-| **Modular Monolith (Selected)** | Strong module boundaries, single deployable, easier refactor and extraction | Requires discipline to protect module boundaries                            | **Best fit for MVP + planned evolution**                   |
-
-**Why Modular Monolith wins:**
-
-- **Delivery speed:** Single deployment artifact accelerates the MVP timeline (see NFR-X08)
-- **Operational simplicity:** One Docker container, one database, one CI/CD pipeline for small team
-- **Clean Architecture fit:** Module boundaries enforce domain isolation without distributed system overhead
-- **Evolution path:** Bounded contexts can be extracted to services when growth triggers justify it
-
-For detailed alternatives analysis, see [ADR-001: High-Level Architecture Pattern](../../04-decisions/adr-001-high-level-architecture.md).
-
-## Bounded Context Alignment
-
-The modular monolith maps bounded contexts to internal modules:
-
-- **Auth**: User identity lifecycle, JWT token issuance, authentication middleware
-- **Client Management**: client records and lifecycle
-- **Project Management**: project creation, status (discovery/planning), constraints
-- **Requirements Refinement**: AI-assisted drafting, approvals, story artifact lifecycle
-- **Access Control**: Admin/Member authorization and Client Review visibility rules
-- **Export & Reporting**: Markdown export and delivery artifacts
-
-Each module owns:
-
-- domain entities and use cases,
-- repository interfaces (domain/application side),
-- infrastructure adapters behind module contracts.
-
-**Cross-module dependencies:**
-
-- **Auth** → provides JWT validation middleware consumed by all protected endpoints
-- **Access Control** → uses Auth user context to enforce Admin/Member rules
-- **All modules** → use Access Control to check permissions before operations
-
-## Rationale and Trade-offs
-
-### Why this is the right decision now
-
-1. Supports fast MVP delivery with low operational overhead.
-2. Preserves Clean Architecture and DDD boundaries needed for maintainability.
-3. Reduces distributed-system complexity (network partitions and cross-service coordination overhead) until scale requires it.
-
-### Key trade-offs
-
-- We accept a single backend deployable now to accelerate delivery.
-- We mitigate long-term growth risk with strict module boundaries and ADR-governed changes.
-
-## Evolution Strategy (Modular Monolith → Selective Microservices)
-
-### Evolution Path Visualization
+## Dependency direction
 
 ```mermaid
-graph TB
-    subgraph "Phase 1: MVP - Modular Monolith"
-        MM[Backend Monolith<br/>Docker container on EC2]
-        MM --> AUTH[Auth Module]
-        MM --> CLIENT[Client Management]
-        MM --> PROJECT[Project Management]
-        MM --> REQ[Requirements Refinement]
-        MM --> AC[Access Control]
-        MM --> EXPORT[Export & Reporting]
-
-        MM --> DB[(PostgreSQL container)]
-    end
-
-    subgraph "Phase 2: Selective Extraction (Future)"
-        direction TB
-        CORE[Core Monolith<br/>Auth + Client + Project<br/>+ Access Control]
-
-        REQ_SVC[Requirements Service<br/>Independently Scalable]
-        EXPORT_SVC[Export Service<br/>Async Processing]
-
-        CORE --> DB2[(Shared PostgreSQL)]
-        REQ_SVC --> DB2
-        EXPORT_SVC --> OBJ[(Object storage)]
-
-        FE2[Frontend] -->|REST| CORE
-        FE2 -->|REST| REQ_SVC
-        FE2 -->|REST| EXPORT_SVC
-    end
-
-    MM -.->|Extract when<br/>triggers met| REQ_SVC
-    MM -.->|Extract when<br/>triggers met| EXPORT_SVC
-
-    style MM fill:#e1f5ff,stroke:#0066cc,stroke-width:3px
-    style CORE fill:#fff4e1,stroke:#cc8800,stroke-width:2px
-    style REQ_SVC fill:#e8f5e8,stroke:#00aa00,stroke-width:2px
-    style EXPORT_SVC fill:#e8f5e8,stroke:#00aa00,stroke-width:2px
+flowchart TB
+    presentation[HTTP routes] -->|Invoke| application[Application use cases]
+    application -->|Use rules and ports| domain[Domain entities and repository ports]
+    infrastructure[SQLAlchemy and provider adapters] -->|Implement ports| domain
+    composition[Composition root] -->|Wire concrete adapters| infrastructure
+    composition -->|Inject dependencies| application
 ```
 
-**Evolution Principles:**
+*Arrows describe code dependencies. Runtime calls reach databases and external providers through the wired adapters.*
 
-1. **Start simple:** All modules coexist in monolith during MVP
-2. **Extract selectively:** Only when extraction triggers are sustained (see below)
-3. **Keep stable core:** Auth, Client, Project, Access Control likely remain in monolith
-4. **Extract candidates:** Requirements (AI workload) and Export (async processing) are prime candidates
+This structure makes domain rules and application orchestration testable without a live provider or production database. It remains a design discipline to review, not proof that every file perfectly respects the intended boundaries.
 
-### Trigger-based extraction criteria
+## Trade-offs
 
-Extract a module into a service only when at least one trigger is sustained:
+- One backend release changes all modules together; there is no independent module rollout.
+- A shared PostgreSQL database simplifies transactions but requires careful workspace scoping.
+- Synchronous provider calls keep the workflow simple but expose refinement to provider latency and failures.
+- The deployed single host has neither failover nor autoscaling. Modular code does not provide operational availability.
 
-- throughput hotspot (latency/SLA pressure),
-- independent release cadence needed,
-- fault-isolation requirement,
-- team ownership split requiring independent delivery velocity.
+## Evolution strategy
 
-### Migration path
+Optimize measured bottlenecks before adding services. Extraction should be considered only when sustained throughput, fault isolation, independent release cadence, or a real ownership boundary warrants it.
 
-1. Keep domain contracts stable inside module boundaries.
-2. Extract one bounded context at a time behind existing API contracts.
-3. Keep cross-module interactions synchronous until scaling constraints are proven.
+A future service extraction would require an explicit data-ownership and failure-handling decision. No distributed queue, requirements microservice, or export service is committed by the current roadmap.
 
-## Scalability Alignment
+## Capacity and evidence
 
-- MVP and Phase 1 targets (NFR-005/NFR-006) are achievable on the single deployed host; the stateless backend leaves room to scale out later.
-- Modular boundaries reduce refactor risk while enabling selective horizontal scaling later.
-- Additional distributed patterns are deferred to future scope reviews.
+NFR-X05 and NFR-X06 describe intended performance and capacity. There is no recorded load benchmark proving those targets on the current host. The enforced three-active-project limit is a product constraint, not a capacity measurement.
 
-## Source References
+## Related documents
 
-- [Architecture Solution Design](./architecture-solution-design.md)
-- [ADR-001: High-Level Architecture](../../04-decisions/adr-001-high-level-architecture.md)
-
----
-
-**Last Updated**: 2026-08-04
+- [Solution design](./architecture-solution-design.md)
+- [Technology stack](./technology-stack.md)
+- [Evidence and limitations](../../00-context/evidence-and-limitations.md)

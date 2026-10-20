@@ -8,6 +8,8 @@
 | **Readiness**    | Implemented                 |
 | **Owner**        | Product Owner               |
 
+These requirements record the design baseline. “Clarified” describes specification status, not a passing acceptance test. See [evidence and limitations](../00-context/evidence-and-limitations.md) for implementation support and validation gaps.
+
 ## Context
 
 - **Problem**: A freelancer's client needs to confirm that the approved requirements match what they asked for, without being given an account, a password, or access to anything else in the workspace.

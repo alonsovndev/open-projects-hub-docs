@@ -4,6 +4,8 @@ sidebar_position: 1
 
 # Database Design
 
+The implemented schema separates workspace ownership, approved backlog content, and authentication state. The ERD below shows their relationships; generated drafts remain in the browser until approved.
+
 | Attribute        | Value                       |
 | ---------------- | --------------------------- |
 | **Project**      | Open Projects Hub |
@@ -79,6 +81,7 @@ erDiagram
     USERS ||--o{ PROJECTS : creates
     PROJECTS ||--o{ STORIES : has
     USERS ||--o{ STORIES : creates
+    USERS o|--o{ STORIES : assigned_to
     USERS ||--o{ USER_API_KEYS : owns
     USERS ||--o| API_KEY_VALIDATION_ATTEMPTS : throttled_by
     USERS ||--o{ EMAIL_VERIFICATION_CODES : verifies_with
@@ -168,7 +171,7 @@ erDiagram
     }
 
     API_KEY_VALIDATION_ATTEMPTS {
-        uuid id PK
+        uuid id PK, FK
         int attempt_count
         timestamptz window_started_at
         timestamptz created_at
@@ -196,6 +199,8 @@ erDiagram
     }
 ```
 
+*Figure 1. Implemented entity relationships. Story assignment is optional; the key-validation counter uses the user's ID as both its primary key and foreign key.*
+
 `account_lockouts` and `revoked_refresh_tokens` are keyed by email and token hash rather than by
 foreign key, so they are left out of the diagram.
 
@@ -218,7 +223,7 @@ foreign key, so they are left out of the diagram.
 - **Sessions:** `token_version` is embedded in refresh tokens. Bumping it (password reset, deactivation, forced logout) invalidates every outstanding refresh token for the user.
 - **Deactivation:** `deactivated_at` blocks sign-in without deleting the row.
 - **Email verification (F-008):** `email_verified_at` is `NULL` until the account confirms its email, and login is refused while it is `NULL`. Self-registered accounts verify with a 5-minute code. Accounts an Admin adds verify through a 24-hour invite code and set their own password at the same time. Accounts created by the seed script are verified on creation.
-- **AI credits (F-010):** `ai_credits_remaining` and `ai_credits_granted` start at 0 for self-registered and invited accounts. When the email is verified the account is granted 5 credits, reserved atomically from the workspace's `ai_credits_granted_total` (ceiling 25). `granted` is kept alongside `remaining` so the UI can render "3 of 5" without hardcoding the grant. A credit is spent with a single conditional `UPDATE ... WHERE ai_credits_remaining > 0`, so two concurrent refinements cannot share one credit.
+- **AI credits (F-010):** `ai_credits_remaining` and `ai_credits_granted` start at 0 for self-registered and invited accounts. Verification grants 5 credits, reserved atomically from the workspace's `ai_credits_granted_total` (ceiling 25). `granted` preserves the allocation displayed by the UI. A conditional `UPDATE ... WHERE ai_credits_remaining > 0` prevents a negative balance. Charging happens after generation: concurrent requests may both generate output before one exhausts the balance, and the other then returns a null balance for the client to reload.
 
 ### 3. `clients`
 
@@ -258,7 +263,7 @@ foreign key, so they are left out of the diagram.
 - **Foreign keys:** `user_id -> users.id` with `ON DELETE CASCADE`.
 - **Constraints:** `UNIQUE (user_id, provider)`: one key per provider per user. `provider` is the Postgres enum `aiprovider` (`gemini`, `openai`, `deepseek`).
 - **Indexes:** `user_id`, `created_at`.
-- **Design note:** The table holds ciphertext only. There is no plaintext column and no read path that returns one (NFR-010-01, NFR-010-02). `encrypted_key` and `encryption_nonce` are AES-256-GCM output with the owning `user_id` bound as associated data, so a row copied onto another user fails authentication rather than decrypting. `key_version` records which master key produced the ciphertext, which makes rotation possible (ADR-018). `masked_key` is the only display form. Rotation overwrites the row, and deletion is a hard `DELETE` (NFR-010-04).
+- **Design note:** The table holds ciphertext only. There is no plaintext column or read path that returns one (NFR-010-01, NFR-010-02). AES-256-GCM binds the owning `user_id` as associated data, so copying ciphertext to another user fails authentication. `key_version` records the encryption-key version; an operational master-key rotation procedure is not implemented (ADR-018). Replacing a user's provider key overwrites the row; deletion is a hard `DELETE`. `masked_key` is the display form.
 
 ### 7. `api_key_validation_attempts`
 
@@ -348,7 +353,7 @@ foreign key, so they are left out of the diagram.
 | FR-010-02 | Conditional `UPDATE ... WHERE ai_credits_remaining > 0` spends exactly one credit, only after a successful refinement. |
 | FR-010-04 | `user_api_keys` with `UNIQUE (user_id, provider)` gives one replaceable key per provider per user. |
 | FR-010-07 | `masked_key` is the only display form; no column or read path exposes plaintext. |
-| NFR-010-01 | `encrypted_key`/`encryption_nonce` hold AES-256-GCM ciphertext; `key_version` supports rotation (ADR-018). |
+| NFR-010-01 | `encrypted_key`/`encryption_nonce` hold AES-256-GCM ciphertext; `key_version` records its encryption-key version (ADR-018). |
 | NFR-010-03 | `api_key_validation_attempts` enforces 5 validations per user per hour via an atomic upsert. |
 | NFR-010-04 | Key removal is a hard `DELETE`; `ON DELETE CASCADE` clears keys with the owning account. |
 | NFR-003-01 | Workspace-scoped foreign keys and repository filters support least-privilege access. |

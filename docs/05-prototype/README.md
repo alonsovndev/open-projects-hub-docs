@@ -1,17 +1,56 @@
-# Prototype — Open Projects Hub
+# Interface walkthrough and historical prototype
 
-> **Historical prototype (pre-ADR-020).** These screens and notes use the original **Viewer** role. Viewer accounts were later replaced by account-free Client Review through a project access code ([ADR-020](../04-decisions/adr-020-client-review-by-access-code.md)), and the shipped roles are Admin and Member. Read "Viewer" here as "client reviewing by access code".
+This page separates captures of the current local application from the earlier Pencil designs. Use the current implementation to inspect the interface; use the historical prototype to understand design intent and subsequent changes.
 
-UI/UX prototype for the MVP planning experience, built in **Pencil** (`.pen` file) with reusable components and design tokens.
+## Current implementation
+
+The following captures show the local web working tree based on revision `6408eca`, captured on 2026-10-19 (America/Costa_Rica). Local header/footer edits were present, so these are not exact images of the committed revision. All content is fictional, and API responses were intercepted for demonstration. Environment-file loading and telemetry were disabled; external browser requests were blocked.
+
+The approved backlog and Client Review states were staged independently. These images demonstrate the implemented presentation, not a real AI response, backend persistence, successful approval transaction, production deployment, or stakeholder acceptance.
+
+### Refinement workspace
+
+<figure>
+
+[![Current refinement workspace with fictional contact-form notes and an unapproved candidate story for Cedar Studio Website](../../static/img/product/refinement-workspace.png)](../../static/img/product/refinement-workspace.png)
+
+<figcaption>Figure 1. A candidate story remains unapproved in the refinement workspace. The fictional story matches the reviewer guide; model output and credits are staged API responses.</figcaption>
+</figure>
+
+### Approved backlog
+
+<figure>
+
+[![Current project backlog showing the reviewed website-enquiry story, acceptance criteria, and Markdown export action](../../static/img/product/approved-backlog.png)](../../static/img/product/approved-backlog.png)
+
+<figcaption>Figure 2. The same story in the authenticated project backlog. The planned/backlog lifecycle label is separate from the approval boundary: unapproved local drafts do not appear here.</figcaption>
+</figure>
+
+### Client Review
+
+<figure>
+
+[![Current account-free Client Review page showing one approved website-enquiry story without editing or export controls](../../static/img/product/client-review.png)](../../static/img/product/client-review.png)
+
+<figcaption>Figure 3. The public read-only presentation of the approved story. The fixture demonstrates content layout, not authentication, access-code entropy, or backend authorization.</figcaption>
+</figure>
+
+Follow the [worked example](../00-context/reviewer-guide.md#worked-example-a-clients-contact-form) for the review decisions behind these views.
+
+## Historical prototype
+
+The Pencil prototype predates [ADR-020](../04-decisions/adr-020-client-review-by-access-code.md). Its original Viewer accounts, epic grouping, ambiguity highlights, and persisted-draft implications are not the current application contract. The implementation uses Admin and Member accounts, shared project access codes, project stories without persisted epics, and browser-only unapproved drafts.
+
+The source design is preserved for traceability rather than rewritten to resemble the implementation.
 
 ## Files
 
 | File                        | Purpose                                                                                                  |
 | --------------------------- | -------------------------------------------------------------------------------------------------------- |
 | `README.md`                 | This file — directory overview and quick start                                                           |
-| `prototype-brief.md`        | Authoritative source of truth: page definitions, user flows, scope, requirements coverage matrix         |
+| `prototype-brief.md`        | Historical page definitions, user flows, scope, and requirements coverage matrix         |
 | `design-direction.md`       | Visual direction, color strategy, typography, component inventory, accessibility, responsive breakpoints |
-| `pen/open-projects-hub.pen` | Interactive Pencil design file with 12 screens and 12 reusable components                                |
+| `pen/open-projects-hub.pen` | Editable Pencil source with the artboards and components listed below                                |
 
 ## Opening the Prototype
 
@@ -26,22 +65,115 @@ Open it from Pencil via **File → Open** and navigate to the path above, or use
 
 ## Screens Preview
 
-Static exports of the 12 core pages, so the prototype can be browsed without opening Pencil. Modal, empty, and validation-error states aren't captured here — see the full artboard list below or open the `.pen` file for those.
+These 12 exports preserve the original core screens. Each image links to its full-size asset. Modal and validation-state designs remain in the Pencil file.
 
-| Screen                  | Preview                                                             |
-| ----------------------- | ------------------------------------------------------------------- |
-| Landing / Home          | ![Landing / Home](./images/02-landing-home.png)                     |
-| Entry & Role Selection  | ![Entry & Role Selection](./images/01-entry-role-selection.png)     |
-| Admin Sign Up           | ![Admin Sign Up](./images/03-admin-sign-up.png)                     |
-| Admin Sign In           | ![Admin Sign In](./images/04-admin-sign-in.png)                     |
-| Forgot Password         | ![Forgot Password](./images/05-forgot-password.png)                 |
-| Reset Password          | ![Reset Password](./images/06-reset-password.png)                   |
-| AI Refinement Workspace | ![AI Refinement Workspace](./images/07-ai-refinement-workspace.png) |
-| Admin Backlog           | ![Admin Backlog](./images/08-admin-backlog.png)                     |
-| Admin Dashboard         | ![Admin Dashboard](./images/09-admin-dashboard.png)                 |
-| Admin Settings          | ![Admin Settings](./images/10-admin-settings.png)                   |
-| Viewer Backlog          | ![Viewer Backlog](./images/11-viewer-backlog.png)                   |
-| Onboarding Overlay      | ![Onboarding Overlay](./images/12-onboarding-overlay.png)           |
+### Landing / Home
+
+<figure>
+
+[![Historical prototype: Landing / Home](./images/02-landing-home.png)](./images/02-landing-home.png)
+
+<figcaption>Figure 4. Original centered landing composition and feature messaging; the current application has evolved.</figcaption>
+</figure>
+
+### Entry and role selection
+
+<figure>
+
+[![Historical prototype: Entry and role selection](./images/01-entry-role-selection.png)](./images/01-entry-role-selection.png)
+
+<figcaption>Figure 5. Original Admin/Viewer role choice. Viewer accounts were replaced by the account-free access-code flow.</figcaption>
+</figure>
+
+### Admin sign-up
+
+<figure>
+
+[![Historical prototype: Admin sign-up](./images/03-admin-sign-up.png)](./images/03-admin-sign-up.png)
+
+<figcaption>Figure 6. Early registration layout. Consult the current API contract for verification and duplicate-account behavior.</figcaption>
+</figure>
+
+### Admin sign-in
+
+<figure>
+
+[![Historical prototype: Admin sign-in](./images/04-admin-sign-in.png)](./images/04-admin-sign-in.png)
+
+<figcaption>Figure 7. Original login form and account-entry actions; session behavior is defined by the implemented auth flow.</figcaption>
+</figure>
+
+### Forgot password
+
+<figure>
+
+[![Historical prototype: Forgot password](./images/05-forgot-password.png)](./images/05-forgot-password.png)
+
+<figcaption>Figure 8. Early reset-request screen; the current reset-code expiry is 30 minutes.</figcaption>
+</figure>
+
+### Reset password
+
+<figure>
+
+[![Historical prototype: Reset password](./images/06-reset-password.png)](./images/06-reset-password.png)
+
+<figcaption>Figure 9. Original code-entry and password form. Current codes are six-character alphanumeric values.</figcaption>
+</figure>
+
+### AI refinement workspace
+
+<figure>
+
+[![Historical prototype: AI refinement workspace](./images/07-ai-refinement-workspace.png)](./images/07-ai-refinement-workspace.png)
+
+<figcaption>Figure 10. Historical epic cards and ambiguity bar. The current response returns candidate stories, not an ambiguity register or persisted epic hierarchy.</figcaption>
+</figure>
+
+### Admin backlog
+
+<figure>
+
+[![Historical prototype: Admin backlog](./images/08-admin-backlog.png)](./images/08-admin-backlog.png)
+
+<figcaption>Figure 11. Original approved-content and export layout; current stories are stored directly within a project.</figcaption>
+</figure>
+
+### Admin dashboard
+
+<figure>
+
+[![Historical prototype: Admin dashboard](./images/09-admin-dashboard.png)](./images/09-admin-dashboard.png)
+
+<figcaption>Figure 12. Early summary and recent-project composition. The current dashboard is not an advanced analytics system.</figcaption>
+</figure>
+
+### Admin settings
+
+<figure>
+
+[![Historical prototype: Admin settings](./images/10-admin-settings.png)](./images/10-admin-settings.png)
+
+<figcaption>Figure 13. Original settings exploration; only implemented profile, password, provider-key, and workspace actions should be treated as available.</figcaption>
+</figure>
+
+### Viewer backlog
+
+<figure>
+
+[![Historical prototype: Viewer backlog](./images/11-viewer-backlog.png)](./images/11-viewer-backlog.png)
+
+<figcaption>Figure 14. Original client-facing design. The current Client Review page uses a project code and has no Viewer account.</figcaption>
+</figure>
+
+### Onboarding overlay
+
+<figure>
+
+[![Historical prototype: Onboarding overlay](./images/12-onboarding-overlay.png)](./images/12-onboarding-overlay.png)
+
+<figcaption>Figure 15. Early onboarding design intent; this image is not evidence of completed usability or accessibility validation.</figcaption>
+</figure>
 
 ## What's Inside
 
