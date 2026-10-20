@@ -3,6 +3,8 @@
 **Status**: Accepted  
 **Date**: 2026-08-04
 
+> **Implementation qualification:** The original tooling policy below is broader than current enforcement. API mypy is advisory, API repository integration tests are excluded, web CI omits Playwright, and per-PR coverage reporting is not configured in the reviewed workflows. Tool availability and policy intentions must not be read as passing gates. See [CI/CD](../03-architecture/ops/ci-cd-pipeline.md).
+
 ## Context
 
 The platform spans Python (backend) and TypeScript (frontend) codebases requiring consistent quality standards across both stacks. With a small team (1-3 developers) during MVP, tooling must be lightweight, automated, and maintainable without operational overhead.

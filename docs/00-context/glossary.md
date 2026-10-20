@@ -40,13 +40,13 @@ The key a Stakeholder types into the Client Review Portal, for example `PRJ-7K3M
 ## Project Lifecycle
 
 **Active Project**  
-Project with status "active"; counts toward the 3-project limit per Admin account. Can have user stories added and edited.
+Project with status `active`; counts toward the three-project limit shared by a workspace.
 
 **Archived Project**  
-Project with status "archived"; does not count toward project limit. Read-only; can be reactivated by changing status to active.
+Project with status `archived`; does not count toward the active-project limit. Archiving retains the project and its stories; it is distinct from deletion.
 
 **Deleted Project**  
-Soft-deleted project; inaccessible to Admin, Member, and the Client Review Portal within 24 hours per NFR-X02. Recoverable via support for limited time.
+A project removed from persistence, together with its stories. The current implementation performs a hard delete; there is no `deleted` status or support recovery window. See [database deletion behavior](../03-architecture/database/database-design.md).
 
 ## User Stories
 
@@ -59,13 +59,13 @@ Unapproved AI-refined story pending Admin review. Held only in the Admin's brows
 ## Epics & Backlog
 
 **Epic**  
-Grouping container for related user stories within a project. Maps to an implementation phase or feature area. Each epic has a unique key (e.g., `EPIC-0`), priority, and lifecycle status (`open`, `in_progress`, `done`). User stories reference their parent epic via `epic_id`.
+A planning grouping used in this repository's work items, such as `EPIC-3`. Epics are not persisted as application entities in the current database; the implemented product stores project stories directly.
 
 **Epic Key**  
-Human-readable identifier for an epic, unique per project. Follows the convention `EPIC-{n}` (e.g., `EPIC-0`, `EPIC-1`). Used in `story_id` prefixes (`US-EP0-BE-001`) and for Jira integration.
+Human-readable work-item identifier, such as `EPIC-0`. Story identifiers such as `US-EP0-BE-001` refer to implementation planning artifacts. They are not application record IDs, and Jira integration is deferred.
 
 **Backlog**  
-Structured view of user stories organized by epic, priority, and status. Supports filtering and reordering per FR-004. Approved stories with acceptance criteria form the backlog deliverable.
+Project view of persisted, approved user stories with status and date filters and Markdown export. Manual reordering and epic grouping are not implemented.
 
 ## Projects & Clients
 
@@ -76,7 +76,7 @@ Container for user stories; associated with one Client. Supports discovery and p
 Short identifier the Freelancer chooses for a project (for example `WEB`), unique within a workspace only. Used by the Freelancer's own team. Not what a Stakeholder types; see Project Access Code.
 
 **Project Status**  
-Enum: `active` (counts toward limit), `archived` (excluded from limit), `deleted` (soft-deleted, inaccessible).
+Enum: `active` (counts toward the limit), `completed`, or `archived` (excluded from the active limit). Deletion removes a record rather than assigning a status.
 
 ## AI & Credits
 
@@ -84,7 +84,7 @@ Enum: `active` (counts toward limit), `archived` (excluded from limit), `deleted
 AI service using the platform's API keys; consumes the user's free credits (5 per Admin or Member). Limited to those refinements unless the user adds their own API key.
 
 **User Provider**  
-AI service using user's own API key (Gemini, OpenAI, or DeepSeek). Unlimited refinements; does not consume platform credits.
+AI service using the user's own API key (Gemini, OpenAI, or DeepSeek). Does not consume platform credits; provider quotas, costs, and application rate limits still apply.
 
 **AI Refinement**  
 Process of submitting raw notes to AI service and generating structured user story with title, standard format, and acceptance criteria.
@@ -95,18 +95,18 @@ Unit of platform AI usage; 1 credit consumed per successful refinement using pla
 ## Authentication & Sessions
 
 **Verification Code**  
-6-digit alphanumeric code (0-9, A-Z, excluding O/0/I/1) for email verification during account creation or password reset. Expires after 5 minutes for sign-up verification, 24 hours for Admin-added accounts, and 30 minutes for password reset.
+Six-character alphanumeric code (excluding ambiguous O/0/I/1) for email verification or password reset. Expires after five minutes for self-registration verification, 24 hours for Admin-added accounts, and 30 minutes for password reset.
 
 **Session**  
-Authenticated user connection; standard sessions expire after 24 hours, extended sessions after 7 days per NFR-X09. Managed via JWT access tokens and refresh tokens.
+Authenticated browser connection using a short-lived access token and a rotating refresh cookie. Refresh sessions use a sliding inactivity window of 24 hours, or seven days with “remember me”; successful refresh extends that window. Access tokens last 15 minutes in the documented deployment.
 
 ## Technical Terms
 
 **MVP Load**  
-Expected system capacity for minimum viable product: 10 concurrent Admins with up to 5 users per workspace, 100 requests/min peak, 3 active projects per Admin, 200 total user stories (per NFR-X05).
+An evaluation target, not a benchmark result: 10 concurrent Admins and 20 client reviewers, 100 requests/minute peak, three active projects per workspace, and 200 total stories (NFR-X05). NFR-X06 separately specifies a 500-story capacity target.
 
 **RLS (Row Level Security)**  
-Database-layer access control enforcing that users can only query data they have permission to access. Used to keep each workspace's data separate and to confine the Client Review Portal to the project its access code names.
+Database-layer access control through PostgreSQL policies. RLS was considered but is not implemented; the application enforces tenant isolation with workspace-scoped repository queries. Client Review derives the project scope from its access code.
 
 **Cross-Cutting NFR**  
 Non-functional requirement applying to multiple features; defined in README Cross-Cutting Quality Baseline section (e.g., NFR-X01 through NFR-X10).

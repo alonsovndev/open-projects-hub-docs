@@ -6,6 +6,8 @@ sidebar_position: 2
 
 **Purpose:** Define core user personas aligned to the Open Projects Hub overview to ensure requirements and workflows serve the target audiences.
 
+These are fictional design personas. Their names, experience, and quotations illustrate intended needs; they are not research participants, interview findings, or evidence of user validation.
+
 ---
 
 ## Persona 1: Independent Freelancer (Primary)
@@ -87,7 +89,7 @@ sidebar_position: 2
 
 - Learn real-world software practices by contributing.
 - Understand how requirements are structured in professional projects.
-- Build portfolio contributions in an active project.
+- Build portfolio contributions in an open-source project.
 
 ### Pain Points
 

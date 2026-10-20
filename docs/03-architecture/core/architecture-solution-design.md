@@ -10,24 +10,6 @@ sidebar_position: 1
 | **Version** | 1.1               |
 | **Status**  | Accepted          |
 
-## Table of Contents
-
-- Architecture Solution Design
-  - [Table of Contents](#table-of-contents)
-  - [System Context](#system-context)
-  - [Architectural Approach](#architectural-approach)
-    - [Key Design Principles](#key-design-principles)
-  - [Component Design](#component-design)
-  - [Data Flow](#data-flow)
-  - [Integration Points](#integration-points)
-  - [Observability](#observability)
-  - [Deployment Impact (GitHub Actions + AWS)](#deployment-impact-github-actions--aws)
-  - [Security Considerations](#security-considerations)
-  - [Scalability Considerations](#scalability-considerations)
-  - [Trade-offs and Alternatives](#trade-offs-and-alternatives)
-  - [ADR Reference](#adr-reference)
-  - [Source References](#source-references)
-
 ## System Context
 
 The Open Projects Hub must support AI-assisted requirement refinement, role-based collaboration (Admin/Member) with account-free client review, and secure project management for freelancers within MVP limits. Based on functional and non-functional requirements, the architecture must prioritize:
@@ -63,14 +45,19 @@ For detailed rationale and alternatives considered, see [ADR-001: High-Level Arc
 ## Component Design
 
 ```mermaid
-flowchart LR
-    U[Admin / Member / Client Stakeholder] --> FE[Cloudflare Workers<br/>Frontend Project]
-    FE -->|HTTPS, Bearer token| CF[Cloudflare proxy<br/>api-oph.alonsovndev.com]
-    CF --> BE[EC2 host: Caddy + FastAPI<br/>Backend Project<br/>includes Auth Module]
-    BE --> DB[(PostgreSQL container<br/>EBS volume)]
-    BE --> MAIL[Resend SMTP<br/>verification codes]
-    BE -.->|optional, DSN set| SEN[Sentry]
+flowchart TB
+    team[Freelancer and Members] -->|Manage requirements| frontend[React frontend on Cloudflare Workers]
+    client[Client stakeholder] -->|Enter project access code| frontend
+    frontend -->|HTTPS REST requests| edge[Cloudflare API proxy]
+    edge -->|HTTPS origin connection| api[EC2: Caddy and FastAPI]
+    api -->|Workspace-scoped queries| database[(PostgreSQL container)]
+    api -->|Submit refinement notes| providers[Gemini, OpenAI, or DeepSeek]
+    api -->|Send verification and reset codes| mail[Resend SMTP]
+    api -.->|Optional error reporting| sentry[Sentry]
 ```
+
+*The client path is public but access-code scoped. Team operations require authentication; AI and email services are external integrations.*
+
 
 - **Frontend Project (Cloudflare Workers):** UI workflows for project management, AI refinement interaction, and read-only client review access; static assets served from Cloudflare's edge.
 - **Backend Project (one EC2 host):** modular monolith organized by bounded contexts (clients, projects, stories, refinement, auth, workspaces, dashboard); a containerized FastAPI application with an integrated auth module, behind Caddy and the Cloudflare proxy.
@@ -80,9 +67,10 @@ flowchart LR
 
 ```mermaid
 sequenceDiagram
+    autonumber
     participant User as Admin
     participant FE as Frontend (Cloudflare Workers)
-    participant BE as Backend (EC2, Caddy + FastAPI)<br/>Auth Module
+    participant BE as FastAPI backend
     participant AI as AI Refinement Adapter
     participant DB as PostgreSQL
 
@@ -92,6 +80,7 @@ sequenceDiagram
     BE->>AI: Request refinement (raw notes, not persisted)
     AI-->>BE: Structured user story + acceptance criteria
     BE-->>FE: Structured user stories (unapproved, not stored)
+    Note over FE: Unapproved stories stay in browser session storage
     User->>FE: Approve stories
     FE->>BE: Approve request (bearer token)
     BE->>BE: Validate auth + role check
@@ -108,7 +97,7 @@ sequenceDiagram
 - **External service integrations:**
   - Resend SMTP relay for registration verification and password-reset codes ([ADR-024](../../04-decisions/adr-024-email-delivery-with-resend.md)).
   - AI providers (Gemini, OpenAI, DeepSeek) for story refinement, using platform credits or a user's own encrypted key ([ADR-018](../../04-decisions/adr-018-user-api-key-encryption.md)).
-  - Sentry for backend error tracking, active only when a DSN is configured.
+  - Sentry error tracking in the backend and web app, active only when the corresponding DSN is configured.
 
 ## Observability
 
@@ -126,7 +115,7 @@ Sized for a single host and near-zero traffic; see [Monitoring and Observability
 - **Deployment strategy:**
   - Frontend: Cloudflare Workers builds and serves the Vite output.
   - Backend: an operator runs `scripts/deploy-release.sh <tag>`, which triggers the `ophub-prod-deploy` SSM document on the host to pull the image and restart the Compose stack. GitHub OIDC is not available in the AWS account ([ADR-023](../../04-decisions/adr-023-credits-account-us-east-2-manual-deploy.md)).
-- **Rollback:** redeploy a previous tag with the same script.
+- **Rollback:** redeploy a schema-compatible previous tag with the same script; database migrations do not reverse automatically.
 - **Migration strategy:** versioned Alembic migrations applied when the API container starts.
 - **Environment management:** one deployed environment; secrets live in SSM Parameter Store and are written to the host by the deploy script.
 - **Downtime:** the single API container restarts on each deploy, so a short interruption is expected.
@@ -136,8 +125,8 @@ Sized for a single host and near-zero traffic; see [Monitoring and Observability
 
 - Enforce role-based authorization for Admin and Member capabilities, and confine the public Client Review route to one project's approved stories.
 - Apply least-privilege access across frontend, backend, and database access.
-- Use HTTPS-only communication across all service boundaries.
-- Protect sensitive data with managed encryption at rest and in transit.
+- Public and origin connections use HTTPS; internal Compose traffic uses the host network boundary.
+- EBS/state encryption and application-level provider-key encryption protect stored data; Cloudflare Full mode does not validate the origin certificate.
 - Prevent abuse with request validation, rate limiting, and secure session/token lifecycle controls.
 
 ## Scalability Considerations

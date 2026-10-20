@@ -5,8 +5,10 @@
 | **Project**      | Open Projects Hub |
 | **Version**      | 1.4                         |
 | **Status**       | Accepted                    |
-| **Readiness**    | Ready for Implementation    |
+| **Document role** | Requirements baseline |
 | **Owner**        | Product Owner               |
+
+These requirements record the design baseline. “Clarified” describes specification status, not a passing acceptance test. See [evidence and limitations](../00-context/evidence-and-limitations.md) for implementation support and validation gaps.
 
 ## Context
 
@@ -14,6 +16,10 @@
 - **Primary Persona**: Admin (Freelancer)
 - **In Scope**: Raw note input, ambiguity highlighting, AI-generated story template, Admin edits, explicit approval gate.
 - **Out of Scope**: Automatic publishing without approval, non-text input formats.
+
+## Implementation notes
+
+The current endpoint accepts 20–5000 characters of raw notes. Sanitization removes matching unsafe patterns, reports a redaction count, and rejects the request if fewer than 20 usable characters remain. It does not reject every suspicious phrase or provide a separate ambiguity-highlighting response. The criteria below describe the original target where these details differ. See the [current API examples](../03-architecture/api/api-contract.md) and [worked example](../00-context/reviewer-guide.md#worked-example-a-clients-contact-form).
 
 ## Functional Requirements
 
@@ -54,9 +60,7 @@
 - **Related Open Questions**: Q-004, Q-005, Q-006, Q-007, Q-008
 - **Related Architecture/ADR**: [API Contract](../03-architecture/api/api-contract.md), [ADR-019](../04-decisions/adr-019-no-persisted-draft-stories.md)
 - **Related Features**: [F-010: AI Credits and API Key Management](./f-010-ai-credits-and-api-key-management.md)
-- **Related Prototype**: [Stitch Prompt](../05-prototype/README.md)
-
----
+- **Related Prototype**: [Historical prototype](../05-prototype/README.md)
 
 ---
 

@@ -6,6 +6,8 @@
 
 Part of [alonsovndev](https://github.com/alonsovndev), the open-source engineering lab by [Alonso Villanueva](https://alonsovndev.com).
 
+For the master's project review, start with the [reviewer guide](./docs/00-context/reviewer-guide.md), then consult [evidence and limitations](./docs/00-context/evidence-and-limitations.md). The guide includes a worked example and a demonstration checklist; the evidence page distinguishes implementation artifacts from unmeasured outcomes.
+
 ## Who it is for
 
 - **Software freelancers and small teams** who need to turn ambiguous client input into delivery-ready requirements

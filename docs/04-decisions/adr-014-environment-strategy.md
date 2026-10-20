@@ -5,6 +5,8 @@
 
 > **Note (2026-10-19):** Only one cloud environment is deployed (production, on one EC2 host with Cloudflare in front); the App Runner, RDS and CloudFront infrastructure listed below was never deployed. See [ADR-021](./adr-021-low-cost-single-host-deployment.md).
 
+> **Implementation qualification:** GDPR references below are original design intentions, not a compliance assessment. The current source review does not establish legal compliance, formal data-handling approval, or an independently audited environment.
+
 ## Context
 
 The project requires an environment progression strategy that balances developer productivity, CI validation, and production stability while maintaining $0 infrastructure cost during the MVP phase.

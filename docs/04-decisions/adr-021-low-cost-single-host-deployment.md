@@ -2,7 +2,7 @@
 
 - **Status**: Accepted; the CloudFront entry point is replaced by [ADR-022](./adr-022-cloudflare-edge-instead-of-cloudfront.md), and the AWS account, region and OIDC deploy by [ADR-023](./adr-023-credits-account-us-east-2-manual-deploy.md)
 - **Date**: 2026-10-10
-- **Supersedes**: [ADR-006](./adr-006-deployment-platform.md) (compute, database, secrets, registry and network decisions); the AWS-only decision of ADR-006 stands; its S3 + CloudFront frontend is superseded by [ADR-022](./adr-022-cloudflare-edge-instead-of-cloudfront.md).
+- **Supersedes**: [ADR-006](./adr-006-deployment-platform.md) (compute, database, secrets, registry and network decisions); AWS remains the compute/database provider; its S3 + CloudFront frontend is superseded by [ADR-022](./adr-022-cloudflare-edge-instead-of-cloudfront.md).
 - **Affects**: [ADR-004](./adr-004-database.md) (the database runs as a PostgreSQL container, not Amazon RDS), [ADR-011](./adr-011-secrets-management.md) (secrets live in SSM Parameter Store), [ADR-014](./adr-014-environment-strategy.md) (unchanged: one deployed environment).
 
 > **Note (2026-10-19):** the credit figures below were those of the first account. For the current account see [ADR-023](./adr-023-credits-account-us-east-2-manual-deploy.md).

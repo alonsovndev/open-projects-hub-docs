@@ -15,6 +15,8 @@ How to reach the deployed system, and how to run all of it on a workstation. The
 | Documentation | https://oph-docs.alonsovndev.com | this repository |
 | AWS infrastructure (Terraform) | not public | [open-projects-hub-infra](https://github.com/alonsovndev/open-projects-hub-infra) |
 
+The URLs and deployment details are recorded configuration; availability was not checked during this documentation review. For the academic reading path and a safe fictional scenario, see the [reviewer guide](./reviewer-guide.md).
+
 To try it, open the web app, choose **Register**, and enter an email address you can read. The API emails a six-character code that expires after five minutes; enter it to verify the account, then sign in. Registration creates a new workspace with you as its administrator. Client Review needs no account: it uses a project's access code.
 
 The API root and health paths are not public through Cloudflare (only `/v1/*` is routed), so the interactive API reference is not available in production; the committed OpenAPI file is `docs/api/openapi.json` in the API repository.
@@ -31,7 +33,7 @@ The API root and health paths are not public through Cloudflare (only `/v1/*` is
 
 ## Run the API
 
-Requires Python 3.12 and Docker. From the API repository:
+Requires Python 3.12, Docker, and an isolated project environment. Follow the API repository's environment instructions before installing dependencies. From the API repository:
 
 ```bash
 cp .env.example .env      # set SECRET_KEY, POSTGRES_PASSWORD, API_KEY_ENCRYPTION_KEY
@@ -50,7 +52,7 @@ Requires Node.js 22 (the CI version). From the web repository:
 
 ```bash
 cp .env.example .env      # VITE_API_BASE_URL=http://localhost:8000
-npm install
+npm ci
 npm run dev
 ```
 
@@ -73,6 +75,8 @@ If the API runs in Docker (port 8080), set `VITE_API_BASE_URL=http://localhost:8
 | Web | `npm run verify` (lint, tests, type-check, build) |
 | Docs | `npm run typecheck && npm run build` (broken links fail the build) |
 | Infra | `terraform fmt -check -recursive` and `terraform validate` in `envs/prod` |
+
+These are verification commands, not recorded results. The current API CI treats mypy as advisory and excludes the repository integration suite; web CI omits Playwright. See [verification boundaries](./evidence-and-limitations.md#verification-boundaries).
 
 API integration tests (`make test-integration`) need PostgreSQL and **reset the database they connect to**; point them at a throwaway database.
 

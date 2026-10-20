@@ -1,11 +1,11 @@
 # API and Communication
 
-This section defines the REST API contract, endpoint catalog, request/response schemas, and design standards for the Open Projects Hub.
+This section explains the implemented REST API, with a route catalog, worked examples, and conventions. Exact field constraints remain in the backend's generated OpenAPI schema and DTOs.
 
 ## Documents
 
 - **[API Design Standards](./api-design-standards.md)**: REST conventions, versioning strategy, error handling, authentication and authorization patterns, rate limiting, and observability guidelines.
-- **[API Contract](./api-contract.md)**: Complete endpoint catalog with detailed request/response schemas, shared JSON schemas, status code matrix, and error examples for all API domains (Auth, Clients, Projects, Refinement, Requirements, Exports, Credits, API Keys, Client Review, User Profile).
+- **[API Contract](./api-contract.md)**: Follow notes through generation, approval, and export; then consult the route catalog, account flows, workspace operations, public review, and error examples. Superseded endpoint designs are identified separately.
 
 ## Related ADRs
 
