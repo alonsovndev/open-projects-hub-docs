@@ -13,13 +13,13 @@ The project presentation is available as [slides (PowerPoint)](https://oph-docs.
 
 ## Recommended reading path
 
-| Step | Review question | Evidence |
-| --- | --- | --- |
-| 1. Problem and objectives | What problem does the project address, and for whom? | [Overview](./overview.md), [personas](./user-personas.md), and [scope boundaries](./out-of-scope.md) |
-| 2. Requirements | What must the system do? | [Feature requirements and quality targets](../01-requirements/README.md) |
-| 3. Solution | How does the implementation support the workflow? | [Architecture](../03-architecture/core/architecture-solution-design.md), [database](../03-architecture/database/database-design.md), and [API contract](../03-architecture/api/api-contract.md) |
-| 4. Trade-offs | Why were these technologies and constraints chosen? | [Decision log](../04-decisions/README.md), especially ADR-019 through ADR-024 |
-| 5. Evidence and limitations | What can be verified, and what remains unproven? | [Evidence and limitations](./evidence-and-limitations.md) and [run guide](./run-the-system.md) |
+| Step                        | Review question                                      | Evidence                                                                                                                                                                                        |
+| --------------------------- | ---------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1. Problem and objectives   | What problem does the project address, and for whom? | [Overview](./overview.md), [personas](./user-personas.md), and [scope boundaries](./out-of-scope.md)                                                                                            |
+| 2. Requirements             | What must the system do?                             | [Feature requirements and quality targets](../01-requirements/README.md)                                                                                                                        |
+| 3. Solution                 | How does the implementation support the workflow?    | [Architecture](../03-architecture/core/architecture-solution-design.md), [database](../03-architecture/database/database-design.md), and [API contract](../03-architecture/api/api-contract.md) |
+| 4. Trade-offs               | Why were these technologies and constraints chosen?  | [Decision log](../04-decisions/README.md), especially ADR-019 through ADR-024                                                                                                                   |
+| 5. Evidence and limitations | What can be verified, and what remains unproven?     | [Evidence and limitations](./evidence-and-limitations.md) and [run guide](./run-the-system.md)                                                                                                  |
 
 ## Worked example: a client's contact form
 
@@ -70,9 +70,7 @@ flowchart TB
     backlog -->|Share project access code| review[Read-only client review]
 ```
 
-*Approval is the persistence and publication boundary. AI generation alone does not publish requirements.*
-
-Wide diagrams retain their text size. Swipe horizontally, or focus the diagram and use the arrow keys, to explore them on a smaller screen.
+_Approval is the persistence and publication boundary. AI generation alone does not publish requirements._
 
 ### 5. Export and review with the client
 
