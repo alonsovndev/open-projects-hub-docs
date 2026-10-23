@@ -12,14 +12,14 @@ For the master's project review, start with the [reviewer guide](./docs/00-conte
 
 This repository is the entry point for the master's final project. The code is split across four public repositories, linked below.
 
-| Deliverable | Where |
-| --- | --- |
-| Live application | https://oph.alonsovndev.com |
-| Documentation site | https://oph-docs.alonsovndev.com |
-| Slides | [`static/tfm/open-projects-hub-tfm.pptx`](./static/tfm/open-projects-hub-tfm.pptx) (also served at https://oph-docs.alonsovndev.com/tfm/open-projects-hub-tfm.pptx) |
-| Demo video | TBD |
-| Test user | TBD — credentials are provided in the submission form, not in this public repository |
-| Source code | [api](https://github.com/alonsovndev/open-projects-hub-api) · [web](https://github.com/alonsovndev/open-projects-hub-web) · [infra](https://github.com/alonsovndev/open-projects-hub-infra) · docs (this repository) |
+| Deliverable        | Where                                                                                                                                                                                                                |
+| ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Live application   | https://oph.alonsovndev.com                                                                                                                                                                                          |
+| Documentation site | https://oph-docs.alonsovndev.com                                                                                                                                                                                     |
+| Slides             | [`static/tfm/open-projects-hub-tfm.pptx`](./static/tfm/open-projects-hub-tfm.pptx) (also served at https://oph-docs.alonsovndev.com/tfm/open-projects-hub-tfm.pptx)                                                  |
+| Demo video         | TBD                                                                                                                                                                                                                  |
+| Test user          | TBD — credentials are provided in the submission form, not in this public repository                                                                                                                                 |
+| Source code        | [api](https://github.com/alonsovndev/open-projects-hub-api) · [web](https://github.com/alonsovndev/open-projects-hub-web) · [infra](https://github.com/alonsovndev/open-projects-hub-infra) · docs (this repository) |
 
 ## Overview
 
@@ -44,7 +44,7 @@ AI output is always a proposal: nothing reaches the backlog or the client withou
 - **Accounts and workspaces:** self-service sign-up with an emailed verification code, login, password reset, and refresh-cookie sessions. Each registration creates a workspace; its owner is the Admin and can invite teammates as Members (up to five users per workspace).
 - **Clients and projects:** manage clients and projects, archive and reactivate projects, with a limit of three active projects per workspace.
 - **AI-assisted refinement:** turn raw notes into candidate user stories with acceptance criteria. Drafts stay in the browser tab until approved ([ADR-019](./docs/04-decisions/adr-019-no-persisted-draft-stories.md)).
-- **AI providers and credits:** platform credits (Gemini) or your own Gemini, OpenAI, or DeepSeek key, stored encrypted per user.
+- **AI providers and credits:** platform credits or your own Gemini, OpenAI, or DeepSeek key, stored encrypted per user.
 - **Approved backlog:** browse, filter, and export approved stories as Markdown.
 - **Client Review:** an account-free, read-only page where a client enters the project's access code to see its approved stories.
 - **Dashboard and entry page:** workspace summary statistics and a welcome page where users choose between managing projects and client review.
@@ -53,16 +53,16 @@ Requirements behind each feature: [F-001 to F-011](./docs/01-requirements/).
 
 ## Tech stack
 
-| Layer | Technologies |
-| --- | --- |
-| Frontend | React 19, TypeScript 5, Vite 7, Redux Toolkit + RTK Query, Ant Design 6, SCSS Modules, Zod |
-| Backend | Python 3.12, FastAPI, Pydantic, SQLAlchemy, Alembic, Gunicorn + Uvicorn, JWT (PyJWT) + bcrypt |
-| Database | PostgreSQL 15 |
-| AI | Gemini (platform credits), OpenAI and DeepSeek (user keys), mock provider for local development |
-| Infrastructure | Terraform, AWS EC2 + Docker Compose + Caddy, AWS SSM Parameter Store, Cloudflare (Workers, DNS, proxy), Resend (email) |
-| Quality and CI/CD | Ruff, mypy, Bandit, pytest, ESLint, Vitest, React Testing Library, Playwright, GitHub Actions, GHCR |
-| Observability | Sentry (optional, API and web) |
-| Documentation | Docusaurus, Mermaid, 24 ADRs |
+| Layer             | Technologies                                                                                                           |
+| ----------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| Frontend          | React 19, TypeScript 5, Vite 7, Redux Toolkit + RTK Query, Ant Design 6, SCSS Modules, Zod                             |
+| Backend           | Python 3.12, FastAPI, Pydantic, SQLAlchemy, Alembic, Gunicorn + Uvicorn, JWT (PyJWT) + bcrypt                          |
+| Database          | PostgreSQL 15                                                                                                          |
+| AI                | Gemini, OpenAI and DeepSeek , mock provider for local development                                                      |
+| Infrastructure    | Terraform, AWS EC2 + Docker Compose + Caddy, AWS SSM Parameter Store, Cloudflare (Workers, DNS, proxy), Resend (email) |
+| Quality and CI/CD | Ruff, mypy, Bandit, pytest, ESLint, Vitest, React Testing Library, Playwright, GitHub Actions, GHCR                    |
+| Observability     | Sentry (optional, API and web)                                                                                         |
+| Documentation     | Docusaurus, Mermaid, 24 ADRs                                                                                           |
 
 Rationale for each choice: [technology stack](./docs/03-architecture/core/technology-stack.md) and the [decision log](./docs/04-decisions/README.md).
 
@@ -122,36 +122,36 @@ npm run dev
 
 ## Deployment
 
-| Part | Hosting | URL |
-| --- | --- | --- |
-| Web app | Cloudflare Workers (static assets), built by Cloudflare Builds from `main` | https://oph.alonsovndev.com |
+| Part             | Hosting                                                                                                           | URL                                       |
+| ---------------- | ----------------------------------------------------------------------------------------------------------------- | ----------------------------------------- |
+| Web app          | Cloudflare Workers (static assets), built by Cloudflare Builds from `main`                                        | https://oph.alonsovndev.com               |
 | API + PostgreSQL | One AWS EC2 host running Caddy, the API container, and PostgreSQL via Docker Compose, behind the Cloudflare proxy | https://api-oph.alonsovndev.com (`/v1/*`) |
-| Documentation | Cloudflare Workers, built from `main` | https://oph-docs.alonsovndev.com |
+| Documentation    | Cloudflare Workers, built from `main`                                                                             | https://oph-docs.alonsovndev.com          |
 
 API releases are tagged `vX.Y.Z` and built into a GHCR image by GitHub Actions, then deployed manually with `scripts/deploy-release.sh`, which runs an AWS SSM document. The infrastructure is defined in Terraform. Details, costs, and limits: [deployment architecture](./docs/03-architecture/ops/deployment-architecture.md) and [CI/CD pipeline](./docs/03-architecture/ops/ci-cd-pipeline.md).
 
 ## Navigating the documentation
 
-| Section | Description |
-| --- | --- |
-| [Project context](./docs/00-context/) | Overview, personas, glossary, scope, [how to run the system](./docs/00-context/run-the-system.md) |
-| [Functional requirements](./docs/01-requirements/) | Feature-level requirements (F-001 to F-011) |
-| [Planning](./docs/02-planning/) | Phased roadmap and role mapping |
-| [Architecture](./docs/03-architecture/) | System design, API, database, security, operations |
-| [Decisions (ADRs)](./docs/04-decisions/) | 24 architecture decision records |
-| [Prototype and UX](./docs/05-prototype/) | Design direction and screens |
+| Section                                            | Description                                                                                       |
+| -------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| [Project context](./docs/00-context/)              | Overview, personas, glossary, scope, [how to run the system](./docs/00-context/run-the-system.md) |
+| [Functional requirements](./docs/01-requirements/) | Feature-level requirements (F-001 to F-011)                                                       |
+| [Planning](./docs/02-planning/)                    | Phased roadmap and role mapping                                                                   |
+| [Architecture](./docs/03-architecture/)            | System design, API, database, security, operations                                                |
+| [Decisions (ADRs)](./docs/04-decisions/)           | 24 architecture decision records                                                                  |
+| [Prototype and UX](./docs/05-prototype/)           | Design direction and screens                                                                      |
 
 ## Links
 
-| Resource | URL |
-| --- | --- |
-| Web app (production) | https://oph.alonsovndev.com |
-| API (production) | https://api-oph.alonsovndev.com (`/v1/*`) |
-| Documentation site | https://oph-docs.alonsovndev.com |
-| Backend repository | [open-projects-hub-api](https://github.com/alonsovndev/open-projects-hub-api) |
-| Frontend repository | [open-projects-hub-web](https://github.com/alonsovndev/open-projects-hub-web) |
+| Resource                  | URL                                                                               |
+| ------------------------- | --------------------------------------------------------------------------------- |
+| Web app (production)      | https://oph.alonsovndev.com                                                       |
+| API (production)          | https://api-oph.alonsovndev.com (`/v1/*`)                                         |
+| Documentation site        | https://oph-docs.alonsovndev.com                                                  |
+| Backend repository        | [open-projects-hub-api](https://github.com/alonsovndev/open-projects-hub-api)     |
+| Frontend repository       | [open-projects-hub-web](https://github.com/alonsovndev/open-projects-hub-web)     |
 | Infrastructure repository | [open-projects-hub-infra](https://github.com/alonsovndev/open-projects-hub-infra) |
-| Documentation repository | this repository |
+| Documentation repository  | this repository                                                                   |
 
 New here? Start with the [system overview](./docs/00-context/overview.md), then
 [how to run the system](./docs/00-context/run-the-system.md) and the
@@ -172,8 +172,7 @@ npm run build    # broken links fail the build
 
 The site is live at **https://oph-docs.alonsovndev.com**, served by a separate
 Cloudflare Worker (`open-projects-hub-docs`) using static assets from `build/`. The
-product frontend at https://oph.alonsovndev.com and the apex domain are not affected.
-GitHub Pages is no longer used.
+product frontend at https://oph.alonsovndev.com.
 
 ### How it publishes
 
@@ -182,13 +181,13 @@ Cloudflare Builds is connected to this repository and publishes production commi
 pushes to those branches, and manual runs (the `Build Docs` workflow's `Build` job is
 the required check).
 
-| Setting | Value |
-| --- | --- |
-| Worker name | `open-projects-hub-docs` (must match `wrangler.jsonc`) |
-| Production branch | `main` |
-| Build environment variable | `NODE_VERSION=22` |
-| Build command | `npm run typecheck && npm run build` |
-| Deploy command | `npm run deploy` |
+| Setting                    | Value                                                  |
+| -------------------------- | ------------------------------------------------------ |
+| Worker name                | `open-projects-hub-docs` (must match `wrangler.jsonc`) |
+| Production branch          | `main`                                                 |
+| Build environment variable | `NODE_VERSION=22`                                      |
+| Build command              | `npm run typecheck && npm run build`                   |
+| Deploy command             | `npm run deploy`                                       |
 
 `wrangler.jsonc` declares the docs hostname as a Workers **Custom Domain**, so the
 production deploy keeps its DNS record and certificate. No Cloudflare credentials are
