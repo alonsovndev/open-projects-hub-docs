@@ -333,7 +333,7 @@ Most errors contain a string `detail`; some add a machine-readable `code`. These
 | `500` | Unexpected application failure. |
 | `502` | Refinement-provider failure; includes `detail`, `failureClass`, `provider`, and original `rawNotes` for retry. |
 
-Responses carry `X-Request-ID` for correlation with structured logs. Sentry captures backend exceptions only when configured. Current monitoring limitations are documented in [Monitoring and Observability](../ops/monitoring-observability.md).
+Responses carry `X-Request-ID` for correlation with structured logs. Sentry captures backend exceptions in production. Current monitoring limitations are documented in [Monitoring and Observability](../ops/monitoring-observability.md).
 
 ## Superseded endpoint designs
 

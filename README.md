@@ -61,7 +61,7 @@ Requirements behind each feature: [F-001 to F-011](./docs/01-requirements/).
 | AI                | Gemini, OpenAI and DeepSeek , mock provider for local development                                                      |
 | Infrastructure    | Terraform, AWS EC2 + Docker Compose + Caddy, AWS SSM Parameter Store, Cloudflare (Workers, DNS, proxy), Resend (email) |
 | Quality and CI/CD | Ruff, mypy, Bandit, pytest, ESLint, Vitest, React Testing Library, Playwright, GitHub Actions, GHCR                    |
-| Observability     | Sentry (optional, API and web)                                                                                         |
+| Observability     | Sentry (API and web)                                                                                                   |
 | Documentation     | Docusaurus, Mermaid, 24 ADRs                                                                                           |
 
 Rationale for each choice: [technology stack](./docs/03-architecture/core/technology-stack.md) and the [decision log](./docs/04-decisions/README.md).

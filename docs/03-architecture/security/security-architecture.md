@@ -128,7 +128,7 @@ Dedicated OpenAI Moderation calls, configured cross-provider harm thresholds, to
 
 The API applies typed request validation, parameterized ORM queries, configured CORS, security headers, and request identifiers. Authentication, code issuance, API-key validation, and public review have additional throttling controls. The global IP limiter defaults to 100 requests per minute; it is process-local, while account and key-validation counters are persisted.
 
-Application logs are structured JSON in the container. Backend Sentry is optional and runs only when configured. There are no deployed CloudWatch alarms, distributed rate-limit service, or continuously staffed incident-response process documented for this release.
+Application logs are structured JSON in the container. Backend Sentry is active in production and scrubs request URLs and headers before sending. There are no deployed CloudWatch alarms, distributed rate-limit service, or continuously staffed incident-response process documented for this release.
 
 The repositories contain authentication, route-policy, workspace-isolation, and sanitizer tests. Their presence establishes available verification coverage, not a current passing result or independent security assessment. Refer to the repository CI results and a recorded test run when evaluating release readiness.
 

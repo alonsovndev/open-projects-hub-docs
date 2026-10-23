@@ -23,11 +23,11 @@ The original design (a hybrid of Sentry and CloudWatch with SLO dashboards for A
 | Is the API process alive | `GET /health/live` | Host-local; not routed through Cloudflare (Caddy forwards only `/v1/*`) |
 | Is the API ready (database reachable) | `GET /health/ready` | Host-local; used by the container health check and the deploy script |
 | Does the public path work | The deploy script's smoke test: unauthenticated `GET /v1/users/me/profile` must return a JSON 4xx through Cloudflare | `scripts/deploy-release.sh` (API repository) |
-| Application errors | Sentry SDK in the API | Active only when the `SENTRY_DSN` SSM parameter holds a real DSN (`N/A` disables it); whether it is set today is TBD. Trace sample rate 0.1 |
+| Application errors | Sentry SDK in the API | Active in production through the `SENTRY_DSN` SSM parameter (`N/A` disables it; local, dev and test configs keep it off). Trace sample rate 0.1, health checks excluded |
 | Container state | Docker health checks (`api`, `postgres`) and `restart: unless-stopped` | `deploy/compose.prod.yml` |
 | Cost | Two AWS Budgets: one on real (post-credit) charges, one on gross usage | Terraform, `envs/prod` |
 
-The web app reports render errors and route-change traces to its own Sentry project (`open-projects-hub-web`). It is active only when `VITE_SENTRY_DSN` is set at build time (Cloudflare Builds environment variable); with it unset the SDK is a no-op. The trace sample rate is 0.1 and cookies, headers, request bodies and user info are not collected.
+The web app reports render errors and route-change traces to its own Sentry project (`open-projects-hub-web`). It is active in production because `VITE_SENTRY_DSN` is set at build time (Cloudflare Builds environment variable); a local build without it leaves the SDK a no-op. The trace sample rate is 0.1 and cookies, headers, request bodies and user info are not collected.
 
 ## 3. Logs
 
@@ -48,12 +48,12 @@ Useful log events when debugging sign-up: `email.send_failed` (a bad `SMTP_*` va
 
 - Never log secrets, passwords, refresh tokens, verification codes or provider API keys. User AI keys are encrypted at rest ([ADR-018](../../04-decisions/adr-018-user-api-key-encryption.md)).
 - Raw requirement notes sent for refinement are not persisted ([ADR-019](../../04-decisions/adr-019-no-persisted-draft-stories.md)) and should not be copied into logs.
-- If Sentry is enabled, configure it to scrub request bodies and headers before sending.
+- The API's Sentry setup sends no default PII or local variables and strips headers, query strings and the Client Review access code from request URLs and transaction names before sending. Free-text exception and log messages are not scrubbed, so they must not interpolate the access code.
 - Client IP for rate limiting comes from `CF-Connecting-IP`, set by Caddy as `X-Forwarded-For`.
 
 ## 6. Cost
 
-The [deployment architecture](./deployment-architecture.md) retains the original cost estimate for compute, volume, and public IPv4. The design uses optional Sentry and AWS Budgets without dedicated monitoring infrastructure. Current pricing, account allowances, and actual billed usage were not verified during this review.
+The [deployment architecture](./deployment-architecture.md) retains the original cost estimate for compute, volume, and public IPv4. The design uses Sentry and AWS Budgets without dedicated monitoring infrastructure. Current pricing, account allowances, and actual billed usage were not verified during this review.
 
 ## 7. Gaps and Future Work
 
@@ -61,7 +61,6 @@ The [deployment architecture](./deployment-architecture.md) retains the original
 | --- | --- | --- |
 | No external uptime probe | An outage is noticed by a user or by the next deploy | A free external HTTP monitor on `https://api-oph.alonsovndev.com/v1/...` (TBD) |
 | No log shipping or retention | Logs are lost if the volume is replaced | Ship to a free log service or CloudWatch Logs (TBD cost) |
-| Sentry DSN possibly unset (TBD) | Backend exceptions are only in the container logs | Create a Sentry project and set `SENTRY_DSN` in SSM |
 | No source maps uploaded for the web app | Browser stack traces in Sentry are minified | Add `@sentry/vite-plugin` with an auth token in the Cloudflare build (TBD) |
 | Single host, no backups | A host or disk failure loses the data | See the limits in the [Deployment Architecture](./deployment-architecture.md) |
 

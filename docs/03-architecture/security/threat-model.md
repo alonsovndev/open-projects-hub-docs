@@ -31,7 +31,7 @@ Requests cross four important boundaries: browser → Cloudflare → API host, A
 | R-11 | Information disclosure | Discovery notes disclose sensitive material to an AI provider | Provider selection is explicit; keys are not included in the prompt | Notes leave the application boundary; reviewers must choose what they submit. |
 | R-12 | Denial of service | Host failure, volume loss, or failed migration | Reproducible image/IaC and startup migrations | No database backup or failover; application data can be lost. |
 | R-13 | Tampering / elevation of privilege | Malicious dependency, workflow, or deployment artifact | Repository quality/security checks; versioned image releases; operator-controlled SSM deploy | These controls do not eliminate supply-chain or operator-credential compromise. |
-| R-14 | Repudiation | Inadequate evidence for troubleshooting or attribution | Structured request-correlated logs; optional backend Sentry | No complete audit trail, public-reader identity, or deployed infrastructure alarms. |
+| R-14 | Repudiation | Inadequate evidence for troubleshooting or attribution | Structured request-correlated logs; backend Sentry | No complete audit trail, public-reader identity, or deployed infrastructure alarms. |
 
 ## Authentication and code lifetimes
 

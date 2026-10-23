@@ -45,7 +45,7 @@ AWS hosts the API and database. Cloudflare hosts the static web and documentatio
 - **Secrets and configuration:** AWS Systems Manager Parameter Store (Standard tier)
 - **Authentication:** Custom JWT-based auth module in the FastAPI backend (see ADR-005)
 - **Infrastructure as Code:** Terraform in the `open-projects-hub-infra` repository
-- **Observability:** Sentry for the API (`SENTRY_DSN` in SSM) and the web app (`VITE_SENTRY_DSN` at build time), each optional and off until a DSN is set, plus container logs on the host
+- **Observability:** Sentry for the API (`SENTRY_DSN` in SSM) and the web app (`VITE_SENTRY_DSN` at build time), plus container logs on the host
 - **CI/CD:** GitHub Actions builds and publishes the API image; the deploy is started by hand with `scripts/deploy-release.sh` using the operator's AWS credentials (GitHub OIDC is blocked in the account, see ADR-023)
 
 ## 3. Deployment Architecture
@@ -277,8 +277,7 @@ See [Security Architecture](../security/security-architecture.md) for detailed s
 
 The deployment records report the first release at `https://api-oph.alonsovndev.com` and `https://oph.alonsovndev.com` on 2026-10-19. They describe API `v0.1.0`, manual deployment through SSM, and a successful registration/email/login check. These are historical operator observations, not a fresh availability check by this documentation review.
 
-Current source code confirms the deployment topology and scripts; the AWS account, Cloudflare settings, live secrets, credit balance, and hosted protection rules were not queried. Sentry collection also depends on DSN configuration.
-
+Current source code confirms the deployment topology and scripts; the AWS account, Cloudflare settings, live secrets, credit balance, and hosted protection rules were not queried.
 The review deployment accepts the following limitations:
 
 - No automated backups, restore guarantee, failover, or zero-downtime rollout.

@@ -139,7 +139,7 @@ sequenceDiagram
     participant FE as Frontend
     participant BE as Backend API
     participant Logs as Container Logs
-    participant Sentry as Sentry, if configured
+    participant Sentry as Sentry
 
     User->>FE: Submit an action
     FE->>BE: API request
@@ -149,15 +149,13 @@ sequenceDiagram
         FE-->>User: Explain validation failure
     else Unexpected exception
         BE->>Logs: Exception context
-        opt Backend Sentry is configured
-            BE-->>Sentry: Capture exception
-        end
+        BE-->>Sentry: Capture exception
         BE-->>FE: Error response with request identifier
         FE-->>User: Explain failure and recovery action
     end
 ```
 
-See [Monitoring and Observability](../ops/monitoring-observability.md) for the current limits. The frontend includes an optional Sentry SDK, enabled only when `VITE_SENTRY_DSN` is configured at build time; backend Sentry is configured independently.
+See [Monitoring and Observability](../ops/monitoring-observability.md) for the current limits. The frontend also reports to Sentry through its own SDK (`VITE_SENTRY_DSN`, set at build time); backend Sentry is configured independently.
 
 ## 6) User Registration and Email Verification
 
