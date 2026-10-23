@@ -10,7 +10,7 @@ migrations in `open-projects-hub-api`.
 
 | Document | Description |
 | --- | --- |
-| [database-design.md](./database-design.md) | Schema design: ERD, the 11 tables and their constraints and indexes, access patterns, and requirements traceability |
+| [Database Design](./database-design.md) | Schema design: ERD, the 11 tables and their constraints and indexes, access patterns, and requirements traceability |
 
 ## Related Architecture Decision Records
 
