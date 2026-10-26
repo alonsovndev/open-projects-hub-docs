@@ -2,13 +2,12 @@
 
 - **Status**: Accepted
 - **Date**: 2026-10-19
-- **Affects**: [ADR-021](./adr-021-low-cost-single-host-deployment.md) (SMTP settings are SSM parameters, previously set to `N/A`), [ADR-011](./adr-011-secrets-management.md) (the SMTP password is a secret)
 
 ## Context
 
 Registration creates an unverified administrator and a new workspace, then emails a five-minute verification code. Login is blocked until the code is entered, so without a working mail sender nobody can create an account in production. The password-reset flow needs the same sender.
 
-The first production deploy left every `SMTP_*` parameter at `N/A`. The API logs a failed send and still answers 200, so sign-up looked healthy while no code ever arrived. Production needed a real sender that costs nothing at this volume and can be configured without changing code.
+The API logs a failed send and still answers 200, so a deployment with unconfigured `SMTP_*` parameters looks healthy while no code ever arrives. Production needs a real sender that costs nothing at this volume and can be configured without changing code ([ADR-011](./adr-011-secrets-management.md), [ADR-021](./adr-021-low-cost-single-host-deployment.md)).
 
 ## Decision
 
@@ -19,11 +18,11 @@ The first production deploy left every `SMTP_*` parameter at `N/A`. The API logs
 | Sender address | `no-reply@send.alonsovndev.com` (a full address on the verified domain; a bare domain is rejected) |
 | Credentials | `SMTP_USERNAME=resend`; `SMTP_PASSWORD` is a Resend API key |
 | Configuration | SSM Parameter Store, `/ophub/prod/SMTP_HOST`, `SMTP_USERNAME`, `SMTP_PASSWORD`, `SMTP_FROM_ADDRESS`. `deploy.sh` skips parameters equal to `N/A`, so the values are set by hand once and survive later deploys |
-| Failure behavior | Unchanged: a failed send is logged (`email.send_failed`) and not shown to the user |
+| Failure behavior | A failed send is logged (`email.send_failed`) and not shown to the user |
 
 ## Consequences
 
-- Sign-up works end to end in production; this was confirmed on 2026-10-19 by registering a real account.
+- Sign-up works end to end in production.
 - The Terraform stack does not create the parameter values, so a fresh account needs the four SSM values entered manually (documented in the infrastructure README). The API key is never stored in Git.
 - Because sends fail silently from the user's point of view, a wrong key or sender is only visible in the API logs.
 - The sending domain is new, so the first messages can land in spam until it builds reputation; deliverability notes are in the API repository (`docs/configuration/email-deliverability.md`).

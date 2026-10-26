@@ -2,65 +2,43 @@
 
 - **Status**: Accepted
 - **Date**: 2026-02-28
-- **Updated**: 2026-08-03
-- **Note (2026-10-10)**: the deployed database runs as a PostgreSQL container on the application host, not on Amazon RDS. See [ADR-021](./adr-021-low-cost-single-host-deployment.md). PostgreSQL itself is unchanged.
-
-> **Implementation note (2026-10-07):** PostgreSQL Row Level Security was not implemented. Tenant isolation is enforced in the application layer: every repository query is scoped by the caller's `workspace_id`, and records in another workspace return 404. See [Database Design](../03-architecture/database/database-design.md#security-and-data-governance).
 
 ## Context
 
-The system needs relational consistency, secure role-based data access, and operational simplicity for a small team. With the decision to adopt AWS as the primary cloud platform, the database solution must align with AWS infrastructure while maintaining PostgreSQL capabilities.
+The system needs relational consistency, tenant-scoped data access, and operational simplicity for a small team. The deployment is a single small host with a near-zero hosting budget ([ADR-021](./adr-021-low-cost-single-host-deployment.md)), so a fixed-cost managed database is not justified.
 
 ## Decision
 
-Use **Amazon RDS PostgreSQL** (Free Tier: db.t3.micro) as the primary database with native PostgreSQL **Row Level Security (RLS)** and managed backup/recovery capabilities.
+Use **PostgreSQL 15** as the primary database, running as a container on the application host with its data on the host's encrypted EBS volume.
 
-### Configuration
-
-- **Instance Type**: db.t3.micro (Free Tier: 750 hours/month for 12 months)
-- **Storage**: 20GB General Purpose SSD (Free Tier eligible)
-- **PostgreSQL Version**: 15.x
-- **Deployment**: Single-AZ for dev-as-production environment
-- **Backups**: Automated daily backups with 7-day retention
-- **Networking**: Private subnets within VPC, accessible only from App Runner service
+- **Tenant isolation** is enforced in the application layer: every repository query is scoped by the caller's `workspace_id`, and a record in another workspace returns 404. PostgreSQL Row Level Security is not used. See [Database Design](../03-architecture/database/database-design.md#security-and-data-governance).
+- **Connections** are pooled by SQLAlchemy ([ADR-007](./adr-007-orm-choice.md)). The container limits PostgreSQL to 30 connections, sized for a handful of users.
+- **Backups**: none, by decision ([ADR-021](./adr-021-low-cost-single-host-deployment.md)). A manual `pg_dump` over SSM Session Manager is the escape hatch.
+- **Schema changes** are applied with Alembic ([ADR-017](./adr-017-database-migration-strategy.md)).
 
 ## Consequences
 
 ### Positive
 
-- ACID consistency and mature SQL ecosystem for core entities.
-- Managed operations (automated backups, patching, monitoring) reduce DBA overhead for MVP.
-- Native PostgreSQL RLS enables data-centric least-privilege authorization.
-- AWS Free Tier eligible for 12 months (~750 hours/month).
-- Seamless integration with AWS infrastructure (VPC, IAM, CloudWatch).
-- Easy upgrade path to Multi-AZ and larger instance types as needs grow.
-- Point-in-time recovery (PITR) available with automated backups.
+- ACID consistency and a mature SQL ecosystem for core entities.
+- No database hosting cost beyond the host itself.
+- The same PostgreSQL image runs locally, in CI and in production, which reduces environment drift.
 
 ### Negative
 
-- Single-AZ deployment has single point of failure for dev environment (acceptable for MVP).
-- RLS policies require manual SQL implementation (no GUI like Supabase).
-- Connection management requires explicit pooling strategy.
-- After 12 months, ongoing cost ~$15-20/month for db.t3.micro.
-
-### Connection Configuration
-
-- Use connection pooling via PgBouncer or SQLAlchemy pool
-- Connection timeout: 30 seconds
-- Pool size: 5-10 connections for MVP
-- Max overflow: 10 connections
+- No managed backups, patching, failover or point-in-time recovery: if the instance or its volume is lost, the data is lost.
+- Tenant isolation depends on every query carrying the workspace scope; there is no database-level policy as a second layer.
+- Connection management needs an explicit pooling strategy within the 30-connection limit.
+- Database patching and PostgreSQL upgrades are manual.
 
 ## Alternatives Considered
 
-1. **Supabase-managed PostgreSQL**
+1. **A managed PostgreSQL service**
+   - Considered for managed backups, patching and point-in-time recovery.
+   - Not selected: a fixed monthly cost of roughly $13-15 on top of the host, which the available credits would burn faster.
+2. **Supabase-managed PostgreSQL**
    - Considered for built-in auth, RLS UI, and quick setup.
-   - Not selected to consolidate infrastructure on AWS and reduce multi-platform complexity.
-2. **Self-managed PostgreSQL on EC2**
-   - Considered for maximum control.
-   - Not selected due to higher operations burden (patching, backups, monitoring).
-3. **Amazon Aurora PostgreSQL**
-   - Considered for better performance and availability.
-   - Not selected due to higher cost (no Free Tier, minimum ~$45/month) and overkill for MVP scale.
-4. **MongoDB / DynamoDB**
+   - Not selected to keep data and compute with one cloud provider and reduce multi-platform complexity.
+3. **MongoDB / DynamoDB**
    - Considered for schema flexibility.
    - Not selected because relational workflows, ACID guarantees, and constraints are central to requirements.

@@ -9,7 +9,7 @@ The project needs fast local development loops and reproducible production artif
 
 ## Decision
 
-Use **Vite** for frontend build/dev workflows and **Docker multi-stage builds** for backend packaging/deployment.
+Use **Vite** for frontend build/dev workflows and **Docker** images for backend packaging/deployment ([ADR-012](./adr-012-containerization.md)).
 
 ## Consequences
 

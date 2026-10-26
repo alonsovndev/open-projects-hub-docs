@@ -1,82 +1,69 @@
 # ADR-013: Infrastructure as Code Strategy
 
-**Status**: Accepted  
-**Date**: 2026-02-28  
-**Updated**: 2026-08-03 (AWS-focused strategy)
-
-> **Note (2026-10-19):** Terraform is used, but the managed resources differ from the list below: one EC2 host, Elastic IP, security group, SSM parameters and deploy document, AWS Budgets, and the Cloudflare DNS record, with state in S3 (native lockfile, no DynamoDB). There is no VPC module, RDS, App Runner, ECR, CloudFront or CloudWatch; monitoring is Sentry only ([ADR-009](./adr-009-monitoring-observability.md)). See [ADR-021](./adr-021-low-cost-single-host-deployment.md), [ADR-022](./adr-022-cloudflare-edge-instead-of-cloudfront.md) and [ADR-023](./adr-023-credits-account-us-east-2-manual-deploy.md).
+- **Status**: Accepted
+- **Date**: 2026-02-28
 
 ## Context
 
-The platform infrastructure spans multiple AWS services (VPC, RDS, App Runner, S3, CloudFront, ECR, IAM) across development and production environments. Manual configuration via AWS Console introduces significant risks:
+The production infrastructure is one AWS EC2 host with its network and access resources, SSM parameters, and a Cloudflare DNS record ([ADR-021](./adr-021-low-cost-single-host-deployment.md), [ADR-022](./adr-022-cloudflare-edge-instead-of-cloudfront.md)). Manual configuration via the AWS Console introduces significant risks:
 
 **Problems:**
 
-- Configuration drift between environments (dev/prod)
 - Lack of change auditability and review process
-- Slow environment replication (can't easily recreate staging or disaster recovery)
+- Slow environment replication (can't easily recreate the stack)
 - No version control for infrastructure changes
 - Difficult rollback of infrastructure changes
 
 **Constraints:**
 
-- Must work within AWS Free Tier limits
-- Must support multiple environments (dev/prod)
-- Must integrate with GitHub-based CI/CD workflows
-- Must protect production changes with approval gates
-- Must maintain state consistency across team members
+- Must stay within the hosting budget
+- Must protect production against accidental destruction
+- Must maintain state consistency
 
 **Requirements:**
 
 - Version-controlled infrastructure definitions
-- Automated plan/apply workflows
 - State management with locking to prevent concurrent modifications
-- Modular design for environment replication
-- Integration with existing GitHub Actions CI/CD
+- Modular design for replication
 
 ## Decision
 
-Adopt **Terraform** as the Infrastructure as Code (IaC) tool with the following architecture:
+Adopt **Terraform** as the Infrastructure as Code (IaC) tool, in the separate `open-projects-hub-infra` repository.
 
 **Core Components:**
 
-- **Provider**: AWS Provider (`hashicorp/aws`) for all infrastructure
-- **Workflow**: GitHub Actions for automated `terraform plan` on PRs, `terraform apply` on merge
-- **Structure**: Environment-specific configurations with shared modules
-- **Secrets**: Sensitive values passed via GitHub Secrets as Terraform variables
+- **Providers**: AWS (`hashicorp/aws`) and Cloudflare
+- **State**: S3 bucket with the native lockfile (no DynamoDB), created by a separate `bootstrap` stack
+- **Structure**: `envs/prod` for the production stack and reusable modules (`modules/compute`, `modules/deploy`)
+- **Workflow**: CI runs `terraform fmt -check`, `init -backend=false` and `validate` only. Plan and apply are run by hand from a workstation; CI never applies ([ADR-023](./adr-023-credits-account-us-east-2-manual-deploy.md))
+- **Secrets**: parameter values are not in Terraform and are set by hand ([ADR-011](./adr-011-secrets-management.md))
 
 **Managed Resources:**
 
-- Networking: VPC, subnets, security groups, NAT gateway
-- Compute: AWS App Runner service configurations
-- Database: RDS PostgreSQL instances
-- Storage: S3 buckets, ECR repositories
-- CDN: CloudFront distributions
-- Access: IAM roles, policies, service accounts
-- Monitoring: CloudWatch + Sentry log groups and alarms
+- Compute: one EC2 host, Elastic IP, security group and instance role
+- Deploy: the SSM document that deploys a release tag
+- Configuration: SSM Parameter Store parameters (names, not values)
+- Cost: AWS Budgets
+- DNS: the proxied Cloudflare record for the API hostname
 
 ## Consequences
 
 ### Positive
 
-- Version-controlled infrastructure — all changes tracked in Git with PR review process
-- Repeatable environments — identical dev/prod environments from same Terraform modules
-- Reduced configuration drift — Terraform state detects manual changes, enables drift detection
-- Clear change history — supports incident response, rollback, and compliance auditing
-- AWS-native focus — single provider simplifies module design vs. multi-cloud complexity
-- Team collaboration — infrastructure changes reviewed via pull requests like code
-- Automated workflows — GitHub Actions runs `terraform plan` on PRs, `terraform apply` on merge to main
-- Modular design — reusable modules (VPC, RDS, App Runner) accelerate new environment setup
+- Version-controlled infrastructure: all changes are tracked in Git and reviewed through pull requests.
+- Reduced configuration drift: Terraform state detects manual changes.
+- Clear change history: supports incident response and rollback.
+- A small stack that can be recreated from code.
+- Guards against accidents: the instance has `prevent_destroy` and termination protection.
 
 ### Negative
 
-- Initial setup overhead — 1-2 days to structure modules, configure remote state, set up GitHub Actions
-- State management complexity — S3 backend + DynamoDB locking requires careful initial configuration
-- Learning curve — team must understand Terraform HCL syntax, AWS resource dependencies, state management
-- Plan/apply discipline required — must always review `terraform plan` output before applying changes
-- Provider version management — need governance for AWS provider upgrades to avoid breaking changes
-- Storage costs — S3 state storage and DynamoDB table (though minimal: <$1/month expected)
-- Destroy risks — `terraform destroy` can accidentally delete production resources if misused
+- State management complexity: the S3 backend must be bootstrapped by hand with local state.
+- Learning curve: the team must understand HCL syntax, AWS resource dependencies and state management.
+- Plan/apply discipline: `terraform plan` output must always be reviewed before applying, and applies are manual.
+- Provider version management: AWS and Cloudflare provider upgrades need governance.
+- Destroy risks: `terraform destroy` can delete the production host and its data, which has no backups.
+- Terraform needs a Cloudflare API token to plan, apply and destroy.
 
 ## Alternatives Considered
 
@@ -84,16 +71,15 @@ Adopt **Terraform** as the Infrastructure as Code (IaC) tool with the following 
 
 - Considered for AWS-native IaC with tight service integration
 - Not selected because:
-  - JSON/YAML syntax less ergonomic and readable than Terraform HCL
-  - Terraform has more mature module ecosystem and community support
-  - Terraform state management more flexible than CloudFormation stack model
+  - JSON/YAML syntax is less ergonomic and readable than Terraform HCL
+  - Terraform has a more mature module ecosystem and community support
+  - Terraform can also manage the Cloudflare record, which CloudFormation cannot
   - Team preference for Terraform based on prior experience
 
 ### 2. AWS CDK (Cloud Development Kit)
 
 - Considered for programmatic infrastructure with Python/TypeScript
 - Not selected because:
-  - Uses CloudFormation underneath, inheriting some AWS resource coverage limitations
-  - Less mature than Terraform for multi-service orchestration
-  - Smaller community and fewer third-party modules compared to Terraform
-  - Team lacks TypeScript/Python IaC experience; Terraform HCL easier to learn
+  - It uses CloudFormation underneath, inheriting some AWS resource coverage limitations
+  - It is less mature than Terraform for multi-provider orchestration
+  - The team lacks CDK experience; Terraform HCL is easier to learn

@@ -2,39 +2,32 @@
 
 - **Status**: Accepted
 - **Date**: 2026-02-28
-- **Updated**: 2026-08-03
-- **Amended by**: [ADR-020](./adr-020-client-review-by-access-code.md) (2026-10-02): the `viewer` role is removed; roles are `admin` and `member`, and clients review through a project access code.
-
-> **Implementation note (2026-10-07):** PostgreSQL Row Level Security was not implemented. Tenant isolation is enforced in the application layer: every repository query is scoped by the caller's `workspace_id`, and records in another workspace return 404. See [Database Design](../03-architecture/database/database-design.md#security-and-data-governance).
-
-> **Current implementation:** authorization uses workspace-scoped queries rather than RLS. The auth module lives under `src/app/features/auth`; JWT signing uses `SECRET_KEY`. Password-reset codes are six-character alphanumeric values with a 30-minute expiry. The earlier role and database-policy design below is retained as history.
 
 ## Context
 
-The platform must enforce strict Admin/Viewer access controls and secure session handling aligned with OWASP and MVP delivery constraints. The solution must support stateless scaling and integrate with AWS infrastructure while maintaining full control over authentication logic.
+The platform must enforce Admin/Member access controls inside a workspace and secure session handling aligned with OWASP and MVP delivery constraints. Clients review a project without an account, through its access code ([ADR-020](./adr-020-client-review-by-access-code.md)).
 
-With the migration to AWS and the decision to implement a custom authentication module, the system needs a self-contained auth solution that:
+The solution must keep full control over authentication logic and:
 
-- Issues and validates JWT tokens
-- Manages user identity lifecycle (registration, login, password reset)
-- Integrates with PostgreSQL RLS policies
-- Remains stateless for horizontal scaling
+- Issue and validate JWT tokens
+- Manage the user identity lifecycle (registration, login, password reset)
+- Scope every query to the caller's workspace
+- Remain stateless for request handling
 
 ## Decision
 
-Implement a **custom authentication bounded context** as an internal module within the FastAPI backend monolith with **JWT-based authentication**, where authorization is enforced by backend role checks and PostgreSQL RLS policies.
+Implement a **custom authentication bounded context** as an internal module within the FastAPI backend monolith with **JWT-based authentication**. Authorization is enforced by backend role checks and workspace-scoped repository queries: a record in another workspace returns 404. PostgreSQL Row Level Security is not used ([ADR-004](./adr-004-database.md)).
 
-The auth module is a bounded context within the modular monolith, not a separate microservice. It follows Clean Architecture principles with clear boundaries between domain, application, and infrastructure layers.
+The auth module (`src/app/features/auth`) is a bounded context within the modular monolith, not a separate microservice. It follows Clean Architecture principles with clear boundaries between domain, application, and infrastructure layers.
 
 ### Architecture Components
 
 1. **Authentication Module (Internal Bounded Context)**
-   - **Location**: Part of the backend monolith (e.g., `src/modules/auth/` or `src/auth/`)
-   - User registration endpoint (`POST /v1/auth/register`)
-   - Login endpoint (`POST /v1/auth/login`) — returns JWT access token
+   - User registration endpoint (`POST /v1/auth/register`): creates an unverified Admin and a new workspace, then emails a verification code ([ADR-024](./adr-024-email-delivery-with-resend.md)).
+   - Login endpoint (`POST /v1/auth/login`): returns a JWT access token; login is blocked until the email is verified.
    - Token validation middleware (validates JWT on protected routes across all modules)
    - Password hashing with `bcrypt` (direct library, no `passlib` dependency)
-   - JWT generation/verification using `python-jose` or `PyJWT`
+   - JWT generation/verification using `PyJWT`
 
 2. **JWT Token Structure**
 
@@ -52,61 +45,46 @@ The auth module is a bounded context within the modular monolith, not a separate
    - **Access Token Expiration**: short-lived (15 minutes in deployed environments, configurable via `JWT_EXPIRE_MINUTES`)
    - **Algorithm**: HS256
    - **Secret Key**: Stored in environment variable (`SECRET_KEY`)
-   - **Refresh Tokens**: Implemented (EPIC-2). Single-use, rotated on every refresh. Standard
-     sessions last 24 hours of inactivity; an opt-in "remember me" extends this to 7 days. The
-     window slides forward on each successful refresh rather than being a fixed expiry from login.
+   - **Refresh Tokens**: Single-use, rotated on every refresh, delivered in an HttpOnly cookie. Standard sessions last 24 hours of inactivity; an opt-in "remember me" extends this to 7 days. The window slides forward on each successful refresh rather than being a fixed expiry from login.
 
 4. **Session Management**
-   - JWT access tokens remain stateless and are not persisted server-side.
-   - Refresh-token state **is** persisted server-side (PostgreSQL: `revoked_refresh_tokens`,
-     `account_lockouts`) so logout, single-use rotation, and account lockout survive restarts and
-     work across multiple API instances — this was not possible under a purely stateless
-     design and required walking back the original "no server-side session storage" decision.
-   - Forced logout across every device is supported via a `token_version` counter on the `users`
-     row: bumping it invalidates every refresh token issued before that point (used after a
-     password reset). No per-token ledger is needed for this.
+   - JWT access tokens are stateless and are not persisted server-side.
+   - Refresh-token state is persisted server-side (PostgreSQL: `revoked_refresh_tokens`, `account_lockouts`) so logout, single-use rotation, and account lockout survive restarts and work across multiple API instances.
+   - Forced logout across every device is supported via a `token_version` counter on the `users` row: bumping it invalidates every refresh token issued before that point (used after a password reset). No per-token ledger is needed for this.
 
 5. **Database Integration**
-   - `users` table stores user credentials and roles
+   - The `users` table stores user credentials and the role (`admin` or `member`); each user belongs to one workspace.
 
 ### Decision Details
 
 - Short-lived access tokens (15 minutes in deployed environments).
-- Password requirements: minimum 8 characters, must include a letter and a digit (enforced in validation layer).
-- Account lockout after 5 failed login attempts within 15 minutes, with progressive backoff for
-  repeated offenses (implemented, EPIC-2 persists this to Postgres).
-- Password reset via a six-character alphanumeric emailed code, single-use, 30-minute expiry, rate-limited (implemented, EPIC-2 / F-009).
-- Session-based backend auth is not selected because APIs are deployed as stateless services; the
-  session/lockout persistence added in EPIC-2 is scoped to auth-specific revocation state, not a
-  general server-side session store for request handling.
-- OAuth 2.0/OIDC providers (Google, GitHub) deferred to Phase 2.
-- MFA support deferred to post-MVP hardening phase.
+- Password requirements: minimum 8 characters, must include a letter and a digit (enforced in the validation layer).
+- Account lockout after 5 failed login attempts within 15 minutes, with progressive backoff for repeated offenses.
+- Password reset via a six-character alphanumeric emailed code, single-use, 30-minute expiry, rate-limited.
+- Session-based backend auth is not selected because the API is deployed as a stateless service; the session and lockout persistence is scoped to auth-specific revocation state, not a general server-side session store for request handling.
+- OAuth 2.0/OIDC providers (Google, GitHub) are deferred to Phase 2.
+- MFA support is deferred to a post-MVP hardening phase.
 
 ## Consequences
 
 ### Positive
 
 - **Full control**: Complete ownership of authentication logic and user data.
-- **AWS alignment**: No dependency on third-party auth services; everything runs on AWS infrastructure.
 - **Cost efficiency**: No per-user auth service charges (unlike Cognito beyond Free Tier or Supabase Auth).
-- **Clean Architecture fit**: Auth module implements domain-driven design with clear boundaries within the modular monolith.
-- **Module cohesion**: Auth bounded context coexists with other modules (clients, projects, requirements) in a single deployable, simplifying development and deployment.
-- **Stateless scaling**: JWT tokens enable horizontal scaling without session affinity.
-- **Defense in depth**: Backend role checks + PostgreSQL RLS policies enforce authorization.
+- **Clean Architecture fit**: The auth module implements domain-driven design with clear boundaries within the modular monolith.
+- **Module cohesion**: The auth bounded context coexists with other modules (clients, projects, stories) in a single deployable, simplifying development and deployment.
+- **Stateless request handling**: JWT tokens enable horizontal scaling without session affinity.
+- **Workspace isolation**: Role checks plus workspace-scoped queries enforce authorization on every request.
 - **Flexibility**: Easy to extend with custom auth flows, password policies, or audit logging.
-- **Shared infrastructure**: Auth module shares database connections, logging, monitoring, and deployment pipeline with other backend modules.
 
 ### Negative
 
-- **Implementation effort**: ~3-4 days to build, test, and secure custom auth module (vs. 1 day with managed service).
-- **Security responsibility**: Team owns security implementation (password hashing, JWT secret management, token validation).
-- **Maintenance burden**: Must handle password reset, email verification, account recovery flows manually.
+- **Security responsibility**: The team owns the security implementation (password hashing, JWT secret management, token validation).
+- **Maintenance burden**: Email verification, password reset and account recovery flows are maintained manually.
 - **No built-in OAuth**: Social login providers require manual integration (future work).
-- **Persistence footprint**: revocation/lockout state now lives in three small Postgres tables
-  (`account_lockouts`, `revoked_refresh_tokens`, `password_reset_codes`) plus a `token_version`
-  column on `users` — a deliberate, minimal departure from the original fully-stateless design,
-  scoped to what logout/lockout/forced-logout actually require.
-- **Module coupling risk**: Auth module must maintain clean boundaries with other backend modules to prevent tight coupling.
+- **Persistence footprint**: Revocation and lockout state lives in small Postgres tables (`account_lockouts`, `revoked_refresh_tokens`, `password_reset_codes`) plus a `token_version` column on `users`, scoped to what logout, lockout and forced logout require.
+- **No database-level second layer**: Isolation relies on every repository query carrying the workspace scope.
+- **Module coupling risk**: The auth module must maintain clean boundaries with other backend modules.
 
 ## Alternatives Considered
 
@@ -115,8 +93,8 @@ The auth module is a bounded context within the modular monolith, not a separate
    - Not selected to maintain full control over auth logic and reduce complexity (no Cognito SDK integration, simpler JWT flow).
 
 2. **Supabase Auth**
-   - Original design choice for managed authentication flows.
-   - Not selected due to AWS consolidation strategy and desire to reduce multi-platform dependencies.
+   - Considered for managed authentication flows.
+   - Not selected to avoid additional platform dependencies.
 
 3. **Auth0 / Okta**
    - Considered for enterprise-grade identity management.
