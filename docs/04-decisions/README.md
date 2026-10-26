@@ -18,7 +18,7 @@ An ADR records the decision at the time it was made. “Accepted” does not mea
 | [ADR-006](./adr-006-deployment-platform.md) | Deployment Platform (AWS) | Superseded in part | [ADR-021](./adr-021-low-cost-single-host-deployment.md), [ADR-022](./adr-022-cloudflare-edge-instead-of-cloudfront.md) |
 | [ADR-007](./adr-007-orm-choice.md) | ORM Choice (SQLAlchemy) | Accepted | - |
 | [ADR-008](./adr-008-build-tool.md) | Build Tooling (Vite + Docker) | Accepted | - |
-| [ADR-009](./adr-009-monitoring-observability.md) | Monitoring and Observability (Sentry + CloudWatch) | Accepted; amended | [ADR-021](./adr-021-low-cost-single-host-deployment.md) (CloudWatch alarms not deployed) |
+| [ADR-009](./adr-009-monitoring-observability.md) | Monitoring and Observability (Sentry) | Accepted; amended | [ADR-021](./adr-021-low-cost-single-host-deployment.md) (CloudWatch dropped; Sentry only) |
 | [ADR-010](./adr-010-testing-framework.md) | Testing Framework Strategy (Pytest, Vitest, Playwright) | Accepted | - |
 | [ADR-011](./adr-011-secrets-management.md) | Secrets Management Strategy | Accepted | [ADR-021](./adr-021-low-cost-single-host-deployment.md) (SSM Parameter Store) |
 | [ADR-012](./adr-012-containerization.md) | Containerization Strategy (Docker) | Accepted | [ADR-021](./adr-021-low-cost-single-host-deployment.md) (Docker Compose on EC2, not App Runner) |

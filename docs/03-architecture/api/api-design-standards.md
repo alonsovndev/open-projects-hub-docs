@@ -78,7 +78,7 @@ The process-local IP limiter defaults to 100 requests per minute; endpoint overr
 
 The public Client Review route limits requests to 30 per minute per IP. In-memory IP counters reset on process restart and do not coordinate across workers. Some application limit responses carry `Retry-After`; clients should use it when supplied.
 
-Logs include a request identifier. Backend errors are reported to Sentry; no CloudWatch alarms are deployed. See [Monitoring and Observability](../ops/monitoring-observability.md).
+Logs include a request identifier. Backend errors are reported to Sentry; no alarms are deployed. See [Monitoring and Observability](../ops/monitoring-observability.md).
 
 ## Contract verification
 

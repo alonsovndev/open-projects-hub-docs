@@ -107,7 +107,7 @@ Sized for a single host and near-zero traffic; see [Monitoring and Observability
 - **Logs:** structured container logs, read with `docker compose logs` over SSM.
 - **Errors:** Sentry in the API (`SENTRY_DSN`) and the web app (`VITE_SENTRY_DSN`).
 - **Cost:** two AWS Budgets (a real-charge alert and a gross-usage alert).
-- **Not deployed:** CloudWatch alarms, dashboards and uptime probes.
+- **Not deployed:** alarms, dashboards and uptime probes.
 
 ## Deployment Impact (GitHub Actions + AWS)
 

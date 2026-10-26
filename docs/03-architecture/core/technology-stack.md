@@ -49,7 +49,7 @@ This document defines the technology choices for the Open Projects Hub, organize
 | IaC                    | Terraform                            | EC2, Elastic IP, security group, SSM, budgets and the Cloudflare DNS record ([ADR-013](../../04-decisions/adr-013-infrastructure-as-code.md)) |
 | **Observability**      |                                      |                                                                                            |
 | Application Monitoring | Sentry SDKs (API and web) | Error reporting and sampled traces, active in production through the runtime (API) and build-time (web) DSN |
-| Health and Logs        | `/health/live`, `/health/ready`, container logs | Host-local health checks and `docker compose logs`; no CloudWatch alarms are deployed |
+| Health and Logs        | `/health/live`, `/health/ready`, container logs | Host-local health checks and `docker compose logs`; no alarms or uptime probes are deployed |
 | **CI/CD**              |                                      |                                                                                            |
 | Pipeline               | GitHub Actions                       | Tests and quality gates on pull requests; on a `vX.Y.Z` tag it builds and pushes the API image |
 | Container Registry     | GitHub Container Registry (GHCR)     | `ghcr.io/alonsovndev/open-projects-hub-api:<tag>`                                           |

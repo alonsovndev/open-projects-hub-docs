@@ -73,7 +73,7 @@ The built site was served by a local static HTTP server for these checks. The Do
 - **Shared review access:** anyone holding a project access code can read the approved stories. Revocation replaces the shared code; individual stakeholder revocation and access auditing are absent.
 - **Availability and recovery:** one EC2 host runs the API and PostgreSQL, with no automated backups, failover, or autoscaling. Host-volume loss can lose all project data.
 - **Transport:** Cloudflare Full mode encrypts the origin connection without validating Caddy's origin certificate. Full (strict) with a trusted origin certificate remains a hardening step.
-- **Abuse controls and telemetry:** some rate limits are process-local. Centralized log retention, external uptime checks, and CloudWatch alarms are not deployed. Sentry error tracking is integrated in the API and web app; alerting rules and source-map upload are not documented.
+- **Abuse controls and telemetry:** some rate limits are process-local. Centralized log retention, external uptime checks, and alarms are not deployed. Sentry error tracking is integrated in the API and web app; no Sentry alert rules are configured and source-map upload is not set up.
 - **Quality claims:** WCAG conformance, GDPR compliance, load capacity, email delivery targets, and measured productivity gains are not established by the available evidence.
 
 See the [threat model](../03-architecture/security/threat-model.md) and [deployment architecture](../03-architecture/ops/deployment-architecture.md) for control details and trade-offs.
