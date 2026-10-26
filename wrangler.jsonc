@@ -12,5 +12,6 @@
       "pattern": "oph-docs.alonsovndev.com",
       "custom_domain": true
     }
-  ]
+  ],
+  "previews": {}
 }
