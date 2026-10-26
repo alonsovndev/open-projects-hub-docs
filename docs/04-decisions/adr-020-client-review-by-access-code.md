@@ -7,7 +7,7 @@
 
 The platform's users are freelancers: an Admin who owns a workspace and the Members the Admin adds. A freelancer's clients (and the stakeholders at those clients) only need to look at a project's approved user stories to confirm the project is on the right track.
 
-The first design modelled that as a `viewer` user role: an invited, authenticated account with read-only access (F-011). That brought an invitation lifecycle, a role to maintain in every guard and test, and an account for people who never use the rest of the product. It also left the Client Viewer page (`/viewer`) as a demo that returned mock data for any code.
+The first design modeled that as a `viewer` user role: an invited, authenticated account with read-only access (F-011). That brought an invitation lifecycle, a role to maintain in every guard and test, and an account for people who never use the rest of the product. It also left the Client Viewer page (`/viewer`) as a demo that returned mock data for any code.
 
 The existing `projects.code` cannot serve as a public key. A freelancer chooses it (`WEB`), it is unique only within a workspace (two freelancers can both use `WEB`), and it is short enough to guess.
 
