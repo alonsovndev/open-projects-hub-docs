@@ -25,8 +25,8 @@ The system combines a separately deployed React frontend with a FastAPI modular 
 
 These associations show where the design addresses a requirement; they do not certify that every acceptance criterion or quality target has passed. See [evidence and limitations](../00-context/evidence-and-limitations.md) for verification boundaries.
 
-## Current design and history
+## Current design
 
-Current architecture pages describe the reviewed implementation. The [ADR log](../04-decisions/README.md) retains earlier choices and their amendments. In particular, App Runner/RDS/CloudFront were replaced by a single EC2 host and Cloudflare, Viewer accounts were replaced by shared project access codes, and generated drafts remain in browser storage until approval.
+Current architecture pages describe the reviewed implementation, and the [ADR log](../04-decisions/README.md) records the decisions behind it. In particular, the system runs on a single EC2 host behind Cloudflare, clients review a project through its shared access code, and generated drafts remain in browser storage until approval.
 
 Diagrams are embedded Mermaid blocks in the owning pages. No Draw.io source files are supplied by this repository.

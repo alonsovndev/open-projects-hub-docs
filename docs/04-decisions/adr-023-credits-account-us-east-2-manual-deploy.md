@@ -2,13 +2,12 @@
 
 - **Status**: Accepted
 - **Date**: 2026-10-19
-- **Supersedes**: the AWS account, the region (`us-east-1`) and the GitHub OIDC deploy of [ADR-021](./adr-021-low-cost-single-host-deployment.md). The single host, Docker Compose, SSM parameters, Terraform and the Cloudflare edge of [ADR-022](./adr-022-cloudflare-edge-instead-of-cloudfront.md) stand.
 
 ## Context
 
-The first production stack (ADR-021, ADR-022) was applied in an AWS account that has no credits, so the roughly $12.85/month would have gone to a card. The Free Plan credits belong to a different account.
+The single-host stack ([ADR-021](./adr-021-low-cost-single-host-deployment.md), [ADR-022](./adr-022-cloudflare-edge-instead-of-cloudfront.md)) costs roughly $12.85/month. The Free Plan credits that pay for it belong to one AWS account; running the stack in an account without credits would send the cost to a card.
 
-That account is subject to organization-level policies that are outside the project's control. Read-only probes showed:
+That account is subject to organization-level policies that are outside the project's control:
 
 - EC2 calls succeed only in `us-east-2`; other regions return an explicit policy deny.
 - The GitHub OIDC login is not usable, so no workflow can assume an IAM role.
@@ -20,16 +19,16 @@ Whether upgrading the account from the Free Plan lifts these limits was not test
 
 | Concern | Decision |
 | --- | --- |
-| Account | The Free Plan credits account (account identifiers are kept out of the public docs); the earlier stack in the first account was destroyed |
+| Account | The Free Plan credits account (account identifiers are kept out of the public docs) |
 | Region | `us-east-2` for the state bucket and the whole stack |
 | CI to AWS | None. No OIDC provider, no deploy role, no long-lived AWS keys in GitHub |
 | Image build | GitHub Actions builds and pushes `ghcr.io/alonsovndev/open-projects-hub-api:<tag>` on a `vX.Y.Z` tag |
-| Deploy | A person runs `scripts/deploy-release.sh <tag>` (API repository) with their own AWS credentials. It runs the same restricted `ophub-prod-deploy` SSM document and smoke-tests the API through Cloudflare |
-| Teardown | By hand from a workstation (the destroy workflow and role are removed); steps are in the infrastructure README |
+| Deploy | A person runs `scripts/deploy-release.sh <tag>` (API repository) with their own AWS credentials. It runs the restricted `ophub-prod-deploy` SSM document and smoke-tests the API through Cloudflare |
+| Teardown | By hand from a workstation; steps are in the infrastructure README |
 
 ## Consequences
 
-- The credits pay for the host. The Free Plan period ends on 2027-04-09; at about $12.85/month the period, not the balance, is the likely limit. The current balance is tracked in the AWS console, not in these docs. After that date the account must be upgraded or the system rehosted; that decision is TBD.
+- The credits pay for the host. The Free Plan is time-limited, so the period, not the balance, is the likely limit; the current balance is tracked in the AWS console, not in these docs. After the period the account must be upgraded or the system rehosted; that decision is TBD.
 - A release needs two steps: push the tag (image) and run the script (deploy). Nothing deploys without a person holding AWS credentials, which also removes the risk that anyone able to push a tag deploys as root on the host.
 - The cost figures in ADR-021 are `us-east-1` list prices; whether `us-east-2` differs is TBD (not checked). The gross-usage budget makes any difference visible.
 - Other organization-level limits may appear later; they surface as "explicit deny in a service control policy" errors.
@@ -37,12 +36,12 @@ Whether upgrading the account from the Free Plan lifts these limits was not test
 
 ## Alternatives Considered
 
-1. **Stay in the first account (`us-east-1`, OIDC works).** Rejected: no credits, about $12.85/month on a card.
+1. **Use an AWS account without credits (`us-east-1`, OIDC works).** Rejected: about $12.85/month on a card.
 2. **Credits account with IAM user keys stored as GitHub secrets.** Keeps automatic deploys but adds long-lived keys; not selected.
-3. **Ask for the policies to be lifted, or upgrade the plan.** Not pursued; may be revisited. If the limits go away, the OIDC deploy of ADR-021 can return.
+3. **Ask for the policies to be lifted, or upgrade the plan.** Not pursued; may be revisited. If the limits go away, an OIDC-based automatic deploy can be added.
 
 ## Source References
 
 - [ADR-021: Low-Cost Single-Host Deployment](./adr-021-low-cost-single-host-deployment.md)
-- [ADR-022: Cloudflare Edge Instead of CloudFront](./adr-022-cloudflare-edge-instead-of-cloudfront.md)
+- [ADR-022: Cloudflare Edge for the Web App and API](./adr-022-cloudflare-edge-instead-of-cloudfront.md)
 - [Deployment Architecture](../03-architecture/ops/deployment-architecture.md)

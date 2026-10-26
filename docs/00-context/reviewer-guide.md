@@ -121,4 +121,4 @@ Use synthetic data for demonstrations. Real provider calls require configured ke
 
 ## How to interpret the remaining documentation
 
-Requirements describe intended behavior and quality targets. The [evidence page](./evidence-and-limitations.md) identifies implementation support and validation gaps. Original ADRs and prototype screens record design history; their supersession notices explain how the current system differs.
+Requirements describe intended behavior and quality targets. The [evidence page](./evidence-and-limitations.md) identifies implementation support and validation gaps. The [ADR log](../04-decisions/README.md) records the decisions behind the current system. Prototype screens are a historical design record; their notices explain how the current system differs.

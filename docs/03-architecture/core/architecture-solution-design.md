@@ -151,12 +151,11 @@ Sized for a single host and near-zero traffic; see [Monitoring and Observability
 - [ADR-001: High-Level Architecture](../../04-decisions/adr-001-high-level-architecture.md)
 - [ADR-004: Database (PostgreSQL)](../../04-decisions/adr-004-database.md)
 - [ADR-005: Authentication (Custom FastAPI Auth + JWT)](../../04-decisions/adr-005-authentication.md)
-- [ADR-006: Deployment Platform (AWS)](../../04-decisions/adr-006-deployment-platform.md), superseded in part
 - [ADR-021: Low-Cost Single-Host Deployment](../../04-decisions/adr-021-low-cost-single-host-deployment.md)
 - [ADR-022: Cloudflare Edge](../../04-decisions/adr-022-cloudflare-edge-instead-of-cloudfront.md)
 - [ADR-023: Credits Account and Manual Deploys](../../04-decisions/adr-023-credits-account-us-east-2-manual-deploy.md)
 - [ADR-024: Email with Resend](../../04-decisions/adr-024-email-delivery-with-resend.md)
-- [ADR-009: Monitoring and Observability](../../04-decisions/adr-009-monitoring-observability.md), amended
+- [ADR-009: Monitoring and Observability](../../04-decisions/adr-009-monitoring-observability.md)
 
 ## Source References
 

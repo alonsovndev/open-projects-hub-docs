@@ -14,7 +14,7 @@ sidebar_position: 3
 
 The deployed system is one EC2 host running Caddy, the API and PostgreSQL, with Cloudflare in front ([Deployment Architecture](./deployment-architecture.md)). It serves a handful of users for a master's-project review, so the monitoring is deliberately small and costs nothing beyond the host.
 
-Sentry is the only monitoring and observability tool; CloudWatch is not used ([ADR-009](../../04-decisions/adr-009-monitoring-observability.md)). The original hybrid design with SLO dashboards for App Runner, RDS and CloudFront was written for managed services that are not deployed. This page describes what actually exists. No availability SLO is promised: there is a single host, no high availability and no uptime probe.
+Sentry is the only monitoring and observability tool ([ADR-009](../../04-decisions/adr-009-monitoring-observability.md)). This page describes what actually exists. No availability SLO is promised: there is a single host, no high availability and no uptime probe.
 
 ## 2. What Is Monitored Today
 
@@ -41,7 +41,7 @@ Useful log events when debugging sign-up: `email.send_failed` (a bad `SMTP_*` va
 ## 4. Health Checks and Alerting
 
 - **Health:** the checks above run on the host. Nothing external polls the public URL.
-- **Alerting:** the only alerts are the AWS Budgets cost emails (AWS Budgets is a Cost Management service, not CloudWatch). No Sentry alert rules are configured; Sentry is checked manually. There is no pager and no uptime monitor.
+- **Alerting:** the only alerts are the AWS Budgets cost emails. No Sentry alert rules are configured; Sentry is checked manually. There is no pager and no uptime monitor.
 - **Escalation:** the single maintainer reads the logs and redeploys the previous tag if a release misbehaves ([CI/CD Pipeline](./ci-cd-pipeline.md), rollback).
 
 ## 5. Data Privacy in Observability
@@ -67,7 +67,7 @@ The [deployment architecture](./deployment-architecture.md) retains the original
 
 ## Source References
 
-- [ADR-009: Monitoring and Observability](../../04-decisions/adr-009-monitoring-observability.md) (original design, amended)
+- [ADR-009: Monitoring and Observability](../../04-decisions/adr-009-monitoring-observability.md)
 - [ADR-021: Low-Cost Single-Host Deployment](../../04-decisions/adr-021-low-cost-single-host-deployment.md)
 - [Deployment Architecture](./deployment-architecture.md)
 - [CI/CD Pipeline](./ci-cd-pipeline.md)

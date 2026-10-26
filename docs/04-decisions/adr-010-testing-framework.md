@@ -3,15 +3,15 @@
 - **Status**: Accepted
 - **Date**: 2026-02-28
 
-> **Implementation qualification:** The chosen frameworks are present. Current CI runs the non-integration API tests and web unit tests; API integration tests and web Playwright tests are excluded from those CI jobs. Coverage comments and a 70% result are not established by the reviewed workflows. See [verification boundaries](../00-context/evidence-and-limitations.md#verification-boundaries).
-
 ## Context
 
-NFR-X03 sets a target of at least 70% automated coverage for core logic, with maintainable testing across backend and frontend workflows. Per ADR-015 the target is measured and reported on every pull request rather than enforced as a merge-blocking gate.
+NFR-X03 sets a target of at least 70% automated coverage for core logic, with maintainable testing across backend and frontend workflows. Per [ADR-015](./adr-015-code-quality-tooling.md) the target is not a merge-blocking gate.
 
 ## Decision
 
 Use **Pytest** for backend unit/integration testing, **Vitest + React Testing Library** for frontend unit/component testing, and **Playwright** for critical-path end-to-end tests.
+
+CI runs the non-integration API tests and the web unit tests. API integration tests (which need PostgreSQL) and web Playwright tests run locally and are excluded from those CI jobs. See [verification boundaries](../00-context/evidence-and-limitations.md#verification-boundaries).
 
 ## Consequences
 
@@ -25,6 +25,7 @@ Use **Pytest** for backend unit/integration testing, **Vitest + React Testing Li
 
 - E2E suites can become flaky without controlled test data and fixtures.
 - Multiple frameworks increase maintenance overhead.
+- Integration and E2E suites do not gate merges, so regressions they would catch can reach `dev`.
 
 ## Alternatives Considered
 

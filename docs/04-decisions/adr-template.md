@@ -1,6 +1,6 @@
 # ADR-XXX: [Decision Title]
 
-- **Status**: Proposed
+- **Status**: Proposed | Accepted
 - **Date**: YYYY-MM-DD
 
 ## Context

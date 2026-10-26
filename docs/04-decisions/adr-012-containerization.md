@@ -1,22 +1,18 @@
 # ADR-012: Containerization Strategy
 
-**Status**: Accepted  
-**Date**: 2026-02-28  
-**Updated**: 2026-08-03 (AWS migration)
-
-> **Note (2026-10-19):** Docker stays, but the target changed: the image is built by GitHub Actions and pushed to GHCR (`ghcr.io/alonsovndev/open-projects-hub-api:<tag>`), then run by Docker Compose on one EC2 host. App Runner and ECR are not used. See [ADR-021](./adr-021-low-cost-single-host-deployment.md) and [ADR-023](./adr-023-credits-account-us-east-2-manual-deploy.md).
+- **Status**: Accepted
+- **Date**: 2026-02-28
 
 ## Context
 
-The backend must run reliably across development, staging, and production with minimal environment drift. The platform is deployed to AWS App Runner, which requires Docker-based workloads with auto-scaling and health check capabilities.
+The backend must run reliably across development, CI and production with minimal environment drift. The deployed system is one EC2 host running Docker Compose ([ADR-021](./adr-021-low-cost-single-host-deployment.md)).
 
 **Constraints:**
 
-- Must support AWS App Runner deployment model
-- Must work with Amazon ECR for image storage
-- Must maintain $0 cost during MVP phase (use AWS Free Tier)
-- Must ensure environment parity between dev and production
-- Must support immutable deployments and rollback capability
+- Must run under Docker Compose on a single small host (1 GB of RAM)
+- Must keep registry and hosting cost at $0
+- Must ensure environment parity between local, CI and production
+- Must support immutable deployments and rollback by redeploying a previous tag
 
 **Requirements:**
 
@@ -24,56 +20,52 @@ The backend must run reliably across development, staging, and production with m
 - Security-hardened container runtime
 - Health check integration for deployment validation
 - Minimal image size for faster deployments
-- Support for CI/CD automation
+- Support for CI automation
 
 ## Decision
 
-Use **Docker multi-stage builds** with the following characteristics:
+Package the API as a **Docker image** with the following characteristics:
 
 - **Base image**: `python:3.12-slim` for minimal footprint
 - **Security**: Non-root runtime user, minimal dependencies
-- **Health checks**: Explicit health check endpoint for App Runner validation
-- **Versioning**: Immutable images tagged with Git commit SHA
-- **Registry**: Amazon Elastic Container Registry (ECR) for image storage
-- **Multi-stage**: Build dependencies in separate stage, copy only runtime artifacts
+- **Health checks**: `/health/live` and `/health/ready` endpoints, used by Docker health checks and the deploy script
+- **Versioning**: Immutable images tagged with the release version (`vX.Y.Z`)
+- **Registry**: Public GitHub Container Registry (`ghcr.io/alonsovndev/open-projects-hub-api:<tag>`), pushed by GitHub Actions on a release tag
+- **Runtime**: Docker Compose on one EC2 host, with Caddy and PostgreSQL as sibling containers
 
 ## Consequences
 
 ### Positive
 
-- Strong environment parity — Docker ensures development, CI, and production environments are identical
-- Predictable deployment artifacts — immutable images stored in ECR eliminate environment drift
-- Better security posture — multi-stage builds reduce image size and attack surface; non-root user limits privilege escalation
-- AWS App Runner native support — direct ECR integration with auto-deploy triggers
-- Zero-downtime deployments — App Runner rolling updates ensure availability during deploys
-- Health check integration — App Runner validates deployment success via health endpoint
-- Image caching — ECR layer caching accelerates rebuilds (only changed layers re-uploaded)
-- Portability — same Docker image works locally, in CI, and in production
+- Strong environment parity: development, CI, and production run the same image.
+- Predictable deployment artifacts: immutable, tagged images eliminate environment drift.
+- Better security posture: the slim base image reduces attack surface; the non-root user limits privilege escalation.
+- Rollback is a redeploy of the previous tag.
+- No registry cost: a public GHCR package needs no credentials on the host.
+- Portability: the same Docker image works locally, in CI, and in production.
 
 ### Negative
 
-- Build time overhead — Docker builds add 2-5 minutes to CI/CD pipeline (mitigated by layer caching)
-- Image management burden — need governance for image cleanup, vulnerability scanning, base image updates
-- Local development complexity — developers must run Docker (docker-compose simplifies this)
-- Storage costs — ECR images consume storage (~$0.10/GB/month after 12-month Free Tier: 500 MB)
-- Operational learning curve — team must understand Docker concepts, debugging containerized apps
+- Build time overhead: Docker builds add 2-5 minutes to the CI pipeline (mitigated by layer caching).
+- Image management burden: governance is needed for vulnerability scanning and base image updates.
+- Local development complexity: developers must run Docker (Compose simplifies this).
+- A deploy briefly restarts the API; there is no rolling update on a single host.
+- A public image means the image contents are public; secrets must never be baked in.
 
 ## Alternatives Considered
 
 ### 1. AWS Lambda with Container Support
 
-- Considered for serverless cost model (pay-per-request pricing)
+- Considered for the serverless cost model (pay-per-request pricing)
 - Not selected because:
-  - FastAPI designed for long-running processes, not Lambda cold starts
+  - FastAPI is designed for long-running processes, not Lambda cold starts
   - Cold start latency (500ms-2s) impacts user experience for REST APIs
-  - API Gateway + Lambda integration more complex than App Runner for HTTP APIs
-  - Free Tier better for App Runner (predictable costs vs. per-request)
+  - The API runs migrations at start and uses long-lived database connections, which fit a Lambda adapter poorly
 
 ### 2. Kubernetes on Amazon EKS
 
 - Considered for advanced orchestration, multi-service deployments, fine-grained control
 - Not selected because:
-  - Operational complexity unnecessary for MVP scale
-  - EKS control plane costs $75/month (not Free Tier eligible, violates $0 cost constraint)
-  - App Runner provides sufficient container orchestration for single-service backend
-  - Team lacks Kubernetes expertise; learning curve too steep for MVP timeline
+  - Operational complexity is unnecessary for MVP scale
+  - The EKS control plane costs $75/month, which violates the $0 cost constraint
+  - The team lacks Kubernetes expertise; the learning curve is too steep for the MVP timeline

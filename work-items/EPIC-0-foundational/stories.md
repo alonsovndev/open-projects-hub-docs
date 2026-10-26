@@ -143,7 +143,7 @@
 
 **Deliverables**:
 
-- ADR: `adr-006-deployment-platform.md` with chosen deployment strategy.
+- ADR: `adr-021-low-cost-single-host-deployment.md` with chosen deployment strategy.
 - Recommended environment and secrets management approach.
 
 **Dependencies**:
@@ -411,7 +411,7 @@ The original design promoted a candidate image through GitHub Actions to App Run
 
 **Dependencies**:
 
-- [ADR-006: Deployment Platform](../../docs/04-decisions/adr-006-deployment-platform.md).
+- [ADR-009: Monitoring and Observability](../../docs/04-decisions/adr-009-monitoring-observability.md).
 - [Monitoring & Observability](../../docs/03-architecture/ops/monitoring-observability.md).
 
 **Success Metrics**:

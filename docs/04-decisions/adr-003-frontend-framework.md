@@ -3,17 +3,13 @@
 - **Status**: Accepted
 - **Date**: 2026-02-28
 
-> **Amended by [ADR-020](./adr-020-client-review-by-access-code.md) (2026-10-02):** the `viewer` role mentioned here was removed; roles are `admin` and `member`, and clients review a project through its access code.
-
-> **Note (2026-10-19):** The implemented frontend uses React 19, Vite and Ant Design v6; the decision to use React and TypeScript stands.
-
 ## Context
 
-The frontend must provide responsive Admin and Viewer workflows with maintainable components and strong developer velocity.
+The frontend must provide responsive Admin and Member workflows, and a read-only Client Review page, with maintainable components and strong developer velocity.
 
 ## Decision
 
-Adopt **React 18 + TypeScript 5** with **Ant Design** for UI and **Redux Toolkit** for state orchestration in multi-step planning flows.
+Adopt **React 19 + TypeScript 5**, built with **Vite**, with **Ant Design v6** for UI and **Redux Toolkit (RTK Query)** for client state and server data in multi-step planning flows.
 
 ## Consequences
 
