@@ -18,7 +18,7 @@ This repository is the entry point for the master's final project. The code is s
 | Documentation site | https://oph-docs.alonsovndev.com                                                                                                                                                                                     |
 | Slides             | [`static/tfm/open-projects-hub-tfm.pptx`](./static/tfm/open-projects-hub-tfm.pptx) (also served at https://oph-docs.alonsovndev.com/tfm/open-projects-hub-tfm.pptx)                                                  |
 | Demo video         | TBD                                                                                                                                                                                                                  |
-| Test user          | TBD — credentials are provided in the submission form, not in this public repository                                                                                                                                 |
+| Test user          | Credentials are provided in the submission form, not in this public repository                                                                                                                                       |
 | Source code        | [api](https://github.com/alonsovndev/open-projects-hub-api) · [web](https://github.com/alonsovndev/open-projects-hub-web) · [infra](https://github.com/alonsovndev/open-projects-hub-infra) · docs (this repository) |
 
 ## Overview
