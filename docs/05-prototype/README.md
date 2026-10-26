@@ -224,7 +224,7 @@ These 12 exports preserve the original core screens. Each image links to its ful
 | `Alert`            | Inline error/warning message with icon              |
 | `EmptyState`       | Icon + title + description + CTA                    |
 | `ListRow`          | Primary/secondary text + tags + row actions         |
-| `Modal`            | Dimmed overlay + centred card with actions          |
+| `Modal`            | Dimmed overlay + centered card with actions          |
 
 ### 47 Design Tokens
 

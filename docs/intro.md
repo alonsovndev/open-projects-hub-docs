@@ -21,7 +21,7 @@ Open Projects Hub helps freelancers turn client notes into reviewed user stories
 
 ## Run or inspect the system
 
-The documented deployment is [oph.alonsovndev.com](https://oph.alonsovndev.com), with the API at `api-oph.alonsovndev.com`. The [run guide](./00-context/run-the-system.md) explains registration, local setup, configuration, and verification. Availability and production configuration are not checked by this documentation site.
+The system is deployed at [oph.alonsovndev.com](https://oph.alonsovndev.com), with its API at `api-oph.alonsovndev.com`. The [run guide](./00-context/run-the-system.md) covers creating an account, running everything locally, configuration, and verification. Availability of the deployment was not checked while writing this documentation.
 
 See the repository [README](https://github.com/alonsovndev/open-projects-hub-docs) for how to
 run this site locally, and [CONTRIBUTING](https://github.com/alonsovndev/open-projects-hub-docs/blob/main/CONTRIBUTING.md)

@@ -85,8 +85,8 @@ Dependency updates, image scanning, signed artifacts, and hosted protection rule
 
 ## Source references
 
-- [API CI](https://github.com/alonsovndev/open-projects-hub-api/blob/48b1cee6113527dedb054abfc0b4170697fafec0/.github/workflows/ci.yml)
-- [API image publication](https://github.com/alonsovndev/open-projects-hub-api/blob/48b1cee6113527dedb054abfc0b4170697fafec0/.github/workflows/deploy.yml)
-- [Web CI](https://github.com/alonsovndev/open-projects-hub-web/blob/6408eca68f1415612e4275c1a7d61c97a26ba5f8/.github/workflows/ci.yml)
+- [API CI](https://github.com/alonsovndev/open-projects-hub-api/blob/63f1512f9cf879d4d71570ce59ff9aa691a426b1/.github/workflows/ci.yml)
+- [API image publication](https://github.com/alonsovndev/open-projects-hub-api/blob/63f1512f9cf879d4d71570ce59ff9aa691a426b1/.github/workflows/deploy.yml)
+- [Web CI](https://github.com/alonsovndev/open-projects-hub-web/blob/059ca287591e7414d656aa2492a6e5bc2b44fd76/.github/workflows/ci.yml)
 - [Deployment architecture](./deployment-architecture.md)
 - [ADR-023: account, region, and manual deployment](../../04-decisions/adr-023-credits-account-us-east-2-manual-deploy.md)

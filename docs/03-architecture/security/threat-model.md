@@ -16,6 +16,8 @@ Requests cross four important boundaries: browser → Cloudflare → API host, A
 
 ## Current threats and controls
 
+Each row names a threat, the control that exists today, and what remains unprotected.
+
 | ID | STRIDE category | Threat | Implemented control | Residual exposure |
 | --- | --- | --- | --- | --- |
 | R-01 | Spoofing | Credential stuffing or password guessing | bcrypt hashes, endpoint throttling, persisted account lockout | Reused passwords and phishing remain possible; no MFA. |
@@ -31,34 +33,26 @@ Requests cross four important boundaries: browser → Cloudflare → API host, A
 | R-11 | Information disclosure | Discovery notes disclose sensitive material to an AI provider | Provider selection is explicit; keys are not included in the prompt | Notes leave the application boundary; reviewers must choose what they submit. |
 | R-12 | Denial of service | Host failure, volume loss, or failed migration | Reproducible image/IaC and startup migrations | No database backup or failover; application data can be lost. |
 | R-13 | Tampering / elevation of privilege | Malicious dependency, workflow, or deployment artifact | Repository quality/security checks; versioned image releases; operator-controlled SSM deploy | These controls do not eliminate supply-chain or operator-credential compromise. |
-| R-14 | Repudiation | Inadequate evidence for troubleshooting or attribution | Structured request-correlated logs; optional backend Sentry | No complete audit trail, public-reader identity, or deployed infrastructure alarms. |
+| R-14 | Repudiation | Inadequate evidence for troubleshooting or attribution | Structured request-correlated logs; backend Sentry | No complete audit trail, public-reader identity, or deployed infrastructure alarms. |
 
-## Authentication and code lifetimes
-
-| Credential | Lifetime or revocation behavior |
-| --- | --- |
-| Access JWT | Fifteen minutes by default; refresh tokens cannot be used as bearer access tokens. |
-| Refresh session | Slides 24 hours, or seven days with `rememberMe`; refresh rotates and consumes the old token. |
-| Registration verification code | Five minutes; hashed and invalidated on success or resend. |
-| Member invitation code | Twenty-four hours; the invitee sets a password during verification. |
-| Password-reset code | Thirty minutes; single use; resetting invalidates existing refresh sessions. |
-| Client-review access code | No automatic expiry; regeneration revokes the old code for all readers. |
-
-These lifetimes describe configured application behavior, not delivery-time or availability guarantees.
+Token, session, and verification-code lifetimes are documented in [Security Architecture](./security-architecture.md#authentication-strategy). The client-review access code has no automatic expiry; regenerating it revokes the old code for all readers.
 
 ## Review priorities
 
-### Before accepting the review release
+**Before accepting the review release:**
 
-Confirm the documented limitations are acceptable for demonstration data. Review authentication and workspace-isolation test results, check that cookies and origins match the deployed hostnames, and exercise access-code regeneration and invalid-code behavior.
+- Confirm the documented limitations are acceptable for demonstration data.
+- Run and record authentication and workspace-isolation checks, and exercise access-code regeneration and invalid-code behavior. Record the commands, commit, environment, and observed results; a test file or checked roadmap box is not execution evidence.
+- Check that logs and error responses do not expose passwords, provider keys, refresh credentials, or raw notes unnecessarily.
 
-Check that logs and error responses do not expose passwords, provider keys, refresh credentials, or raw notes unnecessarily. Record the commands, commit, environment, and observed results; a test file or checked roadmap box is not execution evidence.
+**Before broader use with valuable data:**
 
-### Before broader use with valuable data
+- Add a database backup and restore procedure, and a recovery path for a failed deployment or migration.
+- Verify the origin certificate.
+- Add durable shared throttling before adding API workers.
+- Review access-code expiry or stronger sharing controls if clients need individual authorization.
 
-Prioritize a database backup and restore procedure, origin-certificate verification, and recovery from a failed deployment or migration. Assess durable shared throttling before adding API workers. Review access-code expiry or stronger sharing controls if client requirements demand individual authorization.
-
-Evaluate provider-specific moderation and output checks against actual risks and record their limitations. Human review is required even if those controls are later added. MFA, richer audit records, and alerting should be evaluated according to the intended usage rather than described as existing features.
+MFA, richer audit records, alerting, and provider-specific moderation are options to evaluate against the intended usage, not existing features.
 
 ## Assessment limits and review triggers
 
@@ -75,4 +69,4 @@ Revisit this model when the deployment topology, roles, session handling, extern
 - [F-003: Access Control](../../01-requirements/f-003-access-control-and-visibility-boundaries.md)
 - [F-011: Client Review Access](../../01-requirements/f-011-client-review-access.md)
 
-**Last Updated**: 2026-10-19
+**Last Updated**: 2026-10-26

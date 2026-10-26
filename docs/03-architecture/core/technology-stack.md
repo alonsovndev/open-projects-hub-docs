@@ -48,8 +48,8 @@ This document defines the technology choices for the Open Projects Hub, organize
 | Email                  | Resend (SMTP relay)                  | Verification and password-reset codes ([ADR-024](../../04-decisions/adr-024-email-delivery-with-resend.md)) |
 | IaC                    | Terraform                            | EC2, Elastic IP, security group, SSM, budgets and the Cloudflare DNS record ([ADR-013](../../04-decisions/adr-013-infrastructure-as-code.md)) |
 | **Observability**      |                                      |                                                                                            |
-| Application Monitoring | Sentry SDKs (API and web, optional) | Error reporting and sampled traces when the corresponding runtime/build DSN is configured |
-| Health and Logs        | `/health/live`, `/health/ready`, container logs | Host-local health checks and `docker compose logs`; no CloudWatch alarms are deployed |
+| Application Monitoring | Sentry SDKs (API and web) | Error reporting and sampled traces, active in production through the runtime (API) and build-time (web) DSN |
+| Health and Logs        | `/health/live`, `/health/ready`, container logs | Host-local health checks and `docker compose logs`; no alarms or uptime probes are deployed |
 | **CI/CD**              |                                      |                                                                                            |
 | Pipeline               | GitHub Actions                       | Tests and quality gates on pull requests; on a `vX.Y.Z` tag it builds and pushes the API image |
 | Container Registry     | GitHub Container Registry (GHCR)     | `ghcr.io/alonsovndev/open-projects-hub-api:<tag>`                                           |
@@ -80,7 +80,7 @@ This document defines the technology choices for the Open Projects Hub, organize
 
 ### Observability Strategy
 
-- **Application layer:** Sentry captures API errors when a DSN is configured
+- **Application layer:** Sentry captures API errors in production
 - **Host layer:** health endpoints and container logs; two AWS Budgets alert on cost
 - **Cost:** the original estimate was about $12.85/month; current prices, usage, and credits are unverified. See [Deployment Architecture](../ops/deployment-architecture.md)
 

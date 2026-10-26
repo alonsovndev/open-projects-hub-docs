@@ -23,13 +23,13 @@ AWS hosts the API and database. Cloudflare hosts the static web and documentatio
 **Rationale:**
 
 - AWS provides compute, IAM, SSM, and cost budgets; Cloudflare provides the edge and static hosting.
-- The AWS account (the one holding the credits, `us-east-2`, see [ADR-023](../../04-decisions/adr-023-credits-account-us-east-2-manual-deploy.md)) is on the **Free Plan**: it has a fixed period and a credit allowance (current balance and dates are tracked in the AWS console, not here). The plan ends when the period ends or the credits run out, whichever comes first. The original infrastructure estimate was about $12–13/month; actual usage, current prices, credit balance, and expiry require account verification.
+- The AWS account (the one holding the credits, `us-east-2`, see [ADR-023](../../04-decisions/adr-023-credits-account-us-east-2-manual-deploy.md)) is on the **Free Plan**: it has a fixed period that **ends on 2027-04-09** and a credit allowance (the current balance is tracked in the AWS console, not here). The plan ends on that date or when the credits run out, whichever comes first. The original infrastructure estimate was about $12–13/month; actual usage, current prices, and credit balance require account verification.
 - Infrastructure as Code (Terraform) makes the deployment repeatable and reviewable.
 
 **Trade-offs Accepted:**
 
 - No high availability, no managed database and no backups (see section 4).
-- The documented Free Plan has a fixed lifetime and credit allowance; current account entitlements and expiry are TBD in this review. Continued hosting requires an account or hosting decision before access ends.
+- The Free Plan ends on 2027-04-09 (or earlier if the credits run out); current credit balance is TBD in this review. Continued hosting requires an account or hosting decision before that date.
 - Cloudflare's free plan sits in front of the API host. Its connection to the origin is encrypted but the origin certificate is not validated (see section 8).
 - The web app and the API are different origins (`oph.alonsovndev.com` and `api-oph.alonsovndev.com`), so the browser calls the API cross-origin and the API must allow credentialed CORS.
 
@@ -45,7 +45,7 @@ AWS hosts the API and database. Cloudflare hosts the static web and documentatio
 - **Secrets and configuration:** AWS Systems Manager Parameter Store (Standard tier)
 - **Authentication:** Custom JWT-based auth module in the FastAPI backend (see ADR-005)
 - **Infrastructure as Code:** Terraform in the `open-projects-hub-infra` repository
-- **Observability:** Sentry for the API (`SENTRY_DSN` in SSM) and the web app (`VITE_SENTRY_DSN` at build time), each optional and off until a DSN is set, plus container logs on the host
+- **Observability:** Sentry for the API (`SENTRY_DSN` in SSM) and the web app (`VITE_SENTRY_DSN` at build time), plus container logs on the host
 - **CI/CD:** GitHub Actions builds and publishes the API image; the deploy is started by hand with `scripts/deploy-release.sh` using the operator's AWS credentials (GitHub OIDC is blocked in the account, see ADR-023)
 
 ## 3. Deployment Architecture
@@ -174,7 +174,7 @@ See also: [ADR-021: Low-Cost Single-Host Deployment](../../04-decisions/adr-021-
 - Logs rotate (10 MB x 3 files per container) so they cannot fill the disk.
 - The instance can be stopped between review sessions to save about $7.60/month; the data survives a stop.
 
-**After the Free Plan ends:** the account must be upgraded (about $13/month for this design) or the system moved elsewhere. The plan can also end earlier if the $100 runs out.
+**After the Free Plan ends (2027-04-09):** the account must be upgraded (about $13/month for this design) or the system moved elsewhere. The plan can also end earlier if the $100 runs out; the upgrade or migration decision is TBD.
 
 ## 7. Infrastructure as Code (IaC) Approach
 
@@ -277,8 +277,7 @@ See [Security Architecture](../security/security-architecture.md) for detailed s
 
 The deployment records report the first release at `https://api-oph.alonsovndev.com` and `https://oph.alonsovndev.com` on 2026-10-19. They describe API `v0.1.0`, manual deployment through SSM, and a successful registration/email/login check. These are historical operator observations, not a fresh availability check by this documentation review.
 
-Current source code confirms the deployment topology and scripts; the AWS account, Cloudflare settings, live secrets, credit balance, and hosted protection rules were not queried. Sentry collection also depends on DSN configuration.
-
+Current source code confirms the deployment topology and scripts; the AWS account, Cloudflare settings, live secrets, credit balance, and hosted protection rules were not queried.
 The review deployment accepts the following limitations:
 
 - No automated backups, restore guarantee, failover, or zero-downtime rollout.
@@ -298,4 +297,4 @@ The security and threat-model pages describe these current controls and gaps. Th
 
 ---
 
-**Last Updated**: 2026-10-19
+**Last Updated**: 2026-10-26

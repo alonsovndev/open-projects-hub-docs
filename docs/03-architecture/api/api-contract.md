@@ -6,7 +6,7 @@ sidebar_position: 2
 
 This guide describes the implemented API and illustrates the main review workflow. Examples use synthetic data; they are not production records or captured test results.
 
-The backend's [generated OpenAPI schema at reviewed revision `48b1cee`](https://github.com/alonsovndev/open-projects-hub-api/blob/48b1cee6113527dedb054abfc0b4170697fafec0/docs/api/openapi.json) (exported with `make export-openapi`) and its route/DTO definitions provide the exact endpoint constraints. This page is a narrative companion rather than a second complete schema.
+The backend's [generated OpenAPI schema at reviewed revision `63f1512`](https://github.com/alonsovndev/open-projects-hub-api/blob/63f1512f9cf879d4d71570ce59ff9aa691a426b1/docs/api/openapi.json) (exported with `make export-openapi`) and its route/DTO definitions provide the exact endpoint constraints. This page is a narrative companion rather than a second complete schema.
 
 ## Conventions
 
@@ -333,7 +333,7 @@ Most errors contain a string `detail`; some add a machine-readable `code`. These
 | `500` | Unexpected application failure. |
 | `502` | Refinement-provider failure; includes `detail`, `failureClass`, `provider`, and original `rawNotes` for retry. |
 
-Responses carry `X-Request-ID` for correlation with structured logs. Sentry captures backend exceptions only when configured. Current monitoring limitations are documented in [Monitoring and Observability](../ops/monitoring-observability.md).
+Responses carry `X-Request-ID` for correlation with structured logs. Sentry captures backend exceptions in production. Current monitoring limitations are documented in [Monitoring and Observability](../ops/monitoring-observability.md).
 
 ## Superseded endpoint designs
 

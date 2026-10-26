@@ -53,7 +53,7 @@ flowchart TB
     api -->|Workspace-scoped queries| database[(PostgreSQL container)]
     api -->|Submit refinement notes| providers[Gemini, OpenAI, or DeepSeek]
     api -->|Send verification and reset codes| mail[Resend SMTP]
-    api -.->|Optional error reporting| sentry[Sentry]
+    api -.->|Error reporting| sentry[Sentry]
 ```
 
 *The client path is public but access-code scoped. Team operations require authentication; AI and email services are external integrations.*
@@ -97,7 +97,7 @@ sequenceDiagram
 - **External service integrations:**
   - Resend SMTP relay for registration verification and password-reset codes ([ADR-024](../../04-decisions/adr-024-email-delivery-with-resend.md)).
   - AI providers (Gemini, OpenAI, DeepSeek) for story refinement, using platform credits or a user's own encrypted key ([ADR-018](../../04-decisions/adr-018-user-api-key-encryption.md)).
-  - Sentry error tracking in the backend and web app, active only when the corresponding DSN is configured.
+  - Sentry error tracking in the backend and web app, active in production and off in local, dev and test configurations.
 
 ## Observability
 
@@ -105,9 +105,9 @@ Sized for a single host and near-zero traffic; see [Monitoring and Observability
 
 - **Health:** `/health/live` and `/health/ready` are checked on the host (they are not routed through Cloudflare).
 - **Logs:** structured container logs, read with `docker compose logs` over SSM.
-- **Errors:** Sentry when `SENTRY_DSN` is set.
+- **Errors:** Sentry in the API (`SENTRY_DSN`) and the web app (`VITE_SENTRY_DSN`).
 - **Cost:** two AWS Budgets (a real-charge alert and a gross-usage alert).
-- **Not deployed:** CloudWatch alarms, dashboards and uptime probes.
+- **Not deployed:** alarms, dashboards and uptime probes.
 
 ## Deployment Impact (GitHub Actions + AWS)
 

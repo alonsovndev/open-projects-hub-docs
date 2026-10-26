@@ -89,7 +89,7 @@ The tables describe scope boundaries, not a release schedule. Implementation det
 | Item                                       | Rationale                                   | Traceability |
 | ------------------------------------------ | ------------------------------------------- | ------------ |
 | Multi-region deployment                    | Single-region deployment sufficient for MVP | —            |
-| Advanced monitoring and alerting           | Host health checks and optional Sentry only; no external uptime probe  | —            |
+| Advanced monitoring and alerting           | Host health checks and Sentry error tracking only; no external uptime probe  | —            |
 | Automated database backups                 | Single-host deployment with no backups by design ([ADR-021](../04-decisions/adr-021-low-cost-single-host-deployment.md)) | —            |
 
 ---

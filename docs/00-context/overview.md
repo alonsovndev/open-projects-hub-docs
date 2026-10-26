@@ -20,12 +20,12 @@ The intended benefit is less administrative effort and clearer agreement before 
 
 ## Objectives and contribution
 
-| Objective | Delivered capability | Review material |
-| --- | --- | --- |
-| Support requirements preparation | Text-based AI refinement followed by explicit human editing and approval | [Worked example](./reviewer-guide.md#worked-example-a-clients-contact-form) |
-| Organize project context | Workspace-scoped clients, projects, stories, and a three-active-project limit | [Lifecycle requirements](../01-requirements/f-001-client-and-project-lifecycle-management.md) |
-| Share an agreed backlog | Markdown export and account-free, read-only client review | [Backlog requirements](../01-requirements/f-004-requirements-backlog-and-markdown-export.md) |
-| Demonstrate inspectable engineering | Separate web, API, infrastructure, and documentation repositories with versioned design decisions | [Architecture](../03-architecture/README.md) and [ADRs](../04-decisions/README.md) |
+| Objective                           | Delivered capability                                                                              | Review material                                                                               |
+| ----------------------------------- | ------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| Support requirements preparation    | Text-based AI refinement followed by explicit human editing and approval                          | [Worked example](./reviewer-guide.md#worked-example-a-clients-contact-form)                   |
+| Organize project context            | Workspace-scoped clients, projects, stories, and a three-active-project limit                     | [Lifecycle requirements](../01-requirements/f-001-client-and-project-lifecycle-management.md) |
+| Share an agreed backlog             | Markdown export and account-free, read-only client review                                         | [Backlog requirements](../01-requirements/f-004-requirements-backlog-and-markdown-export.md)  |
+| Demonstrate inspectable engineering | Separate web, API, infrastructure, and documentation repositories with versioned design decisions | [Architecture](../03-architecture/README.md) and [ADRs](../04-decisions/README.md)            |
 
 The contribution is the integration of these capabilities into an implemented planning workflow. It is not a claim to introduce a new AI model or a validated requirements-engineering method.
 
@@ -61,6 +61,6 @@ Tests and CI checks provide engineering evidence, with important gaps: backend t
 
 ## Evaluation status
 
-The project can be reviewed through source inspection, local verification, and the [demonstration checklist](./reviewer-guide.md#demonstration-checklist). A measured comparison of manual and assisted requirements preparation, a formal usability study, and a complete accessibility assessment remain TBD.
+The project can be reviewed through source inspection, local verification, and the [demonstration checklist](./reviewer-guide.md#demonstration-checklist).
 
 Read [evidence and limitations](./evidence-and-limitations.md) for objective-to-artifact traceability, source revisions, and the distinction between implemented behavior and unverified quality claims.
