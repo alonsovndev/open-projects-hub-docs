@@ -324,6 +324,49 @@
 
 - Viewer isolation and provider fallback are both covered end to end.
 - No false-positive failures across 10 consecutive CI runs.
+
+---
+
+### US-EP9-QA-005: Core Web Vitals Budgets and Lighthouse Check
+
+**Story ID**: US-EP9-QA-005
+**Epic Link**: EPIC-9
+**Issue Type**: Story
+**Priority**: Should Have
+**Effort Estimate**: 5
+**Status**: TODO
+**Fix Version**: Phase 1
+**Labels**: qa, performance
+**Requirements**: NFR-006-01, NFR-X05
+
+**As a** QA Engineer,
+**I want to** define Core Web Vitals budgets and verify them in CI and in production telemetry,
+**So that** entry-page performance is measured rather than assumed.
+
+**Acceptance Criteria**:
+
+- [ ] Given the landing page, when the CI performance check runs, then Largest Contentful Paint, Cumulative Layout Shift, and Interaction to Next Paint are measured against agreed budgets.
+- [ ] Given a budget is exceeded, when the check completes, then the regression is reported on the pull request.
+- [ ] Given the deployed site, when Sentry Web Vitals are reviewed, then landing page vitals are tracked against the same budgets.
+- [ ] Given the landing page first render, when measured under the documented conditions, then it completes within 2 seconds.
+
+**Deliverables**:
+
+- Documented Core Web Vitals budgets for public pages.
+- Lighthouse or equivalent check wired into CI with PR reporting.
+- Sentry Web Vitals review covering the landing page.
+
+**Dependencies**:
+
+- [Monitoring & Observability](../../docs/03-architecture/ops/monitoring-observability.md).
+- [Feature Requirements: F-006](../../docs/01-requirements/f-006-landing-page.md).
+- [CI/CD Pipeline Architecture](../../docs/03-architecture/ops/ci-cd-pipeline.md).
+
+**Success Metrics**:
+
+- Landing page meets its 2-second first-render target.
+- Vitals regressions are visible on the pull request that causes them.
+
 ---
 
 ## UI/UX Designer

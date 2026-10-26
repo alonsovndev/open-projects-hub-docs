@@ -81,7 +81,7 @@ statement, `Acceptance Criteria` as Given/When/Then checkboxes, `Deliverables`,
 ### Traceability
 
 Every functional and non-functional requirement documented in `docs/01-requirements/`
-(124 IDs: 76 `FR-*`, 37 feature-level `NFR-*`, 11 cross-cutting `NFR-X*`) is referenced by
+(123 IDs: 76 `FR-*`, 37 feature-level `NFR-*`, 10 cross-cutting `NFR-X*`) is referenced by
 at least one story's `Requirements` field. Foundational and release items that implement no
 documented requirement state that explicitly rather than leaving the field blank.
 
@@ -109,13 +109,12 @@ Points are split by the `Fix Version` on each story: an epic can contribute to b
 | [EPIC-6](./EPIC-6-ai-monetization-config/epic.md) | AI credit tracking and user-managed API keys. | 9 | — | 45 |
 | [EPIC-7](./EPIC-7-viewer-collaboration-lifecycle/epic.md) | **Superseded by ADR-020.** Viewer invitation, registration, and project access, replaced by account-free Client Review via a project access code. | 9 | 42 | 5 |
 | [EPIC-8](./EPIC-8-entry-flow/epic.md) | Onboarding, landing page, and account creation flows. | 13 | — | 45 |
-| [EPIC-9](./EPIC-9-quality-baseline/epic.md) | Cross-cutting quality baseline and validation. | 10 | 27 | 21 |
-| [EPIC-10](./EPIC-10-seo-discoverability/epic.md) | Discoverability of the public entry pages. | 6 | — | 20 |
-| [EPIC-11](./EPIC-11-ui-craft/epic.md) | Interface craft above component-library defaults. | 8 | — | 36 |
+| [EPIC-9](./EPIC-9-quality-baseline/epic.md) | Cross-cutting quality baseline and validation. | 11 | 27 | 26 |
+| [EPIC-11](./EPIC-11-ui-craft/epic.md) | Interface craft above component-library defaults. | 9 | — | 39 |
 | [EPIC-12](./EPIC-12-code-quality/epic.md) | Automated code quality baseline across both stacks. | 7 | 17 | 6 |
 
-**Totals**: 13 epics, 112 stories, 503 story points — **317 in MVP-1** (67 stories) and
-**186 in Phase 1** (45 stories).
+**Totals**: 12 epics, 108 stories, 491 story points — **317 in MVP-1** (67 stories) and
+**174 in Phase 1** (41 stories).
 
 ## Delivery capacity
 
@@ -131,7 +130,7 @@ means removing part of the core loop, which would leave no shippable end-to-end 
 
 ## Documentation reconciliation
 
-Six defects found while reconciling these work items against `docs/` have been corrected in
+Five defects found while reconciling these work items against `docs/` have been corrected in
 the documentation itself:
 
 1. `docs/02-planning/phased-roadmap.md` cited a phantom `NFR-011-06`; the row now enumerates
@@ -144,8 +143,6 @@ the documentation itself:
    `docs/04-decisions/adr-010-testing-framework.md` was corrected to match, and to cite
    `NFR-X03` rather than the non-existent `NFR-003`.
 4. `docs/05-prototype/design-direction.md` traceability now cites real story IDs.
-5. `NFR-X11` (Discoverability) was added to the cross-cutting baseline, so EPIC-10 is fully
-   traceable.
-6. The roadmap's phase tables now enumerate each feature's full requirement set, and the
-   feature traceability matrix is regenerated from these work items, including EPIC-10,
-   EPIC-11, and EPIC-12.
+5. The roadmap's phase tables now enumerate each feature's full requirement set, and the
+   feature traceability matrix is regenerated from these work items, including EPIC-11
+   and EPIC-12.

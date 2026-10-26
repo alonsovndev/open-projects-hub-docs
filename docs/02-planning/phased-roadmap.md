@@ -11,7 +11,7 @@ The windows below are relative planning assumptions, not measured delivery dates
 | Phase -1: prototype | Explore core user journeys and visual direction | Week 0, alongside Phase 0 | Pencil file and exported screens exist; stakeholder sign-off and formal validation evidence are TBD |
 | Phase 0: foundation | Establish repositories, persistence, environments, and checks | Week 0, alongside Phase -1 | Source, migrations, CI definitions, and run guides exist; some original quality gates differ from current CI |
 | MVP: core planning | Connect lifecycle, refinement, approval, backlog, export, and access boundaries | Weeks 1–11 | Implementation present and first release documented; not every baseline criterion is independently verified |
-| Phase 1: entry and quality | Improve onboarding, public entry, credits, provider configuration, interface quality, and validation | Weeks 12–19 | Several capabilities are implemented; complete accessibility, SEO, and E2E acceptance still requires evidence |
+| Phase 1: entry and quality | Improve onboarding, public entry, credits, provider configuration, interface quality, and validation | Weeks 12–19 | Several capabilities are implemented; complete accessibility and E2E acceptance still requires evidence |
 | Phase 2: future evolution | Revisit governance, collaboration, and scale when justified | TBD | Proposed scope, without delivery commitments |
 
 ## Planning principles
@@ -81,7 +81,7 @@ This estimate replaced the earlier 1–1.5-month target. It should not be used t
 
 The implementation includes registration and verification, password recovery, onboarding, public entry, individual provider keys, credit accounting, and export scoping. Each capability still needs evaluation against its complete feature baseline.
 
-Remaining review work includes accessibility and usability assessment, provider failure behavior, broader E2E execution, SEO acceptance, load measurements, and repair of stale integration tests. Existing test files do not establish that these activities have passed.
+Remaining review work includes accessibility and usability assessment, provider failure behavior, broader E2E execution, load measurements, and repair of stale integration tests. Existing test files do not establish that these activities have passed.
 
 ## Phase 2: future work
 
@@ -109,7 +109,6 @@ This matrix identifies planning associations, not completion status. Story-level
 | F-011: client review | EPIC-7, superseded by ADR-020 | Shared access codes replace Viewer accounts |
 | F-005, F-006, F-008: first use | EPIC-8 | Onboarding, landing, and registration |
 | Quality targets | EPIC-9 | Security, test evidence, accessibility, and performance gaps |
-| Discoverability | EPIC-10 | Public metadata and SEO validation |
 | Interface quality | EPIC-11 | Responsive behavior and accessible interaction |
 | Maintainability | EPIC-12 | Tooling and architecture boundaries |
 
