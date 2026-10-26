@@ -128,10 +128,14 @@ const config: Config = {
               label: "GitHub",
               href: "https://github.com/alonsovndev/open-projects-hub-docs",
             },
+            {
+              label: "Portfolio",
+              href: "https://alonsovndev.com/",
+            },
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} Alonsovndev. Built with Docusaurus.`,
+      copyright: `Copyright © ${new Date().getFullYear()} Alonso VN. Built with Docusaurus.`,
     },
     prism: {
       theme: prismThemes.github,
