@@ -6,30 +6,42 @@ sidebar_position: 1
 
 The implemented schema separates workspace ownership, approved backlog content, and authentication state. The ERD below shows their relationships; generated drafts remain in the browser until approved.
 
-| Attribute        | Value                       |
-| ---------------- | --------------------------- |
-| **Project**      | Open Projects Hub |
-| **Version**      | 2.0                         |
-| **Status**       | Accepted                    |
+| Attribute   | Value             |
+| ----------- | ----------------- |
+| **Project** | Open Projects Hub |
+| **Version** | 2.0               |
+| **Status**  | Accepted          |
 
 This page describes the schema as implemented by the SQLAlchemy models and Alembic migrations in
 `open-projects-hub-api` (`src/app/features/*/infrastructure/models/`, `alembic/versions/`).
 
 ## Table of Contents
 
-- [Source References](#source-references)
-- [Design Scope and Assumptions](#design-scope-and-assumptions)
-- [Data Domains](#data-domains)
-- [Core Entities](#core-entities)
-- [Relationships](#relationships)
-- [Entity-Relationship Diagram (ERD)](#entity-relationship-diagram-erd)
-- [Schema Documentation](#schema-documentation)
-- [Constraints and Integrity Rules](#constraints-and-integrity-rules)
-- [Access Patterns and Indexing Notes](#access-patterns-and-indexing-notes)
-- [Migration and Evolution Considerations](#migration-and-evolution-considerations)
-- [Security and Data Governance](#security-and-data-governance)
-- [Risks and Open Questions](#risks-and-open-questions)
-- [Traceability to Requirements](#traceability-to-requirements)
+- [Database Design](#database-design)
+  - [Table of Contents](#table-of-contents)
+  - [Design Scope and Assumptions](#design-scope-and-assumptions)
+  - [Data Domains](#data-domains)
+  - [Core Entities](#core-entities)
+  - [Relationships](#relationships)
+  - [Entity-Relationship Diagram (ERD)](#entity-relationship-diagram-erd)
+  - [Schema Documentation](#schema-documentation)
+    - [1. `workspaces`](#1-workspaces)
+    - [2. `users`](#2-users)
+    - [3. `clients`](#3-clients)
+    - [4. `projects`](#4-projects)
+    - [5. `stories`](#5-stories)
+    - [6. `user_api_keys`](#6-user_api_keys)
+    - [7. `api_key_validation_attempts`](#7-api_key_validation_attempts)
+    - [8. `email_verification_codes`](#8-email_verification_codes)
+    - [9. `password_reset_codes`](#9-password_reset_codes)
+    - [10. `account_lockouts`](#10-account_lockouts)
+    - [11. `revoked_refresh_tokens`](#11-revoked_refresh_tokens)
+  - [Constraints and Integrity Rules](#constraints-and-integrity-rules)
+  - [Access Patterns and Indexing Notes](#access-patterns-and-indexing-notes)
+  - [Migration and Evolution Considerations](#migration-and-evolution-considerations)
+  - [Security and Data Governance](#security-and-data-governance)
+  - [Traceability to Requirements](#traceability-to-requirements)
+  - [Source References](#source-references)
 
 ## Design Scope and Assumptions
 
@@ -48,19 +60,19 @@ This page describes the schema as implemented by the SQLAlchemy models and Alemb
 
 ## Core Entities
 
-| Entity | Purpose | Bounded Context | Lifecycle |
-| --- | --- | --- | --- |
-| `workspaces` | Tenant boundary owning users, `clients`, and `projects`; one per sign-up | Identity and Access | active by record |
-| `users` | Admin or Member profile in one workspace | Identity and Access | unverified, active, deactivated (`deactivated_at`) |
-| `clients` | Client records managed inside a workspace | Client Lifecycle | active by record; hard delete |
-| `projects` | Project metadata, status, priority, phase, dates, and Client Review access code | Project Lifecycle | `active`, `completed`, `archived` |
-| `stories` | Approved user stories (unapproved AI output is never stored, ADR-019) | Stories | `todo`, `in_progress`, `blocked`, `done` |
-| `user_api_keys` | Per-user AI provider credentials, encrypted at rest | AI Monetization | active by record |
-| `api_key_validation_attempts` | Per-user counter behind the key-validation rate limit | AI Monetization | rolling window |
-| `email_verification_codes` | Hashed, short-lived codes that confirm an email or accept an invite | Identity and Access | active, used, expired |
-| `password_reset_codes` | Hashed, short-lived password reset codes | Identity and Access | active, used, expired |
-| `account_lockouts` | Failed-login counters and lockout windows, keyed by email | Identity and Access | cleared on success or expiry |
-| `revoked_refresh_tokens` | Hashes of used or logged-out refresh tokens | Identity and Access | removed after expiry |
+| Entity                        | Purpose                                                                         | Bounded Context     | Lifecycle                                          |
+| ----------------------------- | ------------------------------------------------------------------------------- | ------------------- | -------------------------------------------------- |
+| `workspaces`                  | Tenant boundary owning users, `clients`, and `projects`; one per sign-up        | Identity and Access | active by record                                   |
+| `users`                       | Admin or Member profile in one workspace                                        | Identity and Access | unverified, active, deactivated (`deactivated_at`) |
+| `clients`                     | Client records managed inside a workspace                                       | Client Lifecycle    | active by record; hard delete                      |
+| `projects`                    | Project metadata, status, priority, phase, dates, and Client Review access code | Project Lifecycle   | `active`, `completed`, `archived`                  |
+| `stories`                     | Approved user stories (unapproved AI output is never stored, ADR-019)           | Stories             | `todo`, `in_progress`, `blocked`, `done`           |
+| `user_api_keys`               | Per-user AI provider credentials, encrypted at rest                             | AI Monetization     | active by record                                   |
+| `api_key_validation_attempts` | Per-user counter behind the key-validation rate limit                           | AI Monetization     | rolling window                                     |
+| `email_verification_codes`    | Hashed, short-lived codes that confirm an email or accept an invite             | Identity and Access | active, used, expired                              |
+| `password_reset_codes`        | Hashed, short-lived password reset codes                                        | Identity and Access | active, used, expired                              |
+| `account_lockouts`            | Failed-login counters and lockout windows, keyed by email                       | Identity and Access | cleared on success or expiry                       |
+| `revoked_refresh_tokens`      | Hashes of used or logged-out refresh tokens                                     | Identity and Access | removed after expiry                               |
 
 ## Relationships
 
@@ -199,7 +211,7 @@ erDiagram
     }
 ```
 
-*Figure 1. Implemented entity relationships. Story assignment is optional; the key-validation counter uses the user's ID as both its primary key and foreign key.*
+_Figure 1. Implemented entity relationships. Story assignment is optional; the key-validation counter uses the user's ID as both its primary key and foreign key._
 
 `account_lockouts` and `revoked_refresh_tokens` are keyed by email and token hash rather than by
 foreign key, so they are left out of the diagram.
@@ -328,37 +340,32 @@ foreign key, so they are left out of the diagram.
 - **Secrets at rest:** passwords and one-time codes are bcrypt hashes, refresh tokens are stored as SHA-256 hashes, provider keys are AES-256-GCM ciphertext.
 - **Auditability:** `created_at` and `updated_at` on every entity table, plus `email_verified_at`, `deactivated_at`, and `used_at` on the codes.
 
-## Risks and Open Questions
-
-- **Risk:** the active-project limit is checked in the application layer; two concurrent creates could both pass the count. The window is small for a single-freelancer workspace.
-- **Open question:** should individual stories be archivable, or only follow their project's lifecycle?
-
 ## Traceability to Requirements
 
-| Requirement | Database Coverage |
-| ----------- | ----------------- |
-| FR-001-01 | `clients` and `projects` with the `client_id` FK model the client and project relationship. |
-| FR-001-02 | `projects.status` and `(workspace_id, status, created_at)` support the max-3-active-projects check. |
-| FR-001-03 | `projects.phase` limited to `discovery` and `planning`. |
-| FR-002-01 | Refinement input is handled in the application layer; approved output is stored in `stories`. |
-| FR-002-02 | `stories` stores `title`, `description`, `acceptance_criteria`, `priority`, and `points`. |
-| FR-002-03 | Only approved stories are written (ADR-019), which preserves the approval gate. |
-| FR-003-01 | `users.role` (`admin`, `member`) supports Admin and Member authorization. |
-| FR-003-02 | `workspace_id` on users, clients, and projects confines every record to one workspace. |
-| FR-003-03 | `stories`, `projects.phase`, and the unique `projects.access_code` give clients read-only visibility of one project. |
-| FR-004-01 | `stories` with `acceptance_criteria`, `priority`, and `status` support the backlog view and Markdown export. |
-| FR-007-01 | `users.password_hash`, `account_lockouts`, and `revoked_refresh_tokens` back login, lockout, and session rotation. |
-| FR-009-01 | `password_reset_codes` backs the reset flow; `users.token_version` revokes sessions after a reset. |
-| FR-010-01 | Accounts are granted 5 credits when `email_verified_at` is set, reserved from `workspaces.ai_credits_granted_total` (ceiling 25). |
-| FR-010-02 | Conditional `UPDATE ... WHERE ai_credits_remaining > 0` spends exactly one credit, only after a successful refinement. |
-| FR-010-04 | `user_api_keys` with `UNIQUE (user_id, provider)` gives one replaceable key per provider per user. |
-| FR-010-07 | `masked_key` is the only display form; no column or read path exposes plaintext. |
-| NFR-010-01 | `encrypted_key`/`encryption_nonce` hold AES-256-GCM ciphertext; `key_version` records its encryption-key version (ADR-018). |
-| NFR-010-03 | `api_key_validation_attempts` enforces 5 validations per user per hour via an atomic upsert. |
-| NFR-010-04 | Key removal is a hard `DELETE`; `ON DELETE CASCADE` clears keys with the owning account. |
-| NFR-003-01 | Workspace-scoped foreign keys and repository filters support least-privilege access. |
-| NFR-X01 | Hashed passwords, codes, and refresh tokens, plus encrypted provider keys, support secure credential handling. |
-| NFR-X06 | UUID keys and targeted indexes support MVP growth without logical schema changes. |
+| Requirement | Database Coverage                                                                                                                 |
+| ----------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| FR-001-01   | `clients` and `projects` with the `client_id` FK model the client and project relationship.                                       |
+| FR-001-02   | `projects.status` and `(workspace_id, status, created_at)` support the max-3-active-projects check.                               |
+| FR-001-03   | `projects.phase` limited to `discovery` and `planning`.                                                                           |
+| FR-002-01   | Refinement input is handled in the application layer; approved output is stored in `stories`.                                     |
+| FR-002-02   | `stories` stores `title`, `description`, `acceptance_criteria`, `priority`, and `points`.                                         |
+| FR-002-03   | Only approved stories are written (ADR-019), which preserves the approval gate.                                                   |
+| FR-003-01   | `users.role` (`admin`, `member`) supports Admin and Member authorization.                                                         |
+| FR-003-02   | `workspace_id` on users, clients, and projects confines every record to one workspace.                                            |
+| FR-003-03   | `stories`, `projects.phase`, and the unique `projects.access_code` give clients read-only visibility of one project.              |
+| FR-004-01   | `stories` with `acceptance_criteria`, `priority`, and `status` support the backlog view and Markdown export.                      |
+| FR-007-01   | `users.password_hash`, `account_lockouts`, and `revoked_refresh_tokens` back login, lockout, and session rotation.                |
+| FR-009-01   | `password_reset_codes` backs the reset flow; `users.token_version` revokes sessions after a reset.                                |
+| FR-010-01   | Accounts are granted 5 credits when `email_verified_at` is set, reserved from `workspaces.ai_credits_granted_total` (ceiling 25). |
+| FR-010-02   | Conditional `UPDATE ... WHERE ai_credits_remaining > 0` spends exactly one credit, only after a successful refinement.            |
+| FR-010-04   | `user_api_keys` with `UNIQUE (user_id, provider)` gives one replaceable key per provider per user.                                |
+| FR-010-07   | `masked_key` is the only display form; no column or read path exposes plaintext.                                                  |
+| NFR-010-01  | `encrypted_key`/`encryption_nonce` hold AES-256-GCM ciphertext; `key_version` records its encryption-key version (ADR-018).       |
+| NFR-010-03  | `api_key_validation_attempts` enforces 5 validations per user per hour via an atomic upsert.                                      |
+| NFR-010-04  | Key removal is a hard `DELETE`; `ON DELETE CASCADE` clears keys with the owning account.                                          |
+| NFR-003-01  | Workspace-scoped foreign keys and repository filters support least-privilege access.                                              |
+| NFR-X01     | Hashed passwords, codes, and refresh tokens, plus encrypted provider keys, support secure credential handling.                    |
+| NFR-X06     | UUID keys and targeted indexes support MVP growth without logical schema changes.                                                 |
 
 ## Source References
 
