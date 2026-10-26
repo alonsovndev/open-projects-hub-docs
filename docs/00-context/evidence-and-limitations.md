@@ -13,9 +13,9 @@ The documentation review uses the following local source revisions. Repository l
 
 | Repository     | Reviewed revision                                                                                                 | Main evidence                                               |
 | -------------- | ----------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
-| API            | [`48b1cee`](https://github.com/alonsovndev/open-projects-hub-api/tree/48b1cee6113527dedb054abfc0b4170697fafec0)   | Routes, DTOs, use cases, migrations, and tests              |
-| Web            | [`6408eca`](https://github.com/alonsovndev/open-projects-hub-web/tree/6408eca68f1415612e4275c1a7d61c97a26ba5f8)   | User flows, browser state, and component/E2E test artifacts |
-| Infrastructure | [`fbecdaf`](https://github.com/alonsovndev/open-projects-hub-infra/tree/fbecdafbf62f093db89d8582fa96eca8839d0d08) | Deployment resources, ingress, and operational constraints  |
+| API            | [`63f1512`](https://github.com/alonsovndev/open-projects-hub-api/tree/63f1512f9cf879d4d71570ce59ff9aa691a426b1)   | Routes, DTOs, use cases, migrations, and tests              |
+| Web            | [`059ca28`](https://github.com/alonsovndev/open-projects-hub-web/tree/059ca287591e7414d656aa2492a6e5bc2b44fd76)   | User flows, browser state, and component/E2E test artifacts |
+| Infrastructure | [`6326860`](https://github.com/alonsovndev/open-projects-hub-infra/tree/632686063eabb5595fa18059cca030df3f251bbc) | Deployment resources, ingress, and operational constraints  |
 
 ## Objectives and evidence
 
@@ -44,7 +44,7 @@ The implementation and test directories linked below are source artifacts. Their
 | [F-010: credits and keys](../01-requirements/f-010-ai-credits-and-api-key-management.md)           | API `features/ai_config`; per-user encrypted provider keys | Credit, encryption, and provider-failure tests; external provider behavior not validated by mocked tests |
 | [F-011: client review](../01-requirements/f-011-client-review-access.md)                           | Public access-code lookup and minimized backlog response   | Client-review endpoint tests; shared codes do not identify individual stakeholders                       |
 
-Inspect the [API test tree](https://github.com/alonsovndev/open-projects-hub-api/tree/48b1cee6113527dedb054abfc0b4170697fafec0/src/tests), [web source](https://github.com/alonsovndev/open-projects-hub-web/tree/6408eca68f1415612e4275c1a7d61c97a26ba5f8/src), and [web E2E tests](https://github.com/alonsovndev/open-projects-hub-web/tree/6408eca68f1415612e4275c1a7d61c97a26ba5f8/e2e) for the underlying artifacts.
+Inspect the [API test tree](https://github.com/alonsovndev/open-projects-hub-api/tree/63f1512f9cf879d4d71570ce59ff9aa691a426b1/src/tests), [web source](https://github.com/alonsovndev/open-projects-hub-web/tree/059ca287591e7414d656aa2492a6e5bc2b44fd76/src), and [web E2E tests](https://github.com/alonsovndev/open-projects-hub-web/tree/059ca287591e7414d656aa2492a6e5bc2b44fd76/e2e) for the underlying artifacts.
 
 ## Verification boundaries
 
@@ -56,11 +56,11 @@ Inspect the [API test tree](https://github.com/alonsovndev/open-projects-hub-api
 | Infrastructure CI | Terraform formatting and validation                                               | This does not apply infrastructure or prove the deployed account configuration                                               |
 | Coverage          | A 70% target is recorded in NFR-X03                                               | No fresh coverage measurement or passing threshold is established by this documentation review                               |
 
-These descriptions come from the committed [API CI](https://github.com/alonsovndev/open-projects-hub-api/blob/48b1cee6113527dedb054abfc0b4170697fafec0/.github/workflows/ci.yml) and [web CI](https://github.com/alonsovndev/open-projects-hub-web/blob/6408eca68f1415612e4275c1a7d61c97a26ba5f8/.github/workflows/ci.yml) definitions. Configured jobs are not a claim that the latest hosted run passed.
+These descriptions come from the committed [API CI](https://github.com/alonsovndev/open-projects-hub-api/blob/63f1512f9cf879d4d71570ce59ff9aa691a426b1/.github/workflows/ci.yml) and [web CI](https://github.com/alonsovndev/open-projects-hub-web/blob/059ca287591e7414d656aa2492a6e5bc2b44fd76/.github/workflows/ci.yml) definitions. Configured jobs are not a claim that the latest hosted run passed.
 
 ### Documentation checks performed
 
-Local checks during this revision on 2026-10-19 used Node.js 23.10.0; the repository CI specifies Node.js 22. The documentation typecheck and production build passed, including strict internal-link and anchor checks.
+Local checks during this revision on 2026-10-19 used Node.js 23.10.0; the repository CI specifies Node.js 22. The documentation typecheck and production build passed, including strict internal-link and anchor checks. A re-run on 2026-10-26 (same Node.js version) passed the typecheck and build again, and all 24 Mermaid diagrams parsed with the site's Mermaid library; the browser smoke check below was not repeated.
 
 A local Chromium smoke check rendered all 24 Mermaid diagrams and inspected seven representative pages at 375, 768, and 1440 pixels in light and dark modes (42 combinations). It found no page-wide overflow, broken images, or browser JavaScript errors. All 15 gallery figures loaded; the primary review link, visible focus, and mobile navigation were checked. Wide diagrams retain native text size inside named, keyboard-scrollable regions. This is focused browser verification, not a full accessibility assessment.
 
@@ -77,5 +77,3 @@ The built site was served by a local static HTTP server for these checks. The Do
 - **Quality claims:** WCAG conformance, GDPR compliance, load capacity, email delivery targets, and measured productivity gains are not established by the available evidence.
 
 See the [threat model](../03-architecture/security/threat-model.md) and [deployment architecture](../03-architecture/ops/deployment-architecture.md) for control details and trade-offs.
-
-These are proposed evaluation activities, not completed experiments. Reviewers can assess the implementation and its engineering trade-offs while keeping the unmeasured outcomes separate.
