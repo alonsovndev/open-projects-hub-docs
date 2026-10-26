@@ -29,7 +29,7 @@ Whether upgrading the account from the Free Plan lifts these limits was not test
 
 ## Consequences
 
-- The credits pay for the host. The Free Plan has a fixed period; at about $12.85/month the period, not the balance, is the likely limit. The current balance and dates are tracked in the AWS console, not in these docs.
+- The credits pay for the host. The Free Plan period ends on 2027-04-09; at about $12.85/month the period, not the balance, is the likely limit. The current balance is tracked in the AWS console, not in these docs. After that date the account must be upgraded or the system rehosted; that decision is TBD.
 - A release needs two steps: push the tag (image) and run the script (deploy). Nothing deploys without a person holding AWS credentials, which also removes the risk that anyone able to push a tag deploys as root on the host.
 - The cost figures in ADR-021 are `us-east-1` list prices; whether `us-east-2` differs is TBD (not checked). The gross-usage budget makes any difference visible.
 - Other organization-level limits may appear later; they surface as "explicit deny in a service control policy" errors.
