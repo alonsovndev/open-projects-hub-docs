@@ -15,7 +15,7 @@ The documentation review uses the following source revisions: the `v0.2.0` relea
 | -------------- | ----------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
 | API            | [`6fbe566`](https://github.com/alonsovndev/open-projects-hub-api/tree/6fbe566d2a65d97c7539e229b7ac1190f25e7783)   | Routes, DTOs, use cases, migrations, and tests              |
 | Web            | [`be41cba`](https://github.com/alonsovndev/open-projects-hub-web/tree/be41cba75454ab10bce2f1e7683f6a10f0f4f865)   | User flows, browser state, and component/E2E test artifacts |
-| Infrastructure | [`6326860`](https://github.com/alonsovndev/open-projects-hub-infra/tree/632686063eabb5595fa18059cca030df3f251bbc) | Deployment resources, ingress, and operational constraints  |
+| Infrastructure | [`9cf0dde`](https://github.com/alonsovndev/open-projects-hub-infra/tree/9cf0dde7e5f4cd37af8d0ed6b290585b6ac8690f) | Deployment resources, ingress, and operational constraints  |
 
 ## Objectives and evidence
 
