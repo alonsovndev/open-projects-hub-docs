@@ -9,12 +9,12 @@ This page separates implementation evidence, configured checks, and outcomes tha
 
 ## Source baseline
 
-The documentation review uses the following local source revisions. Repository links are pinned to those revisions so reviewers can inspect the same implementation. Production state and hosted CI results were not queried during this review.
+The documentation review uses the following source revisions: the `v0.2.0` release of the API, the `v0.3.0` release of the web app, and the current `main` of the infrastructure repository. Repository links are pinned to those revisions so reviewers can inspect the same implementation. Production state and hosted CI results were not queried during this review.
 
 | Repository     | Reviewed revision                                                                                                 | Main evidence                                               |
 | -------------- | ----------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
-| API            | [`63f1512`](https://github.com/alonsovndev/open-projects-hub-api/tree/63f1512f9cf879d4d71570ce59ff9aa691a426b1)   | Routes, DTOs, use cases, migrations, and tests              |
-| Web            | [`059ca28`](https://github.com/alonsovndev/open-projects-hub-web/tree/059ca287591e7414d656aa2492a6e5bc2b44fd76)   | User flows, browser state, and component/E2E test artifacts |
+| API            | [`6fbe566`](https://github.com/alonsovndev/open-projects-hub-api/tree/6fbe566d2a65d97c7539e229b7ac1190f25e7783)   | Routes, DTOs, use cases, migrations, and tests              |
+| Web            | [`be41cba`](https://github.com/alonsovndev/open-projects-hub-web/tree/be41cba75454ab10bce2f1e7683f6a10f0f4f865)   | User flows, browser state, and component/E2E test artifacts |
 | Infrastructure | [`6326860`](https://github.com/alonsovndev/open-projects-hub-infra/tree/632686063eabb5595fa18059cca030df3f251bbc) | Deployment resources, ingress, and operational constraints  |
 
 ## Objectives and evidence
@@ -44,7 +44,7 @@ The implementation and test directories linked below are source artifacts. Their
 | [F-010: credits and keys](../01-requirements/f-010-ai-credits-and-api-key-management.md)           | API `features/ai_config`; per-user encrypted provider keys | Credit, encryption, and provider-failure tests; external provider behavior not validated by mocked tests |
 | [F-011: client review](../01-requirements/f-011-client-review-access.md)                           | Public access-code lookup and minimized backlog response   | Client-review endpoint tests; shared codes do not identify individual stakeholders                       |
 
-Inspect the [API test tree](https://github.com/alonsovndev/open-projects-hub-api/tree/63f1512f9cf879d4d71570ce59ff9aa691a426b1/src/tests), [web source](https://github.com/alonsovndev/open-projects-hub-web/tree/059ca287591e7414d656aa2492a6e5bc2b44fd76/src), and [web E2E tests](https://github.com/alonsovndev/open-projects-hub-web/tree/059ca287591e7414d656aa2492a6e5bc2b44fd76/e2e) for the underlying artifacts.
+Inspect the [API test tree](https://github.com/alonsovndev/open-projects-hub-api/tree/6fbe566d2a65d97c7539e229b7ac1190f25e7783/src/tests), [web source](https://github.com/alonsovndev/open-projects-hub-web/tree/be41cba75454ab10bce2f1e7683f6a10f0f4f865/src), and [web E2E tests](https://github.com/alonsovndev/open-projects-hub-web/tree/be41cba75454ab10bce2f1e7683f6a10f0f4f865/e2e) for the underlying artifacts.
 
 ## Verification boundaries
 
@@ -56,7 +56,7 @@ Inspect the [API test tree](https://github.com/alonsovndev/open-projects-hub-api
 | Infrastructure CI | Terraform formatting and validation                                               | This does not apply infrastructure or prove the deployed account configuration                                               |
 | Coverage          | A 70% target is recorded in NFR-X03                                               | No fresh coverage measurement or passing threshold is established by this documentation review                               |
 
-These descriptions come from the committed [API CI](https://github.com/alonsovndev/open-projects-hub-api/blob/63f1512f9cf879d4d71570ce59ff9aa691a426b1/.github/workflows/ci.yml) and [web CI](https://github.com/alonsovndev/open-projects-hub-web/blob/059ca287591e7414d656aa2492a6e5bc2b44fd76/.github/workflows/ci.yml) definitions. Configured jobs are not a claim that the latest hosted run passed.
+These descriptions come from the committed [API CI](https://github.com/alonsovndev/open-projects-hub-api/blob/6fbe566d2a65d97c7539e229b7ac1190f25e7783/.github/workflows/ci.yml) and [web CI](https://github.com/alonsovndev/open-projects-hub-web/blob/be41cba75454ab10bce2f1e7683f6a10f0f4f865/.github/workflows/ci.yml) definitions. Configured jobs are not a claim that the latest hosted run passed.
 
 ### Documentation checks performed
 

@@ -6,7 +6,7 @@ sidebar_position: 2
 
 This guide describes the implemented API and illustrates the main review workflow. Examples use synthetic data; they are not production records or captured test results.
 
-The backend's [generated OpenAPI schema at reviewed revision `63f1512`](https://github.com/alonsovndev/open-projects-hub-api/blob/63f1512f9cf879d4d71570ce59ff9aa691a426b1/docs/api/openapi.json) (exported with `make export-openapi`) and its route/DTO definitions provide the exact endpoint constraints. This page is a narrative companion rather than a second complete schema.
+The backend's [generated OpenAPI schema at reviewed revision `6fbe566`](https://github.com/alonsovndev/open-projects-hub-api/blob/6fbe566d2a65d97c7539e229b7ac1190f25e7783/docs/api/openapi.json) (exported with `make export-openapi`) and its route/DTO definitions provide the exact endpoint constraints. This page is a narrative companion rather than a second complete schema.
 
 ## Conventions
 
