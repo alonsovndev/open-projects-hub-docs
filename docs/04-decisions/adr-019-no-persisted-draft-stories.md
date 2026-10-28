@@ -1,16 +1,11 @@
 # ADR-019: Do Not Persist Draft Stories
 
-**Status**: Accepted  
-**Date**: 2026-09-30
-
-> **Amended by [ADR-020](./adr-020-client-review-by-access-code.md) (2026-10-02):** the `viewer` role mentioned here was removed; roles are `admin` and `member`, and clients review a project through its access code.
+- **Status**: Accepted
+- **Date**: 2026-09-30
 
 ## Context
 
-The first implementation of F-002 saved every AI-refined story to a `story_drafts` table
-as soon as the provider returned it, so the Admin could edit, discard, and approve by
-draft id. The product owner decided this storage is not wanted: refined output is
-throwaway until an Admin approves it, and only approved stories belong in the database.
+Refined output is throwaway until an Admin or Member approves it, and only approved stories belong in the database. Storing every AI-refined story as a draft would add a draft lifecycle (status, duplicate handling) and risk unapproved output reaching exports or Client Review.
 
 ## Decision
 
@@ -25,16 +20,12 @@ throwaway until an Admin approves it, and only approved stories belong in the da
   `POST /v1/refinement/approve-stories` (several). The server checks that the project is
   in the caller's workspace, validates the content, and saves a `stories` row with the
   caller as creator.
-- The `story_drafts` table, its `draftstatus` enum, and the draft endpoints
-  (`PATCH`/`DELETE /refinement/drafts/{id}`, `GET /refinement/projects/{id}/drafts`,
-  `POST /refinement/drafts/{id}/approve`, `POST /refinement/approve-drafts`) are removed.
-  Drafts that existed at migration time are dropped.
 
 ## Consequences
 
 ### Positive
 
-- Unapproved AI output cannot leak to exports or Viewer paths: it is never stored.
+- Unapproved AI output cannot leak to exports or Client Review: it is never stored.
 - Less schema, fewer endpoints, and no draft lifecycle (status, applied/duplicate handling).
 
 ### Negative
@@ -42,14 +33,14 @@ throwaway until an Admin approves it, and only approved stories belong in the da
 - Unapproved stories survive a reload and in-app navigation, but are lost when the tab is
   closed (or storage is blocked), and the credit spent on that run is not refunded. The raw
   notes can be resubmitted.
-- The server cannot detect a repeated approval of the same content (previously a `409`),
-  so the client must prevent double submits.
+- The server cannot detect a repeated approval of the same content, so the client must
+  prevent double submits.
 - Approval requests are larger and carry content the client could alter; the server
   re-validates it with the same rules as manual story creation.
 
 ## Alternatives Considered
 
-**1. Keep drafts server-side (status quo)**
+**1. Persist drafts server-side**
 
 - Survives refresh and supports resuming from another device.
 - Rejected: the product owner does not want draft storage.

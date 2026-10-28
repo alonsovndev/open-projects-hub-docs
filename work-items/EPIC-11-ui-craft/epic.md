@@ -25,6 +25,7 @@ Included scope:
 - Motion and transitions with reduced-motion support
 - Responsive behavior and touch target compliance
 - Visible focus states and WCAG 2.1 AA contrast
+- Semantic heading hierarchy and landmark regions on public pages
 
 Excluded scope:
 

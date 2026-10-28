@@ -12,7 +12,7 @@ sidebar_position: 1
 
 ## 1. Scope and NFR Alignment
 
-This document defines the production deployment architecture for the master's-review release. It is sized for a handful of users and near-zero traffic, so cost takes priority over availability and recovery. The decision and its trade-offs are recorded in [ADR-021](../../04-decisions/adr-021-low-cost-single-host-deployment.md), which supersedes the compute, database and network parts of ADR-006.
+This document defines the production deployment architecture for the master's-review release. It is sized for a handful of users and near-zero traffic, so cost takes priority over availability and recovery. The decision and its trade-offs are recorded in [ADR-021](../../04-decisions/adr-021-low-cost-single-host-deployment.md).
 
 ## 2. Cloud Platform Selection and Rationale
 
@@ -261,16 +261,15 @@ See [Security Architecture](../security/security-architecture.md) for detailed s
 
 ## 10. Related ADRs
 
-- [ADR-004: Database](../../04-decisions/adr-004-database.md) (database now runs as a container; see ADR-021)
+- [ADR-004: Database](../../04-decisions/adr-004-database.md) (PostgreSQL as a container on the host)
 - [ADR-005: Authentication Strategy (Custom JWT Auth)](../../04-decisions/adr-005-authentication.md)
-- [ADR-006: Deployment Platform (AWS)](../../04-decisions/adr-006-deployment-platform.md) (superseded in part)
 - [ADR-011: Secrets Management Strategy](../../04-decisions/adr-011-secrets-management.md)
 - [ADR-012: Containerization Strategy](../../04-decisions/adr-012-containerization.md)
 - [ADR-013: Infrastructure as Code Strategy](../../04-decisions/adr-013-infrastructure-as-code.md)
 - [ADR-014: Environment Strategy](../../04-decisions/adr-014-environment-strategy.md)
 - [ADR-017: Database Migration Strategy](../../04-decisions/adr-017-database-migration-strategy.md)
 - [ADR-021: Low-Cost Single-Host Deployment](../../04-decisions/adr-021-low-cost-single-host-deployment.md)
-- [ADR-022: Cloudflare Edge Instead of CloudFront](../../04-decisions/adr-022-cloudflare-edge-instead-of-cloudfront.md)
+- [ADR-022: Cloudflare Edge for the Web App and API](../../04-decisions/adr-022-cloudflare-edge-instead-of-cloudfront.md)
 - [ADR-023: Credits Account in us-east-2 and Manual Deploys](../../04-decisions/adr-023-credits-account-us-east-2-manual-deploy.md)
 
 ## 11. Implementation status and review limits
@@ -292,7 +291,6 @@ The security and threat-model pages describe these current controls and gaps. Th
 
 - [Requirements Home](../../01-requirements/README.md)
 - [ADR-021: Low-Cost Single-Host Deployment](../../04-decisions/adr-021-low-cost-single-host-deployment.md)
-- [ADR-006: Deployment Platform (AWS)](../../04-decisions/adr-006-deployment-platform.md)
 - [ADR-013: Infrastructure as Code Strategy](../../04-decisions/adr-013-infrastructure-as-code.md)
 
 ---

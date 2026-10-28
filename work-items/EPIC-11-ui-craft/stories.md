@@ -336,3 +336,45 @@
 
 - Primary flows are usable at all three documented breakpoints.
 - All touch targets meet the 44 pixel minimum.
+
+---
+
+### US-EP11-FE-008: Semantic Document Structure and Landmarks
+
+**Story ID**: US-EP11-FE-008
+**Epic Link**: EPIC-11
+**Issue Type**: Story
+**Priority**: Should Have
+**Effort Estimate**: 3
+**Status**: DONE
+**Fix Version**: Phase 1
+**Labels**: frontend, design, craft, accessibility
+**Requirements**: NFR-006-02, NFR-X07
+
+**As a** Frontend Engineer,
+**I want to** give public pages a correct heading hierarchy and landmark regions,
+**So that** assistive technology can interpret the page structure.
+
+**Acceptance Criteria**:
+
+- [ ] Given a public page, when its headings are inspected, then exactly one `h1` exists and levels descend without skipping.
+- [ ] Given a public page, when landmarks are inspected, then header, main, navigation, and footer regions are present.
+- [ ] Given an image conveying meaning, when it renders, then it carries descriptive alternative text.
+- [ ] Given the page language, when the document renders, then a `lang` attribute is declared.
+
+**Deliverables**:
+
+- Heading hierarchy corrections across public pages.
+- Landmark regions applied to the public layout.
+- Alternative text and `lang` attribute coverage.
+- Automated structural checks in the accessibility test pass.
+
+**Dependencies**:
+
+- [Design Direction](../../docs/05-prototype/design-direction.md).
+- [Accessibility & Readability Validation](../EPIC-9-quality-baseline/stories.md#us-ep9-ux-001-accessibility--readability-validation).
+
+**Success Metrics**:
+
+- Public pages pass automated heading and landmark structure checks.
+- Structural markup satisfies WCAG 2.1 AA expectations.

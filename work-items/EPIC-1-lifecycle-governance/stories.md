@@ -164,6 +164,11 @@
 - Deletion of a client with active projects is blocked in every documented flow.
 - Deleted project data is unreachable within 24 hours of the request.
 
+**Implementation Notes**:
+
+- Projects can be archived, reactivated and deleted, and deleting a client with active projects is refused with `409`. Clients themselves have no archive state; only deletion is implemented, so "archival" applies to projects.
+- The refusal text is "Cannot delete client with active projects. Archive or reassign projects first."
+
 ---
 
 ### US-EP1-BE-004: Project Search and Filtering

@@ -6,7 +6,7 @@ sidebar_position: 2
 
 This guide describes the implemented API and illustrates the main review workflow. Examples use synthetic data; they are not production records or captured test results.
 
-The backend's [generated OpenAPI schema at reviewed revision `63f1512`](https://github.com/alonsovndev/open-projects-hub-api/blob/63f1512f9cf879d4d71570ce59ff9aa691a426b1/docs/api/openapi.json) (exported with `make export-openapi`) and its route/DTO definitions provide the exact endpoint constraints. This page is a narrative companion rather than a second complete schema.
+The backend's [generated OpenAPI schema at reviewed revision `6fbe566`](https://github.com/alonsovndev/open-projects-hub-api/blob/6fbe566d2a65d97c7539e229b7ac1190f25e7783/docs/api/openapi.json) (exported with `make export-openapi`) and its route/DTO definitions provide the exact endpoint constraints. This page is a narrative companion rather than a second complete schema.
 
 ## Conventions
 
@@ -125,6 +125,7 @@ All paths are relative to `/v1`.
 | Auth | POST | `/auth/reset-password` | Submit the reset code and a new password | Public |
 | User | GET | `/users/me/profile` | Current user's profile | Admin, Member |
 | User | PATCH | `/users/me/profile` | Update display name | Admin, Member |
+| User | PATCH | `/users/me/onboarding` | Dismiss (`completed: true`) or replay (`completed: false`) the first-use welcome; user responses carry `onboardingCompleted` | Admin, Member |
 | User | POST | `/users/me/password` | Change password (requires the current one) | Admin, Member |
 | Team | GET | `/users` | List the workspace's users | Admin, Member |
 | Team | GET | `/users/{userId}` | One user of the workspace | Admin, Member |
@@ -152,7 +153,7 @@ All paths are relative to `/v1`.
 | Projects | POST | `/projects/{projectId}/access-code/regenerate` | Replace the project's client access code | Admin, Member |
 | Backlog | GET | `/projects/{projectId}/backlog` | The project's stories with acceptance criteria | Admin, Member |
 | Backlog | POST | `/projects/{projectId}/exports/markdown` | Download the backlog as Markdown | Admin, Member |
-| Stories | GET | `/stories` | List stories (`project_id`, `priority`) | Admin, Member |
+| Stories | GET | `/stories` | List stories (`project_id`, `status`, `priority`, `assigned_to`) | Admin, Member |
 | Stories | POST | `/stories` | Create a story | Admin, Member |
 | Stories | GET | `/stories/by-project/{projectId}` | Stories of one project | Admin, Member |
 | Stories | GET | `/stories/{storyId}` | Story details | Admin, Member |

@@ -2,9 +2,6 @@
 
 - **Status**: Accepted
 - **Date**: 2026-08-04
-- **Updated**: 2026-08-07
-
-> **Implementation qualification:** The branching rationale is retained. The current API tag workflow publishes an image; the operator deploys separately through SSM ([ADR-023](./adr-023-credits-account-us-east-2-manual-deploy.md)). Web and docs publish through Cloudflare Builds. Approval counts and hosted protection rules below are policy intentions, not settings verified in this review.
 
 ## Context
 
@@ -14,46 +11,46 @@ The team needs a workflow that separates development integration from production
 
 ## Decision
 
-Adopt a **two-branch model (`dev` + `main`)** with **fork-based contributions**, **standard merge commits**, **Conventional Commits**, and **tag-based production deployment**.
+Adopt a **two-branch model (`dev` + `main`)** with **fork-based contributions**, **standard merge commits**, **Conventional Commits**, and **tag-based releases**.
 
 **Summary:**
 
-- **Two permanent branches**: `dev` (integration) and `main` (production). No direct pushes — all changes arrive via pull request from a fork.
+- **Two permanent branches**: `dev` (integration) and `main` (production). No direct pushes: all changes arrive via pull request from a fork.
 - **Fork workflow**: All contributors (core and external) fork the upstream repository and submit PRs from their fork. No one pushes directly to upstream.
-- **Two-tier PR flow**: Feature branches merge into `dev` (1 approval). A separate release PR promotes `dev` into `main` (2 approvals).
+- **Two-tier PR flow**: Feature branches merge into `dev`. A separate release PR promotes `dev` into `main`, with stricter review.
 - **Standard merge commits**: Preserves full feature branch history for traceability and easier rollback.
-- **Conventional Commits**: `<type>(<scope>): <description>` format enforced via CI on PR titles.
-- **Tag-based deployment**: Merge to `main` builds and freezes a production candidate. A semantic version tag (`vX.Y.Z`) on `main` triggers the production deployment pipeline.
+- **Conventional Commits**: `<type>(<scope>): <description>` format.
+- **Tag-based releases**: A semantic version tag (`vX.Y.Z`) on `main` publishes the API image to GHCR. The operator then deploys it by hand with `scripts/deploy-release.sh <tag>` ([ADR-023](./adr-023-credits-account-us-east-2-manual-deploy.md)). The web app and this documentation site are published by Cloudflare Builds from GitHub ([ADR-022](./adr-022-cloudflare-edge-instead-of-cloudfront.md)).
 
-For the full operational workflow — branch naming, fork setup, PR conventions, branch protection rules, commit types, hotfix process, and pipeline stages — see [CI/CD Pipeline Architecture](../03-architecture/ops/ci-cd-pipeline.md).
+For the full operational workflow (branch naming, fork setup, PR conventions, branch protection rules, commit types, hotfix process, and pipeline stages) see [CI/CD Pipeline Architecture](../03-architecture/ops/ci-cd-pipeline.md).
 
 ## Consequences
 
 ### Positive
 
-- Two-branch model separates integration (`dev`) from production (`main`), absorbing development churn before reaching users.
-- Two-tier PR flow (1 approval → dev, 2 approvals → main) provides increasing review rigor closer to production.
-- Fork-based model ensures consistent workflow for all contributors and prevents accidental upstream pushes.
-- Tag-based deployment creates a deliberate release gate: merge builds a candidate, tag deploys it.
+- The two-branch model separates integration (`dev`) from production (`main`), absorbing development churn before it reaches users.
+- The two-tier PR flow provides increasing review rigor closer to production.
+- The fork-based model ensures a consistent workflow for all contributors and prevents accidental upstream pushes.
+- Tagging and deploying are separate steps, so a release is a deliberate gate: a tag builds the image, a person deploys it.
 - Standard merge commits preserve traceable history and make rollback straightforward (revert a single merge commit).
-- Protected branches and CI gates prevent bad code from reaching either `dev` or `main`.
 
 ### Negative
 
-- Two-branch model adds an extra promotion step (dev → main PR) compared to trunk-based development.
+- The two-branch model adds an extra promotion step (dev → main PR) compared to trunk-based development.
 - Merge commits create noisier history than squash/rebase strategies.
-- Fork sync maintenance is required — contributors must keep their fork's `dev` current with upstream.
-- Team must learn Conventional Commits and fork workflow.
+- Fork sync maintenance is required: contributors must keep their fork's `dev` current with upstream.
+- The team must learn Conventional Commits and the fork workflow.
+- Hosted branch protection and approval counts are repository settings, not code, and are not verified by this documentation.
 
 ## Alternatives Considered
 
 ### 1. Squash Merge Strategy
 
-Considered for clean, linear commit history with single commit per PR. Not selected because it loses intermediate commit history from feature branches, making debugging harder. User preference for full history preservation.
+Considered for a clean, linear commit history with a single commit per PR. Not selected because it loses intermediate commit history from feature branches, making debugging harder.
 
 ### 2. Rebase Merge Strategy
 
-Considered for linear history without merge commits. Not selected because it rewrites commit SHAs, adds complexity for contributors unfamiliar with interactive rebase, and merge commits provide clearer integration points for rollback and bisect.
+Considered for a linear history without merge commits. Not selected because it rewrites commit SHAs, adds complexity for contributors unfamiliar with interactive rebase, and merge commits provide clearer integration points for rollback and bisect.
 
 ### 3. Single-Branch Trunk-Based Development
 

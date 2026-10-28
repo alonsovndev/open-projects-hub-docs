@@ -118,6 +118,7 @@ erDiagram
         int ai_credits_granted
         timestamptz email_verified_at
         timestamptz deactivated_at
+        timestamptz onboarding_completed_at
         timestamptz created_at
         timestamptz updated_at
     }
@@ -233,8 +234,9 @@ foreign key, so they are left out of the diagram.
 - **Indexes:** unique on `email`; `workspace_id`; `created_at`.
 - **Sessions:** `token_version` is embedded in refresh tokens. Bumping it (password reset, deactivation, forced logout) invalidates every outstanding refresh token for the user.
 - **Deactivation:** `deactivated_at` blocks sign-in without deleting the row.
+- **Onboarding (F-005):** `onboarding_completed_at` is `NULL` until the Admin dismisses the first-use welcome. Setting it back to `NULL` replays the welcome. The migration backfills existing accounts so only new sign-ups see it.
 - **Email verification (F-008):** `email_verified_at` is `NULL` until the account confirms its email, and login is refused while it is `NULL`. Self-registered accounts verify with a 5-minute code. Accounts an Admin adds verify through a 24-hour invite code and set their own password at the same time. Accounts created by the seed script are verified on creation.
-- **AI credits (F-010):** `ai_credits_remaining` and `ai_credits_granted` start at 0 for self-registered and invited accounts. Verification grants 5 credits, reserved atomically from the workspace's `ai_credits_granted_total` (ceiling 25). `granted` preserves the allocation displayed by the UI. A conditional `UPDATE ... WHERE ai_credits_remaining > 0` prevents a negative balance. Charging happens after generation: concurrent requests may both generate output before one exhausts the balance, and the other then returns a null balance for the client to reload.
+- **AI credits (F-010):** `ai_credits_remaining` and `ai_credits_granted` start at 0 for self-registered and invited accounts (the column default is 5, which only seeded and directly created accounts use). Verification grants 5 credits, reserved atomically from the workspace's `ai_credits_granted_total` (ceiling 25). `granted` preserves the allocation displayed by the UI. A conditional `UPDATE ... WHERE ai_credits_remaining > 0` prevents a negative balance. Charging happens after generation: concurrent requests may both generate output before one exhausts the balance, and the other then returns a null balance for the client to reload.
 
 ### 3. `clients`
 

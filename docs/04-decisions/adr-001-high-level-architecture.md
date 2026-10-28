@@ -3,17 +3,13 @@
 - **Status**: Accepted
 - **Date**: 2026-02-28
 
-> **Amended by [ADR-020](./adr-020-client-review-by-access-code.md) (2026-10-02):** the `viewer` role mentioned here was removed; roles are `admin` and `member`, and clients review a project through its access code.
-
-> **Implementation qualification:** The modular-monolith choice stands. The early 1–1.5-month schedule was a planning assumption later revised in the [roadmap](../02-planning/phased-roadmap.md), not a measured delivery result.
-
 ## Context
 
 The project requires an architecture that supports:
 
 - AI-assisted requirement refinement workflows,
-- strict role-based access control for Admin and Viewer,
-- maintainable boundaries for a small team delivering an MVP in 1 to 1.5 months,
+- role-based access control for Admin and Member, plus read-only client review through a project access code (ADR-020),
+- maintainable boundaries for a small team delivering an MVP,
 - future growth without premature distributed-system complexity.
 
 The team has explicit expertise in Clean Architecture and Domain-Driven Design, and requirements call for clear frontend/backend separation for scalability and maintainability.
