@@ -162,7 +162,7 @@
 - Progress state is persisted and restored reliably across sessions.
 - Completion state transitions are test-covered and predictable.
 
-**Implementation Notes** (merged to `dev`):
+**Implementation Notes** (released in API v0.2.0 and web v0.3.0):
 
 - The step-by-step tracker stays deferred. FR-005-03 (first-login detection) is met by a single flag instead: `users.onboarding_completed_at`, `NULL` until the Admin dismisses the welcome. Accounts that existed before the migration are backfilled so only new sign-ups see it.
 - `PATCH /v1/users/me/onboarding` with `{completed: boolean}` dismisses (`true`) or replays (`false`) the welcome and returns the user. `GET /v1/users/me/profile` exposes `onboardingCompleted`.
@@ -309,7 +309,7 @@
 - Users can complete onboarding with clear progress and feedback states.
 - Frontend onboarding state remains synchronized with backend progress data.
 
-**Implementation Notes** (merged to `dev`):
+**Implementation Notes** (released in API v0.2.0 and web v0.3.0):
 
 - Scope is the minimal path: one welcome modal, not a multi-step tour. FR-005-02 asks for dismissible tooltips; the modal carries the AI Refinement tip instead, so anchored tooltips remain open.
 - Progress tracking and resume were dropped with US-EP8-BE-001.
@@ -356,7 +356,7 @@
 - Landing page clearly routes users to auth entry points across mobile and desktop.
 - Rendering and interaction behavior meets documented baseline expectations.
 
-**Implementation Notes** (merged to `dev`):
+**Implementation Notes** (released in API v0.2.0 and web v0.3.0):
 
 - The header, hero, and closing section now send "Create Account" straight to `/register`, replacing the "Get Started" hop through `/role-selection`. This meets FR-006-02 ("without additional steps"). "Log In" was already direct, and clients still enter through the page's "Enter Access Code" button.
 - `/role-selection` remains a route but the landing page no longer links to it.
