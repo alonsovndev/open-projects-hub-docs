@@ -354,8 +354,8 @@
 **Requirements**: n/a (release effort for F-011)
 
 **As a** Tech Lead,
-**I want to** promote F-011 (Viewer Account Management) to production through the tag-triggered release pipeline,
-**So that** Viewer Account Management reaches users in a verifiable, observable, and reversible release.
+**I want to** promote F-011 (Client Review Access) to production through the tag-triggered release pipeline,
+**So that** Client Review Access reaches users in a verifiable, observable, and reversible release.
 
 **Acceptance Criteria**:
 
@@ -364,7 +364,7 @@
 - [ ] Given pending Alembic migrations for F-011, when they are reviewed, then they are confirmed backward-compatible with the currently running version.
 - [ ] Given the semver impact is assessed, when the version is decided, then `package.json` / `pyproject.toml` are bumped (MINOR for a new feature) and `CHANGELOG.md` records the change.
 - [ ] Given a `vX.Y.Z` tag is pushed on `main`, when the release workflow runs, then the API image is built and pushed to GHCR, an operator deploys it with `scripts/deploy-release.sh`, and the frontend is published by Cloudflare Builds from `main`.
-- [ ] Given the deployment completes, when the post-deploy smoke test runs against production, then an Admin invites a Viewer, the Viewer accepts and sets a password, and sees only granted projects succeeds.
+- [ ] Given the deployment completes, when the post-deploy smoke test runs against production, then an Admin copies a project's client link, the link opens `/viewer/:accessCode` without signing in and shows only that project's approved stories, and regenerating the code makes the old one return not found.
 - [ ] Given the release is live, when Sentry is checked, then a release exists for the commit SHA, source maps are uploaded, and release health is compared against the pre-deployment error baseline.
 - [ ] Given a regression is detected after release, when rollback is required, then the documented path is followed (redeploy the previous tag with `scripts/deploy-release.sh`; fix-forward is the default).
 
@@ -372,7 +372,7 @@
 
 - Release PR `dev` -> `main` covering F-011 with green required checks, merged with a real merge commit.
 - Version bump, `CHANGELOG.md` entry, and `vX.Y.Z` tag pushed on `main`.
-- Production smoke test covering an Admin invites a Viewer, the Viewer accepts and sets a password, and sees only granted projects.
+- Production smoke test covering the client link opening the account-free Client Review page, and the old code failing after regeneration.
 - Sentry release created when a Sentry DSN is configured (optional).
 - GitHub release notes published describing the F-011 change.
 
@@ -389,3 +389,5 @@
 - F-011 is live in production behind a `vX.Y.Z` tag with zero manual infrastructure steps.
 - Post-release error rate stays within the pre-deployment baseline for the first 24 hours.
 - Rollback path is verified as documented and executable.
+
+**Implementation Notes** (as built): the stories of this epic were superseded, so Client Review has no active feature story. It is implemented as the web `features/viewer` module (`/viewer`, `/viewer/:accessCode`), the API `GET /v1/viewer/{accessCode}`, and the project access-code controls (copy client link, regenerate) in the project edit dialog. This release story is the only active record of that scope.

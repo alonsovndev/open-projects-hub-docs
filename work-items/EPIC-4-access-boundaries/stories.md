@@ -40,6 +40,8 @@
 - Role-based UX behavior is validated for clarity and consistency.
 - Design artifacts support accessible handoff for implementation.
 
+**Implementation Notes** (as built): Viewer accounts and the invitation login described above were replaced by the Member role and account-free Client Review (ADR-020). Treat "Viewer" in this story as the Client Review reader.
+
 ---
 
 ## Backend Engineer
@@ -123,6 +125,11 @@
 
 - Role-specific UI controls are shown or hidden correctly across flows.
 - Frontend access behavior remains aligned with backend RBAC policy.
+
+**Implementation Notes** (as built):
+
+- The roles are Admin and Member; there are no Viewer accounts (see ADR-020). The "Viewer" criteria above are met by the account-free Client Review page at `/viewer/:accessCode`, which has no edit or export controls.
+- Role-based rendering also covers screens that have no story of their own: the Team tab (add, activate, deactivate and delete members, Admin only) and the Workspace tab (rename, Admin only) under Settings, built for FR-003-01 and FR-003-02.
 
 ---
 

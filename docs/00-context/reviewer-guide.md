@@ -110,6 +110,7 @@ Share the project's access code with the client. In Client Review, confirm the a
 
 Sign in at https://oph.alonsovndev.com with the test user credentials from the submission form (they are not published in this repository). Its workspace holds sample data (3 clients, 6 projects, 20 stories). Four projects are active, so creating a project reports the three-active-project limit until one is completed or archived. The account has 5 AI credits.
 
+- To see the first-use welcome, register a new account (existing accounts, including the test user, were marked as onboarded), or open Settings > Profile and choose "Reset onboarding" and return to the dashboard.
 - Create a client and project; verify the limit of three active projects per workspace.
 - Generate candidate stories using an available provider or the documented local mock service.
 - Edit a candidate story and verify it is absent from the backlog before approval.

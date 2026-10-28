@@ -20,10 +20,10 @@
 
 **Acceptance Criteria**:
 
-- [ ] Given a transactional email request, when sent, then it is delivered within 30 seconds (95% of cases).
-- [ ] Given a failed delivery attempt, when retry logic executes, then it retries 3 times with exponential backoff.
-- [ ] Given an account sends emails, when rate exceeds 10/hour, then additional requests are throttled with user feedback.
-- [ ] Given a delivery failure, when all retries exhausted, then the failure is logged and the user receives actionable feedback.
+- [ ] Given a transactional email request, when sent, then it is delivered within 30 seconds (95% of cases). (Not measured.)
+- [x] Given a failed delivery attempt, when retry logic executes, then it retries 3 times with exponential backoff.
+- [x] Given an account sends emails, when rate exceeds 10/hour, then additional requests are throttled with user feedback.
+- [x] Given a delivery failure, when all retries exhausted, then the failure is logged and the account can request a new code. (The user is not told the send failed: a distinct response would reveal which addresses are registered.)
 
 **Deliverables**:
 
@@ -39,6 +39,13 @@
 
 - 95% of emails delivered within 30 seconds under normal load.
 - Core email logic is covered by automated tests.
+
+
+**Implementation Notes** (API v0.2.0):
+
+- `SmtpEmailSender` retries connection and timeout errors 3 times with exponential backoff (`retry_on_exception`). Rejected logins and recipients are not retried.
+- At most 10 verification codes and 10 reset codes can be issued per account per hour, on top of the limit per 15 minutes. The request is refused with the existing `429` "Too many code requests" response.
+- The 30-second delivery target is not measured. Only verification and reset emails exist, so the "Viewer invitation" wording in the story no longer applies.
 
 ---
 
@@ -129,7 +136,7 @@
 **Issue Type**: Story
 **Priority**: Must Have
 **Effort Estimate**: 3
-**Status**: TODO
+**Status**: DONE
 **Fix Version**: MVP-1
 **Labels**: backend, quality, nfr, privacy
 **Requirements**: NFR-X02, NFR-001-01
@@ -140,9 +147,9 @@
 
 **Acceptance Criteria**:
 
-- [ ] Given a deleted project, when Admin or Viewer accesses it, then access is denied with 404 or equivalent.
-- [ ] Given an archived project, when querying active projects, then it is excluded from the active-project limit.
-- [ ] Given a project deletion request, when executed, then all associated data is marked inaccessible within 24 hours.
+- [x] Given a deleted project, when Admin or Viewer accesses it, then access is denied with 404 or equivalent.
+- [x] Given an archived project, when querying active projects, then it is excluded from the active-project limit.
+- [x] Given a project deletion request, when executed, then all associated data is marked inaccessible within 24 hours.
 
 **Deliverables**:
 
@@ -158,6 +165,13 @@
 
 - Deleted projects are fully inaccessible within 24 hours.
 - Archived projects do not count toward active-project limits.
+
+
+**Implementation Notes**:
+
+- Deleting a project removes it and its data immediately (a hard delete with cascade), which satisfies the 24-hour window. Reads are workspace-scoped, so a deleted or foreign project returns 404.
+- Archived projects are excluded from the active-project count. Archiving does not revoke the Client Review access code; regenerating the code does.
+- Status set after reading the delete, archive and limit use cases and their tests (`test_delete_project`, `test_archive_project`, `test_active_project_limit`); those tests were not re-run for this change.
 
 ---
 
@@ -202,6 +216,12 @@
 
 - Core application logic coverage trends at or above 70%.
 - Every PR shows a coverage delta, making regressions visible at review time.
+
+**Implementation Notes** (as built; status left DONE, the criteria marked above are not all met):
+
+- API CI runs Ruff, Bandit, the non-integration pytest suite and a migration apply/rollback. mypy runs with `continue-on-error` and `strict = false`, so type errors do not fail the check.
+- No CI job posts a coverage comment or delta for the API or the web app, checks pull-request titles against Conventional Commits, or scans dependencies for vulnerabilities (Dependabot configuration exists). Integration tests are excluded from CI.
+- See [evidence and limitations](../../docs/00-context/evidence-and-limitations.md) and the [CI/CD pipeline](../../docs/03-architecture/ops/ci-cd-pipeline.md) page for the configured checks.
 
 ---
 
@@ -324,6 +344,8 @@
 
 - Viewer isolation and provider fallback are both covered end to end.
 - No false-positive failures across 10 consecutive CI runs.
+
+**Implementation Notes** (as built): the Viewer-invitation journey no longer exists. Client access is an account-free access code, so the isolation scenario to cover is: a project's code opens only that project's approved stories, and regenerating the code makes the old one return not found. No Playwright spec covers this yet, and web CI does not run Playwright.
 
 ---
 

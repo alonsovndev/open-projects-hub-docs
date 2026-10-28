@@ -41,6 +41,12 @@
 - Backend lint, format, and type checks pass from a single configuration.
 - Local and CI results agree.
 
+**Implementation Notes** (as built; status left DONE, the criteria marked above are not all met):
+
+- API CI runs Ruff, Bandit, the non-integration pytest suite and a migration apply/rollback. mypy runs with `continue-on-error` and `strict = false`, so type errors do not fail the check.
+- No CI job posts a coverage comment or delta for the API or the web app, checks pull-request titles against Conventional Commits, or scans dependencies for vulnerabilities (Dependabot configuration exists). Integration tests are excluded from CI.
+- See [evidence and limitations](../../docs/00-context/evidence-and-limitations.md) and the [CI/CD pipeline](../../docs/03-architecture/ops/ci-cd-pipeline.md) page for the configured checks.
+
 ---
 
 ### US-EP12-BE-002: Pre-commit Hooks with Secret Detection
@@ -126,6 +132,12 @@
 
 - Non-conforming pull requests cannot merge.
 - Quality workflow runtime stays within the CI target.
+
+**Implementation Notes** (as built; status left DONE, the criteria marked above are not all met):
+
+- API CI runs Ruff, Bandit, the non-integration pytest suite and a migration apply/rollback. mypy runs with `continue-on-error` and `strict = false`, so type errors do not fail the check.
+- No CI job posts a coverage comment or delta for the API or the web app, checks pull-request titles against Conventional Commits, or scans dependencies for vulnerabilities (Dependabot configuration exists). Integration tests are excluded from CI.
+- See [evidence and limitations](../../docs/00-context/evidence-and-limitations.md) and the [CI/CD pipeline](../../docs/03-architecture/ops/ci-cd-pipeline.md) page for the configured checks.
 
 ---
 
@@ -294,3 +306,9 @@
 
 - Every pull request shows a coverage figure and delta.
 - No merge is blocked by a coverage threshold.
+
+**Implementation Notes** (as built; status left DONE, the criteria marked above are not all met):
+
+- API CI runs Ruff, Bandit, the non-integration pytest suite and a migration apply/rollback. mypy runs with `continue-on-error` and `strict = false`, so type errors do not fail the check.
+- No CI job posts a coverage comment or delta for the API or the web app, checks pull-request titles against Conventional Commits, or scans dependencies for vulnerabilities (Dependabot configuration exists). Integration tests are excluded from CI.
+- See [evidence and limitations](../../docs/00-context/evidence-and-limitations.md) and the [CI/CD pipeline](../../docs/03-architecture/ops/ci-cd-pipeline.md) page for the configured checks.

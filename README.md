@@ -62,7 +62,7 @@ Requirements behind each feature: [F-001 to F-011](./docs/01-requirements/).
 | Infrastructure    | Terraform, AWS EC2 + Docker Compose + Caddy, AWS SSM Parameter Store, Cloudflare (Workers, DNS, proxy), Resend (email) |
 | Quality and CI/CD | Ruff, mypy, Bandit, pytest, ESLint, Vitest, React Testing Library, Playwright, GitHub Actions, GHCR                    |
 | Observability     | Sentry (API and web)                                                                                                   |
-| Documentation     | Docusaurus, Mermaid, 24 ADRs                                                                                           |
+| Documentation     | Docusaurus, Mermaid, 23 ADRs                                                                                           |
 
 Rationale for each choice: [technology stack](./docs/03-architecture/core/technology-stack.md) and the [decision log](./docs/04-decisions/README.md).
 
@@ -138,7 +138,7 @@ API releases are tagged `vX.Y.Z` and built into a GHCR image by GitHub Actions, 
 | [Functional requirements](./docs/01-requirements/) | Feature-level requirements (F-001 to F-011)                                                       |
 | [Planning](./docs/02-planning/)                    | Phased roadmap and role mapping                                                                   |
 | [Architecture](./docs/03-architecture/)            | System design, API, database, security, operations                                                |
-| [Decisions (ADRs)](./docs/04-decisions/)           | 24 architecture decision records                                                                  |
+| [Decisions (ADRs)](./docs/04-decisions/)           | 23 architecture decision records                                                                  |
 | [Prototype and UX](./docs/05-prototype/)           | Design direction and screens                                                                      |
 
 ## Links
