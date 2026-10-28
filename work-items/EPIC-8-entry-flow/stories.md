@@ -162,7 +162,7 @@
 - Progress state is persisted and restored reliably across sessions.
 - Completion state transitions are test-covered and predictable.
 
-**Implementation Notes** (branch `feature/ep8-minimal-onboarding`, not yet merged):
+**Implementation Notes** (merged to `dev`):
 
 - The step-by-step tracker stays deferred. FR-005-03 (first-login detection) is met by a single flag instead: `users.onboarding_completed_at`, `NULL` until the Admin dismisses the welcome. Accounts that existed before the migration are backfilled so only new sign-ups see it.
 - `PATCH /v1/users/me/onboarding` with `{completed: boolean}` dismisses (`true`) or replays (`false`) the welcome and returns the user. `GET /v1/users/me/profile` exposes `onboardingCompleted`.
@@ -276,7 +276,7 @@
 **Issue Type**: Story
 **Priority**: Should Have
 **Effort Estimate**: 5
-**Status**: IN PROGRESS
+**Status**: DONE
 **Fix Version**: Phase 1
 **Labels**: frontend, onboarding, entry-flow
 **Requirements**: FR-005-01, FR-005-02, NFR-005-01
@@ -309,11 +309,11 @@
 - Users can complete onboarding with clear progress and feedback states.
 - Frontend onboarding state remains synchronized with backend progress data.
 
-**Implementation Notes** (branch `feature/ep8-minimal-onboarding`, not yet merged):
+**Implementation Notes** (merged to `dev`):
 
 - Scope is the minimal path: one welcome modal, not a multi-step tour. FR-005-02 asks for dismissible tooltips; the modal carries the AI Refinement tip instead, so anchored tooltips remain open.
 - Progress tracking and resume were dropped with US-EP8-BE-001.
-- The web tests are written but had not been run when this note was written: the local Node (20.12.2) is older than the 22 the repo requires.
+- Unit tests for the welcome and the reset control run in web CI. No e2e spec covers the welcome yet.
 
 ---
 
@@ -356,11 +356,11 @@
 - Landing page clearly routes users to auth entry points across mobile and desktop.
 - Rendering and interaction behavior meets documented baseline expectations.
 
-**Implementation Notes** (branch `feature/ep8-minimal-onboarding`, not yet merged):
+**Implementation Notes** (merged to `dev`):
 
 - The header, hero, and closing section now send "Create Account" straight to `/register`, replacing the "Get Started" hop through `/role-selection`. This meets FR-006-02 ("without additional steps"). "Log In" was already direct, and clients still enter through the page's "Enter Access Code" button.
 - `/role-selection` remains a route but the landing page no longer links to it.
-- The 2-second render criterion is still unmeasured, and the home e2e specs were updated but not run on the machine that made the change (local Node older than the required 22).
+- The 2-second render criterion is still unmeasured. The home e2e specs were updated for the new CTAs but web CI does not run Playwright, so they have not been run.
 
 ---
 
