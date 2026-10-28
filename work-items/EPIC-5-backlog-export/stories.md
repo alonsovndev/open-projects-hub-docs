@@ -250,6 +250,11 @@
 - Non-technical reviewers confirm the backlog is readable without help.
 - Reordered priorities survive reload and appear in exports.
 
+**Implementation Notes** (as built):
+
+- The backlog view renders the approved stories. Manual reordering (FR-004-03, Should) is deferred: there is no drag or sort interaction and the API has no `sort_order`, so the reorder criterion above is not met.
+- The export scope selector for FR-004-04 (status and date range) has no UI; the export covers one whole project.
+
 ---
 
 ## Release

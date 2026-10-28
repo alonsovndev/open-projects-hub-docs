@@ -125,6 +125,7 @@ All paths are relative to `/v1`.
 | Auth | POST | `/auth/reset-password` | Submit the reset code and a new password | Public |
 | User | GET | `/users/me/profile` | Current user's profile | Admin, Member |
 | User | PATCH | `/users/me/profile` | Update display name | Admin, Member |
+| User | PATCH | `/users/me/onboarding` | Dismiss (`completed: true`) or replay (`completed: false`) the first-use welcome; user responses carry `onboardingCompleted` | Admin, Member |
 | User | POST | `/users/me/password` | Change password (requires the current one) | Admin, Member |
 | Team | GET | `/users` | List the workspace's users | Admin, Member |
 | Team | GET | `/users/{userId}` | One user of the workspace | Admin, Member |
@@ -152,7 +153,7 @@ All paths are relative to `/v1`.
 | Projects | POST | `/projects/{projectId}/access-code/regenerate` | Replace the project's client access code | Admin, Member |
 | Backlog | GET | `/projects/{projectId}/backlog` | The project's stories with acceptance criteria | Admin, Member |
 | Backlog | POST | `/projects/{projectId}/exports/markdown` | Download the backlog as Markdown | Admin, Member |
-| Stories | GET | `/stories` | List stories (`project_id`, `priority`) | Admin, Member |
+| Stories | GET | `/stories` | List stories (`project_id`, `status`, `priority`, `assigned_to`) | Admin, Member |
 | Stories | POST | `/stories` | Create a story | Admin, Member |
 | Stories | GET | `/stories/by-project/{projectId}` | Stories of one project | Admin, Member |
 | Stories | GET | `/stories/{storyId}` | Story details | Admin, Member |

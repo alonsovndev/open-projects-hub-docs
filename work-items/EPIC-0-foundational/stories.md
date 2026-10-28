@@ -290,6 +290,12 @@
 - Test coverage baseline established and reported against the 70% target.
 - Linting, type-check, and security checks block non-conforming PRs; coverage is reported, not blocking.
 
+**Implementation Notes** (as built; status left DONE, the criteria marked above are not all met):
+
+- API CI runs Ruff, Bandit, the non-integration pytest suite and a migration apply/rollback. mypy runs with `continue-on-error` and `strict = false`, so type errors do not fail the check.
+- No CI job posts a coverage comment or delta for the API or the web app, checks pull-request titles against Conventional Commits, or scans dependencies for vulnerabilities (Dependabot configuration exists). Integration tests are excluded from CI.
+- See [evidence and limitations](../../docs/00-context/evidence-and-limitations.md) and the [CI/CD pipeline](../../docs/03-architecture/ops/ci-cd-pipeline.md) page for the configured checks.
+
 ---
 
 ### US-EP0-BE-004: API Documentation Foundation and Contract Definition

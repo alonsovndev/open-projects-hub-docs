@@ -25,6 +25,15 @@ These requirements record the design baseline. “Clarified” describes specifi
 | FR-005-02 | User can dismiss onboarding tooltips permanently via settings or temporarily via X button.                 | User control                | Should   | Product Owner | —                            | Tooltips have X button; dismissal persisted; settings page has "Reset onboarding" option; dismissed tooltips don't reappear.           | Clarified |
 | FR-005-03 | System detects first login after email verification (F-008) and triggers onboarding flow.                  | Trigger logic               | Must     | Product Owner | —                            | First-login flag set after F-008 email verification completion; onboarding triggered on first F-007 login; flag cleared after onboarding shown. | Clarified |
 
+## Implementation note
+
+The current system meets FR-005-01 and FR-005-03 with a different shape than the criteria describe:
+
+- **Welcome, not tooltips.** A single welcome modal is shown on the dashboard to workspace Admins who have not dismissed it. It carries the AI refinement guidance; there are no anchored tooltips, so the "at least one tooltip" criterion of FR-005-01 and the X-button-per-tooltip wording of FR-005-02 are not met literally.
+- **A timestamp, not a cleared flag.** `users.onboarding_completed_at` is `NULL` until the Admin dismisses the welcome (`PATCH /v1/users/me/onboarding`). Existing accounts were backfilled as completed when the column was added. Instead of clearing a flag after showing, the welcome stays until it is dismissed.
+- **Dismissal is persisted and reversible.** The Settings page has a "Reset onboarding" control, which meets the persistence and reset parts of FR-005-02.
+- **No step tracker.** US-EP8-BE-001 (resumable progress) was deferred.
+
 ## Feature-Scoped Non-Functional Requirements
 
 | ID         | Requirement                                                     | Metric / Target                                                                                                        | Priority | Owner (DRI)   | Decision Traceability (Q-ID) | Status |
