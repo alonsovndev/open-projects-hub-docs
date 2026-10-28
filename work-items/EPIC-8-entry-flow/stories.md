@@ -162,6 +162,11 @@
 - Progress state is persisted and restored reliably across sessions.
 - Completion state transitions are test-covered and predictable.
 
+**Implementation Notes** (branch `feature/ep8-minimal-onboarding`, not yet merged):
+
+- The step-by-step tracker stays deferred. FR-005-03 (first-login detection) is met by a single flag instead: `users.onboarding_completed_at`, `NULL` until the Admin dismisses the welcome. Accounts that existed before the migration are backfilled so only new sign-ups see it.
+- `PATCH /v1/users/me/onboarding` with `{completed: boolean}` dismisses (`true`) or replays (`false`) the welcome and returns the user. `GET /v1/users/me/profile` exposes `onboardingCompleted`.
+
 ---
 
 ### US-EP8-BE-002: Account Registration and Validation API
@@ -186,7 +191,7 @@
 - [x] Given invalid or weak credentials, when registration is attempted, then the API rejects the request with safe, actionable errors.
 - [x] Given duplicate account input, when registration is attempted, then the API responds with non-sensitive guidance and does not expose internal state.
 
-**Implementation Notes** (branches `feature/ep8-self-signup-email-verification` and `feature/ep4-workspace-tenancy`, not yet merged):
+**Implementation Notes** (merged to `main`):
 
 - `POST /v1/auth/register` returns 201 `{email (masked), verificationRequired, nextStep: "verify-email", codeExpiresAt}` and no tokens.
 - Registration is now **open**: each sign-up creates a new workspace (the tenant boundary that owns clients and projects) and makes the account its Admin. This was unblocked by EP4 (workspace tenancy — see `docs/03-architecture/database/database-design.md` and F-003), which isolates every client, project, story and draft by `workspace_id`, so a stranger's sign-up can no longer see or edit another Admin's data.
@@ -236,7 +241,7 @@
 - [x] Given a correct code is submitted in time, when validation succeeds, then the account is activated and the code is invalidated.
 - [x] Given a stored verification code, when the datastore is inspected, then only a hashed representation is present.
 
-**Implementation Notes** (branch `feature/ep8-self-signup-email-verification`, not yet merged):
+**Implementation Notes** (merged to `main`):
 
 - Codes use `23456789ABCDEFGHJKLMNPQRSTUVWXYZ` (6 characters), are bcrypt-hashed in `email_verification_codes`, and expire after 5 minutes. They are sent over SMTP through Resend.
 - Resend allows 4 codes per 15 minutes (the registration code plus 3 resends). 5 wrong attempts lock the code until a new one is requested. Lockout duration: TBD.
@@ -271,7 +276,7 @@
 **Issue Type**: Story
 **Priority**: Should Have
 **Effort Estimate**: 5
-**Status**: DONE
+**Status**: IN PROGRESS
 **Fix Version**: Phase 1
 **Labels**: frontend, onboarding, entry-flow
 **Requirements**: FR-005-01, FR-005-02, NFR-005-01
@@ -282,15 +287,17 @@
 
 **Acceptance Criteria**:
 
-- [ ] Given the onboarding UI, when a step is completed, then progress is saved.
-- [ ] Given the onboarding UI, when onboarding is resumed, then the last completed step is shown.
-- [ ] Given the onboarding UI, when onboarding is completed, then a success message is displayed.
+- [x] Given an Admin who has not completed onboarding, when the dashboard opens, then a welcome with the suggested first steps, including AI Refinement, is shown.
+- [x] Given the welcome, when the Admin dismisses it, then the dismissal is saved and the welcome is not shown again.
+- [x] Given an Admin in Settings, when they choose "Reset onboarding", then the welcome is shown again on the dashboard.
+- [x] Given a Member, when the dashboard opens, then no welcome is shown.
+- [ ] Given the welcome, when it is audited, then it meets WCAG 2.1 AA (TBD).
 
 **Deliverables**:
 
-- Onboarding UI with progress tracking.
-- Success and error feedback for onboarding tasks.
-- Unit tests for onboarding UI logic.
+- Welcome modal on the dashboard and a "Reset onboarding" control in Settings.
+- Error feedback when the dismissal or reset cannot be saved.
+- Unit tests for the welcome and the reset control.
 
 **Dependencies**:
 
@@ -301,6 +308,12 @@
 
 - Users can complete onboarding with clear progress and feedback states.
 - Frontend onboarding state remains synchronized with backend progress data.
+
+**Implementation Notes** (branch `feature/ep8-minimal-onboarding`, not yet merged):
+
+- Scope is the minimal path: one welcome modal, not a multi-step tour. FR-005-02 asks for dismissible tooltips; the modal carries the AI Refinement tip instead, so anchored tooltips remain open.
+- Progress tracking and resume were dropped with US-EP8-BE-001.
+- The web tests are written but had not been run when this note was written: the local Node (20.12.2) is older than the 22 the repo requires.
 
 ---
 
@@ -323,7 +336,7 @@
 **Acceptance Criteria**:
 
 - [ ] Given the public landing page, when it loads, then value proposition and MVP feature summary are visible.
-- [ ] Given a visitor on the landing page, when they click primary CTAs, then login and account creation routes open correctly.
+- [x] Given a visitor on the landing page, when they click primary CTAs, then login and account creation routes open correctly.
 - [ ] Given standard MVP load assumptions, when the page renders, then initial content is visible within 2 seconds.
 
 **Deliverables**:
@@ -342,6 +355,12 @@
 
 - Landing page clearly routes users to auth entry points across mobile and desktop.
 - Rendering and interaction behavior meets documented baseline expectations.
+
+**Implementation Notes** (branch `feature/ep8-minimal-onboarding`, not yet merged):
+
+- The header, hero, and closing section now send "Create Account" straight to `/register`, replacing the "Get Started" hop through `/role-selection`. This meets FR-006-02 ("without additional steps"). "Log In" was already direct, and clients still enter through the page's "Enter Access Code" button.
+- `/role-selection` remains a route but the landing page no longer links to it.
+- The 2-second render criterion is still unmeasured, and the home e2e specs were updated but not run on the machine that made the change (local Node older than the required 22).
 
 ---
 
@@ -367,7 +386,7 @@
 - [x] Given invalid input, when the form is submitted, then inline validation feedback is shown with clear remediation.
 - [x] Given backend registration errors, when returned, then the UI shows non-sensitive, actionable error messaging.
 
-**Implementation Notes** (branch `feature/ep8-self-signup-email-verification`, not yet merged):
+**Implementation Notes** (merged to `main`):
 
 - A successful registration routes to `/verify-email` with the email and code expiry in router state.
 
@@ -415,7 +434,7 @@
 - [x] Given successful verification, when it completes, then the user is routed to login or onboarding.
 - [ ] Given the screen, when navigated by keyboard and screen reader, then it meets WCAG 2.1 AA expectations.
 
-**Implementation Notes** (branch `feature/ep8-self-signup-email-verification`, not yet merged):
+**Implementation Notes** (merged to `main`):
 
 - `/verify-email` shows the code expiry time, inline `role="alert"` errors, and a resend control with the 3-per-15-minutes limit explained. Success routes to `/login` with a confirmation message.
 - An expired code gets the same "Invalid or expired verification code" message as a wrong one, so the API reveals nothing more; the resend control is always shown.
@@ -466,7 +485,7 @@
 - [ ] Given pending Alembic migrations for F-005, when they are reviewed, then they are confirmed backward-compatible with the currently running version.
 - [ ] Given the semver impact is assessed, when the version is decided, then `package.json` / `pyproject.toml` are bumped (MINOR for a new feature) and `CHANGELOG.md` records the change.
 - [ ] Given a `vX.Y.Z` tag is pushed on `main`, when the release workflow runs, then the API image is built and pushed to GHCR, an operator deploys it with `scripts/deploy-release.sh`, and the frontend is published by Cloudflare Builds from `main`.
-- [ ] Given the deployment completes, when the post-deploy smoke test runs against production, then a first-time Admin sees the welcome guidance and can dismiss tooltips permanently succeeds.
+- [ ] Given the deployment completes, when the post-deploy smoke test runs against production, then a first-time Admin sees the welcome, dismissing it keeps it hidden after a reload, and "Reset onboarding" in Settings brings it back.
 - [ ] Given the release is live, when Sentry is checked, then a release exists for the commit SHA, source maps are uploaded, and release health is compared against the pre-deployment error baseline.
 - [ ] Given a regression is detected after release, when rollback is required, then the documented path is followed (redeploy the previous tag with `scripts/deploy-release.sh`; fix-forward is the default).
 
@@ -474,7 +493,7 @@
 
 - Release PR `dev` -> `main` covering F-005 with green required checks, merged with a real merge commit.
 - Version bump, `CHANGELOG.md` entry, and `vX.Y.Z` tag pushed on `main`.
-- Production smoke test covering a first-time Admin sees the welcome guidance and can dismiss tooltips permanently.
+- Production smoke test covering a first-time Admin seeing the welcome, dismissing it persistently, and replaying it from Settings.
 - Sentry release created when a Sentry DSN is configured (optional).
 - GitHub release notes published describing the F-005 change.
 
@@ -517,7 +536,7 @@
 - [ ] Given pending Alembic migrations for F-006, when they are reviewed, then they are confirmed backward-compatible with the currently running version.
 - [ ] Given the semver impact is assessed, when the version is decided, then `package.json` / `pyproject.toml` are bumped (MINOR for a new feature) and `CHANGELOG.md` records the change.
 - [ ] Given a `vX.Y.Z` tag is pushed on `main`, when the release workflow runs, then the API image is built and pushed to GHCR, an operator deploys it with `scripts/deploy-release.sh`, and the frontend is published by Cloudflare Builds from `main`.
-- [ ] Given the deployment completes, when the post-deploy smoke test runs against production, then the landing page renders its value proposition and both CTAs route correctly succeeds.
+- [ ] Given the deployment completes, when the post-deploy smoke test runs against production, then the landing page renders its value proposition, "Log In" opens `/login`, and "Create Account" opens `/register`.
 - [ ] Given the release is live, when Sentry is checked, then a release exists for the commit SHA, source maps are uploaded, and release health is compared against the pre-deployment error baseline.
 - [ ] Given a regression is detected after release, when rollback is required, then the documented path is followed (redeploy the previous tag with `scripts/deploy-release.sh`; fix-forward is the default).
 
@@ -525,7 +544,7 @@
 
 - Release PR `dev` -> `main` covering F-006 with green required checks, merged with a real merge commit.
 - Version bump, `CHANGELOG.md` entry, and `vX.Y.Z` tag pushed on `main`.
-- Production smoke test covering the landing page renders its value proposition and both CTAs route correctly.
+- Production smoke test covering the landing page's value proposition and its direct "Log In" and "Create Account" CTAs.
 - Sentry release created when a Sentry DSN is configured (optional).
 - GitHub release notes published describing the F-006 change.
 
