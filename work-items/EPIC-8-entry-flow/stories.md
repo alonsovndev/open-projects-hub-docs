@@ -469,7 +469,7 @@
 **Issue Type**: Task
 **Priority**: Should Have
 **Effort Estimate**: 2
-**Status**: TODO
+**Status**: DONE
 **Fix Version**: Phase 1
 **Labels**: release, deployment, onboarding
 **Requirements**: n/a (release effort for F-005)
@@ -480,12 +480,12 @@
 
 **Acceptance Criteria**:
 
-- [ ] Given every F-005 story in this epic is complete on `dev`, when the release PR to `main` is opened, then the required status checks (lint, test, type-check, build) pass and the PR is merged with a real merge commit.
-- [ ] Given the release PR is merged, when the release pipeline completes, then `main` holds the release candidate and nothing is deployed yet.
-- [ ] Given pending Alembic migrations for F-005, when they are reviewed, then they are confirmed backward-compatible with the currently running version.
-- [ ] Given the semver impact is assessed, when the version is decided, then `package.json` / `pyproject.toml` are bumped (MINOR for a new feature) and `CHANGELOG.md` records the change.
-- [ ] Given a `vX.Y.Z` tag is pushed on `main`, when the release workflow runs, then the API image is built and pushed to GHCR, an operator deploys it with `scripts/deploy-release.sh`, and the frontend is published by Cloudflare Builds from `main`.
-- [ ] Given the deployment completes, when the post-deploy smoke test runs against production, then a first-time Admin sees the welcome, dismissing it keeps it hidden after a reload, and "Reset onboarding" in Settings brings it back.
+- [x] Given every F-005 story in this epic is complete on `dev`, when the release PR to `main` is opened, then the required status checks (lint, test, type-check, build) pass and the PR is merged with a real merge commit.
+- [x] Given the release PR is merged, when the release pipeline completes, then `main` holds the release candidate and nothing is deployed yet.
+- [x] Given pending Alembic migrations for F-005, when they are reviewed, then they are confirmed backward-compatible with the currently running version.
+- [x] Given the semver impact is assessed, when the version is decided, then `package.json` / `pyproject.toml` are bumped (MINOR for a new feature) and `CHANGELOG.md` records the change.
+- [x] Given a `vX.Y.Z` tag is pushed on `main`, when the release workflow runs, then the API image is built and pushed to GHCR, an operator deploys it with `scripts/deploy-release.sh`, and the frontend is published by Cloudflare Builds from `main`.
+- [x] Given the deployment completes, when the post-deploy smoke test runs against production, then a first-time Admin sees the welcome, dismissing it keeps it hidden after a reload, and "Reset onboarding" in Settings brings it back.
 - [ ] Given the release is live, when Sentry is checked, then a release exists for the commit SHA, source maps are uploaded, and release health is compared against the pre-deployment error baseline.
 - [ ] Given a regression is detected after release, when rollback is required, then the documented path is followed (redeploy the previous tag with `scripts/deploy-release.sh`; fix-forward is the default).
 
@@ -511,6 +511,14 @@
 - Post-release error rate stays within the pre-deployment baseline for the first 24 hours.
 - Rollback path is verified as documented and executable.
 
+**Implementation Notes** (released 2026-10-27):
+
+- Released as API v0.2.0 (`6fbe566`, [PR #37](https://github.com/alonsovndev/open-projects-hub-api/pull/37), deployed with `scripts/deploy-release.sh`; the new onboarding route answers `401` in production), web v0.3.0 (`be41cba`, [PR #45](https://github.com/alonsovndev/open-projects-hub-web/pull/45), published by Cloudflare Builds) and the documentation ([PR #49](https://github.com/alonsovndev/open-projects-hub-docs/pull/49)). GitHub releases: [API v0.2.0](https://github.com/alonsovndev/open-projects-hub-api/releases/tag/v0.2.0), [web v0.3.0](https://github.com/alonsovndev/open-projects-hub-web/releases/tag/v0.3.0).
+- Migration `0002` only adds a nullable column and sets it for existing users, so the previous code keeps working with it; CI applies it and rolls it back.
+- The production smoke test for F-005 passed (reported by the maintainer after the deploy).
+- Sentry: the maintainer checked the releases and the error rate against the baseline. The Sentry criterion stays unchecked because source-map upload is not set up (see [evidence and limitations](../../docs/00-context/evidence-and-limitations.md)).
+- The rollback criterion stays unchecked: no regression was detected, so the path was not exercised.
+
 ---
 
 ### US-EP8-REL-002: Release F-006: Landing Page Experience
@@ -520,7 +528,7 @@
 **Issue Type**: Task
 **Priority**: Must Have
 **Effort Estimate**: 2
-**Status**: TODO
+**Status**: DONE
 **Fix Version**: Phase 1
 **Labels**: release, deployment, entry-flow
 **Requirements**: n/a (release effort for F-006)
@@ -531,12 +539,12 @@
 
 **Acceptance Criteria**:
 
-- [ ] Given every F-006 story in this epic is complete on `dev`, when the release PR to `main` is opened, then the required status checks (lint, test, type-check, build) pass and the PR is merged with a real merge commit.
-- [ ] Given the release PR is merged, when the release pipeline completes, then `main` holds the release candidate and nothing is deployed yet.
-- [ ] Given pending Alembic migrations for F-006, when they are reviewed, then they are confirmed backward-compatible with the currently running version.
-- [ ] Given the semver impact is assessed, when the version is decided, then `package.json` / `pyproject.toml` are bumped (MINOR for a new feature) and `CHANGELOG.md` records the change.
-- [ ] Given a `vX.Y.Z` tag is pushed on `main`, when the release workflow runs, then the API image is built and pushed to GHCR, an operator deploys it with `scripts/deploy-release.sh`, and the frontend is published by Cloudflare Builds from `main`.
-- [ ] Given the deployment completes, when the post-deploy smoke test runs against production, then the landing page renders its value proposition, "Log In" opens `/login`, and "Create Account" opens `/register`.
+- [x] Given every F-006 story in this epic is complete on `dev`, when the release PR to `main` is opened, then the required status checks (lint, test, type-check, build) pass and the PR is merged with a real merge commit.
+- [x] Given the release PR is merged, when the release pipeline completes, then `main` holds the release candidate and nothing is deployed yet.
+- [x] Given pending Alembic migrations for F-006, when they are reviewed, then they are confirmed backward-compatible with the currently running version.
+- [x] Given the semver impact is assessed, when the version is decided, then `package.json` / `pyproject.toml` are bumped (MINOR for a new feature) and `CHANGELOG.md` records the change.
+- [x] Given a `vX.Y.Z` tag is pushed on `main`, when the release workflow runs, then the API image is built and pushed to GHCR, an operator deploys it with `scripts/deploy-release.sh`, and the frontend is published by Cloudflare Builds from `main`.
+- [x] Given the deployment completes, when the post-deploy smoke test runs against production, then the landing page renders its value proposition, "Log In" opens `/login`, and "Create Account" opens `/register`.
 - [ ] Given the release is live, when Sentry is checked, then a release exists for the commit SHA, source maps are uploaded, and release health is compared against the pre-deployment error baseline.
 - [ ] Given a regression is detected after release, when rollback is required, then the documented path is followed (redeploy the previous tag with `scripts/deploy-release.sh`; fix-forward is the default).
 
@@ -562,6 +570,14 @@
 - Post-release error rate stays within the pre-deployment baseline for the first 24 hours.
 - Rollback path is verified as documented and executable.
 
+**Implementation Notes** (released 2026-10-27):
+
+- Released as API v0.2.0 (`6fbe566`, [PR #37](https://github.com/alonsovndev/open-projects-hub-api/pull/37), deployed with `scripts/deploy-release.sh`; the new onboarding route answers `401` in production), web v0.3.0 (`be41cba`, [PR #45](https://github.com/alonsovndev/open-projects-hub-web/pull/45), published by Cloudflare Builds) and the documentation ([PR #49](https://github.com/alonsovndev/open-projects-hub-docs/pull/49)). GitHub releases: [API v0.2.0](https://github.com/alonsovndev/open-projects-hub-api/releases/tag/v0.2.0), [web v0.3.0](https://github.com/alonsovndev/open-projects-hub-web/releases/tag/v0.3.0).
+- This release has no migration for F-006.
+- The production smoke test for F-006 passed (reported by the maintainer after the deploy).
+- Sentry: the maintainer checked the releases and the error rate against the baseline. The Sentry criterion stays unchecked because source-map upload is not set up (see [evidence and limitations](../../docs/00-context/evidence-and-limitations.md)).
+- The rollback criterion stays unchecked: no regression was detected, so the path was not exercised.
+
 ---
 
 ### US-EP8-REL-003: Release F-008: Account Creation
@@ -571,7 +587,7 @@
 **Issue Type**: Task
 **Priority**: Should Have
 **Effort Estimate**: 2
-**Status**: TODO
+**Status**: DONE
 **Fix Version**: Phase 1
 **Labels**: release, deployment, entry-flow
 **Requirements**: n/a (release effort for F-008)
@@ -582,12 +598,12 @@
 
 **Acceptance Criteria**:
 
-- [ ] Given every F-008 story in this epic is complete on `dev`, when the release PR to `main` is opened, then the required status checks (lint, test, type-check, build) pass and the PR is merged with a real merge commit.
-- [ ] Given the release PR is merged, when the release pipeline completes, then `main` holds the release candidate and nothing is deployed yet.
-- [ ] Given pending Alembic migrations for F-008, when they are reviewed, then they are confirmed backward-compatible with the currently running version.
-- [ ] Given the semver impact is assessed, when the version is decided, then `package.json` / `pyproject.toml` are bumped (MINOR for a new feature) and `CHANGELOG.md` records the change.
-- [ ] Given a `vX.Y.Z` tag is pushed on `main`, when the release workflow runs, then the API image is built and pushed to GHCR, an operator deploys it with `scripts/deploy-release.sh`, and the frontend is published by Cloudflare Builds from `main`.
-- [ ] Given the deployment completes, when the post-deploy smoke test runs against production, then a new user registers, receives and enters a verification code, and reaches login or onboarding succeeds.
+- [x] Given every F-008 story in this epic is complete on `dev`, when the release PR to `main` is opened, then the required status checks (lint, test, type-check, build) pass and the PR is merged with a real merge commit.
+- [x] Given the release PR is merged, when the release pipeline completes, then `main` holds the release candidate and nothing is deployed yet.
+- [x] Given pending Alembic migrations for F-008, when they are reviewed, then they are confirmed backward-compatible with the currently running version.
+- [x] Given the semver impact is assessed, when the version is decided, then `package.json` / `pyproject.toml` are bumped (MINOR for a new feature) and `CHANGELOG.md` records the change.
+- [x] Given a `vX.Y.Z` tag is pushed on `main`, when the release workflow runs, then the API image is built and pushed to GHCR, an operator deploys it with `scripts/deploy-release.sh`, and the frontend is published by Cloudflare Builds from `main`.
+- [x] Given the deployment completes, when the post-deploy smoke test runs against production, then a new user registers, receives and enters a verification code, and reaches login or onboarding succeeds.
 - [ ] Given the release is live, when Sentry is checked, then a release exists for the commit SHA, source maps are uploaded, and release health is compared against the pre-deployment error baseline.
 - [ ] Given a regression is detected after release, when rollback is required, then the documented path is followed (redeploy the previous tag with `scripts/deploy-release.sh`; fix-forward is the default).
 
@@ -612,3 +628,11 @@
 - F-008 is live in production behind a `vX.Y.Z` tag with zero manual infrastructure steps.
 - Post-release error rate stays within the pre-deployment baseline for the first 24 hours.
 - Rollback path is verified as documented and executable.
+
+**Implementation Notes** (released 2026-10-27):
+
+- Released as API v0.2.0 (`6fbe566`, [PR #37](https://github.com/alonsovndev/open-projects-hub-api/pull/37), deployed with `scripts/deploy-release.sh`; the new onboarding route answers `401` in production), web v0.3.0 (`be41cba`, [PR #45](https://github.com/alonsovndev/open-projects-hub-web/pull/45), published by Cloudflare Builds) and the documentation ([PR #49](https://github.com/alonsovndev/open-projects-hub-docs/pull/49)). GitHub releases: [API v0.2.0](https://github.com/alonsovndev/open-projects-hub-api/releases/tag/v0.2.0), [web v0.3.0](https://github.com/alonsovndev/open-projects-hub-web/releases/tag/v0.3.0).
+- This release has no migration for F-008.
+- The production smoke test for F-008 passed (reported by the maintainer after the deploy).
+- Sentry: the maintainer checked the releases and the error rate against the baseline. The Sentry criterion stays unchecked because source-map upload is not set up (see [evidence and limitations](../../docs/00-context/evidence-and-limitations.md)).
+- The rollback criterion stays unchecked: no regression was detected, so the path was not exercised.

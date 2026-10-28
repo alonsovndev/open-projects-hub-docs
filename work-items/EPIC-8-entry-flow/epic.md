@@ -46,16 +46,16 @@ Measurable success criteria:
 
 ## Release Checklist
 
-- [ ] Release PR `dev` -> `main` opened, all required status checks green (lint, test, type-check, build), merged with a real merge commit
-- [ ] Semver decision recorded and version bumped in `package.json` / `pyproject.toml`
-- [ ] `CHANGELOG.md` updated with the epic summary
-- [ ] API image `ghcr.io/alonsovndev/open-projects-hub-api:vX.Y.Z` built and pushed by the tag workflow (API releases only)
-- [ ] Alembic migrations reviewed for backward compatibility with the running version
-- [ ] Git tag `vX.Y.Z` pushed on `main` to trigger the production deployment pipeline
-- [ ] `terraform apply` completed for any pending infrastructure change
-- [ ] API deployed with `scripts/deploy-release.sh` (SSM command `Success`) and the frontend published by Cloudflare Builds
-- [ ] Post-deploy smoke tests passed against production
-- [ ] Sentry release created (only if a Sentry DSN is configured; none is required for the review)
-- [ ] Release health compared against the pre-deployment error baseline
-- [ ] GitHub release published with notes
-- [ ] Rollback path confirmed (redeploy the previous tag with `scripts/deploy-release.sh`; fix-forward is the default)
+- [x] Release PR `dev` -> `main` opened, all required status checks green (lint, test, type-check, build), merged with a real merge commit
+- [x] Semver decision recorded and version bumped in `package.json` / `pyproject.toml`
+- [x] `CHANGELOG.md` updated with the epic summary
+- [x] API image `ghcr.io/alonsovndev/open-projects-hub-api:vX.Y.Z` built and pushed by the tag workflow (API releases only)
+- [x] Alembic migrations reviewed for backward compatibility with the running version
+- [x] Git tag `vX.Y.Z` pushed on `main` to trigger the production deployment pipeline
+- [x] `terraform apply` completed for any pending infrastructure change (none pending in this release)
+- [x] API deployed with `scripts/deploy-release.sh` (SSM command `Success`) and the frontend published by Cloudflare Builds
+- [x] Post-deploy smoke tests passed against production
+- [x] Sentry release created (only if a Sentry DSN is configured; none is required for the review)
+- [x] Release health compared against the pre-deployment error baseline
+- [x] GitHub release published with notes
+- [ ] Rollback path confirmed (redeploy the previous tag with `scripts/deploy-release.sh`; fix-forward is the default) (not exercised: no regression was detected)
