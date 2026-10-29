@@ -1,5 +1,7 @@
 # Open Projects Hub: demo video script
 
+Spanish version: [demo-video-script.es.md](./demo-video-script.es.md).
+
 Target length: about 6.5 minutes, demo first. Written for API v0.2.0 and web v0.3.0 (2026-10-28).
 
 The video is a separate deliverable from the slide deck (`open-projects-hub-tfm.pptx`), so it shows the running app and uses slides only to frame the idea and to state the limits. Architecture and production are left to the deck.
