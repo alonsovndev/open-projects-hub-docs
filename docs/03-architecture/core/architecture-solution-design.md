@@ -44,20 +44,9 @@ For detailed rationale and alternatives considered, see [ADR-001: High-Level Arc
 
 ## Component Design
 
-```mermaid
-flowchart TB
-    team[Freelancer and Members] -->|Manage requirements| frontend[React frontend on Cloudflare Workers]
-    client[Client stakeholder] -->|Enter project access code| frontend
-    frontend -->|HTTPS REST requests| edge[Cloudflare API proxy]
-    edge -->|HTTPS origin connection| api[EC2: Caddy and FastAPI]
-    api -->|Workspace-scoped queries| database[(PostgreSQL container)]
-    api -->|Submit refinement notes| providers[Gemini, OpenAI, or DeepSeek]
-    api -->|Send verification and reset codes| mail[Resend SMTP]
-    api -.->|Error reporting| sentry[Sentry]
-```
+![OPH component design](./images/open-projects-hub-architecture.png)
 
-*The client path is public but access-code scoped. Team operations require authentication; AI and email services are external integrations.*
-
+_The client path is public but access-code scoped. Team operations require authentication; AI and email services are external integrations._
 
 - **Frontend Project (Cloudflare Workers):** UI workflows for project management, AI refinement interaction, and read-only client review access; static assets served from Cloudflare's edge.
 - **Backend Project (one EC2 host):** modular monolith organized by bounded contexts (clients, projects, stories, refinement, auth, workspaces, dashboard); a containerized FastAPI application with an integrated auth module, behind Caddy and the Cloudflare proxy.
